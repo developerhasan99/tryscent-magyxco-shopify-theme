@@ -18,18 +18,18 @@
     <div class="size-6 [&>svg]:fill-[#22613A]">
       {{ 'icon-stopwatch.svg' | inline_asset_content }}
     </div>
-    <div class="text-sm md:text-lg font-semibold text-black">Långvarig</div>
+    <div class="text-sm md:text-lg font-semibold text-black">Long-lasting</div>
   </div>
   <div class="flex items-center gap-2">
     <div class="size-6 [&>svg]:fill-[#22613A]">
       {{ 'icon-price-tag.svg' | inline_asset_content }}
     </div>
-    <div class="text-sm md:text-lg font-semibold text-black">Till bråkkostnad</div>
+    <div class="text-sm md:text-lg font-semibold text-black">At a fraction of the cost</div>
   </div>
 </div>
 
 <div class="text-center relative pt-6 !mb-6 border-0 border-b border-gray-200 border-solid">
-  <span class="bg-[#faf9f6] absolute left-1/2 [transform:translateX(-50%)] -bottom-4 font-semibold text-nowrap text-black">🎉 Påskerbjudande 🎉</span>
+  <span class="bg-[#faf9f6] absolute left-1/2 [transform:translateX(-50%)] -bottom-4 font-semibold text-nowrap text-black">🎉 Easter offer 🎉</span>
 </div>
 
 <div x-data class="flex flex-col gap-2">
@@ -86,14 +86,14 @@
     <div class="flex-1 space-y-1">
       <div class="flex items-center justify-between">
         <h3 class="my-0 text-xl font-semibold">
-          3+1 (Köp 3 Få 1 Gratis)
+          3+1 (Buy 3 Get 1 Free)
         </h3>
         <div class="text-xl font-semibold shrink-0">
           {{ chosen_variant.price | times: 3 | money }}
         </div>
       </div>
       <p class="my-0 text-base text-left">
-        Du sparar {{ chosen_variant.price | money }}
+        You save {{ chosen_variant.price | money }}
       </p>
       <div x-show="$store.bundle.package === 'buy_3_get_1_free'" class="space-y-1">
         <template x-for="(variant, index) in $store.bundle.variants.buy_3_get_1_free" :key="index">
@@ -131,14 +131,14 @@
       </div>
       <div class="flex-1 space-y-1">
         <div class="flex items-center justify-between">
-          <h3 class="my-0 text-xl font-semibold">4+2 (Köp 4 Få 2 Gratis)
+          <h3 class="my-0 text-xl font-semibold">4+2 (Buy 4 Get 2 Free)
           </h3>
           <div class="text-xl font-semibold shrink-0">
             {{ chosen_variant.price | times: 4 | money }}
           </div>
         </div>
         <p class="my-0 text-base text-left">
-          Du sparar {{ chosen_variant.price | times: 2 | money }}
+          You save {{ chosen_variant.price | times: 2 | money }}
         </p>
         <div x-show="$store.bundle.package === 'buy_4_get_2_free'" class="space-y-1">
           <template x-for="(variant, index) in $store.bundle.variants.buy_4_get_2_free" :key="index">
@@ -213,9 +213,9 @@
 
 <div class="!my-6">
   <p class="my-0 text-center font-semibold tracking-normal">
-    Levereras till
+    Delivered to
     <span class="shipping_location">{{ localization.country.name }}</span>
-    inom 5 arbetsdagar. Inga tullavgifter.
+    within 5 business days. No customs fees.
   </p>
 </div>
 

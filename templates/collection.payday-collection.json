@@ -88,43 +88,43 @@
         "step_iFG4n8": {
           "type": "step",
           "settings": {
-            "step_title": "Få 30% rabatt på hela varukorgen",
-            "step_description": "Välj dina favoritdofter och lägg dem i varukorgen"
+            "step_title": "Get 30% off your entire cart",
+            "step_description": "Pick your favorite scents and add them to your cart"
           }
         },
         "step_HhNQEy": {
           "type": "step",
           "settings": {
-            "step_title": "Spara ännu mer med paket!",
-            "step_description": "Köp 3 – spara 40%. Köp 6 – spara 48%."
+            "step_title": "Save even more with bundles!",
+            "step_description": "Buy 3 – save 40%. Buy 6 – save 48%."
           }
         },
         "step_ADpq49": {
           "type": "step",
           "settings": {
-            "step_title": "Handla för minst 710 SEK",
-            "step_description": "Få GRATIS frakt och GRATIS gåvor!"
+            "step_title": "Shop for at least 710 SEK",
+            "step_description": "Get FREE shipping and FREE gifts!"
           }
         },
         "guarantee_f7VNpU": {
           "type": "guarantee",
           "settings": {
             "icon": "shopify://shop_images/sandwatch.svg",
-            "text": "Håller 12+ timmar"
+            "text": "Lasts 12+ hours"
           }
         },
         "guarantee_dYJyiq": {
           "type": "guarantee",
           "settings": {
             "icon": "shopify://shop_images/icons_quality.webp",
-            "text": "19–21% parfymoljekoncentration"
+            "text": "19–21% perfume oil concentration"
           }
         },
         "guarantee_Y3gwRj": {
           "type": "guarantee",
           "settings": {
             "icon": "shopify://shop_images/sheild-star.svg",
-            "text": "60 dagars pengarna-tillbaka-garanti"
+            "text": "60-day money-back guarantee"
           }
         }
       },
@@ -143,9 +143,9 @@
         "text_color": "#000000",
         "bg_image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_DK.webp",
         "bg_mobile_image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_DK_-_Mobile.webp",
-        "social_proof_text": "Godkänd av 10 000+ nöjda doftälskare",
-        "collection_title": "Lönedagsrea 30% rabatt",
-        "collection_description": "Handla dina favoritdofter till ännu bättre priser! Och spara ännu mer med paketdeals!",
+        "social_proof_text": "Approved by 10,000+ happy fragrance lovers",
+        "collection_title": "Payday sale 30% off",
+        "collection_description": "Shop your favorite scents at even better prices! And save even more with bundle deals!",
         "btn_link": "",
         "btn_text": "",
         "padding_top": 72,
@@ -177,7 +177,7 @@
       "name": "Popular Products",
       "settings": {
         "background_color": "#fcfbf9",
-        "title": "Spara mer och köp mer med paket!",
+        "title": "Save more and buy more with bundles!",
         "description": "",
         "collection": "tryscent-days-bundles",
         "button_text": "",

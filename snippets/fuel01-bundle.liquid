@@ -151,7 +151,7 @@
               },
               get message() {
                 if (this.remaining === 0) return doneCopy;
-                // Swedish needs "1 doft" and "2 dofter", so one bottle left has
+                // Singular and plural differ ("1 scent" vs "2 scents"), so one bottle left has
                 // its own line rather than a number dropped into the plural one.
                 if (this.remaining === 1) return hintOneCopy;
                 return hintCopy.replace('[remaining]', this.remaining);

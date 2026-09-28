@@ -16,8 +16,8 @@
 {% if product.variants.size > 1 %}
   {% comment %} Variant Selector {% endcomment %}
   <div class="flex justify-between items-center mb-3 !mt-6">
-    <h2 class="m-0 text-base font-semibold">Välj storlek:</h2>
-    <div class="text-sm italic text-gray-500">100 ml - vald av 8 av 10 kunder</div>
+    <h2 class="m-0 text-base font-semibold">Choose size:</h2>
+    <div class="text-sm italic text-gray-500">100 ml - chosen by 8 out of 10 customers</div>
   </div>
 
   <div class="grid grid-cols-3 gap-3" id="variant-selector">
@@ -47,10 +47,10 @@
         data-compare-price="{{ variant.compare_at_price | money }}">
         <div class="text-sm font-semibold">{{ variant.title }}</div>
         {% if variant.title contains '50' %}
-          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5 whitespace-nowrap">Mest Populär</span>
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5 whitespace-nowrap">Most Popular</span>
         {% endif %}
         {% if variant.title contains '100' %}
-          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5 whitespace-nowrap">Bäst värde</span>
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5 whitespace-nowrap">Best value</span>
         {% endif %}
         {% if variant_ml > 0 %}
           <div class="text-xs text-gray-500 price-per-ml">{{ price_per_ml | money }} / ml</div>
@@ -130,9 +130,9 @@
 {% unless product.template_suffix == 'cro-deck' %}
   <div class="!my-6">
     <p class="my-0 text-center font-semibold tracking-normal">
-      Levereras till
+      Delivered to
       <span class="shipping_location">{{ localization.country.name }}</span>
-      inom 5 arbetsdagar.
+      within 5 business days.
     </p>
   </div>
 {% endunless %}

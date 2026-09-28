@@ -467,14 +467,14 @@
 
           {% if cart.total_price != cart.original_total_price %}
             <div class="totals flex-wrap gap-4 !mb-2" role="status">
-              <h2 class="original_text">Delsumma:</h2>
+              <h2 class="original_text">Subtotal:</h2>
               <p class="original__total-value text-sm font-semibold">
                 {{ cart.original_total_price | money_with_currency }}
               </p>
             </div>
 
             <div class="totals flex-wrap gap-4 !mb-2" role="status">
-              <h2 class="discount_text">Rabatt:</h2>
+              <h2 class="discount_text">Discount:</h2>
               <p class="discount_value">
                 <span class="text-green-700 text-sm font-semibold">-{{ cart.original_total_price | minus: cart.total_price | money_with_currency }}</span>
               </p>
@@ -482,7 +482,7 @@
           {% endif %}
 
           <div class="totals flex-wrap gap-4 !mb-3" role="status">
-            <h2 class="totals__total">Totalt:</h2>
+            <h2 class="totals__total">Total:</h2>
             <p class="totals__total-value">
               <span>{{ cart.total_price | money_with_currency }}</span>
             </p>

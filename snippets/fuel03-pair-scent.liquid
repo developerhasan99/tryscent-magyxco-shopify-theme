@@ -98,7 +98,7 @@
           <div class="fuel03-pair-scent__top">
             <div class="fuel03-pair-scent__text">
               <div class="fuel03-pair-scent__head">
-                <p class="fuel03-pair-scent__eyebrow">Matcha doften med</p>
+                <p class="fuel03-pair-scent__eyebrow">Pair the scent with</p>
                 <p class="fuel03-pair-scent__name">{{ pair_name | escape }}</p>
               </div>
               {%- if pair_block.settings.reason != blank -%}
@@ -109,7 +109,7 @@
                   <svg preserveAspectRatio="none" overflow="visible" width="16.032" height="16" viewBox="0 0 16.032 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M6.99301 0C6.99301 3.1968 9.59041 5.79421 12.7872 5.79421V6.99301C9.59441 6.99301 6.99301 9.59041 6.99301 12.7872H5.79421C5.79421 9.59041 3.1968 6.99301 0 6.99301V5.79421C3.1968 5.79421 5.79421 3.1968 5.79421 0H6.99301ZM2.82118 6.39361C4.41424 7.09955 5.68766 8.37297 6.39361 9.96603C7.09955 8.37297 8.37297 7.09955 9.96603 6.39361C8.37297 5.68766 7.09955 4.41424 6.39361 2.82118C5.68766 4.41424 4.41424 5.68766 2.82118 6.39361ZM12.2358 9.60639H13.4346C13.4346 11.037 14.6014 12.2038 16.032 12.2038V13.4026C14.6014 13.4026 13.4346 14.5694 13.4346 16H12.2358C12.2358 14.5694 11.0689 13.4026 9.63836 13.4026V12.2038C11.0689 12.2038 12.2358 11.037 12.2358 9.60639ZM11.6763 12.8032C12.1439 13.1029 12.5395 13.4985 12.8352 13.962C13.1349 13.4945 13.5305 13.0989 13.994 12.8032C13.5288 12.5049 13.1335 12.1096 12.8352 11.6444C12.5369 12.1096 12.1416 12.5049 11.6763 12.8032Z" fill="black"/>
                   </svg>
-                  <span>Inspirerad av {{ inspired_name | escape }}</span>
+                  <span>Inspired by {{ inspired_name | escape }}</span>
                 </div>
               {%- endif -%}
             </div>
@@ -128,8 +128,8 @@
               {%- if pair_product.metafields.custom.nuta != blank -%}
                 <input type="hidden" name="properties[Inspired By]" value="{{ pair_product.metafields.custom.nuta | escape }}">
               {%- endif -%}
-              <button type="submit" name="add" class="fuel03-pair-scent__atc" aria-label="Lägg i kundvagnen: {{ pair_name | escape }}">
-                <span>Lägg i kundvagnen</span>
+              <button type="submit" name="add" class="fuel03-pair-scent__atc" aria-label="Add to cart: {{ pair_name | escape }}">
+                <span>Add to cart</span>
                 {%- render 'loading-spinner' -%}
               </button>
               <div class="product-form__error-message-wrapper" hidden>

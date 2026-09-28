@@ -41,10 +41,10 @@
         {%- render 'membership-icon', icon: 'tag' -%}
       </span>
       <div class="hf-mlp__tiers-heading">
-        <h3 class="hf-mlp__tiers-title">{{ title | default: 'Köp mer, spara mer' | escape }}</h3>
+        <h3 class="hf-mlp__tiers-title">{{ title | default: 'Buy more, save more' | escape }}</h3>
         {%- if tier_max > 0 -%}
           <p class="hf-mlp__tiers-sub">
-            {{- subtitle_prefix | default: 'Upp till' | escape }} {{ tier_max | round }} % RABATT
+            {{- subtitle_prefix | default: 'Up to' | escape }} {{ tier_max | round }}% OFF
           </p>
         {%- endif -%}
       </div>
@@ -93,14 +93,14 @@
           -%}
           <div class="hf-mlp__tier">
             <dt class="hf-mlp__tier-label">{{ tier_label }}</dt>
-            <dd class="hf-mlp__tier-value">{{ rule.ds_value | times: 1.0 | round }} % RABATT</dd>
+            <dd class="hf-mlp__tier-value">{{ rule.ds_value | times: 1.0 | round }}% OFF</dd>
           </div>
         {%- endfor -%}
       {%- else -%}
         {%- for tier_block in tier_blocks -%}
           <div class="hf-mlp__tier" {{ tier_block.shopify_attributes }}>
             <dt class="hf-mlp__tier-label">{{ tier_block.settings.label | escape }}</dt>
-            <dd class="hf-mlp__tier-value">{{ tier_block.settings.value | times: 1.0 | round }} % RABATT</dd>
+            <dd class="hf-mlp__tier-value">{{ tier_block.settings.value | times: 1.0 | round }}% OFF</dd>
           </div>
         {%- endfor -%}
       {%- endif -%}

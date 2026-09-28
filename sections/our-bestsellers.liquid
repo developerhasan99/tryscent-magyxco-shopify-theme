@@ -19,13 +19,13 @@
   <div class="page-width">
     <div class="md:flex gap-5 items-center">
       <div class="flex-shrink-0">
-        <h2 class="text-xl font-semibold text-white text-center">Våra bästsäljare</h2>
+        <h2 class="text-xl font-semibold text-white text-center">Our bestsellers</h2>
       </div>
       <div class="col-span-3">
         <ul class="list-none p-0 flex gap-4 flex-wrap justify-center [&>li:last-child]:!border-0 [&>li-last-child]:!pr-0">
           {% for product in collections.all.products limit: 20 %}
             {% if product.metafields.custom.inspiration %}
-              <li class="text-gray-200 pr-4 border-0 border-r border-white border-solid leading-none text-sm tracking-wide">Inspirerad av:
+              <li class="text-gray-200 pr-4 border-0 border-r border-white border-solid leading-none text-sm tracking-wide">Inspired by:
                 <a class="font-semibold text-gray-200 hover:text-white" href="{{ product.url }}">{{ product.metafields.custom.inspiration.value.name }}</a>
               </li>
             {% endif %}

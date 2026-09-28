@@ -378,7 +378,7 @@ document.addEventListener('click', function(e){
 
 // =========================== Script for product page ========================
 
-var EXM_VIP_INFO_HTML = '<svg class="exm-info-button" width="15" height="15" viewBox="0 -1 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" role="button" aria-label="{{ 'Läs mer om ' | append: shop.name | append: '+-medlemskapet' | escape }}">'
+var EXM_VIP_INFO_HTML = '<svg class="exm-info-button" width="15" height="15" viewBox="0 -1 11 11" fill="none" xmlns="http://www.w3.org/2000/svg" role="button" aria-label="{{ 'Learn more about the ' | append: shop.name | append: '+ membership' | escape }}">'
   + '<path d="M5.2002 0.0200195C2.44438 0.0200195 0.200195 2.26421 0.200195 5.02002C0.200195 7.77583 2.44438 10.02 5.2002 10.02C7.95601 10.02 10.2002 7.77583 10.2002 5.02002C10.2002 2.26421 7.95601 0.0200195 5.2002 0.0200195ZM5.2002 9.32235C2.8281 9.32235 0.89787 7.39211 0.89787 5.02002C0.89787 2.64793 2.8281 0.717694 5.2002 0.717694C7.57229 0.717694 9.50252 2.64793 9.50252 5.02002C9.50252 7.39211 7.57229 9.32235 5.2002 9.32235Z" fill="currentColor"/>'
   + '<path d="M5.20047 3.97096C5.00279 3.97096 4.85163 4.12213 4.85163 4.3198V6.99422C4.85163 7.19189 5.00279 7.34306 5.20047 7.34306C5.39814 7.34306 5.54931 7.19189 5.54931 6.99422V4.3198C5.54931 4.12213 5.39814 3.97096 5.20047 3.97096ZM5.20047 2.69189C4.94465 2.69189 4.73535 2.9012 4.73535 3.15701C4.73535 3.41282 4.94465 3.62213 5.20047 3.62213C5.45628 3.62213 5.66558 3.41282 5.66558 3.15701C5.66558 2.9012 5.45628 2.69189 5.20047 2.69189Z" fill="currentColor"/>'
   + '</svg>';
@@ -871,7 +871,7 @@ function exm_eraseCookie(name) {
 {%- if exm_plan_settings.ds == '1' and exm_plan_settings.ds_info.rules != blank -%}
   {%- assign exm_popup_has_tiers = true -%}
 {%- endif -%}
-{%- assign exm_popup_tier_labels = 'Köp 1&ndash;2 varor|Köp 3&ndash;5 varor|Köp 6+ varor' | split: '|' -%}
+{%- assign exm_popup_tier_labels = 'Buy 1&ndash;2 items|Buy 3&ndash;5 items|Buy 6+ items' | split: '|' -%}
 {%- assign exm_popup_tier_values = '10|25|30' | split: '|' -%}
 
 {%- if exm_plan_settings.plan_id > 0 -%}
@@ -883,9 +883,9 @@ function exm_eraseCookie(name) {
         <div class="exm-main-content_container">
           <div class="exm_heading">
             <div class="exm-header">Tryscent<span class="exm-header-plus">+</span></div>
-            <div class="exm_subtitle">VIP-medlemskap</div>
+            <div class="exm_subtitle">VIP membership</div>
           </div>
-          <button type="button" class="exm_clr-button exm_dialog-close" title="Stäng">
+          <button type="button" class="exm_clr-button exm_dialog-close" title="Close">
             <svg width="25" height="25" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_65_2009)">
                 <path d="M10.8295 21.118C16.5117 21.118 21.118 16.5117 21.118 10.8295C21.118 5.14733 16.5117 0.541016 10.8295 0.541016C5.14733 0.541016 0.541016 5.14733 0.541016 10.8295C0.541016 16.5117 5.14733 21.118 10.8295 21.118Z" fill="none"/>
@@ -899,13 +899,13 @@ function exm_eraseCookie(name) {
             </svg>
           </button>
           <div class="exm_dialog-content__body">
-            <div class="exm_dialog-section-title">Köp mer, spara mer</div>
+            <div class="exm_dialog-section-title">Buy more, save more</div>
 
             <div class="exm_dialog-description">
               {%- if exm_popup_first_month != blank -%}
-                Endast <b>{{ exm_popup_first_month }}</b> för första månaden, sedan <b>{{ exm_popup_price }}</b> per månad som blir till butikskredit.
+                Only <b>{{ exm_popup_first_month }}</b> for the first month, then <b>{{ exm_popup_price }}</b> per month that turns into store credit.
               {%- else -%}
-                Din första månad är <b>gratis</b>, sedan <b>{{ exm_popup_price }}</b> per månad som blir till butikskredit.
+                Your first month is <b>free</b>, then <b>{{ exm_popup_price }}</b> per month that turns into store credit.
               {%- endif -%}
             </div>
 
@@ -917,35 +917,35 @@ function exm_eraseCookie(name) {
                   {%- capture exm_tier_label -%}
                     {%- if exm_plan_settings.ds_info.discount_rule_type == 'items' -%}
                       {%- if forloop.last -%}
-                        Köp {{ exm_tier_from }}+ varor
+                        Buy {{ exm_tier_from }}+ items
                       {%- else -%}
                         {%- assign exm_tier_to = exm_plan_settings.ds_info.rules[exm_tier_next_index].ds_cart_amount | round | minus: 1 -%}
                         {%- if exm_tier_to > exm_tier_from -%}
-                          Köp {{ exm_tier_from }}&ndash;{{ exm_tier_to }} varor
+                          Buy {{ exm_tier_from }}&ndash;{{ exm_tier_to }} items
                         {%- else -%}
-                          Köp {{ exm_tier_from }} vara
+                          Buy {{ exm_tier_from }} item
                         {%- endif -%}
                       {%- endif -%}
                     {%- else -%}
                       {%- if forloop.last -%}
-                        Handla för {{ exm_tier_from | times: 100 | money_without_trailing_zeros }}+
+                        Spend {{ exm_tier_from | times: 100 | money_without_trailing_zeros }}+
                       {%- else -%}
                         {%- assign exm_tier_to = exm_plan_settings.ds_info.rules[exm_tier_next_index].ds_cart_amount | round | minus: 1 -%}
-                        Handla för {{ exm_tier_from | times: 100 | money_without_trailing_zeros }}&ndash;{{ exm_tier_to | times: 100 | money_without_trailing_zeros }}
+                        Spend {{ exm_tier_from | times: 100 | money_without_trailing_zeros }}&ndash;{{ exm_tier_to | times: 100 | money_without_trailing_zeros }}
                       {%- endif -%}
                     {%- endif -%}
                   {%- endcapture -%}
 
                   <div class="exm-tier{% if forloop.last %} exm-tier--top{% endif %}">
                     <span class="exm-tier-label">{{ exm_tier_label | strip }}</span>
-                    <span class="exm-tier-value">{{ rule.ds_value | round }} % RABATT</span>
+                    <span class="exm-tier-value">{{ rule.ds_value | round }}% OFF</span>
                   </div>
                 {%- endfor -%}
               {%- else -%}
                 {%- for label in exm_popup_tier_labels -%}
                   <div class="exm-tier{% if forloop.last %} exm-tier--top{% endif %}">
                     <span class="exm-tier-label">{{ label }}</span>
-                    <span class="exm-tier-value">{{ exm_popup_tier_values[forloop.index0] }} % RABATT</span>
+                    <span class="exm-tier-value">{{ exm_popup_tier_values[forloop.index0] }}% OFF</span>
                   </div>
                 {%- endfor -%}
               {%- endif -%}
@@ -954,38 +954,38 @@ function exm_eraseCookie(name) {
             <div class="exm-plan-items">
               <div class="exm-plan-item">
                 <svg class="exm-plan-item-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0.90625C6.61553 0.90625 5.26216 1.31679 4.11101 2.08596C2.95987 2.85513 2.06266 3.94838 1.53285 5.22747C1.00303 6.50655 0.86441 7.91402 1.13451 9.27188C1.4046 10.6298 2.07129 11.877 3.05026 12.856C4.02922 13.835 5.2765 14.5017 6.63437 14.7717C7.99224 15.0418 9.39971 14.9032 10.6788 14.3734C11.9579 13.8436 13.0511 12.9464 13.8203 11.7952C14.5895 10.6441 15 9.29072 15 7.90625C15 6.04974 14.2625 4.26926 12.9498 2.9565C11.637 1.64375 9.85652 0.90625 8 0.90625ZM7 10.7013L4.5 8.20125L5.295 7.40625L7 9.11125L10.705 5.40625L11.503 6.19925L7 10.7013Z" fill="#424242"/></svg>
-                <div class="exm-plan-item-description">{{ exm_popup_price }} i månatlig butikskredit</div>
+                <div class="exm-plan-item-description">{{ exm_popup_price }} in monthly store credit</div>
               </div>
 
               <div class="exm-plan-item">
                 <svg class="exm-plan-item-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0.90625C6.61553 0.90625 5.26216 1.31679 4.11101 2.08596C2.95987 2.85513 2.06266 3.94838 1.53285 5.22747C1.00303 6.50655 0.86441 7.91402 1.13451 9.27188C1.4046 10.6298 2.07129 11.877 3.05026 12.856C4.02922 13.835 5.2765 14.5017 6.63437 14.7717C7.99224 15.0418 9.39971 14.9032 10.6788 14.3734C11.9579 13.8436 13.0511 12.9464 13.8203 11.7952C14.5895 10.6441 15 9.29072 15 7.90625C15 6.04974 14.2625 4.26926 12.9498 2.9565C11.637 1.64375 9.85652 0.90625 8 0.90625ZM7 10.7013L4.5 8.20125L5.295 7.40625L7 9.11125L10.705 5.40625L11.503 6.19925L7 10.7013Z" fill="#424242"/></svg>
-                <div class="exm-plan-item-description">Tidig tillgång till nya släpp</div>
+                <div class="exm-plan-item-description">Early access to new drops</div>
               </div>
 
               <div class="exm-plan-item">
                 <svg class="exm-plan-item-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0.90625C6.61553 0.90625 5.26216 1.31679 4.11101 2.08596C2.95987 2.85513 2.06266 3.94838 1.53285 5.22747C1.00303 6.50655 0.86441 7.91402 1.13451 9.27188C1.4046 10.6298 2.07129 11.877 3.05026 12.856C4.02922 13.835 5.2765 14.5017 6.63437 14.7717C7.99224 15.0418 9.39971 14.9032 10.6788 14.3734C11.9579 13.8436 13.0511 12.9464 13.8203 11.7952C14.5895 10.6441 15 9.29072 15 7.90625C15 6.04974 14.2625 4.26926 12.9498 2.9565C11.637 1.64375 9.85652 0.90625 8 0.90625ZM7 10.7013L4.5 8.20125L5.295 7.40625L7 9.11125L10.705 5.40625L11.503 6.19925L7 10.7013Z" fill="#424242"/></svg>
-                <div class="exm-plan-item-description">Prioriterad frakt + VIP-support</div>
+                <div class="exm-plan-item-description">Priority shipping + VIP support</div>
               </div>
 
               <div class="exm-plan-item">
                 <svg class="exm-plan-item-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8 0.90625C6.61553 0.90625 5.26216 1.31679 4.11101 2.08596C2.95987 2.85513 2.06266 3.94838 1.53285 5.22747C1.00303 6.50655 0.86441 7.91402 1.13451 9.27188C1.4046 10.6298 2.07129 11.877 3.05026 12.856C4.02922 13.835 5.2765 14.5017 6.63437 14.7717C7.99224 15.0418 9.39971 14.9032 10.6788 14.3734C11.9579 13.8436 13.0511 12.9464 13.8203 11.7952C14.5895 10.6441 15 9.29072 15 7.90625C15 6.04974 14.2625 4.26926 12.9498 2.9565C11.637 1.64375 9.85652 0.90625 8 0.90625ZM7 10.7013L4.5 8.20125L5.295 7.40625L7 9.11125L10.705 5.40625L11.503 6.19925L7 10.7013Z" fill="#424242"/></svg>
-                <div class="exm-plan-item-description">Personlig parfym var tredje månad</div>
+                <div class="exm-plan-item-description">Personal perfume every three months</div>
               </div>
             </div>
 
             <div class="exm-select-mem">
               {%- if exm_popup_first_month != blank -%}
-                Välj &rsquo;Gå med i VIP&rsquo; i varukorgen för att bli medlem för endast {{ exm_popup_first_month }}. Du kan pausa eller avsluta när som helst.
+                Select &rsquo;Join VIP&rsquo; in the cart to become a member for only {{ exm_popup_first_month }}. You can pause or cancel anytime.
               {%- else -%}
-                Välj &rsquo;Gå med i VIP&rsquo; i varukorgen för att bli medlem med första månaden gratis. Du kan pausa eller avsluta när som helst.
+                Select &rsquo;Join VIP&rsquo; in the cart to become a member with your first month free. You can pause or cancel anytime.
               {%- endif -%}
             </div>
 
             <div class="exm_continue_shopping">
-              <a href="javascript:;" class="exm_dialog-learn-more">Fortsätt handla</a>
+              <a href="javascript:;" class="exm_dialog-learn-more">Continue shopping</a>
             </div>
 
-            <a class="exm_dialog-membership-link" href="{{ pages['membership'].url | default: '/pages/membership' }}">Läs mer om Tryscent+-medlemskapet</a>
+            <a class="exm_dialog-membership-link" href="{{ pages['membership'].url | default: '/pages/membership' }}">Learn more about the Tryscent+ membership</a>
           </div>
         </div>
       </div>

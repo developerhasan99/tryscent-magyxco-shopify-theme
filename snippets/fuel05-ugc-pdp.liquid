@@ -7,7 +7,7 @@
   Accepts:
   - section: {Object} the main product section (required)
   - product: {Object} the page's product, read by the audience filter (required)
-  - mode: {String} 'desktop' or 'mobile'; mobile adds the Visa alla link
+  - mode: {String} 'desktop' or 'mobile'; mobile adds the View all link
   - with_assets: {Boolean} emit the stylesheet and script tags; pass it on exactly
     one of the two render sites per page, or the product page loads both twice.
     The desktop site owns it because it comes first in the markup. render gives a
@@ -19,7 +19,7 @@
 {% endcomment %}
 
 {%- liquid
-  assign heading = 'Älskad av tusentals'
+  assign heading = 'Loved by thousands'
   for b in section.blocks
     if b.type == 'fuel05_ugc' and b.settings.heading != blank
       assign heading = b.settings.heading
@@ -74,10 +74,10 @@
     <div class="fuel05-ugc__header">
       <h2 class="fuel05-ugc__heading">{{ heading | escape }}</h2>
       <div class="fuel05-ugc__nav">
-        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Föregående">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Previous">
           <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Nästa">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Next">
           <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
       </div>
@@ -89,6 +89,6 @@
     </div>
   </div>
   {%- if mode == 'mobile' -%}
-    <a class="fuel05-ugc__visa-alla" href="{{ routes.collections_url }}/best-sellers">Visa alla</a>
+    <a class="fuel05-ugc__visa-alla" href="{{ routes.collections_url }}/best-sellers">View all</a>
   {%- endif -%}
 {%- endif -%}

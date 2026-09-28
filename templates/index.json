@@ -80,12 +80,12 @@
         "background_color": "#faf9f6",
         "background_image": "shopify://shop_images/MAGYX_Site_Header.webp",
         "mobile_background_image": "shopify://shop_images/MAGYX_Site_Header_Mobile_A.webp",
-        "review_text": "Över 10 000 kunder har redan tagit reda på svaret.",
-        "title": "Lönedagsrea – 30% rabatt på hela varukorgen",
-        "subtitle": "Handla dina favoritdofter till ännu bättre priser! Och spara ännu mer med paketdeals!",
-        "button_text": "Hitta din favoritparfym",
+        "review_text": "Over 10,000 customers have already found out the answer.",
+        "title": "Payday sale – 30% off your entire cart",
+        "subtitle": "Shop your favorite scents at even better prices! And save even more with bundle deals!",
+        "button_text": "Find your favorite perfume",
         "button_link": "https://tryscent.co/#quiz",
-        "secondary_button_text": "Bästsäljare",
+        "secondary_button_text": "Bestsellers",
         "secondary_button_link": "shopify://collections/bestseller-singles",
         "padding_top": 80,
         "padding_bottom": 80,
@@ -161,32 +161,32 @@
           "type": "perks",
           "settings": {
             "perk_image": "shopify://shop_images/icons_eu.webp",
-            "perk_title": "Ren formula",
-            "perk_content": "Utan hormonstörande ämnen och parabener."
+            "perk_title": "Clean formula",
+            "perk_content": "Free from endocrine disruptors and parabens."
           }
         },
         "perks_Ynh4gw": {
           "type": "perks",
           "settings": {
             "perk_image": "shopify://shop_images/icons_quality.webp",
-            "perk_title": "Över 100 dofter att välja mellan",
-            "perk_content": "En doft som märks och stannar kvar."
+            "perk_title": "Over 100 scents to choose from",
+            "perk_content": "A scent that gets noticed and stays."
           }
         },
         "perks_Cj3EAR": {
           "type": "perks",
           "settings": {
             "perk_image": "shopify://shop_images/icons_guarantee.webp",
-            "perk_title": "60 dagars garanti",
-            "perk_content": "Testa parfymen hemma. Är den inte rätt för dig har du 60 dagar på dig att returnera den."
+            "perk_title": "60-day guarantee",
+            "perk_content": "Try the perfume at home. If it's not right for you, you have 60 days to return it."
           }
         },
         "perks_iX4iTY": {
           "type": "perks",
           "settings": {
             "perk_image": "shopify://shop_images/icons_time.webp",
-            "perk_title": "Långvarig doft",
-            "perk_content": "Skapad för att hålla sig märkbar i upp till 12 timmar."
+            "perk_title": "Long-lasting scent",
+            "perk_content": "Made to stay noticeable for up to 12 hours."
           }
         }
       },
@@ -207,7 +207,7 @@
       "type": "custom-liquid",
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
-        "custom_liquid": "<!-- TryScent &#8212; Social proof (Swedish) &#8212; Custom Liquid paste block.\n     Pure HTML+CSS+JS, scoped to .ts-proof-sv. No Liquid tags (Custom Liquid editor rejects them). -->\n<style>\n.ts-proof-sv{font-family:Inter,Arial,Helvetica,sans-serif;color:#111315;background:#fff;padding:48px 0;overflow:hidden}\n.ts-proof-sv *{box-sizing:border-box;margin:0}\n.ts-proof-sv .container{width:min(860px,calc(100% - 36px));margin-inline:auto}\n.ts-proof-sv .proof-head{text-align:center;max-width:640px;margin:0 auto 30px}\n.ts-proof-sv .stars-lg,.ts-proof-sv .review-stars{display:flex;gap:3px}\n.ts-proof-sv .stars-lg{justify-content:center;margin-bottom:14px}\n.ts-proof-sv .stars-lg span,.ts-proof-sv .review-stars span{display:grid;place-items:center;background:#00b67a}\n.ts-proof-sv .stars-lg span.off,.ts-proof-sv .review-stars span.off{background:#dcdce6}\n.ts-proof-sv .stars-lg span{width:28px;height:28px}\n.ts-proof-sv .review-stars span{width:15px;height:15px}\n.ts-proof-sv svg{fill:#fff;width:76%;height:76%}\n.ts-proof-sv .kicker{font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:#00b67a;margin-bottom:10px}\n.ts-proof-sv .section-title{font-size:26px;line-height:1.25;font-weight:800;color:#121212}\n.ts-proof-sv .carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 2px 8px}\n.ts-proof-sv .carousel::-webkit-scrollbar{display:none}\n.ts-proof-sv .review-card{flex:0 0 calc((100% - 32px) / 3);scroll-snap-align:start;display:flex;flex-direction:column;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:16px 16px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}\n.ts-proof-sv .review-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}\n.ts-proof-sv .verified{font-size:11px;color:rgba(0,0,0,.55);white-space:nowrap;text-decoration:none}\n.ts-proof-sv .verified:hover{text-decoration:underline}\n.ts-proof-sv .tp-dot{color:#00b67a}\n.ts-proof-sv .review-card h3{margin-bottom:8px;font-size:14px;line-height:1.4;font-weight:700;color:#121212}\n.ts-proof-sv .review-card p{margin-bottom:8px;font-size:13px;line-height:1.6;color:rgba(0,0,0,.62)}\n.ts-proof-sv .review-card p.result-line{font-weight:600;color:#121212;margin-bottom:12px}\n.ts-proof-sv .person{margin-top:auto;font-size:13px;color:#121212}\n.ts-proof-sv .person strong{display:block;font-size:13px}\n.ts-proof-sv .person span{display:block;font-size:11px;line-height:1.35;color:rgba(0,0,0,.55)}\n.ts-proof-sv .nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px}\n.ts-proof-sv .arrow{width:40px;height:40px;border-radius:50%;border:1px solid #d6d6d6;background:#fff;color:#121212;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0 0 3px;transition:background .2s,color .2s,border-color .2s}\n.ts-proof-sv .arrow:hover{background:#121212;border-color:#121212;color:#fff}\n.ts-proof-sv .arrow:disabled{opacity:.35;cursor:default;background:#fff;color:#121212;border-color:#d6d6d6}\n.ts-proof-sv .dots{display:flex;gap:0}\n.ts-proof-sv .dot{box-sizing:content-box;width:8px;height:8px;border-radius:50%;border:0;padding:8px 5px;background:#d9d9d9;background-clip:content-box;cursor:pointer}\n.ts-proof-sv .dot.active{background:#00b67a;background-clip:content-box}\n@media(max-width:749px){\n  .ts-proof-sv{padding:32px 0}\n  .ts-proof-sv .container{width:100%}\n  .ts-proof-sv .proof-head{padding:0 18px;margin-bottom:22px}\n  .ts-proof-sv .stars-lg span{width:24px;height:24px}\n  .ts-proof-sv .section-title{font-size:22px}\n  .ts-proof-sv .carousel{gap:12px;padding:4px 18px 8px;scroll-padding-left:18px}\n  .ts-proof-sv .review-card{flex-basis:82%}\n  .ts-proof-sv .arrow{display:none}\n}\n</style>\n<section class=\"ts-proof-sv\">\n  <div class=\"container\">\n    <div class=\"proof-head\">\n      <div class=\"stars-lg\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n      <div class=\"kicker\">D&#228;rf&#246;r fastnade de f&#246;r TryScent</div>\n      <h2 class=\"section-title\">De s&#228;ger det b&#228;ttre &#228;n vi n&#229;gonsin skulle kunna.</h2>\n    </div>\n    <div class=\"carousel\" data-ts-carousel>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Jag har redan f&#229;tt flera komplimanger efter att ha anv&#228;nt dem.&#8221;</h3>\n        <p>Det folk m&#228;rker f&#246;rst &#228;r inte flaskan eller priset, utan hur doften f&#246;r&#228;ndrar din utstr&#229;lning.</p>\n        <p class=\"result-line\">Samma komplimanger. Ett b&#228;ttre pris.</p>\n        <div class=\"person\"><strong>Elin Lundqvist</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Den doftar EXAKT som Dior Homme Intense &#8230; n&#228;stan skr&#228;mmande likt.&#8221;</h3>\n        <p>Den m&#246;rka, kr&#228;miga och lyxiga karakt&#228;ren man f&#246;rv&#228;ntar sig fanns d&#228;r redan fr&#229;n f&#246;rsta sprayen.</p>\n        <p class=\"result-line\">Den v&#228;lbekanta doftupplevelsen, utan designerpriset.</p>\n        <div class=\"person\"><strong>Johan Bergstr&#246;m</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"4 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span class=\"off\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;B&#228;ttre &#228;n n&#229;gra av de dyraste parfymerna du kan k&#246;pa.&#8221;</h3>\n        <p>Doften &#246;vertr&#228;ffade f&#246;rv&#228;ntningarna och levererade den kvalitet man vanligtvis f&#246;rknippar med ett betydligt h&#246;gre pris.</p>\n        <p class=\"result-line\">Expensive presence. Unexpected price.</p>\n        <div class=\"person\"><strong>Moa</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Till en b&#246;rjan var jag skeptisk &#8230;&#8221;</h3>\n        <p>Men n&#228;r jag gjorde min f&#246;rsta best&#228;llning uppt&#228;ckte jag att parfymerna &#228;r fantastiska och mycket lika originalparfymerna. Dessutom &#228;r priset verkligen riktigt bra. Jag kommer definitivt att forts&#228;tta handla fr&#229;n TryScent i framtiden.</p>\n        <div class=\"person\"><strong>Ahmad Ismail</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Dofter som verkligen luktar som originalet.&#8221;</h3>\n        <p>Sitter kvar s&#229; l&#228;nge som det utlovas. Snabba leveranser och l&#229;ga priser. Kan bara s&#228;ga k&#246;p k&#246;p!</p>\n        <div class=\"person\"><strong>Ingela</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Parfymerna h&#229;ller l&#228;nge och v&#228;ldigt identiska &#10084;&#65039;&#8221;</h3>\n        <p>Fick min f&#246;rsta best&#228;llning som var 6 olika parfymer, nu har jag best&#228;llt 8 stycken och ser fram emot n&#228;r dem kommer.</p>\n        <div class=\"person\"><strong>Samer Najmadin</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Deras parfymer &#228;r som &#228;kta.&#8221;</h3>\n        <p>Try Scent gillar jag faktiskt, dom &#228;r fantastiskt. Jag har minst 20 flaskor TryScent-parfymer och anv&#228;nder bara dem &#128536;</p>\n        <div class=\"person\"><strong>Nermina</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;St&#228;mmer bra in p&#229; originaldoften &#128077;&#8221;</h3>\n        <p>Dock h&#229;ller den inte i hela dagen men kommer inte ih&#229;g om originalet gjorde det heller. Har best&#228;llt 6 nya dofter och &#229;terkommer med betyg p&#229; dom &#128077;</p>\n        <div class=\"person\"><strong>Dan Lindau</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;V&#228;ldigt bra service.&#8221;</h3>\n        <p>Fick en flaska som l&#228;ckte lite i kragen, p&#229;talade detta, och utan tvekan skickades en ny flaska samt tv&#229; &#246;verraskningsdofter som kompensation! Mkt tacksam!</p>\n        <div class=\"person\"><strong>Viktor Matsenius</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Mer tillm&#246;tesg&#229;ende finns nog inte!&#8221;</h3>\n        <p>H&#246;rde av mig ang&#229;ende ett problem jag st&#246;tte p&#229;! Fick prata med n&#229;n som hette Eric! De hj&#228;lpte mig smidigt och var v&#228;ldigt serviceminded! Rekommenderar Tryscent.co! Stort tack!</p>\n        <div class=\"person\"><strong>Tomas Ternemar</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Fantastisk respons.&#8221;</h3>\n        <p>Det hade uppst&#229;tt en liten olycka med en av parfymerna jag best&#228;llt och jag mejlade f&#246;retaget. Jag fick ett snabbt svar fr&#229;n Ed och det l&#246;ste sig p&#229; b&#228;sta s&#228;tt. &#196;r s&#229; n&#246;jd med hur dom hanterade saken.</p>\n        <div class=\"person\"><strong>Teresa</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"4 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span class=\"off\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;439 kr inklusive frakt f&#246;r 330 ml parfym. Inte illa.&#8221;</h3>\n        <p>V&#228;ldigt bra pris, 380 kr f&#246;r 6 styck 50 ml parfymflaskor och fick &#228;ven med en gratis mysteryflaska i 30 ml.</p>\n        <div class=\"person\"><strong>Sadek Abduljalil</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 av 5 stj&#228;rnor\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Mycket n&#246;jd med hur de doftar.&#8221;</h3>\n        <p>Har nu f&#229;tt mina varor. Det var v&#228;l paketerat och fick bra information kring hur det gick med leveransen.</p>\n        <div class=\"person\"><strong>Christian Edvardsson</strong><span>Recension p&#229; Trustpilot</span></div>\n      </article>\n    </div>\n    <div class=\"nav\">\n      <button type=\"button\" class=\"arrow\" data-ts-prev aria-label=\"F&#246;reg&#229;ende recension\">&#8249;</button>\n      <div class=\"dots\" data-ts-dots></div>\n      <button type=\"button\" class=\"arrow\" data-ts-next aria-label=\"N&#228;sta recension\">&#8250;</button>\n    </div>\n  </div>\n</section>\n\n<script>\n(function(){\n  var roots = document.querySelectorAll('.ts-proof-sv');\n  Array.prototype.forEach.call(roots, function(root){\n    var track = root.querySelector('[data-ts-carousel]');\n    var dotsWrap = root.querySelector('[data-ts-dots]');\n    var prev = root.querySelector('[data-ts-prev]');\n    var next = root.querySelector('[data-ts-next]');\n    if (!track || !dotsWrap || !prev || !next) return;\n    var cards = Array.prototype.slice.call(track.children);\n    if (!cards.length) return;\n\n    function step(){ return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; }\n    function positions(){ return Math.max(1, cards.length - Math.round(track.clientWidth / step()) + 1); }\n    function current(){\n      var max = track.scrollWidth - track.clientWidth;\n      if (track.scrollLeft >= max - 2) return positions() - 1;\n      return Math.round(track.scrollLeft / step());\n    }\n    function go(i){ track.scrollTo({left: i * step(), behavior: 'smooth'}); }\n\n    function buildDots(){\n      dotsWrap.innerHTML = '';\n      for (var i = 0; i < positions(); i++) {\n        var d = document.createElement('button');\n        d.type = 'button';\n        d.className = 'dot';\n        d.setAttribute('aria-label', 'Recension ' + (i + 1));\n        d.addEventListener('click', go.bind(null, i));\n        dotsWrap.appendChild(d);\n      }\n      update();\n    }\n    function update(){\n      var c = current(), n = positions();\n      Array.prototype.forEach.call(dotsWrap.children, function(d, i){ d.classList.toggle('active', i === c); });\n      prev.disabled = c <= 0;\n      next.disabled = c >= n - 1;\n    }\n\n    prev.addEventListener('click', function(){ go(Math.max(0, current() - 1)); });\n    next.addEventListener('click', function(){ go(Math.min(positions() - 1, current() + 1)); });\n    var t;\n    track.addEventListener('scroll', function(){ clearTimeout(t); t = setTimeout(update, 60); });\n    window.addEventListener('resize', buildDots);\n    buildDots();\n  });\n})();\n</script>",
+        "custom_liquid": "<!-- TryScent &#8212; Social proof (Swedish) &#8212; Custom Liquid paste block.\n     Pure HTML+CSS+JS, scoped to .ts-proof-sv. No Liquid tags (Custom Liquid editor rejects them). -->\n<style>\n.ts-proof-sv{font-family:Inter,Arial,Helvetica,sans-serif;color:#111315;background:#fff;padding:48px 0;overflow:hidden}\n.ts-proof-sv *{box-sizing:border-box;margin:0}\n.ts-proof-sv .container{width:min(860px,calc(100% - 36px));margin-inline:auto}\n.ts-proof-sv .proof-head{text-align:center;max-width:640px;margin:0 auto 30px}\n.ts-proof-sv .stars-lg,.ts-proof-sv .review-stars{display:flex;gap:3px}\n.ts-proof-sv .stars-lg{justify-content:center;margin-bottom:14px}\n.ts-proof-sv .stars-lg span,.ts-proof-sv .review-stars span{display:grid;place-items:center;background:#00b67a}\n.ts-proof-sv .stars-lg span.off,.ts-proof-sv .review-stars span.off{background:#dcdce6}\n.ts-proof-sv .stars-lg span{width:28px;height:28px}\n.ts-proof-sv .review-stars span{width:15px;height:15px}\n.ts-proof-sv svg{fill:#fff;width:76%;height:76%}\n.ts-proof-sv .kicker{font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:#00b67a;margin-bottom:10px}\n.ts-proof-sv .section-title{font-size:26px;line-height:1.25;font-weight:800;color:#121212}\n.ts-proof-sv .carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 2px 8px}\n.ts-proof-sv .carousel::-webkit-scrollbar{display:none}\n.ts-proof-sv .review-card{flex:0 0 calc((100% - 32px) / 3);scroll-snap-align:start;display:flex;flex-direction:column;background:#fff;border:1px solid #e8e8e8;border-radius:10px;padding:16px 16px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}\n.ts-proof-sv .review-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}\n.ts-proof-sv .verified{font-size:11px;color:rgba(0,0,0,.55);white-space:nowrap;text-decoration:none}\n.ts-proof-sv .verified:hover{text-decoration:underline}\n.ts-proof-sv .tp-dot{color:#00b67a}\n.ts-proof-sv .review-card h3{margin-bottom:8px;font-size:14px;line-height:1.4;font-weight:700;color:#121212}\n.ts-proof-sv .review-card p{margin-bottom:8px;font-size:13px;line-height:1.6;color:rgba(0,0,0,.62)}\n.ts-proof-sv .review-card p.result-line{font-weight:600;color:#121212;margin-bottom:12px}\n.ts-proof-sv .person{margin-top:auto;font-size:13px;color:#121212}\n.ts-proof-sv .person strong{display:block;font-size:13px}\n.ts-proof-sv .person span{display:block;font-size:11px;line-height:1.35;color:rgba(0,0,0,.55)}\n.ts-proof-sv .nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px}\n.ts-proof-sv .arrow{width:40px;height:40px;border-radius:50%;border:1px solid #d6d6d6;background:#fff;color:#121212;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0 0 3px;transition:background .2s,color .2s,border-color .2s}\n.ts-proof-sv .arrow:hover{background:#121212;border-color:#121212;color:#fff}\n.ts-proof-sv .arrow:disabled{opacity:.35;cursor:default;background:#fff;color:#121212;border-color:#d6d6d6}\n.ts-proof-sv .dots{display:flex;gap:0}\n.ts-proof-sv .dot{box-sizing:content-box;width:8px;height:8px;border-radius:50%;border:0;padding:8px 5px;background:#d9d9d9;background-clip:content-box;cursor:pointer}\n.ts-proof-sv .dot.active{background:#00b67a;background-clip:content-box}\n@media(max-width:749px){\n  .ts-proof-sv{padding:32px 0}\n  .ts-proof-sv .container{width:100%}\n  .ts-proof-sv .proof-head{padding:0 18px;margin-bottom:22px}\n  .ts-proof-sv .stars-lg span{width:24px;height:24px}\n  .ts-proof-sv .section-title{font-size:22px}\n  .ts-proof-sv .carousel{gap:12px;padding:4px 18px 8px;scroll-padding-left:18px}\n  .ts-proof-sv .review-card{flex-basis:82%}\n  .ts-proof-sv .arrow{display:none}\n}\n</style>\n<section class=\"ts-proof-sv\">\n  <div class=\"container\">\n    <div class=\"proof-head\">\n      <div class=\"stars-lg\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n      <div class=\"kicker\">Why they fell for TryScent</div>\n      <h2 class=\"section-title\">They say it better than we ever could.</h2>\n    </div>\n    <div class=\"carousel\" data-ts-carousel>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;I've already had several compliments after wearing them.&#8221;</h3>\n        <p>What people notice first isn't the bottle or the price, but how the scent changes your presence.</p>\n        <p class=\"result-line\">Same compliments. A better price.</p>\n        <div class=\"person\"><strong>Elin Lundqvist</strong><span>Verified reviewer on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;It smells EXACTLY like Dior Homme Intense &#8230; almost scarily similar.&#8221;</h3>\n        <p>The dark, creamy, luxurious character you expect was there from the very first spray.</p>\n        <p class=\"result-line\">The familiar fragrance experience, without the designer price.</p>\n        <div class=\"person\"><strong>Johan Bergstr&#246;m</strong><span>Verified reviewer on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"4 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span class=\"off\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;Better than some of the most expensive perfumes you can buy.&#8221;</h3>\n        <p>The scent exceeded expectations and delivered the quality you usually associate with a much higher price.</p>\n        <p class=\"result-line\">Expensive presence. Unexpected price.</p>\n        <div class=\"person\"><strong>Moa</strong><span>Verified reviewer on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;At first I was skeptical &#8230;&#8221;</h3>\n        <p>But when I placed my first order I discovered the perfumes are amazing and very similar to the original perfumes. The price is also really, really good. I'll definitely keep shopping from TryScent in the future.</p>\n        <div class=\"person\"><strong>Ahmad Ismail</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;Scents that really smell like the original.&#8221;</h3>\n        <p>Lasts as long as promised. Fast delivery and low prices. All I can say is buy buy!</p>\n        <div class=\"person\"><strong>Ingela</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;The perfumes last long and are very identical &#10084;&#65039;&#8221;</h3>\n        <p>Got my first order of 6 different perfumes, now I've ordered 8 more and look forward to when they arrive.</p>\n        <div class=\"person\"><strong>Samer Najmadin</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;Their perfumes are like the real thing.&#8221;</h3>\n        <p>I actually really like Try Scent, they're amazing. I have at least 20 bottles of TryScent perfume and only wear those &#128536;</p>\n        <div class=\"person\"><strong>Nermina</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;Matches the original scent well &#128077;&#8221;</h3>\n        <p>It doesn't last all day though, but I can't remember if the original did either. I've ordered 6 new scents and will be back with a rating on them &#128077;</p>\n        <div class=\"person\"><strong>Dan Lindau</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;Really great service.&#8221;</h3>\n        <p>Got a bottle that leaked a little at the collar, pointed it out, and without hesitation they sent a new bottle plus two surprise scents as compensation! Very grateful!</p>\n        <div class=\"person\"><strong>Viktor Matsenius</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;You won't find anyone more accommodating!&#8221;</h3>\n        <p>Got in touch about a problem I ran into! Got to talk to someone called Eric! They helped me smoothly and were really service-minded! I recommend Tryscent.co! Big thanks!</p>\n        <div class=\"person\"><strong>Tomas Ternemar</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>“Amazing response.”</h3>\n        <p>There had been a small accident with one of the perfumes I ordered and I emailed the company. I got a quick reply from Ed and it was resolved in the best way. So happy with how they handled it.</p>\n        <div class=\"person\"><strong>Teresa</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"4 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span class=\"off\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;439 kr including shipping for 330 ml of perfume. Not bad.&#8221;</h3>\n        <p>Really good price, 380 kr for six 50 ml perfume bottles and I also got a free 30 ml mystery bottle.</p>\n        <div class=\"person\"><strong>Sadek Abduljalil</strong><span>Review on Trustpilot</span></div>\n      </article>\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\" role=\"img\" aria-label=\"5 out of 5 stars\"><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span><span><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 2.5l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.7-6.2 3.7 1.6-7L2 9.7l7.1-.6z\"/></svg></span></div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot review</a>\n        </div>\n        <h3>&#8220;Very happy with how they smell.&#8221;</h3>\n        <p>I've now received my items. It was well packaged and I got good updates on how the delivery was going.</p>\n        <div class=\"person\"><strong>Christian Edvardsson</strong><span>Review on Trustpilot</span></div>\n      </article>\n    </div>\n    <div class=\"nav\">\n      <button type=\"button\" class=\"arrow\" data-ts-prev aria-label=\"Previous review\">&#8249;</button>\n      <div class=\"dots\" data-ts-dots></div>\n      <button type=\"button\" class=\"arrow\" data-ts-next aria-label=\"Next review\">&#8250;</button>\n    </div>\n  </div>\n</section>\n\n<script>\n(function(){\n  var roots = document.querySelectorAll('.ts-proof-sv');\n  Array.prototype.forEach.call(roots, function(root){\n    var track = root.querySelector('[data-ts-carousel]');\n    var dotsWrap = root.querySelector('[data-ts-dots]');\n    var prev = root.querySelector('[data-ts-prev]');\n    var next = root.querySelector('[data-ts-next]');\n    if (!track || !dotsWrap || !prev || !next) return;\n    var cards = Array.prototype.slice.call(track.children);\n    if (!cards.length) return;\n\n    function step(){ return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; }\n    function positions(){ return Math.max(1, cards.length - Math.round(track.clientWidth / step()) + 1); }\n    function current(){\n      var max = track.scrollWidth - track.clientWidth;\n      if (track.scrollLeft >= max - 2) return positions() - 1;\n      return Math.round(track.scrollLeft / step());\n    }\n    function go(i){ track.scrollTo({left: i * step(), behavior: 'smooth'}); }\n\n    function buildDots(){\n      dotsWrap.innerHTML = '';\n      for (var i = 0; i < positions(); i++) {\n        var d = document.createElement('button');\n        d.type = 'button';\n        d.className = 'dot';\n        d.setAttribute('aria-label', 'Review ' + (i + 1));\n        d.addEventListener('click', go.bind(null, i));\n        dotsWrap.appendChild(d);\n      }\n      update();\n    }\n    function update(){\n      var c = current(), n = positions();\n      Array.prototype.forEach.call(dotsWrap.children, function(d, i){ d.classList.toggle('active', i === c); });\n      prev.disabled = c <= 0;\n      next.disabled = c >= n - 1;\n    }\n\n    prev.addEventListener('click', function(){ go(Math.max(0, current() - 1)); });\n    next.addEventListener('click', function(){ go(Math.min(positions() - 1, current() + 1)); });\n    var t;\n    track.addEventListener('scroll', function(){ clearTimeout(t); t = setTimeout(update, 60); });\n    window.addEventListener('resize', buildDots);\n    buildDots();\n  });\n})();\n</script>",
         "color_scheme": "",
         "padding_top": 0,
         "padding_bottom": 0
@@ -219,14 +219,14 @@
         "heading_hrPEKc": {
           "type": "heading",
           "settings": {
-            "heading": "Varför betala3 800 kr när du kan betala 174 kr?",
+            "heading": "Why pay 3,800 kr when you can pay 174 kr?",
             "heading_size": "h2"
           }
         },
         "text_HMARBK": {
           "type": "text",
           "settings": {
-            "text": "<p>Stora lyxhus som Creed lägger enorma pengar på glamourösa butiker längs Champs-Élysées, påkostade reklamkampanjer och flaskor som kostar mer än själva innehållet.</p><p>Hos oss betalar du bara för doften.</p><p><strong>Med en doftkoncentration på över 21 % matchar vi de absolut tyngsta lyxmärkena när det kommer till både doftkvalitet och hållbarhet.</strong></p><p>Våra parfymer sitter kvar hela dagen.</p><p>Skillnaden? <strong>Du betalar inte för deras logga.</strong><br/></p>"
+            "text": "<p>Big luxury houses like Creed spend enormous sums on glamorous boutiques along the Champs-Élysées, lavish ad campaigns and bottles that cost more than what's inside.</p><p>With us, you only pay for the scent.</p><p><strong>With a fragrance concentration of over 21%, we match the very top luxury brands in both scent quality and longevity.</strong></p><p>Our perfumes last all day.</p><p>The difference? <strong>You don't pay for their logo.</strong><br/></p>"
           }
         }
       },
@@ -250,10 +250,10 @@
       "name": "New Products",
       "settings": {
         "background_color": "#fcfbf9",
-        "title": "🔥Senaste dofterna",
+        "title": "🔥Latest scents",
         "description": "",
         "collection": "new",
-        "button_text": "Visa alla",
+        "button_text": "View all",
         "button_link": "shopify://collections/new",
         "padding_top": 72,
         "padding_bottom": 40
@@ -264,10 +264,10 @@
       "name": "Popular Products",
       "settings": {
         "background_color": "#fcfbf9",
-        "title": "Populära produkter",
-        "description": "<p>”Utan tvekan de bästa kopiorna jag har provat. De håller i timmar när de väl är applicerade—och jag planerar redan min nästa beställning.” — <strong>Jim Rogers</strong></p>",
+        "title": "Popular products",
+        "description": "<p>”Without a doubt the best dupes I've tried. They last for hours once applied—and I'm already planning my next order.” — <strong>Jim Rogers</strong></p>",
         "collection": "best-sellers",
-        "button_text": "Visa alla",
+        "button_text": "View all",
         "button_link": "shopify://collections/bestseller-singles",
         "padding_top": 40,
         "padding_bottom": 72
@@ -279,8 +279,8 @@
         "review_MKcdVw": {
           "type": "review",
           "settings": {
-            "heading": "Rekommenderas varmt.",
-            "content": "<p>Från kundservice till själva produkten var upplevelsen utmärkt. Allt kom som förväntat, och jag skulle gärna köpa igen.</p>",
+            "heading": "Highly recommended.",
+            "content": "<p>From customer service to the product itself, the experience was excellent. Everything arrived as expected, and I'd happily buy again.</p>",
             "author": "Benjamin M.",
             "date": "2 days ago",
             "rating": 5,
@@ -291,8 +291,8 @@
         "review_kCUEm4": {
           "type": "review",
           "settings": {
-            "heading": "Kom fram perfekt.",
-            "content": "<p>Produkten var väl förpackad, kom fram i utmärkt skick och doftkvaliteten överträffade mina förväntningar. Väldigt nöjd med detta köp.</p>",
+            "heading": "Arrived perfectly.",
+            "content": "<p>The product was well packaged, arrived in excellent condition and the scent quality exceeded my expectations. Very happy with this purchase.</p>",
             "author": "Sharley A.",
             "date": "2 days ago",
             "rating": 5,
@@ -303,8 +303,8 @@
         "review_EbFNac": {
           "type": "review",
           "settings": {
-            "heading": "Mycket prisvärt.",
-            "content": "<p>Jag blev verkligen imponerad av kvaliteten. Doften håller bra och känns jämförbar med mycket dyrare märken.</p>",
+            "heading": "Great value.",
+            "content": "<p>I was really impressed by the quality. The scent lasts well and feels comparable to much more expensive brands.</p>",
             "author": "Santosh K.",
             "date": "2 days ago",
             "rating": 5,
@@ -322,8 +322,8 @@
       "name": "Review Grid",
       "settings": {
         "background_color": "#ffffff",
-        "heading": "Vad våra kunder säger",
-        "review_text": "4,9/5 baserat på 10000+ recensioner",
+        "heading": "What our customers say",
+        "review_text": "4.9/5 based on 10000+ reviews",
         "button_text": "Read all reviews",
         "button_link": "shopify://collections/all",
         "padding_top": 0,
@@ -486,7 +486,7 @@
         "heading_ax7WWJ": {
           "type": "heading",
           "settings": {
-            "content": "Vad innebär det att en doft tillverkas i EU?",
+            "content": "What does it mean for a fragrance to be made in the EU?",
             "heading_type": "h2",
             "font_size": 32,
             "mobile_font_size": 24
@@ -495,7 +495,7 @@
         "text_gzPVkb": {
           "type": "text",
           "settings": {
-            "content": "<p>Vi tillverkar alla våra parfymer enligt EU:s strikta kosmetikastandarder. Det betyder att du får en produkt som är lika säker för din hud som den är lyxig för dina sinnen.</p><ul><li><strong>Strikta säkerhetskrav:</strong> Vi använder uteslutande ingredienser godkända av IFRA, vilket garanterar att doften är skonsam och säker att bära.</li><li><strong>Inga billigagenvägar:</strong> Inga billiga utspädningar eller tveksamma kemikalier från gråzoner utanför Europa.</li><li><strong>Certifierade anläggningar:</strong> Varje flaska blandas och fylls i kontrollerade, europeiska laboratorier med full spårbarhet.</li></ul>",
+            "content": "<p>We make all our perfumes to the EU's strict cosmetics standards. That means you get a product that is as safe for your skin as it is luxurious for your senses.</p><ul><li><strong>Strict safety requirements:</strong> We use only IFRA-approved ingredients, ensuring the scent is gentle and safe to wear.</li><li><strong>No cheap shortcuts:</strong> No cheap dilutions or questionable chemicals from gray zones outside Europe.</li><li><strong>Certified facilities:</strong> Every bottle is blended and filled in controlled European laboratories with full traceability.</li></ul>",
             "mobile_content": "",
             "font_size": 18
           }
@@ -575,7 +575,7 @@
           "type": "category",
           "settings": {
             "image": "shopify://shop_images/MAGYX_Site_Bundle_Save.webp",
-            "text": "Bunta & spara",
+            "text": "Bundle & save",
             "link": "shopify://collections/bundle-save"
           }
         },
@@ -623,36 +623,36 @@
         "list_item_LLAAfL": {
           "type": "list_item",
           "settings": {
-            "title": "Inspirerad av lyxikoner",
-            "description": "utan de uppblåsta prislapparna"
+            "title": "Inspired by luxury icons",
+            "description": "without the inflated price tags"
           }
         },
         "list_item_Y8PNCx": {
           "type": "list_item",
           "settings": {
-            "title": "Veganskaoch rena ingredienser",
-            "description": "för fullständig trygghet."
+            "title": "Vegan and clean ingredients",
+            "description": "for complete peace of mind."
           }
         },
         "list_item_yxDVcQ": {
           "type": "list_item",
           "settings": {
-            "title": "Dofter som varar heladagen",
-            "description": "Och hänger med under dina mest aktivatimmar."
+            "title": "Scents that last all day",
+            "description": "And keep up through your most active hours."
           }
         },
         "list_item_htAiEB": {
           "type": "list_item",
           "settings": {
-            "title": "Ministorlekar att testaförst",
-            "description": "Testa på din hud först. Så att du är 100%säker innan du satsar på en hel flaska."
+            "title": "Mini sizes to try first",
+            "description": "Test on your skin first. So you're 100% sure before you commit to a full bottle."
           }
         },
         "list_item_bhN48G": {
           "type": "list_item",
           "settings": {
-            "title": "60dagars nöjdhetsgaranti.",
-            "description": "ifall det inte är kärlek vid första doften."
+            "title": "60-day satisfaction guarantee.",
+            "description": "in case it isn't love at first spray."
           }
         }
       },
@@ -666,7 +666,7 @@
       "name": "Makes Different",
       "settings": {
         "background_color": "#ffffff",
-        "makes_diferent_title": "Vad gör TryScent annorlunda?",
+        "makes_diferent_title": "What makes TryScent different?",
         "makes-different-image": "shopify://shop_images/MAGYX_Site_Showcase.webp",
         "makes-different-btn-text": "BUY 2 GET 1 FREE - ENDS SOON!",
         "makes-different-btn-link": "",
@@ -746,9 +746,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/345.png",
-            "content": "<p>\"Omg jag älskade den, wow! Precis som originalet och den håller hela dagen!❤️‍🔥❤️‍🔥\"</p>",
+            "content": "<p>\"Omg I loved it, wow! Just like the original and it lasts all day!❤️‍🔥❤️‍🔥\"</p>",
             "author": "Jamillah G.",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "desert-storm"
@@ -757,9 +757,9 @@
         "review_GJGq9n": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Jag är nöjd med TryScent. Doften luktar väldigt likt originalet och håller bra. Förpackningen är snygg och flaskan ser fin ut. Överlag är det ett jättebra alternativ om du vill ha en kvalitetsdoft till ett rimligt pris.\"</p>",
+            "content": "<p>\"I'm happy with TryScent. The scent smells very close to the original and lasts well. The packaging is nice and the bottle looks great. Overall it's a great alternative if you want a quality fragrance at a reasonable price.\"</p>",
             "author": "Alina M",
-            "date": "för 5 månader sedan",
+            "date": "5 months ago",
             "rating": 5,
             "show_verified_badge": false,
             "product": ""
@@ -769,9 +769,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/pinkm.png",
-            "content": "<p>\"Väldigt bra varumärke, jag älskar förpackningen och doften.\"</p>",
+            "content": "<p>\"Really great brand, I love the packaging and the scent.\"</p>",
             "author": "Rosa B",
-            "date": "för 7 månader sedan",
+            "date": "7 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "bergamote-le-labo-bergamote-22"
@@ -781,9 +781,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.36_AM_1.jpg",
-            "content": "<p>\"Luktar precis som Luna Rossa Carbon, men är mycket billigare. Kan inte fatta hur lik den är.\"</p>",
+            "content": "<p>\"Smells just like Luna Rossa Carbon, but is much cheaper. Can't believe how similar it is.\"</p>",
             "author": "Robinson D.",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 4,
             "show_verified_badge": false,
             "product": ""
@@ -793,9 +793,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Camila_Sena_Oliveira.jpg",
-            "content": "<p>\"Det här är den bästa doften jag har känt på väldigt länge, tonerna gör mig helt lycklig. Jag kommer att ha den här som en ständig favorit för alltid.\"</p>",
+            "content": "<p>\"This is the best scent I've smelled in a very long time, the notes make me so happy. This will be a permanent favorite of mine forever.\"</p>",
             "author": "Jenniffer W.",
-            "date": "för 2 dagar sedan",
+            "date": "2 days ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "3x-50ml-perfume-bottles"
@@ -805,9 +805,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/ugc15.png",
-            "content": "<p>\"Den luktar väldigt gott, jag älskade den.\"</p>",
+            "content": "<p>\"It smells really good, I loved it.\"</p>",
             "author": "Castillo B.",
-            "date": "för 3 månader sedan",
+            "date": "3 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "tryscent-collection"
@@ -817,9 +817,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Carolina_Maresca_1.png",
-            "content": "<p>\"Alla tre dofterna jag fick är väldigt bra. De håller länge och luktar som de ska. Det enda jag inte var nöjd med var tiden det tog att få dem. Men ärligt talat gjorde jag en andra beställning, så räkna bara med lite väntetid. Haha!<br/>\"</p>",
+            "content": "<p>\"All three scents I got are really good. They last long and smell like they should. The only thing I wasn't happy with was how long it took to get them. But honestly I placed a second order, so just expect a bit of a wait. Haha!<br/>\"</p>",
             "author": "Clara P.",
-            "date": "för 2 dagar sedan",
+            "date": "2 days ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "apple-cinnamon-sandalwood"
@@ -830,10 +830,10 @@
           "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/dupestore_3221df98-e409-4141-82ec-bdbe62af3756.jpg",
-            "content": "<p>\"Jag har försökt hitta dofter som luktar exklusivt och dessutom håller länge, utan framgång. Den här är precis vad jag letade efter..\"</p>",
+            "content": "<p>\"I've been trying to find scents that smell exclusive and also last long, without success. This one is exactly what I was looking for..\"</p>",
             "author": "Tiana N.",
             "author_image": "shopify://shop_images/ugc15.png",
-            "date": "för 2 dagar sedan",
+            "date": "2 days ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "fresh-escape-premium"
@@ -843,9 +843,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/ugc1.png",
-            "content": "<p>\"Fantastiskt varumärke och fantastiska produkter!\"</p>",
+            "content": "<p>\"Amazing brand and amazing products!\"</p>",
             "author": "Juliana B",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "3x-50ml-perfume-bottles"
@@ -855,9 +855,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Camila_Sena_Oliveira_2.jpg",
-            "content": "<p>\"Jag visste inte riktigt vad jag skulle förvänta mig, men det här imponerade verkligen på mig. Den luktar superfräscht och är ärligt talat ganska nära Aventus. Den håller bra och priset är mycket bättre.\"</p>",
+            "content": "<p>\"I didn't really know what to expect, but this really impressed me. It smells super fresh and is honestly pretty close to Aventus. It lasts well and the price is much better.\"</p>",
             "author": "Michael T.",
-            "date": "för 2 dagar sedan",
+            "date": "2 days ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
@@ -867,9 +867,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.58_AM_1.jpg",
-            "content": "<p>\"Detta är mitt första köp och jag är fast. Jag kommer aldrig att köpa parfym någon annanstans igen. Jag har aldrig kunnat hitta en dupe-doft som verkligen luktade autentiskt och konsekvent.\"</p>",
+            "content": "<p>\"This is my first purchase and I'm hooked. I'll never buy perfume anywhere else again. I've never been able to find a dupe scent that actually smelled authentic and consistent.\"</p>",
             "author": "Killian P.",
-            "date": "för 1 dag sedan",
+            "date": "1 day ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "bergamot-sage-cedar-50-ml"
@@ -879,9 +879,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/beatricedcastle_2.jpg",
-            "content": "<p>\" Jag ääälskar de här parfymerna!!! Varenda en jag fick doftar gudomligt. Vissa skulle jag säga är bättre än originalet.\"</p>",
+            "content": "<p>\" I loooove these perfumes!!! Every single one I got smells divine. Some I'd say are better than the original.\"</p>",
             "author": "Christine N.",
-            "date": "för 5 dagar sedan",
+            "date": "5 days ago",
             "rating": 4,
             "show_verified_badge": false,
             "product": ""
@@ -891,9 +891,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Carolina_Maresca_3.png",
-            "content": "<p>\"Doften på den här parfymen är superrik och jag älskar hur vacker flaskan är och dess design. Jag skulle absolut använda den igen.\"</p>",
+            "content": "<p>\"The scent of this perfume is super rich and I love how beautiful the bottle and its design are. I would absolutely wear it again.\"</p>",
             "author": "Eliannys Y",
-            "date": "för 7 månader sedan",
+            "date": "7 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "aldehydes-rose-sandalwood-50-ml-1-7-fl-oz"
@@ -903,9 +903,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/2026-07-02_16h41_42.png",
-            "content": "<p>\"Först var jag orolig eftersom leveransen blev lite försenad, men när jag väl fick dem blev jag helt imponerad av doften. När den har lagt sig, herregud, då är den bara fantastisk.\"</p>",
+            "content": "<p>\"At first I was worried because the delivery was a bit delayed, but once I got them I was completely blown away by the scent. Once it settles, oh my god, it's just amazing.\"</p>",
             "author": "Lionel M.",
-            "date": "för 7 dagar sedan",
+            "date": "7 days ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "4x-100ml-perfume-bottles"
@@ -915,9 +915,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/2026-07-02_16h57_29.png",
-            "content": "<p>\"Den luktar väldigt gott men håller inte så länge som den borde.\"</p>",
+            "content": "<p>\"It smells really good but doesn't last as long as it should.\"</p>",
             "author": "Terence M.",
-            "date": "för 2 månader sedan",
+            "date": "2 months ago",
             "rating": 5,
             "show_verified_badge": false,
             "product": ""
@@ -927,9 +927,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Chiara_Onorini_2.jpg",
-            "content": "<p>\"Den är perfekt och vacker 🥰🥰🥰\"</p>",
+            "content": "<p>\"It's perfect and beautiful 🥰🥰🥰\"</p>",
             "author": "Lidis A.",
-            "date": "för 2 månader sedan",
+            "date": "2 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "saffron-rose-amber-50-ml-1-7-fl-oz"
@@ -938,9 +938,9 @@
         "review_NBGz7p": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Parfymerna doftar perfekt, dofterna sitter kvar väldigt länge, fantastisk kvalitet.\"</p>",
+            "content": "<p>\"The perfumes smell perfect, the scents last a really long time, amazing quality.\"</p>",
             "author": "Kamila G.",
-            "date": "för 3 månader sedan",
+            "date": "3 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "6x-30ml-perfume-bottles"
@@ -950,9 +950,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Ana_Gandarez.jpg",
-            "content": "<p>\"Det här är den typen av doft som får dig att känna dig välfixad. Inte för stark, bara helt rätt. 👌\"</p>",
+            "content": "<p>\"This is the kind of scent that makes you feel put-together. Not too strong, just right. 👌\"</p>",
             "author": "Michael R.",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "alpha-oil"
@@ -962,9 +962,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/2026-07-02_16h34_24.png",
-            "content": "<p>\"Jag är väldigt intresserad av cologne så jag är ganska kräsen när det gäller kloner, men TryScent vann verkligen över mig helt. Jag beställde först Sauvage-klonen från startsidan och kände igen doften direkt när jag sprayade. Nu äger jag totalt fyra TryScent-dofter och jag älskar dem allihop. Jag har dessutom tre till på väg tack vare deras bundelerbjudanden. Om du vill ha något som fungerar med en budget och levererar prestanda i designerklass kan jag inte rekommendera dem nog.\"</p>",
+            "content": "<p>\"I'm really into cologne so I'm pretty picky when it comes to clones, but TryScent completely won me over. I first ordered the Sauvage clone from the homepage and recognized the scent immediately when I sprayed it. Now I own four TryScent scents in total and I love them all. I also have three more on the way thanks to their bundle deals. If you want something that works on a budget and delivers designer-level performance, I can't recommend them enough.\"</p>",
             "author": "Astrid",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "fresh-escape-premium"
@@ -974,9 +974,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/ugc3.png",
-            "content": "<p>\"Produkten kom fram fint. Parfymen var inte trasig, läckte inte och var i gott skick. Doften är perfekt och luktade inte illa. Jag älskar den, hög kvalitet.\"</p>",
+            "content": "<p>\"The product arrived fine. The perfume wasn't broken, didn't leak and was in good condition. The scent is perfect and didn't smell bad. I love it, high quality.\"</p>",
             "author": "Roxanne S",
-            "date": "för 5 månader sedan",
+            "date": "5 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "jasmine-cocoa-tonka"
@@ -986,9 +986,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/2026-07-02_16h58_13.png",
-            "content": "<p>\"Jag har använt Creed Aventus i flera år, men det här är den närmaste dupe jag har hittat, och till en bråkdel av priset. Kombinationen av ananas och vanilj sitter helt rätt.\"</p>",
+            "content": "<p>\"I've worn Creed Aventus for years, but this is the closest dupe I've found, and at a fraction of the price. The combination of pineapple and vanilla is spot on.\"</p>",
             "author": "Alvarez P.",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
@@ -998,9 +998,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/2026-07-02_16h55_49.png",
-            "content": "<p>\"Produkten kom fram fint. Parfymen var inte trasig, läckte inte och var i gott skick. Doften är perfekt och luktade inte illa. Jag älskar den, hög kvalitet.\"</p>",
+            "content": "<p>\"The product arrived fine. The perfume wasn't broken, didn't leak and was in good condition. The scent is perfect and didn't smell bad. I love it, high quality.\"</p>",
             "author": "Anne E.",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "azure-dreams-pure"
@@ -1010,9 +1010,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/2026-07-02_16h49_01.png",
-            "content": "<p>\"Underbar doft. Håller länge. <br/>Söt och varm. Bra och snabb leverans. <br/>Kommer att köpa igen.\"</p>",
+            "content": "<p>\"Wonderful scent. Lasts long. <br/>Sweet and warm. Good and fast delivery. <br/>Will buy again.\"</p>",
             "author": "Lucy R",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "6x-30ml-perfume-bottles"
@@ -1022,9 +1022,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Anastasiia_Komisarova.jpg",
-            "content": "<p>\"Deras produkter håller bra kvalitet till ett väldigt överkomligt pris.\"</p>",
+            "content": "<p>\"Their products are good quality at a very affordable price.\"</p>",
             "author": "Amanda G",
-            "date": "för 5 månader sedan",
+            "date": "5 months ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": "amber-glow"
@@ -1033,9 +1033,9 @@
         "review_pqPKKr": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Fantastiska dofter, fantastiska produkter, inga problem.\"</p>",
+            "content": "<p>\"Amazing scents, amazing products, no problems.\"</p>",
             "author": "Alex S.",
-            "date": "för 6 månader sedan",
+            "date": "6 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
@@ -1044,9 +1044,9 @@
         "review_YGWg6W": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Från service till produkt var upplevelsen fenomenal. Köper gärna igen när som helst.\"</p>",
+            "content": "<p>\"From service to product the experience was phenomenal. Happy to buy again anytime.\"</p>",
             "author": "Benjamin M",
-            "date": "för 5 månader sedan",
+            "date": "5 months ago",
             "rating": 5,
             "show_verified_badge": false,
             "product": ""
@@ -1055,9 +1055,9 @@
         "review_eGyDpR": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Fantastisk produkt! Ett superprisvärt alternativ till märkesparfymerna. Doften håller länge och du får verkligen mycket för pengarna.\"</p>",
+            "content": "<p>\"Amazing product! A super affordable alternative to the designer perfumes. The scent lasts long and you really get a lot for your money.\"</p>",
             "author": "EM",
-            "date": "för 4 månader sedan",
+            "date": "4 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "bergamote-le-labo-bergamote-22"
@@ -1066,9 +1066,9 @@
         "review_Xg6QrF": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Jag gillar den! Jag gillar den här doften. Bra parfym.\"</p>",
+            "content": "<p>\"I like it! I like this scent. Good perfume.\"</p>",
             "author": "Aleksandra M",
-            "date": "för 7 månader sedan",
+            "date": "7 months ago",
             "rating": 5,
             "show_verified_badge": false,
             "product": "alpha-oil"
@@ -1078,9 +1078,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Carolina_Maresca_2.png",
-            "content": "<p>\"Fantastisk produkt, luktar otroligt gott. Jag får alltid folk som frågar om min doft och vad jag använder.\"</p>",
+            "content": "<p>\"Amazing product, smells incredibly good. I always have people asking about my scent and what I'm wearing.\"</p>",
             "author": "Damario R",
-            "date": "för 7 månader sedan",
+            "date": "7 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "azure-dreams-pure"
@@ -1090,9 +1090,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.36_AM.jpg",
-            "content": "<p>\"Efter en liten försening har jag äntligen fått mina TryScent-parfymer och de är helt träffsäkra! Jag kan knappt tro hur lika de är originalen. Som referens köpte jag \\\"Ylang Ylang Rose Jasmine\\\" och \\\"Aldehydes Rose Sandalwood\\\" och de är verkligen vackra dofter.\"</p>",
+            "content": "<p>\"After a small delay I finally got my TryScent perfumes and they are spot on! I can hardly believe how similar they are to the originals. For reference I bought \\\"Ylang Ylang Rose Jasmine\\\" and \\\"Aldehydes Rose Sandalwood\\\" and they really are beautiful scents.\"</p>",
             "author": "Gabriella K",
-            "date": "för 7 månader sedan",
+            "date": "7 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "amalfi-coast-mandarino-di-amalfi-fragrance"
@@ -1102,9 +1102,9 @@
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Daria_Kononenko_3.jpg",
-            "content": "<p>\"Jag är väldigt nöjd med parfymen från det här märket. Den har en så vacker doft, luktar som originalet och är billigare. Jag kommer definitivt att köpa den igen.\"</p>",
+            "content": "<p>\"I'm very happy with the perfume from this brand. It has such a beautiful scent, smells like the original and is cheaper. I will definitely buy it again.\"</p>",
             "author": "Vera",
-            "date": "för 8 månader sedan",
+            "date": "8 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "6x-30ml-perfume-bottles"
@@ -1113,9 +1113,9 @@
         "review_nJELg9": {
           "type": "review",
           "settings": {
-            "content": "<p>\"I somras fick jag ett prov av Creed Aventus i present och jag gillade det verkligen, men jag hade inte råd med originalet så jag började leta efter dupes. Jag hittade TryScent och beställde \\\"Pineapple Smoke Vanilla\\\". Jag fick den på ungefär en vecka och den luktar riktigt gott, dessutom väldigt nära mitt originalprov. Jag är väldigt nöjd med produkten, särskilt för priset.\"</p>",
+            "content": "<p>\"Last summer I got a sample of Creed Aventus as a gift and I really liked it, but I couldn't afford the original so I started looking for dupes. I found TryScent and ordered \\\"Pineapple Smoke Vanilla\\\". I got it in about a week and it smells really good, and very close to my original sample. I'm very happy with the product, especially for the price.\"</p>",
             "author": "Hwan H",
-            "date": "för 8 månader sedan",
+            "date": "8 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "3x-50ml-perfume-bottles"
@@ -1124,9 +1124,9 @@
         "review_kqR3XT": {
           "type": "review",
           "settings": {
-            "content": "<p>\"Jag testade deras 7,5 ml provdofter och till min förvåning gillade jag dem. Jag har beställt en andra omgång och den här gången tog jag de större flaskorna. Jag måste säga att jag fick mina beställningar i tid och att de levererade de dofter jag gillar!\"</p>",
+            "content": "<p>\"I tried their 7.5 ml sample scents and to my surprise I liked them. I've placed a second order and this time I got the bigger bottles. I have to say I got my orders on time and they delivered the scents I like!\"</p>",
             "author": "Lauri E",
-            "date": "för 8 månader sedan",
+            "date": "8 months ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": "black-berry-vanilla-musk"
@@ -1170,9 +1170,9 @@
       ],
       "settings": {
         "background_color": "#fcfbf9",
-        "heading": "Gå med 10 000+ nöjda kunder",
-        "review_text": "4,9/5 baserat på 10 000+ recensioner",
-        "button_text": "Visa fler recensioner",
+        "heading": "Join 10,000+ happy customers",
+        "review_text": "4.9/5 based on 10,000+ reviews",
+        "button_text": "View more reviews",
         "button_link": "#",
         "padding_top": 60,
         "padding_bottom": 72

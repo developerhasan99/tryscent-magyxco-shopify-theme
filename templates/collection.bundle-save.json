@@ -15,7 +15,7 @@
       "name": "Collection Hero",
       "settings": {
         "show_rating_badge": true,
-        "rating_text": "Verifierat av över 10 000 doftälskare"
+        "rating_text": "Verified by over 10,000 fragrance lovers"
       }
     },
     "insta_story_6kD6Ki": {
@@ -170,10 +170,10 @@
       "name": "Popular Products",
       "settings": {
         "background_color": "#fcfbf9",
-        "title": "Köp mer och spara!",
+        "title": "Buy more and save!",
         "description": "",
         "collection": "seasonal-bundles",
-        "button_text": "Kolla in mer!",
+        "button_text": "Check out more!",
         "button_link": "shopify://collections/seasonal-bundles",
         "padding_top": 36,
         "padding_bottom": 36
@@ -185,33 +185,33 @@
       "settings": {
         "grid_collection": "bestseller-singles",
         "variant_ml": "100",
-        "tier_1_label": "3 flaskor",
-        "tier_1_badge": "Mest populär",
+        "tier_1_label": "3 bottles",
+        "tier_1_badge": "Most popular",
         "tier_1_total": 3,
         "tier_1_free": 1,
         "enable_tier_2": true,
-        "tier_2_label": "6 flaskor",
-        "tier_2_badge": "Bästa pris",
+        "tier_2_label": "6 bottles",
+        "tier_2_badge": "Best price",
         "tier_2_total": 6,
         "tier_2_free": 2,
-        "heading": "Bygg ditt eget Välj & spara",
-        "subheading": "2 × 100 ml parfymer – få den 3:e helt gratis • Välj dina favoritdofter och spara mer.",
-        "slot_label": "Välj din doft",
-        "free_slot_label": "Din 4:e doft",
+        "heading": "Build your own Pick & Save",
+        "subheading": "2 × 100 ml perfumes – get the 3rd completely free • Pick your favorite scents and save more.",
+        "slot_label": "Pick your scent",
+        "free_slot_label": "Your 4th scent",
         "free_pill_label": "GRATIS",
         "counter_text": "[selected] / [total] valda",
-        "hint_text": "Lägg till [remaining] doft till för att låsa upp din gratis doft!",
-        "hint_text_one": "Lägg till 1 doft till för att låsa upp din gratis doft!",
-        "done_text": "Ditt paket är klart!",
-        "total_label": "Ord. totalpris",
-        "discount_label": "Rabatt",
-        "price_label": "Ditt pris",
-        "savings_label": "Du sparar",
-        "search_placeholder": "Hitta din parfym",
-        "cta_label": "Lägg",
-        "empty_text": "Inga dofter matchar din sökning.",
-        "reveal_label": "Kolla in mer!",
-        "cta_button_label": "Lägg i varukorg"
+        "hint_text": "Add [remaining] more scent to unlock your free scent!",
+        "hint_text_one": "Add 1 more scent to unlock your free scent!",
+        "done_text": "Your bundle is ready!",
+        "total_label": "Reg. total price",
+        "discount_label": "Discount",
+        "price_label": "Your price",
+        "savings_label": "You save",
+        "search_placeholder": "Find your perfume",
+        "cta_label": "Add",
+        "empty_text": "No scents match your search.",
+        "reveal_label": "Check out more!",
+        "cta_button_label": "Add to cart"
       }
     },
     "product-grid": {
@@ -233,7 +233,7 @@
             "heading": "Find Your Perfect Scent In 2 Minutes",
             "image": "shopify://shop_images/ugc-bg.webp",
             "url": "/#quiz",
-            "button_text": "Gör vårt quiz"
+            "button_text": "Take our quiz"
           }
         }
       },

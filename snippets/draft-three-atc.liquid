@@ -1,5 +1,5 @@
 {% if product.metafields.custom.similar_scents != blank %}
-  <p class="text-base font-serif leading-tight">Parfymer med liknande doftnoter:</p>
+  <p class="text-base font-serif leading-tight">Perfumes with similar scent notes:</p>
   {% assign similar_scents = product.metafields.custom.similar_scents.value %}
   <div class="swiper slider-{{ section.id }}-{{ forloop.index }}">
     <div class="swiper-wrapper">
@@ -74,12 +74,12 @@
     <span class="compare-price line-through text-base">{{ selected_variant.compare_at_price | money }}</span>
   {% endif %}
   <span class="current-price text-black font-black text-3xl">{{ selected_variant.price | money }}</span>
-  <span class="text-sm text-gray-400">Moms ingår</span>
+  <span class="text-sm text-gray-400">VAT included</span>
 </div>
 
 {% if product.variants.size > 1 %}
   {% comment %} Variant Selector {% endcomment %}
-  <h2 class="m-0 text-sm text-gray-400 tracking-wide font-normal">Välj format:</h2>
+  <h2 class="m-0 text-sm text-gray-400 tracking-wide font-normal">Choose size:</h2>
   <div class="flex gap-3" id="variant-selector">
     {% for variant in product.variants %}
       <button
@@ -93,10 +93,10 @@
           <div class="text-base font-semibold">{{ variant.title }}</div>
         </div>
         {% if variant.title contains '50' %}
-          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5">Populär</span>
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5">Popular</span>
         {% endif %}
         {% if variant.title contains '100' %}
-          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5">Bästsäljare</span>
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5">Bestseller</span>
         {% endif %}
       </button>
     {% endfor %}
@@ -143,7 +143,7 @@
           stroke-miterlimit="10"
           stroke-linecap="round" />
       </svg>
-      <span>Lägg i varukorg</span>
+      <span>Add to cart</span>
       {%- render 'loading-spinner' -%}
     </button>
   {%- endform -%}
@@ -256,42 +256,42 @@
 
 {% case weekday_en %}
   {% when "Monday" %}
-    {% assign weekday = "Måndag" %}
+    {% assign weekday = "Monday" %}
   {% when "Tuesday" %}
-    {% assign weekday = "Tisdag" %}
+    {% assign weekday = "Tuesday" %}
   {% when "Wednesday" %}
-    {% assign weekday = "Onsdag" %}
+    {% assign weekday = "Wednesday" %}
   {% when "Thursday" %}
-    {% assign weekday = "Torsdag" %}
+    {% assign weekday = "Thursday" %}
   {% when "Friday" %}
-    {% assign weekday = "Fredag" %}
+    {% assign weekday = "Friday" %}
   {% when "Saturday" %}
-    {% assign weekday = "Lördag" %}
+    {% assign weekday = "Saturday" %}
   {% when "Sunday" %}
-    {% assign weekday = "Söndag" %}
+    {% assign weekday = "Sunday" %}
 {% endcase %}
 
 {% case month_en %}
   {% when "January" %}
-    {% assign month = "Januari" %}
+    {% assign month = "January" %}
   {% when "February" %}
-    {% assign month = "Februari" %}
+    {% assign month = "February" %}
   {% when "March" %}
-    {% assign month = "Mars" %}
+    {% assign month = "March" %}
   {% when "April" %}
     {% assign month = "April" %}
   {% when "May" %}
-    {% assign month = "Maj" %}
+    {% assign month = "May" %}
   {% when "June" %}
-    {% assign month = "Juni" %}
+    {% assign month = "June" %}
   {% when "July" %}
-    {% assign month = "Juli" %}
+    {% assign month = "July" %}
   {% when "August" %}
-    {% assign month = "Augusti" %}
+    {% assign month = "August" %}
   {% when "September" %}
     {% assign month = "September" %}
   {% when "October" %}
-    {% assign month = "Oktober" %}
+    {% assign month = "October" %}
   {% when "November" %}
     {% assign month = "November" %}
   {% when "December" %}
@@ -301,11 +301,11 @@
 <div class="!my-6 flex justify-center items-center gap-3">
   <span class="size-3 bg-green-600 rounded-full animate-ping-large shrink-0"></span>
   <span class="leading-snug">
-    Beställ nu – beräknad leverans
+    Order now – estimated delivery
     <span class="text-white bg-green-700 rounded inline-block p-1 leading-none">
       {{ weekday }}, {{ day }} {{ month }}
     </span>
-    till dig.
+    to you.
   </span>
 </div>
 
@@ -321,13 +321,13 @@
   <div class="flex items-center gap-3 text-base">
     <img
       src="https://cdn.shopify.com/s/files/1/0623/0691/0402/files/thimbs_up.png?v=1751372431"
-      alt="Tumme upp märke"
+      alt="Thumbs up badge"
       class="w-10 h-10 flex-shrink-0"
       width="40"
       height="40" />
     <div class="text-slate-900">
-      <strong class="font-semibold">Prova i 60 dagar, riskfritt.</strong>
-      <span class="block">Färre än 0,5 % av köparna använder vår pengarna-tillbaka-garanti.</span>
+      <strong class="font-semibold">Try it for 60 days, risk-free.</strong>
+      <span class="block">Fewer than 0.5% of buyers use our money-back guarantee.</span>
     </div>
   </div>
 </div>

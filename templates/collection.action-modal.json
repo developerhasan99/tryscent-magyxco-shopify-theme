@@ -161,10 +161,10 @@
       "name": "Popular Products",
       "settings": {
         "background_color": "#fcfbf9",
-        "title": "Köp mer och spara!",
+        "title": "Buy more and save!",
         "description": "",
         "collection": "seasonal-bundles",
-        "button_text": "Kolla in mer!",
+        "button_text": "Check out more!",
         "button_link": "shopify://collections/seasonal-bundles",
         "padding_top": 36,
         "padding_bottom": 36
@@ -184,10 +184,10 @@
           "type": "quiz_promo_card",
           "settings": {
             "position": 3,
-            "heading": "Hitta Din Perfekta Doft På 2 Minuter",
+            "heading": "Find Your Perfect Scent In 2 Minutes",
             "image": "shopify://shop_images/ugc-bg.webp",
             "url": "/#quiz",
-            "button_text": "GÖR VÅRT QUIZ"
+            "button_text": "TAKE OUR QUIZ"
           }
         }
       },

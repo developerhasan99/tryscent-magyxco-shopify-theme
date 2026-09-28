@@ -173,7 +173,7 @@
     toggleTile(tile);
   });
 
-  // The store's Klaviyo "10% RABATT" form leaves its container in the page
+  // The store's Klaviyo "10% OFF" form leaves its container in the page
   // after a shopper closes it, and on Roi's devices the leftover kept sitting
   // over everything with pointer-events on: a tap on an arrow or a card hit a
   // kl div instead of ours, and the body kept Klaviyo's scroll lock. The form

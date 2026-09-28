@@ -117,11 +117,11 @@
                     <div class="flex items-center gap-1 text-xs text-[#297af4] font-medium">
                       <img
                         src="{{ 'verified-badge.svg' | asset_url }}"
-                        alt="Verifierad köpare"
+                        alt="Verified buyer"
                         width="16"
                         height="16"
                         loading="lazy">
-                      Verifierad köpare
+                      Verified buyer
                     </div>
                   {% endif %}
                 </div>
@@ -158,7 +158,7 @@
 
                   <div class="flex flex-col">
                     <p class="text-sm font-bold text-slate-900 my-0 line-clamp-2 md:line-clamp-1">{{ block.settings.product.title }}</p>
-                    <div class="text-xs [display:none] md:block">Inspirerad av {{ block.settings.product.metafields.custom.inspiration.value.name }}</div>
+                    <div class="text-xs [display:none] md:block">Inspired by {{ block.settings.product.metafields.custom.inspiration.value.name }}</div>
                   </div>
                 </a>
               </div>
@@ -172,11 +172,11 @@
 
     <div id="load-more-container-{{ section.id }}" class="mt-12 text-center {% if section.blocks.size <= 20 %}hidden{% endif %}">
       <button id="load-more-btn-{{ section.id }}" class="px-5 py-2 border border-solid border-gray-400 rounded-lg text-slate-900 font-bold text-sm uppercase tracking-wide bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer">
-        Visa fler recensioner
+        View more reviews
       </button>
       <div id="loading-spinner-{{ section.id }}" class="hidden flex items-center justify-center gap-2 mt-4">
         <div class="loading-spinner"></div>
-        <span class="text-sm text-slate-600">Laddar recensioner...</span>
+        <span class="text-sm text-slate-600">Loading reviews...</span>
       </div>
     </div>
   </div>

@@ -81,28 +81,28 @@
           "type": "payment_icon",
           "settings": {
             "icon": "shopify://shop_images/090e7fd71af4b4e7589642874d6cae93a0a34f77.png",
-            "label": "Snabb"
+            "label": "Fast"
           }
         },
         "payment_icon_gqazqP": {
           "type": "payment_icon",
           "settings": {
             "icon": "shopify://shop_images/65f2284e66ff1dcb1a272319f1ef543c429f73e2_1.png",
-            "label": "EU-frakt"
+            "label": "EU shipping"
           }
         },
         "payment_icon_cNizYM": {
           "type": "payment_icon",
           "settings": {
             "icon": "shopify://shop_images/swish_logo.webp",
-            "label": "Direkt"
+            "label": "Instant"
           }
         },
         "payment_icon_C7Etjn": {
           "type": "payment_icon",
           "settings": {
             "icon": "shopify://shop_images/777929254296c2d290f0836dc4e68451f4cfdbc4.png",
-            "label": "Flexibel"
+            "label": "Flexible"
           }
         }
       },
@@ -116,10 +116,10 @@
       "settings": {
         "primary_color": "#173e34",
         "secondary_color": "#dce9de",
-        "top_banner_text": "LÖNEDAGSREA",
-        "prepend_text": "30% RABATT",
+        "top_banner_text": "PAYDAY SALE",
+        "prepend_text": "30% OFF",
         "countdown_date": "2026/10/04",
-        "append_text": "HANDLA NU",
+        "append_text": "SHOP NOW",
         "link": "https://tryscent.co/sv-se/collections/bestseller-singles"
       }
     },
@@ -129,14 +129,14 @@
         "sub_menu_items_epQULd": {
           "type": "sub_menu_items",
           "settings": {
-            "label": "Till Honom",
+            "label": "For Him",
             "link_list": "herr-menu"
           }
         },
         "sub_menu_items_6Yj9eC": {
           "type": "sub_menu_items",
           "settings": {
-            "label": "Till Henne",
+            "label": "For Her",
             "link_list": "dam-menu"
           }
         },
@@ -144,7 +144,7 @@
           "type": "mega_menu_item",
           "disabled": true,
           "settings": {
-            "label": "Till Honom",
+            "label": "For Him",
             "collection": "top-sellers-men"
           }
         },
@@ -152,7 +152,7 @@
           "type": "mega_menu_item",
           "disabled": true,
           "settings": {
-            "label": "Till Henne",
+            "label": "For Her",
             "collection": "top-seller-women"
           }
         },
@@ -174,14 +174,14 @@
           "type": "menu_item",
           "disabled": true,
           "settings": {
-            "label": "Doftpaket",
+            "label": "Scent bundles",
             "url": "shopify://collections/bundle-save"
           }
         },
         "menu_item_xWyRaA": {
           "type": "menu_item",
           "settings": {
-            "label": "Gör vårt quiz",
+            "label": "Take our quiz",
             "url": "/#quiz"
           }
         },
@@ -189,7 +189,7 @@
           "type": "menu_item",
           "disabled": true,
           "settings": {
-            "label": "Om oss",
+            "label": "About us",
             "url": "shopify://pages/about-us"
           }
         }

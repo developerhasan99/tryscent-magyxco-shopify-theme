@@ -67,7 +67,7 @@
         "text_GrNJKg": {
           "type": "text",
           "settings": {
-            "text": "<strong>Toppnoter:</strong> {{ product.metafields.custom.top_notes.value.heading.value }}",
+            "text": "<strong>Top notes:</strong> {{ product.metafields.custom.top_notes.value.heading.value }}",
             "text_style": "body"
           }
         },
@@ -87,13 +87,13 @@
         "subscribfy_block_product_page_vip_widget_PRD4ch": {
           "type": "shopify://apps/subscribfy/blocks/block-product-page-Vip-widget/92b2aa79-0e8b-44a2-8415-48904e56b61e",
           "settings": {
-            "join_title": "10 % rabatt med Tryscent+",
-            "join_you_save_label": "Köp mer, spara mer • Månatlig butikskredit • Tidig tillgång till släpp • Gratis parfymer",
-            "join_body_text": "<p>Köp mer, spara mer • Månatlig butikskredit • Tidig tillgång till släpp • Gratis parfymer</p>",
-            "non-member_title": "Handla till ordinarie pris",
-            "active_member_title": "10 % rabatt med Tryscent+",
-            "active_member_you_save_label": "Du sparar",
-            "active_member_body_text": "<p>Köp mer, spara mer • Månatlig butikskredit • Tidig tillgång till släpp • Gratis parfymer</p>",
+            "join_title": "10% off with Tryscent+",
+            "join_you_save_label": "Buy more, save more • Monthly store credit • Early access to drops • Free perfumes",
+            "join_body_text": "<p>Buy more, save more • Monthly store credit • Early access to drops • Free perfumes</p>",
+            "non-member_title": "Shop at regular price",
+            "active_member_title": "10% off with Tryscent+",
+            "active_member_you_save_label": "You save",
+            "active_member_body_text": "<p>Buy more, save more • Monthly store credit • Early access to drops • Free perfumes</p>",
             "custom_form_id": "product-form-[section.id]",
             "color_member_price": "#000000",
             "default_join": false,
@@ -116,8 +116,8 @@
         "money_back_cEqkRK": {
           "type": "money_back",
           "settings": {
-            "title": "Prova i 60 dagar, riskfritt.",
-            "text": "Färre än 0,5 % av köparna använder vår pengarna-tillbaka-garanti."
+            "title": "Try it for 60 days, risk-free.",
+            "text": "Fewer than 0.5% of buyers use our money-back guarantee."
           }
         },
         "dialect_notes_NHiwen": {
@@ -335,33 +335,33 @@
         "bundle_total": 5,
         "bundle_discount_qty": 3,
         "discount_percent": 60,
-        "offer_badge": "Lönehelgserbjudande",
-        "heading": "Bygg ditt doftskåp och",
-        "heading_accent": "få 3 flaskor GRATIS",
-        "subheading": "<p>Köp 2x100ml av dina favoritparfymer och få <strong>3x100ml GRATIS. Betala </strong>60% MINDRE i detta LÖNEDAGSERBJUDANDE!<br/><br/></p>",
+        "offer_badge": "Payday weekend offer",
+        "heading": "Build your fragrance wardrobe and",
+        "heading_accent": "get 3 bottles FREE",
+        "subheading": "<p>Buy 2x100ml of your favorite perfumes and get <strong>3x100ml FREE. Pay </strong>60% LESS in this PAYDAY OFFER!<br/><br/></p>",
         "timer_deadline": "2026-09-28T00:00:00+02:00",
-        "timer_label": "Erbjudandet slutar om",
+        "timer_label": "Offer ends in",
         "timer_days_label": "dagar",
         "timer_hours_label": "tim",
         "timer_minutes_label": "min",
         "timer_seconds_label": "sek",
-        "slot_label": "Välj din doft",
-        "discount_slot_label": "Rabatterad doft",
+        "slot_label": "Pick your scent",
+        "discount_slot_label": "Discounted scent",
         "discount_pill_label": "GRATIS",
         "counter_text": "[selected] / [total] valda",
-        "hint_text": "Lägg till [remaining] dofter till för att låsa upp din rabatt!",
-        "hint_text_one": "Lägg till 1 doft till för att låsa upp din rabatt!",
-        "done_text": "Ditt paket är klart!",
-        "total_label": "Ordinarie pris:",
-        "price_label": "Nu:",
-        "per_bottle_label": "Endast [original_price] [price] per flaska",
-        "savings_label": "Spara [amount] idag",
-        "search_placeholder": "Hitta din parfym",
-        "cta_label": "Lägg till",
-        "empty_text": "Inga dofter matchar din sökning.",
-        "cta_button_label": "Lägg i varukorgen",
-        "cta_disabled_label": "Lägg till [remaining] dofter",
-        "cta_disabled_label_one": "Lägg till 1 doft"
+        "hint_text": "Add [remaining] more scents to unlock your discount!",
+        "hint_text_one": "Add 1 more scent to unlock your discount!",
+        "done_text": "Your bundle is ready!",
+        "total_label": "Regular price:",
+        "price_label": "Now:",
+        "per_bottle_label": "Only [original_price] [price] per bottle",
+        "savings_label": "Save [amount] today",
+        "search_placeholder": "Find your perfume",
+        "cta_label": "Add",
+        "empty_text": "No scents match your search.",
+        "cta_button_label": "Add to cart",
+        "cta_disabled_label": "Add [remaining] more scents",
+        "cta_disabled_label_one": "Add 1 more scent"
       }
     }
   },

@@ -47,7 +47,7 @@
                   <div class="inline-block text-xs leading-tight bg-white py-1 px-3 rounded-full mb-2 {% if similar_scent.similarity == 'Ähnliche Noten' %}text-green-600{% else %} text-yellow-600 {% endif %}">
                     {{ similar_scent.similarity }}
                   </div>
-                  <p class="my-0 text-sm underline cursor-pointer" data-tippy-content="{{ similar_scent.common_notes }}">Visa gemensamma noter</p>
+                  <p class="my-0 text-sm underline cursor-pointer" data-tippy-content="{{ similar_scent.common_notes }}">Show shared notes</p>
                 </div>
               </div>
             </div>
@@ -103,13 +103,13 @@
         "type": "text",
         "id": "title",
         "label": "Title",
-        "default": "Parfymer med liknande doftnoter"
+        "default": "Perfumes with similar scent notes"
       },
       {
         "type": "text",
         "id": "subtitle",
         "label": "Subtitle",
-        "default": "Den intelligenta alternativet till överprissatta lyxmärken."
+        "default": "The smart alternative to overpriced luxury brands."
       },
       {
         "type": "header",

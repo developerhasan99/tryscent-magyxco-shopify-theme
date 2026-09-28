@@ -28,27 +28,27 @@
           <div class="mt-3 flex justify-between font-mono text-sm uppercase tracking-[0.18em]">
             <span>0</span>
             <span>15 min</span>
-            <span>4 tim</span>
-            <span>12 tim</span>
+            <span>4 hrs</span>
+            <span>12 hrs</span>
           </div>
         </div>
         <div class="space-y-8">
           <div class="[display:grid] gap-3 md:grid-cols-[180px_1fr] md:gap-6">
-            <h3 class="m-0 tracking-normal font-semibold">ÖPPNING · 0–15 MIN</h3>
+            <h3 class="m-0 tracking-normal font-semibold">OPENING · 0–15 MIN</h3>
             <div>
               <p class="m-0 pb-2 border-0 border-b border-solid border-gray-300">{{ product.metafields.custom.top_notes.value.heading }}</p>
               <p class="mt-3 text-sm mb-0">{{ product.metafields.custom.top_notes.value.description | metafield_text }}</p>
             </div>
           </div>
           <div class="[display:grid] gap-3 md:grid-cols-[180px_1fr] md:gap-6">
-            <h3 class="m-0 tracking-normal font-semibold">HJÄRTA · 1–4 TIM</h3>
+            <h3 class="m-0 tracking-normal font-semibold">HEART · 1–4 HRS</h3>
             <div>
               <p class="m-0 pb-2 border-0 border-b border-solid border-gray-300">{{ product.metafields.custom.middle_notes.value.heading }}</p>
               <p class="mt-3 text-sm mb-0">{{ product.metafields.custom.middle_notes.value.description | metafield_text }}</p>
             </div>
           </div>
           <div class="[display:grid] gap-3 md:grid-cols-[180px_1fr] md:gap-6">
-            <h3 class="m-0 tracking-normal font-semibold">BAS · 4–12+ TIM</h3>
+            <h3 class="m-0 tracking-normal font-semibold">BASE · 4–12+ HRS</h3>
             <div>
               <p class="m-0 pb-2 border-0 border-b border-solid border-gray-300">{{ product.metafields.custom.base_notes.value.heading }}</p>
               <p class="mt-3 text-sm mb-0">{{ product.metafields.custom.base_notes.value.description | metafield_text }}</p>
@@ -79,18 +79,18 @@
         "type": "text",
         "id": "subtitle",
         "label": "Subtitle",
-        "default": "Doftresan"
+        "default": "The scent journey"
       },
       {
         "type": "text",
         "id": "title",
         "label": "Title",
-        "default": "Hur den utvecklas på huden"
+        "default": "How it develops on the skin"
       }, {
         "type": "textarea",
         "id": "description",
         "label": "Description",
-        "default": "De första 30 sekunderna säljer doften. De nästa 12 timmarna avgör om du fortsätter använda den."
+        "default": "The first 30 seconds sell the scent. The next 12 hours decide whether you keep wearing it."
       }, {
         "type": "header",
         "content": "t:sections.all.padding.section_padding_heading"

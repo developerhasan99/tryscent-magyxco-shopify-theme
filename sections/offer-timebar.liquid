@@ -172,7 +172,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <div style="color: {{ section.settings.primary_color }};" class="text-sm md:text-base font-bold leading-none md:hidden">
-                  Slutar om
+                  Ends in
                 </div>
                 <div id="flipdown" class="flipdown"></div>
               </div>
@@ -249,8 +249,9 @@
 
     const deadline = getCountdownDeadline();
 
-    // Countdown headings per Weglot language (falls back to "sv")
+    // Countdown headings per Weglot language (falls back to "en")
     const countdownHeadings = {
+      en: ["Days", "Hours", "Min", "Sec"],
       sv: ["Dag", "Tim", "Min", "Sek"],
       da: ["Dag", "Timer", "Min", "Sek"],
       fi: ["Päivä", "Tunti", "Min", "Sek"],
@@ -260,7 +261,7 @@
     const flipdownEl = document.getElementById('flipdown');
 
     function buildFlipdown(lang) {
-      const headings = countdownHeadings[lang] || countdownHeadings.sv;
+      const headings = countdownHeadings[lang] || countdownHeadings.en;
 
       // Clear any previously rendered rotors before re-instantiating
       if (flipdownEl) {
@@ -276,7 +277,7 @@
         });
     }
 
-    const currentLang = (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || 'sv';
+    const currentLang = (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || 'en';
     buildFlipdown(currentLang);
 
     if (window.Weglot && typeof Weglot.on === 'function') {

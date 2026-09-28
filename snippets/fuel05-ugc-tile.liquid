@@ -21,7 +21,7 @@
     card out twice, so it stays out of the tree.
   {%- endcomment -%}
   {%- liquid
-    assign tile_label = 'Spela video'
+    assign tile_label = 'Play video'
     if product_item != blank
       assign tile_label = tile_label | append: ', ' | append: product_item.title
     endif
@@ -182,9 +182,9 @@
         <span class="fuel05-ugc__pill-info">
           <span class="fuel05-ugc__pill-title">{{ product_item.title | escape }}</span>
           {%- comment -%}
-            No "Från" prefix here even though the theme's own card carries one:
+            No "From" prefix here even though the theme's own card carries one:
             the design draws the price on a single line inside a 93px column,
-            and "Från 129,99 kr" needs 124px, so the prefix wraps the pill a
+            and "From 129,99 kr" needs 124px, so the prefix wraps the pill a
             full text-line taller than drawn.
           {%- endcomment -%}
           <span class="fuel05-ugc__pill-price">{{ product_item.price | money }}</span>

@@ -4,12 +4,12 @@
     {% assign progress_percentage = cart_count | times: 25 | at_most: 100 %}
     <div class="bc-progress-text" style="color: #000000;">
       {% if cart_count >= 4 %}
-        🎉 3+1 erbjudande <br> aktiverat!
+        🎉 3+1 offer <br> activated!
       {% else %}
-        Lägg
+        Add
         <strong>{{ 4 | minus: cart_count }}</strong>
-        flaskor till och få en
-        <strong>1 gratis</strong>.
+        more bottles and get
+        <strong>1 free</strong>.
       {% endif %}
     </div>
     <div class="bc-progress-bar" style="background-color: #E2E2E2; margin-bottom: 0;">
@@ -29,11 +29,11 @@
 
     <div class="bc-progress-text" style="color: #000000;">
       {% if cart_total >= 46503 %}
-        🎉 Gratis frakt <br> aktiverad!
+        🎉 Free shipping <br> activated!
       {% else %}
-        Lägg
+        Add
         <strong>{{ 46503 | minus: cart_total | money }}</strong>
-        till för gratis frakt.
+        more for free shipping.
       {% endif %}
     </div>
     <div class="bc-progress-bar" style="background-color: #E2E2E2; margin-bottom: 0;">

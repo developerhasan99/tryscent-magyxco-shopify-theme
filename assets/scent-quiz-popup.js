@@ -18,8 +18,8 @@
       listId: SQ_CFG.klaviyoListId || ''
     };
 
-    var QUIZ_LANG = 'sv';
-    var TAG_SV = {Date:'Dejt',Party:'Fest',Autumn:'Höst',Office:'Kontor',Everyday:'Vardag',Summer:'Sommar',Evening:'Kväll',Winter:'Vinter',Spring:'Vår'};
+    var QUIZ_LANG = 'en';
+    var TAG_SV = {Date:'Date',Party:'Party',Autumn:'Autumn',Office:'Office',Everyday:'Everyday',Summer:'Summer',Evening:'Evening',Winter:'Winter',Spring:'Spring'};
 
     /* Scents shown in the swipe deck - built server-side in
        snippets/scent-quiz-popup.liquid from settings.scent_quiz_collection
@@ -149,16 +149,16 @@
       photo.appendChild(tl); photo.appendChild(tr);
 
       // stamps
-      var love=document.createElement('div'); love.className='stamp love'; love.textContent='Älskar';
-      var skip=document.createElement('div'); skip.className='stamp skip'; skip.textContent='Hoppa';
+      var love=document.createElement('div'); love.className='stamp love'; love.textContent='Love';
+      var skip=document.createElement('div'); skip.className='stamp skip'; skip.textContent='Skip';
       photo.appendChild(love); photo.appendChild(skip);
       card._love=love; card._skip=skip;
 
       // persistent swipe-direction cues (fade out as the card is dragged)
       var cueL=document.createElement('div'); cueL.className='dir-cue l';
-      cueL.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Hoppa över';
+      cueL.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Skip';
       var cueR=document.createElement('div'); cueR.className='dir-cue r';
-      cueR.innerHTML='Spara<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+      cueR.innerHTML='Save<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
       photo.appendChild(cueL); photo.appendChild(cueR);
       card._cueL=cueL; card._cueR=cueR;
 
@@ -166,12 +166,12 @@
       var tagHtml='';
       for(var t=0;t<scent.tags.length;t++) tagHtml+='<span>'+(TAG_SV[scent.tags[t]]||scent.tags[t])+'</span>';
       info.innerHTML =
-    '<div class="cat"><span class="dot" style="background:'+scent.accent+'"></span>'+(scent.no ? 'Nr '+scent.no : 'Doftprofil')+'</div>'+
+    '<div class="cat"><span class="dot" style="background:'+scent.accent+'"></span>'+(scent.no ? 'No. '+scent.no : 'Scent profile')+'</div>'+
     '<h2>'+scent.name+'</h2>'+
     (scent.emo ? '<p class="desc emo-lead">'+(scent.emo[QUIZ_LANG]||scent.emo.en)+'</p>' : '')+
     (scent.desc ? '<p class="desc inspired">'+(QUIZ_LANG==='sv'?'Inspirerad av ':'Inspired by ')+scent.desc+'</p>' : '')+
     '<div class="tags">'+tagHtml+'</div>'+
-    '<span class="shop-mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Spara nu, shoppa ditt board i slutet</span>';
+    '<span class="shop-mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Save now, shop your board at the end</span>';
 
       card.appendChild(photo); card.appendChild(info);
       bindPhotoTaps(card, tl, tr);
@@ -302,7 +302,7 @@
       cancelDemo();
       // hard cap: bundle only fits MAX_PICKS scents
       if(dir>0 && state.liked.length>=MAX_PICKS){
-    toast("Ditt bundle är fullt, 6 dofter valda");
+    toast("Your bundle is full, 6 scents picked");
     springBack(card);
     updateSeeMatches();
     return;
@@ -359,7 +359,7 @@
       bumpCount();
       heartBurst();
       var n=state.liked.length;
-      var msgs={1:"Sparad till ditt board!", 3:"Bra smak, 3 sparade", 5:"5 av 6 valda", 6:"Det blev 6, ditt bundle är fullt!"};
+      var msgs={1:"Saved to your board!", 3:"Good taste, 3 saved", 5:"5 of 6 picked", 6:"That's 6, your bundle is full!"};
       if(msgs[n]) toast(msgs[n]);
     }
     function bumpCount(){
@@ -488,8 +488,8 @@
       track('results', {saved:state.liked.length, source:source||'completed', seen:state.pos});
       buildResults();
       if(source==='bundle_full'){
-    document.getElementById('sq-resTitle').textContent='Ditt bundle med 6 dofter är redo';
-    document.getElementById('sq-resSub').textContent='Alla 6 val ligger redan i ditt bundle nedan, ett tryck för att bygga det.';
+    document.getElementById('sq-resTitle').textContent='Your 6-scent bundle is ready';
+    document.getElementById('sq-resSub').textContent='All 6 picks are already in your bundle below, one tap to build it.';
       }
       show('sq-results');
       document.getElementById('sq-results').scrollTop=0;
@@ -509,24 +509,24 @@
       var shopAllLabel=document.querySelector('#sq-shopAll .btn-shopall__label');
       if(shopAllLabel){
     shopAllLabel.textContent = liked.length
-      ? 'Bygg mitt bundle ('+Math.min(liked.length,6)+' av 6 valda)'
-      : 'Bygg mitt bundle med 6 dofter';
+      ? 'Build my bundle ('+Math.min(liked.length,6)+' of 6 picked)'
+      : 'Build my 6-scent bundle';
       }
       hideShopAllError();
 
-      document.getElementById('sq-boardCnt').textContent = liked.length + (liked.length===1?' doft':' dofter');
+      document.getElementById('sq-boardCnt').textContent = liked.length + (liked.length===1?' scent':' scents');
 
       if(liked.length===0){
-    document.getElementById('sq-resTitle').textContent="Hittade du ingen match?";
-    document.getElementById('sq-resSub').textContent="Ingen fara. Bläddra bland alla dofter nedan eller kör en runda till.";
+    document.getElementById('sq-resTitle').textContent="Didn't find a match?";
+    document.getElementById('sq-resSub').textContent="No worries. Browse all the scents below or play another round.";
     var bt=root.querySelector('.board-title'); if(bt) bt.style.display='none';
     var e=document.createElement('div'); e.className='res-empty';
-    e.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z"/></svg><h3>Inget sparat ännu</h3><p>Alla är olika. Utforska hela kollektionen och hitta din doft.</p>';
+    e.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z"/></svg><h3>Nothing saved yet</h3><p>Everyone\'s different. Explore the full collection and find your scent.</p>';
     board.parentNode.insertBefore(e, board);
     return;
       }
       var bt=root.querySelector('.board-title'); if(bt) bt.style.display='';
-      document.getElementById('sq-resTitle').textContent = liked.length===1 ? "Din perfekta match" : "Ditt doftboard";
+      document.getElementById('sq-resTitle').textContent = liked.length===1 ? "Your perfect match" : "Your scent board";
 
       for(var i=0;i<liked.length;i++){
     var th=liked[i];
@@ -582,7 +582,7 @@
     return;
       }
       if(!state.liked.length){
-    showShopAllError('Spara minst en doft innan du bygger ditt bundle.');
+    showShopAllError('Save at least one scent before you build your bundle.');
     return;
       }
       shopAllBusy = true;
@@ -626,7 +626,7 @@
       .catch(function(err){
     clearTimeout(timeoutId);
     try{ console.error('[scent quiz] Add to cart failed', err); }catch(e){}
-    showShopAllError(timedOut ? 'Det tog för lång tid, försök igen.' : 'Något gick fel, försök igen.');
+    showShopAllError(timedOut ? 'That took too long, please try again.' : 'Something went wrong, please try again.');
     setShopAllLoading(false);
     shopAllBusy = false;
       });
@@ -656,7 +656,7 @@
       var btn=document.getElementById('sq-leadSubmitBtn');
       var label=document.getElementById('sq-leadSubmitLabel');
       btn.disabled=isSubmitting;
-      label.textContent=isSubmitting ? 'Skickar...' : 'Skicka mitt board';
+      label.textContent=isSubmitting ? 'Sending...' : 'Send my board';
     }
 
     function submitLead(email, likedScents){
@@ -691,7 +691,7 @@
       }).catch(function(err){
     try{ console.error('[scent quiz] Klaviyo subscribe failed', err); }catch(e){}
     setLeadSubmitting(false);
-    toast('Något gick fel, försök igen');
+    toast('Something went wrong, please try again');
       });
     }
 

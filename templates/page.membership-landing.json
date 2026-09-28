@@ -20,42 +20,42 @@
         "step_shop": {
           "type": "step",
           "settings": {
-            "title": "Handla",
-            "description": "Lägg vilken doft du vill i varukorgen: en enda 30 ml eller en hel doftgarderob."
+            "title": "Shop",
+            "description": "Add any scent you like to your cart: a single 30 ml or a whole fragrance wardrobe."
           }
         },
         "step_join": {
           "type": "step",
           "settings": {
-            "title": "Gå med",
-            "description": "Välj ”Gå med i VIP” i varukorgen för att aktivera dina förmåner. Din första månad kostar bara 1,95 €."
+            "title": "Join",
+            "description": "Select ”Join VIP” in the cart to activate your perks. Your first month costs only €1.95."
           }
         },
         "step_save": {
           "type": "step",
           "settings": {
-            "title": "Spara",
-            "description": "Spara upp till 30 % på din order. Välkommen till Tryscent+ VIP!"
+            "title": "Save",
+            "description": "Save up to 30% on your order. Welcome to Tryscent+ VIP!"
           }
         },
         "tier_1": {
           "type": "discount_tier",
           "settings": {
-            "label": "Köp 1–2 varor",
+            "label": "Buy 1–2 items",
             "value": 10
           }
         },
         "tier_2": {
           "type": "discount_tier",
           "settings": {
-            "label": "Köp 3–5 varor",
+            "label": "Buy 3–5 items",
             "value": 25
           }
         },
         "tier_3": {
           "type": "discount_tier",
           "settings": {
-            "label": "Köp 6+ varor",
+            "label": "Buy 6+ items",
             "value": 30
           }
         },
@@ -63,46 +63,46 @@
           "type": "perk",
           "settings": {
             "icon": "credit",
-            "title": "14,99 € i månatlig butikskredit",
-            "description": "Din månadsavgift kommer tillbaka till dig som butikskredit. Använd den på vad du vill."
+            "title": "€14.99 in monthly store credit",
+            "description": "Your monthly fee comes back to you as store credit. Use it on whatever you like."
           }
         },
         "perk_drops": {
           "type": "perk",
           "settings": {
             "icon": "calendar",
-            "title": "Tidig tillgång till nya släpp",
-            "description": "Handla varje ny doft innan den släpps till allmänheten. Första valet, varje gång."
+            "title": "Early access to new drops",
+            "description": "Shop every new scent before it's released to the public. First pick, every time."
           }
         },
         "perk_shipping": {
           "type": "perk",
           "settings": {
             "icon": "shipping",
-            "title": "Fri prioriterad frakt",
-            "description": "Gratis för medlemmar. Din order skickas först, varje gång."
+            "title": "Free priority shipping",
+            "description": "Free for members. Your order ships first, every time."
           }
         },
         "perk_support": {
           "type": "perk",
           "settings": {
             "icon": "support",
-            "title": "VIP-kundtjänst",
-            "description": "Hoppa över kön. Riktiga människor, riktiga doftråd, snabbt."
+            "title": "VIP customer service",
+            "description": "Skip the line. Real people, real fragrance advice, fast."
           }
         },
         "perk_perfume": {
           "type": "perk",
           "settings": {
             "icon": "gift",
-            "title": "Personlig parfym var tredje månad",
-            "description": "Arbeta personligen med en mästerparfymör för att skapa en doft som bara är din, levererad hem till dig var tredje månad."
+            "title": "Personal perfume every three months",
+            "description": "Work one-on-one with a master perfumer to create a scent that is yours alone, delivered to your door every three months."
           }
         },
         "cmp_discount": {
           "type": "comparison_row",
           "settings": {
-            "label": "Spara upp till 30 % på varje order",
+            "label": "Save up to 30% on every order",
             "member_has": true,
             "guest_has": false
           }
@@ -110,7 +110,7 @@
         "cmp_credit": {
           "type": "comparison_row",
           "settings": {
-            "label": "14,99 € i månatlig butikskredit",
+            "label": "€14.99 in monthly store credit",
             "member_has": true,
             "guest_has": false
           }
@@ -118,7 +118,7 @@
         "cmp_drops": {
           "type": "comparison_row",
           "settings": {
-            "label": "Tidig tillgång till nya släpp",
+            "label": "Early access to new drops",
             "member_has": true,
             "guest_has": false
           }
@@ -126,7 +126,7 @@
         "cmp_shipping": {
           "type": "comparison_row",
           "settings": {
-            "label": "Prioriterad frakt + VIP-support",
+            "label": "Priority shipping + VIP support",
             "member_has": true,
             "guest_has": false
           }
@@ -134,7 +134,7 @@
         "cmp_perfume": {
           "type": "comparison_row",
           "settings": {
-            "label": "Personliga parfymgåvor",
+            "label": "Personal perfume gifts",
             "member_has": true,
             "guest_has": false
           }
@@ -161,30 +161,30 @@
       "settings": {
         "hero_brand": "Tryscent+",
         "hero_subtitle": "VIP-medlemskap",
-        "hero_heading": "Dofta fantastiskt för mindre, varje månad.",
-        "hero_body": "<p>Ett medlemskap som belönar dig. Förvandla din månadsavgift på 14,99 € till butikskredit och få upp till 30 % rabatt på alla dina ordrar.</p>",
-        "hero_cta_primary_text": "Starta för 1,95 €",
-        "hero_cta_secondary_text": "LOGGA IN",
+        "hero_heading": "Smell amazing for less, every month.",
+        "hero_body": "<p>A membership that rewards you. Turn your €14.99 monthly fee into store credit and get up to 30% off all your orders.</p>",
+        "hero_cta_primary_text": "Start for €1.95",
+        "hero_cta_secondary_text": "LOG IN",
         "hero_cta_secondary_link": "",
-        "hero_fine_print": "Första månaden 1,95 € · Pausa eller avsluta när som helst",
-        "how_eyebrow": "Så fungerar det",
+        "hero_fine_print": "First month €1.95 · Pause or cancel anytime",
+        "how_eyebrow": "How it works",
         "how_title": "",
-        "how_fine_print": "Endast 1,95 € första månaden, därefter 14,99 €. Du kan pausa eller avsluta när som helst.",
-        "how_cta_text": "STARTA FÖR 1,95 €",
-        "perks_eyebrow": "Det här ingår",
-        "perks_title": "Exklusiva förmåner,",
-        "perks_title_accent": "varje månad.",
-        "tiers_title": "Köp mer, spara mer",
+        "how_fine_print": "Only €1.95 for the first month, then €14.99. You can pause or cancel anytime.",
+        "how_cta_text": "START FOR €1.95",
+        "perks_eyebrow": "What's included",
+        "perks_title": "Exclusive perks,",
+        "perks_title_accent": "every month.",
+        "tiers_title": "Buy more, save more",
         "tiers_subtitle_prefix": "Up To",
-        "comparison_eyebrow": "Medlem vs. gäst",
-        "comparison_title": "Se vad du",
+        "comparison_eyebrow": "Member vs. guest",
+        "comparison_title": "See what you",
         "comparison_member_label": "Tryscent+",
-        "comparison_guest_label": "Gäst",
-        "member_perks_title": "Dina förmåner, varje månad.",
-        "member_cta_text": "HANTERA MEDLEMSKAP",
+        "comparison_guest_label": "Guest",
+        "member_perks_title": "Your perks, every month.",
+        "member_cta_text": "MANAGE MEMBERSHIP",
         "member_cta_link": "",
         "max_width": 880,
-        "comparison_title_accent": "får."
+        "comparison_title_accent": "get."
       }
     },
     "membership_landing_bottom": {
@@ -193,57 +193,57 @@
         "faq_join": {
           "type": "faq",
           "settings": {
-            "question": "Hur går jag med i Tryscent+?",
-            "answer": "<p>Använd valfri anslutningsknapp på den här sidan, eller välj Gå med i VIP i varukorgen innan du går till kassan.</p>"
+            "question": "How do I join Tryscent+?",
+            "answer": "<p>Use any join button on this page, or select Join VIP in the cart before you go to checkout.</p>"
           }
         },
         "faq_monthly_fee": {
           "type": "faq",
           "settings": {
-            "question": "Har Tryscent+ en månadsavgift?",
-            "answer": "<p>Din första månad kostar 1,95 €. Därefter är det fasta 14,99 € per månad — och varje betalning kommer tillbaka till dig som butikskredit att använda på valfri order.</p>"
+            "question": "Does Tryscent+ have a monthly fee?",
+            "answer": "<p>Your first month costs €1.95. After that it's a flat €14.99 per month — and every payment comes back to you as store credit to use on any order.</p>"
           }
         },
         "faq_duration": {
           "type": "faq",
           "settings": {
-            "question": "Hur länge måste jag behålla mitt medlemskap?",
-            "answer": "<p>Ingen bindningstid. Pausa eller avsluta när som helst.</p>"
+            "question": "How long do I have to keep my membership?",
+            "answer": "<p>No commitment. Pause or cancel anytime.</p>"
           }
         },
         "faq_charged": {
           "type": "faq",
           "settings": {
-            "question": "När dras betalningen?",
-            "answer": "<p>Du debiteras 1,95 € när du går med. Därefter dras 14,99 € samma datum månaden efter och sedan varje månad så länge ditt medlemskap är aktivt.</p>"
+            "question": "When am I charged?",
+            "answer": "<p>You're charged €1.95 when you join. After that, €14.99 is charged on the same date the following month and then every month for as long as your membership is active.</p>"
           }
         },
         "faq_trial_credit": {
           "type": "faq",
           "settings": {
-            "question": "Får jag butikskredit för min första månad?",
-            "answer": "<p>Nej. Introduktionsmånaden på 1,95 € omvandlas inte till kredit. Butikskrediten börjar med din första hela månad på 14,99 €.</p>"
+            "question": "Do I get store credit for my first month?",
+            "answer": "<p>No. The €1.95 introductory month isn't converted to credit. Store credit starts with your first full month at €14.99.</p>"
           }
         },
         "faq_use_credit": {
           "type": "faq",
           "settings": {
-            "question": "Hur använder jag min butikskredit?",
-            "answer": "<p>Använd den i kassan. Du väljer själv hur mycket av din tillgängliga kredit som ska dras från ordern.</p>"
+            "question": "How do I use my store credit?",
+            "answer": "<p>Use it at checkout. You choose how much of your available credit to apply to the order.</p>"
           }
         },
         "faq_stack": {
           "type": "faq",
           "settings": {
-            "question": "Kan medlemsrabatten kombineras?",
-            "answer": "<p>Den kan kombineras med kampanjer som gäller hela webbplatsen, men inte med medlemsexklusiva reor.</p>"
+            "question": "Can the member discount be combined?",
+            "answer": "<p>It can be combined with site-wide promotions, but not with member-exclusive sales.</p>"
           }
         },
         "faq_cancel": {
           "type": "faq",
           "settings": {
-            "question": "Hur avslutar eller pausar jag mitt medlemskap?",
-            "answer": "<p>Gå till Hantera medlemskap i ditt konto och välj Pausa eller Avsluta.</p>"
+            "question": "How do I cancel or pause my membership?",
+            "answer": "<p>Go to Manage membership in your account and choose Pause or Cancel.</p>"
           }
         }
       },
@@ -258,24 +258,24 @@
         "faq_cancel"
       ],
       "settings": {
-        "banner_title": "Gå med i Tryscent+ på vår bekostnad.",
-        "banner_text": "<p>Din första månad kostar bara 1,95 €. Få upp till 30 % rabatt på alla dina ordrar och se hur förmånerna växer varje månad.</p>",
-        "banner_button_text": "STARTA FÖR 1,95 €",
-        "banner_disclaimer": "Pausa eller avsluta när som helst",
-        "member_banner_title": "Du är med, Tryscent+-medlem.",
-        "member_banner_text": "<p>Hantera, pausa eller avsluta ditt medlemskap när som helst från ditt konto.</p>",
-        "member_banner_button_text": "HANTERA MEDLEMSKAP",
+        "banner_title": "Join Tryscent+ on us.",
+        "banner_text": "<p>Your first month costs only €1.95. Get up to 30% off all your orders and watch your perks grow every month.</p>",
+        "banner_button_text": "START FOR €1.95",
+        "banner_disclaimer": "Pause or cancel anytime",
+        "member_banner_title": "You're in, Tryscent+ member.",
+        "member_banner_text": "<p>Manage, pause or cancel your membership anytime from your account.</p>",
+        "member_banner_button_text": "MANAGE MEMBERSHIP",
         "member_banner_button_link": "",
-        "faq_title": "Vanliga frågor",
+        "faq_title": "FAQ",
         "max_width": 880
       }
     },
     "membership_products": {
       "type": "membership-products",
       "settings": {
-        "title": "DE HÄR KOMMER DU ATT ÄLSKA",
+        "title": "YOU'LL LOVE THESE",
         "products_to_show": 8,
-        "button_text": "Lägg till",
+        "button_text": "Add",
         "max_width": 880,
         "collection": "best-sellers"
       }

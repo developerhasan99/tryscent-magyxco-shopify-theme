@@ -35,7 +35,7 @@
         "link_list_VCpt9M": {
           "type": "link_list",
           "settings": {
-            "heading": "Om oss",
+            "heading": "About us",
             "menu": "footer"
           }
         },
@@ -50,7 +50,7 @@
           "type": "text",
           "settings": {
             "heading": "Contact",
-            "subtext": "<p>Driftsbolag: </p><p>Lancer Properties LLC</p><p><strong>Phone:</strong>+18883736114</p><p><strong>Email:</strong><a href=\"mailto:hello@tryscent.co\">hello@tryscent.co</a></p>"
+            "subtext": "<p>Operating company: </p><p>Lancer Properties LLC</p><p><strong>Phone:</strong>+18883736114</p><p><strong>Email:</strong><a href=\"mailto:hello@tryscent.co\">hello@tryscent.co</a></p>"
           }
         }
       },

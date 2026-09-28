@@ -7,7 +7,7 @@
   assign b_discount_qty = st.bundle_discount_qty | plus: 0
   assign b_paid = b_total | minus: b_discount_qty
   assign b_percent = st.discount_percent | plus: 0
-  assign b_ribbon = 'Köp ' | append: b_paid | append: ', få ' | append: b_discount_qty | append: ' till med ' | append: b_percent | append: '% rabatt'
+  assign b_ribbon = 'Buy ' | append: b_paid | append: ', get ' | append: b_discount_qty | append: ' more at ' | append: b_percent | append: '% off'
 
   assign parent_variant = product.selected_or_first_available_variant
   assign parent_price = parent_variant.price | default: 0
@@ -229,19 +229,19 @@
     </form>
     <div class="sbb-controls__row">
       <select x-model="brand" x-show="brandOptions.length">
-        <option value="">Inspirerad av</option>
+        <option value="">Inspired by</option>
         <template x-for="o in brandOptions" :key="o">
-          <option :value="o" x-text="'Doftar som ' + o"></option>
+          <option :value="o" x-text="'Smells like ' + o"></option>
         </template>
       </select>
       <select x-model="gender" x-show="genderOptions.length">
-        <option value="">Kön</option>
+        <option value="">Gender</option>
         <template x-for="o in genderOptions" :key="o">
           <option :value="o" x-text="genderLabel(o)"></option>
         </template>
       </select>
       <select x-model="occasion" x-show="occasionOptions.length">
-        <option value="">Tillfälle</option>
+        <option value="">Occasion</option>
         <template x-for="o in occasionOptions" :key="o">
           <option :value="o" x-text="o"></option>
         </template>
@@ -286,7 +286,7 @@
           :class="{ 'is-active': isPicked(p.id) }"
           :disabled="!canToggle(p.id)"
           @click="toggle(p.id)">
-          <span x-text="isPicked(p.id) ? 'Tillagd' : {{ st.cta_label | json | escape }}"></span>
+          <span x-text="isPicked(p.id) ? 'Added' : {{ st.cta_label | json | escape }}"></span>
         </button>
       </div>
     </template>
@@ -480,7 +480,7 @@
           return '';
         },
         genderLabel(key) {
-          return key === 'men' ? 'För män' : key === 'women' ? 'För kvinnor' : '';
+          return key === 'men' ? 'For men' : key === 'women' ? 'For women' : '';
         },
         get genderOptions() {
           var self = this;
@@ -723,7 +723,7 @@
         "id": "offer_badge",
         "label": "Offer badge",
         "info": "Short pill text, e.g. \"PAYDAY DEAL\". Leave blank to hide",
-        "default": "Lönehelgserbjudande"
+        "default": "Payday weekend offer"
       },
       {
         "type": "header",
@@ -733,20 +733,20 @@
         "type": "text",
         "id": "heading",
         "label": "Heading",
-        "default": "Bygg ditt doftskåp för"
+        "default": "Build your fragrance wardrobe for"
       },
       {
         "type": "text",
         "id": "heading_accent",
         "label": "Heading, highlighted part",
         "info": "Shown in accent color at the end of the heading, e.g. \"60% less\"",
-        "default": "60% mindre"
+        "default": "60% less"
       },
       {
         "type": "richtext",
         "id": "subheading",
         "label": "Subheading",
-        "default": "<p>Köp 2x100ml av dina favoritparfymer och få <strong>3x100ml GRATIS</strong> i lönehelgspaketet</p>"
+        "default": "<p>Buy 2x100ml of your favorite perfumes and get <strong>3x100ml FREE</strong> in the payday bundle</p>"
       },
       {
         "type": "header",
@@ -763,13 +763,13 @@
         "type": "text",
         "id": "timer_label",
         "label": "Label",
-        "default": "Erbjudandet slutar om"
+        "default": "Offer ends in"
       },
       {
         "type": "text",
         "id": "timer_days_label",
         "label": "Days label",
-        "default": "dagar"
+        "default": "days"
       },
       {
         "type": "text",
@@ -797,13 +797,13 @@
         "type": "text",
         "id": "slot_label",
         "label": "Empty slot label",
-        "default": "Välj din doft"
+        "default": "Pick your scent"
       },
       {
         "type": "text",
         "id": "discount_slot_label",
         "label": "Discounted slot label",
-        "default": "Rabatterad doft"
+        "default": "Discounted scent"
       },
       {
         "type": "text",
@@ -823,19 +823,19 @@
         "id": "hint_text",
         "label": "Progress hint",
         "info": "[remaining]",
-        "default": "Lägg till [remaining] dofter till för att låsa upp din rabatt!"
+        "default": "Add [remaining] more scents to unlock your discount!"
       },
       {
         "type": "text",
         "id": "hint_text_one",
         "label": "Progress hint, one left",
-        "default": "Lägg till 1 doft till för att låsa upp din rabatt!"
+        "default": "Add 1 more scent to unlock your discount!"
       },
       {
         "type": "text",
         "id": "done_text",
         "label": "Progress done message",
-        "default": "Ditt paket är klart!"
+        "default": "Your bundle is ready!"
       },
       {
         "type": "header",
@@ -845,7 +845,7 @@
         "type": "text",
         "id": "total_label",
         "label": "Original price label",
-        "default": "Ordinarie pris:"
+        "default": "Regular price:"
       },
       {
         "type": "text",
@@ -858,14 +858,14 @@
         "id": "per_bottle_label",
         "label": "Per bottle label",
         "info": "[original_price] [price] — original_price is struck through and only shown when discounted",
-        "default": "Endast [original_price] [price] per flaska"
+        "default": "Only [original_price] [price] per bottle"
       },
       {
         "type": "text",
         "id": "savings_label",
         "label": "Savings pill label",
         "info": "[amount]",
-        "default": "Spara [amount] idag"
+        "default": "Save [amount] today"
       },
       {
         "type": "header",
@@ -876,14 +876,14 @@
         "id": "badge_shipping_text",
         "label": "Shipping badge",
         "info": "Leave blank to hide",
-        "default": "Fri frakt"
+        "default": "Free shipping"
       },
       {
         "type": "text",
         "id": "badge_guarantee_text",
         "label": "Guarantee badge",
         "info": "Leave blank to hide",
-        "default": "60 dagars pengarna tillbaka-garanti"
+        "default": "60-day money-back guarantee"
       },
       {
         "type": "header",
@@ -893,38 +893,38 @@
         "type": "text",
         "id": "search_placeholder",
         "label": "Search placeholder",
-        "default": "Hitta din parfym"
+        "default": "Find your perfume"
       },
       {
         "type": "text",
         "id": "cta_label",
         "label": "Card button",
-        "default": "Lägg till"
+        "default": "Add"
       },
       {
         "type": "text",
         "id": "empty_text",
         "label": "No results message",
-        "default": "Inga dofter matchar din sökning."
+        "default": "No scents match your search."
       },
       {
         "type": "text",
         "id": "cta_button_label",
         "label": "Sticky bar button",
-        "default": "Lägg i varukorgen"
+        "default": "Add to cart"
       },
       {
         "type": "text",
         "id": "cta_disabled_label",
         "label": "Buy button, incomplete bundle",
         "info": "[remaining]",
-        "default": "Lägg till [remaining] dofter"
+        "default": "Add [remaining] more scents"
       },
       {
         "type": "text",
         "id": "cta_disabled_label_one",
         "label": "Buy button, one left",
-        "default": "Lägg till 1 doft"
+        "default": "Add 1 more scent"
       }
     ],
     "presets": [

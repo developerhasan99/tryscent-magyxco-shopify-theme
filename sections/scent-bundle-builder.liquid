@@ -6,7 +6,7 @@
   assign t1_total = st.tier_1_total | plus: 0
   assign t1_free = st.tier_1_free | plus: 0
   assign t1_paid = t1_total | minus: t1_free
-  assign t1_ribbon = 'Köp ' | append: t1_paid | append: ', få ' | append: t1_free | append: ' gratis'
+  assign t1_ribbon = 'Buy ' | append: t1_paid | append: ', get ' | append: t1_free | append: ' free'
   assign t1_image_text = t1_ribbon
   if st.tier_1_image_text != blank
     assign t1_image_text = st.tier_1_image_text | replace: '[paid]', t1_paid | replace: '[free]', t1_free | replace: '[total]', t1_total
@@ -15,7 +15,7 @@
   assign t2_total = st.tier_2_total | plus: 0
   assign t2_free = st.tier_2_free | plus: 0
   assign t2_paid = t2_total | minus: t2_free
-  assign t2_ribbon = 'Köp ' | append: t2_paid | append: ', få ' | append: t2_free | append: ' gratis'
+  assign t2_ribbon = 'Buy ' | append: t2_paid | append: ', get ' | append: t2_free | append: ' free'
   assign t2_image_text = t2_ribbon
   if st.tier_2_image_text != blank
     assign t2_image_text = st.tier_2_image_text | replace: '[paid]', t2_paid | replace: '[free]', t2_free | replace: '[total]', t2_total
@@ -177,7 +177,7 @@
         x-show="full"
         :disabled="adding"
         @click="addToCart()">
-        <span x-text="adding ? 'Lägger till…' : {{ st.cta_button_label | json | escape }}"></span>
+        <span x-text="adding ? 'Adding…' : {{ st.cta_button_label | json | escape }}"></span>
       </button>
     </aside>
   </div>
@@ -192,21 +192,21 @@
     </form>
     <div class="sbb-controls__row">
       <select x-model="brand" x-show="brandOptions.length">
-        <option value="">Inspirerad av</option>
+        <option value="">Inspired by</option>
         <template x-for="o in brandOptions" :key="o">
-          <option :value="o" x-text="'Doftar som ' + o"></option>
+          <option :value="o" x-text="'Smells like ' + o"></option>
         </template>
       </select>
       <select x-model="gender" x-show="genderOptions.length">
-        <option value="">Kön</option>
+        <option value="">Gender</option>
         <template x-for="o in genderOptions" :key="o">
           <option :value="o" x-text="o"></option>
         </template>
       </select>
       <select x-model="sort">
-        <option value="featured">Utvald</option>
-        <option value="price-asc">Pris: lågt till högt</option>
-        <option value="price-desc">Pris: högt till lågt</option>
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
       </select>
     </div>
   </div>
@@ -248,7 +248,7 @@
           :class="{ 'is-active': isPicked(p.id) }"
           :disabled="!canToggle(p.id)"
           @click="toggle(p.id)">
-          <span x-text="isPicked(p.id) ? 'Tillagd' : {{ st.cta_label | json | escape }}"></span>
+          <span x-text="isPicked(p.id) ? 'Added' : {{ st.cta_label | json | escape }}"></span>
         </button>
       </div>
     </template>
@@ -302,7 +302,7 @@
             type="button"
             :disabled="!full || adding"
             @click="addToCart()">
-            <span x-text="adding ? 'Lägger till…' : {{ st.cta_button_label | json | escape }}"></span>
+            <span x-text="adding ? 'Adding…' : {{ st.cta_button_label | json | escape }}"></span>
           </button>
         </div>
       </div>
@@ -525,13 +525,13 @@
         "id": "tier_1_badge",
         "label": "Badge text",
         "info": "Leave blank to hide",
-        "default": "Mest populär"
+        "default": "Most popular"
       },
       {
         "type": "text",
         "id": "tier_1_image_text",
         "label": "Offer text on product image",
-        "info": "Use [paid], [free] and [total] for the bottle counts. Leave blank for \"Köp [paid], få [free] gratis\"."
+        "info": "Use [paid], [free] and [total] for the bottle counts. Leave blank for \"Buy [paid], get [free] free\"."
       },
       {
         "type": "number",
@@ -566,13 +566,13 @@
         "id": "tier_2_badge",
         "label": "Badge text",
         "info": "Leave blank to hide",
-        "default": "Bästa pris"
+        "default": "Best price"
       },
       {
         "type": "text",
         "id": "tier_2_image_text",
         "label": "Offer text on product image",
-        "info": "Use [paid], [free] and [total] for the bottle counts. Leave blank for \"Köp [paid], få [free] gratis\"."
+        "info": "Use [paid], [free] and [total] for the bottle counts. Leave blank for \"Buy [paid], get [free] free\"."
       },
       {
         "type": "number",
@@ -594,13 +594,13 @@
         "type": "text",
         "id": "heading",
         "label": "Heading",
-        "default": "Bygg ditt eget Välj & spara"
+        "default": "Build your own Pick & Save"
       },
       {
         "type": "text",
         "id": "subheading",
         "label": "Subheading",
-        "default": "Parfymer – få dina gratis flaskor"
+        "default": "Perfumes – get your free bottles"
       },
       {
         "type": "header",
@@ -610,13 +610,13 @@
         "type": "text",
         "id": "slot_label",
         "label": "Empty slot label",
-        "default": "Välj din doft"
+        "default": "Pick your scent"
       },
       {
         "type": "text",
         "id": "free_slot_label",
         "label": "Free slot label",
-        "default": "Gratis doft"
+        "default": "Free scent"
       },
       {
         "type": "text",
@@ -636,19 +636,19 @@
         "id": "hint_text",
         "label": "Progress hint",
         "info": "[remaining]",
-        "default": "Lägg till [remaining] doft till för att låsa upp dina gratis doft!"
+        "default": "Add [remaining] more scents to unlock your free scents!"
       },
       {
         "type": "text",
         "id": "hint_text_one",
         "label": "Progress hint, one left",
-        "default": "Lägg till 1 doft till för att låsa upp din gratis doft!"
+        "default": "Add 1 more scent to unlock your free scent!"
       },
       {
         "type": "text",
         "id": "done_text",
         "label": "Progress done message",
-        "default": "Ditt paket är klart!"
+        "default": "Your bundle is ready!"
       },
       {
         "type": "header",
@@ -658,25 +658,25 @@
         "type": "text",
         "id": "total_label",
         "label": "Ordinary total label",
-        "default": "Ord. totalpris"
+        "default": "Reg. total price"
       },
       {
         "type": "text",
         "id": "discount_label",
         "label": "Discount label",
-        "default": "Rabatt"
+        "default": "Discount"
       },
       {
         "type": "text",
         "id": "price_label",
         "label": "Your price label",
-        "default": "Ditt pris"
+        "default": "Your price"
       },
       {
         "type": "text",
         "id": "savings_label",
         "label": "Savings label",
-        "default": "Du sparar"
+        "default": "You save"
       },
       {
         "type": "header",
@@ -686,25 +686,25 @@
         "type": "text",
         "id": "search_placeholder",
         "label": "Search placeholder",
-        "default": "Hitta din parfym"
+        "default": "Find your perfume"
       },
       {
         "type": "text",
         "id": "cta_label",
         "label": "Card button",
-        "default": "Lägg"
+        "default": "Add"
       },
       {
         "type": "text",
         "id": "empty_text",
         "label": "No results message",
-        "default": "Inga dofter matchar din sökning."
+        "default": "No scents match your search."
       },
       {
         "type": "text",
         "id": "cta_button_label",
         "label": "Sticky bar button",
-        "default": "Lägg i varukorg"
+        "default": "Add to cart"
       }
     ],
     "presets": [

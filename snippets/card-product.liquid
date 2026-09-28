@@ -41,8 +41,9 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
       if (window.__cardProductI18nInit) return;
       window.__cardProductI18nInit = true;
 
-      // Card price labels per Weglot language (falls back to "sv")
+      // Card price labels per Weglot language (falls back to "en")
       var cardLabels = {
+        en: { startsAt: 'From', discountOff: 'Off' },
         sv: { startsAt: 'Från', discountOff: 'Av' },
         da: { startsAt: 'Fra', discountOff: 'Rabat' },
         fi: { startsAt: 'Alkaen', discountOff: 'alennus' },
@@ -50,7 +51,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
       };
 
       function translateCardLabels(lang) {
-        var labels = cardLabels[lang] || cardLabels.sv;
+        var labels = cardLabels[lang] || cardLabels.en;
 
         document.querySelectorAll('.starts_at_text').forEach(function (el) {
           el.textContent = labels.startsAt;
@@ -62,7 +63,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
       }
 
       document.addEventListener('DOMContentLoaded', function () {
-        var currentLang = (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || 'sv';
+        var currentLang = (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || 'en';
         translateCardLabels(currentLang);
 
         if (window.Weglot && typeof Weglot.on === 'function') {
@@ -307,7 +308,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                 <div class="flex items-center gap-2 mb-3">
                   <img class="object-contain object-center" src="{{ card_product.metafields.custom.inspiration.value.image |  image_url: width: 90, height: 90 }}" alt="{{ card_product.metafields.custom.inspiration.value.image.alt | escape }}" width="35" height="35">
                   <div>
-                    <p class="text-xs my-0">Inspirerad av:</p>
+                    <p class="text-xs my-0">Inspired by:</p>
                     <h4 class="text-sm font-semibold my-0 line-clamp-1 inspiration_heading">{{ card_product.metafields.custom.inspiration.value.name }}</h4>
                   </div>
                 </div>
@@ -315,7 +316,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
 
               <div class="font-bold tracking-normal {% if collection.template_suffix == 'action-modal' %}text-sm{% else %}text-base{% endif %} flex items-center flex-wrap gap-1">
                 {% unless card_product.tags contains 'onsale' %}
-                  <span class="starts_at_text">Från</span>
+                  <span class="starts_at_text">From</span>
                 {% endunless %}
                 <span class="ab-current-price">{{ card_product.price | money }}</span>
                 {% if card_product.tags contains 'onsale' %}

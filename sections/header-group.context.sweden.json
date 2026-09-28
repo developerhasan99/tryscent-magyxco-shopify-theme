@@ -15,10 +15,10 @@
   "sections": {
     "offer_timebar_xLgmJd": {
       "settings": {
-        "top_banner_text": "HANDLA NU",
-        "prepend_text": "30% RABATT",
+        "top_banner_text": "SHOP NOW",
+        "prepend_text": "30% OFF",
         "countdown_date": "2026/10/04",
-        "append_text": "LÖNEDAGSREA",
+        "append_text": "PAYDAY SALE",
         "link": "https://tryscent.co/sv-se/collections/4-2"
       },
       "blocks": {}
@@ -29,7 +29,7 @@
         "menu_item_JjXgCN": {
           "disabled": false,
           "settings": {
-            "label": "Nya dofter",
+            "label": "New scents",
             "url": "shopify://collections/new"
           }
         }
