@@ -1,0 +1,193 @@
+{% assign mystery_product = all_products['hidden-treasure-100ml'] %}
+
+<!-- Checkout Confirmation Modal -->
+<div id="checkout-modal" class="fixed inset-0 z-[99999] flex items-center justify-center md:px-6 hidden">
+  <div class="absolute inset-0 bg-black/50 -z-10">
+    <span class="sr-only">Checkout Modal Overlay</span>
+  </div>
+  <div class="bg-white md:rounded-xl shadow-xl max-w-[1000px] w-full overflow-hidden grid grid-cols-1 md:grid-cols-2 max-h-full overflow-y-auto relative">
+    <button
+      type="button"
+      id="checkout-modal-close"
+      class="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
+      aria-label="Close modal">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <div class="bg-white flex items-center justify-center">
+      {% if mystery_product.images.size > 1 %}
+        <img
+          src="{{ mystery_product.images[1] | image_url: width: 600 }}"
+          alt="{{ mystery_product.title }}"
+          class="w-full h-auto object-contain"
+          width="600"
+          height="600"
+          loading="lazy">
+      {% elsif mystery_product.featured_image %}
+        <img
+          src="{{ mystery_product.featured_image | image_url: width: 600 }}"
+          alt="{{ mystery_product.title }}"
+          class="w-full h-auto object-contain"
+          width="600"
+          height="600"
+          loading="lazy">
+      {% else %}
+        <img
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect fill='%23f5f5f5' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' fill='%23999'%3ENo Image%3C/text%3E%3C/svg%3E"
+          alt="No Image"
+          class="w-full h-auto object-contain"
+          width="400"
+          height="400">
+      {% endif %}
+    </div>
+    <div class="p-6 md:p-10 flex flex-col justify-center bg-[#f7f7f7]">
+      <h3 class="text-xl md:text-2xl font-bold tracking-tight mb-2 mt-0">En doft du inte visste att du saknade.</h3>
+      <p class="text-lg text-black italic my-0">Vårt bäst bevarade hemlighet, utvald just för dig.</p>
+      <h4 class="text-2xl font-semibold mb-2 mt-4">{{ mystery_product.title }}</h4>
+      <a href="#reviews" class="flex gap-1 items-center no-underline text-gray-700 scroll-smooth">
+        <img
+          src="{{ 'rating-stars.svg' | asset_url }}"
+          alt="*****"
+          height="16"
+          width="80">
+        <div class="leading-snug tracking-normal">
+          (325)
+        </div>
+      </a>
+      <div class="text-black text-base leading-relaxed my-6 line-clamp-3 md:line-clamp-5">{{ mystery_product.description }}</div>
+      <div class="text-2xl font-bold text-black mb-6">{{ mystery_product.price | money }}
+        {% if mystery_product.compare_at_price > mystery_product.price %}
+          <span class="text-sm text-gray-500 line-through">{{ mystery_product.compare_at_price | money }}</span>
+          <span class="text-sm text-green-600">{{ mystery_product.compare_at_price | minus: mystery_product.price | times: 100.0 | divided_by: mystery_product.compare_at_price | round }}% AV</span>
+        {% endif %}
+      </div>
+      <div class="flex flex-col gap-4">
+        <button
+          type="button"
+          class="shimmer-btn [font-family:'Figtree'] px-6 py-3 rounded-lg font-medium cursor-pointer border-none text-base hover:bg-[#17803d] bg-[#146b32] text-white hover:opacity-90 flex justify-center"
+          id="checkout-modal-confirm">Ge mig min hemliga doft
+        </button>
+        <button
+          type="button"
+          class="[font-family:'Figtree'] px-6 py-3 rounded-lg font-medium cursor-pointer border-2 border-solid border-gray-300 text-base bg-white text-gray-700 hover:opacity-90"
+          id="checkout-modal-cancel">Nej tack</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const checkoutModal = document.getElementById('checkout-modal');
+    const modalCancel = document.getElementById('checkout-modal-cancel');
+    const modalConfirm = document.getElementById('checkout-modal-confirm');
+    const modalClose = document.getElementById('checkout-modal-close');
+
+    if (checkoutModal && modalCancel && modalConfirm && modalClose) {
+      // Show modal when cart form is submitted (using event delegation)
+      document.addEventListener('submit', function(e) {
+        const cartForm = e.target.closest('#CartDrawer-Form');
+        if (cartForm && !cartForm.classList.contains('skip-modal')) {
+          e.preventDefault();
+          checkoutModal.classList.remove('hidden');
+        }
+      });
+
+      // Hide modal when decline is clicked and proceed to checkout
+      modalCancel.addEventListener('click', function() {
+        checkoutModal.classList.add('hidden');
+        // Get the cart form and submit with checkout parameter
+        const cartForm = document.getElementById('CartDrawer-Form');
+        if (cartForm) {
+          // Create checkout input to ensure proper redirect
+          const checkoutInput = document.createElement('input');
+          checkoutInput.type = 'hidden';
+          checkoutInput.name = 'checkout';
+          checkoutInput.value = '';
+          cartForm.appendChild(checkoutInput);
+          cartForm.submit();
+        } else {
+          // Fallback: redirect to checkout
+          window.location.href = '/checkout';
+        }
+      });
+
+      // Hide modal when close button is clicked and proceed to checkout
+      modalClose.addEventListener('click', function() {
+        checkoutModal.classList.add('hidden');
+        // Get the cart form and submit with checkout parameter
+        const cartForm = document.getElementById('CartDrawer-Form');
+        if (cartForm) {
+          // Create checkout input to ensure proper redirect
+          const checkoutInput = document.createElement('input');
+          checkoutInput.type = 'hidden';
+          checkoutInput.name = 'checkout';
+          checkoutInput.value = '';
+          cartForm.appendChild(checkoutInput);
+          cartForm.submit();
+        } else {
+          // Fallback: redirect to checkout
+          window.location.href = '/checkout';
+        }
+      });
+
+      // Hide modal when overlay is clicked
+      checkoutModal.querySelector('.absolute.inset-0.bg-black\\/50').addEventListener('click', function() {
+        checkoutModal.classList.add('hidden');
+      });
+
+      // Add mystery product to cart when claim is clicked, then proceed to checkout
+      modalConfirm.addEventListener('click', function() {
+        const originalText = modalConfirm.innerHTML;
+        const originalDisabled = modalConfirm.disabled;
+
+        // Show loading state
+        modalConfirm.disabled = true;
+        modalConfirm.innerHTML = '<svg class="animate-spin h-5 w-5 mr-2 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Claiming your treasure...';
+
+        // Add mystery product to cart
+        const mysteryProductId = '{{ mystery_product.selected_or_first_available_variant.id }}';
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: mysteryProductId,
+            quantity: 1
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Hide modal and proceed to checkout
+          checkoutModal.classList.add('hidden');
+          window.location.href = '/checkout';
+        })
+        .catch(error => {
+          console.error('Error adding mystery product:', error);
+          // Reset button state on error
+          modalConfirm.disabled = originalDisabled;
+          modalConfirm.innerHTML = originalText;
+          alert('There was an error adding the product. Please try again.');
+        });
+      });
+
+      // Close modal on Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !checkoutModal.classList.contains('hidden')) {
+          checkoutModal.classList.add('hidden');
+        }
+      });
+    }
+  })();
+</script>

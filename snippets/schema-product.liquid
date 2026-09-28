@@ -1,0 +1,59 @@
+{%- comment -%}
+  PRODUCT SCHEMA for product pages.
+  Includes: Product + Offers (all variants) + optional AggregateRating.
+  Works without reviews too.
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_images = product.images -%}
+
+{%- comment -%}
+OPTIONAL: If you store rating data in metafields, set:
+- product.metafields.reviews.rating_value (number)
+- product.metafields.reviews.rating_count (integer)
+Namespace/key can be changed below.
+{%- endcomment -%}
+
+{%- assign rating_value = product.metafields.reviews.rating_value.value | default: product.metafields.reviews.rating_value -%}
+{%- assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "@id": "{{ shop.url }}{{ product.url }}#product",
+  "name": {{ product.title | strip | json }},
+  "url": {{ shop.url | append: product.url | json }},
+  "description": {{ product.description | strip_html | strip | json }},
+  "brand": {
+    "@type": "Brand",
+    "name": {{ shop.name | json }}
+  },
+  "sku": {{ current_variant.sku | default: current_variant.id | json }},
+  "image": [
+    {%- for image in product_images limit: 10 -%}
+      {{ image | image_url: width: 1200 | prepend: "https:" | json }}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ],
+  "offers": [
+    {%- for v in product.variants -%}
+    {
+      "@type": "Offer",
+      "url": {{ shop.url | append: v.url | json }},
+      "priceCurrency": {{ cart.currency.iso_code | default: shop.currency | json }},
+      "price": "{{ v.price | divided_by: 100.0 }}",
+      "availability": "https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}",
+      "itemCondition": "https://schema.org/NewCondition",
+      "sku": {{ v.sku | default: v.id | json }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+  {%- if rating_value != blank and rating_count != blank -%}
+  ,"aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ rating_value }}",
+    "reviewCount": "{{ rating_count }}"
+  }
+  {%- endif -%}
+}
+</script>

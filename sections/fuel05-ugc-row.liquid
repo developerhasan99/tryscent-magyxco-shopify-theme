@@ -1,0 +1,97 @@
+{{ 'fuel05-ugc.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fuel05-ugc.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="fuel05-ugc fuel05-ugc--home"
+  data-fuel05-row
+  data-gap-mobile="10"
+  data-gap-desktop="32"
+  style="display: none;">
+  <div class="fuel05-ugc__inner">
+    <div class="fuel05-ugc__header">
+      <h2 class="fuel05-ugc__heading">{{ section.settings.heading | escape }}</h2>
+      <div class="fuel05-ugc__nav">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Föregående">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Nästa">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {%- comment -%}
+          No audience tag setting on these blocks either. The home page has no
+          product in scope for the filter to read, so there is nothing to test a
+          tag against. The setting lives on the product page block, in
+          sections/main-product.liquid.
+        {%- endcomment -%}
+        {%- for block in section.blocks -%}
+          {% render 'fuel05-ugc-tile',
+            video: block.settings.video,
+            video_url: block.settings.video_url,
+            poster: block.settings.video_poster,
+            product_item: block.settings.product,
+            shopify_attributes: block.shopify_attributes
+          %}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %}
+  RETIRED. The homepage cannot take this section (the template is at
+  Shopify's 25-section cap), so the home row ships as
+  snippets/fuel05-ugc-home-row.liquid rendered from
+  sections/popular-products.liquid instead. No presets in the schema below,
+  deliberately: that keeps this file out of the editor's Add section picker,
+  where adding it would create a second, unconfigured copy of the row.
+  Kept in the repo because it is the blocks-based implementation to promote
+  if FUEL_05 wins and homepage slots get freed.
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "UGC Video Row",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Älskad av tusentals"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL",
+          "info": "Used when no video is picked above"
+        },
+        {
+          "type": "image_picker",
+          "id": "video_poster",
+          "label": "Poster image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Linked product"
+        }
+      ]
+    }
+  ],
+  "presets": []
+}
+{% endschema %}

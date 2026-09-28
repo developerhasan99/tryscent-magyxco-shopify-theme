@@ -1,0 +1,83 @@
+{%- comment -%}
+  SITEWIDE SCHEMA: Organization + WebSite
+  Put in theme.liquid head.
+{%- endcomment -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ shop.url }}/#organization",
+      "name": {{ shop.name | json }},
+      "url": {{ shop.url | json }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ settings.logo | image_url: width: 600 | prepend: "https:" | json }}
+      }
+      {%- comment -%}
+      OPTIONAL social links:
+      Add your socials in theme settings or hardcode below.
+      {%- endcomment -%}
+      {%- if settings.social_instagram_link != blank or settings.social_tiktok_link != blank or settings.social_facebook_link != blank or settings.social_youtube_link != blank -%}
+      ,"sameAs": [
+        {%- assign socials = "" -%}
+        {%- if settings.social_instagram_link != blank -%}{{ settings.social_instagram_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+        {%- if settings.social_tiktok_link != blank -%}{% if socials != "" %},{% endif %}{{ settings.social_tiktok_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+        {%- if settings.social_facebook_link != blank -%}{% if socials != "" %},{% endif %}{{ settings.social_facebook_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+        {%- if settings.social_youtube_link != blank -%}{% if socials != "" %},{% endif %}{{ settings.social_youtube_link | json }}{%- assign socials = "x" -%}{%- endif -%}
+      ]
+      {%- endif -%}
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ shop.url }}/#website",
+      "url": {{ shop.url | json }},
+      "name": {{ shop.name | json }},
+      "publisher": { "@id": "{{ shop.url }}/#organization" },
+      "inLanguage": {{ request.locale.iso_code | json }}
+    }
+  ]
+}
+</script>
+
+{% if template == 'index' %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "TryScent",
+    "url": "https://tryscent.co",
+    "logo": "https://tryscent.co/cdn/shop/files/catsoft-logo.svg",
+    "description": "Premium Designer Fragrance Dupes - Creed, Dior & Tom Ford Alternatives",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "113 Jalan Besar",
+      "addressLocality": "Singapore",
+      "postalCode": "08833",
+      "addressCountry": "SG"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+18883736114",
+      "contactType": "customer service",
+      "email": "hello@tryscent.co"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "TryScent",
+    "url": "https://tryscent.co",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://tryscent.co/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+{% endif %}

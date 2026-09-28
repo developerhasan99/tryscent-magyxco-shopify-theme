@@ -1,0 +1,215 @@
+{% liquid
+  assign product_form_id = 'product-form-' | append: section.id
+  assign selected_variant = product.selected_or_first_available_variant
+
+  for variant in product.variants
+    if variant.title == "50ML"
+      assign selected_variant = variant
+      break
+    endif
+  endfor
+%}
+
+{% assign selling_points = product.metafields.custom.selling_points.value %}
+{% if selling_points %}
+  <ul id="atc_scroll_target" class="list-none pl-0">
+    {% for point in selling_points %}
+      <li>✅ {{ point }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if product.variants.size > 1 %}
+  {% comment %} Variant Selector {% endcomment %}
+  <div class="flex justify-between items-center mb-3 !mt-6">
+    <h2 class="m-0 text-base font-semibold">Välj storlek :</h2>
+    <div class="text-sm italic text-gray-500">50 ml - vald av 8 av 10 kunder</div>
+  </div>
+
+  <div class="flex gap-3" id="variant-selector">
+    {% for variant in product.variants %}
+      {% assign size = variant.title | remove: 'ML' %}
+      {% assign size_int = size | times: 1 %}
+      {% assign price_in_dollars = variant.price | times: 0.01 %}
+      {% assign per_ml = price_in_dollars | divided_by: size_int | round: 2 %}
+      <button
+        type="button"
+        class="variant-button flex-grow flex md:flex-col items-center gap-2 rounded-lg p-2 pt-3 bg-white border-2 border-solid cursor-pointer font-['Figtree'] relative {% if variant.id == selected_variant.id %}border-green-700{% else %}border-gray-200{% endif %}"
+        data-variant-id="{{ variant.id }}"
+        data-variant-title="{{ variant.title }}"
+        data-original-price="{{ variant.price | money }}"
+        data-compare-price="{{ variant.compare_at_price | money }}">
+        <div class="text-center">
+          <div class="text-sm font-semibold">{{ variant.title }}</div>
+          <div class="text-xs text-gray-600">
+            {{- cart.currency.symbol -}}
+            {{- per_ml }} Per Spray</div>
+        </div>
+        {% if variant.title == '50ML' %}
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5">Popular</span>
+        {% endif %}
+        {% if variant.title == '100ML' %}
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5">Bestseller</span>
+        {% endif %}
+      </button>
+    {% endfor %}
+  </div>
+  {% if product.tags contains 'variant_note' %}
+    <div id="variantSuggestion" class="mb-4 text-black text-lg"></div>
+  {% endif %}
+{% endif %}
+
+{% comment %} Add to cart form {% endcomment %}
+<product-form
+  class="product-form !m-0"
+  data-hide-errors="{{ gift_card_recipient_feature_active }}"
+  data-section-id="{{ section.id }}">
+  {%- form 'product'
+    , product
+    , id: product_form_id
+    , class: 'form'
+    , novalidate: 'novalidate'
+    , data-type: 'add-to-cart-form'
+  -%}
+    <input
+      type="hidden"
+      name="id"
+      id="product-variant-id"
+      value="{{ selected_variant.id }}"
+      class="product-variant-id">
+    {% if product.metafields.custom.choose_your_fragrances_options != blank %}
+      {% render 'bundle-mix-dropdown' %}
+    {% else %}
+      <input
+        type="hidden"
+        name="properties[Inspired By]"
+        value="{{ product.metafields.custom.nuta }}" />
+    {% endif %}
+    <button
+      type="submit"
+      name="add"
+      value="1"
+      class="atc-button shimmer-btn cta_product_from_submit_btn flex flex-wrap items-center !mb-0 text-2xl !pb-3 !pt-3 rounded-lg button bg-[#22613a] hover:bg-[#368856] transition-colors shadow-xl tracking-normal button--full-width button--primary"
+      aria-label="Add to cart"
+      {% if product.metafields.custom.choose_your_fragrances_options != blank %}
+      disabled="disabled"
+      {% endif %}>
+      <span>Add to cart</span>
+      <div class="ml-2 pl-2 border-0 border-l flex items-center border-solid border-gray-200/20">
+        <div
+          class="inline-block text-lg bg-[#1E5834] px-3 rounded"
+          id="product-price"
+          role="status"
+          {{ block.shopify_attributes }}>
+          {% if selected_variant.compare_at_price > selected_variant.price %}
+            <span class="compare-price line-through text-white/50 text-base">{{ selected_variant.compare_at_price | money }}</span>
+          {% endif %}
+          <span class="current-price">{{ selected_variant.price | money }}</span>
+        </div>
+      </div>
+      {%- render 'loading-spinner' -%}
+    </button>
+  {%- endform -%}
+</product-form>
+
+<div class="my-6">
+  <div class="flex items-center gap-3 text-base">
+    <img
+      src="https://cdn.shopify.com/s/files/1/0623/0691/0402/files/thimbs_up.png?v=1751372431"
+      alt="Thumbs up badge"
+      class="w-10 h-10 flex-shrink-0"
+      width="40"
+      height="40" />
+    <div class="text-slate-900">
+      <strong class="font-semibold">Try it for 60 days, risk-free.</strong>
+      <span class="[display:none] md:block">If you're not absolutely thrilled, we'll give you a full refund!</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // Variant data object
+    const variantsData = {
+      {% for variant in product.variants %}
+        "{{ variant.id }}": {
+          title: "{{ variant.title }}",
+          originalPrice: "{{ variant.price | money }}",
+          compareAtPrice: "{{ variant.compare_at_price | money }}",
+          hasComparePrice: {% if variant.compare_at_price > variant.price %}true{% else %}false{% endif %},
+          nextVariant: "{{ variant.metafields.custom.next_variant }}",
+          priceDifference: "{{ variant.metafields.custom.price_difference.value | money }}"
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+
+    // State
+    let selectedVariantId = "{{ selected_variant.id }}";
+
+    // DOM elements
+    const variantButtons = document.querySelectorAll('.variant-button');
+    const variantIdInput = document.getElementById('product-variant-id');
+    const priceContainer = document.getElementById('product-price');
+    const comparePriceSpan = priceContainer.querySelector('.compare-price');
+    const currentPriceSpan = priceContainer.querySelector('.current-price');
+    const variantSuggestion = document.getElementById('variantSuggestion');
+
+    // Update variant selection
+    function updateVariant(variantId) {
+      selectedVariantId = variantId;
+      const variantData = variantsData[variantId];
+
+      // Update hidden input
+      variantIdInput.value = variantId;
+
+      // Update button styles
+      variantButtons.forEach(button => {
+        if (button.dataset.variantId === variantId) {
+          button.classList.add('border-green-700');
+          button.classList.remove('border-gray-200');
+        } else {
+          button.classList.remove('border-green-700');
+          button.classList.add('border-gray-200');
+        }
+      });
+
+      // Update price display
+      if (variantData.hasComparePrice) {
+        if (!comparePriceSpan) {
+          const newCompareSpan = document.createElement('span');
+          newCompareSpan.className = 'compare-price line-through text-white/50 text-base';
+          priceContainer.insertBefore(newCompareSpan, currentPriceSpan);
+        }
+        const compareSpan = priceContainer.querySelector('.compare-price');
+        compareSpan.innerHTML = variantData.compareAtPrice;
+        compareSpan.style.display = '';
+      } else {
+        if (comparePriceSpan) {
+          comparePriceSpan.style.display = 'none';
+        }
+      }
+
+      currentPriceSpan.innerHTML = variantData.originalPrice;
+
+      {% comment %} if(typeof variantSuggestion !== 'undefined') {
+        if(variantData.title !== "100ML") {
+          if(variantData.title === '50ML') {
+            variantSuggestion.innerHTML = `⚡ You’re <strong>${variantData.priceDifference}</strong> away from the best value size.`;
+          } else {
+            variantSuggestion.innerHTML = `⚡ Upgrade to ${variantData.nextVariant} for <strong>${variantData.priceDifference}</strong> more!`;
+          }
+        } else {
+          variantSuggestion.innerHTML = '🎉 Congratulations! You have the best deal!';
+        }
+      } {% endcomment %}
+    }
+
+    // Add click event listeners to variant buttons
+    variantButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const variantId = this.dataset.variantId;
+        updateVariant(variantId);
+      });
+    });
+  })();
+</script>

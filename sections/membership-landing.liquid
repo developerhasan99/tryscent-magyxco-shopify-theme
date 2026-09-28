@@ -1,0 +1,925 @@
+{%- liquid
+  assign max_width = section.settings.max_width
+  assign exm_plan_settings = shop.metafields.exison.exison_plan_settings
+
+  assign is_active_member = false
+  if customer.metafields.exison.customer_subscription1.status == 'ACTIVE' or customer.metafields.exison.customer_subscription2.status == 'ACTIVE'
+    assign is_active_member = true
+  endif
+
+-%}
+
+{%- comment -%} Design tokens as inline vars — these override the defaults in the stylesheet below {%- endcomment -%}
+{%- capture hf_vars -%}
+  --hf-max: {{ max_width }}px;
+  --hf-bg: {{ section.settings.color_background | default: '#ffffff' }};
+  --hf-alt: {{ section.settings.color_background_alt | default: '#efeeec' }};
+  --hf-card: {{ section.settings.color_card | default: '#f2f2f2' }};
+  --hf-dark: {{ section.settings.color_panel | default: '#333333' }};
+  --hf-fg: {{ section.settings.color_text | default: '#0f172a' }};
+  --hf-body: {{ section.settings.color_text_body | default: '#3d3d3d' }};
+  --hf-muted: {{ section.settings.color_text_muted | default: '#5c5c5c' }};
+  --hf-gold: {{ section.settings.color_accent | default: '#ffefb1' }};
+  --hf-pad-top: {{ section.settings.padding_top | default: '36' }}px;
+  --hf-pad-bottom: {{ section.settings.padding_bottom | default: '44' }}px;
+{%- endcapture -%}
+
+<div class="hf-mlp" style="{{ hf_vars }}">
+
+  {%- comment -%} ===================== Hero ===================== {%- endcomment -%}
+  <div class="hf-mlp__band hf-mlp__band--base">
+    <div class="hf-mlp__inner hf-mlp__hero">
+      <div class="hf-mlp__hero-media">
+        {%- if section.settings.hero_image -%}
+          {{
+            section.settings.hero_image
+            | image_url: width: 1400
+            | image_tag:
+              alt: section.settings.hero_heading,
+              loading: 'eager',
+              class: 'hf-mlp__hero-img',
+              sizes: '(min-width: 900px) 640px, 100vw',
+              widths: '480, 720, 960, 1400'
+          }}
+        {%- else -%}
+          <img
+            class="hf-mlp__hero-img hf-mlp__hero-img--default"
+            src="{{ 'membership-banner.jpg' | asset_url }}"
+            alt="{{ section.settings.hero_heading | escape }}"
+            width="1080"
+            height="1080"
+            loading="eager"
+          >
+        {%- endif -%}
+      </div>
+
+      <div class="hf-mlp__hero-content">
+        <div class="hf-mlp__wordmark">{{ section.settings.hero_brand | escape }}</div>
+
+        {%- if section.settings.hero_subtitle != blank -%}
+          <div class="hf-mlp__wordmark-sub">{{ section.settings.hero_subtitle | escape }}</div>
+        {%- endif -%}
+
+        <h1 class="hf-mlp__hero-heading">{{ section.settings.hero_heading | escape }}</h1>
+
+        {%- if section.settings.hero_body != blank -%}
+          <div class="hf-mlp__hero-body rte">{{ section.settings.hero_body }}</div>
+        {%- endif -%}
+
+        <div class="hf-mlp__hero-ctas">
+          {%- if is_active_member -%}
+            <a
+              class="hf-mlp__btn hf-mlp__btn--solid"
+              href="{{ section.settings.member_cta_link | default: '/apps/subscribfy-api/store/pages/portal' }}"
+            >
+              {{ section.settings.member_cta_text | escape }}
+            </a>
+          {%- else -%}
+            <button type="button" class="hf-mlp__btn hf-mlp__btn--solid" data-membership-trigger>
+              {{ section.settings.hero_cta_primary_text | escape }}
+            </button>
+            {%- unless customer -%}
+              <a
+                class="hf-mlp__btn hf-mlp__btn--outline"
+                href="{{ section.settings.hero_cta_secondary_link | default: routes.account_login_url }}"
+              >
+                {{ section.settings.hero_cta_secondary_text | escape }}
+              </a>
+            {%- endunless -%}
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.hero_fine_print != blank -%}
+          <div class="hf-mlp__fine-print">{{ section.settings.hero_fine_print | escape }}</div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  {%- comment -%} ===================== Perks ===================== {%- endcomment -%}
+  {%- assign hf_perks = section.blocks | where: 'type', 'perk' -%}
+  {%- if hf_perks.size > 0 -%}
+    <div class="hf-mlp__band hf-mlp__band--base">
+      <div class="hf-mlp__inner hf-mlp__perks">
+        {%- if section.settings.perks_eyebrow != blank -%}
+          <div class="hf-mlp__eyebrow">{{ section.settings.perks_eyebrow | escape }}</div>
+        {%- endif -%}
+
+        {%- if is_active_member -%}
+          <h2 class="hf-mlp__title">{{ section.settings.member_perks_title | escape }}</h2>
+        {%- else -%}
+          <h2 class="hf-mlp__title">
+            {{- section.settings.perks_title | escape -}}
+            {%- if section.settings.perks_title_accent != blank -%}
+              <br><em class="hf-mlp__title-accent">{{ section.settings.perks_title_accent | escape }}</em>
+            {%- endif -%}
+          </h2>
+        {%- endif -%}
+
+        {%- render 'membership-discount-tiers',
+          plan_settings: exm_plan_settings,
+          blocks: section.blocks,
+          title: section.settings.tiers_title,
+          subtitle_prefix: section.settings.tiers_subtitle_prefix
+        -%}
+
+        <div class="hf-mlp__perk-grid">
+          {%- for block in hf_perks -%}
+            <div class="hf-mlp__perk" {{ block.shopify_attributes }}>
+              <span class="hf-mlp__perk-icon" aria-hidden="true">
+                {%- render 'membership-icon', icon: block.settings.icon -%}
+              </span>
+              <h3 class="hf-mlp__perk-title">{{ block.settings.title | escape }}</h3>
+              {%- if block.settings.description != blank -%}
+                <p class="hf-mlp__perk-desc">{{ block.settings.description | escape }}</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ===================== How it works ===================== {%- endcomment -%}
+  {%- assign hf_steps = section.blocks | where: 'type', 'step' -%}
+  {%- if hf_steps.size > 0 -%}
+    <div class="hf-mlp__band hf-mlp__band--base">
+      <div class="hf-mlp__inner hf-mlp__how">
+        {%- if section.settings.how_eyebrow != blank -%}
+          <div class="hf-mlp__eyebrow">{{ section.settings.how_eyebrow | escape }}</div>
+        {%- endif -%}
+        {%- if section.settings.how_title != blank -%}
+          <h2 class="hf-mlp__title">{{ section.settings.how_title | escape }}</h2>
+        {%- endif -%}
+
+        <ol class="hf-mlp__steps">
+          {%- for block in hf_steps -%}
+            <li class="hf-mlp__step" {{ block.shopify_attributes }}>
+              <span class="hf-mlp__step-number">
+                {%- if forloop.index < 10 -%}0{%- endif -%}{{ forloop.index }}
+              </span>
+              <div class="hf-mlp__step-body">
+                <h3 class="hf-mlp__step-title">{{ block.settings.title | escape }}</h3>
+                <p class="hf-mlp__step-desc">{{ block.settings.description | escape }}</p>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ol>
+
+        {%- if section.settings.how_fine_print != blank -%}
+          <p class="hf-mlp__how-note">{{ section.settings.how_fine_print | escape }}</p>
+        {%- endif -%}
+
+        <div class="hf-mlp__how-cta">
+          {%- if is_active_member -%}
+            <a
+              class="hf-mlp__btn hf-mlp__btn--light"
+              href="{{ section.settings.member_cta_link | default: '/apps/subscribfy-api/store/pages/portal' }}"
+            >
+              {{ section.settings.member_cta_text | escape }}
+            </a>
+          {%- else -%}
+            <button type="button" class="hf-mlp__btn hf-mlp__btn--light" data-membership-trigger>
+              {{ section.settings.how_cta_text | escape }}
+            </button>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.how_image -%}
+          {{
+            section.settings.how_image
+            | image_url: width: 1400
+            | image_tag:
+              alt: section.settings.how_eyebrow,
+              loading: 'lazy',
+              class: 'hf-mlp__how-img',
+              sizes: '(min-width: 900px) 840px, 100vw',
+              widths: '480, 720, 960, 1400'
+          }}
+        {%- else -%}
+          <img
+            class="hf-mlp__how-img"
+            src="{{ 'membership-how-it-works.png' | asset_url }}"
+            alt="{{ section.settings.how_eyebrow | escape }}"
+            width="1024"
+            height="1024"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ===================== Comparison ===================== {%- endcomment -%}
+  {%- assign hf_rows = section.blocks | where: 'type', 'comparison_row' -%}
+  {%- if hf_rows.size > 0 -%}
+    <div class="hf-mlp__band hf-mlp__band--base">
+      <div class="hf-mlp__inner hf-mlp__compare">
+        {%- if section.settings.comparison_eyebrow != blank -%}
+          <div class="hf-mlp__eyebrow">{{ section.settings.comparison_eyebrow | escape }}</div>
+        {%- endif -%}
+        <h2 class="hf-mlp__title">
+          {{- section.settings.comparison_title | escape -}}
+          {%- if section.settings.comparison_title_accent != blank -%}
+            <br><em class="hf-mlp__title-accent">{{ section.settings.comparison_title_accent | escape }}</em>
+          {%- endif -%}
+        </h2>
+
+        <div class="hf-mlp__table" role="table">
+          <div class="hf-mlp__tr hf-mlp__tr--head" role="row">
+            <div class="hf-mlp__td hf-mlp__td--label" role="columnheader"></div>
+            <div class="hf-mlp__td hf-mlp__td--member hf-mlp__td--head" role="columnheader">
+              {{- section.settings.comparison_member_label | escape -}}
+            </div>
+            <div class="hf-mlp__td hf-mlp__td--guest hf-mlp__td--head" role="columnheader">
+              {{- section.settings.comparison_guest_label | escape -}}
+            </div>
+          </div>
+
+          {%- for block in hf_rows -%}
+            <div class="hf-mlp__tr" role="row" {{ block.shopify_attributes }}>
+              <div class="hf-mlp__td hf-mlp__td--label" role="cell">{{ block.settings.label | escape }}</div>
+              <div class="hf-mlp__td hf-mlp__td--member" role="cell">
+                {%- if block.settings.member_has -%}
+                  {%- render 'membership-icon', icon: 'yes' -%}
+                {%- else -%}
+                  {%- render 'membership-icon', icon: 'no' -%}
+                {%- endif -%}
+              </div>
+              <div class="hf-mlp__td hf-mlp__td--guest" role="cell">
+                {%- if block.settings.guest_has -%}
+                  {%- render 'membership-icon', icon: 'yes' -%}
+                {%- else -%}
+                  {%- render 'membership-icon', icon: 'no' -%}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+</div>
+
+
+{% schema %}
+{
+  "name": "Membership Landing",
+  "tag": "section",
+  "class": "section--membership-landing",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_brand", "label": "Wordmark", "default": "Tryscent+" },
+    { "type": "text", "id": "hero_subtitle", "label": "Wordmark subtitle", "default": "VIP-medlemskap" },
+    { "type": "text", "id": "hero_heading", "label": "Heading", "default": "Handla för mindre, varje månad." },
+    {
+      "type": "richtext",
+      "id": "hero_body",
+      "label": "Body",
+      "default": "<p>Ett medlemskap byggt för hur du redan handlar. Förvandla din månadsavgift till butikskredit och lägg till en extra rabatt på varje order.</p>"
+    },
+    { "type": "text", "id": "hero_cta_primary_text", "label": "Primary button text", "default": "GÅ MED I TRYSCENT+" },
+    { "type": "text", "id": "hero_cta_secondary_text", "label": "Secondary button text", "info": "Hidden for logged-in customers.", "default": "LOGGA IN" },
+    { "type": "url", "id": "hero_cta_secondary_link", "label": "Secondary button link", "info": "Defaults to the account login page." },
+    { "type": "text", "id": "hero_fine_print", "label": "Fine print", "default": "Första månaden 1,95 € · Pausa eller avsluta när som helst" },
+
+    { "type": "header", "content": "How it works" },
+    { "type": "text", "id": "how_eyebrow", "label": "Eyebrow", "default": "Så fungerar det" },
+    { "type": "text", "id": "how_title", "label": "Title", "default": "Tre enkla steg." },
+    { "type": "text", "id": "how_fine_print", "label": "Fine print", "default": "Endast 1,95 € första månaden, därefter 14,99 €. Du kan pausa eller avsluta när som helst." },
+    { "type": "text", "id": "how_cta_text", "label": "Button text", "default": "STARTA FÖR 1,95 €" },
+    { "type": "image_picker", "id": "how_image", "label": "Image", "info": "Falls back to the built-in Tryscent bottle photo." },
+
+    { "type": "header", "content": "Perks" },
+    { "type": "text", "id": "perks_eyebrow", "label": "Eyebrow", "default": "Det här ingår" },
+    { "type": "text", "id": "perks_title", "label": "Title", "default": "Exklusiva förmåner," },
+    { "type": "text", "id": "perks_title_accent", "label": "Title second line", "info": "Set in italics on its own line. Leave blank for a single-line title.", "default": "varje månad." },
+    { "type": "text", "id": "tiers_title", "label": "Discount card title", "default": "Köp mer, spara mer" },
+    { "type": "text", "id": "tiers_subtitle_prefix", "label": "Discount card subtitle prefix", "info": "The highest tier is appended, e.g. \"Up To 30% OFF\".", "default": "Upp till" },
+
+    { "type": "header", "content": "Comparison" },
+    { "type": "text", "id": "comparison_eyebrow", "label": "Eyebrow", "default": "Medlem vs. gäst" },
+    { "type": "text", "id": "comparison_title", "label": "Title", "default": "Se vad du" },
+    { "type": "text", "id": "comparison_title_accent", "label": "Title second line", "info": "Set in italics on its own line. Leave blank for a single-line title.", "default": "får." },
+    { "type": "text", "id": "comparison_member_label", "label": "Member column header", "default": "Tryscent+" },
+    { "type": "text", "id": "comparison_guest_label", "label": "Guest column header", "default": "Gäst" },
+
+    { "type": "header", "content": "Active member overrides" },
+    { "type": "text", "id": "member_perks_title", "label": "Perks title (active member)", "default": "Dina förmåner, varje månad." },
+    { "type": "text", "id": "member_cta_text", "label": "Button text (active member)", "default": "HANTERA MEDLEMSKAP" },
+    { "type": "url", "id": "member_cta_link", "label": "Button link (active member)", "info": "Defaults to the Subscribfy customer portal." },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "color_background_alt", "label": "Alternate band background", "info": "Used behind How it works and the comparison table.", "default": "#efeeec" },
+    { "type": "color", "id": "color_card", "label": "Perk card background", "default": "#f2f2f2" },
+    { "type": "color", "id": "color_panel", "label": "Dark panel", "info": "Discount card, member column and solid buttons.", "default": "#333333" },
+    { "type": "color", "id": "color_accent", "label": "Accent", "info": "The + in the wordmark and the discount percentages.", "default": "#ffefb1" },
+    { "type": "color", "id": "color_text", "label": "Heading text", "default": "#0f172a" },
+    { "type": "color", "id": "color_text_body", "label": "Body text", "info": "The hero paragraph.", "default": "#3d3d3d" },
+    { "type": "color", "id": "color_text_muted", "label": "Secondary text", "info": "Eyebrows, step descriptions and fine print.", "default": "#5c5c5c" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max content width", "min": 600, "max": 1200, "step": 20, "default": 880, "unit": "px" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 100, "step": 2, "default": 36, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 100, "step": 2, "default": 44, "unit": "px" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 8,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Handla" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Lägg vilken doft du vill i varukorgen: en enda 30 ml eller en hel doftgarderob." }
+      ]
+    },
+    {
+      "type": "perk",
+      "name": "Perk",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "credit", "label": "Store credit" },
+            { "value": "tag", "label": "Discount" },
+            { "value": "calendar", "label": "Early access" },
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "support", "label": "Customer support" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "credit"
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Månatlig butikskredit" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Din månadsavgift kommer tillbaka till dig som butikskredit." }
+      ]
+    },
+    {
+      "type": "discount_tier",
+      "name": "Discount tier (fallback)",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Only used when tiered discounts are switched off in Subscribfy. When they are on, the card reads the live plan rules and these blocks are ignored."
+        },
+        { "type": "text", "id": "label", "label": "Row label", "default": "Köp 1–2 varor" },
+        { "type": "number", "id": "value", "label": "Discount %", "default": 10 }
+      ]
+    },
+    {
+      "type": "comparison_row",
+      "name": "Comparison row",
+      "limit": 12,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Row label", "default": "Månatlig butikskredit" },
+        { "type": "checkbox", "id": "member_has", "label": "Member has it", "default": true },
+        { "type": "checkbox", "id": "guest_has", "label": "Guest has it", "default": false }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Membership Landing",
+      "category": "Custom",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Shop", "description": "Add any fragrance you like to your cart: a single 30 ml or a full wardrobe of scents." } },
+        { "type": "step", "settings": { "title": "Join", "description": "Select “Join VIP” at cart to switch on your perks. Your first month is only 1,95 €." } },
+        { "type": "step", "settings": { "title": "Save", "description": "Save up to 30% on your order. Welcome to Tryscent+ VIP!" } },
+        { "type": "discount_tier", "settings": { "label": "Buy 1–2 items", "value": 10 } },
+        { "type": "discount_tier", "settings": { "label": "Buy 3–5 items", "value": 25 } },
+        { "type": "discount_tier", "settings": { "label": "Buy 6+ items", "value": 30 } },
+        { "type": "perk", "settings": { "icon": "credit", "title": "Monthly Store Credit", "description": "Your monthly fee comes straight back to you as store credit. Spend it on anything." } },
+        { "type": "perk", "settings": { "icon": "calendar", "title": "Early Access To New Drops", "description": "Shop every new scent before it's available to the public. First pick, every time." } },
+        { "type": "perk", "settings": { "icon": "shipping", "title": "Free Priority Shipping", "description": "Free for members. Your order ships first, every time." } },
+        { "type": "perk", "settings": { "icon": "support", "title": "VIP Customer Support", "description": "Skip the queue. Real people, real scent advice, fast." } },
+        { "type": "perk", "settings": { "icon": "gift", "title": "Personalized Perfume Every 3 Months", "description": "Work one-on-one with a master perfumer to craft a fragrance that's yours alone, delivered to your door every 3 months." } },
+        { "type": "comparison_row", "settings": { "label": "Save up to 30% every order", "member_has": true, "guest_has": false } },
+        { "type": "comparison_row", "settings": { "label": "14,99 € of monthly store credit", "member_has": true, "guest_has": false } },
+        { "type": "comparison_row", "settings": { "label": "Early access to new drops", "member_has": true, "guest_has": false } },
+        { "type": "comparison_row", "settings": { "label": "Priority shipping + VIP support", "member_has": true, "guest_has": false } },
+        { "type": "comparison_row", "settings": { "label": "Personalized perfume gifts", "member_has": true, "guest_has": false } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+/* ============================================================
+   Tryscent+ membership landing page
+   Used by sections/membership-landing.liquid and
+   sections/membership-landing-bottom.liquid.
+   ============================================================ */
+.hf-mlp,
+.hf-mlp-bottom {
+  --hf-bg: #ffffff;
+  --hf-alt: #efeeec;
+  --hf-card: #f2f2f2;
+  --hf-dark: #333333;
+  --hf-fg: #0f172a;
+  --hf-muted: #5c5c5c;
+  --hf-body: #3d3d3d;
+  --hf-gold: #ffefb1;
+  --hf-pad-top: 36px;
+  --hf-pad-bottom: 44px;
+
+  font-family: Figtree, sans-serif;
+  color: var(--hf-fg);
+  text-align: left;
+}
+
+/* Bands are full-bleed; the inner wrapper holds the content width. */
+.hf-mlp__band {
+  background: var(--hf-bg);
+}
+
+.hf-mlp__band--alt {
+  background: var(--hf-alt);
+}
+
+.hf-mlp__inner {
+  max-width: var(--hf-max, 880px);
+  margin: 0 auto;
+  padding: var(--hf-pad-top) 20px var(--hf-pad-bottom);
+  box-sizing: border-box;
+}
+
+.hf-mlp__how {
+  padding-bottom: var(--hf-pad-top);
+  color: #ffffff;
+  background: #424242;
+}
+
+.hf-mlp__how .hf-mlp__eyebrow,
+.hf-mlp__how .hf-mlp__step-title,
+.hf-mlp__how .hf-mlp__step-desc {
+  color: #ffffff;
+}
+
+.hf-mlp__how-note {
+  margin: 28px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  color: #ffffff;
+}
+
+.hf-mlp__how-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.hf-mlp__how-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 26px;
+  border-radius: 12px;
+}
+
+.hf-mlp__plus {
+  color: var(--hf-gold);
+}
+
+.hf-mlp__eyebrow {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.8px;
+  color: #252525;
+}
+
+.hf-mlp__eyebrow--center {
+  text-align: center;
+}
+
+.hf-mlp__title {
+  font-family: Figtree, sans-serif !important;
+  font-size: 24px;
+  line-height: 1.15;
+  font-weight: 500;
+  margin: 0 0 26px;
+  color: inherit;
+}
+
+.hf-mlp__title--center {
+  text-align: center;
+}
+
+.hf-mlp__title-accent {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ---------- Buttons ---------- */
+.hf-mlp__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 44px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-family: Figtree, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer !important;
+  transition: opacity 0.15s ease;
+}
+
+.hf-mlp__btn:hover {
+  opacity: 0.85;
+}
+
+.hf-mlp__btn--solid {
+  background: #0f172a;
+  color: #ffffff !important;
+}
+
+.hf-mlp__btn--outline {
+  background: transparent;
+  border: 1px solid #0f172a;
+  color: var(--hf-fg) !important;
+}
+
+.hf-mlp__btn--on-dark {
+  background: transparent;
+  border: 1px solid #ffffff;
+  color: #ffffff !important;
+}
+
+.hf-mlp__btn--light {
+  background: #ffffff;
+  color: #0f172a !important;
+  font-family: Figtree, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ---------- Hero ---------- */
+.hf-mlp__hero-media {
+  margin-bottom: 22px;
+}
+
+.hf-mlp__hero-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The mock sizes the hero photo at 350x293. Hold that ratio for the built-in
+   default so it scales with the column; a merchant-picked image keeps its own
+   ratio. */
+.hf-mlp__hero-img--default {
+  aspect-ratio: 350 / 293;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.hf-mlp__wordmark {
+  font-family: Figtree, sans-serif;
+  font-size: 33px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.hf-mlp__wordmark-sub {
+  font-family: Figtree, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f172a;
+  margin-top: 2px;
+}
+
+.hf-mlp__hero-heading {
+  font-family: Figtree, sans-serif;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 22px 0 18px;
+}
+
+.hf-mlp__hero-body {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--hf-body);
+  margin-bottom: 26px;
+}
+
+.hf-mlp__hero-body p {
+  margin: 0 0 10px;
+}
+
+.hf-mlp__hero-body p:last-child {
+  margin-bottom: 0;
+}
+
+.hf-mlp__hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.hf-mlp__fine-print {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #0f172a;
+  text-align: center;
+}
+
+/* ---------- How it works ---------- */
+.hf-mlp__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.hf-mlp__step {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  align-items: center;
+  gap: 20px;
+  margin: 0;
+}
+
+/* Uniform-stroke numerals in the mock — body font, not the serif. */
+.hf-mlp__step-number {
+  font-size: 60px;
+  line-height: 0.9;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.hf-mlp__step-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: 0.3px;
+}
+
+.hf-mlp__step-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #252525;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* ---------- Buy more, save more ---------- */
+.hf-mlp__tiers {
+  background: #424242;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 22px 22px 24px;
+  margin-bottom: 16px;
+}
+
+.hf-mlp__tiers-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.hf-mlp__tiers-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.hf-mlp__tiers-icon svg {
+  width: 42px;
+  height: 42px;
+}
+
+.hf-mlp__tiers-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  color: #ffffff;
+}
+
+.hf-mlp__tiers-sub {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 4px 0 0;
+  color: #ffffff;
+}
+
+.hf-mlp__tier-list {
+  margin: 0;
+  padding: 0;
+}
+
+.hf-mlp__tier {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 7px 0;
+}
+
+.hf-mlp__tier-label {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+  color: #e6e6e6;
+}
+
+.hf-mlp__tier-value {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+  color: var(--hf-gold);
+  white-space: nowrap;
+}
+
+.hf-mlp__tier:last-child .hf-mlp__tier-value {
+  font-weight: 600;
+}
+
+/* ---------- Perks ---------- */
+.hf-mlp__perk-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.hf-mlp__perk {
+  background: var(--hf-card);
+  color: var(--hf-fg);
+  border-radius: 8px;
+  padding: 20px 18px 22px;
+}
+
+.hf-mlp__perk:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+.hf-mlp__perk-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hf-fg);
+  margin-bottom: 16px;
+}
+
+.hf-mlp__perk-icon svg {
+  width: 42px;
+  height: 42px;
+}
+
+.hf-mlp__perk-title {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 10px;
+  color: var(--hf-fg);
+}
+
+.hf-mlp__perk-desc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--hf-muted);
+  margin: 0;
+}
+
+/* ---------- Comparison ---------- */
+.hf-mlp__table {
+  margin-bottom: 26px;
+}
+
+.hf-mlp__tr {
+  display: grid;
+  grid-template-columns: 1fr 110px 110px;
+  align-items: stretch;
+}
+
+.hf-mlp__td {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 10px;
+  font-size: 13.5px;
+  line-height: 1.4;
+  min-height: 78px;
+  box-sizing: border-box;
+}
+
+.hf-mlp__td--label {
+  font-size: 14px;
+  font-weight: 400;
+  justify-content: flex-start;
+  padding-left: 0;
+  padding-right: 14px;
+}
+
+.hf-mlp__td--head {
+  font-size: 16px;
+  font-weight: 500;
+  min-height: 62px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* base.css hides every empty div; the header spacer has to stay in the grid or
+   the two column labels slide one column to the left. */
+.hf-mlp__tr--head .hf-mlp__td--label:empty {
+  display: flex;
+}
+
+.hf-mlp__td--member {
+  background: #424242;
+  color: #ffffff;
+  border-bottom: 1px solid #999999;
+}
+
+.hf-mlp__td--member svg {
+  color: var(--hf-gold);
+}
+
+.hf-mlp__tr--head .hf-mlp__td {
+  border: 0;
+}
+
+.hf-mlp__tr:not(.hf-mlp__tr--head) .hf-mlp__td:not(.hf-mlp__td--member) {
+  border-bottom: 1px solid #999999;
+}
+
+@media screen and (min-width: 900px) {
+  .hf-mlp__inner {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .hf-mlp__hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .hf-mlp__hero-media {
+    margin-bottom: 0;
+  }
+
+  .hf-mlp__hero-ctas {
+    flex-direction: row;
+  }
+
+  .hf-mlp__btn {
+    max-width: 320px;
+  }
+
+  .hf-mlp__fine-print {
+    text-align: left;
+  }
+
+  .hf-mlp__steps {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  .hf-mlp__step {
+    flex: 1;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .hf-mlp__perk-grid {
+    gap: 18px;
+  }
+
+  .hf-mlp__tiers {
+    padding: 26px 26px 28px;
+  }
+
+  .hf-mlp__tr {
+    grid-template-columns: 1fr 160px 160px;
+  }
+
+  .hf-mlp__td {
+    font-size: 14px;
+    padding: 20px 14px;
+  }
+}
+{% endstylesheet %}

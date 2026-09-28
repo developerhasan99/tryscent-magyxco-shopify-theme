@@ -1,0 +1,112 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false,
+        "color_scheme": "scheme-2"
+      }
+    },
+    "custom_liquid_K7nAnN": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<!-- TryScent LP22 — ljus hero + fyra fördelsblock. Custom Liquid paste block.\n     Self-contained: egna klasser (ts-h22-*), egen CSS, ingen Liquid-tagg.\n     Bild: Shopify Files → tryscent-lp22-hero-bright.jpg (2560x1429, uppladdad 19.08.2026) -->\n\n<div class=\"ts-h22\">\n  <section class=\"ts-h22-hero\">\n    <div class=\"ts-h22-inner\">\n      <p class=\"ts-h22-eyebrow\"><span>&#9733;&#9733;&#9733;&#9733;&#9733;</span> &#196;lskad av 10 000 kunder</p>\n      <h1>Ett elegant intryck.</h1>\n      <p class=\"ts-h22-sub\">R&#228;tt doft stannar kvar l&#229;ngt efter att du har g&#229;tt.</p>\n    </div>\n  </section>\n\n  <section class=\"ts-h22-feats\">\n    <div class=\"ts-h22-inner ts-h22-grid\">\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 7h16v12H4z\"/><path d=\"M4 7l2-3h12l2 3\"/><path d=\"M10 11h4\"/></svg>\n        <h3>Tillverkad i Europa</h3>\n        <p>Producerad enligt strikta europeiska standarder f&#246;r parfym.</p>\n      </div>\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3s6 6.5 6 10.5A6 6 0 0 1 6 13.5C6 9.5 12 3 12 3z\"/></svg>\n        <h3>21% doftkoncentration</h3>\n        <p>Skapad f&#246;r att m&#228;rkas hela dagen.</p>\n      </div>\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 3l8 3v6c0 4.5-3.2 7.8-8 9-4.8-1.2-8-4.5-8-9V6l8-3z\"/><path d=\"M9 12l2.2 2.2L15.5 10\"/></svg>\n        <h3>60 dagars garanti</h3>\n        <p>Testa parfymen hemma. &#196;r den inte r&#228;tt f&#246;r dig har du 60 dagar p&#229; dig att returnera den.</p>\n      </div>\n      <div class=\"ts-h22-feat\">\n        <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5.2l3.2 2\"/></svg>\n        <h3>L&#229;ngvarig doft</h3>\n        <p>Skapad f&#246;r att h&#229;lla sig m&#228;rkbar i upp till 12 timmar.</p>\n      </div>\n    </div>\n  </section>\n</div>\n\n<style>\n  .ts-h22{\n    --ts-ink:#1a1418;\n    --ts-muted:#6b6169;\n    --ts-rose:#9c4a6b;\n    width:100vw;\n    margin-left:calc(50% - 50vw);\n    font-family:system-ui,-apple-system,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif;\n  }\n  .ts-h22 *{box-sizing:border-box}\n  .ts-h22-inner{\n    max-width:1200px;\n    margin:0 auto;\n    padding:0 24px;\n  }\n\n  /* ---------- hero ---------- */\n  .ts-h22-hero{\n    position:relative;\n    display:flex;\n    align-items:center;\n    height:clamp(430px,34vw,560px);\n    background-color:#eef4f8;\n    background-image:url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/tryscent-lp22-hero-bright.jpg?v=1787183752');\n    background-size:cover;\n    background-position:center 16%;   /* focal point - holds her face in frame */\n    background-repeat:no-repeat;\n  }\n  /* white wash as its own layer so mobile can flip its direction\n     without repeating the image URL */\n  .ts-h22-hero::before{\n    content:\"\";\n    position:absolute;\n    inset:0;\n    background:linear-gradient(90deg,rgba(255,255,255,.92),rgba(255,255,255,.55) 45%,rgba(255,255,255,0) 70%);\n  }\n  /* hero is a flex container - without this the inner shrinks to content and the copy drifts centre */\n  .ts-h22-hero .ts-h22-inner{position:relative;z-index:1;width:100%}\n  .ts-h22-eyebrow{\n    margin:0 0 10px;\n    font-size:12px;\n    font-weight:600;\n    letter-spacing:.14em;\n    text-transform:uppercase;\n    color:var(--ts-rose);\n  }\n  .ts-h22-eyebrow span{letter-spacing:.06em;margin-right:6px}\n  .ts-h22-hero h1{\n    margin:0 0 12px;\n    font-family:Georgia,\"Times New Roman\",serif;   /* swap for the theme heading font */\n    font-weight:400;\n    font-size:clamp(30px,3.1vw,50px);\n    line-height:1.08;\n    letter-spacing:-.01em;\n    color:var(--ts-ink);\n  }\n  .ts-h22-sub{\n    margin:0;\n    max-width:520px;\n    font-size:clamp(15px,1.05vw,17px);\n    line-height:1.5;\n    color:var(--ts-ink);\n  }\n\n  /* ---------- four feature blocks ---------- */\n  .ts-h22-feats{background:#fff;padding:44px 0 40px}\n  .ts-h22-grid{\n    display:grid;\n    grid-template-columns:repeat(4,1fr);\n    gap:34px;\n    text-align:center;\n  }\n  .ts-h22-feat svg{\n    width:30px;height:30px;\n    fill:none;stroke:var(--ts-ink);\n    stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;\n    margin-bottom:14px;\n  }\n  .ts-h22-feat h3{\n    margin:0 0 8px;\n    font-size:17px;\n    font-weight:700;\n    letter-spacing:-.01em;\n    color:var(--ts-ink);\n  }\n  .ts-h22-feat p{\n    margin:0;\n    font-size:14px;\n    line-height:1.55;\n    color:var(--ts-muted);\n  }\n\n  /* ---------- responsive ---------- */\n  @media(max-width:900px){\n    .ts-h22-grid{grid-template-columns:repeat(2,1fr);gap:28px}\n  }\n  @media(max-width:640px){\n    /* stacked: photo on top, copy below her - otherwise the text lands on her face */\n    .ts-h22-hero{\n      height:auto;\n      min-height:600px;\n      align-items:flex-end;\n      padding:0 0 34px;\n      background-position:74% top;\n    }\n    .ts-h22-hero::before{\n      background:linear-gradient(180deg,\n        rgba(255,255,255,0) 38%,\n        rgba(255,255,255,.80) 58%,\n        rgba(255,255,255,.96) 74%,\n        #fff 100%);\n    }\n    .ts-h22-sub{max-width:none}\n  }\n  @media(max-width:520px){\n    .ts-h22-grid{grid-template-columns:1fr}\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_37D6Ew": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<!-- TryScent — Social proof (kvinnor) — Custom Liquid paste block.\n     8 recensioner från Trustpilot (se.trustpilot.com/review/tryscent.co), hämtade 19.08.2026.\n     Teman: kvalitet, hållbarhet, likhet med originalet, skepsis som vändes.\n     Ren HTML+CSS, scoped till .ts-proof-sv. Inga Liquid-taggar. -->\n\n<style>\n  .ts-proof-sv{\n    --green:#14843d;\n    --green-dark:#0f6b31;\n    --green-soft:#eaf6ee;\n    --ink:#111315;\n    --muted:#626b74;\n    --line:#e6e8e8;\n    --star:#ffb000;\n    font-family:Inter,Arial,Helvetica,sans-serif;\n    color:var(--ink);\n    background:linear-gradient(180deg,#fff,#f7f8f6);\n    padding:76px 0 53px;\n    overflow:hidden;\n  }\n  .ts-proof-sv *{box-sizing:border-box;margin:0}\n  .ts-proof-sv .container{width:min(1180px,calc(100% - 36px));margin-inline:auto}\n  .ts-proof-sv .proof-head{text-align:center;max-width:760px;margin:0 auto 15px}\n  .ts-proof-sv .kicker{\n    font-size:13px;\n    letter-spacing:.13em;\n    text-transform:uppercase;\n    font-weight:800;\n    color:var(--green);\n    margin-bottom:14px;\n  }\n  .ts-proof-sv .section-title{\n    font-size:clamp(26px,3.3vw,43px);\n    line-height:1.02;\n    letter-spacing:-.045em;\n    margin-bottom:12px;\n    font-weight:700;\n  }\n  .ts-proof-sv .carousel{\n    display:flex;\n    align-items:flex-start;\n    gap:22px;\n    overflow-x:auto;\n    scroll-snap-type:x mandatory;\n    scrollbar-width:none;\n    padding:8px 4px 22px;\n  }\n  .ts-proof-sv .carousel::-webkit-scrollbar{display:none}\n  .ts-proof-sv .review-card{\n    flex:0 0 calc(33.333% - 15px);\n    min-width:330px;\n    scroll-snap-align:start;\n    background:#fff;\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:26px 26px 13px;\n    box-shadow:0 10px 28px rgba(16,34,22,.06);\n  }\n  .ts-proof-sv .review-top{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    gap:14px;\n    margin-bottom:11px;\n  }\n  .ts-proof-sv .review-stars{color:var(--star);letter-spacing:2px;font-size:19px}\n  .ts-proof-sv .verified{color:var(--muted);font-size:12px;font-weight:700;text-decoration:none}\n  .ts-proof-sv .verified:hover{text-decoration:underline}\n  .ts-proof-sv .tp-dot{color:var(--green)}\n  .ts-proof-sv .review-card h3{\n    font-size:16px;\n    line-height:1.22;\n    letter-spacing:-.035em;\n    margin-bottom:14px;\n    font-weight:700;\n  }\n  .ts-proof-sv .review-card p{\n    color:var(--muted);\n    line-height:1.62;\n    font-size:15px;\n  }\n  .ts-proof-sv .review-card p.result-line{\n    margin:8px 0 12px;\n    padding:15px 16px;\n    border-radius:14px;\n    background:var(--green-soft);\n    color:var(--green-dark);\n    font-weight:800;\n    font-size:14px;\n  }\n  .ts-proof-sv .person{display:flex;align-items:center;gap:12px}\n  .ts-proof-sv .person strong{display:block;font-size:14px}\n  .ts-proof-sv .person span{font-size:11.5px;color:var(--muted);line-height:1.35;display:block}\n  @media (max-width:1024px){\n    .ts-proof-sv .review-card{flex-basis:48%}\n  }\n  @media (max-width:700px){\n    .ts-proof-sv{padding:30px 0 21px}\n    .ts-proof-sv .review-card{min-width:86%;flex-basis:86%}\n  }\n</style>\n\n<section class=\"ts-proof-sv\">\n  <div class=\"container\">\n    <div class=\"proof-head\">\n      <div class=\"kicker\">D&#228;rf&#246;r fastnade de f&#246;r TryScent</div>\n      <h2 class=\"section-title\">De s&#228;ger det b&#228;ttre &#228;n vi n&#229;gonsin skulle kunna.</h2>\n    </div>\n\n    <div class=\"carousel\">\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Jag hade inte stora f&#246;rv&#228;ntningar p&#229; att det h&#228;r faktiskt skulle vara legit.&#8221;</h3>\n        <p>Jag hade en liten tester p&#229; JPG La Belle hemma att j&#228;mf&#246;ra med och blev &#246;verraskad hur pass lika de luktade. Best&#228;llde &#228;ven Lost Cherry dupe, YSL Black Opium dupe, CH Very Good Girl dupe och Acqua Di Gio dupe till min pojkv&#228;n, som ocks&#229; blev positivt &#246;verraskad. Super v&#228;rt det, och jag kommer best&#228;lla d&#228;rifr&#229;n igen.</p>\n        <p class=\"result-line\">J&#228;mf&#246;rd sida vid sida med originalet.</p>\n        <div class=\"person\">\n          <div><strong>Anne Rittwage</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Var lite skeptisk n&#228;r jag best&#228;llde.&#8221;</h3>\n        <p>Men efter en v&#228;ldigt snabb leverans s&#229; kunde jag konstatera att parfymerna var otroligt lika orginalen. V&#228;ldigt n&#246;jd!</p>\n        <p class=\"result-line\">Tveksam innan. &#214;vertygad efter.</p>\n        <div class=\"person\">\n          <div><strong>Annelie</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Parfymerna h&#229;ller h&#246;g kvalitet, doftar fantastiskt och sitter kvar l&#228;nge p&#229; huden.&#8221;</h3>\n        <p>Jag &#228;r verkligen imponerad av TryScent! Best&#228;llningen var enkel att g&#246;ra, leveransen gick smidigt och produkterna var v&#228;l f&#246;rpackade. Ett prisv&#228;rt alternativ f&#246;r den som vill ha lyxiga dofter utan att betala &#246;verpris. Jag kommer definitivt att handla h&#228;r igen och kan varmt rekommendera TryScent!</p>\n        <p class=\"result-line\">Lyxk&#228;nsla utan lyxpriset.</p>\n        <div class=\"person\">\n          <div><strong>Maria</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Jag k&#228;nde doften av mig sj&#228;lv hela tiden.&#8221;</h3>\n        <p>N&#228;r man anv&#228;nder parfym annars brukar doften f&#246;rsvinna ganska snabbt. Fick h&#246;ra av andra att &#8211; ooj vad gott du luktar, vad har du p&#229; dig? Den &#228;r v&#228;ldigt kvalitativ och lyxig. Och jag f&#229;r k&#228;nna mig bekv&#228;m och kvinnlig.</p>\n        <div class=\"person\">\n          <div><strong>Maria</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Parfymerna &#228;r otroligt vackra och de doftar exakt lika orginaliskt.&#8221;</h3>\n        <p>Jag k&#246;pte 3 flaskor och jag fick tv&#229; tester gratis.</p>\n        <div class=\"person\">\n          <div><strong>Huda</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Parfymerna luktar v&#228;ldigt gott och &#228;r likt de riktiga.&#8221;</h3>\n        <p>En bra hemsida att shoppa p&#229;. H&#229;ller l&#228;nge p&#229; kroppen.</p>\n        <div class=\"person\">\n          <div><strong>Ellen Gustafsson</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Lukter som h&#229;ller l&#228;nge och verkligen luktar som orginalet.&#8221;</h3>\n        <p>Alltid snabba leveranser.</p>\n        <p class=\"result-line\">H&#229;ller. Och luktar r&#228;tt.</p>\n        <div class=\"person\">\n          <div><strong>Ingela</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n      <article class=\"review-card\">\n        <div class=\"review-top\">\n          <div class=\"review-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div>\n          <a class=\"verified\" href=\"https://se.trustpilot.com/review/tryscent.co\" target=\"_blank\" rel=\"noopener\"><span class=\"tp-dot\">&#9679;</span> Trustpilot-recension</a>\n        </div>\n        <h3>&#8221;Alla luktar magiskt gott.&#8221;</h3>\n        <p>Best&#228;llde fyra olika dofter och fick dem plus en femte som g&#229;va. Leveransen gick j&#228;ttefort! S&#229; himla n&#246;jd!</p>\n        <div class=\"person\">\n          <div><strong>Nathalie</strong><span>Verifierad recensent p&#229; Trustpilot</span></div>\n        </div>\n      </article>\n\n    </div>\n  </div>\n</section>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "popular_products_AmFHN4": {
+      "type": "popular-products",
+      "disabled": true,
+      "name": "Popular Products",
+      "settings": {
+        "background_color": "#fcfbf9",
+        "title": "Köp mer och spara!",
+        "description": "",
+        "collection": "seasonal-bundles",
+        "button_text": "Kolla in mer!",
+        "button_link": "shopify://collections/seasonal-bundles",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-2",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "padding_top": 36,
+        "padding_bottom": 40
+      }
+    },
+    "rich_text_fnCgkL": {
+      "type": "rich-text",
+      "blocks": {
+        "text_x4GrCN": {
+          "type": "text",
+          "settings": {
+            "text": "<p></p>{{ collection.description }}"
+          }
+        }
+      },
+      "block_order": [
+        "text_x4GrCN"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".rich-text--full-width {background-color: #fcfbf9; border-top: #f3f3f3 2px solid;}"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "custom_liquid_K7nAnN",
+    "custom_liquid_37D6Ew",
+    "popular_products_AmFHN4",
+    "product-grid",
+    "rich_text_fnCgkL"
+  ]
+}

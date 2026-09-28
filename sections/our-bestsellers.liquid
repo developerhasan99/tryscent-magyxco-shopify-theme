@@ -1,0 +1,80 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="md:flex gap-5 items-center">
+      <div class="flex-shrink-0">
+        <h2 class="text-xl font-semibold text-white text-center">Våra bästsäljare</h2>
+      </div>
+      <div class="col-span-3">
+        <ul class="list-none p-0 flex gap-4 flex-wrap justify-center [&>li:last-child]:!border-0 [&>li-last-child]:!pr-0">
+          {% for product in collections.all.products limit: 20 %}
+            {% if product.metafields.custom.inspiration %}
+              <li class="text-gray-200 pr-4 border-0 border-r border-white border-solid leading-none text-sm tracking-wide">Inspirerad av:
+                <a class="font-semibold text-gray-200 hover:text-white" href="{{ product.url }}">{{ product.metafields.custom.inspiration.value.name }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Our Bestsellers",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Our Bestsellers"
+      }
+    ]
+  }
+{% endschema %}

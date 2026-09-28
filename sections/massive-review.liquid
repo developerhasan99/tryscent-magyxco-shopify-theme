@@ -1,0 +1,445 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .review-item {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .loading-spinner {
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid #1f2937;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .masonry-container {
+    position: relative;
+  }
+
+  .masonry-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .masonry-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl md:text-2xl font-bold text-slate-900 my-0">{{ section.settings.heading }}</h2>
+      <div class="flex flex-wrap justify-end text-right items-center gap-2">
+        <img
+          src="{{ 'rating-stars.svg' |  asset_url }}"
+          alt="*****"
+          width="80"
+          height="16">
+        <span class="text-sm font-medium text-slate-600">{{ section.settings.review_text }}</span>
+      </div>
+    </div>
+
+    <div id="reviews-source-{{ section.id }}" class="hidden">
+      {% for block in section.blocks %}
+        <div
+          class="review-item rounded-lg bg-white border border-solid border-gray-100 overflow-hidden"
+          data-review-index="{{ forloop.index }}"
+          {{ block.shopify_attributes }}>
+          {% if block.settings.review_image != blank %}
+            <img
+              class="w-full h-auto rounded-t-lg"
+              src="{{ block.settings.review_image | image_url: width: 360 }}"
+              alt="{{ block.settings.review_image.alt }}"
+              width="360"
+              height="360">
+          {% endif %}
+          <div class="p-2 md:p-4">
+            <div class="flex flex-wrap gap-2 justify-between">
+              <div class="flex items-center gap-3">
+                {% if block.settings.author_image != blank %}
+                  <img
+                    class="size-10 rounded-full [display:none] md:block flex-1"
+                    src="{{ block.settings.author_image |  image_url: width: 40, height: 40 }}"
+                    alt="{{ block.settings.author }}"
+                    width="40"
+                    height="40">
+                {% endif %}
+
+                <div class="flex flex-col gap-1">
+                  <p class="text-base font-bold text-slate-900 my-0">{{ block.settings.author | default: "Alex Thompson" }}</p>
+                  {% if block.settings.show_verified_badge %}
+                    <div class="flex items-center gap-1 text-xs text-[#297af4] font-medium">
+                      <img
+                        src="{{ 'verified-badge.svg' | asset_url }}"
+                        alt="Verifierad köpare"
+                        width="16"
+                        height="16"
+                        loading="lazy">
+                      Verifierad köpare
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="flex flex-col md:items-end gap-1">
+                <div class="flex leading-none">
+                  {% assign rating = block.settings.rating | default: 5 | plus: 0 %}
+                  {% assign empty_stars = 5 | minus: rating %}
+
+                  {% for i in (1..rating) %}
+                    <span class="text-[#ffc109]">★</span>
+                  {% endfor %}
+
+                  {% for i in (1..empty_stars) %}
+                    <span class="text-gray-400">★</span>
+                  {% endfor %}
+                </div>
+
+                <div class="text-xs text-gray-400">{{ block.settings.date }}</div>
+              </div>
+            </div>
+            <div class="text-slate-600 text-sm leading-relaxed">
+              {{ block.settings.content }}
+            </div>
+            {% if block.settings.product != blank %}
+              <div class="border-0 border-t border-solid border-gray-100 pt-2">
+                <a href="{{ block.settings.product.url }}" class="flex items-center gap-3 no-underline text-black">
+                  <img
+                    class="size-8 rounded"
+                    src="{{ block.settings.product.images.first |  image_url: width: 32, height: 32 }}"
+                    alt="{{ block.settings.product.title }}"
+                    width="32"
+                    height="32">
+
+                  <div class="flex flex-col">
+                    <p class="text-sm font-bold text-slate-900 my-0 line-clamp-2 md:line-clamp-1">{{ block.settings.product.title }}</p>
+                    <div class="text-xs [display:none] md:block">Inspirerad av {{ block.settings.product.metafields.custom.inspiration.value.name }}</div>
+                  </div>
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div id="reviews-container-{{ section.id }}" class="masonry-grid masonry-container"></div>
+
+    <div id="load-more-container-{{ section.id }}" class="mt-12 text-center {% if section.blocks.size <= 20 %}hidden{% endif %}">
+      <button id="load-more-btn-{{ section.id }}" class="px-5 py-2 border border-solid border-gray-400 rounded-lg text-slate-900 font-bold text-sm uppercase tracking-wide bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer">
+        Visa fler recensioner
+      </button>
+      <div id="loading-spinner-{{ section.id }}" class="hidden flex items-center justify-center gap-2 mt-4">
+        <div class="loading-spinner"></div>
+        <span class="text-sm text-slate-600">Laddar recensioner...</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+  const sectionId = '{{ section.id }}';
+  const btn = document.getElementById(`load-more-btn-${sectionId}`);
+  const spinner = document.getElementById(`loading-spinner-${sectionId}`);
+  const container = document.getElementById(`reviews-container-${sectionId}`);
+  const sourceContainer = document.getElementById(`reviews-source-${sectionId}`);
+  const loadMoreContainer = document.getElementById(`load-more-container-${sectionId}`);
+  
+  let currentlyShowing = 0;
+  const totalReviews = {{ section.blocks.size }};
+  const initialLoad = 20;
+  
+  let columns = [];
+  let columnHeights = [];
+  let numColumns = window.innerWidth >= 1024 ? 3 : 2;
+
+  // Initialize columns
+  function initColumns() {
+    container.innerHTML = '';
+    columns = [];
+    columnHeights = [];
+    numColumns = window.innerWidth >= 1024 ? 3 : 2;
+    
+    for (let i = 0; i < numColumns; i++) {
+      const col = document.createElement('div');
+      col.className = 'masonry-column';
+      container.appendChild(col);
+      columns.push(col);
+      columnHeights.push(0);
+    }
+  }
+
+  // Get shortest column index
+  function getShortestColumnIndex() {
+    let minHeight = columnHeights[0];
+    let minIndex = 0;
+    
+    for (let i = 1; i < columnHeights.length; i++) {
+      if (columnHeights[i] < minHeight) {
+        minHeight = columnHeights[i];
+        minIndex = i;
+      }
+    }
+    
+    return minIndex;
+  }
+
+  // Add reviews to masonry layout
+  function addReviews(count) {
+    const allReviews = sourceContainer.querySelectorAll('.review-item');
+    const end = Math.min(currentlyShowing + count, totalReviews);
+    
+    for (let i = currentlyShowing; i < end; i++) {
+      if (allReviews[i]) {
+        const clone = allReviews[i].cloneNode(true);
+        clone.style.opacity = '0';
+        
+        // Get the shortest column
+        const shortestIndex = getShortestColumnIndex();
+        columns[shortestIndex].appendChild(clone);
+        
+        // Force a reflow to get accurate height
+        clone.offsetHeight;
+        
+        // Update the height tracking (approximate)
+        const cardHeight = clone.offsetHeight || 300; // fallback height
+        columnHeights[shortestIndex] += cardHeight + 12; // 12px is the gap
+        
+        // Trigger fade in
+        setTimeout(() => {
+          clone.style.opacity = '';
+        }, 10);
+      }
+    }
+    
+    currentlyShowing = end;
+    
+    // Recalculate actual heights after all cards are added
+    setTimeout(() => {
+      for (let i = 0; i < columns.length; i++) {
+        columnHeights[i] = columns[i].offsetHeight;
+      }
+    }, 100);
+  }
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      const newNumColumns = window.innerWidth >= 1024 ? 3 : 2;
+      if (newNumColumns !== numColumns) {
+        const tempShowing = currentlyShowing;
+        currentlyShowing = 0;
+        initColumns();
+        addReviews(tempShowing);
+      }
+    }, 250);
+  });
+
+  // Initial load
+  initColumns();
+  addReviews(initialLoad);
+
+  // Load more button
+  if (btn) {
+    btn.addEventListener('click', function() {
+      btn.classList.add('hidden');
+      spinner.classList.remove('hidden');
+
+      setTimeout(function() {
+        addReviews(10);
+        
+        spinner.classList.add('hidden');
+
+        if (currentlyShowing < totalReviews) {
+          btn.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+
+        // Smooth scroll
+        // const allCards = container.querySelectorAll('.review-item');
+        // if (allCards[currentlyShowing - 10]) {
+        //   setTimeout(() => {
+        //     allCards[currentlyShowing - 10].scrollIntoView({ 
+        //       behavior: 'smooth', 
+        //       block: 'nearest' 
+        //     });
+        //   }, 100);
+        // }
+      }, 800);
+    });
+  }
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "Massive Review",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Customer Reviews"
+      },
+      {
+        "type": "text",
+        "id": "review_text",
+        "label": "Review Text",
+        "default": "4.9/5 based on 2,400+ reviews"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Read all reviews"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "review",
+        "name": "Review",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "review_image",
+            "label": "Review Image"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Review Content",
+            "default": "<p>\"The fit is exactly what I was looking for. Shipping was incredibly fast, arrived in 2 days.\"</p>"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author Name",
+            "default": "Alex Thompson"
+          },
+          {
+            "type": "image_picker",
+            "id": "author_image",
+            "label": "Author Image"
+          },
+          {
+            "type": "text",
+            "id": "date",
+            "label": "Date",
+            "default": "2 days ago"
+          },
+          {
+            "type": "range",
+            "id": "rating",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Rating",
+            "default": 5
+          },
+          {
+            "type": "checkbox",
+            "id": "show_verified_badge",
+            "label": "Show Verified Badge",
+            "default": true
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          }
+
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Massive Review"
+      }
+    ]
+  }
+{% endschema %}

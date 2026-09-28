@@ -1,0 +1,100 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding bg-[#F5F2EC] text-[#1A1A24]"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="[display:grid] gap-6 md:gap-12 lg:grid-cols-[1fr_1fr]">
+      {% comment %} Content section {% endcomment %}
+      <div>
+        <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-[#2A5C45]">Varför den varar</p>
+        <h2 class="text-2xl md:text-4xl font-bold">Oljekoncentrationen betyder mer än logotyp.</h2>
+        <p class="mt-5 max-w-xl text-base leading-8 text-[#3A3A3A]">De flesta köper parfym en gång varje månad, så de jämför aldrig koncentration noggrant. Det är där prestandan döljs. Vi döljer den inte.</p>
+      </div>
+
+      {% comment %} Comparison table {% endcomment %}
+      <div class="overflow-hidden border border-solid border-[#DED8CF] bg-white">
+        {% comment %} Table header {% endcomment %}
+        <div class="[display:grid] grid-cols-3 bg-[#1A1A24] font-mono text-[11px] uppercase tracking-[0.22em] text-[#F5F2EC]">
+          <div class="px-5 py-4">Typ</div>
+          <div class="px-5 py-4">Olja %</div>
+          <div class="px-5 py-4">Användningstid</div>
+        </div>
+
+        {% comment %} Eau de Cologne row {% endcomment %}
+        <div class="[display:grid] grid-cols-3 border-0 border-t border-solid border-[#E7E2D9] bg-white">
+          <div class="px-5 py-4 text-sm">Eau de Cologne</div>
+          <div class="px-5 py-4 text-sm font-semibold">3–5%</div>
+          <div class="px-5 py-4 text-sm">2–3 timmar</div>
+        </div>
+
+        {% comment %} Eau de Toilette row {% endcomment %}
+        <div class="[display:grid] grid-cols-3 border-0 border-t border-solid border-[#E7E2D9] bg-white">
+          <div class="px-5 py-4 text-sm">Eau de Toilette</div>
+          <div class="px-5 py-4 text-sm font-semibold">8–15%</div>
+          <div class="px-5 py-4 text-sm">4–6 timmar</div>
+        </div>
+
+        {% comment %} TryScent EDP row {% endcomment %}
+        <div class="[display:grid] grid-cols-3 border-0 border-t border-solid border-[#E7E2D9] bg-[#FBF4E8]">
+          <div class="px-5 py-4 text-sm">TryScent EDP</div>
+          <div class="px-5 py-4 text-sm font-semibold">19–21%</div>
+          <div class="px-5 py-4 text-sm">12+ timmar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Manus Why It Last",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Bakgrundsfärg",
+        "default": "#f6f2ec"
+      }, {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 72
+      }
+    ],
+    "presets": [
+      {
+        "name": "Manus Why It Last"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,290 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {}
+    },
+    "membership_landing": {
+      "type": "membership-landing",
+      "blocks": {
+        "step_shop": {
+          "type": "step",
+          "settings": {
+            "title": "Handla",
+            "description": "Lägg vilken doft du vill i varukorgen: en enda 30 ml eller en hel doftgarderob."
+          }
+        },
+        "step_join": {
+          "type": "step",
+          "settings": {
+            "title": "Gå med",
+            "description": "Välj ”Gå med i VIP” i varukorgen för att aktivera dina förmåner. Din första månad kostar bara 1,95 €."
+          }
+        },
+        "step_save": {
+          "type": "step",
+          "settings": {
+            "title": "Spara",
+            "description": "Spara upp till 30 % på din order. Välkommen till Tryscent+ VIP!"
+          }
+        },
+        "tier_1": {
+          "type": "discount_tier",
+          "settings": {
+            "label": "Köp 1–2 varor",
+            "value": 10
+          }
+        },
+        "tier_2": {
+          "type": "discount_tier",
+          "settings": {
+            "label": "Köp 3–5 varor",
+            "value": 25
+          }
+        },
+        "tier_3": {
+          "type": "discount_tier",
+          "settings": {
+            "label": "Köp 6+ varor",
+            "value": 30
+          }
+        },
+        "perk_credit": {
+          "type": "perk",
+          "settings": {
+            "icon": "credit",
+            "title": "14,99 € i månatlig butikskredit",
+            "description": "Din månadsavgift kommer tillbaka till dig som butikskredit. Använd den på vad du vill."
+          }
+        },
+        "perk_drops": {
+          "type": "perk",
+          "settings": {
+            "icon": "calendar",
+            "title": "Tidig tillgång till nya släpp",
+            "description": "Handla varje ny doft innan den släpps till allmänheten. Första valet, varje gång."
+          }
+        },
+        "perk_shipping": {
+          "type": "perk",
+          "settings": {
+            "icon": "shipping",
+            "title": "Fri prioriterad frakt",
+            "description": "Gratis för medlemmar. Din order skickas först, varje gång."
+          }
+        },
+        "perk_support": {
+          "type": "perk",
+          "settings": {
+            "icon": "support",
+            "title": "VIP-kundtjänst",
+            "description": "Hoppa över kön. Riktiga människor, riktiga doftråd, snabbt."
+          }
+        },
+        "perk_perfume": {
+          "type": "perk",
+          "settings": {
+            "icon": "gift",
+            "title": "Personlig parfym var tredje månad",
+            "description": "Arbeta personligen med en mästerparfymör för att skapa en doft som bara är din, levererad hem till dig var tredje månad."
+          }
+        },
+        "cmp_discount": {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Spara upp till 30 % på varje order",
+            "member_has": true,
+            "guest_has": false
+          }
+        },
+        "cmp_credit": {
+          "type": "comparison_row",
+          "settings": {
+            "label": "14,99 € i månatlig butikskredit",
+            "member_has": true,
+            "guest_has": false
+          }
+        },
+        "cmp_drops": {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Tidig tillgång till nya släpp",
+            "member_has": true,
+            "guest_has": false
+          }
+        },
+        "cmp_shipping": {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Prioriterad frakt + VIP-support",
+            "member_has": true,
+            "guest_has": false
+          }
+        },
+        "cmp_perfume": {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Personliga parfymgåvor",
+            "member_has": true,
+            "guest_has": false
+          }
+        }
+      },
+      "block_order": [
+        "step_shop",
+        "step_join",
+        "step_save",
+        "tier_1",
+        "tier_2",
+        "tier_3",
+        "perk_credit",
+        "perk_drops",
+        "perk_shipping",
+        "perk_support",
+        "perk_perfume",
+        "cmp_discount",
+        "cmp_credit",
+        "cmp_drops",
+        "cmp_shipping",
+        "cmp_perfume"
+      ],
+      "settings": {
+        "hero_brand": "Tryscent+",
+        "hero_subtitle": "VIP-medlemskap",
+        "hero_heading": "Dofta fantastiskt för mindre, varje månad.",
+        "hero_body": "<p>Ett medlemskap som belönar dig. Förvandla din månadsavgift på 14,99 € till butikskredit och få upp till 30 % rabatt på alla dina ordrar.</p>",
+        "hero_cta_primary_text": "Starta för 1,95 €",
+        "hero_cta_secondary_text": "LOGGA IN",
+        "hero_cta_secondary_link": "",
+        "hero_fine_print": "Första månaden 1,95 € · Pausa eller avsluta när som helst",
+        "how_eyebrow": "Så fungerar det",
+        "how_title": "",
+        "how_fine_print": "Endast 1,95 € första månaden, därefter 14,99 €. Du kan pausa eller avsluta när som helst.",
+        "how_cta_text": "STARTA FÖR 1,95 €",
+        "perks_eyebrow": "Det här ingår",
+        "perks_title": "Exklusiva förmåner,",
+        "perks_title_accent": "varje månad.",
+        "tiers_title": "Köp mer, spara mer",
+        "tiers_subtitle_prefix": "Up To",
+        "comparison_eyebrow": "Medlem vs. gäst",
+        "comparison_title": "Se vad du",
+        "comparison_member_label": "Tryscent+",
+        "comparison_guest_label": "Gäst",
+        "member_perks_title": "Dina förmåner, varje månad.",
+        "member_cta_text": "HANTERA MEDLEMSKAP",
+        "member_cta_link": "",
+        "max_width": 880,
+        "comparison_title_accent": "får."
+      }
+    },
+    "membership_landing_bottom": {
+      "type": "membership-landing-bottom",
+      "blocks": {
+        "faq_join": {
+          "type": "faq",
+          "settings": {
+            "question": "Hur går jag med i Tryscent+?",
+            "answer": "<p>Använd valfri anslutningsknapp på den här sidan, eller välj Gå med i VIP i varukorgen innan du går till kassan.</p>"
+          }
+        },
+        "faq_monthly_fee": {
+          "type": "faq",
+          "settings": {
+            "question": "Har Tryscent+ en månadsavgift?",
+            "answer": "<p>Din första månad kostar 1,95 €. Därefter är det fasta 14,99 € per månad — och varje betalning kommer tillbaka till dig som butikskredit att använda på valfri order.</p>"
+          }
+        },
+        "faq_duration": {
+          "type": "faq",
+          "settings": {
+            "question": "Hur länge måste jag behålla mitt medlemskap?",
+            "answer": "<p>Ingen bindningstid. Pausa eller avsluta när som helst.</p>"
+          }
+        },
+        "faq_charged": {
+          "type": "faq",
+          "settings": {
+            "question": "När dras betalningen?",
+            "answer": "<p>Du debiteras 1,95 € när du går med. Därefter dras 14,99 € samma datum månaden efter och sedan varje månad så länge ditt medlemskap är aktivt.</p>"
+          }
+        },
+        "faq_trial_credit": {
+          "type": "faq",
+          "settings": {
+            "question": "Får jag butikskredit för min första månad?",
+            "answer": "<p>Nej. Introduktionsmånaden på 1,95 € omvandlas inte till kredit. Butikskrediten börjar med din första hela månad på 14,99 €.</p>"
+          }
+        },
+        "faq_use_credit": {
+          "type": "faq",
+          "settings": {
+            "question": "Hur använder jag min butikskredit?",
+            "answer": "<p>Använd den i kassan. Du väljer själv hur mycket av din tillgängliga kredit som ska dras från ordern.</p>"
+          }
+        },
+        "faq_stack": {
+          "type": "faq",
+          "settings": {
+            "question": "Kan medlemsrabatten kombineras?",
+            "answer": "<p>Den kan kombineras med kampanjer som gäller hela webbplatsen, men inte med medlemsexklusiva reor.</p>"
+          }
+        },
+        "faq_cancel": {
+          "type": "faq",
+          "settings": {
+            "question": "Hur avslutar eller pausar jag mitt medlemskap?",
+            "answer": "<p>Gå till Hantera medlemskap i ditt konto och välj Pausa eller Avsluta.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_join",
+        "faq_monthly_fee",
+        "faq_duration",
+        "faq_charged",
+        "faq_trial_credit",
+        "faq_use_credit",
+        "faq_stack",
+        "faq_cancel"
+      ],
+      "settings": {
+        "banner_title": "Gå med i Tryscent+ på vår bekostnad.",
+        "banner_text": "<p>Din första månad kostar bara 1,95 €. Få upp till 30 % rabatt på alla dina ordrar och se hur förmånerna växer varje månad.</p>",
+        "banner_button_text": "STARTA FÖR 1,95 €",
+        "banner_disclaimer": "Pausa eller avsluta när som helst",
+        "member_banner_title": "Du är med, Tryscent+-medlem.",
+        "member_banner_text": "<p>Hantera, pausa eller avsluta ditt medlemskap när som helst från ditt konto.</p>",
+        "member_banner_button_text": "HANTERA MEDLEMSKAP",
+        "member_banner_button_link": "",
+        "faq_title": "Vanliga frågor",
+        "max_width": 880
+      }
+    },
+    "membership_products": {
+      "type": "membership-products",
+      "settings": {
+        "title": "DE HÄR KOMMER DU ATT ÄLSKA",
+        "products_to_show": 8,
+        "button_text": "Lägg till",
+        "max_width": 880,
+        "collection": "best-sellers"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "membership_landing",
+    "membership_products",
+    "membership_landing_bottom"
+  ]
+}

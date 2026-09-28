@@ -1,0 +1,518 @@
+  <div class="progress-container">
+    <div class="progress-bar-wraps">
+      {% for loop in (1..product.metafields.custom.choose_your_fragrances_options) %}
+        <div class="progress-step {% if forloop.first %}active{% endif %}">{{ forloop.index }}</div>
+      {% endfor %}
+    </div>
+
+    <div class="dropdown-container">
+      
+      {% for loop in (1..product.metafields.custom.choose_your_fragrances_options) %}
+        <div class="dropdown-header {% unless forloop.first %}disabled{% endunless %}">
+          <h3 class="selectedPerfume">{% render 'perfume-icon' %} Choose your perfume</h3>
+          <div class="caret">{% render 'arrow-down' %}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- SHARED DROPDOWN -->
+  <div class="dropdown-content" id="sharedDropdown">
+    <div class="search-box">
+      <input id="searchInput" type="text" placeholder="Find your perfume">
+      <span class="search-icon">{{- 'icon-search.svg' | inline_asset_content -}}</span>
+    </div>
+
+    <div class="tabs dropdown-tabs">
+      <button type="button" class="tab active" data-category="all">Top sellers</button>
+      <button type="button" class="tab" data-category="man">Top Sellers Men</button>
+      <button type="button" class="tab" data-category="woman">Top Sellers Women</button>
+    </div>
+    {% assign productml = product.metafields.custom.select_bundle_dropdown_ml %}
+    <div class="perfume-lists">
+      <div class="perfume-list" data-category="all">
+        {% for product in collections["top-sellers"].products %}
+          {% assign sel_var = "false" %}
+          {% for variant in product.variants %}
+            {% if variant.title contains productml %}
+              {% assign sel_var = variant.title %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          {%if sel_var != "false" %}
+          <div class="perfume-item" data-category="{{ product.type | downcase }}">
+            <img data-image="{{ product.featured_image | img_url }}" src="{{ product.featured_image | img_url: '60x60' }}" alt="{{ product.title }}">
+            <div class="title-wraps">
+              <div class="name-title">{{ product.title }} Inspired by {{ product.metafields.custom.nuta }} - {{ sel_var }}</div>
+              <div class="meta">{{ product.type }}</div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="perfume-list" data-category="man" style="display:none">
+        {% for product in collections["top-sellers-men"].products %}
+          {% assign sel_var = "false" %}
+          {% for variant in product.variants %}
+            {% if variant.title contains productml %}
+              {% assign sel_var = variant.title %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          {%if sel_var != "false" %}
+          <div class="perfume-item">
+            <img src="{{ product.featured_image | img_url: '96x96' }}" alt="{{ product.title }}">
+            <div class="title-wraps">
+              <div class="name-title">{{ product.title }} Inspired by {{ product.metafields.custom.nuta }} - {{ sel_var }}</div>
+              <div class="meta">Men</div>
+            </div>
+          </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="perfume-list" data-category="woman" style="display:none">
+        {% for product in collections["top-seller-women"].products %}
+          {% assign sel_var = "false" %}
+          {% for variant in product.variants %}
+            {% if variant.title contains productml %}
+              {% assign sel_var = variant.title %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          {%if sel_var != "false" %}
+          <div class="perfume-item">
+            <img src="{{ product.featured_image | img_url: '96x96' }}" alt="{{ product.title }}">
+            <div class="title-wraps">
+              <div class="name-title">{{ product.title }} Inspired by {{ product.metafields.custom.nuta }} - {{ sel_var }}</div>
+              <div class="meta">Women</div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="perfume-list" data-category="unisex" style="display:none">
+        {% for product in collections.unisex.products %}
+          {% assign sel_var = "false" %}
+          {% for variant in product.variants %}
+            {% if variant.title contains productml %}
+              {% assign sel_var = variant.title %}
+              {% break %}
+            {% endif %}
+          {% endfor %}
+          {%if sel_var != "false" %}
+          <div class="perfume-item">
+            <img src="{{ product.featured_image | img_url: '96x96' }}" alt="{{ product.title }}">
+            <div class="title-wraps">
+              <div class="name-title">{{ product.title }} Inspired by {{ product.metafields.custom.nuta }} - {{ sel_var }}</div>
+              <div class="meta">Unisex</div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden line item properties container -->
+  <div id="bundle-properties"></div>
+
+  <div class="bundle-atc-wrapper">
+    <p class="atc-warning" style="display:none;">Please select all fragrances before adding to cart.</p>
+  </div>
+
+
+<style>
+  /* Add this CSS (you can put it near your other styles) */
+  {% comment %} .bundle-atc-btn {
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  } {% endcomment %}
+
+  .bundle-atc-btn.enabled {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .bundle-atc-wrapper {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+.bundle-atc-btn {
+  background-color: #2e6b43;
+  color: #fff;
+  font-weight: 600;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+  pointer-events: none;
+  font-weight: 500;
+}
+
+.bundle-atc-btn.enabled {
+  opacity: 1;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.bundle-atc-btn .price-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.bundle-atc-btn .compare-price {
+  text-decoration: line-through;
+  opacity: 0.7;
+  font-size: 15px;
+}
+
+.bundle-atc-btn .actual-price {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.atc-warning {
+  color: #c0392b;
+  font-size: 14px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sharedDropdown = document.getElementById('sharedDropdown');
+  const searchInput = document.getElementById('searchInput');
+  const tabs = sharedDropdown.querySelectorAll('.tab');
+  const perfumeLists = sharedDropdown.querySelectorAll('.perfume-list');
+  const atcBtn = document.querySelector('.cta_product_from_submit_btn');
+  const bundleProps = document.getElementById('bundle-properties');
+
+  let headers = document.querySelectorAll('.dropdown-header');
+  let progressSteps = document.querySelectorAll('.progress-step');
+  let currentHeader = null;
+  let currentCategory = 'all';
+  let searchQuery = '';
+
+  // ---- INITIAL SETUP ----
+  atcBtn.disabled = true;
+  atcBtn.classList.remove('enabled');
+
+  if (headers.length > 0 && progressSteps.length > 0) {
+    headers[0].classList.add('enabled');
+    progressSteps[0].classList.add('active');
+  }
+
+  // Keep dropdown outside initially
+  document.body.appendChild(sharedDropdown);
+
+  // ---- FUNCTIONS ----
+  function openDropdown(header) {
+    closeDropdown();
+    currentHeader = header;
+    header.appendChild(sharedDropdown); // move dropdown inside clicked header
+    sharedDropdown.classList.add('open');
+    header.classList.add('open');
+  }
+
+  function closeDropdown() {
+    if (!sharedDropdown.classList.contains('open')) return;
+    sharedDropdown.classList.remove('open');
+    headers.forEach(h => h.classList.remove('open'));
+    currentHeader = null;
+    // Re-append dropdown to body (hides it visually)
+    if (sharedDropdown.parentElement !== document.body) {
+      document.body.appendChild(sharedDropdown);
+    }
+  }
+
+function applyFilters() {
+  const q = searchQuery.trim().toLowerCase();
+
+  perfumeLists.forEach(list => {
+    // Show list only if it matches the active category
+    const matchesCategory = list.dataset.category === currentCategory;
+
+    list.style.display = matchesCategory ? 'block' : 'none';
+
+    if (matchesCategory) {
+      const items = list.querySelectorAll('.perfume-item');
+      items.forEach(item => {
+        const titleEl = item.querySelector('.name-title');
+        const title = titleEl ? titleEl.textContent.toLowerCase() : '';
+        item.style.display = title.includes(q) ? 'flex' : 'none';
+      });
+    }
+  });
+}
+
+
+  function enableAddToCartCheck() {
+    const allSelected = Array.from(headers).every(h => h.querySelector('.selectedPerfume img'));
+    if (allSelected) {
+      atcBtn.disabled = false;
+      atcBtn.classList.add('enabled');
+    } else {
+      atcBtn.disabled = true;
+      atcBtn.classList.remove('enabled');
+    }
+  }
+
+  function handlePerfumeSelection(item) {
+    if (!item || !currentHeader) return;
+
+    const titleEl = item.querySelector('.name-title');
+    const imgEl = item.querySelector('img');
+    if (!titleEl || !imgEl) return;
+
+    const title = titleEl.textContent.trim();
+    const imageSrc = imgEl.getAttribute('src');
+    const imageAlt = imgEl.getAttribute('alt') || title;
+
+    // Update selected perfume in header
+    currentHeader.querySelector('.selectedPerfume').innerHTML = `
+      <img src="${imageSrc}" alt="${imageAlt}" class="selected-image"
+           style="width:36px;height:36px;border-radius:6px;object-fit:cover;">
+      <span>${title}</span>
+    `;
+
+    // Add hidden input for bundle properties
+    const index = Array.from(headers).indexOf(currentHeader) + 1;
+    let hiddenInput = bundleProps.querySelector(`input[name="properties[Bottle ${index}]"]`);
+    if (!hiddenInput) {
+      hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = `properties[Bottle ${index}]`;
+      bundleProps.appendChild(hiddenInput);
+    }
+    hiddenInput.value = title;
+
+    // Enable next dropdown in sequence
+    if (index < headers.length) {
+      headers[index].classList.add('enabled');
+      progressSteps[index].classList.add('active');
+    }
+
+    enableAddToCartCheck();
+    closeDropdown();
+  }
+
+  // ---- INITIALIZE HEADER ----
+  function initializeHeader(header) {
+    header.addEventListener('click', e => {
+      e.stopPropagation();
+      if (!header.classList.contains('enabled')) return;
+
+      if (header === currentHeader) {
+        closeDropdown();
+      } else {
+        openDropdown(header);
+      }
+    });
+  }
+
+  headers.forEach(initializeHeader);
+
+  // ---- CLICK OUTSIDE TO CLOSE ----
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.dropdown-header') && !e.target.closest('#sharedDropdown')) {
+      closeDropdown();
+    }
+  });
+
+  // ---- FILTER EVENTS ----
+  tabs.forEach(tab => {
+    tab.addEventListener('click', e => {
+      e.stopPropagation(); // ✅ Prevent dropdown from closing
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentCategory = tab.dataset.category;
+      searchInput.value = '';
+      searchQuery = '';
+      applyFilters();
+    });
+  });
+
+  // ✅ Prevent closing when interacting with search
+  searchInput.addEventListener('click', e => {
+    e.stopPropagation();
+  });
+
+  searchInput.addEventListener('input', e => {
+    e.stopPropagation();
+    searchQuery = e.target.value;
+    applyFilters();
+  });
+
+  // ---- PERFUME SELECTION ----
+  sharedDropdown.addEventListener('click', e => {
+    const item = e.target.closest('.perfume-item');
+    if (item) {
+      e.stopPropagation();
+      handlePerfumeSelection(item);
+    }
+  });
+
+  // ---- INITIAL DISPLAY ----
+  perfumeLists.forEach(list => {
+    list.style.display = (list.dataset.category === 'all') ? 'block' : 'none';
+  });
+  applyFilters();
+
+  // ---- OBSERVE DYNAMIC CHANGES ----
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        if (node.nodeType === 1 && node.matches('.dropdown-header')) {
+          initializeHeader(node);
+          headers = document.querySelectorAll('.dropdown-header');
+        } else if (node.nodeType === 1) {
+          const newHeaders = node.querySelectorAll('.dropdown-header');
+          newHeaders.forEach(initializeHeader);
+          if (newHeaders.length > 0) {
+            headers = document.querySelectorAll('.dropdown-header');
+          }
+        }
+      });
+    });
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+});
+
+
+</script>
+
+
+
+<style>
+.cta_product_from_submit_btn:disabled{
+  pointer-events:none;
+}
+.progress-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+  width: 100%;
+}
+.bundle-atc-btn {
+  font-size: 24px;
+  line-height: 32px;
+  background:#22613a;
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px 0;
+  width : 100%;
+}
+.progress-bar-wraps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 4px;
+  top: -15px;
+}
+.progress-bar-wraps::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  bottom: 20px;
+  width: 2px;
+  background: repeating-linear-gradient(to bottom,#d9d9d9,#d9d9d9 4px,transparent 4px,transparent 8px);
+  z-index: 0;
+}
+.progress-step {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: #22613A;
+  color: white;
+  opacity: 0.4;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+.progress-step.active { background-color:#22613A; opacity: 1; }
+.title-wraps { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+.dropdown-container { display:flex; flex-direction:column; gap:16px;width:100% }
+.dropdown-header {
+  position:relative; display:flex; align-items:center; justify-content:space-between;
+  padding:6px 6px; cursor:pointer; user-select:none; border-radius:6px;
+  border:1px solid #D3D3D3; opacity:.5; pointer-events:none;
+}
+.dropdown-header.enabled { opacity:1; pointer-events:auto; border: 1px solid #22613A; }
+.dropdown-header h3 {
+  margin:0; font-size:16px; display:flex; align-items:center; gap:10px;
+  color:#111; max-width:300px;
+}
+.dropdown-header h3 span{
+   white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dropdown-header .caret { transition:transform .25s; font-size:13px; color:#444; }
+.dropdown-header.open .caret { transform:rotate(180deg); }
+.search-box { position: relative; }
+.search-box span.search-icon {
+  align-items: center; background-color: transparent; border: 0; color: currentColor;
+  cursor: pointer; height:18px; justify-content: center; overflow: hidden;
+  position: absolute; right: 12px; top: 7px; width: 18px;
+}
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+  display:none; background:#fff; width:465px; border-radius:5px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.12); padding:10px 5px; z-index:9999;
+  opacity:0; transform:translateY(-5px); transition:opacity .25s ease, transform .25s ease;
+}
+.dropdown-content.open { display:block; opacity:1; transform:translateY(0); }
+.search-box input {
+  width:100%; padding:10px 12px; border-radius:4px; border:1px solid #d7d7d7;
+  font-size:14px; outline:none; background:#fff; margin-bottom:12px;
+}
+input#searchInput:focus { box-shadow: none; }
+.dropdown-tabs.tabs { display:flex; gap:8px; margin-bottom:12px; }
+.tabs.dropdown-tabs button {
+  flex: 1; padding: 8px 10px; border-radius: 6px; border: 1px solid #ddd;
+  background: #fff; cursor: pointer; font-size: 13px;
+}
+.tabs button.active { background:#1b5e20; color:#fff; }
+.perfume-lists { max-height:240px; overflow:auto; scrollbar-width:thin; scrollbar-color:#cfcfcf transparent; }
+.perfume-lists::-webkit-scrollbar { width:6px; }
+.perfume-lists::-webkit-scrollbar-track { background:transparent; }
+.perfume-lists::-webkit-scrollbar-thumb { background-color:#d0d0d0; border-radius:6px; }
+.perfume-lists::-webkit-scrollbar-thumb:hover { background-color:#bcbcbc; }
+.perfume-lists::-webkit-scrollbar-button { display:none; height:0; width:0; }
+.perfume-item {
+  display:flex; gap:10px; align-items:center; padding:6px;
+  border-top:1px solid #ddd; cursor:pointer; transition:background .14s;
+}
+.perfume-item:hover { background:#f3fbf3; }
+.perfume-item img {
+  width:48px; height:48px; object-fit:cover; border-radius:6px; background:#eee;
+}
+.name-title { font-size:14px; color:#111; }
+.meta { font-size:12px; color:#666; }
+@media(max-width:420px){ .dropdown-header, .dropdown-content { width:320px; } }
+</style>

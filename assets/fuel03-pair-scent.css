@@ -1,0 +1,254 @@
+.fuel03-pair-scent {
+  display: none !important;
+}
+
+html.ab-f03-pair-v1 .fuel03-pair-scent--v1,
+html.ab-f03-pair-v2 .fuel03-pair-scent--v2m,
+html.ab-f03-pair-v2 .fuel03-pair-scent--v2d,
+.shopify-design-mode .fuel03-pair-scent {
+  display: block !important;
+}
+
+@media screen and (min-width: 750px) {
+  html.ab-f03-pair-v2 .fuel03-pair-scent--v2m {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  html.ab-f03-pair-v2 .fuel03-pair-scent--v2d {
+    display: none !important;
+  }
+}
+
+.fuel03-pair-scent--v1 {
+  margin: 24px 0;
+}
+
+.fuel03-pair-scent--v2m {
+  margin: 24px 0;
+}
+
+.fuel03-pair-scent--v2d {
+  margin-top: 24px;
+  max-width: 530px;
+}
+
+.fuel03-pair-scent__card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background: #feffff;
+  border: 1px solid rgba(204, 204, 204, 0.7);
+  border-radius: 8px;
+}
+
+.fuel03-pair-scent__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fuel03-pair-scent__text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.fuel03-pair-scent__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fuel03-pair-scent__eyebrow {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.fuel03-pair-scent__name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  color: #0f172a;
+}
+
+.fuel03-pair-scent__reason {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #0f172a;
+}
+
+.fuel03-pair-scent__inspired {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #0f172a;
+  min-width: 0;
+}
+
+.fuel03-pair-scent__inspired svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.fuel03-pair-scent__inspired span {
+  white-space: normal;
+}
+
+.fuel03-pair-scent__media {
+  width: 151px;
+  height: 151px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.fuel03-pair-scent__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fuel03-pair-scent__form {
+  display: block;
+  margin: 0;
+}
+
+.fuel03-pair-scent__atc {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid #146b32;
+  border-radius: 8px;
+  color: #146b32;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+  /* A soft lift only. The frame's 20px/25px drop read as a huge smear under
+   * the button in Chrome on Mac (review, Sep 2). */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.fuel03-pair-scent__error {
+  margin: 0;
+  font-size: 12px;
+  color: #c0392b;
+}
+
+@media screen and (max-width: 749px) {
+  .fuel03-pair-scent__text {
+    gap: 6px;
+  }
+
+  .fuel03-pair-scent__eyebrow {
+    color: #000;
+    line-height: 20px;
+  }
+
+  .fuel03-pair-scent__name {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #121212;
+  }
+
+  .fuel03-pair-scent__reason {
+    font-size: 12px;
+    line-height: 18px;
+    color: #000;
+  }
+
+  /* The inspired line leaves the text column and takes the card's full
+     width, so the sentence fits on one line beside the image's empty
+     bottom corner instead of truncating against the column edge. */
+  .fuel03-pair-scent__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 6px;
+    align-items: center;
+  }
+
+  .fuel03-pair-scent__text {
+    display: contents;
+  }
+
+  .fuel03-pair-scent__media {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+
+  .fuel03-pair-scent__inspired {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .fuel03-pair-scent__inspired svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .fuel03-pair-scent__media {
+    width: 128px;
+    height: 128px;
+  }
+
+  .fuel03-pair-scent__atc {
+    font-size: 14px;
+  }
+}
+
+/* iPads and narrow windows render the desktop instance inside a column too
+   narrow for the 14px line beside the image, so the same full-width row
+   applies there too, at the mobile type size. */
+@media screen and (min-width: 750px) and (max-width: 1024px) {
+  .fuel03-pair-scent__top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 8px;
+    align-items: center;
+  }
+
+  .fuel03-pair-scent__text {
+    display: contents;
+  }
+
+  .fuel03-pair-scent__media {
+    grid-column: 2;
+    grid-row: 1 / 3;
+  }
+
+  .fuel03-pair-scent__inspired {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .fuel03-pair-scent__inspired svg {
+    width: 14px;
+    height: 14px;
+  }
+}

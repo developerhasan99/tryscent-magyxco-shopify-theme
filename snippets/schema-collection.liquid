@@ -1,0 +1,28 @@
+{%- comment -%}
+  Collection ItemList schema (helps category pages).
+{%- endcomment -%}
+
+{%- assign limit_count = 24 -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "@id": "{{ shop.url }}{{ collection.url }}#collection",
+  "name": {{ collection.title | json }},
+  "url": {{ shop.url | append: collection.url | json }},
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {%- for p in collection.products limit: limit_count -%}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "url": {{ shop.url | append: p.url | json }},
+        "name": {{ p.title | json }}
+      }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+}
+</script>

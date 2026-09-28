@@ -1,0 +1,30 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "norway"
+  },
+  "parent": "collection.payday-collection.json",
+  "sections": {
+    "blocky_image_embedded_xd4zwE": {
+      "settings": {
+        "image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_NO.webp"
+      },
+      "blocks": {}
+    },
+    "collection_header_UT7VMF": {
+      "settings": {
+        "collection_title": "Lønningsdagssalg!",
+        "collection_description": "Kjøp favorittduftene dine til enda bedre priser! Og spar enda mer med pakketilbud!"
+      },
+      "blocks": {}
+    }
+  }
+}

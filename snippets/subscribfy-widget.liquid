@@ -1,0 +1,285 @@
+{%- comment -%}
+  V2.0
+  This snippet is generated and updated by Subscribfy
+  Do not modify or remove this snippet, we reserve the right to overwrite it at any moment to add improvements or new features so that customizations you made might be lost.
+{%- endcomment -%}
+{%- if request.page_type != 'cart' or 1 -%}
+  {%- assign exm_plan_settings = shop.metafields.exison.exison_plan_settings -%}
+  {%- assign exm_widget_cart_page = shop.metafields.exison.exison_widget_cart_page -%}
+  {%- assign exm_widget_cart_page_member = shop.metafields.exison.exison_widget_cart_page_member -%}
+
+  {%- assign customer_subscription1 = customer.metafields.exison.customer_subscription1 -%}
+  {%- assign customer_subscription2 = customer.metafields.exison.customer_subscription2 -%}
+
+  {% assign VIP_discount_applyed = 0 %}
+  {% assign exm_yousave = 0 %}
+  {%- assign exm_tier_vip_variant = exm_plan_settings.product_variant_id | append: '' -%}
+  {%- assign exm_tier_qty = 0 -%}
+  {%- for exm_tier_item in cart.items -%}
+    {%- assign exm_tier_item_variant = exm_tier_item.variant.id | append: '' -%}
+    {%- unless exm_tier_item_variant == exm_tier_vip_variant -%}
+      {%- assign exm_tier_qty = exm_tier_qty | plus: exm_tier_item.quantity -%}
+    {%- endunless -%}
+  {%- endfor -%}
+  {%- assign exm_tier_value = 10 -%}
+  {%- if exm_tier_qty >= 6 -%}
+    {%- assign exm_tier_value = 30 -%}
+  {%- elsif exm_tier_qty >= 3 -%}
+    {%- assign exm_tier_value = 25 -%}
+  {%- endif -%}
+
+
+  {%- comment -%}
+    Trial price advertised in the disclaimer. Comes from the plan's ft_price (the app's trial fee),
+    converted for the market. Note the Shopify selling plan currently discounts the first order by
+    100%, so checkout charges nothing for month one.
+  {%- endcomment -%}
+  {%- assign exm_first_term_price = '' -%}
+  {%- if exm_plan_settings.ft == '1' and exm_plan_settings.ft_price != blank -%}
+    {%- assign exm_ft_price_value = exm_plan_settings.ft_price | times: 1.0 -%}
+    {%- if exm_ft_price_value > 0 -%}
+      {%- capture exm_first_term_price -%}{% render 'subscribfy-credit-converted', amount: exm_plan_settings.ft_price %}{%- endcapture -%}
+      {%- assign exm_first_term_price = exm_first_term_price | strip -%}
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- for item in cart.items -%}
+    {%- if item.product.variants[0].id == exm_plan_settings.product_variant_id -%}
+      {%- assign data-exison-type1-cart = item.product.variants[0].id -%}
+      {%- assign type1-cart-qty = item.quantity -%}
+    {%- endif -%}
+    {%- if item.product.variants[0].id == shop.metafields.exison.exison_plan_settings2.product_variant_id -%}
+      {%- assign data-exison-type2-cart = item.product.variants[0].id -%}
+      {%- assign type2-cart-qty = item.quantity -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- assign discount1_amount_value = shop.metafields.exison.exison_plan_settings.dv | times: 1.0 -%}
+  {%- assign exm_free_shipping = shop.metafields.exison.exison_plan_settings.fs -%}
+  {%- if shop.metafields.exison.exison_plan_settings.ds == '1' -%}
+    {%- assign discount1_amount_value = 0 -%}
+    {%- assign exm_free_shipping = 0 -%}
+    {%- assign exm_nr_items = cart.item_count | minus: type1-cart-qty | minus: type2-cart-qty -%}
+    {%- assign exm_subtotal = cart.items_subtotal_price | divided_by: 100 | times: 1.0 -%}
+    {%- for rule in shop.metafields.exison.exison_plan_settings.ds_info.rules -%}
+      {%- if shop.metafields.exison.exison_plan_settings.ds_info.discount_rule_type == 'items' -%}
+        {%- if exm_nr_items >= rule.ds_cart_amount -%}
+          {%- assign discount1_amount_value = rule.ds_value | times: 1.0 -%}
+          {%- assign exm_free_shipping = rule.ds_free_shipping -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if shop.metafields.exison.exison_plan_settings.ds_info.discount_rule_type == 'amount' -%}
+        {%- if exm_subtotal >= rule.ds_cart_amount %}
+          {%- assign discount1_amount_value = rule.ds_value | times: 1.0 -%}
+          {%- assign exm_free_shipping = rule.ds_free_shipping -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if exm_plan_settings.plan_id > 0 -%}
+    {%- assign exm_header_font_medium = settings.type_header_font_family | font_modify: 'weight', '500' -%}
+    {%- if exm_header_font_medium -%}
+      {%- style -%}
+        {{ exm_header_font_medium | font_face: font_display: 'swap' }}
+      {%- endstyle -%}
+    {%- endif -%}
+
+    <div class="exison-widget__Containe_Wrapper">
+      <div
+        id="data-exison-type1-cart"
+        data-exison-type1-cart="{{data-exison-type1-cart}}"
+        data-qty="{{type1-cart-qty}}"
+      ></div>
+      <div
+        id="data-exison-type2-cart"
+        data-exison-type2-cart="{{data-exison-type2-cart}}"
+        data-qty="{{type2-cart-qty}}"
+      ></div>
+
+      <!-- Progress widget -->
+      {% if shop.metafields.exison.exison_plan_settings.ds == '1' and exm_widget_cart_page.enable_progress_bar == 1 %}
+        {% assign exm_progress_step = -1 | times: 1.0 %}
+        {% assign exm_steps_size = shop.metafields.exison.exison_plan_settings.ds_info.rules.size | minus: 1.0 %}
+        {% assign last_active_index = -1 %}
+
+        {% assign discount_amount = 0.0 %}
+
+        {% for rule in shop.metafields.exison.exison_plan_settings.ds_info.rules %}
+          {% if shop.metafields.exison.exison_plan_settings.ds_info.discount_rule_type == 'items' %}
+            {% if exm_nr_items >= rule.ds_cart_amount %}
+              {% assign exm_progress_step = exm_progress_step | plus: 1 %}
+              {% assign last_active_index = forloop.index0 %}
+              {% assign discount_amount = rule.ds_value %}
+            {% endif %}
+          {% elsif shop.metafields.exison.exison_plan_settings.ds_info.discount_rule_type == 'amount' %}
+            {% if exm_subtotal >= rule.ds_cart_amount %}
+              {% assign exm_progress_step = exm_progress_step | plus: 1 %}
+              {% assign last_active_index = forloop.index0 %}
+              {% assign discount_amount = rule.ds_value %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% assign exm_progress_step_percent = exm_progress_step | divided_by: exm_steps_size | times: 100 %}
+
+        {% assign next_index = last_active_index | plus: 1 %}
+        {% if next_index < shop.metafields.exison.exison_plan_settings.ds_info.rules.size %}
+          {% assign next_discount_value = shop.metafields.exison.exison_plan_settings.ds_info.rules[next_index].ds_value %}
+        {% endif %}
+      {% endif %}
+
+      <!-- END Progress widget -->
+
+      {%- if customer_subscription1.status == 'ACTIVE' or customer_subscription2.status == 'ACTIVE' -%}
+        <div class="exison-widget__Container" id="cartExisonWidgetContainer" style="display:block;">
+          <div id="cartAlreadyExisonWidget" class="exison-widget">
+            <div class="exm-titleWrapper">
+              <div class="exm_widget_title">
+                <div class="exm_widget_title_logo">
+                  Tryscent <span class="exm_widget_plus">+</span>
+                </div>
+                <div class="exm_widget_title_member">
+                  Medlem
+                </div>
+              </div>
+              <div class="exm-widget-manage-mem">
+                <a class="exm-widget-mm-link" href="/apps/subscribfy-api/store/pages/portal">Hantera medlemskap</a>
+              </div>
+            </div>
+            <div class="exison-widget__description">
+              <div id="exisonDesc" class="">
+               <div class="exison-widget_info">Medlemsrabatt: <div class="exison-widget_value">Upp till 30% rabatt</div></div>
+               <div class="exison-widget_info">Tillgänglig butikskredit: <div class="exison-widget_value">{% render 'subscribfy-credit-converted', amount: customer.metafields.exison.exison_st %}</div> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {%- else -%}
+        {%- if exm_plan_settings.status == '1' or request.design_mode -%}
+          <div class="exison-pick-the-way">Välj hur du handlar</div>
+          <div class="exison-widget__Container" id="cartExisonWidgetContainer" style="display:block;">
+            <div id="cartExisonWidget" class="exison-widget">
+              <div class="exmWidgetBackground">
+                <div class="exmWidgetBackground-col"></div>
+                <div class="exmWidgetBackground-col-member"></div>
+                <div class="exmWidgetBackground-col-non_member"></div>
+              </div>
+
+              <div class="norow" style="position: absolute; left: -99999px;">
+                <div class="col col-title"></div>
+                <fieldset>
+                  <label id="setExison" class="{% if data-exison-type1-cart != blank %}exm_active{% endif %}">
+                    <span class="checkmarkPoint"></span>
+                    <span class="title Text--bold"> Tryscent+</span>
+                    <span class="bg"></span>
+                  </label>
+                  <label id="setNoExison" class="{% if data-exison-type1-cart == blank %}exm_active{% endif %}">
+                    <span class="checkmarkPoint"></span>
+                    <span class="title Text--bold">Vanligt pris</span>
+                    <span class="bg"></span>
+                  </label>
+                </fieldset>
+              </div>
+              <div class="exm-row rowOne">
+                <div class="col col-title exm-rowOne-title">
+                  <span class="exm-rowOne-title__inner">
+                    <span class="exm-rowOne-brand">Tryscent+</span>
+                    <span class="exm-rowOne-sub">VIP-medlemskap</span>
+                  </span>
+                </div>
+                <div
+                  id=""
+                  class="col col-member  {% if data-exison-type1-cart != blank %} exm_active {% endif %}"
+                >
+                  <span class="topRowLAbel">
+                    <span class="checkmark"></span>
+                    Gå med i VIP
+                  </span>
+                </div>
+                <div
+                  id=""
+                  class="col col-non_member  {% if data-exison-type1-cart == blank %} exm_active {% endif %}"
+                >
+                  <span class="topRowLAbel">
+                    <span class="checkmark"></span>
+                    Gäst
+                  </span>
+                </div>
+              </div>
+
+              <div class="exm-row">
+                <div class="col col-title">Köp mer, spara mer</div>
+                <div class="col col-member  {% if data-exison-type1-cart != blank %} exm_active {% endif %}">
+                  Upp till 30 %
+                </div>
+                <div class="col col-non_member  {% if data-exison-type1-cart == blank %} exm_active {% endif %}">
+                  <span class="xmark-exm" />
+                </div>
+              </div>
+
+              <div class="exm-row">
+                <div class="col col-title">Månatlig butikskredit</div>
+                <div class="col col-member  {% if data-exison-type1-cart != blank %} exm_active {% endif %}">
+                  {% render 'subscribfy-price-converted', price: shop.metafields.exison.exison_plan_settings.product_price %}
+                </div>
+                <div class="col col-non_member  {% if data-exison-type1-cart == blank %} exm_active {% endif %}">
+                  <span class="xmark-exm" />
+                </div>
+              </div>
+
+              <div class="exm-row">
+                <div class="col col-title">Tidig tillgång till släpp</div>
+                <div class="col col-member {% if data-exison-type1-cart != blank %} exm_active {% endif %}">
+                  <span class="checkmark-exm" />
+                </div>
+                <div class="col col-non_member  {% if data-exison-type1-cart == blank %} exm_active {% endif %}">
+                  <span class="xmark-exm" />
+                </div>
+              </div>
+
+              <div class="exm-row">
+                <div class="col col-title">Alltid fri frakt</div>
+                <div class="col col-member {% if data-exison-type1-cart != blank %} exm_active {% endif %}">
+                  <span class="checkmark-exm" />
+                </div>
+                <div class="col col-non_member  {% if data-exison-type1-cart == blank %} exm_active {% endif %}">
+                  <span class="xmark-exm" />
+                </div>
+              </div>
+
+              <div class="exm-row rowEnd">
+                <div class="col col-title">Du sparar:</div>
+                <div class="col col-member {% if data-exison-type1-cart != blank %} exm_active {% endif %}">
+                  <div class="rectangle-white one--">{{ exm_tier_value }}%</div>
+                </div>
+                <div class="col col-non_member  {% if data-exison-type1-cart == blank %} exm_active {% endif %}">
+                  <div class="rectangle-white two--">0%</div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="sub-widget-text"
+              class="{% if data-exison-type1-cart == blank %}not_displayed{% endif %}"
+            >
+              <div class="exm-disclaimer">
+                Genom att välja {{ exm_plan_settings.tier_name }} VIP tecknar du ett löpande medlemskap för <b>{% render 'subscribfy-price-converted', price: shop.metafields.exison.exison_plan_settings.product_price %}/månad</b>{% if exm_first_term_price != blank %} (Första provmånaden <b>{{ exm_first_term_price }}</b>){% endif %}.
+              </div>
+            </div>
+
+            <div class="exm-widget-links">
+              <a href="{{ pages['membership'].url | default: '/pages/membership' }}"> Läs mer om Tryscent+-medlemskapet</a>
+              <a href="/account/login">
+                <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M4.96582 4.80978C4.96582 4.22267 5.19905 3.65961 5.61419 3.24447C6.02934 2.82933 6.5924 2.5961 7.1795 2.5961C7.7666 2.5961 8.32966 2.82933 8.7448 3.24447C9.15995 3.65961 9.39318 4.22267 9.39318 4.80978C9.39318 5.39688 9.15995 5.95994 8.7448 6.37508C8.32966 6.79022 7.7666 7.02345 7.1795 7.02345C6.5924 7.02345 6.02934 6.79022 5.61419 6.37508C5.19905 5.95994 4.96582 5.39688 4.96582 4.80978ZM4.96582 8.13029C4.23195 8.13029 3.52812 8.42182 3.00919 8.94075C2.49026 9.45968 2.19873 10.1635 2.19873 10.8974C2.19873 11.3377 2.37365 11.76 2.68501 12.0714C2.99637 12.3827 3.41866 12.5576 3.85899 12.5576H10.5C10.9403 12.5576 11.3626 12.3827 11.674 12.0714C11.9853 11.76 12.1603 11.3377 12.1603 10.8974C12.1603 10.1635 11.8687 9.45968 11.3498 8.94075C10.8309 8.42182 10.1271 8.13029 9.39318 8.13029H4.96582Z" fill="#0f172a"/>
+                </svg>
+                Logga in
+              </a>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

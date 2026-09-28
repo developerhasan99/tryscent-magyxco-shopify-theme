@@ -1,0 +1,72 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "parent": "collection.payday-collection.json",
+  "context": {
+    "market": "denmark"
+  },
+  "sections": {
+    "collection_header_UT7VMF": {
+      "settings": {
+        "social_proof_text": "Godkendt af over 10.000 tilfredse duftelskere",
+        "collection_title": "Lønningsdagsudsalg!",
+        "collection_description": "Køb dine yndlingsdufte til endnu bedre priser! Og spar endnu mere med pakketilbud!",
+        "btn_text": ""
+      },
+      "blocks": {
+        "step_iFG4n8": {
+          "settings": {
+            "step_title": "Få 30 % rabat på hele indkøbskurven",
+            "step_description": "Vælg dine yndlingsdufte og læg dem i indkøbskurven"
+          }
+        },
+        "step_HhNQEy": {
+          "settings": {
+            "step_title": "Spar endnu mere med pakkeløsninger!",
+            "step_description": "Køb 3 – spar 40 %. Køb 6 – spar 48 %."
+          }
+        },
+        "step_ADpq49": {
+          "settings": {
+            "step_title": "Køb for mindst 480 DKK",
+            "step_description": "Få GRATIS fragt og GRATIS gaver!"
+          }
+        },
+        "guarantee_f7VNpU": {
+          "settings": {
+            "text": "Holder i 12+ timer"
+          }
+        },
+        "guarantee_dYJyiq": {
+          "settings": {
+            "text": "19–21 % koncentration af parfumeolie"
+          }
+        },
+        "guarantee_Y3gwRj": {
+          "settings": {
+            "text": "60 dages pengene-tilbage-garanti"
+          }
+        }
+      }
+    },
+    "blocky_image_embedded_xd4zwE": {
+      "settings": {
+        "image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_DK.webp"
+      },
+      "blocks": {}
+    },
+    "popular_products_CbL6aJ": {
+      "settings": {
+        "title": "Spar mere og køb mere med pakker!"
+      },
+      "blocks": {}
+    }
+  }
+}

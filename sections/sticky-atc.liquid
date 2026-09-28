@@ -1,0 +1,694 @@
+{% if section.settings.enable_section and request.page_type == 'product' and product.available %}
+  <script>
+    console.log('Sticky ATC: Section is being rendered!');
+    
+// Initialize sticky ATC functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const desktopStickyATC = document.getElementById('md-sticky-atc');
+      const mobileStickyATC = document.getElementById('mobile-sticky-atc');
+      
+      if (!desktopStickyATC || !mobileStickyATC) {
+        console.error('Sticky ATC elements not found');
+        return;
+      }
+      
+      // Force show both for testing
+      desktopStickyATC.style.visibility = 'visible';
+      desktopStickyATC.style.opacity = '1';
+      desktopStickyATC.style.transform = 'translateY(0)';
+      desktopStickyATC.style.position = 'fixed';
+      desktopStickyATC.style.bottom = '0';
+      desktopStickyATC.style.left = '0';
+      desktopStickyATC.style.right = '0';
+      desktopStickyATC.style.zIndex = '9999';
+      desktopStickyATC.style.background = 'white';
+      desktopStickyATC.style.height = '80px';
+      desktopStickyATC.style.display = 'block';
+      desktopStickyATC.style.boxShadow = '0 -4px 20px rgba(0, 0, 0, 0.1)';
+      
+      mobileStickyATC.style.visibility = 'visible';
+      mobileStickyATC.style.opacity = '1';
+      mobileStickyATC.style.transform = 'translateY(0)';
+      mobileStickyATC.style.position = 'fixed';
+      mobileStickyATC.style.bottom = '0';
+      mobileStickyATC.style.left = '0';
+      mobileStickyATC.style.right = '0';
+      mobileStickyATC.style.zIndex = '9999';
+      mobileStickyATC.style.background = 'white';
+      mobileStickyATC.style.display = 'block';
+      mobileStickyATC.style.boxShadow = '0 -4px 20px rgba(0, 0, 0, 0.1)';
+      
+      console.log('Both Desktop and Mobile Sticky ATC forced to be visible');
+    });
+  </script>
+  {% liquid
+    assign current_variant = product.selected_or_first_available_variant
+    assign product_form_id = 'product-form-' | append: section.id
+    assign image = current_variant.image | default: product.featured_image
+    assign img_size = section.settings.img_width | append: 'x' | append: section.settings.img_height
+  %}
+
+  <style>
+    /* Desktop Sticky ATC */
+    #md-sticky-atc {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.15s ease-out;
+      border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+      background: white;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    }
+    #md-sticky-atc.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .satc-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 24px;
+    }
+    .satc-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .satc-product-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+    .satc-product-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .satc-product-details h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+    .satc-product-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+    }
+    .satc-form-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .satc-variant-select {
+      min-width: 120px;
+      padding: 16px 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      height: 52px;
+    }
+    .satc-quantity-wrapper {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: white;
+      height: 52px;
+    }
+    .satc-quantity-btn {
+      width: 36px;
+      height: 50px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .satc-quantity-input {
+      width: 50px;
+      height: 50px;
+      border: none;
+      text-align: center;
+      font-size: 14px;
+    }
+    .satc-add-btn {
+      background: #226139;
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      white-space: nowrap;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      min-width: 200px;
+      height: 52px;
+    }
+    .satc-add-btn:hover {
+      background: #1c522f;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(34, 97, 57, 0.3);
+    }
+    
+    /* Mobile Sticky ATC - Separate Structure */
+    #mobile-sticky-atc {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(100%);
+      transition: all 0.15s ease-out;
+      background: white;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+      display: none;
+    }
+    #mobile-sticky-atc.show {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .mobile-satc-container {
+      padding: 16px 20px;
+    }
+    .mobile-satc-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+    .mobile-satc-product-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+    }
+    .mobile-satc-product-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .mobile-satc-product-details h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+    }
+    .mobile-satc-product-price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #333;
+    }
+    .mobile-satc-add-btn {
+      width: 100%;
+      padding: 14px 24px;
+      font-size: 15px;
+      background: linear-gradient(45deg, #226139, #2a7a44, #32934f, #2a7a44, #226139);
+      background-size: 300% 300%;
+      animation: shine-gradient 3s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(34, 97, 57, 0.4);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .mobile-satc-add-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+    .mobile-satc-add-btn:hover::before {
+      left: 100%;
+    }
+    .mobile-satc-add-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 97, 57, 0.5);
+    }
+    
+    @keyframes shine-gradient {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    /* Show/Hide based on screen size */
+    @media (max-width: 768px) {
+      #md-sticky-atc {
+        display: none !important;
+      }
+      #mobile-sticky-atc {
+        display: block;
+      }
+    }
+    @media (min-width: 769px) {
+      #mobile-sticky-atc {
+        display: none !important;
+      }
+    }
+  </style>
+
+  <script>
+      if (typeof Shopify === 'undefined') {
+    var Shopify = {};
+      }
+
+      Shopify.formatMoney = function (cents, format) {
+    if (typeof cents === 'string') {
+      cents = cents.replace('.', '');
+    }
+
+    var value = '';
+    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+
+    function formatWithDelimiters(number, precision = 2, thousands = ',', decimal = '.') {
+      if (isNaN(number) || number == null) return 0;
+
+      number = (number / 100.0).toFixed(precision);
+      var parts = number.split('.');
+      var dollars = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
+      var cents = parts[1] ? decimal + parts[1] : '';
+      return dollars + cents;
+    }
+
+    switch (format) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0);
+        break;
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2, '.', ',');
+        break;
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0, '.', ',');
+        break;
+      default:
+        value = formatWithDelimiters(cents, 2);
+    }
+
+    return format.replace(placeholderRegex, value);
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+    console.log('Sticky ATC: DOM loaded, initializing...');
+    
+    const stickyATC = document.querySelector('#md-sticky-atc');
+    if (!stickyATC) {
+      console.error('Sticky ATC: #md-sticky-atc element not found!');
+      return;
+    }
+    
+    console.log('Sticky ATC: Found sticky element:', stickyATC);
+
+    const selectField = stickyATC.querySelector('select[name="id"]');
+    const priceBox = stickyATC.querySelector('#price-{{ section.id }}');
+    const img = stickyATC.querySelector('.product-content img');
+    const productData = {{ product | json }};
+    const offset = parseInt(stickyATC.dataset.offset || 0);
+    const moneyFormat = "{{ shop.money_format | replace: '<span class=money>', '' | replace: '</span>', '' }}";
+
+    let threshold = 0;
+
+    window.addEventListener('load', () => {
+      const addToCartBtn = document.querySelector('button[name="add"]');
+      if (addToCartBtn) {
+        threshold = addToCartBtn.getBoundingClientRect().top + window.scrollY + offset;
+      }
+
+      // INITIAL VARIANT ON LOAD
+      if (selectField) {
+        const initialVariantId = parseInt(selectField.value);
+        const selectedVariant = productData.variants.find(v => v.id === initialVariantId);
+        const stickyPrice = document.querySelector('#stick-price');
+
+        if (selectedVariant && stickyPrice) {
+          const newPrice = Shopify.formatMoney(selectedVariant.price, moneyFormat);
+          stickyPrice.textContent = newPrice;
+        }
+
+        const selectedOption = selectField.querySelector(`option[value="${initialVariantId}"]`);
+        const imgUrl = selectedOption?.dataset.img;
+        if (imgUrl && img) {
+          img.setAttribute('src', imgUrl);
+        }
+      }
+    });
+
+    // Show/hide sticky ATC using Intersection Observer
+    const atcBtn = document.querySelector('.cta_product_from_submit_btn') || 
+                   document.querySelector('button[name="add"]') ||
+                   document.querySelector('.product-form__submit');
+    
+    console.log('Sticky ATC: Found main button:', atcBtn);
+    
+    if (atcBtn) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            console.log('Sticky ATC: Intersection entry:', entry.isIntersecting, entry.boundingClientRect);
+            
+            if (!entry.isIntersecting && entry.boundingClientRect.bottom < 0) {
+              // scrolled past (above viewport)
+              console.log('Sticky ATC: Showing sticky button');
+              stickyATC.classList.add('show');
+              document.documentElement.style.paddingBottom = `${stickyATC.offsetHeight}px`;
+            } else {
+              // partially or fully visible in viewport
+              console.log('Sticky ATC: Hiding sticky button');
+              stickyATC.classList.remove('show');
+              document.documentElement.style.paddingBottom = '0';
+            }
+          });
+        },
+        {
+          threshold: [0],
+          root: null,
+          rootMargin: '0px',
+        }
+      );
+      observer.observe(atcBtn);
+    } else {
+      console.error('Sticky ATC: Main ATC button not found!');
+    }
+    
+
+
+    // Handle variant change
+    if (selectField) {
+      selectField.addEventListener('change', (e) => {
+        const variantId = parseInt(e.target.value);
+        const selectedVariant = productData.variants.find(v => v.id === variantId);
+        const stickyPrice = document.querySelector('#stick-price');
+
+        // Update price
+        if (selectedVariant && stickyPrice) {
+          const newPrice = Shopify.formatMoney(selectedVariant.price, moneyFormat);
+          stickyPrice.textContent = newPrice;
+        }
+
+        //Update image
+        const imgUrl = e.target.options[e.target.selectedIndex].dataset.img;
+        if (imgUrl && img) {
+          img.setAttribute('src', imgUrl);
+        }
+
+        //Update URL
+        const newUrl = `${window.location.pathname}?variant=${variantId}`;
+        window.history.replaceState({ path: newUrl }, '', newUrl);
+      });
+    }
+      });
+  </script>
+
+  <div
+    id="md-sticky-atc"
+    class="atc-sticky-btn shadow-[0_0_20px_5px_rgba(0,0,0,0.1)] color-{{ section.settings.color_scheme }}"
+    data-offset="{{ section.settings.offset }}">
+    
+    <div class="satc-container">
+      <div class="satc-content">
+        
+        <!-- Product Info -->
+        <div class="satc-product-info">
+          {% if section.settings.show_img %}
+            <img
+              src="{{ image | img_url: img_size, crop: 'center' }}"
+              class="satc-product-image"
+              width="{{ section.settings.img_width }}"
+              height="{{ section.settings.img_height }}"
+              loading="lazy">
+          {% endif %}
+          <div class="satc-product-details">
+            <h3>{{ product.title }}</h3>
+            <div class="satc-product-price">
+              <span id="stick-price">{{ product.price | money_with_currency }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Elements -->
+        <div class="satc-form-wrapper">
+          
+          <!-- Variant Selector -->
+          {% unless product.has_only_default_variant %}
+            <select class="satc-variant-select sticky_atc_variant_selector" name="id" aria-label="Select variant">
+              {% for variant in product.variants %}
+                {% assign variant_image = variant.image | default: product.featured_image %}
+                <option
+                  value="{{ variant.id }}"
+                  data-price="{{ variant.price | money_without_currency }}"
+                  data-img="{{ variant_image | img_url: img_size }}"
+                  {% if current_variant.id == variant.id %}selected{% endif %}>
+                  {{ variant.title }} - {{ variant.price | money }}
+                </option>
+              {% endfor %}
+            </select>
+          {% endunless %}
+          
+          <!-- Quantity Selector -->
+          {% if section.settings.show_quantity_input %}
+            <div class="satc-quantity-wrapper">
+              <button class="satc-quantity-btn" type="button" onclick="this.nextElementSibling.stepDown()">
+                <span class="svg-wrapper">{{- 'icon-minus.svg' | inline_asset_content -}}</span>
+              </button>
+              <input
+                class="satc-quantity-input"
+                type="number"
+                name="quantity"
+                min="1"
+                value="1">
+              <button class="satc-quantity-btn" type="button" onclick="this.previousElementSibling.stepUp()">
+                <span class="svg-wrapper">{{- 'icon-plus.svg' | inline_asset_content -}}</span>
+              </button>
+            </div>
+          {% endif %}
+          
+          <!-- Add to Cart Button -->
+          <button class="satc-add-btn" type="submit" name="add">
+            <span>{{ 'products.product.add_to_cart' | t }}</span>
+          </button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="mobile-sticky-atc"
+    class="atc-sticky-btn shadow-[0_0_20px_5px_rgba(0,0,0,0.1)] color-{{ section.settings.color_scheme }}"
+    data-offset="{{ section.settings.offset }}">
+    
+    <div class="mobile-satc-container">
+      <div class="mobile-satc-content">
+        
+        <!-- Product Info -->
+        <div class="mobile-satc-product-info">
+          {% if section.settings.show_img %}
+            <img
+              src="{{ image | img_url: img_size, crop: 'center' }}"
+              class="mobile-satc-product-image"
+              width="{{ section.settings.img_width }}"
+              height="{{ section.settings.img_height }}"
+              loading="lazy">
+          {% endif %}
+          <div class="mobile-satc-product-details">
+            <h3>{{ product.title }}</h3>
+            <div class="mobile-satc-product-price">
+              <span id="mobile-stick-price">{{ product.price | money_with_currency }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button class="mobile-satc-add-btn" type="submit" name="add">
+          <span>{{ 'products.product.add_to_cart' | t }}</span>
+        </button>
+        
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const variantSelect = document.querySelector('.sticky_atc_variant_selector');
+        console.log('Sticky ATC: Variant select element:', variantSelect);
+
+        if (typeof subscribe !== 'undefined' && typeof PUB_SUB_EVENTS !== 'undefined') {
+            subscribe(PUB_SUB_EVENTS.variantChange, function (eventData) {
+                const variantId = eventData.data.variant.id;
+                console.log('Sticky ATC: Variant changed to:', variantId);
+
+                if (variantSelect) {
+                    variantSelect.value = variantId;
+                    const event = new Event('change', { bubbles: true });
+                    variantSelect.dispatchEvent(event);
+                }
+            });
+        } else {
+            console.warn('Sticky ATC: PubSub system not available, variant sync disabled');
+        }
+    });
+
+</script>
+
+{% schema %}
+  {
+    "name": "Sticky ATC",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_section",
+        "label": "Enable \"Sticky ATC\"",
+        "info": "Quickly enable or disable this feature",
+        "default": true
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "select",
+        "id": "title_size",
+        "label": "Title Size",
+        "default": "h4",
+        "options": [
+          {
+            "value": "h1",
+            "label": "H1"
+          },
+          {
+            "value": "h2",
+            "label": "H2"
+          },
+          {
+            "value": "h3",
+            "label": "H3"
+          },
+          {
+            "value": "h4",
+            "label": "H4"
+          }, {
+            "value": "h5",
+            "label": "H5"
+          }, {
+            "value": "h6",
+            "label": "H6"
+          }
+        ]
+      }, {
+        "type": "checkbox",
+        "id": "show_img",
+        "default": true,
+        "label": "Show image"
+      }, {
+        "type": "text",
+        "id": "img_width",
+        "default": "80",
+        "label": "Image width (px)"
+      }, {
+        "type": "text",
+        "id": "img_height",
+        "default": "80",
+        "label": "Image height (px)"
+      }, {
+        "type": "checkbox",
+        "id": "show_quantity_input",
+        "default": true,
+        "label": "Show quantity field"
+      }, {
+        "type": "select",
+        "id": "btn_style",
+        "options": [
+          {
+            "value": "primary",
+            "label": "Primary"
+          }, {
+            "value": "secondary",
+            "label": "Secondary"
+          }
+        ],
+        "default": "primary",
+        "label": "'Add to cart' button style"
+      }, {
+        "type": "header",
+        "content": "Advanced"
+      }, {
+        "type": "range",
+        "id": "offset",
+        "label": "Offset",
+        "min": 0,
+        "max": 500,
+        "step": 10,
+        "default": 0,
+        "info": "Adjust the offset value when showing the Sticky ATC section related to the main product form."
+      }, {
+        "type": "header",
+        "content": "Spacing",
+        "info": "Based on 'rem' values"
+      }, {
+        "type": "range",
+        "id": "pt",
+        "label": "Padding top",
+        "min": 0,
+        "max": 5,
+        "step": 0.5,
+        "default": 0.5
+      }, {
+        "type": "range",
+        "id": "pb",
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 5,
+        "step": 0.5,
+        "default": 0.5
+      }
+    ],
+    "presets": [
+      {
+        "name": "Sticky ATC"
+      }
+    ]
+  }
+{% endschema %}

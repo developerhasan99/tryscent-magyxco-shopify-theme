@@ -1,0 +1,93 @@
+{%- liquid
+  assign review_items = ''
+  for i in (1..5)
+    assign name_key = 'name_' | append: i
+    assign text_key = 'text_' | append: i
+    if block.settings[name_key] != blank or block.settings[text_key] != blank
+      assign review_items = review_items | append: i | append: ','
+    endif
+  endfor
+  assign review_items = review_items | split: ','
+  assign now_seconds = 'now' | date: '%s'
+-%}
+
+{%- if review_items.size > 0 -%}
+  <div class="swiper review-slider-{{ block.id }} my-6 overflow-hidden" {{ block.shopify_attributes }}>
+    <div class="swiper-wrapper items-start">
+      {%- comment -%}
+        Slides are rendered twice so Swiper always has enough slides for a
+        seamless loop while showing 1 slide per view.
+      {%- endcomment -%}
+      {%- for pass in (1..2) -%}
+        {%- for item in review_items -%}
+          {%- assign name_key = 'name_' | append: item -%}
+          {%- assign text_key = 'text_' | append: item -%}
+          {%- assign review_name = block.settings[name_key] -%}
+          {%- assign review_text = block.settings[text_key] -%}
+          {%- assign days_seed = now_seconds | plus: item | times: 13 | plus: pass -%}
+          {%- assign days_ago = days_seed | modulo: 24 | plus: 2 -%}
+
+          <div
+            class="review-item rounded-lg bg-white border border-solid border-gray-100 overflow-hidden swiper-slide"
+            data-review-index="7"
+            style="">
+            <div class="p-2 md:p-4">
+              <div class="flex flex-wrap gap-2 justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="flex flex-col gap-1">
+                    <p class="text-base font-bold text-slate-900 my-0">{{- review_name -}}</p>
+                    <div class="flex items-center gap-1 text-xs text-[#297af4] font-medium">
+                      <img
+                        src="{{ 'verified-badge.svg' | asset_url }}"
+                        alt="Verifierad köpare"
+                        width="16"
+                        height="16"
+                        loading="lazy">
+                      Verifierad köpare
+                    </div>
+                  </div>
+                </div>
+                <div class="flex flex-col md:items-end gap-1">
+                  <div class="flex leading-none">
+                    <span class="text-[#ffc109]">★</span>
+                    <span class="text-[#ffc109]">★</span>
+                    <span class="text-[#ffc109]">★</span>
+                    <span class="text-[#ffc109]">★</span>
+                    <span class="text-[#ffc109]">★</span>
+                  </div>
+                  <div class="text-xs text-gray-400">för {{ days_ago }} dagar sedan</div>
+                </div>
+              </div>
+              <div class="text-slate-600 text-sm leading-relaxed">
+                <p>
+                  {{- review_text -}}
+                </p>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+    <button class="swiper-button-next p-0 !size-8 !right-0 rounded-full border border-solid !border-gray-200 bg-white/60 filter backdrop-blur-sm after:text-black after:!text-sm"></button>
+    <button class="swiper-button-prev p-0 !size-8 !left-0 rounded-full border border-solid !border-gray-200 bg-white/60 filter backdrop-blur-sm after:text-black after:!text-sm"></button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      new Swiper('.review-slider-{{ block.id }}', {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        loop: true,
+        loopAdditionalSlides: {{ review_items.size }},
+        navigation: {
+          nextEl: '.review-slider-{{ block.id }} .swiper-button-next',
+          prevEl: '.review-slider-{{ block.id }} .swiper-button-prev',
+        },
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+      });
+    });
+  </script>
+{%- endif -%}

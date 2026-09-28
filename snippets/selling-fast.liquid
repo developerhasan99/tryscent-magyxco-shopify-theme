@@ -1,0 +1,188 @@
+{% comment %}
+  Renders the "Selling out fast" urgency bar.
+
+  Accepts:
+  - block: {Object} block from main-product section
+
+  Usage:
+  {% render 'selling-fast', block: block %}
+{% endcomment %}
+
+{%- liquid
+  assign sf_min = block.settings.percent_min | default: 8
+  assign sf_max = block.settings.percent_max | default: 95
+  if sf_min > sf_max
+    assign sf_swap = sf_min
+    assign sf_min = sf_max
+    assign sf_max = sf_swap
+  endif
+-%}
+
+<selling-fast
+  class="selling-fast block mb-6"
+  data-min="{{ sf_min }}"
+  data-max="{{ sf_max }}"
+  data-end="{{ block.settings.end_time | strip | escape }}"
+  data-key="selling-fast:{{ block.id }}:{{ product.id }}"
+  style="--sf-track: {{ block.settings.track_color | default: '#f7e4e8' }}; --sf-fill: {{ block.settings.bar_color | default: '#cf8195' }}; --sf-accent: {{ block.settings.accent_color | default: '#cf8195' }};"
+  {{ block.shopify_attributes }}>
+  {%- if block.settings.heading != blank -%}
+    <p class="selling-fast__heading my-0 font-semibold tracking-normal text-lg md:text-xl leading-snug text-black">
+      {{- block.settings.heading -}}
+    </p>
+  {%- endif -%}
+
+  {%- if block.settings.subheading != blank -%}
+    <p class="selling-fast__subheading my-0 tracking-normal leading-snug text-sm md:text-base">
+      {{- block.settings.subheading -}}
+    </p>
+  {%- endif -%}
+
+  <div
+    class="selling-fast__track relative mt-3 h-2.5 w-full overflow-hidden rounded-full bg-[var(--sf-track)]"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="{{ sf_min }}"
+    data-sf-track>
+    <span
+      class="selling-fast__fill absolute inset-y-0 left-0 block rounded-full bg-[var(--sf-fill)] transition-[width] duration-700 ease-out"
+      style="width: {{ sf_min }}%"
+      data-sf-fill></span>
+  </div>
+
+  <div class="selling-fast__meta mt-2 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+    {%- if block.settings.sold_text != blank -%}
+      <p
+        class="selling-fast__sold my-0 font-semibold tracking-normal text-sm md:text-base"
+        data-sf-sold
+        data-sf-template="{{ block.settings.sold_text | escape }}">
+        {{- block.settings.sold_text | replace: '[percent]', sf_min -}}
+      </p>
+    {%- endif -%}
+
+    {%- if block.settings.show_countdown -%}
+      <p class="selling-fast__countdown my-0 tracking-normal text-sm md:text-base text-[var(--sf-accent)]">
+        {%- if block.settings.countdown_label != blank -%}
+          <span class="selling-fast__countdown-label">{{ block.settings.countdown_label }}</span>
+        {%- endif -%}
+        <time class="selling-fast__timer ml-1 font-semibold tabular-nums" data-sf-timer>--:--:--</time>
+      </p>
+    {%- endif -%}
+  </div>
+</selling-fast>
+
+<script>
+  if (!customElements.get('selling-fast')) {
+    class SellingFast extends HTMLElement {
+      connectedCallback() {
+        this.track = this.querySelector('[data-sf-track]');
+        this.fill = this.querySelector('[data-sf-fill]');
+        this.soldEl = this.querySelector('[data-sf-sold]');
+        this.timerEl = this.querySelector('[data-sf-timer]');
+
+        this.soldTemplate = this.soldEl ? this.soldEl.dataset.sfTemplate || '' : '';
+        this.endsAt = this.getEndTime();
+
+        this.renderPercent(this.getPercent());
+
+        if (this.timerEl) {
+          this.tick();
+          this.interval = setInterval(this.tick.bind(this), 1000);
+        }
+      }
+
+      disconnectedCallback() {
+        clearInterval(this.interval);
+      }
+
+      /* Fixed date from settings, otherwise midnight + 12h (tomorrow noon). */
+      getEndTime() {
+        const fixed = this.parseDate(this.dataset.end);
+        if (fixed) return fixed;
+
+        const midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        return new Date(midnight.getTime() + 12 * 60 * 60 * 1000);
+      }
+
+      /* Accepts YYYY-MM-DD, YYYY-MM-DD HH:MM(:SS), YYYY-MM-DDTHH:MM(:SS) in shop-local time. */
+      parseDate(value) {
+        if (!value) return null;
+
+        const match = value
+          .trim()
+          .match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:[T\s](\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+        if (!match) return null;
+
+        const date = new Date(
+          Number(match[1]),
+          Number(match[2]) - 1,
+          Number(match[3]),
+          Number(match[4] || 0),
+          Number(match[5] || 0),
+          Number(match[6] || 0)
+        );
+
+        return isNaN(date.getTime()) ? null : date;
+      }
+
+      /* Random percent, kept stable for the visitor until the countdown cycle ends. */
+      getPercent() {
+        const min = Number(this.dataset.min) || 8;
+        const max = Number(this.dataset.max) || 95;
+        const key = `${this.dataset.key}:${this.endsAt.getTime()}`;
+
+        try {
+          const stored = Number(sessionStorage.getItem(key));
+          if (stored >= min && stored <= max) return stored;
+        } catch (error) {
+          // Storage unavailable (private mode) — fall through to a fresh value.
+        }
+
+        const percent = Math.floor(Math.random() * (max - min + 1)) + min;
+
+        try {
+          sessionStorage.setItem(key, percent);
+        } catch (error) {
+          // Ignore write failures.
+        }
+
+        return percent;
+      }
+
+      renderPercent(percent) {
+        if (this.fill) this.fill.style.width = `${percent}%`;
+        if (this.track) this.track.setAttribute('aria-valuenow', percent);
+        if (this.soldEl) this.soldEl.textContent = this.soldTemplate.split('[percent]').join(percent);
+      }
+
+      tick() {
+        let remaining = Math.floor((this.endsAt.getTime() - Date.now()) / 1000);
+
+        if (remaining <= 0) {
+          /* No fixed date: roll into the next cycle instead of sitting at zero. */
+          if (!this.parseDate(this.dataset.end)) {
+            this.endsAt = this.getEndTime();
+            this.renderPercent(this.getPercent());
+            remaining = Math.floor((this.endsAt.getTime() - Date.now()) / 1000);
+          } else {
+            remaining = 0;
+            clearInterval(this.interval);
+          }
+        }
+
+        const days = Math.floor(remaining / 86400);
+        const hours = Math.floor((remaining % 86400) / 3600);
+        const minutes = Math.floor((remaining % 3600) / 60);
+        const seconds = remaining % 60;
+        const pad = (value) => String(value).padStart(2, '0');
+        const clock = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+
+        this.timerEl.textContent = days > 0 ? `${days}d ${clock}` : clock;
+      }
+    }
+
+    customElements.define('selling-fast', SellingFast);
+  }
+</script>

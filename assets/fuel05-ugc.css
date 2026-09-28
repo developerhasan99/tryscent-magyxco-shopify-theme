@@ -1,0 +1,349 @@
+.fuel05-ugc {
+  display: none !important;
+}
+
+/* Design mode mirrors the real breakpoints: revealing every placement at
+   once would show the editor a page that exists at no real width. */
+html.ab-f05-ugc .fuel05-ugc--home,
+.shopify-design-mode .fuel05-ugc--home {
+  display: block !important;
+}
+
+@media screen and (min-width: 750px) {
+  html.ab-f05-ugc .fuel05-ugc--pdp-desktop,
+  html.ab-f05-ugc .fuel05-ugc--grid-desktop,
+  .shopify-design-mode .fuel05-ugc--pdp-desktop,
+  .shopify-design-mode .fuel05-ugc--grid-desktop {
+    display: block !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  html.ab-f05-ugc .fuel05-ugc--pdp-mobile,
+  html.ab-f05-ugc .fuel05-ugc--grid-mobile,
+  .shopify-design-mode .fuel05-ugc--pdp-mobile,
+  .shopify-design-mode .fuel05-ugc--grid-mobile {
+    display: block !important;
+  }
+}
+
+.fuel05-ugc--home {
+  background: #fcfbf9;
+  padding: 36px 90px;
+}
+
+.fuel05-ugc--home .fuel05-ugc__inner {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 0 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.fuel05-ugc--pdp-desktop {
+  max-width: 530px;
+  padding: 24px 0;
+}
+
+.fuel05-ugc--pdp-mobile {
+  margin: 0 0 24px;
+}
+
+.fuel05-ugc--pdp .fuel05-ugc__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.fuel05-ugc__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fuel05-ugc__heading {
+  margin: 0;
+  color: #000;
+  letter-spacing: 0.66px;
+}
+
+.fuel05-ugc--home .fuel05-ugc__heading {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 40px;
+}
+
+.fuel05-ugc--pdp .fuel05-ugc__heading {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.fuel05-ugc__nav {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* The theme draws its own slider navigation as a 36px white circle with a 1px
+   grey rule and a small black chevron: sections/popular-products.liquid hangs
+   "!size-9 border border-solid border-gray-200 rounded-full bg-white
+   [&]:after:!text-base" on Swiper's default buttons. Roi asked for the row to
+   read the same, so the values below are those utilities resolved, and
+   box-sizing is stated because the 36px is the outer edge there.
+   -webkit-tap-highlight-color kills the grey plate iOS paints over the button
+   on touch, which was part of the flash across the row. */
+.fuel05-ugc__arrow {
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: #fff;
+  border: 1px solid rgb(229 231 235);
+  border-radius: 9999px;
+  cursor: pointer;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fuel05-ugc__arrow svg {
+  width: 16px;
+  height: 16px;
+}
+
+.fuel05-ugc__arrow--prev svg {
+  transform: rotate(180deg);
+}
+
+/* Swiper's own disabled treatment, which is what the theme's buttons show. */
+.fuel05-ugc__arrow.swiper-button-disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.fuel05-ugc__slider {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* No -webkit-tap-highlight-color: iOS paints a grey plate over the whole card
+   on touch, and with the cards side by side that read as a white flash across
+   the row on the way into a tap or a swipe. */
+.fuel05-ugc__tile {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eee;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fuel05-ugc--home .fuel05-ugc__tile {
+  width: 265px;
+  aspect-ratio: 265 / 477;
+}
+
+.fuel05-ugc--pdp .fuel05-ugc__tile {
+  width: 126px;
+  aspect-ratio: 126 / 210;
+}
+
+.fuel05-ugc--grid .fuel05-ugc__tile {
+  width: 100%;
+  /* Swiper's global .swiper-slide sets height: 100%, which would hand the tile
+     whatever height the neighbouring product cards have. */
+  height: auto;
+  aspect-ratio: 260 / 494;
+}
+
+@media screen and (max-width: 749px) {
+  /* The grid cell is taller than the card drawn in it, because the product
+     cards beside it carry a title and a price under their image and the row
+     stretches every cell to the tallest. A fixed ratio left 35px of page
+     showing under the tile, which is the white strip Roi boxed. Filling the
+     cell instead bottom-aligns the card with its neighbours, and the video is
+     already inset with object-fit: cover, so it absorbs the extra height. */
+  .fuel05-ugc--grid .fuel05-ugc__tile {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
+
+/* Same grey as the card behind it. A video element paints white until its
+   poster decodes, and six of those coming up at once was the other half of
+   the flash; on the card's own grey they read as placeholders instead. */
+.fuel05-ugc__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: #eee;
+}
+
+/* The poster picture, held over the video until the clip presents its first
+   frame. No z-index anywhere in the card: these three are all positioned with
+   z-index auto, so they paint in the order they are written, which puts the
+   poster over the video and the pill over both.
+
+   pointer-events: none, because the overlay must never be the tap target.
+   Swiper cancels pointerdown for targets outside its focusable list, video is
+   on that list and img is not, and a cancelled pointerdown costs the click in
+   some WebKit builds. With the overlay inert the tap lands on the video
+   either way. */
+.fuel05-ugc__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* No transition. The overlay is frame 0 of the clip, so a straight swap to the
+   real frames is the thing that cannot be seen; a fade would show the cut. The
+   class is written once and stays: a paused clip keeps its last frame on
+   screen, which is what a shopper who stopped it should be looking at. */
+.fuel05-ugc__tile--started .fuel05-ugc__poster {
+  display: none;
+}
+
+.fuel05-ugc__pill {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  text-decoration: none;
+  color: #000;
+}
+
+.fuel05-ugc__pill-thumb {
+  width: 66px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.fuel05-ugc__pill-info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fuel05-ugc__pill-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.66px;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fuel05-ugc__pill-price {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.fuel05-ugc__pill-add {
+  /* Swiper's .swiper-wrapper sets box-sizing: content-box, which every
+     descendant inherits and which grows this box to 34px. */
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid #146b32;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.fuel05-ugc__pill-add svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* The design draws the pill on desktop cards only. */
+@media screen and (max-width: 749px) {
+  .fuel05-ugc__pill {
+    display: none;
+  }
+}
+
+.fuel05-ugc__visa-alla {
+  display: inline-block;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Tablet range: the fixed 90px + 52px desktop insets would leave the row 184px
+   narrower than every other section, so it follows the theme's own gutters
+   until the drawn 1100px+ frame applies. */
+@media screen and (min-width: 750px) and (max-width: 1099px) {
+  .fuel05-ugc--home {
+    padding: 36px 0;
+  }
+
+  .fuel05-ugc--home .fuel05-ugc__inner {
+    padding: 0 50px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .fuel05-ugc--home {
+    padding: 51px 15px 39px;
+  }
+
+  .fuel05-ugc--home .fuel05-ugc__inner {
+    padding: 0;
+  }
+
+  .fuel05-ugc--home .fuel05-ugc__heading,
+  .fuel05-ugc--pdp .fuel05-ugc__heading {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 800;
+  }
+
+  /* The design's shared mobile shell: the card row starts 56px under the
+     heading box (32 + 24), and the block above supplies the 15px gap, so the
+     inner padding-top goes. */
+  .fuel05-ugc--pdp .fuel05-ugc__inner {
+    padding-top: 0;
+    gap: 24px;
+  }
+
+  .fuel05-ugc--home .fuel05-ugc__tile,
+  .fuel05-ugc--pdp .fuel05-ugc__tile {
+    width: 175px;
+    aspect-ratio: 175 / 331;
+  }
+}

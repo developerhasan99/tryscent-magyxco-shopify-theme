@@ -1,0 +1,154 @@
+{%- layout none -%}
+<product-info
+  id="MainProduct-template--21129375285318__main"
+  class="section-template--21129375285318__main-padding gradient color-scheme-2"
+  data-section="template--21129375285318__main"
+  data-product-id="7892877836358"
+  data-update-url="true"
+  data-url="/products/bergamot-pepper-ambroxan"
+>
+  <style data-shopify="">
+    .section-template--21129375285318__main-padding {
+      padding-top: 0px;
+      padding-bottom: 30px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-template--21129375285318__main-padding {
+        padding-top: 36px;
+        padding-bottom: 40px;
+      }
+    }
+  </style>
+  <script src="/cdn/shop/t/77/assets/product-info.js?v=83430648502691998491785734243" defer="defer"></script>
+  <script src="/cdn/shop/t/77/assets/product-form.js?v=81493689193314902491785734243" defer="defer"></script>
+
+  {% assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src' %}
+  <div class="page-width">
+    <div
+      style="display: flex;"
+      class="product product--large product--left product--stacked product--mobile-hide grid grid--1-col grid--2-col-tablet"
+    >
+      <div class="grid__item product__media-wrapper pb-6 hidden md:!block">
+        {% render 'product-media-gallery', variant_images: variant_images %}
+      </div>
+      <div class="product__info-wrapper grid__item scroll-trigger animate--slide-in">
+        <section id="ProductInfo-template--21129375285318__main" class="product__info-container product__column-sticky">
+          <div class="product__title relative mb-3" {{ block.shopify_attributes }}>
+            {%- if product.tags contains 'bestseller' or product.tags contains 'onsale' -%}
+              <div class="absolute top-0 left-0">
+                {% if product.tags contains 'onsale' %}
+                  {%- assign discount_percent = 0 -%}
+                  {%- if product.compare_at_price > product.price -%}
+                    {%- assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                  {%- endif -%}
+                  <span class="inline-block bg-red-600 text-white text-sm font-bold px-3 py-1">
+                    {{ discount_percent }}% Off
+                  </span>
+                {% endif %}
+                {% if product.tags contains 'bestseller' %}
+                  <span class="inline-block bg-[#22613A] text-white text-sm font-bold px-3 py-1">
+                    Best Seller
+                  </span>
+                {% endif %}
+                {% if false %}
+                  <span class="inline-block bg-blue-500 text-white text-sm font-bold px-3 py-1 custom_label">
+                    {{ product.metafields.custom.custom_label }}
+                  </span>
+                {% endif %}
+                {% if product.template_suffix == 'expressive-notes' %}
+                  <span class="inline-flex items-center px-3 py-1 rounded-md border border-solid border-[#3b82f6] text-[#3b82f6] text-sm font-medium bg-white">
+                    {% if product.tags contains 'Woman' or product.tags contains 'fuer-frauen' %}
+                      Kvinna
+                    {% else %}
+                      Man
+                    {% endif %}
+                  </span>
+                {% endif %}
+              </div>
+            {%- endif -%}
+            {% if product.template_suffix == 'cro-deck' %}
+              <h1 class="font-[700] leading-tight !tracking-normal text-xl md:text-2xl my-0 {% if product.tags contains 'bestseller' or product.tags contains 'onsale' %}pt-8{% endif %}">
+                {% assign title_list = product.title | split: '-' %}
+                <span class="title-prefix">Inspirerad av</span> {{ product.metafields.custom.inspiration.value.name }} - {{ title_list[1] }}
+              </h1>
+            {% else %}
+              <h1 class="font-[700] leading-tight !tracking-normal text-xl md:text-2xl my-0 {% if product.tags contains 'bestseller' or product.tags contains 'onsale' %}pt-8{% endif %}">
+                {{ product.title }}
+              </h1>
+            {% endif %}
+          </div>
+          <div class="flex gap-1 items-center mb-3">
+            <img
+              src="/cdn/shop/t/77/assets/rating-stars.svg?v=134568026622208682831785734243"
+              alt="*****"
+              height="16"
+              width="80"
+            >
+            <div class="leading-snug tracking-normal text-xs">4,9/5 baserat på över 10 000 recensioner</div>
+          </div>
+
+          <div class="flex items-center gap-2 mb-3">
+            <img class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image | image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="24" height="24">
+            <p class="text-sm my-0 whitespace-nowrap">Inspirerad av:</p>
+            <h4 class="font-semibold my-0 line-clamp-1 inspiration_heading">{{ product.metafields.custom.inspiration.value.name }}</h4>
+          </div>
+
+          {% render 'scent-profiling-quick-add' %}
+          {% render 'reactive-variant-selector-quick-add' %}
+
+          <a
+            href="/products/6-x-50ml-parfymflasko"
+            class="mt-8 [display:grid] grid-cols-3 overflow-hidden rounded-lg border-2 border-[#cc303d] border-solid bg-white text-inherit no-underline shadow-[0_1px_0_rgba(17,24,39,0.03)] md:flex-row"
+          >
+            <div class="relative w-full overflow-hidden bg-[#f2ede7] md:max-w-[280px]">
+              <img
+                src="/cdn/shop/files/6x50ml-swedish.png?v=1784085110&amp;width=560"
+                alt="6 X 50ml Parfymflaskor"
+                class="h-full w-full object-cover"
+                loading="lazy"
+                width="280"
+                height="280"
+              >
+            </div>
+            <div class="col-span-2 p-4 md:p-[18px]">
+              <div class="inline-block rounded-xl bg-green-100 text-green-600 px-2 py-1 text-xs font-semibold uppercase">
+                Spara 48%
+              </div>
+              <h3 class="my-2 tracking-normal font-semibold text-base md:text-lg">
+                Vart bästa erbjudande: skapa ett paket!
+              </h3>
+              <div class="m-0 tracking-normal text-black text-sm md:text-base">
+                Endast
+                <strong>90,00 kr</strong>
+                per flaska
+              </div>
+            </div>
+          </a>
+
+          <div class="my-6">
+            <div class="flex items-center gap-3 text-base">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0623/0691/0402/files/thimbs_up.png?v=1751372431"
+                alt="Tumme upp märke"
+                class="w-10 h-10 flex-shrink-0"
+                width="40"
+                height="40"
+              >
+              <div class="text-slate-900">
+                <strong class="font-semibold">Prova i 60 dagar, riskfritt.</strong>
+                <span class="block">Färre än 0,5 % av köparna använder vår pengarna-tillbaka-garanti.</span>
+              </div>
+            </div>
+          </div>
+          <a href="{{ product.url }}" class="link product__view-details animate-arrow">
+            Visa fullständiga detaljer
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="icon icon-arrow" viewBox="0 0 14 10">
+              <path fill="currentColor" fill-rule="evenodd" d="M8.537.808a.5.5 0 0 1 .817-.162l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 1 1-.708-.708L11.793 5.5H1a.5.5 0 0 1 0-1h10.793L8.646 1.354a.5.5 0 0 1-.109-.546" clip-rule="evenodd"></path>
+            </svg>
+          </a>
+        </section>
+      </div>
+    </div>
+  </div>
+</product-info>

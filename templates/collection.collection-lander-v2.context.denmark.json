@@ -1,0 +1,23 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "denmark"
+  },
+  "parent": "collection.collection-lander-v2.json",
+  "sections": {
+    "custom_liquid_K7nAnN": {
+      "settings": {
+        "custom_liquid": "<style>\n#ts-hero-custom{\n  position:relative;\n  min-height:560px;\n  overflow:hidden;\n  background:\n    linear-gradient(90deg,rgba(250,249,246,.92) 0%,rgba(250,249,246,.72) 30%,rgba(250,249,246,.12) 54%,rgba(250,249,246,0) 72%),\n    url('https://tryscent.co/cdn/shop/files/MAGYX_Site_Header.webp?v=1789790951&width=1920') center right/cover no-repeat,\n    #faf9f6;\n}\n#ts-hero-custom .ts-container{\n  width:min(1180px,calc(100% - 36px));\n  margin-inline:auto;\n}\n#ts-hero-custom .ts-hero-inner{\n  min-height:560px;\n  display:flex;\n  align-items:center;\n  position:relative;\n  z-index:2;\n}\n#ts-hero-custom .ts-hero-copy{max-width:640px}\n#ts-hero-custom .ts-rating-pill{\n  display:inline-flex;\n  align-items:center;\n  gap:10px;\n  background:#fff;\n  border-radius:999px;\n  padding:10px 18px;\n  margin-bottom:28px;\n  box-shadow:0 4px 18px rgba(0,0,0,.07);\n  font-size:12px;\n  font-weight:700;\n  text-transform:uppercase;\n  letter-spacing:.05em;\n  color:#121212;\n}\n#ts-hero-custom .ts-stars{color:#ffb000;letter-spacing:2px}\n#ts-hero-custom h1{\n  margin:0 0 24px;\n  font-size:36px;\n  font-weight:900;\n  line-height:1.12;\n  letter-spacing:-.9px;\n  color:#121212;\n}\n#ts-hero-custom .ts-category-line{\n  max-width:670px;\n  margin-bottom:14px;\n  font-size:18px;\n  font-weight:600;\n  letter-spacing:.4px;\n  line-height:1.45;\n  color:#121212;\n}\n#ts-hero-custom .ts-expert-line{\n  max-width:620px;\n  margin:0;\n  font-size:16px;\n  line-height:1.7;\n  color:rgba(18,18,18,.62);\n}\n#ts-hero-custom .ts-microcopy{\n  margin:12px 0 0;\n  font-size:14px;\n  color:rgba(18,18,18,.5);\n}\n@media(max-width:700px){\n  #ts-hero-custom{\n    min-height:auto;\n    background:\n      linear-gradient(180deg,rgba(250,249,246,.6) 0%,rgba(250,249,246,.25) 26%,rgba(250,249,246,0) 44%),\n      url('https://tryscent.co/cdn/shop/files/MAGYX_Site_Header_Mobile_A.webp?v=1789826380&width=1100') center bottom/cover no-repeat,\n      #faf9f6;\n  }\n  #ts-hero-custom .ts-hero-inner{\n    min-height:auto;\n    display:block;\n    padding-top:40px;\n    padding-bottom:380px;\n  }\n  #ts-hero-custom .ts-hero-copy{\n    max-width:100%;\n    text-align:center;\n  }\n  #ts-hero-custom .ts-rating-pill{margin-bottom:22px}\n  #ts-hero-custom h1{\n    font-size:30px;\n    margin-bottom:18px;\n  }\n  #ts-hero-custom .ts-category-line,\n  #ts-hero-custom .ts-expert-line{\n    margin-inline:auto;\n  }\n  #ts-hero-custom .ts-microcopy{\n    color:rgba(18,18,18,.8);\n    font-weight:600;\n  }\n}\n</style>\n\n<section id=\"ts-hero-custom\">\n  <div class=\"ts-container\">\n    <div class=\"ts-hero-inner\">\n      <div class=\"ts-hero-copy\">\n        <div class=\"ts-rating-pill\">\n          <span class=\"ts-stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span>\n          <span>Älskad av 10 000 kunder</span>\n        </div>\n\n        <h1>Hitta doften som får dem att tänka på dig.</h1>\n\n        <div class=\"ts-category-line\">Toppvalet inom designerinspirerade parfymer.</div>\n\n        <p class=\"ts-expert-line\">Skapade av samma parfymexperter som står bakom några av världens mest välkända dofter.</p>\n\n        <p class=\"ts-microcopy\">Tro oss inte. Testa själv.</p>\n      </div>\n    </div>\n  </div>\n</section>"
+      },
+      "blocks": {}
+    }
+  }
+}

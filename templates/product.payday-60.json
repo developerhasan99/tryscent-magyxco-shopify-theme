@@ -1,0 +1,397 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "selling_points_9tdid6": {
+          "type": "selling_points",
+          "disabled": true,
+          "settings": {}
+        },
+        "inspired_by_idtdrk": {
+          "type": "inspired_by",
+          "settings": {}
+        },
+        "designer_price_GYGxtE": {
+          "type": "designer_price",
+          "settings": {}
+        },
+        "scent_intensity_qajxtz": {
+          "type": "scent_intensity",
+          "settings": {}
+        },
+        "made_in_the_eu_78caec": {
+          "type": "made_in_the_eu",
+          "settings": {}
+        },
+        "cheaper_than_yDGYG9": {
+          "type": "cheaper_than",
+          "settings": {
+            "number": 0
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "disabled": true,
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          }
+        },
+        "text_fQLMC7": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "Scent Notes: {{ product.metafields.custom.top_notes.value.heading.value }}",
+            "text_style": "subtitle"
+          }
+        },
+        "price": {
+          "type": "price",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_GrNJKg": {
+          "type": "text",
+          "settings": {
+            "text": "<strong>Toppnoter:</strong> {{ product.metafields.custom.top_notes.value.heading.value }}",
+            "text_style": "body"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "disabled": true,
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "disabled": true,
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "subscribfy_block_product_page_vip_widget_PRD4ch": {
+          "type": "shopify://apps/subscribfy/blocks/block-product-page-Vip-widget/92b2aa79-0e8b-44a2-8415-48904e56b61e",
+          "settings": {
+            "join_title": "10 % rabatt med Tryscent+",
+            "join_you_save_label": "Köp mer, spara mer • Månatlig butikskredit • Tidig tillgång till släpp • Gratis parfymer",
+            "join_body_text": "<p>Köp mer, spara mer • Månatlig butikskredit • Tidig tillgång till släpp • Gratis parfymer</p>",
+            "non-member_title": "Handla till ordinarie pris",
+            "active_member_title": "10 % rabatt med Tryscent+",
+            "active_member_you_save_label": "Du sparar",
+            "active_member_body_text": "<p>Köp mer, spara mer • Månatlig butikskredit • Tidig tillgång till släpp • Gratis parfymer</p>",
+            "custom_form_id": "product-form-[section.id]",
+            "color_member_price": "#000000",
+            "default_join": false,
+            "widget_template": "3",
+            "template3_control_style": "checkbox",
+            "member_badge_image": "shopify://shop_images/cGLuWmsD6gNb.png",
+            "always_show_widget": true,
+            "hide_discount_badge": true,
+            "hide_price": true,
+            "cart_item_title": "",
+            "cart_item_text": ""
+          }
+        },
+        "atc_bundle_builder_aLJUaV": {
+          "type": "atc_bundle_builder",
+          "settings": {
+            "collection_handles": "best-sellers,new"
+          }
+        },
+        "money_back_cEqkRK": {
+          "type": "money_back",
+          "settings": {
+            "title": "Prova i 60 dagar, riskfritt.",
+            "text": "Färre än 0,5 % av köparna använder vår pengarna-tillbaka-garanti."
+          }
+        },
+        "dialect_notes_NHiwen": {
+          "type": "dialect_notes",
+          "settings": {}
+        },
+        "reactive_variant_selector_JyFrkg": {
+          "type": "reactive_variant_selector",
+          "disabled": true,
+          "settings": {}
+        },
+        "shipping_text_HCVN8A": {
+          "type": "shipping_text",
+          "disabled": true,
+          "settings": {}
+        },
+        "custom_liquid_G7fm64": {
+          "type": "custom_liquid",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "{% render 'atc-bundle-builder' %}"
+          }
+        },
+        "custom_liquid_eKzwKK": {
+          "type": "custom_liquid",
+          "disabled": true,
+          "settings": {
+            "custom_liquid": "<div class=\"payment-methods\" style=\"margin-top: 15px;\">\n  <!-- Payment Logos Section -->\n  <div class=\"payment-logos\" style=\"display: flex; margin-bottom: 15px; align-items: center; justify-content: space-between; width: 100%;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/american_express.svg\" alt=\"American Express\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/apple_pay.svg\" alt=\"Apple Pay\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/google_pay.svg\" alt=\"Google Pay\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/klarna.svg\" alt=\"Klarna\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/paypal.svg\" alt=\"PayPal\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/visa.svg\" alt=\"Visa\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n    <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/mastercard.svg\" alt=\"Mastercard\" style=\"height: 25px; flex: 1; max-width: 40px;\">\n  </div>\n  \n  <!-- Pay Later Section -->\n  <div class=\"pay-later-section\" style=\"padding: 15px; border-radius: 6px; background: #f8f9fa;\">\n    <div class=\"pay-later-info\" style=\"display: flex; align-items: center; justify-content: space-between;\">\n      <span style=\"font-size: 14px; color: #333;\">Pay later with Klarna / Afterpay</span>\n      <div class=\"pay-later-logos\" style=\"display: flex; gap: 8px; align-items: center;\">\n        <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/klarna.svg\" alt=\"Klarna\" style=\"height: 35px;\">\n        <img src=\"https://mds.oceanpayment.com/assets/shopifylogo/svg/afterpay.svg\" alt=\"Afterpay\" style=\"height: 35px;\">\n      </div>\n    </div>\n  </div>\n</div>"
+          }
+        },
+        "icon_with_text_rgXMXN": {
+          "type": "icon-with-text",
+          "disabled": true,
+          "settings": {
+            "layout": "horizontal",
+            "icon_1": "stopwatch",
+            "image_1": "shopify://shop_images/sandwatch.svg",
+            "heading_1": "Lasts 12+ Hours",
+            "icon_2": "heart",
+            "image_2": "shopify://shop_images/heart.svg",
+            "heading_2": "loved by 10,000+",
+            "icon_3": "truck",
+            "image_3": "shopify://shop_images/sheild-star.svg",
+            "heading_3": "60 day satisfaction guarantee"
+          }
+        },
+        "people_purchased_cYxaYJ": {
+          "type": "people_purchased",
+          "disabled": true,
+          "settings": {}
+        },
+        "cta_review_g7n3R8": {
+          "type": "cta_review",
+          "disabled": true,
+          "settings": {}
+        },
+        "videos_iXPFhh": {
+          "type": "videos",
+          "settings": {
+            "video1": "shopify://files/videos/Perfume REV 2 UGC 15-6-25.mp4",
+            "video_poster_1": "shopify://shop_images/videoframe_715.png",
+            "video2": "shopify://files/videos/Perfume 2nd 21-06-25.mp4",
+            "video_poster_2": "shopify://shop_images/videoframe_5651.png",
+            "video3": "shopify://files/videos/Perfume rev 2  2nd  UGC 15-6-25.mp4",
+            "video_poster_3": "shopify://shop_images/videoframe_5040.png",
+            "video4": "shopify://files/videos/RIEV 21-06-25.mp4"
+          }
+        },
+        "collapsible_tab_XYmgtQ": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Description",
+            "icon": "clipboard",
+            "content": "{{ product.description }}",
+            "page": ""
+          }
+        },
+        "collapsible_tab_PtUaDN": {
+          "type": "collapsible_tab",
+          "disabled": true,
+          "settings": {
+            "heading": "Scent Notes",
+            "icon": "perfume",
+            "content": "{{ product.metafields.custom.scent_profile | metafield_tag }}",
+            "page": ""
+          }
+        },
+        "collapsible_tab_tUEYBx": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Why are your perfumes so affordable?",
+            "icon": "perfume",
+            "content": "<p>Our perfumes are affordable because we focus on what really matters — the fragrance itself — and eliminate unnecessary costs:<br/><br/>✔️ No expensive advertising – We don’t invest in celebrity campaigns or luxury branding, which allows us to offer lower prices.<br/><br/>✔️ Simple, elegant packaging – Instead of costly designer bottles, we use minimalist, stylish packaging that keeps production costs low.<br/><br/>✔️ Direct sales model – By selling online and bottling ourselves, we avoid intermediaries and retail mark-ups.<br/><br/>✔️ Alternative compositions, premium quality <br/><br/>The result? You enjoy long-lasting, high-quality perfumes at a price that makes sense.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_nhKiAc": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Is it a perfumed water?",
+            "icon": "perfume",
+            "content": "<p>Our fragrances go far beyond simple perfumed water. At Try Scent, we offer high-quality <strong>Eau de Parfum (EDP)</strong> with a perfume oil concentration of <strong>19-21%</strong>, ensuring long-lasting scent, excellent projection, and depth.</p><p>Unlike light body sprays or perfumed waters, our compositions are made to stay on your skin for many hours — often even until the next day. You enjoy an intense, refined fragrance experience at a fraction of the price of luxury brands.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_pCrhqV": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "How long does the perfume last?",
+            "icon": "perfume",
+            "content": "<p>Our perfumes are designed for excellent longevity. Thanks to a high fragrance oil concentration of <strong>19-21%</strong>, most of our scents stay noticeable on the skin for <strong>up to 24 hours</strong>, and often the fragrance can still be detected on clothes or hair the next day.</p><p>Of course, the exact durability depends on the specific fragrance, your skin type, and how it's applied — but compared to typical alternatives or light Eau de Toilette, Try Scent perfumes deliver significantly better performance.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_gkD4Ei": {
+          "type": "collapsible_tab",
+          "disabled": true,
+          "settings": {
+            "heading": "Is the inspired fragrance different?",
+            "icon": "perfume",
+            "content": "<p>No — our inspired fragrances are designed as an <strong>exact copy</strong> of the originals from famous luxury brands. We carefully recreate the same fragrance structure, using identical scent notes and raw materials wherever possible.</p><p>✔️ <strong>1:1 fragrance impression</strong> – The scent is virtually indistinguishable from the original, even for experienced perfume lovers.<br/><br/>✔️ <strong>Same longevity and projection</strong> – Thanks to the high concentration of perfume oils (19-21%), our fragrances last just as long as the originals.<br/><br/>✔️ <strong>Affordable price, no compromise</strong> – You get the exact same olfactory experience without paying for the logo, marketing, or designer packaging.</p><p>In short: Our perfumes are identical to luxury brands in scent, quality, and durability — the only difference is the price.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_pdYPYn": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "What does 19-21% perfume mean?",
+            "icon": "perfume",
+            "content": "<p>The percentage indicates the concentration of pure fragrance oils in the product. In our case, <strong>19-21% perfume concentration</strong> means:</p><p>✔️ It is classified as <strong>Eau de Parfum (EDP)</strong> — one of the most intense types of perfume available for daily use.<br/><br/>✔️ High fragrance oil content ensures excellent <strong>longevity</strong> — the scent stays noticeable on your skin for many hours, often until the next day.<br/><br/>✔️ Strong <strong>projection and depth</strong> — the fragrance unfolds in layers and maintains a rich, lasting character.</p><p>For comparison:</p><ul><li>5-15% fragrance oils.<br/></li><li>15-25%, so our perfumes are at the upper end of this category.<br/></li><li>25%, but is often much more expensive.<br/></li></ul><p>In short: With 19-21%, you get an intense, long-lasting, and high-quality fragrance experience — perfect for anyone who wants designer-like performance at an affordable price.</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_F64PJg": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "Compositions of Perfumes",
+            "icon": "perfume",
+            "content": "<p>Alcohol Denat. Parfum (Fragrance) Aqua (Water) Limonene Linalool Citronellol Geraniol Citral Benzyl Salicylate Coumarin Alpha-Isomethyl Ionone Hexyl Cinnamal Benzyl Benzoate</p>",
+            "page": ""
+          }
+        },
+        "collapsible_tab_ydfzCq": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "COMPARATIVE ADVERTISING DISCLAIMER",
+            "icon": "star",
+            "content": "<p>Please be aware that products mentioned throughout our site are a mere guide and in no circumstance should be mistaken for the actual high street, designer or Niche brand. Names and copyrights, used or unused, are properties of their respective manufacturers and/or designers. <br/><br/>These are simply inspirations, and are not ‘identical’ to any other fragrance or original.<br/><br/>Tryscent perfumes are not to be confused with originals and we have no affiliation with the manufacturers of these unnamed designer brands. <br/><br/>All ‘Trademarks’, used or unused, are property of their respective owners. We are not endorsed by, directly affiliated with, maintained, authorised, or sponsored by any trademark holder referenced or unreferenced herein. <br/><br/>The use of any product name is for identification and reference purposes only, and does not imply any association with the trademark holder.</p>",
+            "page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "disabled": true,
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "selling_points_9tdid6",
+        "inspired_by_idtdrk",
+        "designer_price_GYGxtE",
+        "scent_intensity_qajxtz",
+        "made_in_the_eu_78caec",
+        "cheaper_than_yDGYG9",
+        "variant_picker",
+        "text_fQLMC7",
+        "price",
+        "text_GrNJKg",
+        "quantity_selector",
+        "buy_buttons",
+        "subscribfy_block_product_page_vip_widget_PRD4ch",
+        "atc_bundle_builder_aLJUaV",
+        "money_back_cEqkRK",
+        "dialect_notes_NHiwen",
+        "reactive_variant_selector_JyFrkg",
+        "shipping_text_HCVN8A",
+        "custom_liquid_G7fm64",
+        "custom_liquid_eKzwKK",
+        "icon_with_text_rgXMXN",
+        "people_purchased_cYxaYJ",
+        "cta_review_g7n3R8",
+        "videos_iXPFhh",
+        "collapsible_tab_XYmgtQ",
+        "collapsible_tab_PtUaDN",
+        "collapsible_tab_tUEYBx",
+        "collapsible_tab_nhKiAc",
+        "collapsible_tab_pCrhqV",
+        "collapsible_tab_gkD4Ei",
+        "collapsible_tab_pdYPYn",
+        "collapsible_tab_F64PJg",
+        "collapsible_tab_ydfzCq",
+        "share"
+      ],
+      "disabled": true,
+      "custom_css": [],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-2",
+        "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
+        "hide_variants": true,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 72
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-2",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": true,
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "scent_bundle_builder_single_4kxUXK": {
+      "type": "scent-bundle-builder-single",
+      "name": "Bundle builder 60% off",
+      "settings": {
+        "grid_collection": "",
+        "bundle_total": 5,
+        "bundle_discount_qty": 3,
+        "discount_percent": 60,
+        "offer_badge": "Lönehelgserbjudande",
+        "heading": "Bygg ditt doftskåp och",
+        "heading_accent": "få 3 flaskor GRATIS",
+        "subheading": "<p>Köp 2x100ml av dina favoritparfymer och få <strong>3x100ml GRATIS. Betala </strong>60% MINDRE i detta LÖNEDAGSERBJUDANDE!<br/><br/></p>",
+        "timer_deadline": "2026-09-28T00:00:00+02:00",
+        "timer_label": "Erbjudandet slutar om",
+        "timer_days_label": "dagar",
+        "timer_hours_label": "tim",
+        "timer_minutes_label": "min",
+        "timer_seconds_label": "sek",
+        "slot_label": "Välj din doft",
+        "discount_slot_label": "Rabatterad doft",
+        "discount_pill_label": "GRATIS",
+        "counter_text": "[selected] / [total] valda",
+        "hint_text": "Lägg till [remaining] dofter till för att låsa upp din rabatt!",
+        "hint_text_one": "Lägg till 1 doft till för att låsa upp din rabatt!",
+        "done_text": "Ditt paket är klart!",
+        "total_label": "Ordinarie pris:",
+        "price_label": "Nu:",
+        "per_bottle_label": "Endast [original_price] [price] per flaska",
+        "savings_label": "Spara [amount] idag",
+        "search_placeholder": "Hitta din parfym",
+        "cta_label": "Lägg till",
+        "empty_text": "Inga dofter matchar din sökning.",
+        "cta_button_label": "Lägg i varukorgen",
+        "cta_disabled_label": "Lägg till [remaining] dofter",
+        "cta_disabled_label_one": "Lägg till 1 doft"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products",
+    "scent_bundle_builder_single_4kxUXK"
+  ]
+}

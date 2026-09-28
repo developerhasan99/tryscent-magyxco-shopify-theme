@@ -1,0 +1,232 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "insta_story_6kD6Ki": {
+      "type": "insta-story",
+      "blocks": {
+        "story_gjiCaN": {
+          "type": "story",
+          "settings": {
+            "title": "LV",
+            "image": "shopify://shop_images/new-arribals.png",
+            "link": "shopify://collections/louis-vuitton®"
+          }
+        },
+        "story_yMVHwJ": {
+          "type": "story",
+          "settings": {
+            "title": "Dior",
+            "image": "shopify://shop_images/dior.avif",
+            "link": "shopify://collections/dior®"
+          }
+        },
+        "story_BpqQDR": {
+          "type": "story",
+          "settings": {
+            "title": "Tom Ford",
+            "image": "shopify://shop_images/Tom_ford.avif",
+            "link": "shopify://collections/tomford®"
+          }
+        },
+        "story_YdjabH": {
+          "type": "story",
+          "settings": {
+            "title": "Baccarat",
+            "image": "shopify://shop_images/Baccarat_Rouge.png",
+            "link": "shopify://collections/baccarat-rouge®"
+          }
+        },
+        "story_fFraf6": {
+          "type": "story",
+          "settings": {
+            "title": "Creed",
+            "image": "shopify://shop_images/Creed.png",
+            "link": "shopify://collections/creed®"
+          }
+        },
+        "story_TBAmBK": {
+          "type": "story",
+          "disabled": true,
+          "settings": {
+            "title": "Xerjoff",
+            "image": "shopify://shop_images/xerjoff.avif",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "story_gjiCaN",
+        "story_yMVHwJ",
+        "story_BpqQDR",
+        "story_YdjabH",
+        "story_fFraf6",
+        "story_TBAmBK"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "collection_header_UAKfye": {
+      "type": "collection-header",
+      "blocks": {
+        "step_wa3q86": {
+          "type": "step",
+          "settings": {
+            "step_title": "Select Up To 5 Bottles To Get $100 OFF",
+            "step_description": ""
+          }
+        },
+        "step_tWiJtK": {
+          "type": "step",
+          "settings": {
+            "step_title": "Get Up To 4 Bottles For",
+            "step_description": "Get to try more scents. Keep some, give some!"
+          }
+        },
+        "step_xMUhDC": {
+          "type": "step",
+          "settings": {
+            "step_title": "Add to cart & enjoy TryScent",
+            "step_description": "We offer 60-day satisfaction guarantee."
+          }
+        },
+        "guarantee_mt3eiH": {
+          "type": "guarantee",
+          "settings": {
+            "icon": "shopify://shop_images/sandwatch.svg",
+            "text": "Lasts 12+ Hours"
+          }
+        },
+        "guarantee_pL7fyb": {
+          "type": "guarantee",
+          "settings": {
+            "icon": "shopify://shop_images/heart.svg",
+            "text": "loved by 10,000+"
+          }
+        },
+        "guarantee_Ygqtrt": {
+          "type": "guarantee",
+          "settings": {
+            "icon": "shopify://shop_images/sheild-star.svg",
+            "text": "60 day satisfaction guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "step_wa3q86",
+        "step_tWiJtK",
+        "step_xMUhDC",
+        "guarantee_mt3eiH",
+        "guarantee_pL7fyb",
+        "guarantee_Ygqtrt"
+      ],
+      "disabled": true,
+      "name": "Collection Header",
+      "settings": {
+        "background_color": "#242833",
+        "bg_image": "shopify://shop_images/builder-hero-bg.png",
+        "bg_mobile_image": "shopify://shop_images/builder-hero-bg.png",
+        "social_proof_text": "Join 10,000+ happy customers",
+        "collection_title": "Collection Title",
+        "collection_description": "Best scents you've ever smelled or your money back.",
+        "btn_link": "",
+        "btn_text": "View All",
+        "quality_badge": "shopify://shop_images/Best_weekend_perfumes_for_women.avif",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "mobile_padding_top": 40,
+        "mobile_padding_bottom": 40
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": false,
+        "show_collection_image": false,
+        "color_scheme": "scheme-2"
+      }
+    },
+    "178355294278227247": {
+      "type": "apps",
+      "blocks": {
+        "eb_easy_bundle_builder_app_block_bundle_page_3pBGjD": {
+          "type": "shopify://apps/eb-easy-bundle-builder/blocks/app-block-bundlePage/05b1325c-6303-4da5-8e2f-b13ab2a50e1a",
+          "settings": {
+            "bundle_id": 1,
+            "loadingUrl": "https://d3ks0ngva6go34.cloudfront.net/public/Loading_Spinner.gif"
+          }
+        }
+      },
+      "block_order": [
+        "eb_easy_bundle_builder_app_block_bundle_page_3pBGjD"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "disabled": true,
+      "settings": {
+        "products_per_page": 16,
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "scheme-2",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": true,
+        "quick_add": "none",
+        "enable_filtering": true,
+        "filter_type": "horizontal",
+        "enable_sorting": true,
+        "padding_top": 36,
+        "padding_bottom": 40
+      }
+    },
+    "rich_text_fnCgkL": {
+      "type": "rich-text",
+      "blocks": {
+        "text_x4GrCN": {
+          "type": "text",
+          "settings": {
+            "text": "<p></p>{{ collection.description }}"
+          }
+        }
+      },
+      "block_order": [
+        "text_x4GrCN"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".rich-text--full-width {background-color: #fcfbf9; border-top: #f3f3f3 2px solid;}"
+      ],
+      "name": "t:sections.rich-text.presets.name",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "insta_story_6kD6Ki",
+    "collection_header_UAKfye",
+    "banner",
+    "178355294278227247",
+    "product-grid",
+    "rich_text_fnCgkL"
+  ]
+}

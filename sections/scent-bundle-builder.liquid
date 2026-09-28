@@ -1,0 +1,716 @@
+{%- liquid
+  assign st = section.settings
+  assign grid_pool = st.grid_collection | default: collections['best-sellers']
+  assign variant_ml = st.variant_ml | default: '100' | append: 'ml'
+
+  assign t1_total = st.tier_1_total | plus: 0
+  assign t1_free = st.tier_1_free | plus: 0
+  assign t1_paid = t1_total | minus: t1_free
+  assign t1_ribbon = 'Köp ' | append: t1_paid | append: ', få ' | append: t1_free | append: ' gratis'
+  assign t1_image_text = t1_ribbon
+  if st.tier_1_image_text != blank
+    assign t1_image_text = st.tier_1_image_text | replace: '[paid]', t1_paid | replace: '[free]', t1_free | replace: '[total]', t1_total
+  endif
+
+  assign t2_total = st.tier_2_total | plus: 0
+  assign t2_free = st.tier_2_free | plus: 0
+  assign t2_paid = t2_total | minus: t2_free
+  assign t2_ribbon = 'Köp ' | append: t2_paid | append: ', få ' | append: t2_free | append: ' gratis'
+  assign t2_image_text = t2_ribbon
+  if st.tier_2_image_text != blank
+    assign t2_image_text = st.tier_2_image_text | replace: '[paid]', t2_paid | replace: '[free]', t2_free | replace: '[total]', t2_total
+  endif
+
+  assign eligible_handles = ''
+  for p in grid_pool.products
+    assign has_ml = false
+    for v in p.variants
+      assign vt = v.title | downcase | replace: ' ml', 'ml'
+      if vt == variant_ml
+        assign has_ml = true
+        break
+      endif
+    endfor
+    if has_ml
+      assign eligible_handles = eligible_handles | append: '|' | append: p.handle | append: '|'
+    endif
+  endfor
+
+  assign start_counter = st.counter_text | replace: '[selected]', 0 | replace: '[total]', t1_total
+  assign start_hint = st.hint_text | replace: '[remaining]', t1_total
+  if t1_total == 1
+    assign start_hint = st.hint_text_one
+  endif
+-%}
+
+{{ 'scent-bundle-builder.css' | asset_url | stylesheet_tag }}
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<div class="sbb" x-data="sbbBuilder()">
+  <header class="sbb-head">
+    {%- if st.heading != blank -%}
+      <h2 class="sbb-head__title">{{ st.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if st.subheading != blank -%}
+      <p class="sbb-head__sub">{{ st.subheading | escape }}</p>
+    {%- endif -%}
+  </header>
+
+  {%- if st.enable_tier_2 -%}
+    <div class="sbb-tiers">
+      <button
+        type="button"
+        class="sbb-tier-card"
+        :class="{ 'is-active': tierIndex === 0 }"
+        @click="switchTier(0)">
+        {%- if st.tier_1_badge != blank -%}
+          <span class="sbb-tier-card__badge sbb-tier-card__badge--red">{{ st.tier_1_badge | escape }}</span>
+        {%- endif -%}
+        <span class="sbb-tier-card__title">{{ st.tier_1_label | escape }}</span>
+        <span class="sbb-tier-card__desc">{{ t1_ribbon | escape }}</span>
+      </button>
+      <button
+        type="button"
+        class="sbb-tier-card"
+        :class="{ 'is-active': tierIndex === 1 }"
+        @click="switchTier(1)">
+        {%- if st.tier_2_badge != blank -%}
+          <span class="sbb-tier-card__badge">{{ st.tier_2_badge | escape }}</span>
+        {%- endif -%}
+        <span class="sbb-tier-card__title">{{ st.tier_2_label | escape }}</span>
+        <span class="sbb-tier-card__desc">{{ t2_ribbon | escape }}</span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  <div class="sbb-builder" x-ref="preview">
+    <div class="sbb-builder__main">
+      <div class="sbb-slots">
+        <template x-for="(s, i) in slotsArray" :key="i">
+          <div
+            class="sbb-slot"
+            :class="{ 'sbb-slot--free': isFree(i), 'sbb-slot--filled': slot(i) }"
+            @click="scrollToPool()">
+            <span
+              class="sbb-slot__badge"
+              x-show="!isFree(i)"
+              x-text="i + 1"></span>
+            <span class="sbb-slot__pill" x-show="isFree(i)">{{ st.free_pill_label | escape }}</span>
+            <template x-if="slot(i)">
+              <span class="sbb-slot__pick">
+                <img
+                  :src="slot(i).image"
+                  alt=""
+                  width="80"
+                  height="80">
+                <button
+                  type="button"
+                  class="sbb-slot__x"
+                  @click.stop="removeAt(i)"
+                  aria-label="Ta bort">&times;</button>
+              </span>
+            </template>
+            <template x-if="!slot(i)">
+              <svg
+                class="sbb-slot__bottle"
+                width="62"
+                height="120"
+                viewBox="0 0 62 120"
+                aria-hidden="true">
+                <rect
+                  x="21.8"
+                  y="0.8"
+                  width="18.4"
+                  height="26"
+                  rx="3"></rect>
+                <rect
+                  x="0.8"
+                  y="26.8"
+                  width="60.4"
+                  height="92.4"
+                  rx="8"></rect>
+              </svg>
+            </template>
+            <span
+              class="sbb-slot__label"
+              x-show="!slot(i)"
+              x-text="isFree(i) ? {{ st.free_slot_label | json | escape }} : {{ st.slot_label | json | escape }}"></span>
+            <span
+              class="sbb-slot__label sbb-slot__label--name"
+              x-show="slot(i)"
+              x-text="slot(i) && slot(i).name"></span>
+          </div>
+        </template>
+      </div>
+      <div class="sbb-progress">
+        <div class="sbb-progress__track">
+          <div class="sbb-progress__fill" :style="'width: ' + percent + '%'"></div>
+        </div>
+        <p class="sbb-progress__copy">
+          <span x-text="counter">{{ start_counter | escape }}</span>
+          <span>&bull;</span>
+          <span x-text="message">{{ start_hint | escape }}</span>
+        </p>
+      </div>
+    </div>
+
+    <aside class="sbb-summary">
+      <template x-if="full && discount > 0">
+        <div>
+          <div class="sbb-summary__row">
+            <span>{{ st.total_label | escape }}</span>
+            <span x-text="money(ordTotal)"></span>
+          </div>
+          <div class="sbb-summary__row sbb-summary__row--discount">
+            <span>{{ st.discount_label | escape }}</span>
+            <span x-text="'-' + money(discount)"></span>
+          </div>
+        </div>
+      </template>
+      <div class="sbb-summary__row sbb-summary__row--total">
+        <span>{{ st.price_label | escape }}</span>
+        <span x-text="money(yourPrice)">{{ 0 | money }}</span>
+      </div>
+      <button
+        type="button"
+        class="sbb-summary__cta"
+        x-show="full"
+        :disabled="adding"
+        @click="addToCart()">
+        <span x-text="adding ? 'Lägger till…' : {{ st.cta_button_label | json | escape }}"></span>
+      </button>
+    </aside>
+  </div>
+
+  <div class="sbb-controls" x-ref="pool">
+    <form class="sbb-search" @submit.prevent>
+      <input
+        type="search"
+        placeholder="{{ st.search_placeholder | escape }}"
+        x-model="q"
+        x-ref="searchInput">
+    </form>
+    <div class="sbb-controls__row">
+      <select x-model="brand" x-show="brandOptions.length">
+        <option value="">Inspirerad av</option>
+        <template x-for="o in brandOptions" :key="o">
+          <option :value="o" x-text="'Doftar som ' + o"></option>
+        </template>
+      </select>
+      <select x-model="gender" x-show="genderOptions.length">
+        <option value="">Kön</option>
+        <template x-for="o in genderOptions" :key="o">
+          <option :value="o" x-text="o"></option>
+        </template>
+      </select>
+      <select x-model="sort">
+        <option value="featured">Utvald</option>
+        <option value="price-asc">Pris: lågt till högt</option>
+        <option value="price-desc">Pris: högt till lågt</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sbb-grid">
+    <template x-for="p in visible" :key="p.id">
+      <div class="sbb-card" :class="{ 'is-selected': isPicked(p.id) }">
+        <button
+          type="button"
+          class="sbb-card__media"
+          :aria-pressed="isPicked(p.id)"
+          @click="toggle(p.id)">
+          <img
+            :src="p.image"
+            :alt="p.name"
+            width="280"
+            height="280"
+            loading="lazy">
+          <template x-if="tier.ribbon">
+            <span class="sbb-card__ribbon" x-text="tier.ribbon"></span>
+          </template>
+        </button>
+        <button
+          type="button"
+          class="sbb-card__title"
+          :aria-pressed="isPicked(p.id)"
+          @click="toggle(p.id)"
+          x-text="p.name"></button>
+        <p class="sbb-card__price">
+          <span x-text="money(p.price)"></span>
+          <template x-if="p.compareAt > p.price">
+            <s x-text="money(p.compareAt)"></s>
+          </template>
+          <span class="sbb-card__size">{{ st.variant_ml | default: '100' }} ml</span>
+        </p>
+        <button
+          type="button"
+          class="sbb-card__cta"
+          :class="{ 'is-active': isPicked(p.id) }"
+          :disabled="!canToggle(p.id)"
+          @click="toggle(p.id)">
+          <span x-text="isPicked(p.id) ? 'Tillagd' : {{ st.cta_label | json | escape }}"></span>
+        </button>
+      </div>
+    </template>
+  </div>
+  <p class="sbb-empty" x-show="visible.length === 0">{{ st.empty_text | escape }}</p>
+  <div class="sbb-load-sentinel" x-ref="loadMoreSentinel" x-show="visible.length < sorted.length"></div>
+
+  <div class="sbb-sticky" :class="{ 'is-visible': showSticky }">
+    <div class="sbb-sticky__container">
+      <div class="sbb-sticky__inner">
+        <div class="sbb-sticky__slots">
+          <template x-for="(s, i) in slotsArray" :key="i">
+            <div class="sbb-sticky__slot" :class="{ 'is-filled': slot(i), 'sbb-sticky__slot--free': isFree(i) }">
+              <span class="sbb-sticky__pill" x-show="isFree(i)">{{ st.free_pill_label | escape }}</span>
+              <template x-if="slot(i)"><img
+                  :src="slot(i).image"
+                  alt=""
+                  width="60"
+                  height="60"></template>
+              <template x-if="!slot(i)">
+                <svg
+                  class="sbb-sticky__bottle"
+                  width="24"
+                  height="44"
+                  viewBox="0 0 24 44"
+                  aria-hidden="true">
+                  <rect
+                    x="8.5"
+                    y="0.5"
+                    width="7"
+                    height="9"
+                    rx="1"></rect>
+                  <rect
+                    x="0.5"
+                    y="9.5"
+                    width="23"
+                    height="34"
+                    rx="3"></rect>
+                </svg>
+              </template>
+            </div>
+          </template>
+        </div>
+        <div class="sbb-sticky__mid">
+          <p x-text="counter" class="sbb-counter">{{ start_counter | escape }}</p>
+          <p x-text="message" class="sbb-message">{{ start_hint | escape }}</p>
+        </div>
+        <div class="sbb-sticky__buy">
+          <span x-text="money(yourPrice)" class="sbb-sticky__price">{{ 0 | money }}</span>
+          <button
+            type="button"
+            :disabled="!full || adding"
+            @click="addToCart()">
+            <span x-text="adding ? 'Lägger till…' : {{ st.cta_button_label | json | escape }}"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('alpine:init', function () {
+    Alpine.data('sbbBuilder', function () {
+      return {
+        moneyFormat: {{ shop.money_format | json }},
+        tierIndex: 0,
+        adding: false,
+        showSticky: false,
+        q: '',
+        brand: '',
+        gender: '',
+        sort: 'featured',
+        visibleCount: 8,
+        pageSize: 8,
+        picks: [],
+        tiers: [
+          { total: {{ t1_total }}, free: {{ t1_free }}, ribbon: {{ t1_image_text | json }}, label: {{ st.tier_1_label | json }} },
+          { total: {{ t2_total }}, free: {{ t2_free }}, ribbon: {{ t2_image_text | json }}, label: {{ st.tier_2_label | json }} }
+        ],
+        products: [
+          {%- for p in grid_pool.products -%}
+            {%- assign handle_token = '|' | append: p.handle | append: '|' -%}
+            {%- unless eligible_handles contains handle_token -%}{%- continue -%}{%- endunless -%}
+            {%- assign match = blank -%}
+            {%- for v in p.variants -%}
+              {%- assign vt = v.title | downcase | replace: ' ml', 'ml' -%}
+              {%- if vt == variant_ml -%}{%- assign match = v -%}{%- break -%}{%- endif -%}
+            {%- endfor -%}
+            {
+              id: {{ p.id }},
+              name: {{ p.title | json }},
+              url: {{ p.url | json }},
+              image: {{ p.featured_image | image_url: width: 560 | json }},
+              price: {{ match.price }},
+              compareAt: {{ match.compare_at_price | default: 0 }},
+              variantId: {{ match.id | json }},
+              brand: {{ p.metafields.custom.brand.value | join: '||' | json }},
+              gender: {{ p.metafields.custom.gender.value | join: '||' | json }}
+            },
+          {%- endfor -%}
+        ],
+        init() {
+          var self = this;
+          this.$nextTick(function () {
+            if (self.$refs.preview && 'IntersectionObserver' in window) {
+              var stickyObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                  self.showSticky = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+                });
+              }, { threshold: 0 });
+              stickyObserver.observe(self.$refs.preview);
+            } else {
+              self.showSticky = true;
+            }
+            var checkLoadMore = function () {
+              if (!self.$refs.loadMoreSentinel || self.visibleCount >= self.sorted.length) return;
+              var rect = self.$refs.loadMoreSentinel.getBoundingClientRect();
+              if (rect.top < window.innerHeight + 400) {
+                self.visibleCount += self.pageSize;
+                self.$nextTick(checkLoadMore);
+              }
+            };
+            var ticking = false;
+            var onScroll = function () {
+              if (ticking) return;
+              ticking = true;
+              window.requestAnimationFrame(function () {
+                ticking = false;
+                checkLoadMore();
+              });
+            };
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            checkLoadMore();
+          });
+          ['q', 'brand', 'gender', 'sort'].forEach(function (key) {
+            self.$watch(key, function () { self.visibleCount = self.pageSize; });
+          });
+        },
+        scrollToPool() {
+          if (!this.$refs.pool) return;
+          this.$refs.pool.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (this.$refs.searchInput) {
+            var input = this.$refs.searchInput;
+            setTimeout(function () { input.focus({ preventScroll: true }); }, 400);
+          }
+        },
+        get tier() { return this.tiers[this.tierIndex]; },
+        get slotsArray() { return Array.from({ length: this.tier.total }); },
+        isFree(i) { return i >= this.tier.total - this.tier.free; },
+        switchTier(i) {
+          if (i === this.tierIndex) return;
+          this.tierIndex = i;
+          if (this.picks.length > this.tier.total) {
+            this.picks = this.picks.slice(0, this.tier.total);
+          }
+        },
+        get brandOptions() {
+          var set = new Set();
+          this.products.forEach(function (p) { p.brand.split('||').forEach(function (b) { if (b) set.add(b); }); });
+          return Array.from(set).sort();
+        },
+        get genderOptions() {
+          var set = new Set();
+          this.products.forEach(function (p) { p.gender.split('||').forEach(function (g) { if (g) set.add(g); }); });
+          return Array.from(set).sort();
+        },
+        get filtered() {
+          var q = this.q.trim().toLowerCase();
+          return this.products.filter(function (p) {
+            if (this.brand && p.brand.split('||').indexOf(this.brand) === -1) return false;
+            if (this.gender && p.gender.split('||').indexOf(this.gender) === -1) return false;
+            if (q && p.name.toLowerCase().indexOf(q) === -1) return false;
+            return true;
+          }, this);
+        },
+        get sorted() {
+          var list = this.filtered.slice();
+          if (this.sort === 'price-asc') list.sort(function (a, b) { return a.price - b.price; });
+          if (this.sort === 'price-desc') list.sort(function (a, b) { return b.price - a.price; });
+          return list;
+        },
+        get visible() {
+          var list = this.sorted;
+          return list.filter(function (p, i) { return this.isPicked(p.id) || i < this.visibleCount; }, this);
+        },
+        slot(i) { return this.picks[i] || null; },
+        isPicked(id) { return this.picks.some(function (p) { return p.id === id; }); },
+        canToggle(id) { return this.isPicked(id) || this.picks.length < this.tier.total; },
+        toggle(id) {
+          if (this.isPicked(id)) {
+            this.picks = this.picks.filter(function (p) { return p.id !== id; });
+            return;
+          }
+          if (this.picks.length >= this.tier.total) return;
+          var product = this.products.find(function (p) { return p.id === id; });
+          if (product) this.picks = this.picks.concat([product]);
+        },
+        removeAt(i) { this.picks.splice(i, 1); },
+        get full() { return this.picks.length >= this.tier.total; },
+        get percent() { return this.tier.total ? Math.min(100, Math.round((this.picks.length / this.tier.total) * 100)) : 0; },
+        get counter() { return {{ st.counter_text | json }}.replace('[selected]', this.picks.length).replace('[total]', this.tier.total); },
+        get message() {
+          var remaining = Math.max(0, this.tier.total - this.picks.length);
+          if (remaining === 0) return {{ st.done_text | json }};
+          if (remaining === 1) return {{ st.hint_text_one | json }};
+          return {{ st.hint_text | json }}.replace('[remaining]', remaining);
+        },
+        get ordTotal() { return this.picks.reduce(function (sum, p) { return sum + p.price; }, 0); },
+        // Estimate only: assumes the automatic discount in Shopify admin gives the
+        // cheapest `tier.free` picks for free. The real total is whatever that
+        // discount computes at checkout.
+        get discount() {
+          if (!this.full) return 0;
+          var prices = this.picks.map(function (p) { return p.price; }).sort(function (a, b) { return a - b; });
+          return prices.slice(0, this.tier.free).reduce(function (sum, price) { return sum + price; }, 0);
+        },
+        get yourPrice() { return this.ordTotal - this.discount; },
+        money(cents) {
+          var n = Math.round(Number(cents) || 0);
+          var int = String(Math.floor(Math.abs(n) / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+          var dec = String(Math.abs(n) % 100).padStart(2, '0');
+          var out = String(this.moneyFormat || '{' + '{amount}' + '}').replace(/\{\{\s*amount\w*\s*\}\}/, int + '.' + dec).replace(/<[^>]+>/g, '');
+          return (n < 0 ? '-' : '') + out;
+        },
+        addToCart() {
+          if (!this.full || this.adding) return;
+          this.adding = true;
+          var items = this.picks.map(function (p) { return { id: p.variantId, quantity: 1 }; });
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: items })
+          })
+            .then(function (res) { if (!res.ok) throw new Error('cart add failed'); return res.json(); })
+            .then(function () { window.location.href = '/checkout'; })
+            .catch(function () { this.adding = false; }.bind(this));
+        }
+      };
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Scent bundle builder",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "grid_collection",
+        "label": "Scent grid collection",
+        "info": "Defaults to best-sellers"
+      },
+      {
+        "type": "text",
+        "id": "variant_ml",
+        "label": "Bottle size (ml)",
+        "default": "100",
+        "info": "Matches against each product's variant title, e.g. 100ml"
+      },
+      {
+        "type": "header",
+        "content": "Offer 1"
+      },
+      {
+        "type": "text",
+        "id": "tier_1_label",
+        "label": "Toggle label",
+        "default": "2+1"
+      },
+      {
+        "type": "text",
+        "id": "tier_1_badge",
+        "label": "Badge text",
+        "info": "Leave blank to hide",
+        "default": "Mest populär"
+      },
+      {
+        "type": "text",
+        "id": "tier_1_image_text",
+        "label": "Offer text on product image",
+        "info": "Use [paid], [free] and [total] for the bottle counts. Leave blank for \"Köp [paid], få [free] gratis\"."
+      },
+      {
+        "type": "number",
+        "id": "tier_1_total",
+        "label": "Total bottles",
+        "default": 3
+      },
+      {
+        "type": "number",
+        "id": "tier_1_free",
+        "label": "Free bottles",
+        "default": 1
+      },
+      {
+        "type": "header",
+        "content": "Offer 2"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_tier_2",
+        "label": "Enable offer 2 toggle",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "tier_2_label",
+        "label": "Toggle label",
+        "default": "4+2"
+      },
+      {
+        "type": "text",
+        "id": "tier_2_badge",
+        "label": "Badge text",
+        "info": "Leave blank to hide",
+        "default": "Bästa pris"
+      },
+      {
+        "type": "text",
+        "id": "tier_2_image_text",
+        "label": "Offer text on product image",
+        "info": "Use [paid], [free] and [total] for the bottle counts. Leave blank for \"Köp [paid], få [free] gratis\"."
+      },
+      {
+        "type": "number",
+        "id": "tier_2_total",
+        "label": "Total bottles",
+        "default": 6
+      },
+      {
+        "type": "number",
+        "id": "tier_2_free",
+        "label": "Free bottles",
+        "default": 2
+      },
+      {
+        "type": "header",
+        "content": "Heading"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Bygg ditt eget Välj & spara"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Parfymer – få dina gratis flaskor"
+      },
+      {
+        "type": "header",
+        "content": "Builder"
+      },
+      {
+        "type": "text",
+        "id": "slot_label",
+        "label": "Empty slot label",
+        "default": "Välj din doft"
+      },
+      {
+        "type": "text",
+        "id": "free_slot_label",
+        "label": "Free slot label",
+        "default": "Gratis doft"
+      },
+      {
+        "type": "text",
+        "id": "free_pill_label",
+        "label": "Free slot tag",
+        "default": "FREE"
+      },
+      {
+        "type": "text",
+        "id": "counter_text",
+        "label": "Progress counter",
+        "info": "[selected] / [total]",
+        "default": "[selected] / [total] valda"
+      },
+      {
+        "type": "text",
+        "id": "hint_text",
+        "label": "Progress hint",
+        "info": "[remaining]",
+        "default": "Lägg till [remaining] doft till för att låsa upp dina gratis doft!"
+      },
+      {
+        "type": "text",
+        "id": "hint_text_one",
+        "label": "Progress hint, one left",
+        "default": "Lägg till 1 doft till för att låsa upp din gratis doft!"
+      },
+      {
+        "type": "text",
+        "id": "done_text",
+        "label": "Progress done message",
+        "default": "Ditt paket är klart!"
+      },
+      {
+        "type": "header",
+        "content": "Price summary"
+      },
+      {
+        "type": "text",
+        "id": "total_label",
+        "label": "Ordinary total label",
+        "default": "Ord. totalpris"
+      },
+      {
+        "type": "text",
+        "id": "discount_label",
+        "label": "Discount label",
+        "default": "Rabatt"
+      },
+      {
+        "type": "text",
+        "id": "price_label",
+        "label": "Your price label",
+        "default": "Ditt pris"
+      },
+      {
+        "type": "text",
+        "id": "savings_label",
+        "label": "Savings label",
+        "default": "Du sparar"
+      },
+      {
+        "type": "header",
+        "content": "Grid"
+      },
+      {
+        "type": "text",
+        "id": "search_placeholder",
+        "label": "Search placeholder",
+        "default": "Hitta din parfym"
+      },
+      {
+        "type": "text",
+        "id": "cta_label",
+        "label": "Card button",
+        "default": "Lägg"
+      },
+      {
+        "type": "text",
+        "id": "empty_text",
+        "label": "No results message",
+        "default": "Inga dofter matchar din sökning."
+      },
+      {
+        "type": "text",
+        "id": "cta_button_label",
+        "label": "Sticky bar button",
+        "default": "Lägg i varukorg"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Scent bundle builder"
+      }
+    ]
+  }
+{% endschema %}

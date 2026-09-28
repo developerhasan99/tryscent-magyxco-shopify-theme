@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "finlad"
+  },
+  "parent": "collection.payday-collection.json",
+  "sections": {
+    "collection_header_UT7VMF": {
+      "settings": {
+        "social_proof_text": "Hyväksytty yli 10 000 tyytyväisen tuoksun ystävän toimesta",
+        "collection_title": "Palkkapäivän alennusmyynti!",
+        "collection_description": "Osta suosikkituoksusi entistäkin edullisemmilla hinnoilla! Ja säästä vielä enemmän pakettitarjouksilla!"
+      },
+      "blocks": {
+        "step_iFG4n8": {
+          "settings": {
+            "step_title": "Saat 30 % alennusta koko ostoskorista",
+            "step_description": "Valitse suosikkituoksusi ja lisää ne ostoskoriin"
+          }
+        },
+        "step_HhNQEy": {
+          "settings": {
+            "step_title": "Säästä vielä enemmän pakettitarjouksilla!",
+            "step_description": "Osta 3 – säästä 40 %. Osta 6 – säästä 48 %."
+          }
+        },
+        "step_ADpq49": {
+          "settings": {
+            "step_title": "Tee ostoksia vähintään 65 Euros arvosta",
+            "step_description": "Saat ILMAISEN toimituksen ja ILMAISIA lahjoja!"
+          }
+        },
+        "guarantee_f7VNpU": {
+          "settings": {
+            "text": "Kestää yli 12 tuntia"
+          }
+        },
+        "guarantee_dYJyiq": {
+          "settings": {
+            "text": "19–21 %:n hajusteöljypitoisuus"
+          }
+        },
+        "guarantee_Y3gwRj": {
+          "settings": {
+            "text": "60 päivän rahat-takaisin-takuu"
+          }
+        }
+      }
+    },
+    "blocky_image_embedded_xd4zwE": {
+      "settings": {
+        "image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_FI.webp"
+      },
+      "blocks": {}
+    },
+    "popular_products_CbL6aJ": {
+      "settings": {
+        "title": "Säästä enemmän ja osta enemmän pakettitarjouksilla!"
+      },
+      "blocks": {}
+    }
+  }
+}

@@ -1,0 +1,266 @@
+<style>
+  [x-cloak] {
+    display: none !important;
+  }
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<div class="py-16 md:py-20">
+  <div class="page-width" x-data="bundleBuilder()">
+    <div class="grid md:grid-cols-2 gap-6 md:gap-12 items-center">
+      <div class="border border-solid border-gray-200 rounded-lg p-8">
+        <h2 class="text-3xl font-bold text-gray-900 my-0">Buy 2 Get 1 FREE Save 33%</h2>
+        <p class="text-lg text-green-700 font-semibold my-2">Build your bundle and get one scent for FREE!</p>
+        <div class="grid grid-cols-3 gap-4 mt-8">
+          <div class="relative">
+            <img
+              src="{{ product.featured_image | image_url }}"
+              alt="Rough Perfume"
+              width=""
+              height=""
+              class="object-cover rounded w-full">
+            <div class="absolute top-0 left-0 [rotate:-20deg]">
+              <span class="bg-red-500 text-white px-3 py-1 rounded font-bold text-xs">FREE</span>
+            </div>
+          </div>
+
+          <div class="text-left relative col-span-2">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2 mt-0">{{ product.title }}</h3>
+            <p class="text-gray-700 my-0 line-clamp-2">{{ product.metafields.custom.scent_breakdown | metafield_text }}</p>
+            <div class="absolute top-0 right-0">
+              <span class="text-gray-600 text-lg">50ML</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Products Section -->
+      <div>
+        <div class="text-center mb-6">
+          <h3 class="text-xl font-bold text-gray-900 my-0 relative before:content-[''] before:block before:w-full before:h-[1px] before:bg-gray-200 before:absolute before:top-1/2 before:left-0 before:z-[-1]">
+            <span class="bg-white inline-block px-4" x-text="selectedProducts.length === 3 ? 'YOUR BUNDLE IS READY! 👑' : `ADD ${3 - selectedProducts.length} MORE SCENT${3 - selectedProducts.length > 1 ? 'S' : ''}`"></span>
+          </h3>
+        </div>
+        <div class="grid grid-cols-3 gap-4 pb-4 mb-6 border-0 border-b border-solid border-gray-200">
+          <template x-for="(product, index) in selectedProducts" :key="product.id">
+            <div class="text-center relative">
+              <div class="flex justify-center mb-4 border-2 border-solid border-green-700 rounded-lg">
+                <button @click="removeProduct(index)" class="absolute top-2 right-2 w-6 h-6 p-0 flex items-center justify-center bg-white rounded-full text-xs cursor-pointer border-0 shadow">
+                  <svg
+                    width="10"
+                    height="12"
+                    viewBox="0 0 10 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.92817 2.16875C9.85317 1.8875 9.80317 1.73125 9.80317 1.73125C9.72192 1.44063 9.51567 1.44062 9.20942 1.39062L7.55005 1.18125C7.3438 1.14688 7.3438 1.14688 7.26255 0.96875C6.99067 0.35625 6.9063 0 6.60942 0H3.39067C3.0938 0 3.01255 0.35625 2.74067 0.971875C2.65942 1.14687 2.65942 1.14688 2.45317 1.18438L0.790672 1.39375C0.487547 1.44375 0.268797 1.47188 0.187547 1.7625C0.187547 1.7625 0.150047 1.89062 0.0719217 2.16875C-0.0280783 2.54062 -0.0687033 2.5 0.275047 2.5H9.72505C10.0688 2.50312 10.0313 2.54062 9.92817 2.16875ZM8.8563 3.5H1.1438C0.625047 3.5 0.600047 3.56875 0.631297 3.95937L1.21567 11.5406C1.26567 11.925 1.30317 12.0031 1.76255 12.0031H8.23755C8.69692 12.0031 8.73442 11.925 8.78442 11.5406L9.3688 3.95937C9.40005 3.56562 9.37505 3.5 8.8563 3.5Z" fill="#868686" />
+                  </svg>
+                </button>
+                <img
+                  :src="product.image"
+                  :alt="product.name"
+                  class="w-full aspect-square object-cover rounded-lg"
+                  width=""
+                  height="">
+              </div>
+              <h4 class="font-bold text-gray-900 my-0 uppercase" x-text="product.name"></h4>
+              <p class="text-gray-900 my-0" x-text="product.price"></p>
+            </div>
+          </template>
+          <template x-for="i in (3 - selectedProducts.length)" :key="i">
+            <div class="text-center">
+              <div class="border-2 border-dashed border-gray-300 rounded-lg grid place-items-center w-full aspect-square">
+                <button @click="showProductModal = true" class="w-16 h-16 border-0 bg-green-700 text-white rounded-lg text-2xl hover:bg-green-700 transition-colors cursor-pointer">
+                  <div class="svg-wrapper">
+                    {{- 'icon-plus.svg' | inline_asset_content -}}
+                  </div>
+                </button>
+              </div>
+              <p class="text-gray-700 mt-4 font-medium mb-0">Add Scent</p>
+            </div>
+          </template>
+        </div>
+
+        <!-- Selected Products Display -->
+        <div class="text-center mb-6" x-show="selectedProducts.length === 3">
+          <div class="flex justify-center gap-2 items-center italic font-semibold text-lg tracking-tight">
+            <div class="text-gray-400 line-through">
+              {{ cart.currency.symbol }}
+              <span x-text="originalTotal.toFixed(2)"></span>
+            </div>
+            <div class="text-red-600">
+              {{ cart.currency.symbol }}
+              <span x-text="bundleTotal.toFixed(2)"></span>
+            </div>
+            <div class="text-green-700 inline-block ml-2">🎉 You Save
+              <span x-text="availableProducts[0].price"></span>!</div>
+          </div>
+        </div>
+        <button
+          @click="addBundleToCart()"
+          :disabled="selectedProducts.length !== 3"
+          class="w-full bg-green-800 text-white py-4 px-6 rounded-lg font-bold text-2xl hover:bg-green-900 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-400 border-0 disabled:shadow-none">
+          <span x-text="selectedProducts.length === 3 ? 'Add Bundle to Cart' : 'Complete the Bundle'"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Product Selection Modal -->
+    <div
+      x-show="showProductModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]"
+      x-cloak>
+      <div class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 h-[90vh] flex flex-col relative" @click.away="showProductModal = false">
+
+        <button @click="showProductModal = false" class="absolute -top-2 -right-2 w-8 h-8 bg-green-700 text-white rounded-full flex items-center justify-center hover:bg-green-700 border-0 text-3xl cursor-pointer transition">
+          <span class="[rotate:-45deg] svg-wrapper">
+            {{- 'icon-plus.svg' | inline_asset_content -}}
+          </span>
+        </button>
+        <div class="modal-header flex-shrink-0">
+          <div class="flex space-x-1 mb-4">
+            <button
+              @click="activeCategory = 'All'"
+              :class="activeCategory === 'All' ? 'border-2 border-green-700 bg-green-50' : 'bg-white border-gray-200'"
+              class="px-4 py-2 rounded font-semibold border border-solid cursor-pointer">All</button>
+            <button
+              @click="activeCategory = 'Man'"
+              :class="activeCategory === 'Man' ? 'border-2 border-green-700 bg-green-50' : 'bg-white border-gray-200'"
+              class="px-4 py-2 rounded font-semibold border border-solid cursor-pointer">Men's</button>
+            <button
+              @click="activeCategory = 'Woman'"
+              :class="activeCategory === 'Woman' ? 'border-2 border-green-700 bg-green-50' : 'bg-white border-gray-200'"
+              class="px-4 py-2 rounded font-semibold border border-solid cursor-pointer">Women's</button>
+          </div>
+
+          <!-- Search -->
+          <div class="relative">
+            <input
+              type="text"
+              x-model="searchText"
+              placeholder="Find your perfume"
+              class="w-full p-2.5 pl-10 h-10 bg-gray-100 rounded border-0 border-solid focus:border-2 focus:border-green-700 focus:outline-none focus:ring-0">
+            <span class="absolute top-2.5 left-2.5 svg-wrapper">
+              {{- 'icon-search.svg' | inline_asset_content -}}
+            </span>
+          </div>
+        </div>
+
+        {% comment %} Product Grid {% endcomment %}
+        <div class="flex-1 overflow-y-auto mt-4 -mx-2 px-2">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <template x-for="product in availableProducts" :key="product.id">
+              <template x-if="(product.tags.some(tag => tag === activeCategory) || activeCategory === 'All') &&
+         (selectedBrand === '' || product.tags.some(tag => 
+           tag.toLowerCase().includes(selectedBrand.toLowerCase())
+         )) &&
+         (searchText === '' || product.name.toLowerCase().includes(searchText.toLowerCase()))">
+                <div class="border border-solid border-gray-200 rounded-lg p-4 flex flex-col">
+                  <div class="flex justify-center mb-4">
+                    <img
+                      :src="product.image"
+                      :alt="product.name"
+                      height=""
+                      width=""
+                      class="w-full h-auto object-cover rounded mr-2">
+                  </div>
+                  <div class="relative mt-2 flex-1">
+                    <p class="text-gray-600 text-sm absolute top-0 right-0 my-0">50ml</p>
+                    <h4 class="font-bold text-gray-900 my-1" x-text="product.name"></h4>
+                    <div class="flex items-center">
+                      <img
+                        src="{{ 'rating-stars.svg' | asset_url }}"
+                        alt="*****"
+                        height="13"
+                        width="66">
+                      <span class="text-gray-600 text-sm ml-1">(<span x-text="product.ratingCount"></span>)</span>
+                    </div>
+                    <p class="text-gray-900 font-semibold mb-2 mt-0" x-text="product.price"></p>
+                  </div>
+                  <button
+                    @click="addProduct(product)"
+                    :disabled="isProductSelected(product.id) || selectedProducts.length >= 3"
+                    :class="isProductSelected(product.id) || selectedProducts.length >= 3 ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-700 hover:bg-green-800'"
+                    class="w-full text-white text-lg py-2.5 px-4 rounded-lg font-bold transition-colors border-0 cursor-pointer">
+                    <span x-text="isProductSelected(product.id) ? 'Added' : 'Add+'"></span>
+                  </button>
+                </div>
+              </template>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% assign bundle_collection = collections['smells-like'] %}
+{% unless bundle_collection %}
+  {% assign bundle_collection = collections.first %}
+{% endunless %}
+
+<script>
+
+  function bundleBuilder() {
+    return {
+        selectedProducts: [],
+        showProductModal: false,
+        activeCategory: "All",
+        selectedBrand: "",
+        searchText: "",
+        availableProducts: [
+            {% for product in bundle_collection.products %}
+              {
+                id: {{ product.id }},
+                name: "{{ product.title }}",
+                price: "{{ product.selected_or_first_available_variant.price | money }}",
+                image: "{{ product.featured_image | image_url }}",
+                ratingCount: "{{ product.metafields.reviews.rating_count }}",
+                tags: {{ product.tags | json }}
+            },
+            {% endfor %}
+        ],
+
+        get originalTotal() {
+            return parseFloat(this.availableProducts[0].price.replace(/[^0-9.]/g, '')) * 4;
+        },
+
+        get bundleTotal() {
+            return parseFloat(this.availableProducts[0].price.replace(/[^0-9.]/g, '')) * 3;
+        },
+
+        addProduct(product) {
+            if (this.selectedProducts.length < 3 && !this.isProductSelected(product.id)) {
+                this.selectedProducts.push(product);
+                if (this.selectedProducts.length === 3) {
+                    this.showProductModal = false;
+                }
+            }
+        },
+
+        removeProduct(index) {
+            this.selectedProducts.splice(index, 1);
+        },
+
+        isProductSelected(productId) {
+            return this.selectedProducts.some(product => product.id === productId);
+        },
+
+        addBundleToCart() {
+            // Shopify cart functionality would go here
+            console.log('Adding bundle to cart:', this.selectedProducts);
+            alert('Bundle added to cart!');
+        }
+    }
+  }
+</script>
+
+
+{% schema %}
+  {
+    "name": "PDP bundle builder",
+    "settings": [],
+    "presets": [
+      {
+        "name": "PDP bundle builder"
+      }
+    ]
+  }
+{% endschema %}

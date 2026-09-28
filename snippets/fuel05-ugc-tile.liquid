@@ -1,0 +1,201 @@
+{% comment %}
+  Renders one UGC video tile with an optional product pill.
+
+  Accepts:
+  - video: {Object} a video setting value (Shopify Files)
+  - video_url: {String} direct mp4 URL, used when no video is picked
+  - poster: {Object} image setting for the poster frame
+  - poster_url: {String} direct poster URL, used when no poster image is picked
+  - product_item: {Object} product shown in the white pill (optional)
+  - shopify_attributes: {String} block attributes for the theme editor
+
+  Usage:
+  {% render 'fuel05-ugc-tile', video: block.settings.video, video_url: block.settings.video_url, poster: block.settings.video_poster, product_item: block.settings.product, shopify_attributes: block.shopify_attributes %}
+{% endcomment %}
+
+{%- if video != blank or video_url != blank -%}
+  {%- comment -%}
+    The card takes the tap and the keyboard, so it needs a role and a name of
+    its own or a screen reader reaches a focusable thing it cannot announce.
+    The video itself has no name to give, and naming it as well would read the
+    card out twice, so it stays out of the tree.
+  {%- endcomment -%}
+  {%- liquid
+    assign tile_label = 'Spela video'
+    if product_item != blank
+      assign tile_label = tile_label | append: ', ' | append: product_item.title
+    endif
+  -%}
+  <div
+    class="fuel05-ugc__tile swiper-slide"
+    role="button"
+    tabindex="0"
+    aria-label="{{ tile_label | escape }}"
+    {{ shopify_attributes }}>
+    {%- comment -%}
+      With no poster image the first frame is the only thing that can fill the
+      tile, so a clip without one asks for metadata and the browser paints that
+      frame. A clip that has a poster still fetches nothing until it plays.
+    {%- endcomment -%}
+    {%- if video != blank -%}
+      {%- comment -%}
+        One source, and the smallest one that still covers the card. A card is
+        265px wide at most and every tile was serving the 1080p 7.2Mbps file,
+        so a tap had to buffer a full HD stream before it could produce a
+        single frame, which is what read as a dead tap.
+
+        Two steps, because Liquid and the CDN disagree about what exists.
+        video.sources holds two entries for a Files video, an m3u8 and one
+        mp4, and that mp4 is the tallest transcode (measured: 606x1080 for
+        every clip in this test). The loop is what picks when there is a
+        choice. The rewrite is what gets the smaller file today: the CDN also
+        serves the 480p and 720p transcodes, all three named off one trailing
+        id, so only the rendition label in the middle of the file name
+        differs, and Shopify builds its ladder downwards, so a clip with a
+        1080p rendition has the 480p one. Verified 200 on all six clips this
+        test ships; 5-17MB against 22-77MB. A URL carrying any other label is
+        left exactly as it came.
+      {%- endcomment -%}
+      {%- liquid
+        assign picked = blank
+        assign tallest = blank
+        for source in video.sources
+          if source.format == 'mp4'
+            if tallest == blank
+              assign tallest = source
+            elsif source.height > tallest.height
+              assign tallest = source
+            endif
+            if source.height >= 480
+              if picked == blank
+                assign picked = source
+              elsif source.height < picked.height
+                assign picked = source
+              endif
+            endif
+          endif
+        endfor
+        if picked == blank
+          assign picked = tallest
+        endif
+        assign source_url = picked.url
+        if picked.height > 480
+          assign source_url = source_url | replace: 'HD-1080p-7.2Mbps', 'SD-480p-1.5Mbps'
+        endif
+      -%}
+      <video
+        class="fuel05-ugc__video"
+        aria-hidden="true"
+        muted
+        loop
+        playsinline
+        preload="{% if poster != blank or video.preview_image != blank %}none{% else %}metadata{% endif %}"
+        poster="{% if poster != blank %}{{ poster | image_url: width: 600 }}{% else %}{{ video.preview_image | image_url: width: 600 }}{% endif %}">
+        {%- if source_url != blank -%}
+          <source src="{{ source_url }}" type="video/mp4">
+        {%- endif -%}
+      </video>
+      {%- comment -%}
+        The same picture the poster attribute points at, drawn over the video as
+        an image the browser cannot take away. iOS Safari drops the poster the
+        moment play() is called, and preload="none" means no frame is decoded
+        yet, so the card showed its own grey until the clip produced one. The
+        image is frame 0 of the clip, so the swap to real frames is invisible.
+        Decorative: the card above already carries the name.
+
+        The resolution below is the poster attribute's own, so a clip with no
+        poster source gets no overlay, which is the same clip that asks for
+        metadata and paints its first frame itself.
+
+        Eager, not lazy: the overlay IS the card. Safari only starts a lazy
+        image when its box reaches the viewport, and during a horizontal
+        swipe that is after the card is already on screen, so the row showed
+        its grey placeholder and then popped the picture in. Chrome fetches
+        lazy images far ahead, which is why the flash was Safari-only.
+      {%- endcomment -%}
+      {%- liquid
+        assign poster_image = poster
+        if poster_image == blank
+          assign poster_image = video.preview_image
+        endif
+      -%}
+      {%- if poster_image != blank -%}
+        <img
+          class="fuel05-ugc__poster"
+          src="{{ poster_image | image_url: width: 600 }}"
+          width="{{ poster_image.width }}"
+          height="{{ poster_image.height }}"
+          alt=""
+          aria-hidden="true"
+          loading="eager">
+      {%- endif -%}
+    {%- else -%}
+      <video
+        class="fuel05-ugc__video"
+        aria-hidden="true"
+        muted
+        loop
+        playsinline
+        preload="{% if poster != blank or poster_url != blank %}none{% else %}metadata{% endif %}"
+        {% if poster != blank %}poster="{{ poster | image_url: width: 600 }}"{% elsif poster_url != blank %}poster="{{ poster_url }}"{% endif %}>
+        <source src="{{ video_url }}" type="video/mp4">
+      </video>
+      {%- comment -%}
+        Same hold as the branch above, reading the URL the row passed instead of
+        a picked video's preview image. A URL is a string and carries no size,
+        so that branch states the size the rows ask the CDN for: every poster
+        passed here is a frame 0 thumbnail of a 9:16 clip requested at width
+        600, measured 600x1067. Nothing is laid out from it either way, because
+        the overlay is sized by the card it fills, not by its own picture.
+      {%- endcomment -%}
+      {%- if poster != blank -%}
+        <img
+          class="fuel05-ugc__poster"
+          src="{{ poster | image_url: width: 600 }}"
+          width="{{ poster.width }}"
+          height="{{ poster.height }}"
+          alt=""
+          aria-hidden="true"
+          loading="eager">
+      {%- elsif poster_url != blank -%}
+        <img
+          class="fuel05-ugc__poster"
+          src="{{ poster_url }}"
+          width="600"
+          height="1067"
+          alt=""
+          aria-hidden="true"
+          loading="eager">
+      {%- endif -%}
+    {%- endif -%}
+    {%- if product_item != blank -%}
+      <a class="fuel05-ugc__pill" href="{{ product_item.url }}">
+        {%- if product_item.featured_image != blank -%}
+          <img
+            class="fuel05-ugc__pill-thumb"
+            src="{{ product_item.featured_image | image_url: width: 132 }}"
+            alt="{{ product_item.featured_image.alt | default: product_item.title | escape }}"
+            width="66"
+            height="66"
+            loading="lazy">
+        {%- endif -%}
+        <span class="fuel05-ugc__pill-info">
+          <span class="fuel05-ugc__pill-title">{{ product_item.title | escape }}</span>
+          {%- comment -%}
+            No "Från" prefix here even though the theme's own card carries one:
+            the design draws the price on a single line inside a 93px column,
+            and "Från 129,99 kr" needs 124px, so the prefix wraps the pill a
+            full text-line taller than drawn.
+          {%- endcomment -%}
+          <span class="fuel05-ugc__pill-price">{{ product_item.price | money }}</span>
+        </span>
+        <span class="fuel05-ugc__pill-add" aria-hidden="true">
+          <svg preserveAspectRatio="none" overflow="visible" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.53125 2.375H8.46875C8.55208 2.375 8.59375 2.41667 8.59375 2.5V13.5C8.59375 13.5833 8.55208 13.625 8.46875 13.625H7.53125C7.44792 13.625 7.40625 13.5833 7.40625 13.5V2.5C7.40625 2.41667 7.44792 2.375 7.53125 2.375Z" fill="#137C44"/>
+            <path d="M3 7.40625H13.5C13.5833 7.40625 13.625 7.44792 13.625 7.53125V8.46875C13.625 8.55208 13.5833 8.59375 13.5 8.59375H2.5C2.41667 8.59375 2.375 8.55208 2.375 8.46875V7.53125C2.375 7.44792 2.41667 7.40625 2.5 7.40625H3Z" fill="#137C44"/>
+          </svg>
+        </span>
+      </a>
+    {%- endif -%}
+  </div>
+{%- endif -%}

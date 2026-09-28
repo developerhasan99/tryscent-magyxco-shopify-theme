@@ -1,0 +1,94 @@
+{% comment %}
+  Renders the UGC video row for the product page, reading its content from
+  the main product section's fuel05_ugc and fuel05_ugc_video blocks. The
+  hosting wrapper div (with the fuel05-ugc reveal classes) lives at the two
+  render sites, not here.
+
+  Accepts:
+  - section: {Object} the main product section (required)
+  - product: {Object} the page's product, read by the audience filter (required)
+  - mode: {String} 'desktop' or 'mobile'; mobile adds the Visa alla link
+  - with_assets: {Boolean} emit the stylesheet and script tags; pass it on exactly
+    one of the two render sites per page, or the product page loads both twice.
+    The desktop site owns it because it comes first in the markup. render gives a
+    snippet its own scope and increment counters do not cross it, checked on the
+    preview, so the guard has to be a parameter and cannot be a page level flag.
+
+  Usage:
+  {% render 'fuel05-ugc-pdp', section: section, product: product, mode: 'mobile' %}
+{% endcomment %}
+
+{%- liquid
+  assign heading = 'Älskad av tusentals'
+  for b in section.blocks
+    if b.type == 'fuel05_ugc' and b.settings.heading != blank
+      assign heading = b.settings.heading
+    endif
+  endfor
+-%}
+
+{%- comment -%}
+  The tiles are built first and the row is only printed if something came out of
+  the loop. A clip that carries an audience tag is skipped on products without
+  that tag, so a product matching none of them would otherwise get a heading and
+  an empty slider under it. Building the markup once and testing it is also the
+  only way the count and the output cannot drift apart; a separate scan loop
+  would let the two rules disagree the next time one of them changes.
+{%- endcomment -%}
+{%- capture tiles -%}
+  {%- for b in section.blocks -%}
+    {%- if b.type == 'fuel05_ugc_video' -%}
+      {%- liquid
+        assign wanted_tag = b.settings.audience_tag | strip | downcase
+        assign show_tile = true
+        if wanted_tag != blank
+          assign show_tile = false
+          for product_tag in product.tags
+            assign have_tag = product_tag | downcase
+            if have_tag == wanted_tag
+              assign show_tile = true
+              break
+            endif
+          endfor
+        endif
+      -%}
+      {%- if show_tile -%}
+        {% render 'fuel05-ugc-tile',
+          video: b.settings.video,
+          video_url: b.settings.video_url,
+          poster: b.settings.video_poster,
+          product_item: b.settings.product
+        %}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+{%- assign tiles = tiles | strip -%}
+
+{%- if tiles != blank -%}
+  {%- if with_assets -%}
+    {{ 'fuel05-ugc.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'fuel05-ugc.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+  <div class="fuel05-ugc__inner">
+    <div class="fuel05-ugc__header">
+      <h2 class="fuel05-ugc__heading">{{ heading | escape }}</h2>
+      <div class="fuel05-ugc__nav">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Föregående">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Nästa">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {{ tiles }}
+      </div>
+    </div>
+  </div>
+  {%- if mode == 'mobile' -%}
+    <a class="fuel05-ugc__visa-alla" href="{{ routes.collections_url }}/best-sellers">Visa alla</a>
+  {%- endif -%}
+{%- endif -%}

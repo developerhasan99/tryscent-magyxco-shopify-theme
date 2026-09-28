@@ -1,0 +1,487 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "custom_liquid_cJnqgV": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "/* 5× horizontal padding — desktop. Mobile kept usable. */.ts-container {padding: 0 160px;}",
+        ".ts-hero-title-band {padding: 32px 160px 26px;}",
+        ".ts-bundle {padding: 48px 160px 64px;}",
+        ".ts-pub-header {padding: 14px 160px 16px;}",
+        "@media (max-width: 540px) {.ts-container {padding: 0 32px; } .ts-hero-title-band {padding: 24px 32px 22px; } .ts-bundle {padding: 36px 32px 48px; } .ts-pub-header {padding: 14px 24px 16px; }}"
+      ],
+      "name": "Page content",
+      "settings": {
+        "custom_liquid": "<!--\n  TryScent listicle advertorial — paste-ready for Shopify Custom Liquid section.\n\n  USAGE:\n  1. Online Store → Themes → Customize → Add section → Custom Liquid\n  2. Paste this entire file into the \"Custom Liquid\" textarea.\n  3. Save. (No section settings to configure — everything is hard-coded.)\n\n  All CSS is scoped under `.tryscent-listicle` so it cannot collide with\n  the theme's own styles. CSS variables, resets, and animations stay inside\n  the wrapper.\n\n  Notes:\n  - Trust bar uses position:sticky;top:0. If your theme has a sticky\n    announcement bar/header, you may need to adjust `top` to that height.\n  - All images load from the existing TryScent Shopify CDN — no uploads needed.\n  - CTA points to /sv-se/products/6x-50ml-perfume-bottles (6-bottle bundle). Update inline if needed.\n-->\n\n<!-- IMAGE SWAP LIST\n  Point 1 → ugc15.png\n  Point 2 → ugc13.png\n  Point 3 → ugc8.png\n  Point 4 → WhatsApp_Image_2026-01-17_at_10.59.01.jpg\n  Point 5 → Designerperfym.png\n  Point 6 → ugc7.png (carries the 60-day badge)\n  Note: No specific swap priority — generic set is fine here.\n-->\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800;900&display=swap\" rel=\"stylesheet\">\n\n<style>\n.tryscent-listicle{\n  --black:#121212;\n  --white:#FFFFFF;\n  --green:#22613A;\n  --green-dark:#184528;\n  --red:#C8202F;\n  --grey:#BFBFBF;\n  --beige:#FAF9F6;\n  --navy:#242833;\n  font-family:'Figtree',sans-serif;\n  background:var(--beige);\n  color:var(--black);\n  font-size:16px;\n  line-height:1.6;\n  letter-spacing:0.01em;\n}\n.tryscent-listicle *{box-sizing:border-box;margin:0;padding:0;}\n.tryscent-listicle img{max-width:100%;height:auto;display:block;}\n\n/* ==== HERO ==== */\n.tryscent-listicle .ts-hero{\n  background:var(--green);\n  color:var(--white);\n  padding:48px 24px 0;\n  position:relative;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-hero::before{\n  content:\"\";\n  position:absolute;\n  top:-120px;right:-120px;\n  width:340px;height:340px;\n  border-radius:50%;\n  background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), rgba(34,97,58,0) 65%);\n  pointer-events:none;\n}\n.tryscent-listicle .ts-hero::after{\n  content:\"\";\n  position:absolute;\n  top:-40px;right:60px;\n  width:120px;height:120px;\n  border:1px solid rgba(255,255,255,0.35);\n  border-radius:50%;\n  pointer-events:none;\n}\n.tryscent-listicle .ts-hero-inner{\n  max-width:1200px;\n  margin:0 auto;\n  display:grid;\n  grid-template-columns:1.25fr 1fr;\n  gap:48px;\n  align-items:center;\n  position:relative;\n  z-index:2;\n}\n.tryscent-listicle .ts-hero-copy h1{\n  font-weight:800;\n  font-size:clamp(24px, 2.2vw, 32px);\n  line-height:1.15;\n  letter-spacing:-0.01em;\n  margin-bottom:16px;\n  text-align:center;\n  color:var(--white);\n}\n.tryscent-listicle .ts-hero-copy h1 .ts-light{\n  font-weight:700;\n  font-size:clamp(12px, 1.05vw, 15px);\n  letter-spacing:0.16em;\n  text-transform:uppercase;\n  color:var(--beige);\n  display:block;\n  margin-bottom:12px;\n}\n.tryscent-listicle .ts-hero-copy .ts-sub{\n  font-size:clamp(14px, 1.15vw, 16px);\n  line-height:1.5;\n  color:rgba(250,249,246,0.85);\n  max-width:600px;\n  margin:0 auto;\n  text-align:center;\n}\n.tryscent-listicle .ts-hero-img{\n  position:relative;\n  aspect-ratio:4/3;\n  background:#1a1d26;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-hero-img img{width:100%;height:100%;object-fit:cover;}\n\n/* ==== TRUST BAR ==== */\n.tryscent-listicle .ts-trustbar{\n  background:var(--green-dark);\n  border-top:1px solid rgba(255,255,255,0.10);\n  padding:18px 0;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-trustbar-track{\n  display:flex;\n  width:max-content;\n  animation:tsTrustMarquee 24s linear infinite;\n}\n.tryscent-listicle .ts-trustbar-item{\n  display:flex;\n  align-items:center;\n  gap:10px;\n  color:var(--white);\n  font-size:13px;\n  font-weight:600;\n  letter-spacing:0.05em;\n  white-space:nowrap;\n  margin-right:64px;\n}\n@keyframes tsTrustMarquee{\n  from{transform:translateX(0);}\n  to{transform:translateX(-50%);}\n}\n.tryscent-listicle .ts-trustbar-item svg{width:20px;height:20px;flex-shrink:0;stroke:var(--white);fill:none;stroke-width:1.6;}\n\n/* ==== LISTICLE ==== */\n.tryscent-listicle .ts-listicle-wrap{\n  background:var(--beige);\n  padding:80px 24px;\n}\n.tryscent-listicle .ts-listicle-inner{\n  max-width:900px;\n  margin:0 auto;\n  display:flex;\n  flex-direction:column;\n  gap:64px;\n}\n.tryscent-listicle .ts-point{\n  display:grid;\n  grid-template-columns:280px 1fr;\n  gap:36px;\n  align-items:start;\n}\n.tryscent-listicle .ts-point-img{\n  position:relative;\n  aspect-ratio:1/1;\n  background:#e8e6df;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-point-img img{width:100%;height:100%;object-fit:cover;}\n.tryscent-listicle .ts-point-num{\n  position:absolute;\n  top:0;left:0;\n  width:48px;height:48px;\n  background:var(--black);\n  color:var(--white);\n  display:flex;\n  align-items:center;\n  justify-content:center;\n  font-weight:800;\n  font-size:22px;\n  z-index:2;\n}\n.tryscent-listicle .ts-point-body h3{\n  font-weight:800;\n  font-size:clamp(20px, 2.4vw, 26px);\n  line-height:1.15;\n  letter-spacing:-0.01em;\n  margin-bottom:14px;\n  text-transform:uppercase;\n  color:var(--black);\n}\n.tryscent-listicle .ts-point-body p{\n  font-size:16px;\n  line-height:1.65;\n  color:#2a2a2a;\n  margin-bottom:12px;\n}\n.tryscent-listicle .ts-point-body p:last-child{margin-bottom:0;}\n.tryscent-listicle .ts-point-body strong{font-weight:700;color:var(--black);}\n.tryscent-listicle .ts-badge-60{\n  position:absolute;\n  bottom:14px;right:14px;\n  width:88px;height:88px;\n  padding:6px;\n  background:radial-gradient(circle, #e8b94d 0%, #c79a2e 100%);\n  color:#3a2a05;\n  border-radius:50%;\n  display:flex;\n  flex-direction:column;\n  align-items:center;\n  justify-content:center;\n  text-align:center;\n  font-weight:800;\n  box-shadow:0 4px 12px rgba(0,0,0,0.25);\n  border:3px solid #fff;\n  z-index:2;\n}\n.tryscent-listicle .ts-badge-60 .ts-num{font-size:26px;line-height:1;letter-spacing:-0.02em;}\n.tryscent-listicle .ts-badge-60 .ts-lbl{\n  font-size:8px;\n  letter-spacing:0.04em;\n  text-transform:uppercase;\n  margin-top:3px;\n  line-height:1.1;\n  font-weight:700;\n}\n\n/* ==== SOCIAL PROOF ==== */\n.tryscent-listicle .ts-proof{\n  background:var(--green);\n  color:var(--white);\n  padding:64px 0;\n  overflow:hidden;\n  position:relative;\n}\n.tryscent-listicle .ts-proof::before{\n  content:\"\";\n  position:absolute;\n  top:-100px;left:-100px;\n  width:300px;height:300px;\n  border-radius:50%;\n  background:radial-gradient(circle at 70% 30%, rgba(255,255,255,0.12), rgba(34,97,58,0) 65%);\n  pointer-events:none;\n}\n.tryscent-listicle .ts-proof::after{\n  content:\"\";\n  position:absolute;\n  bottom:120px;right:60px;\n  width:140px;height:140px;\n  border:1px solid rgba(255,255,255,0.25);\n  border-radius:50%;\n  pointer-events:none;\n}\n.tryscent-listicle .ts-proof-top{\n  max-width:1100px;\n  margin:0 auto 40px;\n  padding:0 24px;\n  display:grid;\n  grid-template-columns:1fr 1fr;\n  gap:48px;\n  align-items:center;\n}\n.tryscent-listicle .ts-proof h2{\n  font-weight:800;\n  font-size:clamp(22px, 2.6vw, 30px);\n  line-height:1.15;\n  text-transform:uppercase;\n  letter-spacing:-0.01em;\n  color:var(--white);\n}\n.tryscent-listicle .ts-proof-list{list-style:none;display:flex;flex-direction:column;gap:14px;}\n.tryscent-listicle .ts-proof-list li{\n  display:flex;\n  align-items:flex-start;\n  gap:12px;\n  font-size:15px;\n  line-height:1.5;\n  color:rgba(250,249,246,0.9);\n}\n.tryscent-listicle .ts-proof-list svg{\n  flex-shrink:0;\n  width:20px;height:20px;\n  stroke:var(--white);\n  fill:none;\n  stroke-width:2.5;\n  margin-top:2px;\n}\n.tryscent-listicle .ts-proof-carousel{\n  position:relative;\n  margin:0 0 32px;\n  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);\n  mask-image:linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);\n}\n.tryscent-listicle .ts-carousel-track{\n  display:flex;\n  gap:4px;\n  width:max-content;\n  animation:tsCarousel 60s linear infinite;\n}\n.tryscent-listicle .ts-proof-carousel:hover .ts-carousel-track{animation-play-state:paused;}\n.tryscent-listicle .ts-carousel-card{\n  width:180px;\n  aspect-ratio:1/1;\n  flex-shrink:0;\n  overflow:hidden;\n  background:#0f1218;\n}\n.tryscent-listicle .ts-carousel-card img{width:100%;height:100%;object-fit:cover;display:block;}\n@keyframes tsCarousel{\n  from{transform:translateX(0);}\n  to{transform:translateX(calc(var(--ts-card-step, 184px) * -10));}\n}\n.tryscent-listicle .ts-proof-reviews-tag{\n  max-width:1100px;\n  margin:0 auto;\n  background:var(--white);\n  color:var(--black);\n  text-align:center;\n  padding:14px;\n  font-weight:800;\n  font-size:14px;\n  letter-spacing:0.15em;\n  text-transform:uppercase;\n}\n\n/* ==== MARQUEE ==== */\n.tryscent-listicle .ts-marquee{\n  background:var(--green-dark);\n  color:var(--white);\n  overflow:hidden;\n  border-top:1px solid rgba(255,255,255,0.10);\n  border-bottom:1px solid rgba(255,255,255,0.10);\n}\n.tryscent-listicle .ts-marquee-track{\n  display:flex;\n  gap:48px;\n  padding:18px 0;\n  white-space:nowrap;\n  animation:tsMarquee 28s linear infinite;\n  width:max-content;\n}\n.tryscent-listicle .ts-marquee-track span{\n  font-weight:800;\n  font-size:14px;\n  letter-spacing:0.25em;\n  text-transform:uppercase;\n}\n.tryscent-listicle .ts-marquee-track span::after{\n  content:\"·\";\n  margin-left:48px;\n  opacity:0.6;\n}\n@keyframes tsMarquee{\n  from{transform:translateX(0);}\n  to{transform:translateX(-50%);}\n}\n\n/* ==== QUOTE + OFFER ==== */\n.tryscent-listicle .ts-offer-section{\n  background:var(--beige);\n  padding:64px 24px 8px;\n}\n.tryscent-listicle .ts-pullquote{\n  max-width:900px;\n  margin:0 auto 40px;\n  text-align:center;\n  font-weight:800;\n  font-size:clamp(22px, 3vw, 34px);\n  line-height:1.2;\n  text-transform:uppercase;\n  letter-spacing:-0.01em;\n  color:var(--black);\n}\n.tryscent-listicle .ts-pullquote::before, .tryscent-listicle .ts-pullquote::after{\n  content:'\"';\n  color:#C41E3A;\n}\n.tryscent-listicle .ts-offer-card{\n  max-width:640px;\n  margin:0 auto;\n  background:var(--white);\n  border:1px solid #e5e1d8;\n  border-radius:8px;\n  overflow:hidden;\n  box-shadow:0 6px 28px rgba(0,0,0,0.06);\n}\n.tryscent-listicle .ts-offer-headline{\n  font-size:26px;\n  line-height:1.2;\n  font-weight:800;\n  letter-spacing:-0.01em;\n  margin:0;\n  padding:28px 28px 18px;\n  text-align:center;\n  color:var(--black);\n}\n.tryscent-listicle .ts-offer-image{\n  background:var(--beige);\n  aspect-ratio:4/3;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-offer-image img{\n  width:100%;height:100%;\n  object-fit:contain;\n}\n.tryscent-listicle .ts-offer-body{\n  padding:24px 28px 28px;\n}\n.tryscent-listicle .ts-offer-stars{\n  text-align:center;\n  color:#d4a017;\n  font-size:14px;\n  margin-bottom:14px;\n  letter-spacing:0.06em;\n}\n.tryscent-listicle .ts-offer-stars span{color:#5a5a5a;font-size:12px;margin-left:6px;letter-spacing:0;}\n.tryscent-listicle .ts-offer-desc{\n  font-size:15px;\n  line-height:1.55;\n  color:var(--black);\n  margin-bottom:20px;\n  text-align:center;\n}\n.tryscent-listicle .ts-offer-bullets{\n  list-style:none;\n  margin:0 0 24px;\n  padding:0;\n  display:flex;\n  flex-direction:column;\n  gap:9px;\n}\n.tryscent-listicle .ts-offer-bullets li{\n  display:flex;\n  align-items:center;\n  gap:10px;\n  font-size:14px;\n  font-weight:600;\n  color:var(--black);\n}\n.tryscent-listicle .ts-offer-bullets svg{\n  width:14px;height:14px;\n  stroke:#1f3a2a;\n  fill:none;\n  stroke-width:3;\n  flex-shrink:0;\n}\n.tryscent-listicle .ts-cta{\n  display:block;\n  width:100%;\n  background:#C41E3A;\n  color:var(--white);\n  text-align:center;\n  text-decoration:none;\n  font-weight:800;\n  font-size:15px;\n  letter-spacing:0.06em;\n  text-transform:uppercase;\n  padding:18px 24px;\n  border:none;\n  border-radius:999px;\n  cursor:pointer;\n  transition:background 0.15s ease;\n  line-height:1.2;\n}\n.tryscent-listicle .ts-cta:hover{background:#A51D36;color:var(--white);}\n.tryscent-listicle .ts-cta-marquee{\n  margin-top:14px;\n  overflow:hidden;\n  -webkit-mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);\n  mask-image:linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);\n}\n.tryscent-listicle .ts-cta-marquee-track{\n  display:flex;\n  width:max-content;\n  animation:tsCtaMarquee 18s linear infinite;\n}\n.tryscent-listicle .ts-cta-marquee-track span{\n  white-space:nowrap;\n  font-size:12px;\n  color:#5a5a5a;\n  letter-spacing:0.04em;\n}\n.tryscent-listicle .ts-cta-marquee-track span::after{\n  content:\"·\";\n  margin:0 16px;\n  color:#C41E3A;\n  font-weight:800;\n}\n@keyframes tsCtaMarquee{\n  from{transform:translateX(0);}\n  to{transform:translateX(-50%);}\n}\n\n/* ==== \"I WISH I'D SWITCHED SOONER\" ==== */\n.tryscent-listicle .ts-wish{\n  background:var(--beige);\n  padding:8px 24px 64px;\n  text-align:center;\n}\n.tryscent-listicle .ts-wish h2{\n  font-weight:800;\n  font-size:clamp(22px, 2.6vw, 30px);\n  text-transform:uppercase;\n  letter-spacing:-0.01em;\n  color:var(--black);\n  margin-bottom:36px;\n}\n.tryscent-listicle .ts-wish-grid{\n  max-width:1000px;\n  margin:0 auto;\n  display:grid;\n  grid-template-columns:repeat(3,1fr);\n  gap:16px;\n}\n.tryscent-listicle .ts-wish-grid > div{\n  background:var(--white);\n  padding:28px 24px;\n  text-align:left;\n  border:1px solid rgba(0,0,0,0.06);\n}\n.tryscent-listicle .ts-wish-grid h4{\n  font-weight:800;\n  font-size:13px;\n  letter-spacing:0.15em;\n  text-transform:uppercase;\n  color:var(--black);\n  margin-bottom:10px;\n}\n.tryscent-listicle .ts-wish-grid p{\n  font-size:13px;\n  line-height:1.55;\n  color:#555;\n}\n\n/* ==== FOOTER ==== */\n.tryscent-listicle .ts-footer{\n  background:var(--green);\n  color:var(--white);\n  padding:32px 24px;\n  text-align:center;\n}\n.tryscent-listicle .ts-footer .ts-logo{\n  font-weight:800;\n  font-size:24px;\n  letter-spacing:0.04em;\n  margin-bottom:14px;\n  color:var(--white);\n}\n.tryscent-listicle .ts-footer .ts-disclaimer{\n  font-size:11px;\n  line-height:1.5;\n  color:rgba(255,255,255,0.75);\n  max-width:560px;\n  margin:0 auto;\n}\n\n/* ==== RESPONSIVE ==== */\n@media (max-width: 820px){\n  .tryscent-listicle{font-size:15px;}\n  .tryscent-listicle .ts-hero{padding:32px 20px 24px;}\n  .tryscent-listicle .ts-hero-inner{grid-template-columns:1fr;gap:20px;}\n  .tryscent-listicle .ts-hero-copy h1{font-size:24px;line-height:1.15;margin-bottom:12px;}\n  .tryscent-listicle .ts-hero-copy h1 .ts-light{font-size:12px;margin-bottom:10px;}\n  .tryscent-listicle .ts-hero-copy .ts-sub{font-size:14px;}\n  .tryscent-listicle .ts-hero-img{aspect-ratio:5/4;}\n  .tryscent-listicle .ts-hero::before{width:200px;height:200px;top:-60px;right:-60px;}\n  .tryscent-listicle .ts-hero::after{width:80px;height:80px;top:-20px;right:30px;}\n  .tryscent-listicle .ts-trustbar{padding:12px 0;}\n  .tryscent-listicle .ts-trustbar-item{font-size:11px;flex-shrink:0;letter-spacing:0.03em;margin-right:40px;}\n  .tryscent-listicle .ts-trustbar-item svg{width:16px;height:16px;}\n  .tryscent-listicle .ts-listicle-wrap{padding:48px 20px;}\n  .tryscent-listicle .ts-listicle-inner{gap:44px;}\n  .tryscent-listicle .ts-point{grid-template-columns:1fr;gap:16px;}\n  .tryscent-listicle .ts-point-img{max-width:100%;width:100%;}\n  .tryscent-listicle .ts-point-num{width:40px;height:40px;font-size:18px;}\n  .tryscent-listicle .ts-point-body h3{font-size:22px;margin-bottom:10px;}\n  .tryscent-listicle .ts-point-body p{font-size:15px;line-height:1.6;}\n  .tryscent-listicle .ts-badge-60{width:64px;height:64px;bottom:10px;right:10px;}\n  .tryscent-listicle .ts-badge-60 .ts-num{font-size:18px;}\n  .tryscent-listicle .ts-badge-60 .ts-lbl{font-size:7px;}\n  .tryscent-listicle .ts-proof{padding:48px 0;}\n  .tryscent-listicle .ts-proof-top{grid-template-columns:1fr;gap:18px;padding:0 20px;margin-bottom:32px;}\n  .tryscent-listicle .ts-proof h2{font-size:24px;line-height:1.1;}\n  .tryscent-listicle .ts-proof-list li{font-size:14px;}\n  .tryscent-listicle .ts-carousel-card{width:140px;}\n  .tryscent-listicle .ts-proof-carousel{--ts-card-step:144px;}\n  .tryscent-listicle .ts-proof-reviews-tag{font-size:12px;padding:12px;letter-spacing:0.12em;}\n  .tryscent-listicle .ts-marquee-track{animation-duration:22s;gap:32px;}\n  .tryscent-listicle .ts-marquee-track span{font-size:12px;letter-spacing:0.18em;}\n  .tryscent-listicle .ts-marquee-track span::after{margin-left:32px;}\n  .tryscent-listicle .ts-offer-section{padding:48px 20px 8px;}\n  .tryscent-listicle .ts-pullquote{font-size:22px;line-height:1.25;margin-bottom:28px;}\n  .tryscent-listicle .ts-offer-headline{font-size:20px;padding:22px 22px 14px;}\n  .tryscent-listicle .ts-offer-image{aspect-ratio:1/1;}\n  .tryscent-listicle .ts-offer-body{padding:20px 22px 24px;}\n  .tryscent-listicle .ts-offer-desc{font-size:14px;}\n  .tryscent-listicle .ts-cta{font-size:13px;padding:16px 20px;letter-spacing:0.05em;}\n  .tryscent-listicle .ts-wish{padding:8px 20px 48px;}\n  .tryscent-listicle .ts-wish h2{font-size:24px;margin-bottom:24px;}\n  .tryscent-listicle .ts-wish-grid{grid-template-columns:1fr;gap:12px;}\n  .tryscent-listicle .ts-wish-grid > div{padding:22px 20px;}\n  .tryscent-listicle .ts-wish-grid h4{font-size:12px;}\n  .tryscent-listicle .ts-footer{padding:28px 20px;}\n  .tryscent-listicle .ts-footer .ts-logo{font-size:22px;}\n  .tryscent-listicle .ts-footer .ts-disclaimer{font-size:10px;}\n}\n@media (max-width: 380px){\n  .tryscent-listicle .ts-hero-copy h1{font-size:21px;}\n  .tryscent-listicle .ts-trustbar-item{font-size:10px;}\n  .tryscent-listicle .ts-trustbar-item svg{display:none;}\n  .tryscent-listicle .ts-point-body h3{font-size:20px;}\n  .tryscent-listicle .ts-pullquote{font-size:20px;}\n  .tryscent-listicle .ts-carousel-card{width:124px;}\n  .tryscent-listicle .ts-proof-carousel{--ts-card-step:128px;}\n}\n@media (prefers-reduced-motion: reduce){\n  .tryscent-listicle .ts-marquee-track,\n  .tryscent-listicle .ts-carousel-track,\n  .tryscent-listicle .ts-cta-marquee-track,\n  .tryscent-listicle .ts-trustbar-track{animation:none;}\n}\n</style>\n\n<div class=\"tryscent-listicle\">\n\n  <!-- HERO -->\n  <section class=\"ts-hero\">\n    <div class=\"ts-hero-inner\">\n      <div class=\"ts-hero-copy\">\n        <h1>\n          <span class=\"ts-light\">Vet du vad som faktiskt finns i din designerparfym?</span>\n          Sex Anledningar Till Att Din Designerparfym Kan Rubba Din Hormonbalans\n        </h1>\n        <p class=\"ts-sub\">Ftalater, vad de gör i kroppen, och den rena EU-tillverkade doften som 10 000 personer bär istället.</p>\n      </div>\n      <div class=\"ts-hero-img\">\n        <img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/saffron_rose_amber.png?v=1767655299\" alt=\"TryScent Saffron Rose Amber fragrance\">\n      </div>\n    </div>\n  </section>\n\n  <!-- TRUST BAR -->\n  <div class=\"ts-trustbar\">\n    <div class=\"ts-trustbar-track\">\n      <div class=\"ts-trustbar-item\">\n        <svg viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"7\" width=\"13\" height=\"10\"/><polygon points=\"15,10 21,10 22,17 15,17\"/><circle cx=\"7\" cy=\"19\" r=\"2\"/><circle cx=\"18\" cy=\"19\" r=\"2\"/></svg>\n        Fri frakt över 483 kr\n      </div>\n      <div class=\"ts-trustbar-item\">\n        <svg viewBox=\"0 0 24 24\"><path d=\"M12 3 L4 6 L4 13 c0 5 4 7 8 8 c4 -1 8 -3 8 -8 L20 6 Z\"/><polyline points=\"9,12 11,14 15,10\" stroke-width=\"2\"/></svg>\n        60 dagars pengarna tillbaka-garanti\n      </div>\n      <div class=\"ts-trustbar-item\">\n        <svg viewBox=\"0 0 24 24\"><polygon points=\"12,3 14.5,9 21,9.5 16,14 17.5,21 12,17.5 6.5,21 8,14 3,9.5 9.5,9\"/></svg>\n        Ftalatfri\n      </div>\n      <div class=\"ts-trustbar-item\">\n        <svg viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"7\" width=\"13\" height=\"10\"/><polygon points=\"15,10 21,10 22,17 15,17\"/><circle cx=\"7\" cy=\"19\" r=\"2\"/><circle cx=\"18\" cy=\"19\" r=\"2\"/></svg>\n        Fri frakt över 483 kr\n      </div>\n      <div class=\"ts-trustbar-item\">\n        <svg viewBox=\"0 0 24 24\"><path d=\"M12 3 L4 6 L4 13 c0 5 4 7 8 8 c4 -1 8 -3 8 -8 L20 6 Z\"/><polyline points=\"9,12 11,14 15,10\" stroke-width=\"2\"/></svg>\n        60 dagars pengarna tillbaka-garanti\n      </div>\n      <div class=\"ts-trustbar-item\">\n        <svg viewBox=\"0 0 24 24\"><polygon points=\"12,3 14.5,9 21,9.5 16,14 17.5,21 12,17.5 6.5,21 8,14 3,9.5 9.5,9\"/></svg>\n        Ftalatfri\n      </div>\n      <div class=\"ts-trustbar-item\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"7\" width=\"13\" height=\"10\"/><polygon points=\"15,10 21,10 22,17 15,17\"/><circle cx=\"7\" cy=\"19\" r=\"2\"/><circle cx=\"18\" cy=\"19\" r=\"2\"/></svg>\n        Fri frakt över 483 kr\n      </div>\n      <div class=\"ts-trustbar-item\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\"><path d=\"M12 3 L4 6 L4 13 c0 5 4 7 8 8 c4 -1 8 -3 8 -8 L20 6 Z\"/><polyline points=\"9,12 11,14 15,10\" stroke-width=\"2\"/></svg>\n        60 dagars pengarna tillbaka-garanti\n      </div>\n      <div class=\"ts-trustbar-item\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\"><polygon points=\"12,3 14.5,9 21,9.5 16,14 17.5,21 12,17.5 6.5,21 8,14 3,9.5 9.5,9\"/></svg>\n        Ftalatfri\n      </div>\n      <div class=\"ts-trustbar-item\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\"><rect x=\"2\" y=\"7\" width=\"13\" height=\"10\"/><polygon points=\"15,10 21,10 22,17 15,17\"/><circle cx=\"7\" cy=\"19\" r=\"2\"/><circle cx=\"18\" cy=\"19\" r=\"2\"/></svg>\n        Fri frakt över 483 kr\n      </div>\n      <div class=\"ts-trustbar-item\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\"><path d=\"M12 3 L4 6 L4 13 c0 5 4 7 8 8 c4 -1 8 -3 8 -8 L20 6 Z\"/><polyline points=\"9,12 11,14 15,10\" stroke-width=\"2\"/></svg>\n        60 dagars pengarna tillbaka-garanti\n      </div>\n      <div class=\"ts-trustbar-item\" aria-hidden=\"true\">\n        <svg viewBox=\"0 0 24 24\"><polygon points=\"12,3 14.5,9 21,9.5 16,14 17.5,21 12,17.5 6.5,21 8,14 3,9.5 9.5,9\"/></svg>\n        Ftalatfri\n      </div>\n    </div>\n  </div>\n\n  <!-- LISTICLE -->\n  <section class=\"ts-listicle-wrap\">\n    <div class=\"ts-listicle-inner\">\n\n      <div class=\"ts-point\">\n        <div class=\"ts-point-img\">\n          <span class=\"ts-point-num\">1</span>\n          <img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc15.png?v=1756129303\" alt=\"Designerparfym med ordet parfum på etiketten\">\n        </div>\n        <div class=\"ts-point-body\">\n          <h3>Du Vet Inte Vad Du Faktiskt Sprejar På Huden</h3>\n          <p>Ta nästan vilken designerparfym som helst och läs etiketten. Du hittar vatten, alkohol och ett enda ord: parfum. Det ordet är ett juridiskt samlingsbegrepp som kan dölja <strong>över 3 000 enskilda kemikalier</strong>, och tillverkaren behöver inte redovisa en enda av dem.</p>\n          <p>TryScent listar exakt vad som finns i flaskan. Inga vaga formuleringar, inga kryphål för affärshemligheter. <strong>Du vet exakt vad du sprejar på huden</strong> varje morgon, och det gör alla andra som frågar också.</p>\n        </div>\n      </div>\n\n      <div class=\"ts-point\">\n        <div class=\"ts-point-img\">\n          <span class=\"ts-point-num\">2</span>\n          <img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc13.png?v=1756129303\" alt=\"TryScent utan ftalater och parabener\">\n        </div>\n        <div class=\"ts-point-body\">\n          <h3>Ingrediensen Ingen Pratar Om: Ftalater</h3>\n          <p>Ftalater är syntetiska fixativ som tillsätts i de flesta designerparfymer för att doften ska hålla längre. De är <strong>hormonstörande ämnen</strong>, vilket betyder att de härmar och blockerar dina naturliga hormoner. Studier har kopplat dem till <strong>lägre testosteron hos män, rubbad cykel hos kvinnor och nedsatt fertilitet hos båda</strong>.</p>\n          <p>Och du bär dem inte då och då. Du sprejar dem på <strong>pulspunkterna, den varmaste och mest absorberande huden på kroppen</strong>, varje morgon. Dag efter dag, år efter år. När du väl vet det går det inte att blunda för det.</p>\n        </div>\n      </div>\n\n      <div class=\"ts-point\">\n        <div class=\"ts-point-img\">\n          <span class=\"ts-point-num\">3</span>\n          <img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc8.png?v=1756129303\" alt=\"TryScent framtagen för känsligare hud\">\n        </div>\n        <div class=\"ts-point-body\">\n          <h3>TryScent Innehåller Inget Av Det</h3>\n          <p>Inga ftalater. Inga parabener. Inga syntetiska hormonstörande ämnen. TryScent är en <strong>ren formula</strong>, tillverkad i EU enligt några av världens strängaste kosmetikaregler och IFRA-certifierad. Den är dessutom helt vegansk och djurfri, certifierad och inte bara påstådd.</p>\n          <p>Du får en doft som håller, utan en ingredienslista som känns som ett säkerhetsdatablad. Och för dig som redan gör medvetna val kring vad du äter, bär och köper passar den in i resten av bilden.</p>\n        </div>\n      </div>\n\n      <div class=\"ts-point\">\n        <div class=\"ts-point-img\">\n          <span class=\"ts-point-num\">4</span>\n          <img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/WhatsApp_Image_2026-01-17_at_10.59.01.jpg?v=1768713394\" alt=\"TryScent vegansk och djurfri\">\n        </div>\n        <div class=\"ts-point-body\">\n          <h3>Ren Betyder Inte Svag, En Sprejning Håller Hela Dagen</h3>\n          <p>Den största rädslan med att byta till en ren doft är att den inte ska hålla, att den försvinner redan vid lunch och inte lämnar något efter sig. Det är en rimlig oro, för många rena parfymer gör precis det.</p>\n          <p>TryScent innehåller <strong>upp till 21% parfymolja</strong>, betydligt mer än de 10 till 15% som de flesta designerparfymer har. Det är det som bär doften i <strong>12 timmar eller mer</strong>, inte ftalater och inte syntetiska fixativ. En sprejning på morgonen sitter kvar långt in på kvällen.</p>\n        </div>\n      </div>\n\n      <div class=\"ts-point\">\n        <div class=\"ts-point-img\">\n          <span class=\"ts-point-num\">5</span>\n          <img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/Designerperfym.png?v=1778094986\" alt=\"TryScent med upp till 21% parfymolja\">\n        </div>\n        <div class=\"ts-point-body\">\n          <h3>Den Doftar Identiskt Med Designeroriginalet</h3>\n          <p>TryScents dofter är <strong>molekylärt matchade</strong> mot designeroriginalen, inspirerade av ikonerna du redan känner igen. Samma toppnoter, samma dry-down, samma bestående intryck. Det enda som saknas är logotypen på kartongen.</p>\n          <p>Och den kostar en <strong>bråkdel av priset</strong>, för du betalar inte för en kändiskampanj, en tung glasflaska eller ett namn. Bara doften. Det är därför över 10 000 personer redan har bytt.</p>\n        </div>\n      </div>\n\n      <div class=\"ts-point\">\n        <div class=\"ts-point-img\">\n          <span class=\"ts-point-num\">6</span>\n          <img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc7.png?v=1756129304\" alt=\"TryScent 60 dagars pengarna tillbaka-garanti\">\n          <div class=\"ts-badge-60\">\n            <span class=\"ts-num\">60</span>\n            <span class=\"ts-lbl\">Dagar<br>Garanti</span>\n          </div>\n        </div>\n        <div class=\"ts-point-body\">\n          <h3>60 Dagars Pengarna Tillbaka-Garanti. Inget Att Förlora.</h3>\n          <p>Du behöver inte binda dig. Du behöver inte bestämma idag om TryScent ska ersätta allt annat i din samling. Prova den i lugn och ro och <strong>låt doften övertyga dig</strong>.</p>\n          <p>Om doften inte håller måttet, om din hud inte trivs med den eller om den inte känns rätt får du <strong>varenda krona tillbaka</strong>. Inga frågor. Över <strong>10 000 kunder</strong> har redan provat TryScent.</p>\n        </div>\n      </div>\n\n    </div>\n  </section>\n\n  <!-- SOCIAL PROOF -->\n  <section class=\"ts-proof\">\n    <div class=\"ts-proof-top\">\n      <div>\n        <h2>Därför Skiljer Sig TryScent Från Andra Parfymkopior</h2>\n      </div>\n      <ul class=\"ts-proof-list\">\n        <li>\n          <svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg>\n          <span><strong>Utan ftalater, utan hormonstörande ämnen:</strong> ren formula, tillverkad enligt strikta EU-regler för kosmetika.</span>\n        </li>\n        <li>\n          <svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg>\n          <span><strong>Upp till 21% parfymolja (EDP):</strong> betydligt högre koncentration än de 10 till 15% som de flesta designerparfymer har, därför håller den 12+ timmar.</span>\n        </li>\n        <li>\n          <svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg>\n          <span><strong>60 dagars pengarna tillbaka-garanti:</strong> prova den, lev i den, returnera om den inte är för dig.</span>\n        </li>\n      </ul>\n    </div>\n\n    <div class=\"ts-proof-carousel\">\n      <div class=\"ts-carousel-track\">\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc7.png?v=1756129304\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc1.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc9.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc6.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc2.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc18.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc12.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc8.png?v=1756129303\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc11.png?v=1756129302\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc14.png?v=1756129302\" alt=\"Real TryScent customer holding bottle\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc7.png?v=1756129304\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc1.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc9.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc6.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc2.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc18.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc12.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc8.png?v=1756129303\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc11.png?v=1756129302\" alt=\"\"></div>\n        <div class=\"ts-carousel-card\" aria-hidden=\"true\"><img loading=\"lazy\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ugc14.png?v=1756129302\" alt=\"\"></div>\n      </div>\n    </div>\n\n    <div style=\"padding:0 24px;\">\n      <div class=\"ts-proof-reviews-tag\">Över 10 000 femstjärniga recensioner</div>\n    </div>\n  </section>\n\n  <!-- MARQUEE -->\n  <div class=\"ts-marquee\">\n    <div class=\"ts-marquee-track\">\n      <span>Över 10 000 har bytt</span>\n      <span>Ftalatfri · Utan hormonstörande ämnen</span>\n      <span>Tillverkad i EU · IFRA-certifierad</span>\n      <span>Över 10 000 har bytt</span>\n      <span>Ftalatfri · Utan hormonstörande ämnen</span>\n      <span>Tillverkad i EU · IFRA-certifierad</span>\n      <span>Över 10 000 har bytt</span>\n      <span>Ftalatfri · Utan hormonstörande ämnen</span>\n      <span>Tillverkad i EU · IFRA-certifierad</span>\n      <span>Över 10 000 har bytt</span>\n      <span>Ftalatfri · Utan hormonstörande ämnen</span>\n      <span>Tillverkad i EU · IFRA-certifierad</span>\n    </div>\n  </div>\n\n  <!-- QUOTE + OFFER -->\n  <section class=\"ts-offer-section\">\n    <div class=\"ts-pullquote\">När Du Väl Vet Vad Som Finns I Den, Går Det Inte Att Blunda För Det</div>\n\n    <div class=\"ts-offer-card\">\n      <h3 class=\"ts-offer-headline\">TryScent Storpack (6 Flaskor)</h3>\n      <div class=\"ts-offer-image\">\n        <img loading=\"lazy\" src=\"https://tryscent.co/cdn/shop/files/flask_swedish.png?v=1779605208\" alt=\"TryScent storpack med 6 flaskor\">\n      </div>\n      <div class=\"ts-offer-body\">\n        <div class=\"ts-offer-stars\">★★★★★ <span>Över 10 000 femstjärniga recensioner</span></div>\n        <p class=\"ts-offer-desc\">Designerinspirerade dofter, framtagna för att dofta som originalen. Utan ftalater, utan hormonstörande ämnen och utan prispåslaget för flaskan, reklamen och kändisen.</p>\n        <ul class=\"ts-offer-bullets\">\n          <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Utan ftalater · Utan hormonstörande ämnen</li>\n          <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Upp till 21% parfymolja (EDP)</li>\n          <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Över 12 timmars hållbarhet</li>\n          <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Tillverkad i EU · IFRA-certifierad</li>\n          <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Doftar som designeroriginalet</li>\n          <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Från endast 129 kr per flaska</li>\n        </ul>\n        <a href=\"https://tryscent.co/sv-se/products/6x-50ml-perfume-bottles\" class=\"ts-cta\">Byt till en ren doft</a>\n        <div class=\"ts-cta-marquee\" aria-label=\"Fri frakt över 483 kr. 60 dagars pengarna tillbaka-garanti. Enkla returer.\">\n          <div class=\"ts-cta-marquee-track\">\n            <span>Fri frakt över 483 kr</span><span>60 dagars pengarna tillbaka-garanti</span><span>Enkla returer</span><span>Fri frakt över 483 kr</span><span>60 dagars pengarna tillbaka-garanti</span><span>Enkla returer</span><span aria-hidden=\"true\">Fri frakt över 483 kr</span><span aria-hidden=\"true\">60 dagars pengarna tillbaka-garanti</span><span aria-hidden=\"true\">Enkla returer</span><span aria-hidden=\"true\">Fri frakt över 483 kr</span><span aria-hidden=\"true\">60 dagars pengarna tillbaka-garanti</span><span aria-hidden=\"true\">Enkla returer</span>\n          </div>\n        </div>\n      </div>\n    </div>\n  </section>\n\n  <!-- I WISH I'D SWITCHED SOONER -->\n  <section class=\"ts-wish\">\n    <h2>\"Jag Önskar Jag Bytt Tidigare\"</h2>\n    <div class=\"ts-wish-grid\">\n      <div>\n        <h4>60 dagars pengarna tillbaka-garanti</h4>\n        <p>Inte nöjd? Inga problem. Prova TryScent i lugn och ro i upp till 60 dagar. Om den inte känns rätt för dig får du pengarna tillbaka. Inga frågor.</p>\n      </div>\n      <div>\n        <h4>Tillverkad i EU · IFRA-certifierad</h4>\n        <p>Tillverkad i EU enligt samma höga kvalitets- och säkerhetsstandarder som parfymhus som tar betydligt mer betalt.</p>\n      </div>\n      <div>\n        <h4>Ftalatfri · Ren formula</h4>\n        <p>Inga ftalater, inga parabener, inga hormonstörande ämnen. Bara doften.</p>\n      </div>\n    </div>\n  </section>\n\n  <!-- FOOTER -->\n  <div class=\"ts-footer\">\n    <div class=\"ts-logo\">TryScent</div>\n    <p class=\"ts-disclaimer\">TryScents dofter är inspirerade av ikoniska designerparfymer. Vi är inte anslutna till, godkända av eller på annat sätt associerade med något designerparfymhus. Alla varumärken och varumärkesnamn tillhör sina respektive ägare.</p>\n  </div>\n\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_gXRa6j": {
+      "type": "custom-liquid",
+      "name": "Hide Header/Footer",
+      "settings": {
+        "custom_liquid": "{% comment %}\n  TryScent listicle — page chrome hider.\n\n  Hides the theme's header, footer, and announcement bar on the current page only.\n  Custom Liquid sections only render on pages they're added to, so the CSS\n  scopes itself naturally — other pages are unaffected.\n\n  USAGE:\n  1. Online Store → Themes → Customize → open the page that has the listicle.\n  2. Add section → Custom Liquid\n  3. Drag this section to the TOP of the page (above everything else).\n  4. Paste this entire file into the textarea.\n  5. Save.\n\n  If something on your theme isn't getting hidden, paste its selector into the\n  rule below. To find selectors: right-click the element → Inspect.\n{% endcomment %}\n\n<style>\n  /* OS 2.0 theme groups (Dawn, Sense, Refresh, Studio, Crave, Origin, Trade,\n     Publisher, Colorblock, Taste, Ride, Spotlight, etc.) */\n  .shopify-section-group-header-group,\n  .shopify-section-group-footer-group,\n  .shopify-section-group-announcement-group,\n  .shopify-section-group-aside-group,\n\n  /* Vintage themes + common explicit IDs/classes */\n  #shopify-section-header,\n  #shopify-section-footer,\n  #shopify-section-announcement-bar,\n  .shopify-section-header,\n  .shopify-section-footer,\n  .shopify-section-announcement-bar,\n\n  /* Direct element fallbacks */\n  body > header,\n  body > footer,\n  .site-header,\n  .site-footer,\n  .header-wrapper,\n  .footer-wrapper,\n  .announcement-bar,\n  .announcement,\n\n  /* Newsletter popups & promo banners that float */\n  .promo-bar,\n  .header__promo,\n  .top-bar,\n  .topbar,\n  #topbar,\n  [class*=\"topbar\"],\n  [id*=\"topbar\"],\n  .shopify-section[id*=\"topbar\"],\n\n  /* Sale / countdown / timer banner sections (Lönedagsrea, BFCM, etc.) */\n  [class*=\"countdown\"],\n  [class*=\"timer-bar\"],\n  [class*=\"sale-bar\"],\n  [class*=\"salebar\"],\n  [class*=\"payday\"],\n  [class*=\"lonedag\"],\n  [class*=\"lönedag\"],\n  [id*=\"countdown\"],\n  [id*=\"timer-bar\"],\n  [id*=\"payday\"],\n  [id*=\"salebar\"],\n  .shopify-section[id*=\"countdown\"],\n  .shopify-section[id*=\"timer\"],\n  .shopify-section[id*=\"payday\"],\n  .shopify-section[id*=\"sale-bar\"],\n  .shopify-section[id*=\"promo\"],\n  .shopify-section[id*=\"banner\"]:not([id*=\"hero\"]) {\n    display: none !important;\n    visibility: hidden !important;\n    height: 0 !important;\n    margin: 0 !important;\n    padding: 0 !important;\n    overflow: hidden !important;\n  }\n\n  /* Reset main content offsets so the listicle starts at the very top */\n  body,\n  main,\n  #MainContent,\n  .main-content,\n  .page-width {\n    padding-top: 0 !important;\n    margin-top: 0 !important;\n  }\n\n  /* Remove default body padding some themes set for sticky headers */\n  body {\n    padding-top: 0 !important;\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "massive_review_xhTApH": {
+      "type": "massive-review",
+      "blocks": {
+        "review_JAb9H3": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc8.png",
+            "content": "<p>\"This is my first purchase and I am hooked. I will never purchase perfume from anywhere else again. I could never find a dupe scent that really smelled authentic and consistent.\"</p>",
+            "author": "Killian P.",
+            "date": "1 day ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamot-sage-cedar-50-ml"
+          }
+        },
+        "review_t3JNTL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is the best fragrance I’ve smelt in a very long time the notes drives me insane with happiness. I will keep this in rotation forever.\"</p>",
+            "author": "Jenniffer W.",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_MWJkGN": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc15.png",
+            "content": "<p>\"Huele muy bien, me fascinó\"</p>",
+            "author": "Castillo B.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "tryscent-collection"
+          }
+        },
+        "review_QXJ4Un": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"All three of the scents I received are very good. Last long and smell as they should. I was only unhappy with the time it took to recieve them. But honestly I made a second order, so just expect a wait. Lol!<br/>\"</p>",
+            "author": "Clara P.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "apple-cinnamon-sandalwood"
+          }
+        },
+        "review_r7gDXY": {
+          "type": "review",
+          "disabled": true,
+          "settings": {
+            "review_image": "shopify://shop_images/dupestore_3221df98-e409-4141-82ec-bdbe62af3756.jpg",
+            "content": "<p>\"Been trying to find scents that smell expensive as well as lasted long, to no avail. The fit is exactly what I was looking for..\"</p>",
+            "author": "Tiana N.",
+            "author_image": "shopify://shop_images/ugc15.png",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "fresh-escape-premium"
+          }
+        },
+        "review_FN3hXc": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc1.png",
+            "content": "<p>\"Great brand and great products!\"</p>",
+            "author": "Juliana B",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_U9UXyj": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I wasn’t sure what to expect, but this really impressed me. Smells super fresh and honestly pretty close to Aventus. It lasts well and the price is way better.\"</p>",
+            "author": "Michael T.",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_Cx3je3": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"One of my favorite scents. Got to me really fast. Smells so nice.\"</p>",
+            "author": "Alex W.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_pGMWC6": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\" I Loooove these perfumes !!! Every single one I got smells divine. Some I would say better than the original .\"</p>",
+            "author": "Christine N.",
+            "date": "5 days ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_g9ftXn": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"At first I was worried the shipment delayed a bit but once I received them, I'm amazed at the smell, once it settles, my goodness it is just amazing.\"</p>",
+            "author": "Lionel M.",
+            "date": "7 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "4x-100ml-perfume-bottles"
+          }
+        },
+        "review_XLm8tA": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"It smells very nice but not last longer as it supposed to be\"</p>",
+            "author": "Terence M.",
+            "date": "2 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_QzxWN7": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc7.png",
+            "content": "<p>\"Is perfect and the beautiful 🥰🥰🥰\"</p>",
+            "author": "Lidis A.",
+            "date": "2 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "saffron-rose-amber-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_7inGY8": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Idealnie pachnące perfumy, zapachy utrzymują sie bardzo długo, świetna jakość\"</p>",
+            "author": "Kamila G.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_DMLLB7": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Smells just like Luna Rossa Carbon, but way cheaper. Can’t believe how close it is.\"</p>",
+            "author": "Robinson D.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_7DPENV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is the kind of scent that makes you feel put together. Not overpowering, just right. 👌\"</p>",
+            "author": "Michael R.",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "alpha-oil"
+          }
+        },
+        "review_FzpGta": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc3.png",
+            "content": "<p>\"The product came in nicely. The perfume wasnt broken, didnt leak and was in good shape. Scent is perfect and didnt reek bad oder. I love it, high quality\"</p>",
+            "author": "Roxanne S",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "jasmine-cocoa-tonka"
+          }
+        },
+        "review_RbM4wH": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I’ve worn Creed Aventus for years, but this is the closest dupe I’ve found—and at a fraction of the price. The pineapple and vanilla combo is spot on.\"</p>",
+            "author": "Alvarez P.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_QQcF89": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The product came in nicely. The perfume wasnt broken, didnt leak and was in good shape. Scent is perfect and didnt reek bad oder. I love it, high quality\"</p>",
+            "author": "Anne E.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_EFY8jM": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Gorgeous fragrance. Long lasting. <br/>Sweet and warm. Good fast delivery. <br/>Will buy again.\"</p>",
+            "author": "Lucy R",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_4zNfT8": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I’m happy with TryScent. The scent smells very similar to the original and lasts well. The packaging is neat and the bottle looks nice. Overall, it’s a great option if you want a quality fragrance for a reasonable price.\"</p>",
+            "author": "Alina M",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": "black-berry-vanilla-musk"
+          }
+        },
+        "review_i3Ah4D": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Their products are of good quality for a very affordable price.\"</p>",
+            "author": "Amanda G",
+            "date": "5 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "amber-glow"
+          }
+        },
+        "review_D8TJwt": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great scents, great products, no issues.\"</p>",
+            "author": "Alex S.",
+            "date": "6 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_c9kmRL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"From service to product, the experience was phenomenal. Happy to buy again anytime.\"</p>",
+            "author": "Benjamin M",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_JmRe87": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great product! Super affordable alternative to the name brand perfumes. The scent lasts a long time and you get a great bang for your buck\"</p>",
+            "author": "EM",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamote-le-labo-bergamote-22"
+          }
+        },
+        "review_AYqk8N": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Oommgg i loveed Wow! Just like the original and it lasts all day!❤️‍🔥❤️‍🔥\"</p>",
+            "author": "شيطانة YT",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "desert-storm"
+          }
+        },
+        "review_nKgPdV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The smell of this perfume is super rich and I love how beautiful the bottle is and its design.. I would really use it again.\"</p>",
+            "author": "Eliannys Y",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "aldehydes-rose-sandalwood-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_nCUWBq": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I like it! Like this scent. Good fragrance\"</p>",
+            "author": "Aleksandra M",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": "alpha-oil"
+          }
+        },
+        "review_mPjPtL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great product smells amazing. I always get people asking me questions about my scent and what I use\"</p>",
+            "author": "Damario R",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_9KaYUp": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"After a small delay I finally have my TryScent perfumes and they are spot on! I almost can’t believe how accurate they are to the originals, for reference I got \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\" they are really beautiful fragrances\"</p>",
+            "author": "Gabriella K",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "amalfi-coast-mandarino-di-amalfi-fragrance"
+          }
+        },
+        "review_AktQqw": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Very good brand, I love the packaging and the aroma\"</p>",
+            "author": "Rosa B",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamote-le-labo-bergamote-22"
+          }
+        },
+        "review_hGwbhU": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I'm huge into cologne so I'm a picky guy when it comes to clones, but TryScent completely won me over. I originally ordered the Sauvage clone on the homepage and instantly recognized the scent when spraying. I now own 4 TryScent fragrances total and I love them all. Got 3 more on the way thanks to their bundle deals. If u want something that works on a budget and delivers designer performance I couldn't recommend them more.\"</p>",
+            "author": "Sean P",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "fresh-escape-premium"
+          }
+        },
+        "review_e7kCGV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Im very happy with the perfume from this brand they have such a beautiful smell like original and cheaper I will definitely get it again\"</p>",
+            "author": "Angel",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_V6ah97": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"this summer i got a sampler of Creed aventus as a gift and i really liked it but i couldn't buy of the real thing so i looked for dupes. i found Tryscent and ordered \"Pineapple Smoke Vanilla\" it got to me in abt a week and it smells really good, close to my original sample too very satisfied with the product especially for the price\"</p>",
+            "author": "Hwan H",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_PFNbFU": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I tried their 7.5ml sample scents and to my surprise I liked it. Have ordered a 2nd batch but this time I got the larger bottles. I have to say I got my orders on time and they delivered the scents I like!\"</p>",
+            "author": "Lauri E",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "black-berry-vanilla-musk"
+          }
+        }
+      },
+      "block_order": [
+        "review_JAb9H3",
+        "review_t3JNTL",
+        "review_MWJkGN",
+        "review_QXJ4Un",
+        "review_r7gDXY",
+        "review_FN3hXc",
+        "review_U9UXyj",
+        "review_Cx3je3",
+        "review_pGMWC6",
+        "review_g9ftXn",
+        "review_XLm8tA",
+        "review_QzxWN7",
+        "review_7inGY8",
+        "review_DMLLB7",
+        "review_7DPENV",
+        "review_FzpGta",
+        "review_RbM4wH",
+        "review_QQcF89",
+        "review_EFY8jM",
+        "review_4zNfT8",
+        "review_i3Ah4D",
+        "review_D8TJwt",
+        "review_c9kmRL",
+        "review_JmRe87",
+        "review_AYqk8N",
+        "review_nKgPdV",
+        "review_nCUWBq",
+        "review_mPjPtL",
+        "review_9KaYUp",
+        "review_AktQqw",
+        "review_hGwbhU",
+        "review_e7kCGV",
+        "review_V6ah97",
+        "review_PFNbFU"
+      ],
+      "disabled": true,
+      "settings": {
+        "background_color": "#fcfbf9",
+        "heading": "Join 10,000+ Happy Customers",
+        "review_text": "4.9/5 based on 10,000+ reviews",
+        "button_text": "Show more reviews",
+        "button_link": "#",
+        "padding_top": 60,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_cJnqgV",
+    "custom_liquid_gXRa6j",
+    "massive_review_xhTApH"
+  ]
+}

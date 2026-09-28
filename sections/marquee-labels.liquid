@@ -1,0 +1,53 @@
+<div class="overflow-hidden flex items-center whitespace-nowrap max-w-full bg-[#22613a] py-3">
+  {% for i in (1..2) %}
+    <div class="flex gap-6 animate-move-left">
+      {% for i in (1..3) %}
+        {% for block in section.blocks %}
+          <a href="{{ block.settings.link }}" class="flex items-center gap-1 no-underline hover:no-underline text-black">
+            {% if block.settings.icon %}
+              <img
+                src="{{ block.settings.icon | image_url: height: 32, width: 32 }}"
+                alt="{{ block.settings.label }}"
+                class="inline-block mr-1 [filter:invert(1)]"
+                height="32"
+                width="32"
+                style="height: 1.2em; width: auto; max-width: 1.2em;" />
+            {% endif %}
+            <span class="md:text-xs text-xs uppercase font-semibold text-white">
+              {{ block.settings.label }}
+            </span>
+          </a>
+        {% endfor %}
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "Marquee Labels",
+    "blocks": [
+      {
+        "type": "label",
+        "name": "Label",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          }, {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "default": "Free Shipping"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Marquee Labels"
+      }
+    ]
+  }
+{% endschema %}

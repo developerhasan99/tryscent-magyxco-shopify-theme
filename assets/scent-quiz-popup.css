@@ -1,0 +1,1555 @@
+    /* ============ Scoped tokens (static brand tokens; primary/love come from theme settings above) ============ */
+    #scent-quiz-popup-overlay {
+      --sq-ink: #1c1c2e;
+      --sq-text: #33333d;
+      --sq-muted: #73737d;
+      --sq-cream: #f7f3ec;
+      --sq-cream-2: #f0e9dc;
+      --sq-sand: #e8d9b8;
+      --sq-gold: #c9a961;
+      --sq-sage: #8b917d;
+      --sq-white: #fff;
+      --sq-card-radius: 22px;
+      --sq-shadow: 0 18px 40px -18px rgba(28, 28, 46, 0.35);
+      --sq-serif: 'Fraunces'
+      , Georgia
+      , 'Times New Roman'
+      , serif;
+      --sq-sans: 'Nunito Sans'
+      , -apple-system
+      , BlinkMacSystemFont
+      , 'Segoe UI'
+      , Roboto
+      , Helvetica
+      , Arial
+      , sans-serif;
+    }
+    #scent-quiz-popup-overlay,
+    #scent-quiz-popup-overlay * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    #scent-quiz-popup-overlay button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    #scent-quiz-popup-overlay img {
+      display: block;
+    }
+
+    /* ============ Overlay + popup frame ============ */
+    #scent-quiz-popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(20, 17, 32, 0);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease
+      , background-color 0.3s ease
+      , visibility 0.3s;
+    }
+    #scent-quiz-popup-overlay[hidden] {
+      display: none;
+    }
+    #scent-quiz-popup-overlay.sq-open {
+      opacity: 1;
+      visibility: visible;
+      background: rgba(20, 17, 32, 0.6);
+    }
+    #scent-quiz-popup-overlay #sq-app {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      height: min(860px, 92dvh);
+      max-height: 92 dvh;
+      overflow: hidden;
+      border-radius: 28px;
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.55);
+      transform: scale(0.96);
+      transition: transform 0.3s ease;
+      font-family: var(--sq-sans);
+      color: var(--sq-text);
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+      background: radial-gradient(120% 80% at 50% -10%, #fdfaf3 0%, var(--sq-cream) 55%, #efe7d6 100%);
+    }
+    #scent-quiz-popup-overlay.sq-open #sq-app {
+      transform: scale(1);
+    }
+    @media (max-width: 640px) {
+      #scent-quiz-popup-overlay {
+        padding: 0;
+      }
+      #scent-quiz-popup-overlay #sq-app {
+        max-width: none;
+        width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+      }
+    }
+    #scent-quiz-popup-overlay .sq-close {
+      position: absolute;
+      top: calc(env(safe-area-inset-top) + 10px);
+      right: calc(env(safe-area-inset-right) + 10px);
+      z-index: 50;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(28, 28, 46, 0.08);
+      color: var(--sq-ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s
+      , transform 0.15s;
+    }
+    #scent-quiz-popup-overlay .sq-close:hover {
+      background: rgba(28, 28, 46, 0.16);
+    }
+    #scent-quiz-popup-overlay .sq-close:active {
+      transform: scale(0.9);
+    }
+    #scent-quiz-popup-overlay .sq-close svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    #scent-quiz-popup-overlay .screen {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: calc(env(safe-area-inset-top) + 14px) 20px calc(env(safe-area-inset-bottom) + 16px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      transition: opacity 0.45s ease
+      , transform 0.45s ease
+      , visibility 0.45s;
+    }
+    #scent-quiz-popup-overlay .screen.active {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+
+    /* ============ Top brand bar ============ */
+    #scent-quiz-popup-overlay .brandbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex: 0 0 auto;
+      min-height: 26px;
+    }
+    #scent-quiz-popup-overlay .brandbar .fx {
+      font-family: var(--sq-serif);
+      font-size: 15px;
+      color: var(--sq-ink);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* ============ INTRO ============ */
+    #scent-quiz-popup-overlay #sq-intro {
+      justify-content: space-between;
+      text-align: center;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #scent-quiz-popup-overlay .intro-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 1.9vh, 16px);
+    }
+    #scent-quiz-popup-overlay .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--sq-love-tint);
+      color: var(--sq-love-dark);
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      border-radius: 100px;
+    }
+    #scent-quiz-popup-overlay .badge-pill svg {
+      width: 14px;
+      height: 14px;
+    }
+    #scent-quiz-popup-overlay #sq-intro h1 {
+      font-family: var(--sq-serif);
+      font-weight: 500;
+      color: var(--sq-ink);
+      font-size: clamp(27px, 7.8vw, 36px);
+      line-height: 1.1;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    #scent-quiz-popup-overlay #sq-intro h1 em {
+      font-style: italic;
+      color: var(--sq-love);
+    }
+    #scent-quiz-popup-overlay #sq-intro .sub {
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: var(--sq-muted);
+      max-width: 320px;
+      margin: 0;
+    }
+    #scent-quiz-popup-overlay .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      width: 100%;
+      max-width: 330px;
+      text-align: left;
+      margin-top: 2px;
+      margin-bottom: 12px;
+    }
+    #scent-quiz-popup-overlay .step {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+    #scent-quiz-popup-overlay .step .num {
+      flex: 0 0 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--sq-white);
+      color: var(--sq-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      box-shadow: 0 4px 12px -4px rgba(35, 35, 58, 0.5);
+      border: 1.5px solid var(--sq-primary-tint);
+    }
+    #scent-quiz-popup-overlay .step .txt {
+      font-size: 14.5px;
+      color: var(--sq-text);
+      line-height: 1.35;
+    }
+    #scent-quiz-popup-overlay .step .txt b {
+      color: var(--sq-ink);
+      font-weight: 700;
+    }
+    #scent-quiz-popup-overlay .intro-preview {
+      position: relative;
+      width: 180px;
+      height: 118px;
+      margin: 0 auto;
+    }
+    #scent-quiz-popup-overlay .intro-preview .pc {
+      position: absolute;
+      width: 94px;
+      height: 118px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--sq-shadow);
+      border: 3.5px solid #fff;
+      background: #eee;
+    }
+    #scent-quiz-popup-overlay .intro-preview .pc img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #scent-quiz-popup-overlay .intro-preview .pc:nth-child(1) {
+      left: 8px;
+      transform: rotate(-11deg) translateY(5px);
+      z-index: 1;
+    }
+    #scent-quiz-popup-overlay .intro-preview .pc:nth-child(2) {
+      left: 50%;
+      margin-left: -47px;
+      z-index: 3;
+    }
+    #scent-quiz-popup-overlay .intro-preview .pc:nth-child(3) {
+      right: 8px;
+      transform: rotate(11deg) translateY(5px);
+      z-index: 1;
+    }
+    #scent-quiz-popup-overlay .intro-cta {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+    #scent-quiz-popup-overlay .btn-primary {
+      width: 100%;
+      max-width: 360px;
+      background: var(--sq-primary);
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 17px 22px;
+      border-radius: 100px;
+      box-shadow: 0 12px 26px -10px rgba(35, 35, 58, 0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      transition: transform 0.15s
+      , background 0.2s;
+    }
+    #scent-quiz-popup-overlay .btn-primary:active {
+      transform: scale(0.97);
+      background: var(--sq-primary-dark);
+    }
+    #scent-quiz-popup-overlay .btn-primary svg {
+      width: 19px;
+      height: 19px;
+    }
+    #scent-quiz-popup-overlay .trust {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 14px;
+      font-size: 12px;
+      color: var(--sq-muted);
+      max-width: 360px;
+    }
+    #scent-quiz-popup-overlay .trust span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    #scent-quiz-popup-overlay .trust svg {
+      width: 13px;
+      height: 13px;
+      color: var(--sq-primary);
+    }
+
+    /* ============ DECK ============ */
+    #scent-quiz-popup-overlay #sq-deck-screen {
+      justify-content: flex-start;
+    }
+    #scent-quiz-popup-overlay .deck-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 0 0 auto;
+      margin: 6px 0 2px;
+    }
+    #scent-quiz-popup-overlay .progress-wrap {
+      flex: 1;
+      height: 7px;
+      background: rgba(28, 28, 46, 0.1);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    #scent-quiz-popup-overlay .progress-bar {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg,var(--sq-primary),var(--sq-gold));
+      border-radius: 100px;
+      transition: width 0.4s cubic-bezier(0.2,0.8,0.2,1);
+    }
+    #scent-quiz-popup-overlay .count-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fff;
+      color: var(--sq-love-dark);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 100px;
+      box-shadow: 0 4px 12px -6px rgba(28, 28, 46, 0.3);
+    }
+    #scent-quiz-popup-overlay .count-chip svg {
+      width: 15px;
+      height: 15px;
+      color: var(--sq-love);
+    }
+    #scent-quiz-popup-overlay .count-chip.bump {
+      animation: sq-bump 0.45s cubic-bezier(0.2,1.4,0.4,1);
+    }
+    @keyframes sq-bump {
+      0% {
+        transform: scale(1);
+      }
+      35% {
+        transform: scale(1.28);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    #scent-quiz-popup-overlay .deck {
+      position: relative;
+      flex: 1;
+      margin: 14px 2px 8px;
+      min-height: 0;
+    }
+    #scent-quiz-popup-overlay .card {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--sq-card-radius);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--sq-shadow);
+      will-change: transform;
+      touch-action: pan-y;
+      cursor: grab;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    #scent-quiz-popup-overlay .card.dragging {
+      cursor: grabbing;
+      transition: none !important;
+    }
+
+
+    /*
+   photo confined to the top of the card - copy lives on its own panel below,
+   so text never overlays the flacon
+*/
+    #scent-quiz-popup-overlay .card .photo {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 62%;
+      background: #ece5d8;
+      overflow: hidden;
+    }
+    #scent-quiz-popup-overlay .card .photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    #scent-quiz-popup-overlay .card .photo img.show {
+      opacity: 1;
+    }
+    #scent-quiz-popup-overlay .card .photo::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 26%;
+      background: linear-gradient(to top, rgba(20,17,32,.38) 0%, rgba(20,17,32,0) 100%);
+      pointer-events: none;
+    }
+    #scent-quiz-popup-overlay .pips {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      gap: 5px;
+      z-index: 4;
+    }
+    #scent-quiz-popup-overlay .pips i {
+      flex: 1;
+      height: 3.5px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.4);
+    }
+    #scent-quiz-popup-overlay .pips i.on {
+      background: #fff;
+    }
+    #scent-quiz-popup-overlay .tap-hint {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 38%;
+      z-index: 3;
+    }
+    #scent-quiz-popup-overlay .tap-hint.l {
+      left: 0;
+    }
+    #scent-quiz-popup-overlay .tap-hint.r {
+      right: 0;
+    }
+    #scent-quiz-popup-overlay .card .info {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 4;
+      min-height: 38%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 12px 20px 14px;
+      color: #fff;
+      pointer-events: none;
+      background: linear-gradient(180deg,#26223a 0%, #181528 100%);
+    }
+    #scent-quiz-popup-overlay .card .cat {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: .9;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    #scent-quiz-popup-overlay .card .cat .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.55);
+    }
+    #scent-quiz-popup-overlay .card h2 {
+      font-family: var(--sq-serif);
+      font-weight: 500;
+      font-size: 25px;
+      line-height: 1.08;
+      margin: 0 0 5px;
+      color: #fff;
+    }
+    #scent-quiz-popup-overlay .card .desc {
+      font-size: 14px;
+      line-height: 1.4;
+      opacity: .95;
+      margin: 0 0 9px;
+    }
+    #scent-quiz-popup-overlay .card .desc.emo-lead {
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
+    #scent-quiz-popup-overlay .card .desc.inspired {
+      font-size: 12px;
+      opacity: .72;
+      font-weight: 500;
+      margin: 0 0 9px;
+    }
+    #scent-quiz-popup-overlay .card .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 9px;
+    }
+    #scent-quiz-popup-overlay .card .tags span {
+      font-size: 11.5px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter:blur(4px);
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+    #scent-quiz-popup-overlay .shop-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 6px 11px;
+      border-radius: 100px;
+      pointer-events: auto;
+    }
+    #scent-quiz-popup-overlay .shop-mode svg {
+      width: 14px;
+      height: 14px;
+    }
+    #scent-quiz-popup-overlay .shop-mode b {
+      color: #f3d9c2;
+    }
+
+    /* swipe stamps */
+    #scent-quiz-popup-overlay .stamp {
+      position: absolute;
+      top: 26px;
+      z-index: 6;
+      font-family: var(--sq-serif);
+      font-weight: 600;
+      font-size: 30px;
+      padding: 6px 16px;
+      border: 3.5px solid;
+      border-radius: 12px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #scent-quiz-popup-overlay .stamp.love {
+      right: 20px;
+      color: var(--sq-love);
+      border-color: var(--sq-love);
+      transform: rotate(14deg);
+    }
+    #scent-quiz-popup-overlay .stamp.skip {
+      left: 20px;
+      color: #8a8f99;
+      border-color: #8a8f99;
+      transform: rotate(-14deg);
+    }
+
+    /* persistent swipe-direction cues (always-on guidance; fade out as you drag) */
+    #scent-quiz-popup-overlay .dir-cue {
+      position: absolute;
+      top: 42%;
+      transform: translateY(-50%);
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 800;
+      font-size: 12.5px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff;
+      padding: 7px 11px;
+      border-radius: 100px;
+      cursor: pointer;
+      opacity: .9;
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.3);
+      transition: opacity 0.16s ease;
+    }
+    #scent-quiz-popup-overlay .dir-cue svg {
+      width: 15px;
+      height: 15px;
+    }
+    #scent-quiz-popup-overlay .dir-cue.l {
+      left: 10px;
+      background: rgba(68, 74, 84, 0.78);
+    }
+    #scent-quiz-popup-overlay .dir-cue.r {
+      right: 10px;
+      background: rgba(176, 58, 91, 0.85);
+    }
+    #scent-quiz-popup-overlay #sq-deck-screen:not(.swiped) .dir-cue.l {
+      animation: sq-nudgeL 1.5s ease-in-out infinite;
+    }
+    #scent-quiz-popup-overlay #sq-deck-screen:not(.swiped) .dir-cue.r {
+      animation: sq-nudgeR 1.5s ease-in-out infinite;
+    }
+    @keyframes sq-nudgeL {
+      0,
+      100% {
+        transform: translateY(-50%) translateX(0);
+      }
+      50% {
+        transform: translateY(-50%) translateX(-7px);
+      }
+    }
+    @keyframes sq-nudgeR {
+      0,
+      100% {
+        transform: translateY(-50%) translateX(0);
+      }
+      50% {
+        transform: translateY(-50%) translateX(7px);
+      }
+    }
+
+    /* persistent swipe instruction bar (hides after first swipe) */
+    #scent-quiz-popup-overlay .swipe-hint {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 8px 2px 0;
+      font-size: 12.5px;
+      color: var(--sq-muted);
+      font-weight: 700;
+    }
+    #scent-quiz-popup-overlay .swipe-hint .sh-save,
+    #scent-quiz-popup-overlay .swipe-hint .sh-skip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      line-height: 1.2;
+    }
+    #scent-quiz-popup-overlay .swipe-hint b {
+      font-weight: 800;
+    }
+    #scent-quiz-popup-overlay .swipe-hint svg {
+      width: 15px;
+      height: 15px;
+    }
+    #scent-quiz-popup-overlay .swipe-hint .sh-skip {
+      color: #767c86;
+    }
+    #scent-quiz-popup-overlay .swipe-hint .sh-save {
+      color: var(--sq-love-dark);
+      text-align: right;
+    }
+    #scent-quiz-popup-overlay #sq-deck-screen.swiped .swipe-hint {
+      display: none;
+    }
+
+
+    /*
+   deck action buttons (bottom padding reserves room for the labels,
+   so they never overlap the "See my matches" button below)
+*/
+    #scent-quiz-popup-overlay .actions {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+      padding: 8px 0 26px;
+    }
+    #scent-quiz-popup-overlay .act {
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 22px -10px rgba(28, 28, 46, 0.45);
+      transition: transform 0.15s
+      , box-shadow 0.2s;
+      position: relative;
+    }
+    #scent-quiz-popup-overlay .act:active {
+      transform: scale(0.9);
+    }
+    #scent-quiz-popup-overlay .act.skip {
+      width: 62px;
+      height: 62px;
+      color: #8a8f99;
+    }
+    #scent-quiz-popup-overlay .act.love {
+      width: 62px;
+      height: 62px;
+      color: var(--sq-love);
+    }
+    #scent-quiz-popup-overlay .act.undo {
+      width: 48px;
+      height: 48px;
+      color: var(--sq-primary);
+    }
+    #scent-quiz-popup-overlay .act svg {
+      width: 26px;
+      height: 26px;
+    }
+    #scent-quiz-popup-overlay .act.undo svg {
+      width: 21px;
+      height: 21px;
+    }
+    #scent-quiz-popup-overlay .act.love svg {
+      width: 28px;
+      height: 28px;
+    }
+    #scent-quiz-popup-overlay .act:disabled {
+      opacity: .35;
+      cursor: default;
+      transform: none;
+    }
+    #scent-quiz-popup-overlay .act-lbl {
+      position: absolute;
+      bottom: -19px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--sq-muted);
+      white-space: nowrap;
+    }
+
+    /* first-card teaching hint */
+    #scent-quiz-popup-overlay .swipe-coach {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      display: flex;
+      gap: 60px;
+      pointer-events: none;
+      opacity: 0;
+    }
+    #scent-quiz-popup-overlay .swipe-coach.show {
+      animation: sq-coach 2.6s ease forwards;
+    }
+    #scent-quiz-popup-overlay .coach-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: #fff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    #scent-quiz-popup-overlay .coach-side svg {
+      width: 34px;
+      height: 34px;
+    }
+    @keyframes sq-coach {
+      0% {
+        opacity: 0;
+      }
+      18% {
+        opacity: 1;
+      }
+      82% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    /* like/skip flash tint over deck */
+    #scent-quiz-popup-overlay .deck-flash {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--sq-card-radius);
+      pointer-events: none;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    /* ============ RESULTS ============ */
+    #scent-quiz-popup-overlay #sq-results {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: block;
+      /* no trailing bottom padding here - the floating CTA (.res-cta-float)
+         supplies its own safe-area padding and must sit flush with the true
+         bottom edge of the scrollport for position:sticky to reach it. */
+      padding-bottom: 0;
+    }
+    #scent-quiz-popup-overlay .res-head {
+      text-align: center;
+      padding: 8px 0 2px;
+    }
+    #scent-quiz-popup-overlay .res-head .kicker {
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sq-primary);
+    }
+    #scent-quiz-popup-overlay .res-head h1 {
+      font-family: var(--sq-serif);
+      font-weight: 500;
+      color: var(--sq-ink);
+      font-size: 30px;
+      margin: 8px 0 6px;
+      line-height: 1.1;
+    }
+    #scent-quiz-popup-overlay .res-head p {
+      font-size: 15px;
+      color: var(--sq-muted);
+      margin: 0 auto;
+      max-width: 330px;
+      line-height: 1.45;
+    }
+
+    #scent-quiz-popup-overlay .lead-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      margin: 18px 0;
+      box-shadow: var(--sq-shadow);
+      border: 1px solid #efe7d6;
+    }
+    #scent-quiz-popup-overlay .lead-card .lc-top {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    #scent-quiz-popup-overlay .lead-card .gift {
+      flex: 0 0 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--sq-love-tint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sq-love);
+    }
+    #scent-quiz-popup-overlay .lead-card .gift svg {
+      width: 24px;
+      height: 24px;
+    }
+    #scent-quiz-popup-overlay .lead-card h3 {
+      font-family: var(--sq-serif);
+      font-weight: 500;
+      color: var(--sq-ink);
+      font-size: 19px;
+      margin: 0 0 2px;
+    }
+    #scent-quiz-popup-overlay .lead-card .lc-sub {
+      font-size: 13px;
+      color: var(--sq-muted);
+      line-height: 1.4;
+    }
+    #scent-quiz-popup-overlay .lead-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #scent-quiz-popup-overlay .lead-form input {
+      width: 100%;
+      padding: 15px 16px;
+      border-radius: 13px;
+      border: 1.5px solid #e3dbc9;
+      background: #fcfaf5;
+      font-size: 16px;
+      font-family: inherit;
+      color: var(--sq-text);
+      transition: border-color 0.2s
+      , box-shadow 0.2s;
+    }
+    #scent-quiz-popup-overlay .lead-form input:focus {
+      outline: none;
+      border-color: var(--sq-primary);
+      box-shadow: 0 0 0 4px var(--sq-primary-tint);
+    }
+    #scent-quiz-popup-overlay .lead-form input.err {
+      border-color: var(--sq-love);
+      box-shadow: 0 0 0 4px var(--sq-love-tint);
+    }
+    #scent-quiz-popup-overlay .lead-form button {
+      background: var(--sq-love);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 16px;
+      border-radius: 13px;
+      transition: transform 0.15s
+      , background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    #scent-quiz-popup-overlay .lead-form button:active {
+      transform: scale(0.98);
+      background: var(--sq-love-dark);
+    }
+
+    #scent-quiz-popup-overlay .lead-form button svg {
+      height: 20px;
+    }
+
+    #scent-quiz-popup-overlay .lead-fine {
+      font-size: 11.5px;
+      color: var(--sq-muted);
+      text-align: center;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    #scent-quiz-popup-overlay .lead-success {
+      display: none;
+      text-align: center;
+      padding: 6px 0;
+    }
+    #scent-quiz-popup-overlay .lead-success.show {
+      display: block;
+      animation: sq-pop 0.5s ease;
+    }
+    #scent-quiz-popup-overlay .lead-success .chk {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--sq-primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+    }
+    #scent-quiz-popup-overlay .lead-success .chk svg {
+      width: 28px;
+      height: 28px;
+    }
+    #scent-quiz-popup-overlay .lead-success h3 {
+      font-family: var(--sq-serif);
+      color: var(--sq-ink);
+      font-size: 20px;
+      margin: 0 0 4px;
+    }
+    #scent-quiz-popup-overlay .lead-success p {
+      font-size: 14px;
+      color: var(--sq-muted);
+      margin: 0;
+    }
+    @keyframes sq-pop {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      60% {
+        transform: scale(1.04);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    #scent-quiz-popup-overlay .board-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 6px 2px 12px;
+    }
+    #scent-quiz-popup-overlay .board-title h2 {
+      font-family: var(--sq-serif);
+      font-weight: 500;
+      color: var(--sq-ink);
+      font-size: 21px;
+      margin: 0;
+    }
+    #scent-quiz-popup-overlay .board-title .cnt {
+      font-size: 13px;
+      color: var(--sq-muted);
+      font-weight: 600;
+    }
+    #scent-quiz-popup-overlay .board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    #scent-quiz-popup-overlay .bcard {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px -16px rgba(28, 28, 46, 0.4);
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+    }
+    #scent-quiz-popup-overlay .bcard .bimg {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      background: #ece5d8;
+    }
+    #scent-quiz-popup-overlay .bcard .bimg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    #scent-quiz-popup-overlay .bcard .bimg .dot {
+      position: absolute;
+      top: 9px;
+      left: 9px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px #fff;
+    }
+    #scent-quiz-popup-overlay .bcard .bbody {
+      padding: 11px 12px 13px;
+    }
+    #scent-quiz-popup-overlay .bcard .bname {
+      font-family: var(--sq-serif);
+      font-size: 16px;
+      color: var(--sq-ink);
+      font-weight: 500;
+      line-height: 1.1;
+    }
+
+    #scent-quiz-popup-overlay .res-empty {
+      text-align: center;
+      background: #fff;
+      border-radius: 18px;
+      padding: 26px 20px;
+      box-shadow: var(--sq-shadow);
+      margin: 16px 0;
+    }
+    #scent-quiz-popup-overlay .res-empty svg {
+      width: 40px;
+      height: 40px;
+      color: var(--sq-sage);
+      margin-bottom: 8px;
+    }
+    #scent-quiz-popup-overlay .res-empty h3 {
+      font-family: var(--sq-serif);
+      color: var(--sq-ink);
+      font-size: 20px;
+      margin: 0 0 6px;
+    }
+    #scent-quiz-popup-overlay .res-empty p {
+      font-size: 14px;
+      color: var(--sq-muted);
+      margin: 0;
+    }
+
+    #scent-quiz-popup-overlay .explainer {
+      background: var(--sq-primary-tint);
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      margin: 22px 0 14px;
+    }
+    #scent-quiz-popup-overlay .explainer h3 {
+      font-family: var(--sq-serif);
+      font-weight: 500;
+      color: var(--sq-primary-dark);
+      font-size: 18px;
+      margin: 0 0 12px;
+      text-align: center;
+    }
+    #scent-quiz-popup-overlay .exp-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    #scent-quiz-popup-overlay .exp-col {
+      background: #fff;
+      border-radius: 13px;
+      padding: 14px;
+    }
+    #scent-quiz-popup-overlay .exp-col .h {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+      color: var(--sq-ink);
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+    #scent-quiz-popup-overlay .exp-col .h svg {
+      width: 17px;
+      height: 17px;
+      color: var(--sq-primary);
+    }
+    #scent-quiz-popup-overlay .exp-col p {
+      font-size: 12.5px;
+      color: var(--sq-muted);
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    /* Floating CTA - the only sticky element in the results screen. Sits
+       last in the DOM so it stays pinned to the bottom of #sq-results the
+       whole time you scroll through earlier content. */
+    #scent-quiz-popup-overlay .res-cta-float {
+      position: sticky;
+      bottom: 0;
+      z-index: 6;
+      margin: 20px -20px 0;
+      padding: 14px 20px calc(env(safe-area-inset-bottom) + 16px);
+      background: var(--sq-cream);
+      box-shadow: 0 -14px 24px -14px rgba(28, 28, 46, 0.22);
+    }
+    #scent-quiz-popup-overlay .btn-shopall {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--sq-primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 16px;
+      border-radius: 100px;
+      text-align: center;
+      text-decoration: none;
+      box-shadow: 0 12px 26px -12px rgba(35, 35, 58, 0.7);
+    }
+    #scent-quiz-popup-overlay .btn-shopall.is-loading {
+      opacity: 0.85;
+      pointer-events: none;
+    }
+    #scent-quiz-popup-overlay .btn-shopall .btn-shopall__spinner {
+      position: static;
+      width: 20px;
+      margin: 0;
+    }
+    #scent-quiz-popup-overlay .btn-shopall .btn-shopall__spinner .path {
+      stroke: #fff;
+    }
+    #scent-quiz-popup-overlay .btn-shopall__error {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #b03a3a;
+      text-align: center;
+    }
+    /* Retake - a normal, static (non-floating) link in the scrollable
+       content, reached only once you scroll all the way to the end. */
+    #scent-quiz-popup-overlay .btn-retake {
+      background: transparent;
+      color: var(--sq-muted);
+      font-weight: 700;
+      font-size: 14.5px;
+      padding: 12px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      width: fit-content;
+      margin: 20px auto 0;
+    }
+    #scent-quiz-popup-overlay .btn-retake svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* floating particles (hearts/petals) */
+    #scent-quiz-popup-overlay .particle {
+      position: absolute;
+      z-index: 30;
+      pointer-events: none;
+      will-change: transform
+      , opacity;
+    }
+
+    /* toast */
+    #scent-quiz-popup-overlay .toast {
+      position: absolute;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom) + 96px);
+      transform: translateX(-50%) translateY(20px);
+      background: var(--sq-ink);
+      color: #fff;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 11px 18px;
+      border-radius: 100px;
+      box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    #scent-quiz-popup-overlay .toast svg {
+      width: 16px;
+      height: 16px;
+      color: var(--sq-love);
+    }
+    #scent-quiz-popup-overlay .toast.show {
+      animation: sq-toast-anim 1.9s ease forwards;
+    }
+    @keyframes sq-toast-anim {
+      0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+      }
+      14% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      80% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-10px);
+      }
+    }
+
+    /* ============ CRO additions ============ */
+    /* social proof on intro */#scent-quiz-popup-overlay .social-proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--sq-muted);
+      font-weight: 600;
+      margin: -4px 0 2px;
+    }
+    #scent-quiz-popup-overlay .social-proof .stars {
+      color: #f2a200;
+      letter-spacing: 1.5px;
+      font-size: 14px;
+    }
+    #scent-quiz-popup-overlay .social-proof b {
+      color: var(--sq-ink);
+      font-weight: 700;
+    }
+
+    /* early-exit "see my matches" on deck */
+    #scent-quiz-popup-overlay .see-wrap {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0;
+    }
+    #scent-quiz-popup-overlay .see-matches {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--sq-primary-dark);
+      font-weight: 700;
+      font-size: 14px;
+      padding: 7px 16px;
+      border-radius: 100px;
+      border: 1.5px solid var(--sq-primary-tint);
+      background: #fff;
+      box-shadow: 0 4px 12px -6px rgba(35, 35, 58, 0.4);
+      transition: transform 0.15s
+      , opacity 0.3s;
+    }
+    #scent-quiz-popup-overlay .see-matches:active {
+      transform: scale(0.96);
+    }
+    #scent-quiz-popup-overlay .see-matches svg {
+      width: 16px;
+      height: 16px;
+    }
+    #scent-quiz-popup-overlay .see-matches[hidden] {
+      display: none;
+    }
+    #scent-quiz-popup-overlay .see-matches b {
+      color: var(--sq-love-dark);
+    }
+
+    /* results: savings kicker + trust strip */
+    #scent-quiz-popup-overlay .res-save {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--sq-primary-tint);
+      color: var(--sq-primary-dark);
+      font-weight: 700;
+      font-size: 13px;
+      padding: 8px 15px;
+      border-radius: 100px;
+      margin: 4px auto 0;
+      line-height: 1.4;
+    }
+    #scent-quiz-popup-overlay .res-save svg {
+      width: 15px;
+      height: 15px;
+    }
+    #scent-quiz-popup-overlay .res-trust {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 9px 16px;
+      margin: 16px 0 2px;
+      font-size: 12.5px;
+      color: var(--sq-muted);
+      font-weight: 600;
+    }
+    #scent-quiz-popup-overlay .res-trust span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    #scent-quiz-popup-overlay .res-trust svg {
+      width: 14px;
+      height: 14px;
+      color: var(--sq-primary);
+    }
+
+    /* post-submit next-step CTA */
+    #scent-quiz-popup-overlay .ls-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+      background: var(--sq-primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 13px 24px;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 10px 22px -12px rgba(35, 35, 58, 0.7);
+    }
+    #scent-quiz-popup-overlay .ls-cta svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    /* short phones: tighten everything so nothing collides */
+    @media (max-height: 740px) {
+      #scent-quiz-popup-overlay .intro-hero {
+        gap: 9px;
+      }
+      #scent-quiz-popup-overlay #sq-intro h1 {
+        font-size: clamp(24px, 7vw, 30px);
+      }
+      #scent-quiz-popup-overlay #sq-intro .sub {
+        font-size: 14.5px;
+      }
+      #scent-quiz-popup-overlay .intro-preview {
+        width: 150px;
+        height: 96px;
+      }
+      #scent-quiz-popup-overlay .intro-preview .pc {
+        width: 78px;
+        height: 96px;
+      }
+      #scent-quiz-popup-overlay .intro-preview .pc:nth-child(2) {
+        margin-left: -39px;
+      }
+      #scent-quiz-popup-overlay .step .num {
+        flex: 0 0 30px;
+        height: 30px;
+        font-size: 14px;
+      }
+      #scent-quiz-popup-overlay .step .txt {
+        font-size: 13.5px;
+      }
+      #scent-quiz-popup-overlay .btn-primary {
+        padding: 15px 20px;
+        font-size: 16px;
+      }
+      #scent-quiz-popup-overlay .act.skip,
+      #scent-quiz-popup-overlay .act.love {
+        width: 54px;
+        height: 54px;
+      }
+      #scent-quiz-popup-overlay .act.undo {
+        width: 44px;
+        height: 44px;
+      }
+      #scent-quiz-popup-overlay .actions {
+        padding: 6px 0 24px;
+      }
+      #scent-quiz-popup-overlay .card .photo {
+        height: 56%;
+      }
+      #scent-quiz-popup-overlay .card .info {
+        height: 44%;
+        padding: 10px 16px 12px;
+      }
+      #scent-quiz-popup-overlay .card h2 {
+        font-size: 22px;
+      }
+      #scent-quiz-popup-overlay .card .cat {
+        margin-bottom: 3px;
+      }
+      #scent-quiz-popup-overlay .card .desc {
+        font-size: 13px;
+        margin-bottom: 7px;
+      }
+      #scent-quiz-popup-overlay .card .tags {
+        margin-bottom: 0;
+      }
+      #scent-quiz-popup-overlay .shop-mode {
+        display: none;
+      };
+      /* no room on short phones */
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #scent-quiz-popup-overlay * {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.08s !important;
+      }
+    }
+
+
+    /*
+   ============ Floating trigger button ============
+   NOTE: .sq-fab lives OUTSIDE #scent-quiz-popup-overlay in the DOM (it's a
+   sibling, not a descendant), so these rules are intentionally unscoped.
+   The class name itself (sq-fab / sq-fab--*) is namespaced instead.
+*/
+    .sq-fab {
+      position: fixed;
+      z-index: 9998;
+      bottom: calc(env(safe-area-inset-bottom) + 18px);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--sq-primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-family: 'Nunito Sans'
+      , -apple-system
+      , BlinkMacSystemFont
+      , 'Segoe UI'
+      , Roboto
+      , Helvetica
+      , Arial
+      , sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      padding: 13px 20px;
+      border-radius: 100px;
+      box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.4);
+      transition: transform 0.15s
+      , box-shadow 0.2s, bottom 0.5s;
+    }
+    .sq-fab:hover {
+      transform: translateY(-2px);
+    }
+    .sq-fab:active {
+      transform: scale(0.96);
+    }
+    .sq-fab svg {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+    }
+    .sq-fab--bottom_right {
+      right: calc(env(safe-area-inset-right) + 18px);
+    }
+    .sq-fab--bottom_left {
+      left: calc(env(safe-area-inset-left) + 18px);
+    }
+    @media (max-width: 480px) {
+      .sq-fab {
+        padding: 14px;
+      }
+    }
+
+    /* Notice shown above the trigger button when it's clicked with no
+       scent collection configured (settings.scent_quiz_collection). */
+    .sq-fab-notice {
+      position: fixed;
+      z-index: 9998;
+      bottom: calc(env(safe-area-inset-bottom) + 78px);
+      max-width: 240px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: #23233a;
+      color: #fff;
+      font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.4;
+      box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      transform: translateY(6px);
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .sq-fab-notice.sq-show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .sq-fab-notice--bottom_right {
+      right: calc(env(safe-area-inset-right) + 18px);
+    }
+    .sq-fab-notice--bottom_left {
+      left: calc(env(safe-area-inset-left) + 18px);
+    }

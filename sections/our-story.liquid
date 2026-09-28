@@ -1,0 +1,202 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding overflow-hidden"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="flex flex-col lg:gap-16 lg:flex-row">
+      <div class="lg:w-1/2 lg:order-2">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="h-[206px] lg:h-[400px] mt-[44px] lg:mt-[44px]">
+            <img
+              src="{{ section.settings.image_1 | image_url: width: 800 }}"
+              alt=""
+              width="800"
+              height="1067"
+              loading="lazy"
+              class="h-full object-cover max-w-full rounded-lg">
+          </div>
+          <div class="h-[206px] lg:h-[400px] mt-[-44px] lg:mt-[-88px]">
+            <img
+              src="{{ section.settings.image_2 | image_url: width: 800 }}"
+              alt=""
+              width="800"
+              height="1422"
+              loading="lazy"
+              class="h-full object-cover max-w-full rounded-lg">
+          </div>
+          <div class="h-[206px] lg:h-[400px] mb-[-44px] lg:mb-[-88px]">
+            <img
+              src="{{ section.settings.image_3 | image_url: width: 800 }}"
+              alt=""
+              width="800"
+              height="1067"
+              loading="lazy"
+              class="h-full max-w-full object-cover rounded-lg">
+          </div>
+          <div class="h-[206px] lg:h-[400px] mt-[-88px] lg:mt-[-132px]">
+            <img
+              src="{{ section.settings.image_4 | image_url: width: 800 }}"
+              alt=""
+              width="800"
+              height="1067"
+              loading="lazy"
+              class="h-full max-w-full object-cover rounded-lg">
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center mt-16 mb-8 lg:w-1/2 lg:mt-0 lg:mb-0 lg:order-1">
+        <div class="text-center">
+          <h2 class="font-bold font-inter text-2xl lg:text-3xl" style="color: {{ section.settings.text_color }}">{{ section.settings.heading }}</h2>
+          <p class="md:text-lg" style="color: {{ section.settings.text_color }}">
+            {{ section.settings.subheading }}
+          </p>
+          <div class="mt-6">
+            <a
+              href="{{ section.settings.button_url }}"
+              class="bg-black text-white px-6 py-3 no-underline rounded-full uppercase text-lg font-semibold tracing-wide"
+              style="background-color: {{ section.settings.accent_color }}">
+              {{ section.settings.button_text }}
+            </a>
+          </div>
+          <div class="mt-10 md:mt-14 lg:mt-16">
+            <div class="grid grid-cols-3 [&>div:last-child]:!border-r-0">
+              {% for block in section.blocks %}
+                <div class="text-center" style="border-right: 1px solid #3d3d3d;">
+                  <h3 class="mb-1 font-inter !font-black text-2xl md:text-3xl" style="color: {{ section.settings.accent_color }};">{{ block.settings.number }}</h3>
+                  <div style="font-size: 16px; color: #ffffff;">
+                    <p>{{ block.settings.label }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Our Story",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#121212"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "label": "Accent Color",
+        "default": "#c8202f"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Our Story"
+      }, {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Our founder, Connor, set out on a mission: to create premium fragrances inspired by designer scents—without the premium price tag. Self-taught and driven by passion, he crafted TryScent to offer long-lasting, vegan, and cruelty-free fragrances that rival the originals. Because when it smells just as luxurious, why pay more?"
+      }, {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Shop now"
+      }, {
+        "type": "text",
+        "id": "button_url",
+        "label": "Button URL",
+        "default": "/collections/our-most-popular"
+      }, {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 0
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 0
+      }, {
+        "type": "header",
+        "content": "Select Images"
+      }, {
+        "type": "image_picker",
+        "id": "image_1",
+        "label": "Image 1"
+      }, {
+        "type": "image_picker",
+        "id": "image_2",
+        "label": "Image 2"
+      }, {
+        "type": "image_picker",
+        "id": "image_3",
+        "label": "Image 3"
+      }, {
+        "type": "image_picker",
+        "id": "image_4",
+        "label": "Image 4"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "statistic",
+        "name": "Statistic",
+        "settings": [
+          {
+            "type": "text",
+            "id": "number",
+            "label": "Number"
+          }, {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "default": "Label"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Our Story"
+      }
+    ]
+  }
+{% endschema %}

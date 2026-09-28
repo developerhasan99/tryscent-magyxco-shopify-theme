@@ -1,0 +1,129 @@
+{% liquid
+  assign product = section.settings.product_id
+  assign variant_images = product.images | where: 'attached_to_variant?', true | map: 'src'
+%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .shopify-section-group-header-group {
+    visibility: hidden;
+    position: fixed;
+    top: -99999px;
+    left: -99999px;
+  }
+{%- endstyle -%}
+
+{{ 'section-main-product.css' | asset_url | stylesheet_tag }}
+<div id="spin-to-win-product" class="section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div style="display: flex;" class="product product--large product--left product--stacked product--mobile-hide grid grid--1-col grid--2-col-tablet">
+      <div class="grid__item product__media-wrapper pb-6">
+        {% render 'product-media-gallery'
+          , variant_images: variant_images
+          , product_param: product %}
+      </div>
+      <div class="product__info-wrapper grid__item scroll-trigger animate--slide-in">
+        <h1 class="!font-sans text-[1.5rem] font-[700] my-0 leading-snug  capitalize !tracking-normal">
+          Save Up To 56% Today + 4 FREE Gifts
+        </h1>
+        <div class="flex items-center gap-2">
+            <svg
+                width="93"
+                height="17"
+                viewBox="0 0 93 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.534 6.78516C17.6178 6.36592 17.2824 5.86282 16.8632 5.86282L12.0838 5.19203L9.90371 0.831881C9.81986 0.664183 9.73601 0.580334 9.56831 0.496484C9.14907 0.244937 8.64597 0.412635 8.39442 0.831881L6.2982 5.19203L1.5188 5.86282C1.26725 5.86282 1.09956 5.94667 1.01571 6.11437C0.680311 6.44977 0.680311 6.95286 1.01571 7.28826L4.45352 10.6422L3.61503 15.4216C3.61503 15.5893 3.61503 15.757 3.69888 15.9247C3.95042 16.344 4.45352 16.5117 4.87276 16.2601L9.14907 13.9962L13.4254 16.2601C13.5092 16.344 13.6769 16.344 13.8446 16.344H14.0123C14.4316 16.2601 14.767 15.8409 14.6831 15.3378L13.8446 10.5584L17.2824 7.20441C17.4501 7.12056 17.534 6.95286 17.534 6.78516Z" fill="#F59E0C" />
+                <path d="M36.3167 6.78516C36.4006 6.36592 36.0652 5.86282 35.646 5.86282L30.8666 5.19203L28.6865 0.831881C28.6026 0.664183 28.5188 0.580334 28.3511 0.496484C27.9318 0.244937 27.4287 0.412635 27.1772 0.831881L25.081 5.19203L20.3016 5.86282C20.05 5.86282 19.8823 5.94667 19.7985 6.11437C19.4631 6.44977 19.4631 6.95286 19.7985 7.28826L23.2363 10.6422L22.3978 15.4216C22.3978 15.5893 22.3978 15.757 22.4817 15.9247C22.7332 16.344 23.2363 16.5117 23.6555 16.2601L27.9318 13.9962L32.2081 16.2601C32.292 16.344 32.4597 16.344 32.6274 16.344H32.7951C33.2143 16.2601 33.5497 15.8409 33.4659 15.3378L32.6274 10.5584L36.0652 7.20441C36.2329 7.12056 36.3167 6.95286 36.3167 6.78516Z" fill="#F59E0C" />
+                <path d="M55.0995 6.78516C55.1833 6.36592 54.8479 5.86282 54.4287 5.86282L49.6493 5.19203L47.4692 0.831881C47.3853 0.664183 47.3015 0.580334 47.1338 0.496484C46.7146 0.244937 46.2115 0.412635 45.9599 0.831881L43.8637 5.19203L39.0843 5.86282C38.8327 5.86282 38.665 5.94667 38.5812 6.11437C38.2458 6.44977 38.2458 6.95286 38.5812 7.28826L42.019 10.6422L41.1805 15.4216C41.1805 15.5893 41.1805 15.757 41.2644 15.9247C41.5159 16.344 42.019 16.5117 42.4383 16.2601L46.7146 13.9962L50.9909 16.2601C51.0747 16.344 51.2424 16.344 51.4101 16.344H51.5778C51.997 16.2601 52.3324 15.8409 52.2486 15.3378L51.4101 10.5584L54.8479 7.20441C55.0156 7.12056 55.0995 6.95286 55.0995 6.78516Z" fill="#F59E0C" />
+                <path d="M73.8822 6.78516C73.9661 6.36592 73.6307 5.86282 73.2114 5.86282L68.432 5.19203L66.252 0.831881C66.1681 0.664183 66.0843 0.580334 65.9166 0.496484C65.4973 0.244937 64.9942 0.412635 64.7427 0.831881L62.6465 5.19203L57.8671 5.86282C57.6155 5.86282 57.4478 5.94667 57.364 6.11437C57.0286 6.44977 57.0286 6.95286 57.364 7.28826L60.8018 10.6422L59.9633 15.4216C59.9633 15.5893 59.9633 15.757 60.0471 15.9247C60.2987 16.344 60.8018 16.5117 61.221 16.2601L65.4973 13.9962L69.7736 16.2601C69.8575 16.344 70.0252 16.344 70.1929 16.344H70.3606C70.7798 16.2601 71.1152 15.8409 71.0314 15.3378L70.1929 10.5584L73.6307 7.20441C73.7984 7.12056 73.8822 6.95286 73.8822 6.78516Z" fill="#F59E0C" />
+                <path d="M92.665 6.78516C92.7488 6.36592 92.4134 5.86282 91.9942 5.86282L87.2148 5.19203L85.0347 0.831881C84.9508 0.664183 84.867 0.580334 84.6993 0.496484C84.28 0.244937 83.777 0.412635 83.5254 0.831881L81.4292 5.19203L76.6498 5.86282C76.3982 5.86282 76.2305 5.94667 76.1467 6.11437C75.8113 6.44977 75.8113 6.95286 76.1467 7.28826L79.5845 10.6422L78.746 15.4216C78.746 15.5893 78.746 15.757 78.8299 15.9247C79.0814 16.344 79.5845 16.5117 80.0037 16.2601L84.28 13.9962L88.5563 16.2601C88.6402 16.344 88.8079 16.344 88.9756 16.344H89.1433C89.5625 16.2601 89.8979 15.8409 89.8141 15.3378L88.9756 10.5584L92.4134 7.20441C92.5811 7.12056 92.665 6.95286 92.665 6.78516Z" fill="#F59E0C" />
+            </svg>
+            <span class="font-semibold text-gray-950">
+                "Excellent" | 33,985 reviews
+            </span>
+        </div>
+        <ul class="list-none p-0">
+            <li class="flex gap-2 items-center text-gray-950">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#0df662" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Identical luxury scent for 85% less
+            </li>
+            <li class="flex gap-2 items-center text-gray-950">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#0df662" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                The fragrance lasts until the second day
+            </li>
+            <li class="flex gap-2 items-center text-gray-950">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#0df662" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                Eau de Parfume with 19-21% perfume concentration
+            </li>
+        </ul>
+        <div class="mt-6 flex items-center gap-3 border-dashed border-2 border-[#137c44] py-2 px-3 rounded-lg">
+            <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExaDdvYmg3ODUyZzduZDR6bW5sb3Ntbm1ndzVtYjA3aGZxMjN6ZjdibCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/6gT5hWNOZxkVq/giphy.gif" alt="Gift Box" width="35" height="35">
+            <span class="font-semibold text-lg leading-snug">Order by <span class="text-red-600">Jul. 23rd</span> for guaranteed FREE Gifts!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {%- if product.media.size > 0 -%}
+    <script src="{{ 'product-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'media-gallery.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
+  <script type="application/ld+json">
+    {{ product | structured_data }}
+  </script>
+</div>
+
+<script>
+    console.log({{ variant_images | json }});
+</script>
+
+{% schema %}
+  {
+    "name": "Spin To Win Product",
+    "tag": "section",
+    "class": "section",
+    "settings": [
+      {
+        "type": "product",
+        "id": "product_id",
+        "label": "Product"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Spin To Win Product"
+      }
+    ]
+  }
+{% endschema %}

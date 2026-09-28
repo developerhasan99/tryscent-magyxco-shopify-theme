@@ -1,0 +1,90 @@
+{% assign upsell_collection = collections[settings.cart_drawer_collection] %}
+
+{% if upsell_collection and upsell_collection.all_products.size > 0 %}
+  <h3 class="text-center text-lg tracking-wider mb-2 mt-8">Du kommer att älska dessa</h3>
+  <div class="flex flex-col gap-3 mb-3">
+    {% assign shown = 0 %}
+    {% for product in upsell_collection.all_products %}
+      {% assign in_cart = false %}
+      {% for item in cart.items %}
+        {% if item.product.id == product.id %}
+          {% assign in_cart = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% unless in_cart %}
+        {% assign product_form_id = 'product-form-' | append: product.id %}
+        <product-form class="product-form">
+          {%- form 'product'
+            , product
+            , id: product_form_id
+            , class: 'form'
+            , novalidate: 'novalidate' -%}
+
+            {% if product.selected_or_first_available_variant.requires_selling_plan %}
+              <input
+                type="hidden"
+                name="selling_plan"
+                value="{{ product.selected_or_first_available_variant.selling_plan_allocations.first.selling_plan_id }}">
+            {% endif %}
+
+            <div style="display: none;">
+              {{ product.variants | json }}
+            </div>
+
+            <div class="grid !mb-0 grid-cols-4 border gap-4 border-solid border-gray-100 rounded-lg p-3 items-center bg-white">
+              <img
+                src="{{ product.featured_image | image_url: width: 200 }}"
+                alt="{{ product.title }}"
+                class="w-full aspect-square object-cover object-center rounded-lg"
+                width=""
+                height="">
+              <div class="col-span-3">
+                <a href="{{ product.url }}" class="my-0 font-semibold leading-snug block text-black no-underline hover:underline mb-2">{{ product.title }}</a>
+                {% if product.has_only_default_variant %}
+                  <div>{{ product.price | money }}</div>
+                  <input
+                    type="hidden"
+                    name="id"
+                    value="{{ product.selected_or_first_available_variant.id }}">
+                {% else %}
+                  <div class="flex gap-3">
+                    <select
+                      class="flex-grow pl-1 pr-3 h-8 border border-gray-200 rounded border-solid"
+                      name="id"
+                      aria-label="Select variant">
+                      {% for variant in product.variants %}
+                        {% assign variant_image = variant.image | default: product.featured_image %}
+                        <option
+                          value="{{ variant.id }}"
+                          data-price="{{ variant.price | money_without_currency }}"
+                          data-img="{{ variant_image | image_url: width: 200 }}"
+                          {% if forloop.first %}
+                          selected{% endif %}>
+                          {{ variant.title }} - {{ variant.price | money }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                    <button
+                      type="submit"
+                      name="add"
+                      class="product-form__submit button bg-[#226139] hover:bg-[#296e42] tracking-wider text-xs leading-snug px-2 py-2 rounded-full w-full">
+                      <span>
+                        Lägg till
+                      </span>
+                      {%- render 'loading-spinner' -%}
+                    </button>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {%- endform -%}
+        </product-form>
+        {% assign shown = shown | plus: 1 %}
+      {% endunless %}
+      {% if shown == 3 %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}

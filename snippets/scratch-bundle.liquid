@@ -1,0 +1,273 @@
+{% if product.metafields.custom.bundle_product_content != blank %}
+  <div class="flex items-center gap-1 font-normal text-black leading-[normal]" {{ block.shopify_attributes }}>
+    <span class="cheaper_than_text" style="font-size: 14px; line-height: normal;">{{ product.metafields.custom.bundle_product_content }}</span>
+  </div>
+{% endif %}
+
+<h3 class="text-lg font-semibold text-black leading-normal">Chose your bundle</h3>
+<div class="grid grid-cols-2 gap-2">
+  <button
+    class="bg-white border-2 border-solid border-gray-200 flex flex-col items-center p-3 pt-4 rounded-xl cursor-pointer relative transition duration-300 hover:border-[#22613A]"
+    data-bundle-type="3+1"
+    onclick="selectBundleType('3+1')">
+    <div class="absolute -top-3 bg-[#df3d3d] rounded-full text-white text-xs uppercase py-1 px-2">Popular</div>
+    <div class="text-base font-semibold text-black leading-normal">4 PACK BUNDLE</div>
+    <div class="text-gray-500" id="savings-3+1">99.99 rk/ bottle</div>
+    <div class="text-[#22613A] font-semibold text-base">Save 50%</div>
+  </button>
+  <button
+    class="bg-white border-2 border-solid border-gray-200 flex flex-col items-center p-3 pt-4 rounded-xl cursor-pointer relative transition duration-300 hover:border-[#22613A]"
+    data-bundle-type="3+1"
+    onclick="selectBundleType('3+1')">
+    <div class="absolute -top-3 bg-[#22613A] rounded-full text-white text-xs uppercase py-1 px-2">Bestsellers</div>
+    <div class="text-base font-semibold text-black leading-normal">4 PACK BUNDLE</div>
+    <div class="text-gray-500" id="savings-3+1">99.99 rk/ bottle</div>
+    <div class="text-[#22613A] font-semibold text-base">Save 50%</div>
+  </button>
+</div>
+
+{% assign bundle_collection = collections['best-sellers'] %}
+{% assign product_count = product.metafields.custom.choose_your_fragrances_options %}
+{% assign dropdown_ml = product.metafields.custom.select_bundle_dropdown_ml | default: "50" %}
+{% assign bundle_ml = dropdown_ml | append: "ml" %}
+{% assign selected_variant = product.selected_or_first_available_variant %}
+
+<style>
+  [x-cloak] {
+    display: none !important;
+  }
+</style>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+{%- liquid
+  assign next_bundle = product.metafields.custom.next_bundle
+  if next_bundle != blank
+    assign next_bundle_product = next_bundle.value
+    assign next_size = next_bundle_product.metafields.custom.select_bundle_dropdown_ml
+    assign price_difference = next_bundle_product.price | minus: product.price | money
+  endif
+-%}
+
+{% if next_bundle != blank %}
+  <div class="bg-white border border-gray-200 rounded-lg px-4 py-2.5 mb-4">
+    <div class="flex items-center gap-2 text-black">
+      <svg
+        class="size-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+      </svg>
+      <span>
+        <a href="{{ next_bundle_product.url }}" class="ml-auto font-medium text-[#22613A] whitespace-nowrap transition-colors">
+          {{ 'bundle.upgrade_cta' | t: size: next_size, price: price_difference }}</a>
+      </span>
+    </div>
+  </div>
+{% endif %}
+
+<div x-data>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-4">
+    <template x-for="index in ({{ product_count }})" :key="index">
+      <div
+        @click="$store.bundleBuilder.showModal = true"
+        class="bg-white border-2 border-solid border-gray-200 flex items-center p-[7px] rounded-xl gap-2 cursor-pointer relative transition duration-300 hover:border-[#22613A]"
+        :class="{ 'md:col-span-2': {{ product_count }} % 2 != 0 && index === {{ product_count }}, '!border-[#22613A]' : typeof $store.bundleBuilder.selectedProducts[index - 1] !== 'undefined'}">
+        <div x-text="index" class="bg-[#22613A] size-6 rounded-lg text-white font-bold text-xs flex items-center justify-center shrink-0"></div>
+        <div x-show="!$store.bundleBuilder.selectedProducts[index - 1]" class="flex gap-2 items-center flex-grow">
+            {% render 'perfume-icon'
+            , size: 40 %}
+            <div class="text-sm text-[#6b7280] overflow-hidden whitespace-nowrap [text-overflow:ellipsis]">
+            {{ 'bundle.choose_your_perfume' | t }}
+            </div>
+            <span class="ml-auto text-[#6b7280]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg></span>
+        </div>
+        <div x-show="$store.bundleBuilder.selectedProducts[index - 1]" class="flex gap-2 items-center flex-grow">
+            <img
+                class="object-cover rounded"
+                :src="$store.bundleBuilder.selectedProducts[index - 1].image"
+                :alt="$store.bundleBuilder.selectedProducts[index - 1].name"
+                width="40"
+                height="40"
+            >
+            <div class="text-left flex flex-col gap-1">
+                <div class="font-bold text-sm leading-tight text-black line-clamp-1" x-text="$store.bundleBuilder.selectedProducts[index - 1].name"></div>
+                <div class="text-xs line-clamp-1 text-[#6b7280]" x-text="$store.bundleBuilder.selectedProducts[index - 1].nuta"></div>
+            </div>
+            <button @click.stop.prevent="$store.bundleBuilder.removeProduct(index - 1)" class="ml-auto size-7 bg-red-50 flex items-center justify-center rounded text-xs cursor-pointer border-0">
+                {% render 'icon-trash' %}
+            </button>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  <button
+    x-data
+    @click="$store.bundleBuilder.doATCandCheckout()"
+    :disabled="$store.bundleBuilder.selectedProducts.length < {{ product_count }} || $store.bundleBuilder.addingToCart"
+    :class="{
+        'opacity-50 cursor-not-allowed': $store.bundleBuilder.selectedProducts.length < {{ product_count }},
+        'cursor-pointer hover:bg-[#368856]': $store.bundleBuilder.selectedProducts.length >= {{ product_count }}
+      }"
+    class="w-full flex gap-2 flex-wrap items-center !mb-0 text-lg font-bold !py-3 !px-2 rounded-full button bg-[#22613a] transition-colors shadow-xl tracking-normal button--full-width"
+  >
+    <span x-show="$store.bundleBuilder.selectedProducts.length < {{ product_count }}" x-text='{{ "bundle.select_more" | t: count: "__count__" | json }}.replace("__count__", {{ product_count }} - $store.bundleBuilder.selectedProducts.length)'></span>
+    <span x-show="$store.bundleBuilder.selectedProducts.length === {{ product_count }}">{{ 'bundle.shop_now' | t }}</span>
+    <span class="size-2 rounded-full inline-block bg-white/50"></span>
+    <span class="current-price">{{ selected_variant.price | money }}</span>
+    <div x-show="$store.bundleBuilder.addingToCart" class="loading__spinner">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="spinner"
+        viewBox="0 0 66 66">
+        <circle
+          stroke-width="6"
+          cx="33"
+          cy="33"
+          r="30"
+          fill="none"
+          class="path"></circle>
+      </svg>
+    </div>
+  </button>
+</div>
+
+<div class="!my-6">
+  <p class="my-0 text-center text-sm font-semibold tracking-normal">
+    Levereras till
+    <span class="shipping_location">{{ localization.country.name }}</span>
+    inom 5 arbetsdagar. Inga tullavgifter.
+  </p>
+</div>
+
+<script>
+  document.addEventListener('alpine:init', function() {
+    Alpine.store('bundleBuilder', {
+      selectedVariant: "{{ bundle_ml }}",
+      bundleLength: {{ product_count }},
+      showModal: false,
+      activeCategory: "All",
+      searchText: "",
+      addingToCart: false,
+      selectedProducts: [],
+      availableProducts: [
+        {% for bundle_product in bundle_collection.products %}
+          {% liquid
+            assign collection_handles = ''
+            for collection in bundle_product.collections
+              assign collection_handles = collection_handles | append: collection.handle
+              if forloop.last == false
+                assign collection_handles = collection_handles | append: ','
+              endif
+            endfor
+          %}
+          {
+            id: {{ bundle_product.id }},
+            name: "{{ bundle_product.title }}",
+            image: "{{ bundle_product.featured_image | image_url: width: 120, height: 120 }}",
+            nuta: "{{ bundle_product.metafields.custom.nuta |  replace: ',', '' }}",
+            inspiration_image: "{% if bundle_product.metafields.custom.inspiration.value %}{{ bundle_product.metafields.custom.inspiration.value.image | image_url: width: 90, height: 90 }}{% endif %}",
+            inspiration_name: "{% if bundle_product.metafields.custom.inspiration.value %}{{ bundle_product.metafields.custom.inspiration.value.name }}{% endif %}",
+            tags: {{ bundle_product.tags | json }},
+            collections: "{{ collection_handles }}",
+            variants: {
+              {% for variant in bundle_product.variants %}
+                "{{ variant.title | downcase |  replace: ' ml', 'ml' }}": {
+                  id: "{{ variant.id }}"
+                },
+              {% endfor %}
+            }
+          },
+        {% endfor %}
+      ],
+      addRemoveProduct(product) {
+        if (this.selectedProducts.length < {{ product_count }} && !this.isProductSelected(product.id)) {
+          this.selectedProducts.push(product);
+          if (this.selectedProducts.length === {{ product_count }}) {
+            this.showModal = false;
+            // Do auto ATC and redirect to checkout
+            {% if product.tags contains 'bogo' %}
+              this.doCheckout();
+            {% else %}
+              this.doATCandCheckout();
+            {% endif %}
+          }
+        } else {
+          this.removeProduct(this.selectedProducts.findIndex(item => item.id === product.id));
+        }
+      },
+      removeProduct(index) {
+        this.selectedProducts.splice(index, 1);
+      },
+      isProductSelected(productId) {
+        return this.selectedProducts.some(product => product.id === productId);
+      },
+      doCheckout() {
+
+        this.addingToCart = true;
+
+        const items = this.selectedProducts.map(product => {
+          const variantId = product.variants[this.selectedVariant].id;
+          return `${variantId}:1`;
+        }).join(',');
+
+        window.location = `https://tryscent.co/cart/${items}`;
+      },
+      doATCandCheckout() {
+        // Set loading state
+        this.addingToCart = true;
+        
+        // Create properties object with bundle items
+        const properties = {
+          "_bundle_items": this.selectedProducts.map(product => 
+            product.variants[this.selectedVariant].id
+          ).join(',')
+        };
+        // Add each selected product as a separate property
+        this.selectedProducts.forEach((product, index) => {
+          properties[`Bottle ${index + 1}`] = 
+            `${product.name} Inspired by ${product.nuta} - ${this.selectedVariant}`;
+        });
+        // Prepare cart items
+        const items = {
+          items: [{
+            id: {{ selected_variant.id }},
+            quantity: 1,
+            properties: properties
+          }]
+        };
+
+        // Make the API call
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(items),
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(() => {
+          // Redirect to cart after successful addition
+          window.location.href = '/checkout';
+        })
+        .catch(error => {
+          console.error('Error adding to cart:', error);
+          // Handle error (e.g., show error message to user)
+        })
+        .finally(() => {
+          this.addingToCart = false;
+        });
+      }
+    });
+  });
+</script>

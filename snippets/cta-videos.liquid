@@ -1,0 +1,78 @@
+<div class="grid grid-cols-3 gap-3 pt-6 cta_videos">
+  {% for i in (1..3) %}
+    {% assign video_setting = 'video' | append: i %}
+    {% assign video_poster_setting = 'video_poster_' | append: i %}
+    {% if block.settings[video_setting] == blank %}
+      {% continue %}
+    {% endif %}
+    {% assign video = block.settings[video_setting] %}
+    {% assign video_url = video.sources[1].url %}
+    {% assign poster_url = block.settings[video_poster_setting] | image_url %}
+    
+    <div class="aspect-w-16 aspect-h-9 relative video-container">
+      <video
+        width="100%"
+        class="w-full h-full object-cover rounded-lg shadow cursor-pointer"
+        poster="{{ poster_url }}"
+        data-video-url="{{ video_url }}"
+        loading="lazy"
+        width="640"
+        height="360"
+      >
+        <source src="{{ video_url }}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <!-- Play icon overlay -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-auto cursor-pointer transition-colors play-button">
+          <svg class="size-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+          </svg>
+      </div>
+      
+      <!-- Pause button overlay (hidden by default) -->
+      <div class="absolute inset-0 z-10 flex items-center justify-center pointer-events-auto opacity-0 hover:opacity-100 transition-opacity duration-200 pause-button cursor-pointer" style="display: none;">
+        <svg class="size-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+        </svg>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const videos = document.querySelectorAll(".cta_videos video");
+    const playButtons = document.querySelectorAll(".cta_videos .play-button");
+    const pauseButtons = document.querySelectorAll(".cta_videos .pause-button");
+
+    playButtons.forEach((playButton, index) => {
+      playButton.addEventListener("click", () => {
+
+        videos.forEach((video, i) => {
+          if (i === index) {
+            video.play();
+            playButton.style.display = "none";
+            pauseButtons[i].style.display = "flex";
+          } else {
+            video.pause();
+            pauseButtons[i].style.display = "none";
+            playButtons[i].style.display = "flex";
+          }
+        });
+      });
+    });
+
+    pauseButtons.forEach((pauseButton, index) => {
+      pauseButton.addEventListener("click", () => {
+
+        console.log("Pause button clicked for video:", index);
+
+        videos[index].pause();
+        pauseButton.style.display = "none";
+        playButtons[index].style.display = "flex";
+      });
+    });
+
+  });
+</script>

@@ -1,0 +1,1555 @@
+/*
+ * FUEL_01 build-your-own bundle page. Loaded by sections/fuel01-byo.liquid, so
+ * only on the collection that mounts it. The .fuel01 gate itself is declared
+ * in assets/fuel01-global.css, which loads sitewide.
+ */
+
+/* In the variant the page takes the collection over: everything else in the
+ * template goes away. The section's own wrapper carries fuel01-byo-wrap from
+ * the schema, and the :has() guard keeps collections that render no builder
+ * (every collection but the configured one) untouched. In the editor nothing
+ * hides, so the control sections stay editable next to this one. */
+html.ab-f01-v1 #MainContent:has(.fuel01-byo) > .shopify-section:not(.fuel01-byo-wrap) {
+  display: none !important;
+}
+
+/* The theme's scent-quiz button is fixed at z-index 9998, above this page's
+ * sticky bar, so on a phone it sits on top of the bar's own button. The theme
+ * lifts that same button out of the way in sections/floating-atc.liquid when
+ * its sticky bar shows; this does the same, by the bar's measured height, which
+ * the section script publishes as --fuel01-sticky-h. That height is 0 whenever
+ * the bar is off screen, so the button keeps the 18px the theme gives it in
+ * assets/scent-quiz-popup.css and lands exactly where control puts it: lifted
+ * by a bar that was not there, it sat on the builder itself at every width.
+ * Variant arm only, and this file loads on the one collection the page is
+ * mounted on, so nothing else on the store moves. In the theme editor the bar
+ * sits in the flow and there is nothing to clear. */
+html.ab-f01-v1 body:not(.shopify-design-mode) #scent-quiz-fab {
+  bottom: calc(env(safe-area-inset-bottom) + 18px + var(--fuel01-sticky-h, 0px));
+}
+
+/* Room for the bar at the end of the page, on the footer rather than on
+ * this section. Carried here it was a fixed 300 that left about 150px of
+ * empty cream between the carousel and the footer at every desktop width
+ * and still did nothing for the footer, which comes after it: scrolled to
+ * the bottom the bar sat on the payment row and the copyright and the page
+ * could not go further. The section script measures the panel and publishes
+ * the number; it holds whether the bar is on screen or stepped aside, so
+ * the page does not resize as the bar comes and goes. The two values below
+ * are what the panel measures at each of its two layouts, for the load
+ * before the script runs and for a browser where it does not. */
+html.ab-f01-v1 {
+  --fuel01-sticky-reserve: 280px;
+}
+
+@media screen and (min-width: 750px) {
+  html.ab-f01-v1 {
+    --fuel01-sticky-reserve: 160px;
+  }
+}
+
+html.ab-f01-v1 body:not(.shopify-design-mode) .shopify-section-group-footer-group {
+  padding-bottom: var(--fuel01-sticky-reserve, 0px);
+}
+
+.fuel01-byo {
+  --fuel01-card-font: 'Plus Jakarta Sans', 'Figtree', sans-serif;
+  padding: 32px 0;
+  background: #faf9f6;
+}
+
+/* ------------------------------------------------------------------ *
+ * Heading.
+ * ------------------------------------------------------------------ */
+
+.fuel01-byo__head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(5px, 0.4762vw + 3.14px, 10px);
+  padding: 0 16px;
+  text-align: center;
+}
+
+/* Both ends are drawn: 32/1.10 in the 390 frame, 48/1.11 in the 1440 one,
+ * straight line between, so the header never steps at a breakpoint. */
+.fuel01-byo__title {
+  margin: 0 auto;
+  color: #121212;
+  font-size: clamp(32px, 1.5238vw + 26.06px, 48px);
+  font-weight: 700;
+  line-height: 1.11;
+  letter-spacing: 0.6px;
+}
+
+/* The mobile frame's title is a 238 x 70 box, two balanced lines: 238 is
+ * 7.4375 times its own 32px, so the box travels with the type. Run the full
+ * column it breaks after the ampersand and leaves "spara" on its own. From
+ * 460 the column holds the whole line and the box would be the only thing
+ * still breaking it, which is what pinned a 238-wide title in the middle of
+ * a 744 page. */
+@media screen and (max-width: 459px) {
+  .fuel01-byo__title {
+    max-width: 7.4375em;
+  }
+}
+
+.fuel01-byo__sub {
+  margin: 0;
+  color: #000000;
+  font-size: clamp(14px, 0.5714vw + 11.77px, 20px);
+  line-height: clamp(16px, 1.219vw + 11.25px, 28.8px);
+  letter-spacing: 0.8px;
+}
+
+/* The desktop frame joins the two sentences with a mid dot on one line;
+ * the mobile frame stacks them with no dot. Those are the only two
+ * renderings, so the sentence break and the dot are switched by the same
+ * rule and cannot disagree: a sentence per line and no dot by default, one
+ * line and the dot only in the ranges below, where the joined line is
+ * measured to fit. Letting the paragraph break where it likes is what put
+ * both sentences on one line with no separator between 811 and 869. */
+.fuel01-byo__sub-part {
+  display: block;
+}
+
+.fuel01-byo__sub-sep {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel01-byo {
+    padding: 40px 0;
+  }
+}
+
+/* Joined, the line measures about 41.6 times the type size and the column is
+ * the window less its 32px of gutter, so with the size running from 14 at 390
+ * to 20 at 1440 the two sentences fit on one line from about 686 up. A
+ * sentence per line and no dot below that, one line and the dot above it, out
+ * of one rule so the two can never disagree: the pair of ranges this replaces
+ * left 811 to 869 with both sentences on one line and nothing between them. */
+@media screen and (min-width: 720px) {
+  .fuel01-byo__sub-part,
+  .fuel01-byo__sub-sep {
+    display: inline;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Builder card. Desktop only: the mobile frames carry no builder card,
+ * the sticky bar is the mobile slot rendering.
+ * ------------------------------------------------------------------ */
+
+.fuel01-byo__builder {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel01-byo__builder {
+    display: block;
+    max-width: 1197px;
+    margin: 0 auto;
+    padding: 32px 16px;
+  }
+
+  /* The frame's card is a 800 slot row and a 277 summary side by side with
+   * a 24 gap inside a 1101 content box. Under the width that holds that row
+   * the summary goes below it rather than squeezing the slots, and the card
+   * shrinks to the 800 row plus its own 32 of padding: left at the page's
+   * width it stood 1162 wide around an 800 column with 149 of empty white
+   * down each side. The side-by-side rule is at the bottom of this block's
+   * media chain. */
+  .fuel01-builder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 864px;
+    margin: 0 auto;
+    padding: 32px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04), 0 7px 7px rgba(0, 0, 0, 0.03);
+  }
+
+  .fuel01-builder__main {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    min-width: 0;
+    max-width: 800px;
+  }
+
+  /* The row is what the slots are measured against: below the frame's 800
+   * every slot is the frame's slot at the row's own percentage, so the bay,
+   * the caption, the badge and the free pill keep the share of the slot the
+   * frame gives them instead of a full-size bottle standing in a sliver or a
+   * 120 bay floating in a 220 box with the caption 56 below it. */
+  .fuel01-builder__slots {
+    container-type: inline-size;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 18px 0;
+  }
+
+  /* The frame hangs the bottle bay 27 from the slot's top and sits the
+   * caption on the slot's floor, 16 up: 27.18..147.18 and 184..204 in a
+   * 220 slot. So the bay is laid from the top and the captions are taken
+   * out of the flow and hung from the bottom, which is also what keeps
+   * the four bays level whether a slot carries one caption row or two.
+   * The paddings are one less than those two, because the 1px border
+   * sits inside this box and the frame's stroke straddles its own. */
+  .fuel01-slot {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    /* Without this the thumbnail sets each slot's floor and the row
+     * pushes itself over the price summary on the way down from 1020px. */
+    min-width: 0;
+    aspect-ratio: 191 / 220;
+    padding: min(3.25cqw, 26px) 0 min(2cqw, 16px);
+    border: 1px solid #e6e5e2;
+    border-radius: 8px;
+    background: #ffffff;
+  }
+
+  .fuel01-slot--free {
+    border-color: #729e87;
+    background: #fafdf9;
+  }
+
+  .fuel01-slot--free.fuel01-slot--filled {
+    background: #fefefe;
+  }
+
+  /* 36 x 36, the frame's circle. Sized by padding around the digit it came
+   * out 42.4 wide - an oval. */
+  .fuel01-slot__badge {
+    position: absolute;
+    top: min(-3.875cqw, -31px);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: min(4.5cqw, 36px);
+    height: min(4.5cqw, 36px);
+    padding: 0;
+    border-radius: 999px;
+    background: #e8e8e9;
+    transform: translateX(-50%);
+    color: #1c1c1c;
+    font-size: min(1.75cqw, 14px);
+    font-weight: 600;
+    line-height: min(2.5cqw, 20px);
+    letter-spacing: 0.5px;
+  }
+
+  .fuel01-slot__badge--filled {
+    background: #1c1c1c;
+    color: #ffffff;
+  }
+
+  .fuel01-slot__pill {
+    position: absolute;
+    top: min(-3.875cqw, -31px);
+    left: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: min(4.5cqw, 36px);
+    padding: min(1cqw, 8px) min(2.25cqw, 18px);
+    border-radius: 999px;
+    background: #01401f;
+    transform: translateX(-50%);
+    color: #ffffff;
+    font-size: min(1.75cqw, 14px);
+    font-weight: 600;
+    line-height: min(2.5cqw, 20px);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* The frame's outline is 61.85 of the slot's 191 and 120 tall, so it is
+   * a third of the slot's width and it keeps that share when the card is
+   * too narrow for the frame's 191. Fixed at 62 it filled three quarters
+   * of the slot and stood in a sliver instead of a card. */
+  .fuel01-slot__bottle {
+    width: min(32.725%, 61.85px);
+    height: auto;
+    fill: #f6f5f2;
+    stroke: #bebdba;
+    stroke-width: 1.6;
+    stroke-dasharray: 3.2 3.2;
+  }
+
+  .fuel01-slot--free .fuel01-slot__bottle {
+    fill: #daf1e1;
+    stroke: #729e87;
+  }
+
+  /* The picked scent sits in the same bay the outline does: 120 square in
+   * the frame's 191 slot, so the same share of a narrower one. The width
+   * is on the button so the picture's percentage reads the slot and not
+   * its own box. */
+  .fuel01-slot__pick {
+    position: relative;
+    display: block;
+    width: min(63.492%, 120px);
+  }
+
+  /* The remove control, on the picture's top right corner. The picture
+   * itself used to be the button, and a stray tap emptied the slot. */
+  .fuel01-slot__x {
+    position: absolute;
+    top: -9px;
+    right: -9px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid #e6e5e2;
+    border-radius: 50%;
+    background: #ffffff;
+    color: #121212;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+  }
+
+  .fuel01-slot__x:hover,
+  .fuel01-slot__x:focus-visible {
+    border-color: #121212;
+  }
+
+  .fuel01-slot__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+
+  /* Hung from the slot's floor, the frame's 16 once the border is
+   * counted, and growing upwards: one row in an empty numbered slot, two
+   * in the empty free slot, two in every filled slot. */
+  .fuel01-slot__labels {
+    position: absolute;
+    right: 0;
+    bottom: min(1.875cqw, 15px);
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    padding: 0 min(1cqw, 8px);
+  }
+
+  .fuel01-slot__label {
+    color: #000000;
+    font-size: min(2cqw, 16px);
+    font-weight: 600;
+    line-height: min(2.5cqw, 20px);
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  /* The picked scent's name, in the caption the empty-state copy was in. One
+   * line cut most of the names the shop sells down to "Ginger Amber - No. …",
+   * so it runs to two and the ellipsis lands at the end of the second. Both
+   * rows are reserved whether the name uses them or not, so a filled row of
+   * four reads on one line the way the empty one does. */
+  .fuel01-slot__label--name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    height: min(5cqw, 40px);
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  /* The free slot spends its second row on GRATIS, so its name keeps one. */
+  .fuel01-slot--free .fuel01-slot__label--name {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    height: min(2.5cqw, 20px);
+  }
+
+  .fuel01-slot__label--free {
+    color: #137c44;
+    font-size: min(2.25cqw, 18px);
+  }
+
+  .fuel01-builder__progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .fuel01-builder__track {
+    position: relative;
+    width: 100%;
+    height: 8px;
+    border-radius: 99px;
+    background: #eeeeee;
+    overflow: hidden;
+  }
+
+  /* base.css hides empty divs, so the fill has to say it is visible. No
+   * minimum width: the frame's bar at nothing picked is an empty track,
+   * and an 8px floor drew a dark bead on its left end. */
+  .fuel01-builder__track > .fuel01-builder__fill {
+    display: block;
+    height: 100%;
+    border-radius: 99px;
+    background: #044020;
+    transition: width 0.25s ease;
+  }
+
+  .fuel01-builder__copy {
+    margin: 0;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  .fuel01-builder__progress--full .fuel01-builder__copy {
+    color: #146b32;
+  }
+
+  .fuel01-summary {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    padding: 24px 12px 12px;
+    border-radius: 8px;
+    background: #f3f7f4;
+  }
+
+  .fuel01-summary__rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.24);
+  }
+
+  .fuel01-summary__row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .fuel01-summary__label {
+    flex: 1 1 auto;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  /* The bracketed part of a label, split off in the section. It travels to the
+   * second line whole, so the column never reads "Ord. totalpris (4 ×" with
+   * "100 ml):" under it. Labels with no bracket carry no such span. */
+  .fuel01-summary__label-note {
+    white-space: nowrap;
+  }
+
+  /* The frame sets every amount upper: "899,96 KR", "-224,99 KR". */
+  .fuel01-summary__value {
+    text-transform: uppercase;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+  .fuel01-summary__row--discount .fuel01-summary__value {
+    color: #056321;
+  }
+
+  .fuel01-summary__row--total {
+    padding-top: 24px;
+  }
+
+  .fuel01-summary__row--total .fuel01-summary__label,
+  .fuel01-summary__row--total .fuel01-summary__value {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+
+  .fuel01-summary__pill {
+    margin: 12px 0 0;
+    padding: 10px;
+    border: 1px solid #c6d5cc;
+    border-radius: 8px;
+    background: #e7f0eb;
+    color: #056321;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  .fuel01-summary__pill {
+    text-transform: uppercase;
+  }
+}
+
+/* The frame's own layout. It arrives as soon as the card can hold the 277
+ * summary beside four slots that are still most of the frame's 191: 172 at
+ * 1120, 190 at 1194, the frame's own 191 from 1240 up, where the card
+ * reaches the 1165 it draws and its content box the 1101 that holds
+ * 800 + 24 + 277. */
+@media screen and (min-width: 1120px) {
+  .fuel01-builder {
+    flex-direction: row;
+    align-items: flex-end;
+    max-width: none;
+  }
+
+  .fuel01-builder__main {
+    flex: 1 1 auto;
+    max-width: none;
+  }
+
+  /* The frame's panel is 304 tall against a 318 slot-and-progress column,
+   * bottom-aligned, with its rows sitting at the top and the slack left
+   * underneath. Stretching it and dropping the top by that 14 is what
+   * draws the same box; without it the panel shrinks to its rows and
+   * starts 57px lower than the frame. */
+  .fuel01-summary {
+    flex: 0 0 277px;
+    align-self: stretch;
+    width: auto;
+    max-width: none;
+    margin-top: 14px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Benefits row. Both ends are drawn: the mobile frame 204:244409 is a
+ * 2x2 of 179x73 cells, 36px icons, 14/18 title over 11/16 body with no
+ * tracking on the body; the desktop frame 204:244314 is one row of four
+ * 304x95 cells, 40px icons, 18/28 over 16/24. Cell width is what
+ * separates them, so everything in a cell is read off the cell and runs
+ * straight from the one drawn cell to the other.
+ * ------------------------------------------------------------------ */
+
+/* The cell is what the type is drawn for, so the cell is the container it
+ * is read from and one set of rules serves both arrangements. Straight
+ * lines between the two drawn cells - 179 wide with a 36 icon and 14/18
+ * over 11/16, 304 wide with a 40 icon and 18/28 over 16/24 - and below the
+ * mobile frame's 179 the cell keeps that frame's proportions, which is what
+ * keeps the third body on one line in the 164 cell a 360 window gives it.
+ * Keyed to the row instead, the type stepped from 11 to 16 at one 24px
+ * change of window, and a 2 x 2 carried 11px copy into a 1024 page. */
+.fuel01-perks {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 11px 0;
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.fuel01-perks__item {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  text-align: center;
+}
+
+.fuel01-perks__icon {
+  display: block;
+  width: min(20.1117cqw, 3.2cqw + 30.272px, 40px);
+  height: min(20.1117cqw, 3.2cqw + 30.272px, 40px);
+  object-fit: contain;
+}
+
+.fuel01-perks__title {
+  margin: 0;
+  color: #000000;
+  font-size: min(7.8212cqw, 3.2cqw + 8.272px, 18px);
+  font-weight: 600;
+  line-height: min(10.0559cqw, 8cqw + 3.68px, 28px);
+  letter-spacing: 0.6px;
+}
+
+.fuel01-perks__text {
+  margin: 0;
+  color: #334155;
+  font-size: min(6.1453cqw, 4cqw + 3.84px, 16px);
+  line-height: min(8.9385cqw, 6.4cqw + 4.544px, 24px);
+  letter-spacing: clamp(0px, 0.48cqw - 0.8592px, 0.6px);
+}
+
+/* The 2 x 2 is held at the mobile frame's own 358 row, so its cell is that
+ * frame's 179 from 390 up, and four across starts at 700, where a quarter of
+ * the row is 167 and a quarter of a 748 row is that same 179. The cell
+ * barely moves across that line, so the type does not either and it never
+ * shrinks as the page grows; above it the row is the page and the cells grow
+ * into the frame's own 304 by 1280. Held at 1120 the row was a 640 island
+ * with 11px copy under a full-width builder; two 304 cells carrying 11px
+ * copy left the void between the columns that the 744 window showed. */
+@media screen and (min-width: 700px) {
+  .fuel01-perks {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 0;
+    max-width: 1248px;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .fuel01-perks {
+    padding: 32px 16px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Search + filter/sort row. One set of controls: inline row from
+ * 750px, behind the "Filtrera och sortera" toggle below it.
+ * ------------------------------------------------------------------ */
+
+.fuel01-byo__shop {
+  max-width: 1195px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.fuel01-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  padding: 10px 0 16px;
+}
+
+.fuel01-controls__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgba(18, 18, 18, 0.85);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+.fuel01-controls__count {
+  color: rgba(18, 18, 18, 0.7);
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.6px;
+}
+
+.fuel01-controls__row {
+  display: none;
+  flex: 1 1 100%;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fuel01-controls--open .fuel01-controls__row {
+  display: flex;
+}
+
+/* Above the disclosure at every width. On a phone it is the first thing in
+ * the block and takes the whole row; from 750px it shares the row with the
+ * filters. It used to sit inside the disclosure, where a phone never saw it
+ * and used the header's search (same placeholder) instead. */
+.fuel01-search {
+  display: flex;
+  flex: 1 1 100%;
+  order: -1;
+  align-items: center;
+  max-width: none;
+  border-radius: 4px;
+  background: #e9e9e9;
+}
+
+.fuel01-search__field {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+  padding: 0 0 0 24px;
+  border: 0;
+  background: none;
+  color: #121212;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 1px;
+}
+
+.fuel01-search__field::placeholder {
+  color: rgba(18, 18, 18, 0.75);
+}
+
+.fuel01-search__btn {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #6b6b6b;
+  pointer-events: none;
+}
+
+.fuel01-controls__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.fuel01-controls__label {
+  color: rgba(18, 18, 18, 0.85);
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.4px;
+}
+
+.fuel01-controls__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fuel01-controls__select {
+  max-width: 180px;
+  padding: 4px 8px;
+  border: 1px solid #e6e5e2;
+  border-radius: 4px;
+  background: #ffffff;
+  color: rgba(18, 18, 18, 0.75);
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel01-controls {
+    flex-wrap: nowrap;
+    gap: 12px 24px;
+    padding: 22px 0 16px;
+  }
+
+  .fuel01-controls__toggle,
+  .fuel01-controls__count {
+    display: none;
+  }
+
+  .fuel01-search {
+    flex: 1 1 auto;
+    max-width: 689px;
+  }
+
+  .fuel01-controls__row {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 24px;
+    padding: 0;
+  }
+
+  .fuel01-controls__select {
+    border: 0;
+    background: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Scent grid.
+ * ------------------------------------------------------------------ */
+
+.fuel01-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 15px;
+}
+
+.fuel01-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.fuel01-card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* image_tag writes a height attribute, which makes both axes definite and has
+ * the browser ignore aspect-ratio; height:auto hands the ratio back. */
+.fuel01-card__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.fuel01-card__ribbon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  padding: 6px 0;
+  background: #137c44;
+  overflow: hidden;
+}
+
+.fuel01-card__ribbon-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  width: max-content;
+  animation: fuel01-ribbon 14s linear infinite;
+}
+
+/* Review, Sep 3: the phone strip. The text sits one step under the card's
+ * 12px price and brand line, the way the desktop 14 sits under the desktop 18,
+ * so it reads without outgrowing the price beside it. The band is the ribbon's
+ * own line now, not the card's: the block used to inherit the page's 15px/1.8
+ * strut, so the band stood 39px tall on a 152px image whatever size the text
+ * was and hid a quarter of the bottle. From 749 down the band is its 11px line
+ * plus 6px either side, 23px, and the bottle shows again. From 750 up nothing
+ * changes. */
+.fuel01-card__ribbon-item {
+  color: #ffffff;
+  font-family: var(--fuel01-card-font);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 749px) {
+  .fuel01-card__ribbon {
+    font-size: 10px;
+    line-height: 1.1;
+  }
+}
+
+.fuel01-card__ribbon-dot {
+  flex: 0 0 auto;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+/* Something has to be able to stop it: hovering or tabbing into the card holds
+ * the ribbon still for as long as you are on it. */
+.fuel01-card:hover .fuel01-card__ribbon-track,
+.fuel01-card:focus-within .fuel01-card__ribbon-track {
+  animation-play-state: paused;
+}
+
+@keyframes fuel01-ribbon {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .fuel01-card__ribbon-track {
+    justify-content: center;
+    width: 100%;
+    animation: none;
+  }
+
+  .fuel01-card__ribbon-item:not(:first-child),
+  .fuel01-card__ribbon-dot {
+    display: none;
+  }
+}
+
+.fuel01-card__titles {
+  padding-top: 12px;
+}
+
+.fuel01-card__brand {
+  margin: 0;
+  color: #000000;
+  font-family: var(--fuel01-card-font);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.42px;
+}
+
+.fuel01-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  margin: 5px 0 0;
+  color: #000000;
+  font-family: var(--fuel01-card-font);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.42px;
+  overflow: hidden;
+}
+
+.fuel01-card__price {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: baseline;
+  gap: 5px;
+  margin: 0;
+  padding: 8px 0;
+}
+
+.fuel01-card__price-now {
+  color: #146b32;
+  font-family: var(--fuel01-card-font);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.fuel01-card__price-was {
+  color: #000000;
+  font-family: var(--fuel01-card-font);
+  font-size: 10px;
+  line-height: 1.45;
+  opacity: 0.5;
+}
+
+.fuel01-card__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 3px;
+  border: 0;
+  border-radius: 5px;
+  background: #146b32;
+  color: #ffffff;
+  font-family: var(--fuel01-card-font);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 1.26px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.fuel01-card__cta:hover {
+  background: #0e5427;
+}
+
+.fuel01-card__cta--active {
+  background: #10110e;
+}
+
+.fuel01-card__cta--active:hover {
+  background: #10110e;
+}
+
+.fuel01-card__cta--blocked:not(.fuel01-card__cta--active) {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fuel01-grid__empty {
+  margin: 0;
+  padding: 24px 0;
+  color: #121212;
+  font-size: 16px;
+  text-align: center;
+}
+
+.fuel01-reveal {
+  padding: 12px 0;
+  text-align: center;
+}
+
+.fuel01-reveal__btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #000000;
+  font-size: 16px;
+  line-height: 1.8;
+  letter-spacing: 0.8px;
+  text-decoration: underline;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel01-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .fuel01-card {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .fuel01-card__ribbon {
+    padding: 10px 0;
+  }
+
+  .fuel01-card__ribbon-item {
+    font-size: 14px;
+    letter-spacing: 0.63px;
+  }
+
+  .fuel01-card__ribbon-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .fuel01-card__titles {
+    padding-top: 20px;
+  }
+
+  .fuel01-card__brand {
+    font-size: 16px;
+    line-height: 1.25;
+    letter-spacing: 0.66px;
+  }
+
+  .fuel01-card__title {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.66px;
+  }
+
+  .fuel01-card__price {
+    padding: 12px 0;
+    gap: 8px;
+  }
+
+  .fuel01-card__price-now {
+    font-size: 18px;
+    line-height: 1.55;
+  }
+
+  .fuel01-card__price-was {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .fuel01-card__cta {
+    gap: 12px;
+    min-height: 44px;
+    padding: 12px 4px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 2px;
+  }
+
+  .fuel01-reveal {
+    padding: 12px 0 24px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Sticky summary bar. On this page it is the checkout path, so the --on
+ * modifier ships in the markup and the bar is there with no script at
+ * all; the section's own observer takes it off only while the builder
+ * card is in its way, so it can never cover the builder. z-index 1000
+ * keeps it under the theme's modal tiers. In the theme editor it sits
+ * statically in the page so the strategist can see and edit it.
+ * ------------------------------------------------------------------ */
+
+.fuel01-sticky__panel {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 24px calc(24px + env(safe-area-inset-bottom));
+  border-radius: 12px 12px 0 0;
+  background: #ffffff;
+  box-shadow:
+    0 0 3px rgba(0, 0, 0, 0.19),
+    0 0 6px rgba(0, 0, 0, 0.16),
+    0 0 8px rgba(0, 0, 0, 0.1),
+    0 0 9px rgba(0, 0, 0, 0.03);
+  transform: translateY(110%);
+  transition: transform 0.3s ease;
+}
+
+.fuel01-sticky--on .fuel01-sticky__panel {
+  transform: translateY(0);
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .fuel01-sticky__panel {
+    transition: none;
+  }
+}
+
+.shopify-design-mode .fuel01-sticky__panel {
+  position: static;
+  transform: none;
+}
+
+.fuel01-sticky__slots {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 12px;
+}
+
+.fuel01-sticky__slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 66px;
+  height: 66px;
+  border: 1px solid #e6e5e2;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.fuel01-sticky__slot--free {
+  border-color: #729e87;
+  border-width: 1.37px;
+  border-radius: 11px;
+  background: #fafdf9;
+}
+
+.fuel01-sticky__slot--free.fuel01-sticky__slot--filled {
+  border-color: #146b32;
+  border-width: 1px;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.fuel01-sticky__bottle {
+  fill: #f6f5f2;
+  stroke: #bebdba;
+  stroke-width: 0.6;
+  stroke-dasharray: 1 1;
+}
+
+.fuel01-sticky__slot--free .fuel01-sticky__bottle {
+  fill: #daf1e1;
+  stroke: #729e87;
+}
+
+.fuel01-sticky__pick {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.fuel01-sticky__thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  object-fit: cover;
+}
+
+/* Remove control on every filled thumb. Below 750px this row is the only
+ * picture of the pack, and the card button in the grid was the only way to
+ * take a pick back out. */
+.fuel01-sticky__x {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid #e6e5e2;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #121212;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.fuel01-sticky__x:hover,
+.fuel01-sticky__x:focus-visible {
+  border-color: #121212;
+}
+
+.fuel01-sticky__pill {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #01401f;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.fuel01-sticky__mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fuel01-sticky__counter {
+  margin: 0;
+  color: #000000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.fuel01-sticky__count {
+  color: #146b32;
+}
+
+.fuel01-sticky__message {
+  margin: 0;
+  color: #000000;
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.fuel01-sticky__mid--full .fuel01-sticky__counter,
+.fuel01-sticky__mid--full .fuel01-sticky__message {
+  color: #146b32;
+}
+
+.fuel01-sticky__track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 99px;
+  background: #eeeeee;
+  overflow: hidden;
+}
+
+/* base.css hides empty divs, so the fill has to say it is visible. */
+.fuel01-sticky__track > .fuel01-sticky__fill {
+  display: block;
+  height: 100%;
+  min-width: 8px;
+  border-radius: 99px;
+  background: #044020;
+  transition: width 0.25s ease;
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  .fuel01-sticky__track > .fuel01-sticky__fill {
+    transition: none;
+  }
+}
+
+.fuel01-sticky__buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* No min-width:0 here on purpose: the two money lines are nowrap, so a price
+ * column allowed to shrink past them paints them over the button. The progress
+ * column and the button are the parts that give ground. */
+.fuel01-sticky__price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fuel01-sticky__price-label {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+.fuel01-sticky__price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+}
+
+.fuel01-sticky__price-now {
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fuel01-sticky__price-was {
+  color: #000000;
+  font-size: 14px;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+/* Grows into the spare room but never gives any back: at 360 the price
+ * column pushed the button under its own label and "Se ditt paket (3)"
+ * came out as "Se ditt paket (…". The price row wraps its old price to a
+ * second line instead, which is what its flex-wrap is there for. */
+.fuel01-sticky__cta {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 64px;
+  padding: 12px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: #146b32;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.fuel01-sticky__cta:hover {
+  background: #0e5427;
+}
+
+/* While the pack is going into the cart, so a second tap cannot add it twice. */
+.fuel01-sticky__cta[disabled] {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.fuel01-sticky__cta-main {
+  max-width: 100%;
+  font-family: var(--fuel01-card-font);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fuel01-sticky__cta-sub {
+  font-family: var(--fuel01-card-font);
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.5px;
+}
+
+/* From 750 the builder card itself is on the page, so the bar stops being a
+ * second copy of it: the slot rail goes and what is left is the progress, the
+ * price and the way to checkout, in one row. Stacked and full bleed it stood
+ * 254 tall with the same four slots, the same counter, the same bar and the
+ * same price as the builder above it, which on a 768 x 1024 screen is a
+ * quarter of the window spent twice. The rail comes back at 1024, where the
+ * row has the width for it. Below 750 there is no builder card and the bar is
+ * the only one there is, so it keeps the stacked layout. */
+@media screen and (min-width: 750px) {
+  .fuel01-sticky__slots {
+    display: none;
+  }
+
+  .fuel01-sticky__panel {
+    right: auto;
+    bottom: 16px;
+    left: 50%;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+    width: min(1200px, calc(100vw - 48px));
+    padding: 24px;
+    border-radius: 12px;
+    transform: translate(-50%, calc(100% + 24px));
+  }
+
+  .fuel01-sticky--on .fuel01-sticky__panel {
+    transform: translate(-50%, 0);
+  }
+
+  .shopify-design-mode .fuel01-sticky__panel {
+    position: static;
+    width: auto;
+    transform: none;
+  }
+
+  .fuel01-sticky__slots {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .fuel01-sticky__slot--free {
+    border-width: 1px;
+  }
+
+  /* No free tag on the desktop bar, as drawn. */
+  .fuel01-sticky__pill {
+    display: none;
+  }
+
+  .fuel01-sticky__mid {
+    flex: 1 1 auto;
+    align-items: flex-start;
+    max-width: 301px;
+  }
+
+  .fuel01-sticky__counter {
+    font-size: 16px;
+    text-align: left;
+  }
+
+  .fuel01-sticky__message {
+    font-size: 14px;
+    text-align: left;
+  }
+
+  /* At 4/4 the desktop bar drops the track and keeps the green lines. */
+  .fuel01-sticky__mid--full .fuel01-sticky__track {
+    display: none;
+  }
+
+  .fuel01-sticky__buy {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+
+  .fuel01-sticky__price-row {
+    flex-wrap: nowrap;
+  }
+
+  .fuel01-sticky__price-label {
+    font-size: 18px;
+  }
+
+  .fuel01-sticky__price-now {
+    font-size: 18px;
+  }
+
+  .fuel01-sticky__cta {
+    flex: 0 0 auto;
+    min-height: 68px;
+    padding: 12px 24px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .fuel01-sticky__slots {
+    display: flex;
+  }
+
+  .fuel01-sticky__cta {
+    padding: 12px 48px;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Review round, Sep 2. Card picture and name open the scent's page in a
+ * new tab; the size sits after the price so nobody wonders which bottle
+ * the pack is built from; and the theme's own header search is hidden
+ * on this page in the variant below the desktop header, because its
+ * placeholder is the same "Hitta din parfym" and a phone that scrolled
+ * back up found it first and landed on the site search.
+ * ------------------------------------------------------------------ */
+
+.fuel01-card__link {
+  display: block;
+  color: inherit;
+}
+
+.fuel01-card__title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.fuel01-card__title-link:hover,
+.fuel01-card__title-link:focus-visible {
+  text-decoration: underline;
+}
+
+.fuel01-card__size {
+  color: rgba(18, 18, 18, 0.6);
+  font-family: var(--fuel01-card-font);
+  font-size: 10px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel01-card__size {
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  html.ab-f01-v1 .header .\[grid-area\:search\],
+  html.ab-f01-v1 .header predictive-search.search-modal__form,
+  html.ab-f01-v1 .header search-form.search-modal__form {
+    display: none !important;
+  }
+}

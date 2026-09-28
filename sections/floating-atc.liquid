@@ -1,0 +1,115 @@
+{% liquid
+  assign selected_variant = product.selected_or_first_available_variant
+  for variant in product.variants
+    if variant.title == '50ML'
+      assign selected_variant = variant
+    endif
+  endfor
+%}
+
+<style>
+  .nm-wishlist-open-list-button,
+  .woot--bubble-holder {
+    display: none;
+  }
+</style>
+
+<div id="floatingAtc" class="fixed bottom-0 left-0 right-0 bg-white z-10 [transform:translateY(100%)] [&.active]:[transform:translateY(0)] py-4 shadow-[0_0_20px_5px_rgba(0,0,0,0.1)] transition-transform duration-500">
+  <div class="max-w-screen-md mx-auto px-4">
+    <div class="flex items-center justify-between">
+      <div class="items-center gap-4 [display:none] md:flex">
+        <img
+          src="{{ product.featured_image | image_url: width: 100, height: 100, crop: 'center' }}"
+          alt="{{ product.title }}"
+          width="100"
+          height="100"
+          class="size-14"
+          loading="lazy">
+        <div>
+          <h2 class="text-lg font-semibold m-0">
+            {{ product.title }}
+          </h2>
+          <p class="text-base m-0 current-price">{{ selected_variant.price | money }}</p>
+        </div>
+      </div>
+      <button class="shimmer-btn flex justify-center bg-[#226139] text-white px-8 py-3 rounded-full border-0 tracking-wide text-lg md:text-xl shadow cursor-pointer hover:bg-[#1c522f] transition-colors w-full md:w-auto">
+        <span>Lägg till i varukorgen</span>
+        <div class="ml-2 pl-2 border-0 border-l-2 flex items-center border-solid border-gray-200/20 md:hidden">
+          <span class="current-price">{{ selected_variant.price | money }}</span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const atcBtn = document.querySelector('.cta_product_from_submit_btn');
+        const floatingAtc = document.getElementById('floatingAtc');
+        const floatingAtcBtn = document.querySelector('#floatingAtc button');
+
+        // Modify quiz button position
+        const quizButton = document.getElementById('scent-quiz-fab');
+
+        if(!atcBtn || !floatingAtc || !floatingAtcBtn) return;
+
+        // Observe the scrollToTarget's bottom crossing the viewport top
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                if (entry.boundingClientRect.bottom < 0) {
+                    // scrolled past (above viewport)
+                    floatingAtc.classList.add('active');
+
+                    if (quizButton) {
+                      quizButton.style.bottom = '90px';
+                    }
+                } else {
+                    // partially or fully visible in viewport
+                    floatingAtc.classList.remove('active');
+
+                    if (quizButton) {
+                      quizButton.style.bottom = 'calc(env(safe-area-inset-bottom) + 18px)';
+                    }
+                }
+                });
+            },
+            {
+                threshold: [0],
+                root: null,
+                rootMargin: '0px',
+            }
+        );
+
+        observer.observe(atcBtn);
+
+        floatingAtcBtn.addEventListener('click', () => {
+            // Scroll to top
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            // Create and dispatch a proper click event that will trigger existing listeners
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            atcBtn.dispatchEvent(clickEvent);
+        });
+    });
+
+</script>
+
+{% schema %}
+  {
+    "name": "Floating ATC",
+    "tag": "section",
+    "settings": [],
+    "presets": [
+      {
+        "name": "Floating ATC"
+      }
+    ]
+  }
+{% endschema %}

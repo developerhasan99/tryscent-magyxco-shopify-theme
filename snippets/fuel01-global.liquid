@@ -1,0 +1,105 @@
+{% comment %}
+  FUEL_01 sitewide assets. Rendered once from the head of layout/theme.liquid.
+
+  assets/fuel01-restyle.css only loads on the bundle PDPs (fuel01-bundle.liquid
+  emits it behind the bundle metafield) and the build-your-own page carries its
+  own stylesheet, but two of the variant's pieces live on every page
+  (announcement bar, nav label). Their hide/reveal rules have to load
+  everywhere, so they live in assets/fuel01-global.css, emitted here.
+
+  The reveal script mirrors the one in fuel01-bundle.liquid: on any theme that
+  is not the live one, #f01 in the address shows the variant. Unlike that one it
+  also re-evaluates on hashchange (the shape fuel03-pair-scent.liquid uses), and
+  it remembers the switch in sessionStorage so QA can click through the site
+  like a customer without the variant hiding on every navigation. #f01-off
+  turns it back off. Shopify.theme.role is 'main' on the live theme, so none of
+  this can ever fire there; on the live theme only the testing tool adds the
+  class.
+
+  The nav swap itself is CSS only (fuel01-nav-c / fuel01-nav-v spans share one
+  anchor in the header snippet) and the anchor keeps its own href: in both arms
+  the item lands on the bundle-save collection, which in the variant renders
+  the build-your-own page (sections/fuel01-byo.liquid) instead of the grid.
+
+  The announcement bar is the one swap whose destination cannot be handled in
+  CSS, because the variant row is injected inside the offer-timebar section's
+  own link wrapper (sections/offer-timebar.liquid) and inherits whichever
+  campaign collection the merchant has set there. The last script below points
+  that wrapper at the bundle-save collection, and only ever with the testing
+  tool's class on the html element, so control keeps the merchant's link.
+
+  Both the stylesheet and the announcement destination are emitted on the
+  Swedish market only. The variant copy in the announcement row and the nav
+  label is written in Swedish and is not translated, so on the Danish,
+  Norwegian and Finnish markets nothing here loads and both arms get the stock
+  bar and the stock nav label. The QA reveal script stays ungated so that a
+  tester can add the class on those markets and see that nothing moves.
+{% endcomment %}
+{%- if request.locale.iso_code == 'sv' -%}
+  {{ 'fuel01-global.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
+<script>
+  (function () {
+    if (!window.Shopify || !Shopify.theme || Shopify.theme.role === 'main') return;
+    const apply = function () {
+      const off = window.location.hash === '#f01-off';
+      let on = window.location.hash === '#f01';
+      try {
+        if (on) sessionStorage.setItem('fuel01Qa', '1');
+        if (off) sessionStorage.removeItem('fuel01Qa');
+        on = sessionStorage.getItem('fuel01Qa') === '1';
+      } catch (e) {
+        // Storage can be blocked; the hash alone still works for that load.
+      }
+      // Add only. The class belongs to the testing tool, which also runs on the
+      // themes this switch is allowed on, so the switch must never take it away.
+      // apply() re-runs on every hashchange, and a two argument toggle turned an
+      // ordinary fragment jump (the skip to content link is the first focusable
+      // element on every page) into a silent removal that lasted the rest of the
+      // session. #f01-off is the one explicit way back out.
+      if (on) {
+        document.documentElement.classList.add('ab-f01-v1');
+      } else if (off) {
+        document.documentElement.classList.remove('ab-f01-v1');
+      }
+    };
+    apply();
+    window.addEventListener('hashchange', apply);
+  })();
+</script>
+{%- if request.locale.iso_code == 'sv' -%}
+  <script>
+    // Announcement bar destination. The variant row renders inside the offer
+    // timebar's link wrapper, which the merchant points at the campaign
+    // collection of the moment, so in the variant arm the bar invites the
+    // shopper to build a capsule and then lands them somewhere else. This
+    // points the wrapper at the same collection the variant's own nav item
+    // uses. The collection object's url carries the market's locale prefix,
+    // which a hardcoded path would not; the literal is the last resort for a
+    // store where the collection is missing. Same shape as the module link in
+    // snippets/fuel01-pdp.liquid, for the same reason.
+    (function () {
+      const target = {{ collections['bundle-save'].url | default: '/collections/bundle-save' | json }};
+      if (!target) return;
+      const point = function () {
+        // Variant only, checked at run time: control keeps the merchant's link.
+        if (!document.documentElement.classList.contains('ab-f01-v1')) return false;
+        const bar = document.querySelector('.fuel01-bar');
+        const link = bar ? bar.closest('a[href]') : null;
+        if (link) link.setAttribute('href', target);
+        return true;
+      };
+      const run = function () {
+        // The testing tool can stamp its class after the document is parsed, so
+        // a miss is retried once and then dropped. No loop.
+        if (point()) return;
+        setTimeout(point, 600);
+      };
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+      } else {
+        run();
+      }
+    })();
+  </script>
+{%- endif -%}

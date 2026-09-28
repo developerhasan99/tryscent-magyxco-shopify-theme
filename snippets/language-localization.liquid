@@ -1,0 +1,93 @@
+{%- comment -%}
+  Renders the language picker for the localization form
+
+  Accepts:
+  - localPosition: pass in the position in which the form is coming up to create specific IDs
+{%- endcomment -%}
+
+<div class="disclosure">
+  <button
+    type="button"
+    class="localization-form__select localization-selector link link--text caption-large min-w-[1rem]"
+    aria-expanded="false"
+    aria-controls="{{ localPosition }}List"
+    aria-describedby="{{ localPosition }}Label">
+    {%- case localization.language.iso_code -%}
+      {%- when 'de' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Germany.svg' -%}
+      {%- when 'da' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Denmark.svg' -%}
+      {%- when 'es' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Spain.svg' -%}
+      {%- when 'fr' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_France.svg' -%}
+      {%- when 'it' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Italy.svg' -%}
+      {%- when 'nl' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_the_Netherlands.svg' -%}
+      {%- when 'no' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Norway.svg' -%}
+      {%- when 'sv' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Sweden.svg' -%}
+      {%- when 'ja' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Japan.svg' -%}
+      {%- when 'ko' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_South_Korea.svg' -%}
+      {%- when 'th' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Thailand.svg' -%}
+      {%- when 'pt-BR' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Brazil.svg' -%}
+      {%- when 'ar' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Saudi_Arabia.svg' -%}
+      {%- when 'af' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_South_Africa.svg' -%}
+      {%- when 'pl' -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_Poland.svg' -%}
+      {%- else -%}
+        {%- assign flag_url = 'https://commons.wikimedia.org/wiki/Special:FilePath/Flag_of_the_United_Kingdom_(3-5).svg' -%}
+    {%- endcase -%}
+  <img
+      src="{{ flag_url }}"
+      alt="{{ language.endonym_name | escape }}"
+      class="size-7 object-cover object-center aspect-square rounded-full mt-1.5 border border-solid border-gray-100"
+      loading="lazy"
+      width="24"
+      height="16">
+    {% comment %} <span>{{ localization.language.endonym_name | capitalize }}</span> {% endcomment %}
+    {{ 'icon-caret.svg' | inline_asset_content }}
+  </button>
+  <div class="disclosure__list-wrapper language-selector" hidden>
+    <ul
+      id="{{ localPosition }}List"
+      role="list"
+      class="disclosure__list list-unstyled">
+      {%- for language in localization.available_languages -%}
+        <li class="disclosure__item" tabindex="-1">
+          <a
+            class="link link--text disclosure__link caption-large focus-inset"
+            href="#"
+            hreflang="{{ language.iso_code }}"
+            lang="{{ language.iso_code }}"
+            {% if language.iso_code == localization.language.iso_code %}
+            aria-current="true"
+            {% endif %}
+            data-value="{{ language.iso_code }}">
+            <span
+              {% if language.iso_code != localization.language.iso_code %}
+              class="visibility-hidden"
+              {% endif %}>
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            </span>
+            <span>
+              {{ language.endonym_name | capitalize }}
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+<input
+  type="hidden"
+  name="locale_code"
+  value="{{ localization.language.iso_code }}">

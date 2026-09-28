@@ -1,0 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "norway"
+  },
+  "parent": "header-group.json",
+  "sections": {
+    "offer_timebar_xLgmJd": {
+      "settings": {
+        "top_banner_text": "KUN I KORT TID",
+        "prepend_text": "LØNNINGSDAGSALG",
+        "countdown_date": "",
+        "append_text": "30% RABATT",
+        "link": "https://tryscent.co/no-no/collections/best-sellers"
+      },
+      "blocks": {
+        "payment_icon_6GxdtN": {
+          "settings": {
+            "label": "Rask"
+          }
+        },
+        "payment_icon_cNizYM": {
+          "settings": {
+            "icon": "shopify://shop_images/800c98d03dc73f77225bfa90300384e0370c7cff.png",
+            "label": "Sikker"
+          }
+        },
+        "payment_icon_C7Etjn": {
+          "settings": {
+            "label": "Fleksibel"
+          }
+        }
+      }
+    }
+  }
+}

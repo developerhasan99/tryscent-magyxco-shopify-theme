@@ -1,0 +1,147 @@
+{% assign bundle_product = all_products['4-x-100ml-perfume-bottles'] %}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding text-center bg-cover bg-bottom md:bg-[center_75%]"
+  style="background-image: url('{{ section.settings.background_image |  image_url }}')">
+  <div class="page-width">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div class="flex flex-col justify-center items-center text-center [&>*]:m-0 gap-6 md:px-10">
+        <div class="bg-[#dde4dc] rounded px-3 py-1 text-center text-sm font-semibold uppercase text-[#22613A]">
+          {{ section.settings.offer_text }}
+        </div>
+        <h2 class="text-3xl md:text-3xl font-black tracking-tight leading-snug">{{ section.settings.offer_title }}</h2>
+        <p class="text-base md:text-base font-medium text-[#121212]">{{ section.settings.offer_description }}</p>
+        <p class="text-base md:text-base font-medium text-[#121212]">{{ section.settings.offer_sub_description }}</p>
+        <a href="{{ bundle_product.url }}" class="bg-[#137c44] text-white uppercase font-semibold no-underline px-6 py-3 text-lg rounded-full block w-full max-w-[400px]">
+          Buy 4 for {{ bundle_product.price | money }} Only
+        </a>
+        <ul class="flex justify-center flex-wrap gap-x-6 gap-y-3 list-unstyled">
+          {% for block in section.blocks %}
+            <li class="flex items-center gap-1.5">
+              <img
+                src="{{ block.settings.icon | image_url }}"
+                height="16"
+                width="auto"
+                alt="Icon">
+              <span class="leading-none">{{ block.settings.text }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="text-center">
+        <img
+          class="w-full h-auto"
+          src="{{ section.settings.offer_image | image_url: width: 700 }}"
+          alt="special offer image"
+          width="450"
+          height="450">
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+
+  {
+    "name": "Special Offer",
+    "class": "special-offer",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "offer_image",
+        "label": "Offer Image"
+      },
+      {
+        "type": "text",
+        "id": "offer_text",
+        "label": "Offer Text",
+        "default": "Special Offer"
+      },
+      {
+        "type": "text",
+        "id": "offer_title",
+        "label": "Offer Title",
+        "default": "Your Offer Title Goes Here"
+      }, {
+        "type": "text",
+        "id": "offer_description",
+        "label": "Offer Description",
+        "default": "Your Offer Description Goes Here"
+      }, {
+        "type": "text",
+        "id": "offer_sub_description",
+        "label": "Offer Sub Description",
+        "default": "Your Offer Sub Description Goes Here"
+      }, {
+        "type": "text",
+        "id": "offer_button_text",
+        "label": "Offer Button Text",
+        "default": "Click Here"
+      }, {
+        "type": "url",
+        "id": "offer_button_link",
+        "label": "Offer Button Link"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "perk",
+        "name": "Perk",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          }, {
+            "type": "text",
+            "id": "text",
+            "label": "Text",
+            "default": "Lasts 12+ Hours"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Special Offer"
+      }
+    ]
+  }
+{% endschema %}

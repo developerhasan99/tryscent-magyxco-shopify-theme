@@ -1,0 +1,88 @@
+<div class="bg-black text-white py-12">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-3xl mt-0 md:text-4xl font-bold text-center mb-10 text-white">{{ section.settings.heading }}</h2>
+
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 scroll-smooth testimonial-slider">
+      {% for block in section.blocks %}
+        <div class="flex-shrink-0 w-80 snap-center bg-gray-900 rounded-xl p-6 shadow-md">
+          <div class="w-full h-80 overflow-hidden rounded-lg mb-4">
+            <img
+              src="{{ block.settings.image | image_url }}"
+              alt="{{ block.settings.name }}"
+              class="w-full h-full object-cover"
+              height="320"
+              width="320">
+          </div>
+          <p class="text-lg italic mb-4">"{{ block.settings.quote }}"</p>
+          <p class="font-semibold my-0">{{ block.settings.name }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="flex justify-center items-center gap-6 mt-8">
+      <button class="prev-arrow w-10 h-10 flex items-center border-0 justify-center bg-white text-black rounded-full shadow hover:bg-gray-300 transition" aria-label="Previous testimonial">
+        ←
+      </button>
+      <button class="next-arrow w-10 h-10 flex items-center border-0 justify-center bg-white text-black rounded-full shadow hover:bg-gray-300 transition" aria-label="Next testimonial">
+        →
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.querySelector('.testimonial-slider');
+    const nextBtn = document.querySelector('.next-arrow');
+    const prevBtn = document.querySelector('.prev-arrow');
+
+    nextBtn.addEventListener('click', () => {
+      slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth' });
+    });
+    prevBtn.addEventListener('click', () => {
+      slider.scrollBy({ left: -slider.clientWidth, behavior: 'smooth' });
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Testimonial Carousel",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Section Heading",
+        "default": "Hear From Them"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Customer Image"
+          }, {
+            "type": "text",
+            "id": "name",
+            "label": "Customer Name",
+            "default": "Customer Name"
+          }, {
+            "type": "textarea",
+            "id": "quote",
+            "label": "Testimonial Quote",
+            "default": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Here From Them Carousel",
+        "category": "Testimonials"
+      }
+    ]
+  }
+{% endschema %}

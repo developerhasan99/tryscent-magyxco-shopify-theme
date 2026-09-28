@@ -1,0 +1,125 @@
+{% comment %}
+  FUEL_05: the homepage UGC video row.
+
+  This is a snippet, not a section, because the homepage template sits at
+  Shopify's 25-section cap and nothing new fits without removing client
+  content. It is rendered from inside the "Senaste dofterna" popular-products
+  section (sections/popular-products.liquid, gated to that one instance), so
+  it takes no template slot. Same approach as the collection-page tiles.
+
+  The seven clips are the client's uploads (six Slack, Aug 26; JoacimE added
+  Sep 2). The sources and
+  posters below are Shopify's own transcodes of those Files entries, the same
+  URLs the product-page slider serves through its video picks. Hard-coded here
+  because a snippet has no settings to hold a video pick. If a clip is ever
+  re-uploaded, refresh the URLs from the Files entries.
+
+  Every tile carries a product pill (review, Sep 2: "on top of all of the
+  videos"). Which product, from the clips themselves:
+    1. NathalieE (car): names Valentino Born in Roma, so the women's No. 469.
+    2. EmelieS (tattoos): holds the Valentino Uomo Born in Roma bottle next to
+       the dupe, so the men's No. 360.
+    3. SofiaK (sofa, "fyrpacket är deras bästa erbjudande"): names no scent,
+       recommends the four-pack, so the 4x 100 ml bundle.
+    4. EbbaW ("den här kostar 174 kronor"): names no scent; the best-selling
+       women's scent, Cherry Vanilla No. 438.
+    5. SofiaK (unboxing): bottles 469W and 437W on screen, "nummer 437", so
+       the women's No. 437.
+    6. DannieN (Danish, man): names no scent; the best-selling men's scent,
+       Ginger Amber No. 230.
+    7. JoacimE (car): holds a Magic Perfume bottle whose label reads 3?0M, the
+       middle digit too soft in the 1080p transcode to be sure. Only No. 350 and
+       No. 360 fit, so the men's best seller, Uomo Born in Roma No. 360, until the
+       client confirms the number.
+  Tiles 3, 4 and 6 are fallbacks the client may want to swap; tile 7 needs the
+  client to confirm the bottle number.
+
+  The two SofiaK clips (third and fifth below) point at the _sdr Files entries,
+  not the originals: those two were recorded as iPhone HLG HDR, every Shopify
+  transcode of them kept the HDR tags, and iOS boosts HDR video far past the
+  page's white, which read as the clips blowing out the moment they played.
+  The _sdr entries are the same footage tone-mapped to BT.709. The collection
+  and product templates pick the same _sdr entries.
+
+  SD-480p-1.5Mbps, not the HD-1080p-7.2Mbps file these started on: the card is
+  265px wide at most and the 1080p stream had to buffer before a tap could
+  produce a frame, which is what read as a dead tap. Each clip has three
+  transcodes (SD-480p-1.5Mbps, HD-720p-4.5Mbps, HD-1080p-7.2Mbps) sharing one
+  trailing id, so only the rendition name in the middle of the URL differs;
+  the 480p files run 5-17MB against 22-77MB. The tile snippet makes the same
+  choice on its own for the placements that pass a picked video.
+
+  The seventh clip is the exception: Shopify built it one rendition only,
+  HD-1080p-2.5Mbps, and both SD-480p-1.5Mbps and HD-720p-4.5Mbps return 404
+  for its id, so the URL below is the 1080p one. Its bitrate is a third of the
+  7.2Mbps files the others started on, but if Shopify ever adds the ladder for
+  this id, swap the rendition label here the way the other six read.
+
+  Remove this file and its render site with the FUEL_05 cleanup.
+
+  Usage:
+  {% render 'fuel05-ugc-home-row' %}
+{% endcomment %}
+
+{{ 'fuel05-ugc.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fuel05-ugc.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="fuel05-ugc fuel05-ugc--home"
+  data-fuel05-row
+  data-gap-mobile="10"
+  data-gap-desktop="32"
+  style="display: none;">
+  <div class="fuel05-ugc__inner">
+    <div class="fuel05-ugc__header">
+      <h2 class="fuel05-ugc__heading">Älskad av tusentals</h2>
+      <div class="fuel05-ugc__nav">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Föregående">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Nästa">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600',
+          product_item: all_products['magic-perfume-no-469w']
+        %}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600',
+          product_item: all_products['magic-perfume-no-360m']
+        %}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/5a878e22b12744d19421b651e8d4a241/5a878e22b12744d19421b651e8d4a241.SD-480p-1.5Mbps-93044584.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/5a878e22b12744d19421b651e8d4a241.thumbnail.0000000000.jpg?v=1788153261&width=600',
+          product_item: all_products['4x-100ml-perfume-bottles']
+        %}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/818572396d674cd5910b24ef0fe6a1a3/818572396d674cd5910b24ef0fe6a1a3.SD-480p-1.5Mbps-92843389.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/818572396d674cd5910b24ef0fe6a1a3.thumbnail.0000000000.jpg?v=1787894737&width=600',
+          product_item: all_products['sweet-cherry-vanilla-50-ml-1-7-fl-oz']
+        %}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/baa8d6ccc21d4d4683ac5ee1a7ac4100/baa8d6ccc21d4d4683ac5ee1a7ac4100.SD-480p-1.5Mbps-93044583.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/baa8d6ccc21d4d4683ac5ee1a7ac4100.thumbnail.0000000000.jpg?v=1788153263&width=600',
+          product_item: all_products['magic-perfume-no-437w']
+        %}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/938402e6513447aab5b85b254fea9984/938402e6513447aab5b85b254fea9984.SD-480p-1.5Mbps-92843388.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/938402e6513447aab5b85b254fea9984.thumbnail.0000000000.jpg?v=1787894717&width=600',
+          product_item: all_products['bergamot-pepper-ambroxan']
+        %}
+        {% render 'fuel05-ugc-tile',
+          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.HD-1080p-2.5Mbps-92843391.mp4?v=0',
+          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600',
+          product_item: all_products['magic-perfume-no-360m']
+        %}
+      </div>
+    </div>
+  </div>
+</div>

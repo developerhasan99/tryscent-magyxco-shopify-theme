@@ -1,0 +1,26 @@
+<li
+  {{ block.shopify_attributes }}
+  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+  {% if settings.animations_reveal_on_scroll %}
+  data-cascade
+  style="--animation-order: {{ product_position }};"
+  {% endif %}>
+  <a
+    href="{{ block.settings.url }}"
+    class="group relative flex h-full w-full overflow-hidden rounded-lg text-white no-underline shadow-lg shadow-black/10 transition-shadow duration-300 hover:shadow-xl hover:shadow-black/25"
+    {{ block.shopify_attributes }}>
+    {% if block.settings.image != blank %}
+      {{ block.settings.image | image_url: width: 1200 | image_tag: class: 'absolute inset-0 -z-1 h-full w-full object-cover transition duration-500 ease-out group-hover:scale-105', loading: 'lazy', widths: '400, 600, 800, 1200', sizes: '(min-width: 750px) 33vw, 100vw', alt: block.settings.heading }}
+    {% else %}
+      <div class="absolute inset-0 bg-black !block"></div>
+    {% endif %}
+    <div class="!block absolute inset-0 z-0 bg-[linear-gradient(0deg,_black,_transparent)] opacity-50"></div>
+    <div class="relative flex w-full flex-col items-start justify-end p-4">
+      <h3 class="!mt-0 !mb-4 font-black tracking-tight leading-snug text-lg md:text-xl text-white">{{ block.settings.heading }}</h3>
+      <p class="inline-block m-0 text-black bg-white rounded-full px-6 py-3 font-semibold leading-none">
+        {{ block.settings.button_text }}
+      </p>
+    </div>
+  </a>
+
+</li>

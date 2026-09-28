@@ -1,0 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "finlad"
+  },
+  "parent": "header-group.json",
+  "sections": {
+    "offer_timebar_xLgmJd": {
+      "settings": {
+        "top_banner_text": "VAIN LYHYEN AJAN",
+        "prepend_text": "PALKKAPÄIVÄALE",
+        "countdown_date": "2026/10/04",
+        "append_text": "30% ALENNUS",
+        "link": "https://tryscent.co/fi-fi/collections/bestseller-singles"
+      },
+      "blocks": {
+        "payment_icon_6GxdtN": {
+          "settings": {
+            "label": "Nopeasti"
+          }
+        },
+        "payment_icon_cNizYM": {
+          "settings": {
+            "icon": "shopify://shop_images/mobilepay.CTpQfBiI.svg",
+            "label": "Suoraan"
+          }
+        },
+        "payment_icon_C7Etjn": {
+          "settings": {
+            "label": "Joustava"
+          }
+        }
+      }
+    }
+  }
+}

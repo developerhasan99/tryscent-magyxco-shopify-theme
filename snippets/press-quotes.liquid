@@ -1,0 +1,75 @@
+{%- liquid
+  assign press_items = ''
+  for i in (1..3)
+    assign image_key = 'image_' | append: i
+    assign text_key = 'text_' | append: i
+    if block.settings[image_key] != blank or block.settings[text_key] != blank
+      assign press_items = press_items | append: i | append: ','
+    endif
+  endfor
+  assign press_items = press_items | split: ','
+-%}
+
+{%- if press_items.size > 0 -%}
+  <div class="swiper press-quotes-{{ block.id }} my-6 overflow-hidden" {{ block.shopify_attributes }}>
+    <div class="swiper-wrapper items-start">
+      {%- comment -%}
+        Slides are rendered twice so Swiper always has enough slides for a
+        seamless loop while showing 2 slides per view.
+      {%- endcomment -%}
+      {%- for pass in (1..2) -%}
+        {%- for item in press_items -%}
+          {%- assign image_key = 'image_' | append: item -%}
+          {%- assign text_key = 'text_' | append: item -%}
+          {%- assign press_image = block.settings[image_key] -%}
+          {%- assign press_text = block.settings[text_key] -%}
+          <div
+            class="swiper-slide h-auto text-center"
+            {% if pass == 2 %}
+            aria-hidden="true"
+            {% endif %}>
+            {%- if press_image != blank -%}
+              <img
+                src="{{ press_image | image_url: width: 400 }}"
+                alt="{{ press_image.alt | escape }}"
+                width="{{ press_image.width }}"
+                height="{{ press_image.height }}"
+                loading="lazy"
+                class="mx-auto h-7 md:h-9 w-auto max-w-full object-contain">
+            {%- endif -%}
+            {%- if press_text != blank -%}
+              <p class="my-0 text-sm md:text-base leading-snug text-gray-800">
+                {{- press_text -}}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      new Swiper('.press-quotes-{{ block.id }}', {
+        slidesPerView: 2,
+        spaceBetween: 24,
+        loop: true,
+        loopAdditionalSlides: {{ press_items.size }},
+        autoplay: {
+          delay: 4000,
+          disableOnInteraction: false,
+        },
+        breakpoints: {
+          0: {
+            slidesPerView: 2,
+            spaceBetween: 16,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 24,
+          },
+        },
+      });
+    });
+  </script>
+{%- endif -%}

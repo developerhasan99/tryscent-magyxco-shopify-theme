@@ -1,0 +1,487 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "custom_liquid_cJnqgV": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "/* 5× horizontal padding — desktop. Mobile kept usable. */.ts-container {padding: 0 160px; }",
+        ".ts-hero-title-band {padding: 32px 160px 26px; }",
+        ".ts-bundle {padding: 48px 160px 64px; }",
+        ".ts-pub-header {padding: 14px 160px 16px; }",
+        "@media (max-width: 540px) {.ts-container {padding: 0 32px; } .ts-hero-title-band {padding: 24px 32px 22px; } .ts-bundle {padding: 36px 32px 48px; } .ts-pub-header {padding: 14px 24px 16px; }}"
+      ],
+      "name": "Page content",
+      "settings": {
+        "custom_liquid": "{% comment %}\n  TryScent SE — 5 Herrparfymer för Sommaren (advertorial listicle).\n  Paste-ready for Shopify Custom Liquid section.\n\n  USAGE:\n  1. Online Store → Themes → Customize → Add section → Custom Liquid\n  2. Paste this entire file into the \"Custom Liquid\" textarea.\n  3. Save. (No section settings to configure — everything is hard-coded.)\n\n  All CSS is scoped under `.tryscent-listicle` so it cannot collide with\n  the theme's own styles.\n\n  IMAGES:\n  - All image src attributes use `images/filename.ext` relative paths.\n  - Upload these to Shopify Files (Content → Files) and replace each src\n    with the resulting Shopify CDN URL.\n  - Required files:\n      hero-desktop.png, hero-mobile.png, author-avatar.png,\n      dior-sauvage.webp, acqua-di-gio.webp, bleu-de-chanel.webp,\n      aventus.png, ysl-y-edp.png\n\n  CTAs:\n  - All product CTAs point to live tryscent.co/sv-se/products/... URLs.\n  - Final CTA: /sv-se/products/5-x-100ml-perfume-bottles\n{% endcomment %}\n\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n<link href=\"https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap\" rel=\"stylesheet\">\n\n<style>\nhtml{scroll-behavior:smooth;}\n.tryscent-listicle{\n  --ts-bg:#faf9f6;\n  --ts-fg:#121212;\n  --ts-fg-muted:#5a5a5a;\n  --ts-accent:#C41E3A;\n  --ts-accent-hover:#A51D36;\n  --ts-rule:#e5e1d8;\n  --ts-price-bg:#f3efe6;\n  --ts-max:720px;\n  font-family:'Figtree',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;\n  background:var(--ts-bg);\n  color:var(--ts-fg);\n  font-size:18px;\n  line-height:1.65;\n  -webkit-font-smoothing:antialiased;\n  -moz-osx-font-smoothing:grayscale;\n}\n.tryscent-listicle *{box-sizing:border-box;}\n.tryscent-listicle a{color:var(--ts-accent);text-decoration:underline;text-underline-offset:2px;}\n.tryscent-listicle a:hover{color:var(--ts-accent-hover);}\n.tryscent-listicle p{margin:0 0 16px;}\n.tryscent-listicle img{max-width:100%;height:auto;display:block;}\n\n.tryscent-listicle .ts-pub-header{\n  text-align:center;\n  padding:14px 24px 16px;\n  background:#fff;\n  border-bottom:1px solid var(--ts-rule);\n}\n.tryscent-listicle .ts-pub-eyebrow{\n  font-size:10px;\n  letter-spacing:0.32em;\n  text-transform:uppercase;\n  color:var(--ts-fg-muted);\n  margin:0 0 6px;\n}\n.tryscent-listicle .ts-pub-eyebrow::before,\n.tryscent-listicle .ts-pub-eyebrow::after{content:\"·\";margin:0 6px;}\n.tryscent-listicle .ts-pub-logo{\n  font-family:'Figtree',sans-serif;\n  font-weight:700;\n  font-size:30px;\n  letter-spacing:-0.01em;\n  color:var(--ts-fg);\n  font-style:italic;\n}\n\n.tryscent-listicle .ts-hero-image{\n  display:block;\n  width:100%;\n  overflow:hidden;\n  line-height:0;\n}\n.tryscent-listicle .ts-hero-image img{\n  display:block;\n  width:100%;\n  height:auto;\n}\n\n.tryscent-listicle .ts-hero-title-band{\n  background:var(--ts-accent);\n  color:#fff;\n  padding:32px 32px 26px;\n  text-align:center;\n}\n.tryscent-listicle .ts-hero-title-band h1{\n  color:#fff;\n  font-size:32px;\n  line-height:1.2;\n  font-weight:800;\n  margin:0 auto 18px;\n  max-width:720px;\n  letter-spacing:-0.01em;\n}\n.tryscent-listicle .ts-byline{\n  display:inline-flex;\n  align-items:center;\n  gap:10px;\n  font-size:14px;\n  color:rgba(255,255,255,0.92);\n  flex-wrap:wrap;\n  justify-content:center;\n}\n.tryscent-listicle .ts-byline-avatar{\n  width:32px;\n  height:32px;\n  border-radius:50%;\n  background:#f3efe6;\n  display:inline-block;\n  flex-shrink:0;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-byline-avatar img{width:100%;height:100%;object-fit:cover;display:block;}\n.tryscent-listicle .ts-byline-sep{opacity:0.55;}\n\n.tryscent-listicle .ts-container{\n  max-width:var(--ts-max);\n  margin:0 auto;\n  padding:0 32px;\n}\n.tryscent-listicle .ts-article{padding:32px 0 60px;}\n\n.tryscent-listicle .ts-dek{\n  font-size:20px;\n  font-style:italic;\n  color:var(--ts-fg-muted);\n  margin:24px 0 28px;\n  line-height:1.5;\n  text-align:center;\n}\n.tryscent-listicle .ts-rule{\n  border:0;\n  border-top:1px solid var(--ts-rule);\n  margin:32px 0;\n}\n\n.tryscent-listicle .ts-scent{margin:0 0 8px;}\n.tryscent-listicle .ts-scent-title{\n  font-size:28px;\n  line-height:1.2;\n  font-weight:800;\n  margin:0 0 6px;\n  letter-spacing:-0.01em;\n}\n.tryscent-listicle .ts-scent-title .ts-num{color:var(--ts-accent);margin-right:6px;}\n\n.tryscent-listicle .ts-review-module{\n  border:1px solid var(--ts-rule);\n  background:#fff;\n  border-radius:4px;\n  padding:22px;\n  margin:26px 0 12px;\n}\n.tryscent-listicle .ts-review-label{\n  font-size:11px;\n  font-weight:800;\n  letter-spacing:0.2em;\n  text-transform:uppercase;\n  color:var(--ts-fg);\n  margin:0 0 8px;\n}\n.tryscent-listicle .ts-review-product{\n  font-size:22px;\n  font-weight:700;\n  margin:0 0 4px;\n  text-decoration:underline;\n  text-underline-offset:4px;\n  letter-spacing:-0.005em;\n  line-height:1.25;\n}\n.tryscent-listicle .ts-review-sub{\n  font-size:16px;\n  font-style:italic;\n  color:var(--ts-accent);\n  margin:0 0 18px;\n  font-weight:500;\n  line-height:1.4;\n}\n.tryscent-listicle .ts-review-grid{\n  display:grid;\n  grid-template-columns:1fr 1fr;\n  gap:16px;\n  align-items:stretch;\n}\n.tryscent-listicle .ts-review-image{\n  aspect-ratio:1/1;\n  background:#f3efe6 linear-gradient(135deg,#f7f3ea 0%,#e8e0d0 100%);\n  display:flex;\n  align-items:center;\n  justify-content:center;\n  color:#8a8170;\n  font-size:11px;\n  letter-spacing:0.08em;\n  text-transform:uppercase;\n  border-radius:2px;\n  text-align:center;\n  padding:8px;\n  overflow:hidden;\n}\n.tryscent-listicle .ts-review-image img{width:100%;height:100%;object-fit:cover;display:block;}\n.tryscent-listicle .ts-review-buy{\n  display:flex;\n  flex-direction:column;\n  justify-content:center;\n  gap:10px;\n}\n.tryscent-listicle .ts-review-price-old{\n  text-align:center;\n  color:var(--ts-fg-muted);\n  font-size:14px;\n  font-weight:500;\n}\n.tryscent-listicle .ts-review-price-amount{text-decoration:line-through;}\n.tryscent-listicle .ts-review-price-label{\n  display:block;\n  font-size:10px;\n  font-weight:700;\n  letter-spacing:0.12em;\n  text-transform:uppercase;\n  color:var(--ts-fg-muted);\n  margin-top:3px;\n  text-decoration:none;\n}\n.tryscent-listicle .ts-review-product-link{\n  display:block;\n  text-align:center;\n  font-size:13px;\n  color:var(--ts-fg-muted);\n  text-decoration:underline;\n  text-underline-offset:3px;\n  margin-top:4px;\n  transition:color 0.15s ease;\n}\n.tryscent-listicle .ts-review-product-link:hover{color:var(--ts-accent);}\n.tryscent-listicle .ts-review-buy .ts-cta{\n  width:100%;\n  padding:14px 16px;\n  font-size:15px;\n  box-sizing:border-box;\n}\n.tryscent-listicle .ts-review-credit{\n  text-align:center;\n  font-size:12px;\n  color:var(--ts-fg-muted);\n  margin:8px 0 18px;\n}\n.tryscent-listicle .ts-review-cards{\n  display:grid;\n  grid-template-columns:1fr 1fr;\n  gap:12px;\n  margin:0 0 18px;\n}\n.tryscent-listicle .ts-review-card{\n  border:1px solid var(--ts-rule);\n  border-radius:4px;\n  padding:14px 16px;\n  background:var(--ts-bg);\n}\n.tryscent-listicle .ts-review-card h4{\n  font-size:15px;\n  font-weight:700;\n  margin:0 0 10px;\n  text-align:center;\n}\n.tryscent-listicle .ts-review-card ul{\n  margin:0;\n  padding-left:18px;\n  font-size:14px;\n  line-height:1.45;\n}\n.tryscent-listicle .ts-review-card li{margin:0 0 8px;}\n.tryscent-listicle .ts-review-card li:last-child{margin-bottom:0;}\n.tryscent-listicle .ts-review-desc{\n  font-size:16px;\n  line-height:1.6;\n  margin:0;\n  color:var(--ts-fg);\n}\n\n.tryscent-listicle .ts-summary{\n  font-size:19px;\n  line-height:1.55;\n  margin:0 0 28px;\n}\n.tryscent-listicle .ts-summary strong{font-weight:700;}\n\n.tryscent-listicle .ts-cta-wrap{\n  text-align:center;\n  margin:28px 0 8px;\n}\n.tryscent-listicle .ts-cta{\n  display:inline-block;\n  background:var(--ts-accent);\n  color:#fff;\n  text-decoration:none;\n  font-weight:700;\n  font-size:17px;\n  letter-spacing:0.04em;\n  text-transform:uppercase;\n  padding:16px 38px;\n  border-radius:999px;\n  transition:background 0.15s ease;\n  text-align:center;\n  line-height:1.2;\n}\n.tryscent-listicle .ts-cta:hover{background:var(--ts-accent-hover);color:#fff;}\n\n.tryscent-listicle .ts-bundle{\n  background:#fff;\n  border-top:1px solid var(--ts-rule);\n  padding:48px 32px 64px;\n}\n.tryscent-listicle .ts-bundle-inner{max-width:980px;margin:0 auto;}\n.tryscent-listicle .ts-bundle-header{margin:0 0 28px;}\n.tryscent-listicle .ts-bundle-grid{\n  display:grid;\n  grid-template-columns:1fr 1fr;\n  gap:36px;\n  align-items:center;\n}\n.tryscent-listicle .ts-bundle-image{\n  background:var(--ts-bg);\n  border-radius:4px;\n  overflow:hidden;\n  aspect-ratio:1/1;\n}\n.tryscent-listicle .ts-bundle-image img{width:100%;height:100%;object-fit:cover;display:block;}\n.tryscent-listicle .ts-bundle-tags{display:flex;gap:8px;margin:0 0 14px;}\n.tryscent-listicle .ts-tag-red{\n  background:var(--ts-accent);color:#fff;\n  font-size:12px;font-weight:800;\n  padding:5px 10px;border-radius:3px;\n  letter-spacing:0.03em;\n}\n.tryscent-listicle .ts-tag-dark{\n  background:#1f3a2a;color:#fff;\n  font-size:12px;font-weight:800;\n  padding:5px 10px;border-radius:3px;\n  letter-spacing:0.03em;\n}\n.tryscent-listicle .ts-bundle-title{\n  font-size:30px;line-height:1.15;font-weight:800;\n  margin:0 0 8px;letter-spacing:-0.01em;color:var(--ts-fg);\n}\n.tryscent-listicle .ts-bundle-designer{\n  font-size:14px;color:var(--ts-fg-muted);\n  margin:0 0 14px;\n}\n.tryscent-listicle .ts-eu-pill{\n  display:inline-block;\n  background:#e8f0f7;color:#1e4d8a;\n  font-size:12px;font-weight:700;\n  padding:6px 12px;border-radius:999px;\n  margin:0 0 16px;\n}\n.tryscent-listicle .ts-bundle-desc{\n  font-size:16px;line-height:1.55;\n  color:var(--ts-fg);margin:0 0 18px;\n}\n.tryscent-listicle .ts-bundle-price{\n  display:flex;align-items:baseline;gap:12px;\n  flex-wrap:wrap;margin:0 0 6px;\n}\n.tryscent-listicle .ts-price-discount{\n  background:var(--ts-accent);color:#fff;\n  font-weight:800;font-size:13px;\n  padding:5px 9px;border-radius:3px;\n  letter-spacing:0.03em;\n  align-self:center;\n}\n.tryscent-listicle .ts-price-now{\n  color:var(--ts-fg);font-weight:800;font-size:28px;\n  letter-spacing:-0.01em;\n}\n.tryscent-listicle .ts-price-old{\n  color:var(--ts-fg-muted);text-decoration:line-through;\n  font-size:16px;\n}\n.tryscent-listicle .ts-bundle-perflask{\n  font-size:14px;color:var(--ts-fg);\n  font-weight:600;margin:0 0 18px;\n}\n.tryscent-listicle .ts-bundle-notes{\n  font-size:14px;color:var(--ts-fg-muted);\n  margin:0 0 22px;\n}\n.tryscent-listicle .ts-bundle-notes strong{color:var(--ts-fg);font-weight:700;}\n.tryscent-listicle .ts-bundle-bullets{\n  list-style:none;\n  margin:0 0 22px;\n  padding:0;\n  display:flex;\n  flex-direction:column;\n  gap:10px;\n}\n.tryscent-listicle .ts-bundle-bullets li{\n  display:flex;\n  align-items:center;\n  gap:10px;\n  font-size:14px;\n  font-weight:600;\n  color:var(--ts-fg);\n}\n.tryscent-listicle .ts-bundle-bullets svg{\n  width:14px;height:14px;\n  stroke:#1f3a2a;\n  fill:none;\n  stroke-width:3;\n  flex-shrink:0;\n}\n.tryscent-listicle .ts-bundle-cta{\n  display:block;width:100%;text-align:center;\n  box-sizing:border-box;padding:18px 24px;\n  font-size:16px;\n}\n.tryscent-listicle .ts-bundle-sub{\n  text-align:center;\n  margin:12px 0 0;\n  font-size:12px;\n  color:var(--ts-fg-muted);\n  letter-spacing:0.04em;\n}\n\n@media (max-width:540px){\n  .tryscent-listicle{font-size:17px;}\n  .tryscent-listicle .ts-pub-logo{font-size:24px;}\n  .tryscent-listicle .ts-hero-title-band{padding:24px 24px 22px;}\n  .tryscent-listicle .ts-hero-title-band h1{font-size:24px;line-height:1.22;margin-bottom:14px;}\n  .tryscent-listicle .ts-byline{font-size:13px;gap:8px;}\n  .tryscent-listicle .ts-byline-avatar{width:28px;height:28px;}\n  .tryscent-listicle .ts-scent-title{font-size:22px;}\n  .tryscent-listicle .ts-review-module{padding:18px 16px;margin:22px 0 10px;}\n  .tryscent-listicle .ts-review-product{font-size:19px;}\n  .tryscent-listicle .ts-review-sub{font-size:15px;margin-bottom:14px;}\n  .tryscent-listicle .ts-review-grid{grid-template-columns:1fr;gap:12px;}\n  .tryscent-listicle .ts-review-image{aspect-ratio:4/3;max-height:240px;}\n  .tryscent-listicle .ts-review-cards{grid-template-columns:1fr;gap:10px;}\n  .tryscent-listicle .ts-review-card{padding:12px 14px;}\n  .tryscent-listicle .ts-review-card ul{font-size:13.5px;}\n  .tryscent-listicle .ts-review-desc{font-size:15px;}\n  .tryscent-listicle .ts-dek{font-size:17px;margin:18px 0 22px;}\n  .tryscent-listicle .ts-summary{font-size:17px;}\n  .tryscent-listicle .ts-container{padding:0 24px;}\n  .tryscent-listicle .ts-article{padding:24px 0 50px;}\n  .tryscent-listicle .ts-cta{font-size:15px;padding:14px 28px;}\n  .tryscent-listicle .ts-rule{margin:26px 0;}\n  .tryscent-listicle .ts-bundle{padding:36px 24px 48px;}\n  .tryscent-listicle .ts-bundle-grid{grid-template-columns:1fr;gap:24px;}\n  .tryscent-listicle .ts-bundle-title{font-size:22px;}\n  .tryscent-listicle .ts-price-now{font-size:24px;}\n  .tryscent-listicle .ts-price-discount{font-size:12px;padding:4px 8px;}\n  .tryscent-listicle .ts-bundle-cta{font-size:15px;padding:16px 20px;}\n}\n@media (max-width:380px){\n  .tryscent-listicle .ts-hero-title-band h1{font-size:22px;}\n  .tryscent-listicle .ts-byline{font-size:12px;}\n  .tryscent-listicle .ts-byline-sep{display:none;}\n}\n</style>\n\n<div class=\"tryscent-listicle\">\n\n  <header class=\"ts-pub-header\">\n    <p class=\"ts-pub-eyebrow\">Annons</p>\n    <div class=\"ts-pub-logo\">Stilguiden</div>\n  </header>\n\n  <picture class=\"ts-hero-image\">\n    <source media=\"(max-width: 540px)\" srcset=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/hero-mobile.png?v=1779478466\">\n    <img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/hero-desktop.png?v=1779478467\" alt=\"TryScent herrparfymer för sommaren\" fetchpriority=\"high\">\n  </picture>\n\n  <section class=\"ts-hero-title-band\">\n    <h1>5 Herrparfymer för Sommaren Som Får Fler Komplimanger än en Flaska för 1 400 kr</h1>\n    <div class=\"ts-byline\">\n      <span class=\"ts-byline-avatar\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/author-avatar.png?v=1779478470\" alt=\"Erik Lundqvist\"></span>\n      <span>av Erik Lundqvist</span>\n      <span class=\"ts-byline-sep\">·</span>\n      <span>15 jul 2025</span>\n      <span class=\"ts-byline-sep\">·</span>\n      <span>4 min läsning</span>\n    </div>\n  </section>\n\n  <article class=\"ts-container ts-article\">\n\n    <p class=\"ts-dek\">Det här är inte slumpmässiga kopior. Det är parfymer med 21% koncentration på extrait-nivå, testade mot designeroriginalet. Och de håller i över 12 timmar.</p>\n\n    <hr class=\"ts-rule\">\n\n    <p>Det finns en smutsig hemlighet i parfymvärlden: de flesta designerparfymer tar slut på 2 till 3 timmar. Du sprayar, lämnar huset, och vid lunch bär du i princip ingenting. Flaskan kostade 1 400 kr. Resultatet? Du är osynlig.</p>\n\n    <p>Här är vad smarta män har listat ut: du kan betala 10 gånger mindre för exakt samma doft och få den att hålla i över 12 timmar. Dessa är de fem största herrparfymerna sommaren 2025. Och det smartare alternativet till var och en.</p>\n\n    <hr class=\"ts-rule\">\n\n    <!-- SCENT 1 -->\n    <section class=\"ts-scent\">\n      <h2 class=\"ts-scent-title\"><span class=\"ts-num\">1.</span>Dior Sauvage Eau de Parfum</h2>\n\n      <p>Sauvage öppnar med isig kalabrisk bergamott och svartpeppar. Det där skarpa, kalldusch-på-ett-berg-på-morgonen-intrycket som gjorde det till världens bäst säljande herrkoloni. Sedan rullar varm ambroxan in, nära huden och magnetisk.</p>\n\n      <div class=\"ts-review-module\">\n        <p class=\"ts-review-label\">Bästa alternativet</p>\n        <h3 class=\"ts-review-product\">Bergamott Peppar Ambroxan</h3>\n        <p class=\"ts-review-sub\">För män som äger rummet.</p>\n\n        <div class=\"ts-review-grid\">\n          <div class=\"ts-review-image\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/dior-sauvage.webp?v=1779478462\" alt=\"Bergamott Peppar Ambroxan\"></div>\n          <div class=\"ts-review-buy\">\n            <div class=\"ts-review-price-old\">\n              <span class=\"ts-review-price-amount\">1 400 kr</span>\n              <span class=\"ts-review-price-label\">Designerpris</span>\n            </div>\n            <a href=\"#ts-bundle-anchor\" class=\"ts-cta\">Se Bundle — Spara 55%</a>\n            <a href=\"https://tryscent.co/sv-se/products/bergamot-pepper-ambroxan\" class=\"ts-review-product-link\">Köp endast denna doft</a>\n          </div>\n        </div>\n        <p class=\"ts-review-credit\">Foto: TryScent</p>\n\n        <div class=\"ts-review-cards\">\n          <div class=\"ts-review-card\">\n            <h4>Hur du uppfattas</h4>\n            <ul>\n              <li>Självsäker, direkt och fysiskt närvarande</li>\n              <li>Mannen som bär doften behöver inte göra sig påmind</li>\n              <li>Folk läser av honom först, ställer frågor sedan</li>\n            </ul>\n          </div>\n          <div class=\"ts-review-card\">\n            <h4>Passar bäst för</h4>\n            <ul>\n              <li>Vardagligt bär, kontoret, första dejter</li>\n              <li>Utomhusarrangemang på sommaren</li>\n              <li>Mötesrum eller takbar — fungerar överallt</li>\n            </ul>\n          </div>\n        </div>\n\n        <p class=\"ts-review-desc\">Bergamott Peppar Ambroxan öppnar på samma sätt som originalet. Bergamott och peppar som knakar, sedan slår det an mot samma varma, rena ambroxangrund som gör att folk lutar sig mot dig. Med 21% koncentration stannar det på din hud genom värmen, pendlingen och kvällen.</p>\n      </div>\n    </section>\n\n    <hr class=\"ts-rule\">\n\n    <!-- SCENT 2 -->\n    <section class=\"ts-scent\">\n      <h2 class=\"ts-scent-title\"><span class=\"ts-num\">2.</span>Acqua di Gio Eau de Parfum</h2>\n\n      <p>Acqua di Gio har varit doften av sommaren i trettio år. Saltspray. Medelhavsluften. Det kalla, rena intrycket av akvatisk bergamott och marin friskhet, sedan cederträdata som förankrar allt i något som luktar dyrt och ansträngt maskulint.</p>\n\n      <div class=\"ts-review-module\">\n        <p class=\"ts-review-label\">Bästa alternativet</p>\n        <h3 class=\"ts-review-product\">Magic Perfume Nr. 221</h3>\n        <p class=\"ts-review-sub\">För män som inte behöver bevisa något.</p>\n\n        <div class=\"ts-review-grid\">\n          <div class=\"ts-review-image\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/acqua-di-gio.webp?v=1779478462\" alt=\"Magic Perfume Nr. 221\"></div>\n          <div class=\"ts-review-buy\">\n            <div class=\"ts-review-price-old\">\n              <span class=\"ts-review-price-amount\">1 100 kr</span>\n              <span class=\"ts-review-price-label\">Designerpris</span>\n            </div>\n            <a href=\"#ts-bundle-anchor\" class=\"ts-cta\">Se Bundle — Spara 55%</a>\n            <a href=\"https://tryscent.co/sv-se/products/magic-perfume-no-221m\" class=\"ts-review-product-link\">Köp endast denna doft</a>\n          </div>\n        </div>\n        <p class=\"ts-review-credit\">Foto: TryScent</p>\n\n        <div class=\"ts-review-cards\">\n          <div class=\"ts-review-card\">\n            <h4>Hur du uppfattas</h4>\n            <ul>\n              <li>Ren, tillgänglig och diskret välvårdat</li>\n              <li>Någon vars liv är i ordning — utan att behöva bevisa det</li>\n            </ul>\n          </div>\n          <div class=\"ts-review-card\">\n            <h4>Passar bäst för</h4>\n            <ul>\n              <li>Avslappnat på dagen, stranddagar, utomhusluncher</li>\n              <li>Sociala helgaktiviteter där tillfället är lätt</li>\n              <li>När du ändå vill göra intryck</li>\n            </ul>\n          </div>\n        </div>\n\n        <p class=\"ts-review-desc\">Magic Perfume Nr. 221 öppnar med bergamott och frisk salvia. Samma omedelbara flash av sval, kustnära luft på varm hud. Cederträbasen är ren och polerad utan att bli skarp. I sommarvärmen med 21% koncentration kollapsar den inte till en hudparfym vid timme tre. Den projicerar. Hela dagen.</p>\n      </div>\n    </section>\n\n    <hr class=\"ts-rule\">\n\n    <!-- SCENT 3 -->\n    <section class=\"ts-scent\">\n      <h2 class=\"ts-scent-title\"><span class=\"ts-num\">3.</span>Bleu de Chanel Eau de Parfum</h2>\n\n      <p>Bleu de Chanel är vad folk menar när de säger 'dyrt ren.' Grapefrukt och citron på öppningen, lite metallisk och frisk. Sedan ett hjärta av ingefära, muskot och rökelse med riktig djup. Cederträbasen är polerad och varm. Fungerar kl 7 på morgonen. Fungerar kl 23. Chanel vet detta, vilket är varför de håller det på 1 500 kr och aldrig rabatterar.</p>\n\n      <div class=\"ts-review-module\">\n        <p class=\"ts-review-label\">Bästa alternativet</p>\n        <h3 class=\"ts-review-product\">Magic Perfume Nr. 252</h3>\n        <p class=\"ts-review-sub\">För män med smak och noll behov av att visa det.</p>\n\n        <div class=\"ts-review-grid\">\n          <div class=\"ts-review-image\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/bleu-de-chanel.webp?v=1779478462\" alt=\"Magic Perfume Nr. 252\"></div>\n          <div class=\"ts-review-buy\">\n            <div class=\"ts-review-price-old\">\n              <span class=\"ts-review-price-amount\">1 500 kr</span>\n              <span class=\"ts-review-price-label\">Designerpris</span>\n            </div>\n            <a href=\"#ts-bundle-anchor\" class=\"ts-cta\">Se Bundle — Spara 55%</a>\n            <a href=\"https://tryscent.co/sv-se/products/magic-perfume-no-252m\" class=\"ts-review-product-link\">Köp endast denna doft</a>\n          </div>\n        </div>\n        <p class=\"ts-review-credit\">Foto: TryScent</p>\n\n        <div class=\"ts-review-cards\">\n          <div class=\"ts-review-card\">\n            <h4>Hur du uppfattas</h4>\n            <ul>\n              <li>Sofistikerad och pålitlig</li>\n              <li>Någon med smak och självdisciplin</li>\n              <li>Inte flashig, inte ansträngd — bara genuint välvårdat</li>\n            </ul>\n          </div>\n          <div class=\"ts-review-card\">\n            <h4>Passar bäst för</h4>\n            <ul>\n              <li>Kontoret, affärsmöten, middagar med kunder</li>\n              <li>Smarta kvällsutgångar</li>\n              <li>Morgonmöte till kvällsmiddag — utan att missa ett steg</li>\n            </ul>\n          </div>\n        </div>\n\n        <p class=\"ts-review-desc\">Magic Perfume Nr. 252 ger dig samma citrus-trä-elegans. Ren öppning, aromatiskt hjärta, varm avslutningstorka. Parfymen som gör att du luktar ansträngt välklädd utan notan.</p>\n      </div>\n    </section>\n\n    <hr class=\"ts-rule\">\n\n    <!-- SCENT 4 -->\n    <section class=\"ts-scent\">\n      <h2 class=\"ts-scent-title\"><span class=\"ts-num\">4.</span>Creed Aventus Eau de Parfum</h2>\n\n      <p>Aventus är den heliga graalen. Ananas, svarta vinbär och bergamott spricker upp ljust och fruktigt. En kombination som inte borde fungera men absolut gör det. Sedan kommer björk och patchouli med riktig rökighet. Sedan ekmossa: rik, komplex, omisskännligt kraftfull. Det är parfymen som stannar främmande mitt i meningen. Den kostar 4 000 kr.</p>\n\n      <div class=\"ts-review-module\">\n        <p class=\"ts-review-label\">Bästa alternativet</p>\n        <h3 class=\"ts-review-product\">Ananas Rök Vanilj</h3>\n        <p class=\"ts-review-sub\">För män som styr rummet.</p>\n\n        <div class=\"ts-review-grid\">\n          <div class=\"ts-review-image\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/aventus.png?v=1779478466\" alt=\"Ananas Rök Vanilj\"></div>\n          <div class=\"ts-review-buy\">\n            <div class=\"ts-review-price-old\">\n              <span class=\"ts-review-price-amount\">4 000 kr</span>\n              <span class=\"ts-review-price-label\">Designerpris</span>\n            </div>\n            <a href=\"#ts-bundle-anchor\" class=\"ts-cta\">Se Bundle — Spara 55%</a>\n            <a href=\"https://tryscent.co/sv-se/products/pineapple-smoke-vanilla-50-ml-1-7-fl-oz\" class=\"ts-review-product-link\">Köp endast denna doft</a>\n          </div>\n        </div>\n        <p class=\"ts-review-credit\">Foto: TryScent</p>\n\n        <div class=\"ts-review-cards\">\n          <div class=\"ts-review-card\">\n            <h4>Hur du uppfattas</h4>\n            <ul>\n              <li>Kraftfull, framgångsrik och omöjlig att ignorera</li>\n              <li>Mannen som kliver in i ett rum och förändrar energin</li>\n              <li>Folk minns dig när du har lämnat</li>\n            </ul>\n          </div>\n          <div class=\"ts-review-card\">\n            <h4>Passar bäst för</h4>\n            <ul>\n              <li>Kvällsarrangemang och speciella tillfällen</li>\n              <li>Dejter där du vill göra ett intryck</li>\n              <li>Nätverksevenemang — när det spelar roll att vara minnesvärd</li>\n            </ul>\n          </div>\n        </div>\n\n        <p class=\"ts-review-desc\">Ananas Rök Vanilj tar den varma, kryddigt-träiga arkitekturen och kör med den. Rik och kryddad på öppningen, ren och maskulin genom torrtiden, med projektion och hållbarhet som extrait-nivå verkligen levererar. Aventus komplimang-magnet-DNA.</p>\n      </div>\n    </section>\n\n    <hr class=\"ts-rule\">\n\n    <!-- SCENT 5 -->\n    <section class=\"ts-scent\">\n      <h2 class=\"ts-scent-title\"><span class=\"ts-num\">5.</span>YSL Y Eau de Parfum</h2>\n\n      <p>YSL Y är den moderna vardagsdrivaren. Äpple-, ingefära- och bergamottöppning. Frisk, ren, lite söt. Salvia- och enbärshjärta är friskt. Tonkabönbasen tillför värme utan att gå tungt på sommaren. Det är kolonin du sprayar utan att tänka och på något sätt kommenterar alla det hela dagen.</p>\n\n      <div class=\"ts-review-module\">\n        <p class=\"ts-review-label\">Bästa alternativet</p>\n        <h3 class=\"ts-review-product\">Lavendel Mynta (Nr. 034)</h3>\n        <p class=\"ts-review-sub\">För män som attraherar utan att försöka.</p>\n\n        <div class=\"ts-review-grid\">\n          <div class=\"ts-review-image\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ysl-y-edp.png?v=1779478466\" alt=\"Lavendel Mynta (Nr. 034)\"></div>\n          <div class=\"ts-review-buy\">\n            <div class=\"ts-review-price-old\">\n              <span class=\"ts-review-price-amount\">1 200 kr</span>\n              <span class=\"ts-review-price-label\">Designerpris</span>\n            </div>\n            <a href=\"#ts-bundle-anchor\" class=\"ts-cta\">Se Bundle — Spara 55%</a>\n            <a href=\"https://tryscent.co/sv-se/products/bergamot-sage-cedar-50-ml\" class=\"ts-review-product-link\">Köp endast denna doft</a>\n          </div>\n        </div>\n        <p class=\"ts-review-credit\">Foto: TryScent</p>\n\n        <div class=\"ts-review-cards\">\n          <div class=\"ts-review-card\">\n            <h4>Hur du uppfattas</h4>\n            <ul>\n              <li>Avslappnad, sympatisk och naturligt attraktiv</li>\n              <li>Verkar inte försöka imponera — vilket är precis varför han imponerar på alla</li>\n            </ul>\n          </div>\n          <div class=\"ts-review-card\">\n            <h4>Passar bäst för</h4>\n            <ul>\n              <li>Alldagligt bär hela dagen, gym-till-lunch</li>\n              <li>Avslappnade umgängen och sommarfestivaler</li>\n              <li>När du vill lukta bra utan att övertänka det</li>\n            </ul>\n          </div>\n        </div>\n\n        <p class=\"ts-review-desc\">Lavendel Mynta öppnar med sval lavendel och mynta. Den där flashen av kallt grönt på varm hud är som den första klunken av något iskallt på en varm eftermiddag. Vaniljavslutningen är mjuk och ren. Med 21% koncentration håller detta hela arbetsdagen, pendlingen och in på kvällen.</p>\n      </div>\n    </section>\n\n    <hr class=\"ts-rule\">\n\n    <!-- SUMMARY + FINAL CTA -->\n    <p class=\"ts-summary\"><strong>Mätten är enkel.</strong> Fem designeroriginaler skulle kosta dig över 9 000 kr. Fem TryScentCo-dofter kostar 634,95 kr med högre oljekoncentration, längre hållbarhet och doftprofiler byggda för att matcha originalens not för not.</p>\n\n    <div class=\"ts-cta-wrap\" style=\"margin-top:36px;margin-bottom:12px;\">\n      <a href=\"https://tryscent.co/sv-se/products/5-x-100ml-perfume-bottles\" class=\"ts-cta\">Prova dem på TryScent.co</a>\n    </div>\n\n  </article>\n\n  <section class=\"ts-bundle\" id=\"ts-bundle-anchor\">\n    <div class=\"ts-bundle-inner\">\n      <div class=\"ts-bundle-header\">\n        <div class=\"ts-bundle-tags\">\n          <span class=\"ts-tag-red\">55% Off</span>\n          <span class=\"ts-tag-dark\">Bäst säljare</span>\n        </div>\n        <h2 class=\"ts-bundle-title\">Sommarens Doftgarderob för Män — För Alla Tillfällen</h2>\n      </div>\n      <div class=\"ts-bundle-grid\">\n        <div class=\"ts-bundle-image\">\n          <img src=\"https://tryscent.co/cdn/shop/files/5bottlesswedish2026.png?v=1767668462\" alt=\"TryScent 5-flaskor bundle\">\n        </div>\n        <div class=\"ts-bundle-copy\">\n          <p class=\"ts-bundle-designer\">(Designerpris: 7 402,20 kr)</p>\n          <span class=\"ts-eu-pill\">🇪🇺 Tillverkad i EU</span>\n          <p class=\"ts-bundle-desc\">En doft för varje humör = aldrig tröttna. Dessutom räcker varje 30 ml-flaska i 2–4 månader vid daglig användning. Så det är över ett års doftande av något fantastiskt.</p>\n          <div class=\"ts-bundle-price\">\n            <span class=\"ts-price-old\">1 301,00 kr</span>\n            <span class=\"ts-price-now\">586,00 kr</span>\n            <span class=\"ts-price-discount\">−55%</span>\n          </div>\n          <p class=\"ts-bundle-perflask\">Endast 117,20 kr per flaska</p>\n          <p class=\"ts-bundle-notes\"><strong>Toppnoter:</strong> Ananas · Bergamott · Svartvinbär</p>\n          <ul class=\"ts-bundle-bullets\">\n            <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Upp till 21% EDP-koncentration</li>\n            <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> 12+ timmars hållbarhet</li>\n            <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> EU-tillverkad · IFRA-certifierad</li>\n            <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Clean Label-kosmetika</li>\n            <li><svg viewBox=\"0 0 24 24\"><polyline points=\"4,12 10,18 20,6\"/></svg> Vegansk · Djurfri</li>\n          </ul>\n          <a href=\"https://tryscent.co/sv-se/products/5-x-100ml-perfume-bottles\" class=\"ts-cta ts-bundle-cta\">Hitta Dina Dofter — Köp Bundle 586 kr</a>\n          <p class=\"ts-bundle-sub\">Fri frakt över 483 kr · 60 dagars öppet köp · Enkel retur</p>\n        </div>\n      </div>\n    </div>\n  </section>\n\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_gXRa6j": {
+      "type": "custom-liquid",
+      "name": "Hide Header/Footer",
+      "settings": {
+        "custom_liquid": "{% comment %}\n  TryScent listicle — page chrome hider.\n\n  Hides the theme's header, footer, and announcement bar on the current page only.\n  Custom Liquid sections only render on pages they're added to, so the CSS\n  scopes itself naturally — other pages are unaffected.\n\n  USAGE:\n  1. Online Store → Themes → Customize → open the page that has the listicle.\n  2. Add section → Custom Liquid\n  3. Drag this section to the TOP of the page (above everything else).\n  4. Paste this entire file into the textarea.\n  5. Save.\n\n  If something on your theme isn't getting hidden, paste its selector into the\n  rule below. To find selectors: right-click the element → Inspect.\n{% endcomment %}\n\n<style>\n  /* OS 2.0 theme groups (Dawn, Sense, Refresh, Studio, Crave, Origin, Trade,\n     Publisher, Colorblock, Taste, Ride, Spotlight, etc.) */\n  .shopify-section-group-header-group,\n  .shopify-section-group-footer-group,\n  .shopify-section-group-announcement-group,\n  .shopify-section-group-aside-group,\n\n  /* Vintage themes + common explicit IDs/classes */\n  #shopify-section-header,\n  #shopify-section-footer,\n  #shopify-section-announcement-bar,\n  .shopify-section-header,\n  .shopify-section-footer,\n  .shopify-section-announcement-bar,\n\n  /* Direct element fallbacks */\n  body > header,\n  body > footer,\n  .site-header,\n  .site-footer,\n  .header-wrapper,\n  .footer-wrapper,\n  .announcement-bar,\n  .announcement,\n\n  /* Newsletter popups & promo banners that float */\n  .promo-bar,\n  .header__promo,\n  .top-bar,\n  .topbar,\n  #topbar,\n  [class*=\"topbar\"],\n  [id*=\"topbar\"],\n  .shopify-section[id*=\"topbar\"],\n\n  /* Sale / countdown / timer banner sections (Lönedagsrea, BFCM, etc.) */\n  [class*=\"countdown\"],\n  [class*=\"timer-bar\"],\n  [class*=\"sale-bar\"],\n  [class*=\"salebar\"],\n  [class*=\"payday\"],\n  [class*=\"lonedag\"],\n  [class*=\"lönedag\"],\n  [id*=\"countdown\"],\n  [id*=\"timer-bar\"],\n  [id*=\"payday\"],\n  [id*=\"salebar\"],\n  .shopify-section[id*=\"countdown\"],\n  .shopify-section[id*=\"timer\"],\n  .shopify-section[id*=\"payday\"],\n  .shopify-section[id*=\"sale-bar\"],\n  .shopify-section[id*=\"promo\"],\n  .shopify-section[id*=\"banner\"]:not([id*=\"hero\"]) {\n    display: none !important;\n    visibility: hidden !important;\n    height: 0 !important;\n    margin: 0 !important;\n    padding: 0 !important;\n    overflow: hidden !important;\n  }\n\n  /* Reset main content offsets so the listicle starts at the very top */\n  body,\n  main,\n  #MainContent,\n  .main-content,\n  .page-width {\n    padding-top: 0 !important;\n    margin-top: 0 !important;\n  }\n\n  /* Remove default body padding some themes set for sticky headers */\n  body {\n    padding-top: 0 !important;\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "massive_review_xhTApH": {
+      "type": "massive-review",
+      "blocks": {
+        "review_JAb9H3": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc8.png",
+            "content": "<p>\"This is my first purchase and I am hooked. I will never purchase perfume from anywhere else again. I could never find a dupe scent that really smelled authentic and consistent.\"</p>",
+            "author": "Killian P.",
+            "date": "1 day ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamot-sage-cedar-50-ml"
+          }
+        },
+        "review_t3JNTL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is the best fragrance I’ve smelt in a very long time the notes drives me insane with happiness. I will keep this in rotation forever.\"</p>",
+            "author": "Jenniffer W.",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_MWJkGN": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc15.png",
+            "content": "<p>\"Huele muy bien, me fascinó\"</p>",
+            "author": "Castillo B.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "tryscent-collection"
+          }
+        },
+        "review_QXJ4Un": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"All three of the scents I received are very good. Last long and smell as they should. I was only unhappy with the time it took to recieve them. But honestly I made a second order, so just expect a wait. Lol!<br/>\"</p>",
+            "author": "Clara P.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "apple-cinnamon-sandalwood"
+          }
+        },
+        "review_r7gDXY": {
+          "type": "review",
+          "disabled": true,
+          "settings": {
+            "review_image": "shopify://shop_images/dupestore_3221df98-e409-4141-82ec-bdbe62af3756.jpg",
+            "content": "<p>\"Been trying to find scents that smell expensive as well as lasted long, to no avail. The fit is exactly what I was looking for..\"</p>",
+            "author": "Tiana N.",
+            "author_image": "shopify://shop_images/ugc15.png",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "fresh-escape-premium"
+          }
+        },
+        "review_FN3hXc": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc1.png",
+            "content": "<p>\"Great brand and great products!\"</p>",
+            "author": "Juliana B",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_U9UXyj": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I wasn’t sure what to expect, but this really impressed me. Smells super fresh and honestly pretty close to Aventus. It lasts well and the price is way better.\"</p>",
+            "author": "Michael T.",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_Cx3je3": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"One of my favorite scents. Got to me really fast. Smells so nice.\"</p>",
+            "author": "Alex W.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_pGMWC6": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\" I Loooove these perfumes !!! Every single one I got smells divine. Some I would say better than the original .\"</p>",
+            "author": "Christine N.",
+            "date": "5 days ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_g9ftXn": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"At first I was worried the shipment delayed a bit but once I received them, I'm amazed at the smell, once it settles, my goodness it is just amazing.\"</p>",
+            "author": "Lionel M.",
+            "date": "7 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "4x-100ml-perfume-bottles"
+          }
+        },
+        "review_XLm8tA": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"It smells very nice but not last longer as it supposed to be\"</p>",
+            "author": "Terence M.",
+            "date": "2 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_QzxWN7": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc7.png",
+            "content": "<p>\"Is perfect and the beautiful 🥰🥰🥰\"</p>",
+            "author": "Lidis A.",
+            "date": "2 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "saffron-rose-amber-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_7inGY8": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Idealnie pachnące perfumy, zapachy utrzymują sie bardzo długo, świetna jakość\"</p>",
+            "author": "Kamila G.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_DMLLB7": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Smells just like Luna Rossa Carbon, but way cheaper. Can’t believe how close it is.\"</p>",
+            "author": "Robinson D.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_7DPENV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is the kind of scent that makes you feel put together. Not overpowering, just right. 👌\"</p>",
+            "author": "Michael R.",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "alpha-oil"
+          }
+        },
+        "review_FzpGta": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc3.png",
+            "content": "<p>\"The product came in nicely. The perfume wasnt broken, didnt leak and was in good shape. Scent is perfect and didnt reek bad oder. I love it, high quality\"</p>",
+            "author": "Roxanne S",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "jasmine-cocoa-tonka"
+          }
+        },
+        "review_RbM4wH": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I’ve worn Creed Aventus for years, but this is the closest dupe I’ve found—and at a fraction of the price. The pineapple and vanilla combo is spot on.\"</p>",
+            "author": "Alvarez P.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_QQcF89": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The product came in nicely. The perfume wasnt broken, didnt leak and was in good shape. Scent is perfect and didnt reek bad oder. I love it, high quality\"</p>",
+            "author": "Anne E.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_EFY8jM": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Gorgeous fragrance. Long lasting. <br/>Sweet and warm. Good fast delivery. <br/>Will buy again.\"</p>",
+            "author": "Lucy R",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_4zNfT8": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I’m happy with TryScent. The scent smells very similar to the original and lasts well. The packaging is neat and the bottle looks nice. Overall, it’s a great option if you want a quality fragrance for a reasonable price.\"</p>",
+            "author": "Alina M",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": "black-berry-vanilla-musk"
+          }
+        },
+        "review_i3Ah4D": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Their products are of good quality for a very affordable price.\"</p>",
+            "author": "Amanda G",
+            "date": "5 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "amber-glow"
+          }
+        },
+        "review_D8TJwt": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great scents, great products, no issues.\"</p>",
+            "author": "Alex S.",
+            "date": "6 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_c9kmRL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"From service to product, the experience was phenomenal. Happy to buy again anytime.\"</p>",
+            "author": "Benjamin M",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_JmRe87": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great product! Super affordable alternative to the name brand perfumes. The scent lasts a long time and you get a great bang for your buck\"</p>",
+            "author": "EM",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamote-le-labo-bergamote-22"
+          }
+        },
+        "review_AYqk8N": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Oommgg i loveed Wow! Just like the original and it lasts all day!❤️‍🔥❤️‍🔥\"</p>",
+            "author": "شيطانة YT",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "desert-storm"
+          }
+        },
+        "review_nKgPdV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The smell of this perfume is super rich and I love how beautiful the bottle is and its design.. I would really use it again.\"</p>",
+            "author": "Eliannys Y",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "aldehydes-rose-sandalwood-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_nCUWBq": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I like it! Like this scent. Good fragrance\"</p>",
+            "author": "Aleksandra M",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": "alpha-oil"
+          }
+        },
+        "review_mPjPtL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great product smells amazing. I always get people asking me questions about my scent and what I use\"</p>",
+            "author": "Damario R",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_9KaYUp": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"After a small delay I finally have my TryScent perfumes and they are spot on! I almost can’t believe how accurate they are to the originals, for reference I got \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\" they are really beautiful fragrances\"</p>",
+            "author": "Gabriella K",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "amalfi-coast-mandarino-di-amalfi-fragrance"
+          }
+        },
+        "review_AktQqw": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Very good brand, I love the packaging and the aroma\"</p>",
+            "author": "Rosa B",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamote-le-labo-bergamote-22"
+          }
+        },
+        "review_hGwbhU": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I'm huge into cologne so I'm a picky guy when it comes to clones, but TryScent completely won me over. I originally ordered the Sauvage clone on the homepage and instantly recognized the scent when spraying. I now own 4 TryScent fragrances total and I love them all. Got 3 more on the way thanks to their bundle deals. If u want something that works on a budget and delivers designer performance I couldn't recommend them more.\"</p>",
+            "author": "Sean P",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "fresh-escape-premium"
+          }
+        },
+        "review_e7kCGV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Im very happy with the perfume from this brand they have such a beautiful smell like original and cheaper I will definitely get it again\"</p>",
+            "author": "Angel",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_V6ah97": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"this summer i got a sampler of Creed aventus as a gift and i really liked it but i couldn't buy of the real thing so i looked for dupes. i found Tryscent and ordered \"Pineapple Smoke Vanilla\" it got to me in abt a week and it smells really good, close to my original sample too very satisfied with the product especially for the price\"</p>",
+            "author": "Hwan H",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_PFNbFU": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I tried their 7.5ml sample scents and to my surprise I liked it. Have ordered a 2nd batch but this time I got the larger bottles. I have to say I got my orders on time and they delivered the scents I like!\"</p>",
+            "author": "Lauri E",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "black-berry-vanilla-musk"
+          }
+        }
+      },
+      "block_order": [
+        "review_JAb9H3",
+        "review_t3JNTL",
+        "review_MWJkGN",
+        "review_QXJ4Un",
+        "review_r7gDXY",
+        "review_FN3hXc",
+        "review_U9UXyj",
+        "review_Cx3je3",
+        "review_pGMWC6",
+        "review_g9ftXn",
+        "review_XLm8tA",
+        "review_QzxWN7",
+        "review_7inGY8",
+        "review_DMLLB7",
+        "review_7DPENV",
+        "review_FzpGta",
+        "review_RbM4wH",
+        "review_QQcF89",
+        "review_EFY8jM",
+        "review_4zNfT8",
+        "review_i3Ah4D",
+        "review_D8TJwt",
+        "review_c9kmRL",
+        "review_JmRe87",
+        "review_AYqk8N",
+        "review_nKgPdV",
+        "review_nCUWBq",
+        "review_mPjPtL",
+        "review_9KaYUp",
+        "review_AktQqw",
+        "review_hGwbhU",
+        "review_e7kCGV",
+        "review_V6ah97",
+        "review_PFNbFU"
+      ],
+      "disabled": true,
+      "settings": {
+        "background_color": "#fcfbf9",
+        "heading": "Join 10,000+ Happy Customers",
+        "review_text": "4.9/5 based on 10,000+ reviews",
+        "button_text": "Show more reviews",
+        "button_link": "#",
+        "padding_top": 60,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_cJnqgV",
+    "custom_liquid_gXRa6j",
+    "massive_review_xhTApH"
+  ]
+}

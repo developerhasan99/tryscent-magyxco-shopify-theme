@@ -1,0 +1,21 @@
+{% layout 'no-layout' %}
+{% assign collection = collections['all'] %}
+{% assign all_products = collection.products %}
+{% assign start_index = 50 %}
+{% assign remaining_products = all_products.size | minus: start_index %}
+
+{% if remaining_products > 0 %}
+  <ul>
+    {% for product in all_products offset: start_index %}
+      <li>
+        <img
+          src="{{ product.featured_image | image_url }}"
+          alt="{{ product.title | escape }}"
+          width="{{ product.featured_image.width }}"
+          height="{{ product.featured_image.height }}">
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No more products to show.</p>
+{% endif %}

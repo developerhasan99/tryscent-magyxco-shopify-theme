@@ -1,0 +1,167 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% endif %}
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url }}');
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="{{ section.id }}" class="section-{{ section.id }}-padding bg-cover bg-center">
+  <div class="page-width">
+    <h2 class="text-2xl md:text-4xl font-black mt-0 mb-6">{{ section.settings.title }}</h2>
+    <div class="swiper !pt-14 -mt-14" id="slider-{{ section.id }}">
+      <div class="swiper-wrapper">
+        {% for product in section.settings.collection.products limit: 8 %}
+          <div class="swiper-slide max-w-[260px]">
+            {% render 'card-product'
+              , card_product: product
+              , media_aspect_ratio: section.settings.image_ratio
+              , image_shape: section.settings.image_shape
+              , show_secondary_image: section.settings.show_secondary_image
+              , show_vendor: section.settings.show_vendor
+              , show_rating: true
+              , lazy_load: true
+              , skip_styles: false
+              , quick_add: section.settings.quick_add
+              , section_id: section.id
+            %}
+          </div>
+        {% endfor %}
+      </div>
+      <button class="swiper-button-prev !top-6 !left-[calc(100%-85px)] border border-solid border-gray-200 rounded-full !flex bg-white !size-9 [&]:after:!text-base [&]:after:text-black disabled:!pointer-events-auto" aria-label="Previous"></button>
+      <button class="swiper-button-next !top-6 !right-0 border border-solid border-gray-200 rounded-full !flex bg-white !size-9 [&]:after:!text-base [&]:after:text-black disabled:!pointer-events-auto" aria-label="Next"></button>
+    </div>
+    <div class="text-center mt-6">
+      <a href="{{ section.settings.button_link }}" class="text-black uppercase tracking-wider">{{ section.settings.button_text }}</a>
+    </div>
+  </div>
+</div>
+
+{%- comment -%}
+  FUEL_05: the UGC video row rides inside this section because the homepage
+  template sits at Shopify's 25-section cap, so the row cannot be its own
+  section. Gated to the "Senaste dofterna" instance only. The row ships
+  hidden; the test (or the #f05 QA hash) reveals it. Remove with the FUEL_05
+  cleanup.
+{%- endcomment -%}
+{%- comment -%}
+  contains, not ==: in a JSON template section.id is the long
+  "template--<id>__popular_products_XDHbay" form, never the bare key.
+  The title is the belt to that braces: the key dies silently if anyone
+  deletes and re-adds the section in the editor (the bot rewrites
+  templates/index.json from editor state several times a day), and the
+  title dies silently if anyone rewords the heading. Either one alone
+  keeps the row alive; only losing both drops it.
+{%- endcomment -%}
+{%- if section.id contains 'popular_products_XDHbay' or section.settings.title == '🔥Senaste dofterna' -%}
+  {% render 'fuel05-ugc-home-row' %}
+{%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('#slider-{{ section.id }}', {
+        slidesPerView: 2,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: '#slider-{{ section.id }} .swiper-button-next',
+            prevEl: '#slider-{{ section.id }} .swiper-button-prev',
+        },
+
+        breakpoints: {
+            768: {
+                slidesPerView: 4,
+                spaceBetween: 20,
+            }
+        }
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Popular Products",
+    "class": "popular-products",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Popular Products"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View All"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "Section Padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Popular Products"
+      }
+    ]
+  }
+{% endschema %}

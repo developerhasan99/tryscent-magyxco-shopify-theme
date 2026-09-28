@@ -1,0 +1,346 @@
+/*
+ * FUEL_01 sitewide rules. Loaded on every page from snippets/fuel01-global.liquid.
+ *
+ * Two gates. .fuel01 is the same gate assets/fuel01-restyle.css declares for the
+ * bundle PDP blocks: hidden in control, shown by the variant class or in the
+ * theme editor, so a strategist can find and configure the piece. .fuel01-v is
+ * for the swaps that replace something the control already shows (announcement
+ * row, nav label): those never open in the editor, because there they would
+ * stand next to the control piece they replace and the merchant would see both.
+ */
+
+.fuel01 {
+  display: none !important;
+}
+
+html.ab-f01-v1 .fuel01,
+.shopify-design-mode .fuel01 {
+  display: block !important;
+}
+
+.fuel01-v {
+  display: none !important;
+}
+
+html.ab-f01-v1 .fuel01-v {
+  display: block !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Announcement bar. The variant row renders from
+ * snippets/fuel01-announcement.liquid inside the offer-timebar link,
+ * between the top banner and the control offer row. With the variant
+ * class on, the control offer row (the very next element) goes away,
+ * and so does the white mobile icon strip that follows the section's
+ * link wrapper, because the variant row shows the icons itself.
+ * ------------------------------------------------------------------ */
+
+html.ab-f01-v1 .fuel01-bar + div {
+  display: none !important;
+}
+
+html.ab-f01-v1 div:has(> a .fuel01-bar) + div {
+  display: none !important;
+}
+
+/* Phone: two tight rows, 52px in all. The first cut stood 73px tall at
+ * 390 (16px copy, 25px icons, 8px gaps) and was called out in review as
+ * the banner "all messed up, should be more narrow". */
+.fuel01-bar {
+  padding: 6px 12px;
+}
+
+.fuel01-bar__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.fuel01-bar__copy {
+  margin: 0;
+  /* The row's own pair of colours, the ones the control offer row it
+   * stands in for uses: the section's text colour on the section's
+   * secondary background, both written inline by the snippet. White
+   * was 1.25:1 on that pale green and could not be read. */
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+.fuel01-bar__extras {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.fuel01-bar__offer {
+  color: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.fuel01-bar__icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fuel01-bar__icon {
+  display: block;
+  height: 18px;
+  width: auto;
+  border-radius: 3px;
+}
+
+@media screen and (min-width: 768px) {
+  .fuel01-bar {
+    padding: 8px 16px;
+  }
+
+  .fuel01-bar__inner {
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .fuel01-bar__copy {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0.6px;
+  }
+
+  .fuel01-bar__icon {
+    height: 25px;
+    border-radius: 4px;
+  }
+
+  /* The design drops the offer text on desktop and keeps it on mobile. */
+  .fuel01-bar__offer {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Nav label swap. Both spans render from header-mega-menu.liquid and
+ * header-drawer.liquid on the Doftpaket menu item; the variant one
+ * ships inline-hidden, so a page without this stylesheet shows the
+ * control label and never both. Inline elements, so these rules stay
+ * out of the block-level gates above.
+ * ------------------------------------------------------------------ */
+
+html.ab-f01-v1 .fuel01-nav-c {
+  display: none !important;
+}
+
+html.ab-f01-v1 .fuel01-nav-v {
+  display: inline !important;
+}
+
+/* ------------------------------------------------------------------ *
+ * Doftgarderob module on the single-perfume PDP, rendered from
+ * snippets/fuel01-pdp.liquid between the size buttons and the buy
+ * button. The whole card is the link. Its rules live here because
+ * fuel01-restyle.css never loads on non-bundle PDPs.
+ *
+ * The Figma draws this banner at exactly two widths: 127:240373 at
+ * 510x128 and 127:242053 at 360x128. Both fill the card with one
+ * photograph of the same shelf, and the two source files are the same
+ * shot: the mobile one is the desktop one with 655px more wall on its
+ * left. So one asset serves every width, and the card is never a flat
+ * panel with a picture pasted on it.
+ *
+ * The card's own box is the same in both frames and does not move at
+ * any width: 128 tall, 2px #eee border, 8 radius, 14/12 padding, and a
+ * 173.586 x 37 button. The frames only differ in three things - the
+ * type, the gap under the copy, and how much of the photograph shows -
+ * so those three are the only things that respond.
+ *
+ *   1. the photo's right edge sits on the card's right edge, always;
+ *   2. the first bottle stands where the copy's widest line ends, so
+ *      the shelf gets whatever room the copy leaves. That line is the
+ *      heading in both frames (191.4px at 16/14, 213.6px at 18/16,
+ *      measured with the fonts this store serves) and it is the button
+ *      once the heading falls under 173.586, which is what keeps the
+ *      button off the bottles in a buy box narrower than a phone;
+ *   3. the shelf line rises as the card narrows: 11.5px above the
+ *      card's bottom at 510 wide, 38.8px at 360, straight line between,
+ *      and never past the photo's own bottom edge - below a card of
+ *      about 330 the picture stands on the card's floor and stays
+ *      there, instead of lifting and leaving wall underneath.
+ *
+ * Between the two frames every number runs straight from one to the
+ * other, so nothing steps: 16/14 becomes 18/16 over the same 150px of
+ * card the picture grows across. A breakpoint in the middle made the
+ * heading jump 22px wider at one pixel of card width, which moved the
+ * first bottle right and shrank the picture as the card grew.
+ *
+ * Under the 360 the mobile frame draws, the type keeps going down the
+ * same kind of line to a floor of 14/12 and everything else holds: the
+ * card is still 128 tall and the button is still the frame's button.
+ * Scaling the whole card instead gave the two-column band a 101-tall
+ * card with a 7.9px button label standing next to full-size buy-box
+ * controls. Two columns from 750px make the buy box narrower than a
+ * phone's - 275 at 750, 284 at 768 - and this is the only band where
+ * that happens.
+ * Buy-box widths on this theme: 330@360, 345@375, 360@390, 382@412,
+ * 400@430, 570@600, 714@744, 275@750, 284@768, 310@820, 350@900,
+ * 405@990, 422@1024, 500@1180, capped at the design's 510 from 1240 up.
+ *
+ * Asset 3690x1718. Anchors in its own pixels: the card's right edge
+ * lands on 3467.75, the first bottle body on 2781.35, the shelf on
+ * 1495.45. So the cluster spans 686.4, the wall to the right of the
+ * card is 222.25 and the wall under the shelf 222.55, which is where
+ * the multipliers below come from.
+ * ------------------------------------------------------------------ */
+
+/* The button's face. Plus Jakarta Sans SemiBold is what the frame sets
+ * the label in and it is not one of the faces this theme serves, so it
+ * shipped as a name the browser could not resolve and the label came
+ * out in whatever the device had. Latin subset of the variable file,
+ * 200-800, so the bundle page's cards read from the same one. The URL
+ * is relative because Shopify serves this stylesheet out of the same
+ * assets folder the font is in and a stylesheet may not carry Liquid. */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('fuel01-plus-jakarta-sans.woff2') format('woff2');
+}
+
+/* The card's own box is the query container: every measurement below
+ * reads the buy box and not the window. Two columns from 750 make the
+ * card narrower than a phone's, so a window breakpoint hands the widest
+ * cards in the range the smallest type. */
+.fuel01--pdp-box {
+  container-type: inline-size;
+  margin: 20px 0;
+}
+
+.fuel01--pdp {
+  /* How much of the card the shelf gets, in card px: the card's width
+   * less the copy's lane. The lane is the wider of the heading and the
+   * button. Three straight lines for the heading - the run down to the
+   * 14px floor below the 360 frame, the run from frame to frame, and
+   * the desktop frame's own 282.4 above 510 - and the button's own
+   * 187.586 plus 10px of clear wall, which takes over wherever the
+   * heading is shorter than that: on the 284-333 cards of the tablet
+   * band the glass's soft edge sat right on the button without it. */
+  --fuel01-pdp-span: min(
+    max(70.7895cqw - 100.24px, 85.2cqw - 152.12px),
+    100cqw - 197.586px,
+    282.4px
+  );
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: clamp(12px, 4cqw - 2.4px, 18px);
+  min-height: 128px;
+  padding: 14px 12px;
+  overflow: hidden;
+  border: 2px solid #eeeeee;
+  border-radius: 8px;
+  /* The wall's own left-edge tone. Behind the art at every width in the
+   * matrix; it is the floor, not a card colour. */
+  background-color: #bdb9b2;
+  box-shadow: 0 1px 0 rgba(17, 24, 39, 0.03);
+  color: #121212;
+  text-decoration: none;
+}
+
+/* The photograph. Width carries rule 2, the right offset rule 1, the
+ * bottom offset rule 3; overflow: hidden on the card is the crop, so
+ * the 2px border stays on top of the picture the way the frame's
+ * inside-aligned stroke does. */
+.fuel01--pdp::before {
+  content: '';
+  position: absolute;
+  right: calc(-2px - 0.3237907 * var(--fuel01-pdp-span));
+  bottom: -2px;
+  /* Rule 3 rides on the bottom margin: a positive value drops the
+   * photo's bottom edge below the card's, which is how the desktop
+   * frame gets the shelf 11.5 off the floor out of a picture that
+   * carries 91 of wall under it. It never goes the other way, so the
+   * photo cannot lift off the card's bottom and leave a band of wall
+   * under the shelf, which is what the narrow band did. */
+  margin-bottom: calc(-1 * max(0px, 0.5378446 * var(--fuel01-pdp-span) - 71.824px));
+  z-index: 0;
+  width: calc(5.375874 * var(--fuel01-pdp-span));
+  aspect-ratio: 3690 / 1718;
+  background-image: var(--fuel01-pdp-shelf);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.fuel01-pdp__copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 16 at the 360 frame, 18 at the 510 one, and on down to a 14 floor
+ * below 360. The heading's line is what the picture is measured from,
+ * so these two and --fuel01-pdp-span are one law. */
+.fuel01-pdp__heading {
+  font-size: clamp(14px, min(2.63158cqw + 6.5263px, 1.3333cqw + 11.2px), 18px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.fuel01-pdp__subline {
+  font-size: clamp(12px, min(2.63158cqw + 4.5263px, 1.3333cqw + 9.2px), 16px);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* The frame draws the same button in both sizes of card - 173.586 x 37,
+ * padding 12/24 around a 110 label, a 7.586 gap and an 8x7 arrow - so
+ * it is the one part of the card that is the same number at every
+ * width. */
+.fuel01-pdp__cta {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 7.586px;
+  padding: 12px 24px;
+  border-radius: 5.057px;
+  background: #000000;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', 'Figtree', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 13px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* The frame's label box, so the button is the frame's 173.586 wide
+ * whatever the line measures. The glyphs are centred in it. */
+.fuel01-pdp__label {
+  display: block;
+  width: 110px;
+  letter-spacing: 1.2643px;
+  text-align: center;
+}
+
+.fuel01-pdp__arrow {
+  display: block;
+  flex: 0 0 auto;
+  width: 8px;
+  height: auto;
+}

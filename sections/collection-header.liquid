@@ -1,0 +1,278 @@
+{%- style -%}
+  .section-{{ section.id }} {
+    padding-top: {{ section.settings.mobile_padding_top }}px;
+    padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
+    background-color: {{ section.settings.background_color }};
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 50%){% if section.settings.bg_mobile_image %}
+    , url('{{ section.settings.bg_mobile_image | image_url: width: 1080 }}'){% endif %};
+    background-size: cover;
+    background-position: center;
+
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 50%){% if section.settings.bg_image %}
+      , url('{{ section.settings.bg_image | image_url: width: 1920 }}'){% endif %};
+  }
+}
+
+.section-{{ section.id }}
+.ch-text {
+  color: {{ section.settings.text_color }};
+}
+{%- endstyle -%}
+
+<div class="section-{{ section.id }} bg-cover">
+  <div class="page-width">
+    <div class="grid lg:grid-cols-2 gap-18 items-center">
+      <!-- Left side - Main content -->
+      <div class="text-center md:text-left px-4 md:px-0">
+        <!-- Customer rating badge -->
+        <div class="inline-flex items-center bg-black/40 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-600">
+          <div class="flex items-center flex-wrap justify-center space-x-2">
+            <div class="flex text-yellow-400">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+              </svg>
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+              </svg>
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+              </svg>
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+              </svg>
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
+              </svg>
+            </div>
+            <span class="text-white font-medium text-sm">{{ section.settings.social_proof_text }}</span>
+          </div>
+        </div>
+        <h1 class="ch-text text-3xl md:text-5xl font-bold my-4 leading-tight">
+          {{ section.settings.collection_title }}
+        </h1>
+        <p class="ch-text my-0">
+          {{ section.settings.collection_description }}
+        </p>
+        <div class="mt-8 max-w-[400px] flex flex-col gap-4">
+          {% if section.settings.btn_text != blank %}
+            <a
+              href="{{ section.settings.btn_link }}"
+              class="no-underline text-white tracking-normal font-medium px-8 py-3 bg-[#137c44] hover:bg-[#02491c] rounded-full text-lg text-center transition-colors w-full block"
+              aria-label="View All">
+              {{ section.settings.btn_text }}
+            </a>
+          {% endif %}
+          <ul class="flex flex-wrap justify-center md:justify-start gap-x-6 gap-y-3 list-unstyled">
+            {% for block in section.blocks %}
+              {% if block.type == 'guarantee' %}
+                <li class="flex items-center gap-1.5" {{ block.shopify_attributes }}>
+                  <img
+                    class=""
+                    src="{{ block.settings.icon | image_url: width: 24 }}"
+                    height="16"
+                    width="auto"
+                    alt="Icon">
+                  <span class="ch-text leading-none">{{ block.settings.text }}</span>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        {% if section.settings.quality_badge != blank %}
+          <div class="mt-8">
+            <img
+              src="{{ section.settings.quality_badge | image_url: width: 200 }}"
+              alt="Quality Badge"
+              height="auto"
+              width="auto"
+              class="max-w-full">
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Right side - Steps -->
+      <div class="space-y-3 md:space-y-6">
+        {% for block in section.blocks %}
+          {% if block.type == 'step' %}
+            <div class="flex items-center space-x-4 border border-solid border-gray-600/30 bg-[#090909] backdrop-blur-sm rounded-full p-2 md:p-4" {{ block.shopify_attributes }}>
+              <div class="flex-shrink-0 w-10 h-10 bg-[linear-gradient(to_right,#28A745,#20C997,#28A745)] rounded-full flex items-center justify-center">
+                <span class="text-white font-bold text-sm">0{{ forloop.index }}</span>
+              </div>
+              <div>
+                <div>
+                  <h3 class="text-white font-medium text-sm tracking-normal md:text-lg my-0">
+                    {{ block.settings.step_title }}
+                  </h3>
+                  <p class="text-gray-400 my-0 text-xs md:text-base">
+                    {{ block.settings.step_description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Collection Header",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#242833"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text Color",
+        "default": "#000000"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_mobile_image",
+        "label": "Background Mobile Image"
+      },
+      {
+        "type": "header",
+        "content": "Contents"
+      },
+      {
+        "type": "text",
+        "id": "social_proof_text",
+        "label": "Social Proof Text",
+        "default": "Join 10,000+ happy customers"
+      },
+      {
+        "type": "text",
+        "id": "collection_title",
+        "label": "Collection Title",
+        "default": "Collection Title"
+      },
+      {
+        "type": "text",
+        "id": "collection_description",
+        "label": "Collection Description",
+        "default": "Best scents you've ever smelled or your money back."
+      },
+      {
+        "type": "url",
+        "id": "btn_link",
+        "label": "Button Link"
+      },
+      {
+        "type": "text",
+        "id": "btn_text",
+        "label": "Button Text",
+        "default": "View All"
+      },
+      {
+        "type": "image_picker",
+        "id": "quality_badge",
+        "label": "Quality Badge"
+      },
+      {
+        "type": "header",
+        "content": "Section Padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 400,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 72
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 400,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 72
+      },
+      {
+        "type": "header",
+        "content": "Mobile Padding"
+      },
+      {
+        "type": "range",
+        "id": "mobile_padding_top",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "unit": "px",
+        "label": "Mobile Padding Top",
+        "default": 40
+      },
+      {
+        "type": "range",
+        "id": "mobile_padding_bottom",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "unit": "px",
+        "label": "Mobile Padding Bottom",
+        "default": 40
+      }
+    ],
+    "blocks": [
+      {
+        "type": "guarantee",
+        "name": "Guarantee",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icon",
+            "label": "Icon"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      },
+      {
+        "type": "step",
+        "name": "Step",
+        "settings": [
+          {
+            "type": "text",
+            "id": "step_title",
+            "label": "Step Title"
+          },
+          {
+            "type": "text",
+            "id": "step_description",
+            "label": "Step Description"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection Header"
+      }
+    ]
+  }
+{% endschema %}

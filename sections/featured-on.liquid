@@ -1,0 +1,91 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="flex flex-wrap justify-center items-center gap-4 md:gap-8">
+      <h2 class="my-0">Featured On:</h2>
+      <div class="flex justify-center items-center gap-4 md:gap-8">
+        {% for block in section.blocks %}
+          {% if block.settings.featured_on_image != blank %}
+            <div class="flex">
+              <img
+                class="max-w-full h-auto"
+                src="{{ block.settings.featured_on_image | image_url }}"
+                alt="Perk Image"
+                width="{{ block.settings.featured_on_image.width }}"
+                height="{{ block.settings.featured_on_image.height }}">
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Featured On",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      }, {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "featured_on",
+        "name": "Featured On",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "featured_on_image",
+            "label": "Featured On Image"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured On"
+      }
+    ]
+  }
+{% endschema %}

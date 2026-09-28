@@ -1,0 +1,65 @@
+<div class="flex flex-col md:flex-row md:justify-center md:items-center gap-5 py-14 px-4">
+  <img
+    class="w-full rounded-xl md:max-w-[400px] h-auto "
+    src="{{section.settings.explore_image | image_url: width: 450 }}"
+    alt=""
+    loading="lazy"
+    height="{{ section.settings.explore_image.height }}"
+    width="{{ section.settings.explore_image.width }}">
+
+  <div class="flex justify-between items-center md:items-start md:flex-col gap-4">
+    <div>
+      <h3 class="text-base md:text-2xl font-semibold m-0 tracking-tight">{{ section.settings.explore_heading }}</h3>
+      <p class="m-0 text-sm md:text-lg font-medium tracking-tight">{{ section.settings.explore_subheading }}</p>
+    </div>
+    <div>
+      <a
+        href="{{ section.settings.button_link }}"
+        class="no-underline text-white font-semibold px-8 py-3 bg-[#137c44] hover:bg-[#02491c] rounded-full tracking-normal md:tracking-wider text-lg transition-colors tabs-cta-ripple-animation inline-block"
+        aria-label="{{ section.settings.button_text }}">
+        {{ section.settings.button_text }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Explore Section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View All"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "image_picker",
+        "id": "explore_image",
+        "label": "Explore Image"
+      },
+      {
+        "type": "text",
+        "id": "explore_heading",
+        "label": "Explore Heading",
+        "default": "Explore More"
+      }, {
+        "type": "text",
+        "id": "explore_subheading",
+        "label": "Explore Subheading",
+        "default": "Discover our latest collections"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Explore Section"
+      }
+    ]
+  }
+{% endschema %}

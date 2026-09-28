@@ -1,0 +1,74 @@
+<div style="background-image: url('{{ section.settings.satisfaction_bg_image | image_url }}')" class="py-20">
+  <div class="page-width flex flex-col items-center">
+    <p class="text-white text-base md:text-lg uppercase bg-[#ffffff2e] px-2 py-1 mb-8 mt-0 rounded">How Our guarantee works</p>
+    <h2 class="text-white text-4xl md:text-5xl font-bold m-0 mb-12 text-center">
+      {{ section.settings.satisfaction_title }}
+    </h2>
+    <div class="relative">
+      <div class="before:content-[''] before:absolute before:left-[1.25rem] before:top-2 before:h-[80%] before:mt-3 before:w-[3px] before:bg-yellow-500 relative">
+        <div class="flex flex-col gap-8 relative">
+          {% for block in section.blocks %}
+            <div class="relative flex items-start">
+              <div class="absolute left-0 top-1.5 flex items-center justify-center w-10 h-10">
+                <div class="w-6 h-6 bg-white rounded-full !flex items-center justify-center transition-colors steps-ripple-animation"></div>
+              </div>
+              <div class="pl-16">
+                <h3 class="text-3xl md:text-4xl font-bold m-0 text-yellow-500">
+                  {{ block.settings.step_title }}
+                  {% if forloop.last %}
+                    <span class="text-white font-medium">- Optional</span>
+                  {% endif %}
+                </h3>
+                <p class="text-base md:text-xl text-gray-300">
+                  {{ block.settings.step_description | replace: "60 days risk-free", "<span style='color: #eab308'>60 days risk-free</span>" }}
+                </p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "TryScent Steps Timeline",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "satisfaction_bg_image",
+        "label": "Satisfaction Background Image"
+      }, {
+        "type": "text",
+        "id": "satisfaction_title",
+        "label": "Satisfaction Title",
+        "default": "Your Satisfaction Guarantee"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "step",
+        "name": "Step",
+        "settings": [
+          {
+            "type": "text",
+            "id": "step_title",
+            "label": "Step Title",
+            "default": "Step 01"
+          }, {
+            "type": "textarea",
+            "id": "step_description",
+            "label": "Step Description",
+            "default": "Order your TryScent."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "TryScent Steps Timeline"
+      }
+    ]
+  }
+{% endschema %}

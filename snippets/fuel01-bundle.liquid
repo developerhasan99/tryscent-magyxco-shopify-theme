@@ -1,0 +1,373 @@
+{% comment %}
+  Renders one part of the FUEL_01 bundle builder variant.
+
+  Everything here ships hidden by assets/fuel01-restyle.css and is revealed by a
+  class on the html element added by the testing tool, or in the theme editor.
+  Nothing in this snippet writes to the bundle builder, adds anything to the
+  cart, or changes the checkout redirect. It reads and it displays.
+
+  Accepts:
+  - product: {Object} the product being viewed (required)
+  - block: {Object} the hosting block, for its settings (required)
+  - mode: {String} 'heading' | 'steps' | 'summary' (required)
+  - with_assets: {Boolean} emit the stylesheet and the QA reveal script; pass it on
+  exactly one of the three render sites per page, or the product page loads them
+  three times. The heading site owns it because it comes first in the markup on
+  both bundle templates. Same guard as snippets/fuel05-ugc-pdp.liquid and for the
+  same reason: render gives a snippet its own scope, so this cannot be a page
+  level flag.
+
+  Usage:
+  {% render 'fuel01-bundle', product: product, block: block, mode: 'heading', with_assets: true %}
+{% endcomment %}
+
+{%- liquid
+  assign bottle_count = product.metafields.custom.choose_your_fragrances_options
+  assign bottle_size = product.metafields.custom.select_bundle_dropdown_ml | default: '50'
+-%}
+
+{%- comment -%}
+  Swedish market only, the same gate every other FUEL_01 surface carries: the
+  block copy is written in Swedish and is not translated, so da, nb and fi get
+  the stock bundle page in both arms. The sitewide QA reveal in
+  snippets/fuel01-global.liquid stays ungated, so a tester on those markets can
+  add the class and see that nothing moves.
+{%- endcomment -%}
+{%- if bottle_count != blank and request.locale.iso_code == 'sv' -%}
+  {%- if with_assets -%}
+    {{ 'fuel01-restyle.css' | asset_url | stylesheet_tag }}
+    <script>
+      // QA and preview reveal, mirrors the one in fuel03-pair-scent.liquid. On any
+      // theme that is not the live one, #f01 in the address shows the variant, so
+      // it can be checked without running the testing tool. Shopify.theme.role is
+      // 'main' on the live theme, so this can never fire there.
+      if (window.Shopify && Shopify.theme && Shopify.theme.role !== 'main') {
+        if (window.location.hash === '#f01') document.documentElement.classList.add('ab-f01-v1');
+      }
+    </script>
+    {%- if request.locale.iso_code == 'sv' -%}
+      <script>
+        // Prefill from the build-your-own page (sections/fuel01-byo.liquid): its
+        // button lands here with ?f01scents= holding the picked product ids, and
+        // this applies them to the builder's own store. Swedish market only, the
+        // same gate the build-your-own page itself carries, so a link shared onto
+        // another market changes nothing there.
+        //
+        // The variant class is the gate, not the param. A handoff link can be
+        // shared, bookmarked or replayed from history, and the param on its own
+        // used to be enough to fill the stock builder for a control bucketed
+        // visitor. The testing tool can add its class after Alpine has
+        // initialised, so a miss is retried once and then given up on silently.
+        //
+        // The run is also deferred out of the alpine:initialized handler and the
+        // array is reassigned once the loop is done. Pushing from inside that
+        // handler happens before Alpine's effects watch selectedProducts, and
+        // every builder row then paints blank for good. Either half repairs it;
+        // both are kept because the cost is a tick and a copy of four items.
+        //
+        // Everything is capped and checked: only products the builder itself
+        // offers, only up to the bundle size, and pushed the way
+        // quiz-bundle-prefill.liquid should have done it, with the variant
+        // stamped. Never through addRemoveProduct: its final add auto-fires the
+        // cart POST and the checkout redirect.
+        document.addEventListener('alpine:initialized', function () {
+          const raw = new URLSearchParams(window.location.search).get('f01scents');
+          if (!raw) return;
+
+          const apply = function () {
+            if (!document.documentElement.classList.contains('ab-f01-v1')) return false;
+            const store = (window.Alpine && typeof Alpine.store === 'function') ? Alpine.store('bundleBuilder') : null;
+            if (!store || !Array.isArray(store.selectedProducts) || !Array.isArray(store.availableProducts)) return true;
+            for (const id of raw.split(',')) {
+              if (store.bundleLength && store.selectedProducts.length >= store.bundleLength) break;
+              const product = store.availableProducts.find((p) => Number(p.id) === Number(id));
+              if (!product || !product.variants || !product.variants[store.selectedVariant]) continue;
+              if (store.selectedProducts.some((p) => Number(p.id) === Number(product.id))) continue;
+              product.variant = product.variants[store.selectedVariant];
+              store.selectedProducts.push(product);
+            }
+            store.selectedProducts = store.selectedProducts.slice();
+            return true;
+          };
+
+          setTimeout(function () {
+            if (apply()) return;
+            setTimeout(apply, 600);
+          }, 0);
+        });
+      </script>
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- case mode -%}
+    {%- when 'heading' -%}
+      {%- liquid
+        assign heading = block.settings.heading | replace: '[count]', bottle_count | replace: '[size]', bottle_size
+        assign subheading = block.settings.subheading | replace: '[count]', bottle_count | replace: '[size]', bottle_size
+      -%}
+      {%- if heading != blank -%}
+        <h2 class="fuel01-heading__title">{{ heading | escape }}</h2>
+      {%- endif -%}
+      {%- if subheading != blank -%}
+        <p class="fuel01-heading__sub">{{ subheading | escape }}</p>
+      {%- endif -%}
+
+    {%- when 'steps' -%}
+      {%- liquid
+        assign counter_copy = block.settings.counter_text
+        assign hint_copy = block.settings.hint_text
+        assign hint_one_copy = block.settings.hint_text_one
+        assign done_copy = block.settings.done_text
+        assign start_counter = counter_copy | replace: '[selected]', 0 | replace: '[total]', bottle_count
+        assign start_hint = hint_copy | replace: '[remaining]', bottle_count
+        if bottle_count == 1
+          assign start_hint = hint_one_copy
+        endif
+      -%}
+      <script>
+        document.addEventListener('alpine:init', function () {
+          if (window.fuel01StepsRegistered) return;
+          window.fuel01StepsRegistered = true;
+
+          // Read only. Nothing below writes to the bundle builder store, it only
+          // counts what the store already holds.
+          Alpine.data('fuel01Steps', function (total, counterCopy, hintCopy, hintOneCopy, doneCopy) {
+            return {
+              total: total,
+              get picked() {
+                var store = Alpine.store('bundleBuilder');
+                if (!store || !store.selectedProducts) return 0;
+                return Math.min(store.selectedProducts.length, this.total);
+              },
+              get remaining() {
+                return Math.max(0, this.total - this.picked);
+              },
+              get percent() {
+                if (!this.total) return 0;
+                return Math.min(100, Math.round((this.picked / this.total) * 100));
+              },
+              get counter() {
+                return counterCopy.replace('[selected]', this.picked).replace('[total]', this.total);
+              },
+              get message() {
+                if (this.remaining === 0) return doneCopy;
+                // Swedish needs "1 doft" and "2 dofter", so one bottle left has
+                // its own line rather than a number dropped into the plural one.
+                if (this.remaining === 1) return hintOneCopy;
+                return hintCopy.replace('[remaining]', this.remaining);
+              }
+            };
+          });
+        });
+      </script>
+      <div class="fuel01-steps" x-data="fuel01Steps({{ bottle_count }}, {{ counter_copy | json | escape }}, {{ hint_copy | json | escape }}, {{ hint_one_copy | json | escape }}, {{ done_copy | json | escape }})">
+        <div
+          class="fuel01-steps__track"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuenow="0"
+          aria-valuemax="{{ bottle_count }}"
+          :aria-valuenow="picked">
+          <div
+            class="fuel01-steps__fill"
+            style="width: 0%"
+            :style="'width: ' + percent + '%'"></div>
+        </div>
+        <p class="fuel01-steps__label">
+          <span class="fuel01-steps__counter" x-text="counter">{{ start_counter | escape }}</span>
+          <span class="fuel01-steps__dot" aria-hidden="true">&bull;</span>
+          <span class="fuel01-steps__message" x-text="message">{{ start_hint | escape }}</span>
+        </p>
+      </div>
+
+    {%- when 'summary' -%}
+      {%- liquid
+        comment
+          The ordinary total is the pack's scents bought one by one at the
+          bundle size, read off the pool the builder offers
+          (collections[' b est-sellers'], the list that
+          snippets/bundle-builder.liquid declares), the discount is one
+          scent, and your price is the difference (review, Sep 2: "four times
+          that minus one times that", one perfume free). The bundle product in
+          Shopify is meant to be priced at that figure; since Sep 14 the page
+          reads that product' s own price for "your price", see below.
+          No compare-at price any more: the first cut showed the
+          bundle's own compare-at (1.449 kr against 790) and review could not
+          trace the number. The rows repaint from the actual picks through the
+          fuel01Summary component below. Nothing is pre-filled: the box starts
+          at 0 kr and climbs one scent at a time, and the ordinary total, the
+          discount and the saving only appear once the pack is full, because
+          that is when the bundle price applies. The Liquid values are the
+          full-pack figures for the rows that start hidden.
+        endcomment
+        assign summary_variant = product.selected_or_first_available_variant
+        assign your_price = summary_variant.price
+        assign summary_ml = bottle_size | append: ' m l'
+        assign summary_pool = collections[' b est-sellers']
+        assign unit_default = 0
+        for pool_product in summary_pool.products
+          for v in pool_product.variants
+            assign vt = v.title | downcase | replace: ' ml', ' m l'
+            if vt == summary_ml
+              if unit_default == 0
+                assign unit_default = v.price
+              endif
+              break
+            endif
+          endfor
+          if unit_default > 0
+            break
+          endif
+        endfor
+        comment
+          Sep 14: your price stays the bundle product' s own price, read above,
+          because that is what checkout charges.The ordinary total is still
+          the singles, so the saving is the difference today.If the singles
+          rise before the bundle product is repriced, the page keeps showing
+          the figure checkout will charge and the saving grows; it can no
+          longer show one number and charge another.
+        endcomment
+        assign ordinary_price = unit_default | times: bottle_count
+        assign saving = ordinary_price | minus: your_price
+        if unit_default == 0 or saving < 0
+          assign ordinary_price = your_price
+          assign saving = 0
+        endif
+
+        assign total_label = block.settings.total_label | replace: '[count]', bottle_count | replace: '[size]', bottle_size
+        assign discount_label = block.settings.discount_label | replace: '[count]', bottle_count | replace: '[size]', bottle_size
+        assign price_label = block.settings.price_label
+        assign savings_label = block.settings.savings_label
+
+        comment
+          Same two labels as the builder page, and the same rule: "Ord.
+          totalpris (4 × 100 ml):" may break before the bracket and never
+          inside it.Everything from the first " (" onwards is split off here
+          so the markup can hold it in one nowrap span.A label written
+          without a bracket comes back whole and gains no span, so nothing
+          there can break either.
+        endcomment
+        assign total_label_main = total_label
+        assign total_label_note = ''
+        if total_label contains ' ('
+          assign total_label_main = total_label | split: ' (' | first
+          assign total_label_note = total_label | remove_first: total_label_main | strip
+        endif
+        assign discount_label_main = discount_label
+        assign discount_label_note = ''
+        if discount_label contains ' ('
+          assign discount_label_main = discount_label | split: ' (' | first
+          assign discount_label_note = discount_label | remove_first: discount_label_main | strip
+        endif
+      -%}
+      {%- comment -%}
+        Bundle-size price of every scent the builder offers, by product id, so
+        the rows can be repainted from the picks. Read only: nothing here
+        writes to the builder's store.
+      {%- endcomment -%}
+      {%- capture price_map -%}
+        {
+        {%- for pool_product in summary_pool.products -%}
+          {%- for v in pool_product.variants -%}
+            {%- assign vt = v.title | downcase | replace: ' ml', 'ml' -%}
+            {%- if vt == summary_ml -%}
+              "{{ pool_product.id }}": {{ v.price }},
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        "0": 0 }
+      {%- endcapture -%}
+      <script>
+        document.addEventListener('alpine:init', function () {
+          if (window.fuel01SummaryRegistered) return;
+          window.fuel01SummaryRegistered = true;
+
+          Alpine.data('fuel01Summary', function (total, bundlePrice, unitDefault, moneyFormat, prices) {
+            return {
+              get ordTotal() {
+                var store = Alpine.store('bundleBuilder');
+                var picks = store && Array.isArray(store.selectedProducts) ? store.selectedProducts : [];
+                var sum = 0;
+                for (var i = 0; i < total; i++) {
+                  var p = picks[i];
+                  var price = p ? Number(prices[String(p.id)]) : 0;
+                  if (price > 0) sum += price;
+                }
+                return sum;
+              },
+              get full() {
+                var store = Alpine.store('bundleBuilder');
+                var picks = store && Array.isArray(store.selectedProducts) ? store.selectedProducts : [];
+                return total > 0 && picks.length >= total;
+              },
+              get yourPrice() {
+                return this.full ? bundlePrice : this.ordTotal;
+              },
+              get discount() {
+                return this.full ? Math.max(0, this.ordTotal - bundlePrice) : 0;
+              },
+              money(cents) {
+                var n = Math.round(Number(cents) || 0);
+                var abs = Math.abs(n);
+                var int = String(Math.floor(abs / 100));
+                var dec = String(abs % 100).padStart(2, '0');
+                var grp = function (s, sep) { return s.replace(/\B(?=(\d{3})+(?!\d))/g, sep); };
+                var forms = {
+                  amount: grp(int, ',') + '.' + dec,
+                  amount_no_decimals: grp(int, ','),
+                  amount_with_comma_separator: grp(int, '.') + ',' + dec,
+                  amount_no_decimals_with_comma_separator: grp(int, '.'),
+                  amount_with_space_separator: grp(int, ' ') + ',' + dec,
+                  amount_no_decimals_with_space_separator: grp(int, ' '),
+                  amount_with_apostrophe_separator: grp(int, "'") + '.' + dec
+                };
+                var out = String(moneyFormat || '{' + '{amount}' + '}').replace(/\{\{\s*(\w+)\s*\}\}/g, function (m, k) { return forms[k] !== undefined ? forms[k] : forms.amount; }).replace(/<[^>]+>/g, '');
+                return (n < 0 ? '-' : '') + out;
+              }
+            };
+          });
+        });
+      </script>
+      <div class="fuel01-summary" x-data="fuel01Summary({{ bottle_count }}, {{ your_price }}, {{ unit_default }}, {{ shop.money_format | json | escape }}, {{ price_map | strip_newlines | escape }})">
+        {%- if saving > 0 -%}
+          <div
+            class="fuel01-summary__row"
+            x-show="full"
+            x-cloak>
+            <span class="fuel01-summary__label">
+              {{- total_label_main | escape -}}
+              {%- if total_label_note != blank %}
+                <span class="fuel01-summary__label-note">{{ total_label_note | escape }}</span>
+              {% endif -%}
+            </span>
+            <span class="fuel01-summary__value" x-text="money(ordTotal)">{{ ordinary_price | money }}</span>
+          </div>
+          <div
+            class="fuel01-summary__row fuel01-summary__row--discount"
+            x-show="full && discount > 0"
+            x-cloak>
+            <span class="fuel01-summary__label">
+              {{- discount_label_main | escape -}}
+              {%- if discount_label_note != blank %}
+                <span class="fuel01-summary__label-note">{{ discount_label_note | escape }}</span>
+              {% endif -%}
+            </span>
+            <span class="fuel01-summary__value" x-text="'\u2212' + money(discount)">&minus;{{ saving | money }}</span>
+          </div>
+        {%- endif -%}
+        <div class="fuel01-summary__row fuel01-summary__row--total">
+          <span class="fuel01-summary__label">{{ price_label | escape }}</span>
+          <span class="fuel01-summary__value" x-text="money(yourPrice)">{{ 0 | money }}</span>
+        </div>
+        {%- if saving > 0 -%}
+          <p
+            class="fuel01-summary__pill"
+            x-show="full && discount > 0"
+            x-cloak>
+            <span class="fuel01-summary__pill-label">{{ savings_label | escape }}</span>
+            <span class="fuel01-summary__pill-value" x-text="money(discount)">{{ saving | money }}</span>
+          </p>
+        {%- endif -%}
+      </div>
+  {%- endcase -%}
+{%- endif -%}

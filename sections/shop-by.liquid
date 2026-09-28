@@ -1,0 +1,145 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width flex flex-col gap-12">
+    <h2 class="my-0 text-3xl md:text-4xl font-black tracking-tight leading-snug text-center">{{ section.settings.heading }}</h2>
+    {% for block in section.blocks %}
+      <div class="grid md:grid-cols-2 gap-12 w-full">
+        <div>
+          <div class="sticky top-5">
+            <img
+              class="w-full h-auto"
+              loading="lazy"
+              src="{{ block.settings.image | image_url: width: 450 }}"
+              alt="{{ block.settings.heading }}"
+              height="{{ block.settings.image.height }}"
+              width="{{ block.settings.image.width }}">
+            <div class="flex justify-between items-center">
+              <div>
+                <h3 class="text-lg font-black tracking-tight my-0">{{ block.settings.heading }}</h3>
+                <p class="my-0 leading-snug">{{ block.settings.subheading }}</p>
+              </div>
+              <a class="no-underline text-white font-semibold px-6 md:px-10 py-3 bg-[#137c44] hover:bg-[#02491c] rounded-full tracking-normal md:tracking-wider text-lg transition-colors uppercase inline-block" href="{{ block.settings.button_link }}">{{ block.settings.button_text }}</a>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          {% for product in block.settings.collection.products limit: 4 %}
+            <div>
+              {% render 'card-product'
+                , card_product: product
+                , media_aspect_ratio: section.settings.image_ratio
+                , image_shape: section.settings.image_shape
+                , show_secondary_image: section.settings.show_secondary_image
+                , show_vendor: section.settings.show_vendor
+                , show_rating: true
+                , lazy_load: true
+                , quick_add: section.settings.quick_add
+                , section_id: section.id
+              %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Shop By",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Selected for you"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Heading"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button Text"
+          }, {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button Link"
+          }, {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Shop By"
+      }
+    ]
+  }
+{% endschema %}

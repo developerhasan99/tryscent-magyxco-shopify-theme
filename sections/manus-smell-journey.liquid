@@ -1,0 +1,124 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="[display:grid] gap-6 md:gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+      <div>
+        <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-[#C8A96E]">{{ section.settings.subtitle }}</p>
+        <h2 class="text-2xl md:text-4xl font-bold text-[#F5F2EC]">{{ section.settings.title }}</h2>
+        <p class="mt-5 max-w-md text-base leading-8 text-[#B0ADA6]">{{ section.settings.description }}</p>
+      </div>
+      <div class="border border-solid border-white/10 bg-[#111118] p-6 md:p-8">
+        <div class="mb-10">
+          <div class="!block h-px w-full bg-[linear-gradient(90deg,#C8A96E_0%,rgba(200,169,110,0.4)_50%,rgba(200,169,110,0.12)_100%)]"></div>
+          <div class="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-[#8D887C]">
+            <span>0</span>
+            <span>15 min</span>
+            <span>4 tim</span>
+            <span>12 tim</span>
+          </div>
+        </div>
+        <div class="space-y-8">
+          <div class="[display:grid] gap-3 md:grid-cols-[180px_1fr] md:gap-6">
+            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-[#C8A96E]">ÖPPNING · 0–15 MIN</p>
+            <div>
+              <p class="text-sm font-semibold text-[#F5F2EC]">{{ product.metafields.custom.top_notes.value.heading }}</p>
+              <p class="mt-3 text-sm leading-7 text-[#B0ADA6]">{{ product.metafields.custom.top_notes.value.description | metafield_text }}</p>
+            </div>
+          </div>
+          <div class="[display:grid] gap-3 md:grid-cols-[180px_1fr] md:gap-6">
+            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-[#C8A96E]">HJÄRTA · 1–4 TIM</p>
+            <div>
+              <p class="text-sm font-semibold text-[#F5F2EC]">{{ product.metafields.custom.middle_notes.value.heading }}</p>
+              <p class="mt-3 text-sm leading-7 text-[#B0ADA6]">{{ product.metafields.custom.middle_notes.value.description | metafield_text }}</p>
+            </div>
+          </div>
+          <div class="[display:grid] gap-3 md:grid-cols-[180px_1fr] md:gap-6">
+            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-[#C8A96E]">BAS · 4–12+ TIM</p>
+            <div>
+              <p class="text-sm font-semibold text-[#F5F2EC]">{{ product.metafields.custom.base_notes.value.heading }}</p>
+              <p class="mt-3 text-sm leading-7 text-[#B0ADA6]">{{ product.metafields.custom.base_notes.value.description | metafield_text }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Manus Smell Journey",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#0a0a0f"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Doftresan"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Hur den utvecklas på huden"
+      }, {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description",
+        "default": "De första 30 sekunderna säljer doften. De nästa 12 timmarna avgör om du fortsätter använda den."
+      }, {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 72
+      }
+    ],
+    "presets": [
+      {
+        "name": "Manus Smell Journey"
+      }
+    ]
+  }
+{% endschema %}

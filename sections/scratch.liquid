@@ -1,0 +1,98 @@
+{{ 'scratch.css' | asset_url | stylesheet_tag }}
+
+<style>
+  /* Hide all sections by default on this page, but keep this one */
+  .scratch-page .shopify-section { display: none !important; }
+  #shopify-section-{{ section.id }} { display: block !important; }
+  /* Force hide Hextom/Easy Announcement/UB bars on this page */
+  #epb_container, #epb_background, #epb_bar, [id^="epb_"], [class*="epb_"],
+  #fsb_bar, #fsb_container, [id*="hextom"], [class*="hextom"], [id*="ub_bar"], [class*="ub-bar"] {
+    display: none !important;
+  }
+  /* Full-white overlay to prevent flash before isolation applies */
+  .scratch-loader{position:fixed;inset:0;background:#fff;z-index:99999}
+</style>
+
+<script>(function(){try{document.body.classList.add('scratch-page');}catch(e){document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('scratch-page')});}})();</script>
+<div id="scratch-loader" class="scratch-loader" aria-hidden="true"></div>
+
+<section class="scratch shopify-section--scratch" id="scratch-section"
+  style="background-image:url('{{ section.settings.background_image_url }}');background-size:cover;background-position:center;background-repeat:no-repeat;"
+  data-start-min="30"
+  data-start-max="60"
+  data-decrement-min="1"
+  data-decrement-max="3"
+  data-interval-min="8"
+  data-interval-max="18"
+  data-floor="3"
+  data-store-key="scratch_bottles_v1"
+  data-cover="{{ section.settings.cover_image_url }}"
+  data-cover-preload="true"
+  data-cta-link="{{ section.settings.cta_link }}"
+  data-cta-new-tab="{{ section.settings.cta_new_tab }}"
+>
+  <div class="scratch__inner">
+    {% if section.settings.logo != blank %}
+      <img class="scratch__logo" src="{{ section.settings.logo | image_url: width: 180 }}" alt="{{ section.settings.logo.alt | escape }}" loading="lazy" width="180" height="auto">
+    {% endif %}
+
+    <h1 class="scratch__title">{{ section.settings.title | default: 'Summer Super Giveaway' }}</h1>
+    <div class="scratch__subtitle">{{ section.settings.subtitle }}</div>
+
+    <div class="scratch__pill">{{ section.settings.pill }}</div>
+
+    <div class="scratch__counter">
+      {{ section.settings.counter_prefix }}
+      <span class="scratch__counter-num" id="bottles-left">--</span>
+      {{ section.settings.counter_suffix }}
+    </div>
+
+    <div class="scratch-card" aria-live="polite">
+      <div class="scratch-card__prize" id="scratch-prize" hidden style="visibility:hidden;">
+        <img src="{{ section.settings.prize_image_url }}" alt="Prize" style="max-width:90%;height:auto;display:block;" loading="eager">
+      </div>
+      <canvas class="scratch-card__canvas" id="scratch-canvas"></canvas>
+      <div class="scratch-card__cover-label" id="scratch-label">{{ section.settings.scratch_label }}</div>
+    </div>
+
+    <button class="scratch__cta button" id="scratch-cta" hidden>
+      {{ section.settings.cta_text }}
+    </button>
+  </div>
+</section>
+
+<!-- Fireworks overlay container -->
+<div id="scratch-fireworks" class="scratch-fireworks" aria-hidden="true" style="position:fixed;inset:0;pointer-events:none;z-index:100000"></div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    document.body.classList.add('scratch-page');
+  });
+</script>
+<script src="{{ 'scratch.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Scratch & Win",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Summer Super Giveaway" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "SCRATCH & WIN" },
+    { "type": "text", "id": "pill", "label": "Pill text", "default": "EXCLUSIVE DISCOUNTS" },
+    { "type": "text", "id": "counter_prefix", "label": "Counter prefix", "default": "There are only" },
+    { "type": "text", "id": "counter_suffix", "label": "Counter suffix", "default": "free bottles left" },
+    { "type": "text", "id": "prize_image_url", "label": "Prize image URL", "default": "https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ChatGPT_Image_8_sie_2025_19_15_59.png?v=1754673396" },
+    { "type": "text", "id": "cover_image_url", "label": "Cover image URL", "default": "https://cdn.shopify.com/s/files/1/0086/7932/5753/files/685d9ba8949e920a7f30c753_jul4-scratch.webp?v=1754670890" },
+    { "type": "text", "id": "cta_text", "label": "CTA text", "default": "CLAIM YOUR PRIZE" },
+    { "type": "text", "id": "background_image_url", "label": "Background image URL", "default": "https://cdn.shopify.com/s/files/1/0086/7932/5753/files/ChatGPT_Image_8_sie_2025_19_23_39.png?v=1754673838" },
+    { "type": "text", "id": "cta_link", "label": "CTA link", "default": "https://tryscent.co/pages/build-your-bundle-prize" },
+    { "type": "checkbox", "id": "cta_new_tab", "label": "Open CTA in new tab", "default": false }
+  ],
+  "enabled_on": {
+    "templates": ["page", "index"]
+  },
+  "presets": [{ "name": "Scratch & Win" }]
+}
+{% endschema %} 

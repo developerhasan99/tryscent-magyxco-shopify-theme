@@ -1,0 +1,50 @@
+<div class="bc-rewards-bars-wrap" style="flex-direction: row;">
+  <div class="bc-progress-wrap">
+    {% assign cart_count = cart.item_count %}
+    {% assign progress_percentage = cart_count | times: 25 | at_most: 100 %}
+    <div class="bc-progress-text" style="color: #000000;">
+      {% if cart_count >= 4 %}
+        🎉 3+1 erbjudande <br> aktiverat!
+      {% else %}
+        Lägg
+        <strong>{{ 4 | minus: cart_count }}</strong>
+        flaskor till och få en
+        <strong>1 gratis</strong>.
+      {% endif %}
+    </div>
+    <div class="bc-progress-bar" style="background-color: #E2E2E2; margin-bottom: 0;">
+      <div class="bc-progress-fill" style="width: {{ progress_percentage }}%; background-color: #93D3FF;"></div>
+      <div class="bc-checkpoints">
+        <div class="bc-checkpoint {% if cart_count >= 4 %}is-reached{% endif %}" style="left: 100%; 
+               background-color: {% if cart_count >= 4 %}#93D3FF{% else %}#E2E2E2{% endif %};
+               color: #000000;">
+          {{ 'icon-perfume.svg' | inline_asset_content }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bc-progress-wrap">
+    {% assign cart_total = cart.total_price %}
+    {% assign progress_percentage = cart_total | times: 100.0 | divided_by: 46503 | at_most: 100 %}
+
+    <div class="bc-progress-text" style="color: #000000;">
+      {% if cart_total >= 46503 %}
+        🎉 Gratis frakt <br> aktiverad!
+      {% else %}
+        Lägg
+        <strong>{{ 46503 | minus: cart_total | money }}</strong>
+        till för gratis frakt.
+      {% endif %}
+    </div>
+    <div class="bc-progress-bar" style="background-color: #E2E2E2; margin-bottom: 0;">
+      <div class="bc-progress-fill" style="width: {{ progress_percentage }}%; background-color: #93D3FF;"></div>
+      <div class="bc-checkpoints">
+        <div class="bc-checkpoint {% if cart_total >= 46503 %}is-reached{% endif %}" style="left: 100%; 
+               background-color: {% if cart_total >= 46503 %}#93D3FF{% else %}#E2E2E2 {% endif %};
+               color: #000000;">
+          {{ 'icon-truck.svg' | inline_asset_content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

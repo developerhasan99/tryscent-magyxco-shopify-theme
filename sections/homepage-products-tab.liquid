@@ -1,0 +1,220 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <h2 class="text-center text-2xl md:text-4xl font-semibold mb-6 mt-0">{{ section.settings.heading }}</h2>
+    <div class="flex justify-center border-0 border-b border-b-gray-100 border-solid [&>.active]:[border-bottom:3px_solid_#22613A]">
+      {% for block in section.blocks %}
+        <button class="bg-transparent text-black border-0 font-semibold text-sm md:text-lg px-4 py-3 cursor-pointer products-tab-btn">
+          {{ block.settings.tab_title }}
+        </button>
+      {% endfor %}
+    </div>
+    {% for block in section.blocks %}
+      <div class="tab-content pt-6 {% unless forloop.first %}[display:none]{% endunless %}">
+        {% assign collection = block.settings.collection %}
+        {% if collection and collection.products.size > 0 %}
+          <ul
+            id="product-grid"
+            data-id="{{ section.id }}"
+            style="display: flex !important;"
+            class="grid product-grid grid--2-col-tablet-down grid--4-col-desktop">
+            {% render 'card-product-bogo' %}
+            {% assign skip_card_product_styles = false %}
+            {%- for product in collection.products limit: 6 -%}
+              {% assign lazy_load = false %}
+              {%- if forloop.index > 2 -%}
+                {%- assign lazy_load = true -%}
+              {%- endif -%}
+              <li
+                class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                {% if settings.animations_reveal_on_scroll %}
+                data-cascade
+                style="--animation-order: {{ forloop.index }};"
+                {% endif %}>
+                {% render 'card-product'
+                  , card_product: product
+                  , media_aspect_ratio: section.settings.image_ratio
+                  , image_shape: section.settings.image_shape
+                  , show_secondary_image: section.settings.show_secondary_image
+                  , show_vendor: section.settings.show_vendor
+                  , show_rating: true
+                  , lazy_load: lazy_load
+                  , skip_styles: skip_card_product_styles
+                  , quick_add: section.settings.quick_add
+                  , section_id: section.id
+                %}
+              </li>
+              {%- assign skip_card_product_styles = true -%}
+            {%- endfor -%}
+            {% render 'quiz-promo-card' %}
+          </ul>
+        {% else %}
+          <p class="text-gray-500">No products found in this collection.</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+    {% comment %} Tabs CTA button {% endcomment %}
+
+    <div class="flex flex-col md:flex-row md:justify-center md:items-center gap-5 mt-14">
+      <img
+        class="w-full rounded-xl md:max-w-[400px] h-auto "
+        src="{{section.settings.explore_image | image_url: width: 450 }}"
+        alt=""
+        loading="lazy"
+        height="{{ section.settings.explore_image.height }}"
+        width="{{ section.settings.explore_image.width }}">
+
+      <div class="flex justify-between items-center md:items-start md:flex-col gap-4">
+        <div>
+          <h3 class="text-base md:text-2xl font-semibold m-0 tracking-tight">{{ section.settings.explore_heading }}</h3>
+          <p class="m-0 text-sm md:text-lg font-medium tracking-tight">{{ section.settings.explore_subheading }}</p>
+        </div>
+        <div>
+          <a
+            href="{{ section.settings.button_link }}"
+            class="no-underline text-white font-semibold px-6 md:px-10 py-3 bg-[#137c44] hover:bg-[#02491c] rounded-full tracking-normal md:tracking-wider text-lg transition-colors uppercase inline-block"
+            aria-label="{{ section.settings.button_text }}">
+            {{ section.settings.button_text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('#{{ section.id }} .products-tab-btn');
+        const tabContents = document.querySelectorAll('#{{ section.id }} .tab-content');
+
+        buttons.forEach((button, index) => {
+            // Add click event listener to each button
+            button.addEventListener('click', (event) => {
+                // Hide all tab contents
+                tabContents.forEach(content => content.style.display = 'none');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                
+                // Show the clicked tab's content
+                button.classList.add('active');
+                tabContents[index].style.display = 'block';
+            });
+        });
+    
+        // Show the first tab content by default
+        if (tabContents.length > 0) {
+            buttons[0].classList.add('active');
+            tabContents[0].style.display = 'block';
+        }
+    });
+</script>
+
+{% schema %}
+  {
+    "name": "Homepage Products Tab",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Selected for you"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View All"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "image_picker",
+        "id": "explore_image",
+        "label": "Explore Image"
+      },
+      {
+        "type": "text",
+        "id": "explore_heading",
+        "label": "Explore Heading",
+        "default": "Explore More"
+      },
+      {
+        "type": "text",
+        "id": "explore_subheading",
+        "label": "Explore Subheading",
+        "default": "Discover our latest collections"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+            "type": "text",
+            "id": "tab_title",
+            "label": "Tab Title"
+          },
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Homepage Products Tab"
+      }
+    ]
+  }
+{% endschema %}

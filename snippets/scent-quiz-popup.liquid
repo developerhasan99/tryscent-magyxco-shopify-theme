@@ -1,0 +1,521 @@
+{% comment %}
+  Scent Match quiz popup.
+  Rendered site-wide from layout/theme.liquid when settings.enable_scent_quiz
+  is true. Everything here is scoped under #scent-quiz-popup-overlay /
+  #scent-quiz-fab (ids, classes and CSS custom properties all prefixed
+  sq-/scent-quiz-) so it cannot leak into or collide with the rest of the
+  theme. Ported from the standalone "Scent Match" quiz build (originally a
+  dedicated page) into an on-page popup with a floating trigger button,
+  optional auto-open, and frequency capping.
+{% endcomment %}
+{%- liquid
+  assign sq_primary = settings.scent_quiz_primary_color
+  assign sq_accent = settings.scent_quiz_accent_color
+  assign sq_bundle_product = settings.scent_quiz_bundle_product | default: all_products['6x-50ml-perfume-bottles']
+  assign sq_bundle_url = sq_bundle_product.url | default: ''
+  assign sq_atc_product = settings.scent_quiz_bundle_product
+  assign sq_atc_variant = sq_atc_product.selected_or_first_available_variant
+  assign sq_collection = settings.scent_quiz_collection
+  assign sq_variant_match = settings.scent_quiz_variant_match | default: '50'
+  assign sq_palette = '#a97b2e|#6e4d17,#b03a5b|#732239,#4a6f8f|#2b4258,#6f8f6a|#455c41,#b0623a|#78401f,#7a5a8f|#4c3560,#4a90a4|#2c5a68,#8a7a5a|#5c5039' | split: ','
+-%}
+
+<script>
+  window.SQ_QUIZ_CONFIG = {
+    bundleUrl: {{ sq_bundle_url | json | replace: '</', '<\/' }},
+    bundleProductVariantId: {{ sq_atc_variant.id | json }},
+    autoOpenDelay: {{ settings.scent_quiz_auto_open_delay | default: 0 }},
+    frequency: {{ settings.scent_quiz_frequency | default: 'once_per_session' | json }},
+    klaviyoEnabled: {{ settings.scent_quiz_klaviyo_enabled | json }},
+    klaviyoPublicKey: {{ settings.scent_quiz_klaviyo_public_key | json | replace: '</', '<\/' }},
+    klaviyoListId: {{ settings.scent_quiz_klaviyo_list_id | json | replace: '</', '<\/' }}
+  };
+</script>
+
+{%- comment -%}
+  Scent deck source: settings.scent_quiz_collection (Theme settings > Scent
+  Quiz > Scents). Required - there is no built-in fallback list. If left
+  blank, or the collection has zero products, the trigger button stays
+  visible as normal, but assets/scent-quiz-popup.js shows a small notice
+  on click instead of opening an empty deck.
+
+  The variant used for each product is whichever one's title contains
+  settings.scent_quiz_variant_match (default "50", e.g. matches "50 ml"),
+  falling back to the product's first available variant.
+
+  Curated copy comes from these product metafields - create them under
+  Settings > Custom data > Products once ready; every one is optional and
+  falls back to a native product field until it's filled in:
+  custom.scent_quiz_emo_en / custom.scent_quiz_emo_sv (single line text)
+  The one-line emotional hook shown under the scent name. Swedish is
+  shown on-site; English is only used if Swedish is blank.
+  custom.scent_quiz_inspired_by (single line text)
+  e.g. "Inspired by Chanel Bleu." - falls back to the product
+  description (stripped, truncated) if left blank.
+  custom.custom_label (single line text, comma-separated)
+  e.g. "Date,Party,Evening" - falls back to the product's own tags
+  (all of them) if left blank.
+  custom.scent_quiz_inspiration_image (file, image)
+  The referenced designer-perfume photo shown as the card's 2nd photo.
+  Omitted (single-photo card) if left blank.
+  The catalog number badge (e.g. "773") is not a metafield either - it's
+  parsed straight out of product.title, taking whatever follows "No." up to
+  the next space (title like "...Silver Mountain Water - No. 773" -> "773").
+  Shows "Doftprofil" if the title has no "No." in it.
+
+  Card gradient colors (accent/accent2) are not a metafield - they're
+  auto-cycled from the sq_palette list below, 8 colors repeating in
+  product order.
+{%- endcomment -%}
+{%- if sq_collection -%}
+  <script>
+    window.SQ_QUIZ_SCENTS = [
+      {%- for product in sq_collection.products -%}
+        {%- liquid
+          assign sq_variant = blank
+          for variant in product.variants
+            if variant.title contains sq_variant_match
+              assign sq_variant = variant
+              break
+            endif
+          endfor
+          assign sq_variant = sq_variant | default: product.selected_or_first_available_variant
+
+          assign sq_no = blank
+          if product.title contains 'No.'
+            assign sq_no = product.title | split: 'No.' | last | strip | split: ' ' | first
+          endif
+          assign sq_desc = product.metafields.custom.inspiration.value.name | default: ''
+          assign sq_emo = product.metafields.custom.scent_quiz_emo | default: ''
+
+          assign sq_tags = product.metafields.custom.custom_label | default: ''
+          assign sq_tags = sq_tags | split: ','
+
+          assign sq_pair_i = forloop.index0 | modulo: 8
+          assign sq_pair = sq_palette[sq_pair_i] | split: '|'
+          assign sq_accent = sq_pair[0]
+          assign sq_accent2 = sq_pair[1]
+
+          assign sq_inspiration_image = product.metafields.custom.inspiration.value.image
+        -%}
+        {
+          name: {{ product.title | json }},
+          no: {{ sq_no | json }},
+          productId: {{ product.id | json }},
+          variantId: {{ sq_variant.id | json }},
+          accent: {{ sq_accent | json }},
+          accent2: {{ sq_accent2 | json }},
+          desc: {{ sq_desc | json }},
+          {%- if sq_emo != blank %}
+          emo: { en: {{ sq_emo | json }}, sv: {{ sq_emo | json }} },
+          {%- endif %}
+          tags: {{ sq_tags | json }},
+          imgs: [{{ product.featured_image | image_url: width: 800 | json }}{% if sq_inspiration_image %}, {{ sq_inspiration_image | image_url: width: 800 | json }}{% endif %}]
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ];
+  </script>
+{%- endif -%}
+
+<style>
+  :root {
+    --sq-primary: {{ sq_primary }};
+    --sq-primary-dark: {{ sq_primary | color_darken: 15 }};
+    --sq-primary-tint: {{ sq_primary | color_lighten: 65 }};
+    --sq-love: {{ sq_accent }};
+    --sq-love-dark: {{ sq_accent | color_darken: 15 }};
+    --sq-love-tint: {{ sq_accent | color_lighten: 42 }};
+  }
+  html.sq-scroll-lock,
+  body.sq-scroll-lock {
+    overflow: hidden;
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="{{ 'scent-quiz-popup.css' | asset_url }}"
+  media="print"
+  onload="this.media='all'">
+<noscript>{{ 'scent-quiz-popup.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% raw %}
+  <div id="scent-quiz-popup-overlay" hidden>
+    <div id="sq-app">
+      <button
+        type="button"
+        id="sq-close"
+        class="sq-close"
+        aria-label="Stäng doftquiz">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.4"
+          stroke-linecap="round"
+          stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+      </button>
+
+      <!-- ============ INTRO ============ -->
+      <section id="sq-intro" class="screen active">
+        <div class="brandbar">
+          <span class="fx">Scent Match</span>
+        </div>
+        <div class="intro-hero">
+          <span class="badge-pill">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z" /></svg>
+            Doftquizet
+          </span>
+          <h1>Hitta din
+            <em>signaturdoft</em><br>på 60 sekunder</h1>
+          <p class="sub">Swipa genom 24 dofter, spara upp till
+            <b>6 favoriter</b>
+            och få ditt
+            <b>personliga doftboard</b>
+            att shoppa från.</p>
+          <div class="social-proof">
+            <b>10 000+ nöjda kunder</b>
+          </div>
+          <div class="intro-preview" id="sq-introPreview"></div>
+          <div class="steps">
+            <div class="step">
+              <span class="num">1</span>
+              <span class="txt">
+                <b>Swipa</b>
+                genom 24 dofter</span>
+            </div>
+            <div class="step">
+              <span class="num">2</span>
+              <span class="txt">
+                <b>Höger</b>
+                för att spara,
+                <b>vänster</b>
+                för att hoppa över</span>
+            </div>
+            <div class="step">
+              <span class="num">3</span>
+              <span class="txt">Få ditt
+                <b>personliga doftboard</b>
+                att shoppa från</span>
+            </div>
+          </div>
+        </div>
+        <div class="intro-cta">
+          <button class="btn-primary" id="sq-startBtn">
+            Börja swipa
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+          <div class="trust">
+            <span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>Upp till 21 % parfymolja</span>
+            <span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>Håller 12+ timmar</span>
+            <span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>Vegansk &amp; cruelty-free</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DECK ============ -->
+      <section id="sq-deck-screen" class="screen">
+        <div class="brandbar">
+          <span class="fx">Scent Match</span>
+        </div>
+        <div class="deck-top">
+          <div class="progress-wrap">
+            <div class="progress-bar" id="sq-progressBar"></div>
+          </div>
+          <span class="count-chip" id="sq-countChip">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z" /></svg>
+            <span id="sq-countNum">0</span>/6 sparade
+          </span>
+        </div>
+        <div class="swipe-hint" id="sq-swipeHint">
+          <span class="sh-skip">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+            <span>Vänster för att
+              <b>hoppa över</b>
+            </span>
+          </span>
+          <span class="sh-save">
+            <span>Höger för att
+              <b>spara</b>
+            </span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </span>
+        </div>
+        <div class="deck" id="sq-deck"></div>
+        <div class="actions">
+          <button
+            class="act undo"
+            id="sq-undoBtn"
+            aria-label="Ångra senaste svepet"
+            disabled>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M9 14 4 9l5-5" /><path d="M4 9h11a6 6 0 0 1 0 12h-3" /></svg>
+            <span class="act-lbl">Ångra</span>
+          </button>
+          <button
+            class="act skip"
+            id="sq-skipBtn"
+            aria-label="Hoppa över doften">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+            <span class="act-lbl">&#8592; Hoppa över</span>
+          </button>
+          <button
+            class="act love"
+            id="sq-loveBtn"
+            aria-label="Spara doften">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z" /></svg>
+            <span class="act-lbl">Spara &#8594;</span>
+          </button>
+        </div>
+        <div class="see-wrap">
+          <button
+            class="see-matches"
+            id="sq-seeMatches"
+            hidden>
+            Visa mina matchningar
+            <b>(<span id="sq-seeCount">0</span>)</b>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </button>
+        </div>
+        <div class="toast" id="sq-toast">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z" /></svg>
+          <span id="sq-toastMsg"></span>
+        </div>
+      </section>
+
+      <!-- ============ RESULTS ============ -->
+      <section id="sq-results" class="screen">
+        <div class="res-head">
+          <span class="kicker">Din doftmatchning</span>
+          <h1 id="sq-resTitle">Ditt doftboard</h1>
+          <p id="sq-resSub">Här är dofterna du älskade. Tryck på en för att shoppa den.</p>
+          <span class="res-save">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4" /><path d="M4 6v12a2 2 0 0 0 2 2h14v-4" /><path d="M18 12a2 2 0 0 0 0 4h4v-4Z" /></svg>Sex 50 ml-flaskor för mindre än en designerparfym</span>
+        </div>
+
+        <div class="board-title">
+          <h2>Dina sparade dofter</h2>
+          <span class="cnt" id="sq-boardCnt"></span>
+        </div>
+        <div class="board" id="sq-board"></div>
+
+        <div class="res-trust">
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>Upp till 21 % parfymolja</span>
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>Håller 12+ timmar</span>
+          <span>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>Vegansk &amp; cruelty-free</span>
+        </div>
+
+        <div class="lead-card" id="sq-leadCard">
+          <div class="lc-top">
+            <div class="gift">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"><rect
+                  x="2"
+                  y="4"
+                  width="20"
+                  height="16"
+                  rx="2" /><path d="m22 7-10 5L2 7" /></svg>
+            </div>
+            <div>
+              <h3>Mejla ditt doftboard till dig själv</h3>
+              <div class="lc-sub">Vi skickar dina sparade dofter så att du kan komma tillbaka till dem när du vill.</div>
+            </div>
+          </div>
+          <form
+            class="lead-form"
+            id="sq-leadForm"
+            novalidate>
+            <input
+              type="email"
+              id="sq-emailInput"
+              inputmode="email"
+              autocomplete="email"
+              placeholder="din@mejl.se"
+              aria-label="E-postadress">
+            <button type="submit" id="sq-leadSubmitBtn">
+              <span id="sq-leadSubmitLabel">Skicka mitt board</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </button>
+            <div class="lead-fine">Ingen spam, bara doftidéer. Avsluta när du vill.</div>
+          </form>
+          <div class="lead-success" id="sq-leadSuccess">
+            <div class="chk">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+            </div>
+            <h3>Skickat! Kolla din inkorg.</h3>
+            <p>Ditt doftboard är på väg.</p>
+          </div>
+        </div>
+
+        <div class="explainer">
+          <h3>Två sätt att shoppa ditt board</h3>
+          <div class="exp-cols">
+            <div class="exp-col">
+              <div class="h">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>Shoppa dem var för sig</div>
+              <p>Tryck på en doft på ditt board för att shoppa den separat.</p>
+            </div>
+            <div class="exp-col">
+              <div class="h">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"><path d="M12 2a5 5 0 0 0-5 5c0 2 1 3 1 5h8c0-2 1-3 1-5a5 5 0 0 0-5-5Z" /><path d="M9 17h6M10 21h4" /></svg>Bygg bundlet med 6 dofter</div>
+              <p>Ta med hela ditt board till bundle-byggaren. Dina val kommer förifyllda.</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-retake" id="sq-retakeBtn">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.3"
+            stroke-linecap="round"
+            stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+          Börja om
+        </button>
+
+        <div class="res-cta-float">
+          <a
+            class="btn-shopall"
+            id="sq-shopAll"
+            href="#"
+            role="button"
+            aria-busy="false">
+            <span class="btn-shopall__spinner loading__spinner hidden" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" class="spinner" viewBox="0 0 66 66">
+                <circle stroke-width="6" cx="33" cy="33" r="30" fill="none" class="path"></circle>
+              </svg>
+            </span>
+            <span class="btn-shopall__label">Bygg mitt bundle med 6 dofter</span>
+          </a>
+          <div class="btn-shopall__error" id="sq-shopAllError" role="alert" hidden></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+{% endraw %}
+
+{% if settings.scent_quiz_show_floating_button %}
+  <button
+    type="button"
+    id="scent-quiz-fab"
+    class="sq-fab sq-fab--{{ settings.scent_quiz_button_position | default: 'bottom_right' }}">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.33-8.24C.9 10.02 1.9 6.5 5.1 5.66c1.98-.52 3.9.37 4.9 1.98C11 6.03 12.92 5.14 14.9 5.66c3.2.84 4.2 4.36 2.43 7.1C18.7 16.65 12 21 12 21z" /></svg>
+    <span>{{ settings.scent_quiz_button_label | default: 'Hitta din doft' }}</span>
+  </button>
+{% endif %}
+
+<script src="{{ 'scent-quiz-popup.js' | asset_url }}" defer="defer"></script>

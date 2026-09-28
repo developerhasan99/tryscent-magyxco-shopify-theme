@@ -1,0 +1,187 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width overflow-hidden">
+    <div class="text-center max-w-screen-md mx-auto">
+      <h2 class="text-3xl font-black tracking-tight leading-snug my-0 mb-3">
+        THE BEST CHOICE FOR FRAGRANCE LOVERS
+      </h2>
+      <img
+        src="{{ 'rating-stars.svg' | asset_url }}"
+        alt="★★★★★"
+        width="90"
+        height="18">
+      <p class="text-lg font-medium text-gray-700 my-0 mt-3">
+        Discover why 10,000+ people worldwide trust TryScent                                     
+        to keep them smelling unforgettable.
+      </p>
+    </div>
+    <div class="cupids-video-slider max-w-full">
+      <div class="swiper-wrapper mt-12">
+        <div class="swiper-slide bg-white border border-solid border-gray-200 rounded-2xl overflow-hidden">
+          <video
+            class="w-full aspect-[9/16] object-cover"
+            controls=""
+            preload="metadata"
+            playsinline=""
+            webkit-playsinline=""
+            poster="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/vid-1_1.png?v=1756439741">
+            <source src="https://cdn.shopify.com/videos/c/o/v/dab0d228f62c433fb114e9598a8a8533.mp4" type="video/mp4">
+          </video>
+          <div class="p-4 text-center">
+            <img
+              src="{{ 'rating-stars.svg' | asset_url }}"
+              alt="★★★★★"
+              width="90"
+              height="18">
+            <h3 class="text-xl font-black tracking-tight leading-snug my-0 mt-2">Confidence Boost in a Bottle</h3>
+            <p class="text-lg font-medium text-gray-700 my-0 mt-2 leading-snug">
+              “Every time I wear TryScent, I get compliments and it lasts longer”
+            </p>
+            <h4 class="text-black font-semibold text-xl mb-0 mt-3">
+              Zoriana H. | 29</h4>
+          </div>
+        </div>
+        <div class="swiper-slide bg-white border border-solid border-gray-200 rounded-2xl overflow-hidden">
+          <video
+            class="w-full aspect-[9/16] object-cover"
+            controls=""
+            preload="metadata"
+            playsinline=""
+            webkit-playsinline=""
+            poster="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/vid-2_1.png?v=1756440062">
+            <source src="https://cdn.shopify.com/videos/c/o/v/caf54270ff754201acaa0098b9c83e3a.mp4" type="video/mp4">
+          </video>
+          <div class="p-4 text-center">
+            <img
+              src="{{ 'rating-stars.svg' | asset_url }}"
+              alt="★★★★★"
+              width="90"
+              height="18">
+            <h3 class="text-xl font-black tracking-tight leading-snug my-0 mt-2">Worth Every Penny</h3>
+            <p class="text-lg font-medium text-gray-700 my-0 mt-2 leading-snug">
+              “I used to spend $150+ on designer colognes. TryScent smells just as good, for a fraction.”
+            </p>
+            <h4 class="text-black font-semibold text-xl mb-0 mt-3">Yana L. | 34</h4>
+          </div>
+        </div>
+        <div class="swiper-slide bg-white border border-solid border-gray-200 rounded-2xl overflow-hidden">
+          <video
+            class="w-full aspect-[9/16] object-cover"
+            controls=""
+            preload="metadata"
+            playsinline=""
+            webkit-playsinline=""
+            poster="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/vid-3_1.png?v=1756440148">
+            <source src="https://cdn.shopify.com/videos/c/o/v/b970244f9eb641e9ad567fd5029737c0.mp4" type="video/mp4">
+          </video>
+          <div class="p-4 text-center">
+            <img
+              src="{{ 'rating-stars.svg' | asset_url }}"
+              alt="★★★★★"
+              width="90"
+              height="18">
+            <h3 class="text-xl font-black tracking-tight leading-snug my-0 mt-2">Smells Like Luxury</h3>
+            <p class="text-lg font-medium text-gray-700 my-0 mt-2 leading-snug">
+              “I wore this to a wedding, and three people asked what I was wearing. Instant win.”
+            </p>
+            <h4 class="text-black font-semibold text-xl mb-0 mt-3">Yedesma R. | 31</h4>
+          </div>
+        </div>
+        <div class="swiper-slide bg-white border border-solid border-gray-200 rounded-2xl overflow-hidden">
+          <video
+            class="w-full aspect-[9/16] object-cover"
+            controls=""
+            preload="metadata"
+            playsinline=""
+            webkit-playsinline=""
+            poster="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/vid-4_1.png?v=1756440627">
+            <source src="https://cdn.shopify.com/videos/c/o/v/71a7b27c04204b9c86ce22eb490f6b4c.mp4" type="video/mp4">
+          </video>
+          <div class="p-4 text-center">
+            <img
+              src="{{ 'rating-stars.svg' | asset_url }}"
+              alt="★★★★★"
+              width="90"
+              height="18">
+            <h3 class="text-xl font-black tracking-tight leading-snug my-0 mt-2">My Go-To Daily Scent</h3>
+            <p class="text-lg font-medium text-gray-700 my-0 mt-2 leading-snug">
+              “Light, fresh, and lasts longer than I expected. TryScent nailed it.”
+            </p>
+            <h4 class="text-black font-semibold text-xl mb-0 mt-3">Yana O. | 25</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.cupids-video-slider', {
+      slidesPerView: 1.5,
+      spaceBetween: 20,
+      breakpoints: {
+        768: {
+          slidesPerView: 4,
+          spaceBetween: 20
+        }
+      }
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Cupid Video Reviews",
+    "settings": [
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 72
+      }, {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#FFFFFF"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Cupid Video Reviews"
+      }
+    ]
+  }
+{% endschema %}

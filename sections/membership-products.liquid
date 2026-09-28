@@ -1,0 +1,352 @@
+{{ 'component-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  assign hf_products = section.settings.collection.products
+  assign hf_limit = section.settings.products_to_show
+-%}
+
+{%- capture hf_vars -%}
+  --hf-max: {{ section.settings.max_width }}px;
+  --hf-bg: {{ section.settings.color_background | default: '#ffffff' }};
+  --hf-fg: {{ section.settings.color_text | default: '#0f172a' }};
+  --hf-muted: {{ section.settings.color_text_muted | default: '#5c5c5c' }};
+  --hf-pad-top: {{ section.settings.padding_top | default: '36' }}px;
+  --hf-pad-bottom: {{ section.settings.padding_bottom | default: '44' }}px;
+{%- endcapture -%}
+
+{%- if hf_products.size > 0 -%}
+  <slider-component class="hf-mlp-products" style="{{ hf_vars }}">
+    <div class="hf-mlp-products__inner">
+      <div class="hf-mlp-products__head">
+        <h2 class="hf-mlp-products__title">{{ section.settings.title | escape }}</h2>
+
+        <div class="slider-buttons hf-mlp-products__nav">
+          <button
+            type="button"
+            class="hf-mlp-products__arrow"
+            name="previous"
+            aria-label="{{ 'general.slider.previous_slide' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M10 2.5L4.5 8l5.5 5.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="hf-mlp-products__arrow"
+            name="next"
+            aria-label="{{ 'general.slider.next_slide' | t }}"
+            aria-controls="Slider-{{ section.id }}"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 2.5L11.5 8 6 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <ul
+        id="Slider-{{ section.id }}"
+        class="hf-mlp-products__grid slider slider--everywhere"
+        role="list"
+        aria-label="{{ 'general.slider.name' | t }}"
+      >
+        {%- for product in hf_products limit: hf_limit -%}
+          {%- assign hf_form_id = 'hf-product-form-' | append: section.id | append: '-' | append: product.id -%}
+          {%- assign hf_variant = product.selected_or_first_available_variant -%}
+
+          <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="hf-mlp-product slider__slide">
+            <a class="hf-mlp-product__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+              {%- if product.featured_media -%}
+                {{
+                  product.featured_media
+                  | image_url: width: 800
+                  | image_tag:
+                    alt: product.title,
+                    loading: 'lazy',
+                    class: 'hf-mlp-product__img',
+                    sizes: '(min-width: 900px) 300px, 45vw',
+                    widths: '300, 480, 800'
+                }}
+              {%- endif -%}
+            </a>
+
+            <h3 class="hf-mlp-product__title">
+              <a href="{{ product.url }}">{{ product.title | escape }}</a>
+            </h3>
+
+            <product-form data-section-id="{{ section.id }}">
+              {%- form 'product', product, id: hf_form_id, class: 'hf-mlp-product__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{ hf_variant.id }}"
+                  class="product-variant-id"
+                  {% if hf_variant.available == false %}
+                    disabled
+                  {% endif %}
+                >
+
+                {%- if product.variants.size > 1 -%}
+                  <select class="hf-mlp-product__variants" aria-label="{{ product.title | escape }}">
+                    {%- for variant in product.variants -%}
+                      <option
+                        value="{{ variant.id }}"
+                        {% if variant.id == hf_variant.id %}selected{% endif %}
+                        {% unless variant.available %}disabled{% endunless %}
+                      >
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    {%- endfor -%}
+                  </select>
+                {%- else -%}
+                  <div class="hf-mlp-product__variants hf-mlp-product__variants--static">
+                    {{- hf_variant.title }} - {{ hf_variant.price | money -}}
+                  </div>
+                {%- endif -%}
+
+                <button
+                  id="{{ hf_form_id }}-submit"
+                  type="submit"
+                  name="add"
+                  class="hf-mlp-product__add"
+                  aria-live="polite"
+                  data-sold-out-message="true"
+                  {% if hf_variant.available == false %}
+                    disabled
+                  {% endif %}
+                >
+                  <span>
+                    {%- if hf_variant.available -%}
+                      {{ section.settings.button_text | escape }}
+                    {%- else -%}
+                      {{ 'products.product.sold_out' | t }}
+                    {%- endif -%}
+                  </span>
+                  <span class="sold-out-message hidden">{{ 'products.product.sold_out' | t }}</span>
+                  <div class="loading__spinner hidden">
+                    {{- 'icon-spinner.svg' | inline_asset_content -}}
+                  </div>
+                </button>
+
+                <p class="product-form__error-message-wrapper" role="alert" hidden>
+                  <span class="product-form__error-message"></span>
+                </p>
+              {%- endform -%}
+            </product-form>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </slider-component>
+
+  <script>
+    document.querySelectorAll('#Slider-{{ section.id }} .hf-mlp-product__variants').forEach(function (select) {
+      if (select.tagName !== 'SELECT') return;
+
+      select.addEventListener('change', function () {
+        var input = select.closest('form').querySelector('.product-variant-id');
+        if (input) input.value = select.value;
+      });
+    });
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Membership Products",
+  "tag": "section",
+  "class": "section--membership-products",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Title", "default": "DE HÄR KOMMER DU ATT ÄLSKA" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 12, "step": 1, "default": 8 },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Lägg till" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max content width", "min": 600, "max": 1200, "step": 20, "default": 880, "unit": "px" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 100, "step": 2, "default": 36, "unit": "px" },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 100, "step": 2, "default": 44, "unit": "px" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_background", "label": "Background", "default": "#ffffff" },
+    { "type": "color", "id": "color_text", "label": "Text", "default": "#0f172a" },
+    { "type": "color", "id": "color_text_muted", "label": "Secondary text", "default": "#5c5c5c" }
+  ],
+  "presets": [
+    {
+      "name": "Membership Products",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+.hf-mlp-products {
+  display: block;
+  background: var(--hf-bg);
+  font-family: Figtree, sans-serif;
+  color: var(--hf-fg);
+}
+
+.hf-mlp-products__inner {
+  max-width: var(--hf-max, 880px);
+  margin: 0 auto;
+  padding: var(--hf-pad-top) 20px var(--hf-pad-bottom);
+  box-sizing: border-box;
+}
+
+.hf-mlp-products__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.hf-mlp-products__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--hf-fg);
+}
+
+.hf-mlp-products__nav {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.hf-mlp-products__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  background: #efefef;
+  font-family: Figtree, sans-serif;
+  color: var(--hf-fg);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.hf-mlp-products__arrow:hover {
+  opacity: 0.7;
+}
+
+.hf-mlp-products__arrow[disabled] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.hf-mlp-products__grid {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hf-mlp-product {
+  flex: 0 0 auto;
+  width: calc(50% - 8px);
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #e3e3e3;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.hf-mlp-product__media {
+  display: block;
+  margin-bottom: 14px;
+}
+
+.hf-mlp-product__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.hf-mlp-product__title {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.hf-mlp-product__title a {
+  color: var(--hf-fg);
+  text-decoration: none;
+}
+
+.hf-mlp-product__variants {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--hf-fg);
+}
+
+.hf-mlp-product__variants--static {
+  line-height: 24px;
+}
+
+.hf-mlp-product__add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 12px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 6px;
+  background: #0f172a;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.hf-mlp-product__add:hover {
+  opacity: 0.85;
+}
+
+.hf-mlp-product__add[disabled] {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.hf-mlp-product__form {
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .hf-mlp-products__title {
+    font-size: 24px;
+  }
+
+  .hf-mlp-product {
+    width: calc(33.333% - 11px);
+  }
+}
+{% endstylesheet %}

@@ -1,0 +1,174 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+          {{ section.settings.title }}
+        </h2>
+        <p class="mt-4 text-gray-600 text-lg">
+          {{ section.settings.subtitle }}
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 items-stretch">
+        <div class="relative bg-white rounded-2xl shadow-xl border border-gray-200 p-8 scale-100 md:scale-105">
+          <span class="absolute -top-4 left-1/2 [transform:translateX(-50%)] bg-black text-white text-sm px-4 py-1 rounded-full">
+            ⭐ Recommended
+          </span>
+          <h3 class="text-2xl font-semibold text-center mb-8 mt-4">
+            TryScent
+          </h3>
+          <ul class="space-y-5 text-gray-700 p-0 m-0">
+            {% for block in section.blocks %}
+              <li class="flex items-start gap-3">
+                <span class="text-green-500 text-xl">✔</span>
+                {{ block.settings.our_stack }}
+              </li>
+            {% endfor %}
+          </ul>
+          <div class="mt-10 text-center">
+            <a href="#atc_scroll_target" class="inline-block bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition no-underline scroll-smooth">
+              Shop TryScent Now
+            </a>
+          </div>
+        </div>
+        <div class="bg-gray-100 rounded-2xl p-8 border border-gray-200">
+          <h3 class="text-2xl font-semibold text-center mb-8">
+            Expensive Luxury Brands
+          </h3>
+          <ul class="space-y-5 text-gray-600 p-0 m-0">
+            {% for block in section.blocks %}
+              <li class="flex items-start gap-3">
+                <span class="text-gray-400 text-xl">✖</span>
+                {{ block.settings.other_brands }}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Magic Compare",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Why TryScent?"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "The smart alternative to overpriced luxury brands."
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "stack",
+        "name": "Stack",
+        "settings": [
+          {
+            "type": "text",
+            "id": "our_stack",
+            "label": "Our Stack"
+          }, {
+            "type": "text",
+            "id": "other_brands",
+            "label": "Other Brands"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Magic Compare",
+        "blocks": [
+          {
+            "type": "stack",
+            "settings": {
+              "our_stack": "Long-lasting durability",
+              "other_brands": "High price due to branding"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "our_stack": "Daily compliments from €10",
+              "other_brands": "Often mass production"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "our_stack": "No animal testing",
+              "other_brands": "Sometimes animal testing"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "our_stack": "You pay for quality – not for marketing",
+              "other_brands": "You pay for the name"
+            }
+          }, {
+            "type": "stack",
+            "settings": {
+              "our_stack": "Handmade in small manufacture",
+              "other_brands": "High marketing markup"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

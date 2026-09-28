@@ -1,0 +1,11 @@
+{%- comment -%}
+  {% render 'subscribfy-price-converted', price: shop.metafields.exison.exison_plan_settings.product_price %}
+{%- endcomment -%}
+{%- assign exm_variant_id = shop.metafields.exison.exison_plan_settings.product_variant_id -%}
+{%- assign exm_variant = all_products['tryscent-vip-membership'].variants | where: 'id', exm_variant_id | first -%}
+
+{%- if exm_variant -%}
+  {{- exm_variant.price | money_without_trailing_zeros -}}
+{%- else -%}
+  {{- price | times: 100 | money_without_trailing_zeros -}}
+{%- endif -%}

@@ -1,0 +1,238 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "denmark"
+  },
+  "parent": "index.json",
+  "sections": {
+    "homepage_hero_GDeBtq": {
+      "settings": {
+        "review_text": "Over 10.000 danskere har allerede fundet deresyndlingsduft.",
+        "title": "Løndagsrea – 30% rabat på hele kurven",
+        "subtitle": "Inspireret af designerdufte. Udendesignerprisen. Du betaler for duften - ikke for mærket, flaskenog reklamerne.",
+        "button_text": "FIND DIN DUFT PÅ 60 SEKUNDER",
+        "secondary_button_text": "Bestseller"
+      },
+      "blocks": {}
+    },
+    "feature_highlights_wfUacV": {
+      "settings": {},
+      "blocks": {
+        "perks_CBpKqp": {
+          "settings": {
+            "perk_content": "Vegansk. Ikke testet på dyr. Fremstillet i EU."
+          }
+        },
+        "perks_Ynh4gw": {
+          "settings": {
+            "perk_title": "Fransk parfumekvalitet"
+          }
+        },
+        "perks_iX4iTY": {
+          "settings": {
+            "perk_title": "Lang holdbarhed"
+          }
+        }
+      }
+    },
+    "rich_text_4ya4cF": {
+      "settings": {},
+      "blocks": {
+        "text_HMARBK": {
+          "settings": {
+            "text": "<p>Stora lyxhus som Creed lägger enorma pengar på glamourösa butiker längs Champs-Élysées, påkostade reklamkampanjer och flaskor som kostar mer än själva innehållet.</p><p>Hos oss betalar du bara för doften.</p><p><strong>Med en duftkoncentration på over 21 % matcher vi nogle af de største luksusmærker på både kvalitet og holdbarhed.</strong></p><p>Våra parfymer sitter kvar hela dagen.</p><p>Skillnaden? <strong>Du betalar inte för deras logga.</strong><br/></p>"
+          }
+        }
+      }
+    },
+    "popular_products_pNDeh4": {
+      "settings": {
+        "description": "<p>»Uden tvivl de bedste duftalternativer, jeg har prøvet. De holder i timevis, når man først har dem på — og jeg er allerede ved at vælge min næste<br/>bestilling.« — Jim Rogers</p>"
+      },
+      "blocks": {}
+    },
+    "review_grid_H3xfHP": {
+      "settings": {},
+      "blocks": {
+        "review_MKcdVw": {
+          "settings": {
+            "content": "<p>Från kundservice till själva produkten var upplevelsen utmärkt. Allt kom som förväntat, “jeg kommer helt sikkert til at handle her igen”</p>"
+          }
+        },
+        "review_kCUEm4": {
+          "settings": {
+            "content": "<p>Produktet var pakket godt ind, kom frem i perfekt stand, og duftkvaliteten var bedre, end jeg havde forventet. Jeg er<br/>virkelig glad for mit køb.</p>"
+          }
+        }
+      }
+    },
+    "image_and_text": {
+      "settings": {},
+      "blocks": {
+        "heading_ax7WWJ": {
+          "settings": {
+            "content": "Vad innebär det att en doft produceres i EU?"
+          }
+        },
+        "text_gzPVkb": {
+          "settings": {
+            "content": "<p>Vi tillverkar alla våra parfymer enligt EU:s strikta kosmetikastandarder. Det betyder att du får et trygt at bruge og behageligt at have på.</p><ul><li><strong>Strikta säkerhetskrav:</strong> Vi använder uteslutande ingredienser i overensstemmelse med IFRA-standarder, vilket garanterar att doften är skonsam och säker att bära.</li><li><strong>Inga billigagenvägar:</strong> Inga billiga utspädningar eller tveksamma kemikalier från gråzoner utanför Europa.</li><li><strong>Certifierade anläggningar:</strong> Varje flaska blandas och fylls i kontrollerade, europeiska laboratorier med full spårbarhet.</li></ul>"
+          }
+        }
+      }
+    },
+    "makes_different_list_YjiDH8": {
+      "settings": {},
+      "blocks": {
+        "list_item_LLAAfL": {
+          "settings": {
+            "title": "Inspireret af ikoniske luksusdufte",
+            "description": "uden de oppustede priser"
+          }
+        }
+      }
+    },
+    "massive_review_section": {
+      "settings": {},
+      "blocks": {
+        "review_DbGYKc": {
+          "settings": {
+            "author": "Sofie"
+          }
+        },
+        "review_GJGq9n": {
+          "settings": {
+            "author": "Freja"
+          }
+        },
+        "review_yEyWP7": {
+          "settings": {
+            "author": "Ida"
+          }
+        },
+        "review_MBb63N": {
+          "settings": {
+            "author": "William"
+          }
+        },
+        "review_ByDgLX": {
+          "settings": {
+            "author": "Alma"
+          }
+        },
+        "review_YpX9h9": {
+          "settings": {
+            "author": "Clara"
+          }
+        },
+        "review_dKt8hn": {
+          "settings": {
+            "author": "Magrethe"
+          }
+        },
+        "review_VrkHXh": {
+          "settings": {
+            "author": "Mette"
+          }
+        },
+        "review_RNkDTG": {
+          "settings": {
+            "author": "Gertrud"
+          }
+        },
+        "review_wczQWw": {
+          "settings": {
+            "author": "Holger"
+          }
+        },
+        "review_gF6wKD": {
+          "settings": {
+            "author": "Noah"
+          }
+        },
+        "review_9fWXGn": {
+          "settings": {
+            "author": "Kirstine N."
+          }
+        },
+        "review_iPjTCz": {
+          "disabled": true,
+          "settings": {
+            "author": "Lærke "
+          }
+        },
+        "review_myTAe8": {
+          "settings": {
+            "author": "Bodil"
+          }
+        },
+        "review_DzktgE": {
+          "settings": {
+            "author": "Rikke"
+          }
+        },
+        "review_NBGz7p": {
+          "settings": {
+            "author": "Thyra"
+          }
+        },
+        "review_hAJXhk": {
+          "disabled": true,
+          "settings": {
+            "author": "Nikolaj "
+          }
+        },
+        "review_UfaJJE": {
+          "disabled": true,
+          "settings": {
+            "author": "Sofie"
+          }
+        },
+        "review_rad8A6": {
+          "settings": {
+            "author": "Esben"
+          }
+        },
+        "review_BLYVmX": {
+          "disabled": true,
+          "settings": {
+            "author": "Vigga"
+          }
+        },
+        "review_eerxBx": {
+          "settings": {
+            "author": "Yrsa "
+          }
+        },
+        "review_UWgaKy": {
+          "settings": {
+            "author": "Tove G"
+          }
+        },
+        "review_pqPKKr": {
+          "settings": {
+            "author": "Søren S."
+          }
+        },
+        "review_YGWg6W": {
+          "settings": {
+            "author": "Asger M"
+          }
+        },
+        "review_Xg6QrF": {
+          "settings": {
+            "author": "Troels"
+          }
+        }
+      }
+    }
+  }
+}

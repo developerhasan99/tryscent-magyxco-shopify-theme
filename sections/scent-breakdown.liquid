@@ -1,0 +1,188 @@
+{% liquid
+  assign sv_marketing_images = shop.metaobjects['marketing_images']['swedish'].images.value
+  assign fi_marketing_images = shop.metaobjects['marketing_images']['finnish'].images.value
+  assign da_marketing_images = shop.metaobjects['marketing_images']['danish'].images.value
+  assign no_marketing_images = shop.metaobjects['marketing_images']['norwegian'].images.value
+
+  assign breakdown_image = blank
+  for item in sv_marketing_images limit: 1
+    assign breakdown_image = item
+  endfor
+  if breakdown_image == blank
+    assign breakdown_image = product.images[1]
+  endif
+%}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="grid md:grid-cols-2 gap-8">
+      <div>
+        {%- if breakdown_image -%}
+          <img
+            id="scent-breakdown-img-{{ section.id }}"
+            class="w-full h-full rounded-lg object-cover"
+            src="{{ breakdown_image | image_url }}"
+            alt="{{ product.title }}"
+            height="{{ breakdown_image.height }}"
+            width="{{ breakdown_image.width }}">
+        {%- endif -%}
+      </div>
+      <div>
+        <div class="bg-[#f0f2ec] px-4 py-6 rounded-lg !mb-4">
+          <h2 class="m-0 mb-3 text-2xl tracking-normal font-semibold text-center">Doftanalys</h2>
+          <div class="[&_p]:last:mb-0 [&_p]:leading-snug [&_p]:tracking-normal text-center">
+            {{ product.metafields.custom.scent_breakdown | metafield_tag }}
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-lg grid grid-cols-3 gap-4 !mb-3">
+          <div>
+            <h3 class="m-0 tracking-normal font-semibold">
+              Toppnoter
+            </h3>
+          </div>
+          <div class="col-span-2">
+            <h4 class="m-0 pb-2 border-0 border-b border-solid border-gray-300">{{ product.metafields.custom.top_notes.value.heading }}</h4>
+            <p class="mb-0 mt-2 tracking-normal text-[#888888] leading-snug text-sm">{{ product.metafields.custom.top_notes.value.description | metafield_text }}</p>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-lg grid grid-cols-3 gap-4 !mb-3">
+          <div>
+            <h3 class="m-0 tracking-normal font-semibold">
+              Mellannoter
+            </h3>
+          </div>
+          <div class="col-span-2">
+            <h4 class="m-0 pb-2 border-0 border-b border-solid border-gray-300">{{ product.metafields.custom.middle_notes.value.heading }}</h4>
+            <p class="mb-0 mt-2 tracking-normal text-[#888888] leading-snug text-sm">{{ product.metafields.custom.middle_notes.value.description | metafield_text }}</p>
+          </div>
+        </div>
+        <div class="bg-white p-4 rounded-lg grid grid-cols-3 gap-4 !mb-0">
+          <div>
+            <h3 class="m-0 tracking-normal font-semibold">
+              Basnoter
+            </h3>
+          </div>
+          <div class="col-span-2">
+            <h4 class="m-0 pb-2 border-0 border-b border-solid border-gray-300">{{ product.metafields.custom.base_notes.value.heading }}</h4>
+            <p class="mb-0 mt-2 tracking-normal text-[#888888] leading-snug text-sm">{{ product.metafields.custom.base_notes.value.description | metafield_text }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    // Scent breakdown image per Weglot language (falls back to "sv")
+    var localImages = {
+      sv: [
+        {% for item in sv_marketing_images limit: 1 %}
+          "{{ item | image_url: width: 1080 }}"
+        {% endfor %}
+      ][0] || null,
+      fi: [
+        {% for item in fi_marketing_images limit: 1 %}
+          "{{ item | image_url: width: 1080 }}"
+        {% endfor %}
+      ][0] || null,
+      da: [
+        {% for item in da_marketing_images limit: 1 %}
+          "{{ item | image_url: width: 1080 }}"
+        {% endfor %}
+      ][0] || null,
+      no: [
+        {% for item in no_marketing_images limit: 1 %}
+          "{{ item | image_url: width: 1080 }}"
+        {% endfor %}
+      ][0] || null
+    };
+
+    function changeLocalImage(newLang) {
+      var src = localImages[newLang] || localImages.sv;
+      if (!src) return;
+
+      var breakdownImageEl = document.getElementById('scent-breakdown-img-{{ section.id }}');
+      if (breakdownImageEl) {
+        breakdownImageEl.src = src;
+      }
+    }
+
+    function initLocalImage() {
+      var currentLang = (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || 'sv';
+      changeLocalImage(currentLang);
+
+      if (window.Weglot && typeof Weglot.on === 'function') {
+        Weglot.on('languageChanged', function (newLang) {
+          changeLocalImage(newLang);
+        });
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLocalImage);
+    } else {
+      initLocalImage();
+    }
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "Scent Breakdown",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Scent Breakdown"
+      }
+    ]
+  }
+{% endschema %}

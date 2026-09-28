@@ -1,0 +1,109 @@
+{%- comment -%}
+  {% render 'membership-discount-tiers',
+     plan_settings: shop.metafields.exison.exison_plan_settings,
+     blocks: section.blocks,
+     title: section.settings.tiers_title,
+     subtitle_prefix: section.settings.tiers_subtitle_prefix %}
+{%- endcomment -%}
+
+{%- liquid
+  assign tier_rules = plan_settings.ds_info.rules
+  assign rule_type = plan_settings.ds_info.discount_rule_type
+  assign tier_blocks = blocks | where: 'type', 'discount_tier'
+
+  assign use_plan = false
+  if plan_settings.ds == '1' and tier_rules != blank
+    assign use_plan = true
+  endif
+
+  assign tier_max = 0
+  if use_plan
+    for rule in tier_rules
+      assign rule_value = rule.ds_value | times: 1.0
+      if rule_value > tier_max
+        assign tier_max = rule_value
+      endif
+    endfor
+  else
+    for tier_block in tier_blocks
+      assign block_value = tier_block.settings.value | times: 1.0
+      if block_value > tier_max
+        assign tier_max = block_value
+      endif
+    endfor
+  endif
+-%}
+
+{%- if use_plan or tier_blocks != blank -%}
+  <div class="hf-mlp__tiers">
+    <div class="hf-mlp__tiers-head">
+      <span class="hf-mlp__tiers-icon" aria-hidden="true">
+        {%- render 'membership-icon', icon: 'tag' -%}
+      </span>
+      <div class="hf-mlp__tiers-heading">
+        <h3 class="hf-mlp__tiers-title">{{ title | default: 'Köp mer, spara mer' | escape }}</h3>
+        {%- if tier_max > 0 -%}
+          <p class="hf-mlp__tiers-sub">
+            {{- subtitle_prefix | default: 'Upp till' | escape }} {{ tier_max | round }} % RABATT
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <dl class="hf-mlp__tier-list">
+      {%- if use_plan -%}
+        {%- for rule in tier_rules -%}
+          {%- liquid
+            assign tier_from = rule.ds_cart_amount | times: 1
+            assign tier_label = ''
+            if rule_type == 'amount'
+              assign tier_money = tier_from | times: 100 | money_without_trailing_zeros
+              capture tier_label
+                echo 'Spend '
+                echo tier_money
+                echo '+'
+              endcapture
+            elsif forloop.last
+              capture tier_label
+                echo 'Buy '
+                echo tier_from
+                echo '+ items'
+              endcapture
+            else
+              assign tier_to = tier_rules[forloop.index].ds_cart_amount | times: 1 | minus: 1
+              if tier_to > tier_from
+                capture tier_label
+                  echo 'Buy '
+                  echo tier_from
+                  echo '–'
+                  echo tier_to
+                  echo ' items'
+                endcapture
+              else
+                capture tier_label
+                  echo 'Buy '
+                  echo tier_from
+                  echo ' item'
+                  if tier_from != 1
+                    echo 's'
+                  endif
+                endcapture
+              endif
+            endif
+          -%}
+          <div class="hf-mlp__tier">
+            <dt class="hf-mlp__tier-label">{{ tier_label }}</dt>
+            <dd class="hf-mlp__tier-value">{{ rule.ds_value | times: 1.0 | round }} % RABATT</dd>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for tier_block in tier_blocks -%}
+          <div class="hf-mlp__tier" {{ tier_block.shopify_attributes }}>
+            <dt class="hf-mlp__tier-label">{{ tier_block.settings.label | escape }}</dt>
+            <dd class="hf-mlp__tier-value">{{ tier_block.settings.value | times: 1.0 | round }} % RABATT</dd>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </dl>
+  </div>
+{%- endif -%}

@@ -1,0 +1,90 @@
+{%- comment -%}
+  Product cards carry the variant behind their printed price (data-variant-id on the card wrapper).
+  The price test app rewrites only the spots on its own selector list, so card prices are synced
+  here from the app's group prices. Visitors outside a test have no group data and nothing changes.
+{%- endcomment -%}
+<style>
+  .price-test-compare-under {
+    display: none !important;
+  }
+</style>
+<script>
+  (() => {
+    if (document.documentElement.dataset.priceTestCardSync) return;
+    document.documentElement.dataset.priceTestCardSync = '1';
+
+    const testPrices = () => {
+      const groups = window.absolutely?.testGroups;
+      const tests = window.absolutelyConfig?.priceTests;
+      if (!groups || !tests) return null;
+      const prices = new Map();
+      for (const test of tests) {
+        const group = (test.groups || []).find(item => item.id === groups[test.id]);
+        for (const variant of group?.variants || []) prices.set(String(variant.variantId), Number(variant.price));
+      }
+      return prices;
+    };
+
+    const asNumber = amount => {
+      const [whole, cents] = amount.toFixed(2).split('.');
+      return `${whole.replace(/\B(?=(\d{3})+(?!\d))/g, '.')},${cents}`;
+    };
+
+    const amountOf = text => {
+      const match = text.replace(/\s/g, '').match(/\d[\d.]*,\d{2}|\d[\d.]*/);
+      return match ? Number(match[0].replace(/\./g, '').replace(',', '.')) : null;
+    };
+
+    // A crossed out price only makes sense above the price. A test price can climb past the
+    // shop's compare at price on a product that is on sale, and then the strike through would
+    // sit under the price; those spots hide it, and show it again as soon as it is above.
+    const guardCompare = () => {
+      for (const block of document.querySelectorAll('#product-price, .card-information')) {
+        const compare = block.querySelector('.compare-price, .line-through, s, del');
+        const current = block.querySelector('.current-price, .ab-current-price');
+        if (!compare || !current) continue;
+        const was = amountOf(compare.textContent);
+        const now = amountOf(current.textContent);
+        if (was === null || now === null) continue;
+        compare.classList.toggle('price-test-compare-under', was <= now);
+      }
+    };
+
+    const sync = () => {
+      guardCompare();
+      const prices = testPrices();
+      if (!prices?.size) return;
+      for (const card of document.querySelectorAll('.product-card-wrapper[data-variant-id]')) {
+        const price = prices.get(card.dataset.variantId);
+        const label = card.querySelector('.ab-current-price');
+        if (!price || !label) continue;
+        const text = label.textContent.replace(/\d[\d.,]*/, asNumber(price));
+        if (label.textContent !== text) label.textContent = text;
+      }
+      guardCompare();
+    };
+
+    let timer;
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(sync, 150);
+    };
+
+    // The app fills its price data after load without an event, and grids add cards on scroll.
+    new MutationObserver(schedule).observe(document.documentElement, { childList: true, subtree: true });
+    sync();
+    window.addEventListener('load', schedule);
+
+    // The price data usually lands a few hundred milliseconds in, before the page has finished
+    // loading and on a collection page often without touching the DOM, so neither hook above
+    // sees it and the cards keep the base price until the load event. Look for it directly
+    // until it is there, then stop.
+    let looks = 0;
+    const lookForPrices = setInterval(() => {
+      looks += 1;
+      const found = Boolean(testPrices()?.size);
+      if (found || looks >= 100) clearInterval(lookForPrices);
+      if (found) sync();
+    }, 200);
+  })();
+</script>

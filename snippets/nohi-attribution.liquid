@@ -1,0 +1,44 @@
+<script>
+  (function () {
+    try {
+      var u = new URL(window.location.href);
+      var p = u.searchParams;
+      if ((p.get("utm_campaign") || "").toLowerCase() === "nohi") return;
+      var s = (p.get("utm_source") || "").toLowerCase();
+      var r = "";
+      if (document.referrer) {
+        try {
+          r = new URL(document.referrer).hostname.toLowerCase();
+        } catch (e) {}
+      }
+      var S = [
+        "chatgpt.com",
+        "openai",
+        "claude",
+        "anthropic",
+        "perplexity",
+        "gemini",
+        "copilot.com",
+      ];
+      var D = [
+        "chatgpt.com",
+        "chat.openai.com",
+        "chat.com",
+        "claude.ai",
+        "perplexity.ai",
+        "gemini.google.com",
+        "copilot.microsoft.com",
+      ];
+      var m = !!(s && S.indexOf(s) > -1);
+      if (!m && r) {
+        m = D.some(function (d) {
+          return r === d || r.endsWith("." + d);
+        });
+      }
+      if (m && !s) {
+        p.set("utm_source", r);
+        window.location.replace(u.toString());
+      }
+    } catch (e) {}
+  })();
+</script>

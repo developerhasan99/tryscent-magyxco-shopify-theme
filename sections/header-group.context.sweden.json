@@ -1,0 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "sweden"
+  },
+  "parent": "header-group.json",
+  "sections": {
+    "offer_timebar_xLgmJd": {
+      "settings": {
+        "top_banner_text": "HANDLA NU",
+        "prepend_text": "30% RABATT",
+        "countdown_date": "2026/10/04",
+        "append_text": "LÖNEDAGSREA",
+        "link": "https://tryscent.co/sv-se/collections/4-2"
+      },
+      "blocks": {}
+    },
+    "header": {
+      "settings": {},
+      "blocks": {
+        "menu_item_JjXgCN": {
+          "disabled": false,
+          "settings": {
+            "label": "Nya dofter",
+            "url": "shopify://collections/new"
+          }
+        }
+      }
+    }
+  }
+}

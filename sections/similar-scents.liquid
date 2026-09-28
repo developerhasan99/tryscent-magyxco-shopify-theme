@@ -1,0 +1,143 @@
+{% if product.metafields.custom.similar_scents != blank %}
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <script defer="" src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script defer src="https://unpkg.com/@popperjs/core@2"></script>
+  <script defer src="https://unpkg.com/tippy.js@6"></script>
+
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div
+    id="{{ section.id }}"
+    class="section-{{ section.id }}-padding"
+    style="background-color: {{ section.settings.background_color }}">
+    <div class="page-width">
+      <h2 class="text-3xl md:text-4xl font-black mt-0 text-center">{{ section.settings.title }}</h2>
+      {% assign similar_scents = product.metafields.custom.similar_scents.value %}
+      <div class="swiper slider-{{ section.id }}">
+        <div class="swiper-wrapper">
+          {% for similar_scent in similar_scents %}
+            <div class="swiper-slide">
+              <div class="flex flex-col md:flex-row gap-4 md:gap-8 items-center">
+                <img
+                  class="object-cover border border-solid border-gray-200 max-w-full aspect-square size-32 md:size-45"
+                  height="180"
+                  width="180"
+                  src="{{ similar_scent.image | image_url: width: 200 }}"
+                  alt="{{ similar_scent.title }}">
+                <div class="text-center md:text-left">
+                  <div class="text-sm md:text-xl font-semibold text-black line-clamp-1">
+                    {{ similar_scent.title }}
+                  </div>
+                  <div class="text-lg my-2">
+                    {{ similar_scent.price.value | money }}
+                  </div>
+                  <div class="inline-block text-xs leading-tight bg-white py-1 px-3 rounded-full mb-2 {% if similar_scent.similarity == 'Ähnliche Noten' %}text-green-600{% else %} text-yellow-600 {% endif %}">
+                    {{ similar_scent.similarity }}
+                  </div>
+                  <p class="my-0 text-sm underline cursor-pointer" data-tippy-content="{{ similar_scent.common_notes }}">Visa gemensamma noter</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <button class="swiper-button-next p-0 !size-8 !right-0 rounded-full border border-solid !border-gray-200 bg-white/60 filter backdrop-blur-sm after:text-black after:!text-sm"></button>
+        <button class="swiper-button-prev p-0 !size-8 !left-0 rounded-full border border-solid !border-gray-200 bg-white/60 filter backdrop-blur-sm after:text-black after:!text-sm"></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new Swiper('.slider-{{ section.id }}', {
+            slidesPerView: 2,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                0: {
+                    slidesPerView: 1.6,
+                    spaceBetween: 20,
+                },
+                768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30,
+                }
+            }
+        });
+
+        tippy('[data-tippy-content]');
+    });
+  </script>
+
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Similar Scents",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Parfymer med liknande doftnoter"
+      },
+      {
+        "type": "text",
+        "id": "subtitle",
+        "label": "Subtitle",
+        "default": "Den intelligenta alternativet till överprissatta lyxmärken."
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "Similar Scents"
+      }
+    ]
+  }
+{% endschema %}

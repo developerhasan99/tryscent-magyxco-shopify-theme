@@ -1,0 +1,524 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "custom_liquid_WEexep": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "/* 5× horizontal padding — desktop. Mobile kept usable. */.ts-container {padding: 0 160px;}",
+        ".ts-hero-title-band {padding: 32px 160px 26px;}",
+        ".ts-bundle {padding: 48px 160px 64px;}",
+        ".ts-pub-header {padding: 14px 160px 16px;}",
+        "@media (max-width: 540px) {.ts-container {padding: 0 32px; } .ts-hero-title-band {padding: 24px 32px 22px; } .ts-bundle {padding: 36px 32px 48px; } .ts-pub-header {padding: 14px 24px 16px; }}"
+      ],
+      "name": "Page content",
+      "settings": {
+        "custom_liquid": "<style>@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');.shopify-section-group-header-group{display:none}.main-page-title,.page-title{display:none}#MainContent{background:#0b0a09;padding:0}#MainContent .shopify-section{background:#0b0a09}body{overflow-x:hidden}.lp55-header{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:12px 22px;background:rgba(11,10,9,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(197,147,69,.28)}.lp55-header .lp55-logo{font-family:'Cormorant Garamond',serif;font-size:21px;letter-spacing:.3em;color:#f5f0e8;text-decoration:none}.lp55-header .lp55-cart{display:inline-flex;align-items:center;gap:8px;color:#e3bd74;background:none;border:1px solid rgba(197,147,69,.5);border-radius:0;padding:9px 16px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;cursor:pointer;min-height:44px;font-family:Inter,Arial,sans-serif}.lp55-header .lp55-cart svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.6}.ts-lp55-first{padding-top:62px}.ts-lp55{--ink:#0b0a09;--ink2:#14110e;--paper:#f5f0e8;--cream:#e9dfd0;--gold:#c59345;--gold2:#e3bd74;--muted:#a79d90;--line:rgba(197,147,69,.24);--max:1180px}.ts-lp55 *{box-sizing:border-box}.ts-lp55{scroll-behavior:smooth}.ts-lp55{margin:0;background:var(--ink);color:var(--paper);font-family:Inter,Arial,sans-serif;font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}.ts-lp55.menu-open{overflow:hidden}.ts-lp55 img{max-width:100%;display:block}.ts-lp55 a{color:inherit;text-decoration:none}.ts-lp55 button{font:inherit}.ts-lp55 .wrap{width:min(var(--max),calc(100% - 40px));margin:auto}.ts-lp55 .eyebrow{margin:0 0 14px;color:var(--gold2);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}.ts-lp55 .serif,.ts-lp55 h1,.ts-lp55 h2,.ts-lp55 h3{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1.08}.ts-lp55 .section{padding:92px 0}.ts-lp55 .section-head{max-width:720px;margin:0 auto 44px;text-align:center}.ts-lp55 .section-head h2{font-size:clamp(37px,5vw,63px);margin:0 0 18px}.ts-lp55 .section-head p{margin:0;color:#c8bfb4;font-size:17px}.ts-lp55 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 28px;border:1px solid var(--gold);background:var(--gold);color:#0c0905;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;transition:.25s}.ts-lp55 .btn:hover{background:var(--gold2);border-color:var(--gold2);transform:translateY(-1px)}.ts-lp55 .btn.outline{background:transparent;color:var(--paper)}.ts-lp55 .nav{position:absolute;z-index:20;top:0;left:0;right:0;border-bottom:1px solid rgba(255,255,255,.12)}.ts-lp55 .nav-inner{height:76px;display:flex;align-items:center;justify-content:space-between}.ts-lp55 .logo{font-size:21px;font-weight:600;letter-spacing:-.03em}.ts-lp55 .logo small{display:block;color:var(--gold2);font-size:7px;letter-spacing:.23em;text-align:center;margin-top:-4px}.ts-lp55 .nav-links{display:flex;gap:28px;align-items:center;font-size:12px;letter-spacing:.12em;text-transform:uppercase}.ts-lp55 .nav-links a{opacity:.84}.ts-lp55 .nav-links a:hover{opacity:1;color:var(--gold2)}.ts-lp55 .menu-btn{display:none;background:none;border:0;color:white;font-size:25px}.ts-lp55 .hero{min-height:760px;position:relative;display:grid;align-items:center;overflow:hidden;background:#080706}.ts-lp55 .hero-bg{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,4,3,.98) 0%,rgba(5,4,3,.9) 37%,rgba(5,4,3,.12) 67%,rgba(5,4,3,.12) 100%),url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_01_flip.jpg?v=1785089607') center/cover no-repeat;filter:saturate(.88)}.ts-lp55 .hero-bg:after{content:\"\";position:absolute;inset:0;background:linear-gradient(0deg,var(--ink) 0%,transparent 22%)}.ts-lp55 .hero-copy{position:relative;z-index:2;max-width:610px;padding-top:70px}.ts-lp55 .hero h1{font-size:clamp(53px,7vw,89px);margin:0 0 22px;letter-spacing:-.025em}.ts-lp55 .hero h1 em{display:block;color:var(--gold2);font-style:normal}.ts-lp55 .hero-sub{max-width:490px;margin:0 0 30px;color:#ddd4ca;font-size:19px}.ts-lp55 .trustline{margin-top:30px;color:#cfc7bd;font-size:13px}.ts-lp55 .stars{color:var(--gold2);letter-spacing:.08em}.ts-lp55 .proofline{display:flex;gap:9px 18px;flex-wrap:wrap;margin-top:10px;color:#aaa096;font-size:11px;text-transform:uppercase;letter-spacing:.1em}.ts-lp55 .proofline span:before{content:\"\";display:inline-block;width:3px;height:3px;border-radius:50%;background:var(--gold);margin:0 8px 3px 0}.ts-lp55 .emotion{background:linear-gradient(135deg,#15110d,#0b0907)}.ts-lp55 .emotion-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.ts-lp55 .emotion-image{position:relative;min-height:520px;background:url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_02.jpg?v=1785087067') center/cover no-repeat}.ts-lp55 .emotion-image:after{content:\"\";position:absolute;inset:0;border:1px solid rgba(227,189,116,.22);transform:translate(14px,14px);pointer-events:none}.ts-lp55 .emotion-copy{max-width:620px}.ts-lp55 .emotion h2{font-size:clamp(40px,5vw,65px);margin:0 0 28px}.ts-lp55 .emotion .lead{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,39px);line-height:1.28;color:#e8dfd4}.ts-lp55 .emotion .lead span{color:var(--gold2)}.ts-lp55 .emotion .body{max-width:650px;margin:26px 0 0;color:#bdb3a7;font-size:17px}.ts-lp55 .emotion .body strong{color:white;font-weight:400}.ts-lp55 .problem{background:var(--paper);color:#17130f}.ts-lp55 .problem .section-head p{color:#685f55}.ts-lp55 .problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#cfc5b7;border:1px solid #cfc5b7}.ts-lp55 .problem-card{background:#f9f5ef;padding:36px 31px}.ts-lp55 .problem-card .num{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:26px}.ts-lp55 .problem-card h3{font-family:Inter,Arial,sans-serif;font-size:14px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;margin:18px 0 14px}.ts-lp55 .problem-card p{margin:0;color:#655c52;font-size:14px}.ts-lp55 .difference{background:#0c0a08}.ts-lp55 .difference-intro{display:grid;grid-template-columns:.85fr 1.15fr;gap:80px;align-items:center;margin-bottom:55px}.ts-lp55 .difference-intro h2{font-size:clamp(42px,5vw,69px);margin:0}.ts-lp55 .difference-intro h2 span{color:var(--gold2)}.ts-lp55 .difference-intro p{color:#b9afa4;margin:0 0 13px}.ts-lp55 .difference-intro .answer{font-family:'Cormorant Garamond',serif;color:white;font-size:29px}.ts-lp55 .feature-grid{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ts-lp55 .feature{padding:30px 22px;border-right:1px solid var(--line)}.ts-lp55 .feature:last-child{border:0}.ts-lp55 .feature-mark{width:24px;height:24px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold2);font-size:12px}.ts-lp55 .feature h3{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:16px 0 9px}.ts-lp55 .feature p{margin:0;color:#978d82;font-size:13px;line-height:1.55}.ts-lp55 .value{background:#17120d}.ts-lp55 .value-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:70px;align-items:center}.ts-lp55 .value-copy h2{font-size:clamp(43px,5vw,67px);margin:0 0 24px}.ts-lp55 .value-copy .quote{font-size:19px;color:#dfd4c8}.ts-lp55 .value-copy .price-story{font-family:'Cormorant Garamond',serif;font-size:28px;line-height:1.35;color:var(--gold2)}.ts-lp55 .comparison{width:100%;border-collapse:collapse;font-size:13px}.ts-lp55 .comparison th,.ts-lp55 .comparison td{padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.09);text-align:left}.ts-lp55 .comparison th{color:var(--gold2);font-size:11px;letter-spacing:.1em;text-transform:uppercase}.ts-lp55 .comparison td:nth-child(n+2),.ts-lp55 .comparison th:nth-child(n+2){text-align:center}.ts-lp55 .comparison td:first-child{color:#b8aea3}.ts-lp55 .comparison tr:last-child td{font-weight:600;color:white}.ts-lp55 .check{color:var(--gold2)}.ts-lp55 .authority{background:var(--paper);color:#17130f}.ts-lp55 .authority-inner{max-width:820px;text-align:center;margin:auto}.ts-lp55 .authority h2{font-size:clamp(43px,5vw,67px);margin:0 0 20px}.ts-lp55 .authority .big{font-family:'Cormorant Garamond',serif;font-size:29px;line-height:1.3;margin:0 0 18px}.ts-lp55 .authority p{color:#6d6359;max-width:660px;margin:0 auto}.ts-lp55 .romance-visual{min-height:650px;position:relative;display:flex;align-items:flex-end;background:linear-gradient(90deg,rgba(5,4,3,.15),rgba(5,4,3,.05) 45%,rgba(5,4,3,.92) 76%,#050403 100%),url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_03.jpg?v=1785087067') center/cover no-repeat}.ts-lp55 .romance-copy{width:min(520px,90%);margin:0 0 72px auto;padding:38px;background:rgba(9,7,5,.76);border-left:1px solid var(--gold);backdrop-filter:blur(7px)}.ts-lp55 .romance-copy h2{font-size:clamp(40px,5vw,63px);margin:0 0 17px}.ts-lp55 .romance-copy p{margin:0;color:#c0b5aa;font-size:17px}.ts-lp55 .romance-copy em{display:block;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:26px;font-style:normal;margin-top:14px}.ts-lp55 .products{background:#0a0807;overflow:hidden}.ts-lp55 .products-intro{max-width:760px;margin:0 auto 42px;text-align:center}.ts-lp55 .products-intro h2{font-size:clamp(45px,6vw,73px);margin:0 0 20px}.ts-lp55 .products-intro .poetic{font-family:'Cormorant Garamond',serif;font-size:28px;line-height:1.4;color:#e6dbcf;margin-bottom:16px}.ts-lp55 .products-intro p{color:#a69c91}.ts-lp55 .slider-controls{display:flex;justify-content:flex-end;gap:8px;margin:0 0 15px}.ts-lp55 .arrow{width:42px;height:42px;border:1px solid #43382c;background:transparent;color:white;cursor:pointer}.ts-lp55 .arrow:hover{border-color:var(--gold);color:var(--gold2)}.ts-lp55 .product-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(280px,31%);gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:8px}.ts-lp55 .product-row::-webkit-scrollbar{display:none}.ts-lp55 .product-card{scroll-snap-align:start;border:1px solid rgba(255,255,255,.1);background:#12100e;min-height:575px;display:flex;flex-direction:column}.ts-lp55 .product-visual{height:245px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 30%,#3e3020 0%,#17120d 36%,#090807 72%)}.ts-lp55 .product-visual:after{content:\"\";position:absolute;left:12%;right:12%;bottom:21px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);box-shadow:0 8px 22px rgba(197,147,69,.55)}.ts-lp55 .bottle{width:92px;height:145px;position:relative;border:1px solid rgba(255,255,255,.3);background:linear-gradient(145deg,rgba(255,255,255,.13),rgba(255,255,255,.02)),linear-gradient(#181512,#050504);box-shadow:0 20px 35px #000;border-radius:3px;display:flex;align-items:center;justify-content:center;z-index:1}.ts-lp55 .bottle:before{content:\"\";position:absolute;top:-35px;width:47px;height:35px;background:#080808;border:1px solid #393633}.ts-lp55 .bottle-label{text-align:center;font-size:11px;letter-spacing:.2em}.ts-lp55 .bottle-label small{display:block;color:var(--gold2);font-size:6px;margin-top:6px}.ts-lp55 .product-body{padding:25px 24px;display:flex;flex-direction:column;flex:1}.ts-lp55 .inspired{color:#8f857a;font-size:10px;letter-spacing:.12em;text-transform:uppercase}.ts-lp55 .product-body h3{font-size:26px;margin:5px 0 9px}.ts-lp55 .notes{color:var(--gold2);font-size:13px;margin-bottom:14px}.ts-lp55 .rating{font-size:12px;margin-bottom:14px}.ts-lp55 .review{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.4;color:#ddd3c8;margin:0 0 9px}.ts-lp55 .reviewer{color:#81776c;font-size:11px;margin-bottom:20px}.ts-lp55 .buy{display:flex;align-items:center;justify-content:space-between;margin-top:auto}.ts-lp55 .price{font-size:19px}.ts-lp55 .add{border:1px solid var(--gold);background:transparent;color:var(--paper);padding:11px 17px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}.ts-lp55 .add:hover{background:var(--gold);color:#0b0906}.ts-lp55 .icons{background:#15110d}.ts-lp55 .icon-lead{max-width:650px;margin:0 auto 42px;text-align:center}.ts-lp55 .icon-lead h2{font-size:clamp(41px,5vw,66px);margin:0 0 14px}.ts-lp55 .icon-lead h2 span{display:block;color:var(--gold2)}.ts-lp55 .icon-lead p{color:#a79d91}.ts-lp55 .icon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.ts-lp55 .icon-card{position:relative;min-height:430px;padding:34px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid var(--line);overflow:hidden;background:linear-gradient(0deg,#080706 0%,transparent 70%),radial-gradient(circle at 50% 20%,#4a3927,#17120e 55%,#090807)}.ts-lp55 .icon-card .bottle{position:absolute;top:92px;left:50%;transform:translateX(-50%);width:105px;height:170px}.ts-lp55 .icon-card h3{font-size:28px;margin:0 0 6px;position:relative}.ts-lp55 .icon-card p{position:relative;color:#a99f94;font-size:13px;margin:0 0 14px}.ts-lp55 .icon-card .buy{position:relative}.ts-lp55 .reviews{background:var(--paper);color:#18130f}.ts-lp55 .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.ts-lp55 .quote-card{padding:32px;border:1px solid #d8cec0;background:#faf7f2}.ts-lp55 .quote-card .stars{font-size:12px}.ts-lp55 .quote-card blockquote{font-family:'Cormorant Garamond',serif;font-size:24px;line-height:1.42;margin:20px 0;color:#25201b}.ts-lp55 .quote-card cite{font-style:normal;font-size:11px;color:#776d63;text-transform:uppercase;letter-spacing:.08em}.ts-lp55 .paying{background:#0b0907}.ts-lp55 .pay-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:start}.ts-lp55 .paying h2{font-size:clamp(41px,5vw,66px);margin:0}.ts-lp55 .pay-copy p{margin:0 0 17px;color:#b4aa9f}.ts-lp55 .not-paying{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);margin:25px 0}.ts-lp55 .not-paying span{padding:13px;border-bottom:1px solid var(--line);font-size:12px;color:#c3b8ab}.ts-lp55 .not-paying span:nth-child(odd){border-right:1px solid var(--line)}.ts-lp55 .pay-copy .final{font-family:'Cormorant Garamond',serif;font-size:28px;color:white}.ts-lp55 .pay-copy .final em{color:var(--gold2);font-style:normal}.ts-lp55 .offer{position:relative;padding:110px 0;text-align:center;background:radial-gradient(circle at 50% 20%,#51371b 0%,#17100a 34%,#080706 75%);overflow:hidden}.ts-lp55 .offer:before,.ts-lp55 .offer:after{content:\"\";position:absolute;border:1px solid rgba(197,147,69,.17);width:440px;height:440px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}.ts-lp55 .offer:after{width:570px;height:570px}.ts-lp55 .offer-inner{position:relative;z-index:1;max-width:750px;margin:auto}.ts-lp55 .offer h2{font-size:clamp(46px,6vw,76px);margin:0 0 18px}.ts-lp55 .offer .intensity{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold2);margin:0 0 12px}.ts-lp55 .offer p{color:#beb3a7;margin:0 auto 28px;max-width:630px}.ts-lp55 .faq{background:var(--paper);color:#18130f}.ts-lp55 .faq-list{max-width:820px;margin:auto;border-top:1px solid #cfc4b5}.ts-lp55 .faq-item{border-bottom:1px solid #cfc4b5}.ts-lp55 .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:22px 0;border:0;background:none;color:#18130f;cursor:pointer;font-family:'Cormorant Garamond',serif;font-size:23px}.ts-lp55 .faq-q span{font-family:Inter,Arial,sans-serif;font-size:21px;color:#9d753a}.ts-lp55 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}.ts-lp55 .faq-a p{margin:0;padding:0 45px 22px 0;color:#6a6056;font-size:14px}.ts-lp55 .faq-item.open .faq-a{max-height:170px}.ts-lp55 .faq-item.open .faq-q span{transform:rotate(45deg)}.ts-lp55 .membership{background:#15110d}.ts-lp55 .member-grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:80px}.ts-lp55 .member-copy h2{font-size:clamp(40px,5vw,63px);margin:0 0 20px}.ts-lp55 .member-copy h2 span{color:var(--gold2)}.ts-lp55 .benefits{list-style:none;padding:0;margin:25px 0}.ts-lp55 .benefits li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,.08);color:#b9afa4;font-size:13px}.ts-lp55 .benefits li:before{content:\"\\2713 \";color:var(--gold2);margin-right:10px}.ts-lp55 .member-price{font-family:'Cormorant Garamond',serif;font-size:44px}.ts-lp55 .member-price small{font-family:Inter,Arial,sans-serif;color:#948a7f;font-size:11px}.ts-lp55 .steps{border:1px solid var(--line)}.ts-lp55 .step{display:grid;grid-template-columns:72px 1fr;gap:15px;padding:30px;border-bottom:1px solid var(--line)}.ts-lp55 .step:last-child{border:0}.ts-lp55 .step-num{font-family:'Cormorant Garamond',serif;font-size:36px;color:var(--gold2)}.ts-lp55 .step h3{font-family:Inter,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:2px 0 8px}.ts-lp55 .step p{margin:0;color:#948a7f;font-size:13px}.ts-lp55 .member-actions{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}.ts-lp55 footer{padding:35px 0;border-top:1px solid rgba(255,255,255,.08);color:#756d64;font-size:11px}.ts-lp55 .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.ts-lp55 .reveal{opacity:0;transform:translateY(22px);transition:.7s ease}.ts-lp55 .reveal.visible{opacity:1;transform:none}@media(max-width:900px){.ts-lp55 .nav-links{display:none}.ts-lp55 .menu-btn{display:block}.ts-lp55 .nav-links.open{display:flex;position:fixed;inset:0;background:#090807;flex-direction:column;justify-content:center;font-size:17px;z-index:30}.ts-lp55 .menu-btn{position:relative;z-index:31}.ts-lp55 .hero{min-height:720px}.ts-lp55 .hero-bg{background-position:46% center;opacity:.68}.ts-lp55 .hero-copy{max-width:540px}.ts-lp55 .emotion-grid,.ts-lp55 .difference-intro,.ts-lp55 .value-grid,.ts-lp55 .pay-grid,.ts-lp55 .member-grid{grid-template-columns:1fr;gap:40px}.ts-lp55 .emotion-image{min-height:460px}.ts-lp55 .problem-grid,.ts-lp55 .review-grid{grid-template-columns:1fr}.ts-lp55 .feature-grid{grid-template-columns:repeat(2,1fr)}.ts-lp55 .feature:nth-child(2n){border-right:0}.ts-lp55 .product-row{grid-auto-columns:minmax(280px,55%)}.ts-lp55 .icon-grid{grid-template-columns:1fr 1fr}.ts-lp55 .icon-card:last-child{grid-column:1/-1}.ts-lp55 .comparison{font-size:11px}.ts-lp55 .romance-visual{min-height:580px;background-position:43% center}.ts-lp55 .romance-copy{margin:0 auto 38px}}@media(max-width:600px){.ts-lp55{font-size:15px}.ts-lp55 .wrap{width:min(100% - 28px,var(--max))}.ts-lp55 .section{padding:68px 0}.ts-lp55 .nav-inner{height:65px}.ts-lp55 .hero{min-height:700px;align-items:end;padding-bottom:70px}.ts-lp55 .hero-bg{background-image:linear-gradient(0deg,rgba(5,4,3,.98) 4%,rgba(5,4,3,.28) 65%,rgba(5,4,3,.25)),url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_01_flip.jpg?v=1785089607');background-position:30% center}.ts-lp55 .hero-copy{padding-top:250px}.ts-lp55 .hero h1{font-size:50px}.ts-lp55 .hero-sub{font-size:16px}.ts-lp55 .proofline{display:none}.ts-lp55 .emotion-image{min-height:380px;background-position:64% center}.ts-lp55 .emotion-image:after{transform:translate(8px,8px)}.ts-lp55 .problem-card{padding:29px 24px}.ts-lp55 .feature-grid{grid-template-columns:1fr}.ts-lp55 .feature{border-right:0;border-bottom:1px solid var(--line)}.ts-lp55 .feature:last-child{border-bottom:0}.ts-lp55 .value-grid{gap:30px}.ts-lp55 .comparison th,.ts-lp55 .comparison td{padding:10px 6px;font-size:10px}.ts-lp55 .comparison th:first-child,.ts-lp55 .comparison td:first-child{width:44%}.ts-lp55 .product-row{grid-auto-columns:88%}.ts-lp55 .product-card{min-height:545px}.ts-lp55 .icon-grid{grid-template-columns:1fr}.ts-lp55 .icon-card:last-child{grid-column:auto}.ts-lp55 .quote-card blockquote{font-size:22px}.ts-lp55 .not-paying{grid-template-columns:1fr}.ts-lp55 .not-paying span:nth-child(odd){border-right:0}.ts-lp55 .step{grid-template-columns:48px 1fr;padding:23px 18px}.ts-lp55 .member-actions .btn{width:100%}.ts-lp55 .romance-visual{min-height:620px;background-image:linear-gradient(0deg,#050403 0%,transparent 63%),url('https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_03.jpg?v=1785087067');background-position:45% center}.ts-lp55 .romance-copy{margin:0 auto 22px;padding:26px;background:rgba(9,7,5,.82)}}@media(max-width:600px){.ts-lp55 .hero{min-height:0;display:block;padding-bottom:20px;align-items:initial}.ts-lp55 .hero-bg{position:relative;inset:auto;height:75vw;opacity:1;\n        background-size:150% auto;background-position:30% top;background-repeat:no-repeat}.ts-lp55 .hero-copy{padding-top:12px}.ts-lp55 .hero h1{font-size:32px;margin-bottom:14px}.ts-lp55 .hero-sub{font-size:13px;margin-bottom:20px}.ts-lp55 .trustline{margin-top:14px;font-size:12px}.ts-lp55 .section{padding:16px 0}.ts-lp55 .section-head{margin-bottom:16px}.ts-lp55 .section-head h2{margin-bottom:10px}.ts-lp55 .emotion-grid,.ts-lp55 .difference-intro,.ts-lp55 .value-grid,.ts-lp55 .pay-grid,.ts-lp55 .member-grid{gap:22px}.ts-lp55 .difference-intro{margin-bottom:16px}.ts-lp55 .products-intro,.ts-lp55 .icon-lead{margin-bottom:16px}.ts-lp55 .slider-controls{margin-bottom:10px}.ts-lp55 .emotion h2{margin-bottom:14px}.ts-lp55 .emotion .body{margin-top:14px}.ts-lp55 .benefits{margin:14px 0}.ts-lp55 .not-paying{margin:16px 0}.ts-lp55 .offer{padding:24px 0}.ts-lp55 .romance-visual{min-height:0;padding:16px 0}.ts-lp55 .romance-copy{margin:56vw auto 0}.ts-lp55 footer{padding:20px 0}.ts-lp55{font-size:13px}.ts-lp55 .section-head h2{font-size:24px}.ts-lp55 .section-head p{font-size:14px}.ts-lp55 .emotion h2{font-size:26px}.ts-lp55 .emotion .lead{font-size:21px}.ts-lp55 .emotion .body{font-size:14px}.ts-lp55 .problem-card{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:center}.ts-lp55 .problem-card .num{font-size:21px}.ts-lp55 .problem-card h3{font-size:12px;margin:0}.ts-lp55 .problem-card p{font-size:12px;grid-column:1/-1;margin:10px 0 0}.ts-lp55 .difference-intro h2{font-size:27px}.ts-lp55 .difference-intro .answer{font-size:23px}.ts-lp55 .feature{display:grid;grid-template-columns:24px 1fr;column-gap:12px;align-items:center;padding:20px 20px}.ts-lp55 .feature h3{font-size:15px;margin:0}.ts-lp55 .feature p{font-size:14px;grid-column:1/-1;margin-top:8px}.ts-lp55 .value-copy h2{font-size:28px}.ts-lp55 .value-copy .quote{font-size:15px}.ts-lp55 .value-copy .price-story{font-size:23px}.ts-lp55 .authority h2{font-size:28px}.ts-lp55 .authority .big{font-size:23px}.ts-lp55 .romance-copy h2{font-size:26px}.ts-lp55 .romance-copy p{font-size:14px}.ts-lp55 .romance-copy em{font-size:21px}.ts-lp55 .products-intro h2{font-size:29px}.ts-lp55 .products-intro .poetic{font-size:23px}.ts-lp55 .product-body h3{font-size:21px}.ts-lp55 .notes{font-size:11px}.ts-lp55 .review{font-size:15px}.ts-lp55 .price{font-size:15px}.ts-lp55 .icon-lead h2{font-size:27px}.ts-lp55 .icon-card{min-height:0;justify-content:flex-start;padding:20px 20px 22px}.ts-lp55 .icon-card .bottle{position:static;transform:none;margin:44px auto 24px}.ts-lp55 .icon-card h3{font-size:23px}.ts-lp55 .icon-card p{font-size:13px;margin-bottom:0}.ts-lp55 .icon-card .buy{margin-top:14px}.ts-lp55 .quote-card blockquote{font-size:18px}.ts-lp55 .paying h2{font-size:27px}.ts-lp55 .pay-copy .final{font-size:23px}.ts-lp55 .offer h2{font-size:30px}.ts-lp55 .offer .intensity{font-size:23px}.ts-lp55 .faq-q{font-size:19px}.ts-lp55 .faq-a p{font-size:12px}.ts-lp55 .member-copy h2{font-size:26px}.ts-lp55 .member-price{font-size:35px}.ts-lp55 .btn{width:100%}.ts-lp55 .member-actions .btn{width:100%}}.ts-lp55 img{height:auto}.ts-lp55 div:empty{display:block}.ts-lp55 .section+.section{margin-top:0}.ts-lp55{width:100vw;margin-left:calc(50% - 50vw)}.ts-lp55 h1,.ts-lp55 h2,.ts-lp55 h3,.ts-lp55 h4,.ts-lp55 h5{color:inherit}.ts-lp55 .member-copy h2 span{display:block;margin-top:8px}.ts-lp55 .hero-bg{background-position:70% center}.ts-lp55 .comparison th,.ts-lp55 .comparison td{color:inherit}.ts-lp55 .reveal{opacity:1;transform:none;transition:none}.ts-lp55 .btn{color:#0c0905;background:#c59345;border:1px solid #c59345;font-family:Inter,Arial,sans-serif;cursor:pointer;-webkit-appearance:none;appearance:none;min-width:0;box-shadow:none}.ts-lp55 .btn.outline{background:transparent;color:#f5f0e8}.ts-lp55 .add{color:#f5f0e8;background:transparent;border:1px solid #c59345;cursor:pointer;-webkit-appearance:none;appearance:none;font-family:Inter,Arial,sans-serif}.ts-lp55 .add:hover{background:#c59345;color:#0b0906}.ts-lp55 .faq-q{-webkit-appearance:none;appearance:none;background:none}.ts-lp55 .product-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.ts-lp55 .product-visual:after{z-index:1}.ts-lp55 .icon-card{min-height:0;justify-content:flex-start;padding:0 0 24px;background:#0d0b09}.ts-lp55 .icon-card .icon-img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;border-bottom:1px solid rgba(197,147,69,.24)}.ts-lp55 .icon-card h3{padding:18px 24px 0;margin:0 0 6px}.ts-lp55 .icon-card p{padding:0 24px}.ts-lp55 .icon-card .buy{padding:0 24px}.ts-lp55 .icons-note{max-width:650px;margin:34px auto 0;text-align:center;color:#a79d91;font-size:14px}.ts-lp55 .optin-form{display:flex;gap:10px;margin-top:22px}.ts-lp55 .optin-form input{flex:1;min-height:52px;border:1px solid #3a3128;background:#080706;color:#fff;padding:0 16px;font-size:15px;font-family:Inter,Arial,sans-serif}.ts-lp55 .lp55-optin-ok{margin-top:14px;color:#e3bd74;font-weight:600}@media(max-width:600px){.ts-lp55 .optin-form{flex-direction:column}.ts-lp55-first{padding-top:56px}.ts-lp55 .icon-card h3{padding:14px 18px 0}.ts-lp55 .icon-card p{padding:0 18px}.ts-lp55 .icon-card .buy{padding:0 18px}.ts-lp55 .icons-note{margin:16px auto 0}}</style><div class=\"lp55-header\"><a class=\"lp55-logo\" href=\"/\">TRYSCENT</a><button type=\"button\" class=\"lp55-cart\" aria-label=\"Varukorg\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 7h12l-1.2 12H7.2L6 7zm3 0a3 3 0 0 1 6 0\"></path></svg>Varukorg</button></div><div class=\"ts-lp55 ts-lp55-first\"><section class=\"hero\"><div class=\"hero-bg\"></div><div class=\"wrap\"><div class=\"hero-copy\"><h1>Den r&#228;tta doften <em>f&#229;r gnistan att t&#228;ndas p&#229; nytt.</em></h1><a class=\"btn\" href=\"#fragrances\">Uppt&#228;ck den r&#228;tta</a><div class=\"trustline\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> &#214;ver 10 000 doft&#228;lskare har valt TryScent</div><div class=\"proofline\"><span>Inspirerade av ikoniska lyxparfymer</span><span>L&#229;ngvarig doft</span><span>Tillverkade i Europa</span><span>IFRA-godk&#228;nda</span></div></div></div></section><section class=\"section emotion\"><div class=\"wrap emotion-grid\"><div class=\"emotion-image\" role=\"img\" aria-label=\"Elegant kvinna applicerar parfym\"></div><div class=\"emotion-copy\"><p class=\"eyebrow\">Den sista detaljen</p><h2>De flesta parfymer luktar underbart.</h2><div class=\"lead\">Ett f&#229;tal f&#229;r dig att k&#228;nna dig <span>oemotst&#229;ndlig p&#229; nytt.</span><br>Vi vet exakt vilka de &#228;r.</div><p class=\"body\">Eftersom samma parfymer g&#229;ng p&#229; g&#229;ng n&#228;mns av kunder som ville k&#228;nna precis som du. R&#228;tt parfym &#228;r inte bara &#228;nnu en sk&#246;nhetsprodukt. Den &#228;r den sista detaljen som ful&#228;ndar din look och <strong>p&#229;minner dig om hur det k&#228;nns att bli sedd igen.</strong></p></div></div></section><section class=\"section problem\"><div class=\"wrap\"><div class=\"section-head\"><p class=\"eyebrow\">Varf&#246;r vissa dofter g&#246;r st&#246;rre intryck</p><h2>Varf&#246;r f&#229;r vissa dofter komplimanger...</h2><p>...medan andra dunstar av innan du ens har hunnit ut genom d&#246;rren?</p></div><div class=\"problem-grid\"><article class=\"problem-card\"><div class=\"num\">01</div><h3>F&#246;r lite parfymolja</h3><p>Tunnare formuleringar kan inneh&#229;lla s&#229; lite som 5&#8211;15% doftkoncentration. Det kan inneb&#228;ra svagare spridning och en doft som f&#246;rsvinner innan kv&#228;llen ens har b&#246;rjat.</p></article><article class=\"problem-card\"><div class=\"num\">02</div><h3>F&#246;r mycket parfymolja</h3><p>Vissa intensiva parfymer kan inneh&#229;lla 40% doftkoncentration eller mer. Utan r&#228;tt balans kan doften k&#228;nnas tung och &#246;verv&#228;ldigande i st&#228;llet f&#246;r behaglig och inbjudande.</p></article><article class=\"problem-card\"><div class=\"num\">03</div><h3>Billigare ingredienser</h3><p>Ingredienser av l&#229;g kvalitet eller som huden inte tolererar v&#228;l kan orsaka irritation, rodnad och utslag och ge vissa m&#228;nniskor huvudv&#228;rk.</p></article></div></div></section><section class=\"section difference\" id=\"difference\"><div class=\"wrap\"><div class=\"difference-intro\"><div><p class=\"eyebrow\">Vad som skiljer TryScent fr&#229;n m&#228;ngden</p><h2>Parfymer skapade f&#246;r att <span>v&#228;cka nyfikenhet.</span></h2></div><div><p>TryScents dofter &#228;r skapade av samma parfymexperter som ligger bakom n&#229;gra av v&#228;rldens mest v&#228;lk&#228;nda parfymer.</p><p>Samma kvalitet och h&#229;llbarhet som du f&#246;rv&#228;ntar dig av de stora varum&#228;rkena?</p><div class=\"answer\">Det har vi.</div></div></div><p class=\"eyebrow\" style=\"margin-bottom:18px\">Premium, b&#229;de p&#229; insidan och utsidan</p><div class=\"feature-grid\"><div class=\"feature\"><div class=\"feature-mark\">21</div><h3>21%+ parfymolja</h3><p>&#196;kta parfymstyrka f&#246;r en m&#228;rkbar doft med l&#229;ngvarig effekt.</p></div><div class=\"feature\"><div class=\"feature-mark\">EU</div><h3>Tillverkade i Europa</h3><p>Framst&#228;llda enligt h&#246;ga europeiska kvalitetsstandarder.</p></div><div class=\"feature\"><div class=\"feature-mark\">&#10003;</div><h3>IFRA:s riktlinjer</h3><p>Uppfyller v&#228;rldens ledande s&#228;kerhetsstandarder f&#246;r parfymer.</p></div><div class=\"feature\"><div class=\"feature-mark\">0</div><h3>Clean Label</h3><p>Inga ftalater eller parabener. (Kommer du ih&#229;g: rodnad, irritation, huvudv&#228;rk?) Fullst&#228;ndigt transparenta ingredienslistor som &#228;r sn&#228;llare mot huden.</p></div><div class=\"feature\"><div class=\"feature-mark\">V</div><h3>Veganska och cruelty-free</h3><p>Tillverkade utan ingredienser fr&#229;n djur och utan djurf&#246;rs&#246;k.</p></div></div></div></section></div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_yeNUkf": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "/* 5× horizontal padding — desktop. Mobile kept usable. */.ts-container {padding: 0 160px;}",
+        ".ts-hero-title-band {padding: 32px 160px 26px;}",
+        ".ts-bundle {padding: 48px 160px 64px;}",
+        ".ts-pub-header {padding: 14px 160px 16px;}",
+        "@media (max-width: 540px) {.ts-container {padding: 0 32px; } .ts-hero-title-band {padding: 24px 32px 22px; } .ts-bundle {padding: 36px 32px 48px; } .ts-pub-header {padding: 14px 24px 16px; }}"
+      ],
+      "name": "Page content",
+      "settings": {
+        "custom_liquid": "<div class=\"ts-lp55\"><section class=\"section value\"><div class=\"wrap value-grid\"><div class=\"value-copy\"><p class=\"eyebrow\">Dofta exklusivt. Betala mindre.</p><h2>Lyx handlar inte om priset.</h2><p class=\"quote\">Det handlar om hur den f&#229;r dig att k&#228;nna.</p><p class=\"price-story\">De kommer att tro att du betalade &#246;ver 2 000 kr.<br>Bara du vet att du kom undan betydligt billigare.</p></div><div><table class=\"comparison\"><thead><tr><th>Det du betalar f&#246;r</th><th>Lyxparfym</th><th>TryScent</th></tr></thead><tbody><tr><td>En premium doftupplevelse</td><td class=\"check\">&#10003;</td><td class=\"check\">&#10003;</td></tr><tr><td>L&#229;ngvarig doft</td><td class=\"check\">&#10003;</td><td class=\"check\">&#10003;</td></tr><tr><td>Designervarum&#228;rke</td><td>Ing&#229;r</td><td>Inget varum&#228;rkesp&#229;slag</td></tr><tr><td>K&#228;ndiskampanjer</td><td>Ing&#229;r</td><td>Inget marknadsf&#246;ringsp&#229;slag</td></tr><tr><td>Lyxig f&#246;rpackning</td><td>Ing&#229;r</td><td>Enkel premiumf&#246;rpackning</td></tr><tr><td>Butiksp&#229;slag</td><td>Ing&#229;r</td><td>Inga mellanh&#228;nder</td></tr><tr><td>Pris</td><td>Upp till 2 000 kr eller mer</td><td>175 kr</td></tr></tbody></table></div></div></section><section class=\"section authority\"><div class=\"wrap authority-inner\"><p class=\"eyebrow\">Valda av kvinnor med samma m&#229;l som du</p><h2>Varf&#246;r chansa n&#228;r tusentals kvinnor redan har hittat det som fungerar?</h2><p class=\"big\">Vi vet vilka dofter som konsekvent ger flest komplimanger och l&#228;mnar de starkaste intrycken.</p><p>Hur? V&#229;ra kunder har ber&#228;ttat det f&#246;r oss. D&#228;rf&#246;r bygger varje rekommendation p&#229; den h&#228;r sidan p&#229; verkliga kundupplevelser. Inte &#229;sikter.</p></div></section><section class=\"romance-visual\"><div class=\"wrap\"><div class=\"romance-copy\"><p class=\"eyebrow\">K&#228;nslan du minns</p><h2>Vissa gnistor f&#246;rtj&#228;nar att t&#228;ndas p&#229; nytt.</h2><p>Blicken tv&#228;rs &#246;ver rummet. S&#228;ttet de drar dig lite n&#228;rmare p&#229;. K&#228;nslan som fick vanliga kv&#228;llar att vara l&#228;ngre &#228;n planerat.</p><em>Den f&#246;rsvann aldrig.</em></div></div></section><section class=\"section products\" id=\"fragrances\"><div class=\"wrap\"><div class=\"products-intro\"><p class=\"eyebrow\">Hitta den r&#228;tta</p><h2>Den som v&#228;cker den d&#228;r blicken igen.</h2><div class=\"poetic\">Den som f&#246;rvandlar en vanlig kv&#228;ll till n&#229;got mer.</div><p>Valda av kvinnor som &#228;r redo att &#229;teruppv&#228;cka romantiken som en g&#229;ng f&#246;rde dem samman och har tagit dem s&#229; h&#228;r l&#229;ngt.</p></div><div class=\"slider-controls\"><button type=\"button\" class=\"arrow lp55-slide\" data-dir=\"-1\" aria-label=\"F&#246;reg&#229;ende\">&#8592;</button><button type=\"button\" class=\"arrow lp55-slide\" data-dir=\"1\" aria-label=\"N&#228;sta\">&#8594;</button></div><div class=\"product-row\" id=\"lp55ProductRow\"><article class=\"product-card\"><div class=\"product-visual\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_04.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"TryScent parfymflaska\"></div><div class=\"product-body\"><h3>Inspirerad av Baccarat Rouge 540</h3><div class=\"notes\">Varm. F&#228;ngslande. Om&#246;jlig att gl&#246;mma.</div><div class=\"rating\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4,9/5</div><p class=\"review\">&#8221;Doften h&#229;ller mycket l&#228;ngre &#228;n jag f&#246;rv&#228;ntade mig. Jag har redan f&#229;tt flera komplimanger n&#228;r jag har anv&#228;nt den.&#8221;</p><div class=\"reviewer\">Alina Maier</div><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"43530902372422\" data-handle=\"saffron-rose-amber-50-ml-1-7-fl-oz\">L&#228;gg i varukorgen</button></div></div></article><article class=\"product-card\"><div class=\"product-visual\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_05.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"TryScent parfymflaska\"></div><div class=\"product-body\"><h3>Inspirerad av YSL Black Opium</h3><div class=\"notes\">Fyllig. Feminin. Magnetisk.</div><div class=\"rating\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4,9/5</div><p class=\"review\">&#8221;Doften &#228;r otroligt kr&#228;mig, pudrig och mycket elegant. Den doftar lyxigt.&#8221;</p><div class=\"reviewer\">Dorota</div><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660163149894\" data-handle=\"magic-perfume-no-132w\">L&#228;gg i varukorgen</button></div></div></article><article class=\"product-card\"><div class=\"product-visual\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_06.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"TryScent parfymflaska\"></div><div class=\"product-body\"><h3>Inspirerad av Carolina Herrera Good Girl</h3><div class=\"notes\">Sj&#228;lvs&#228;ker. Elegant. Naturligt sensuell.</div><div class=\"rating\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4,9/5</div><p class=\"review\">&#8221;Trots det &#246;verkomliga priset kan du fortfarande dofta lyxigt.&#8221;</p><div class=\"reviewer\">Carolina</div><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"45085570105414\" data-handle=\"doftar-som-good-girl-no-183\">L&#228;gg i varukorgen</button></div></div></article><article class=\"product-card\"><div class=\"product-visual\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_07.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"TryScent parfymflaska\"></div><div class=\"product-body\"><h3>Inspirerad av Valentino Donna Born in Roma</h3><div class=\"notes\">Modern. Sofistikerad. Of&#246;rgl&#246;mlig.</div><div class=\"rating\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4,9/5</div><p class=\"review\">&#8221;Doften &#228;r verkligen vacker och stannar kvar p&#229; huden hela dagen.&#8221;</p><div class=\"reviewer\">Lyaba Cheladyn</div><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660163051590\" data-handle=\"magic-perfume-no-469w\">L&#228;gg i varukorgen</button></div></div></article><article class=\"product-card\"><div class=\"product-visual\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_08.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"TryScent parfymflaska\"></div><div class=\"product-body\"><h3>Inspirerad av Tom Ford Lost Cherry</h3><div class=\"notes\">Varm. Lekfull. Oemotst&#229;ndlig.</div><div class=\"rating\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4,9/5</div><p class=\"review\">&#8221;Kvaliteten &#228;r otroligt bra. Dofterna &#228;r underbara och h&#229;ller hela dagen.&#8221;</p><div class=\"reviewer\">Nunna</div><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660163608646\" data-handle=\"magic-perfume-no-438w\">L&#228;gg i varukorgen</button></div></div></article><article class=\"product-card\"><div class=\"product-visual\"><img src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_09.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"TryScent parfymflaska\"></div><div class=\"product-body\"><h3>Inspirerad av YSL Libre</h3><div class=\"notes\">Elegant. Sj&#228;lvs&#228;ker. Fri.</div><div class=\"rating\"><span class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4,9/5</div><p class=\"review\">&#8221;Otroligt fr&#228;sch, elegant och feminin, och f&#246;rv&#229;nansv&#228;rt n&#228;ra exklusiva parfymer.&#8221;</p><div class=\"reviewer\">Lulu</div><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660164034630\" data-handle=\"034w-yves-saint-laurent-libre-ersatz\">L&#228;gg i varukorgen</button></div></div></article></div></div></section></div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_QJELPM": {
+      "type": "custom-liquid",
+      "custom_css": [
+        "/* 5× horizontal padding — desktop. Mobile kept usable. */.ts-container {padding: 0 160px;}",
+        ".ts-hero-title-band {padding: 32px 160px 26px;}",
+        ".ts-bundle {padding: 48px 160px 64px;}",
+        ".ts-pub-header {padding: 14px 160px 16px;}",
+        "@media (max-width: 540px) {.ts-container {padding: 0 32px; } .ts-hero-title-band {padding: 24px 32px 22px; } .ts-bundle {padding: 36px 32px 48px; } .ts-pub-header {padding: 14px 24px 16px; }}"
+      ],
+      "name": "Page content",
+      "settings": {
+        "custom_liquid": "<div class=\"ts-lp55\"><section class=\"section icons\"><div class=\"wrap\"><div class=\"icon-lead\"><p class=\"eyebrow\">Tidl&#246;sa ikoner</p><h2>Vissa dofter f&#246;ljer inte trender.<span>De l&#228;mnar ett tidl&#246;st intryck.</span></h2><p>Dofterna som kvinnor har &#228;lskat i generationer.</p></div><div class=\"icon-grid\"><article class=\"icon-card\"><img class=\"icon-img\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_10.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"Inspirerad av Chanel Coco Mademoiselle\"><h3>Inspirerad av Chanel Coco Mademoiselle</h3><p>Raffinerad. Feminin. Naturligt elegant.</p><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660170260550\" data-handle=\"magic-perfume-no-139w\">L&#228;gg i varukorgen</button></div></article><article class=\"icon-card\"><img class=\"icon-img\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_11.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"Inspirerad av Chanel No. 5\"><h3>Inspirerad av Chanel No. 5</h3><p>Ikonisk. Sofistikerad. Tidl&#246;s.</p><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660162232390\" data-handle=\"magic-perfume-no-077w\">L&#228;gg i varukorgen</button></div></article><article class=\"icon-card\"><img class=\"icon-img\" src=\"https://cdn.shopify.com/s/files/1/0086/7932/5753/files/lp55_img_12.jpg?v=1785087067\" width=\"1080\" height=\"1080\" loading=\"lazy\" alt=\"Inspirerad av Dior J&#8217;adore\"><h3>Inspirerad av Dior J&#8217;adore</h3><p>Str&#229;lande. Elegant. Of&#246;rgl&#246;mlig.</p><div class=\"buy\"><strong class=\"price\">175 kr</strong><button type=\"button\" class=\"add lp55-atc\" data-variant-id=\"44660170063942\" data-handle=\"magic-perfume-no-159w\">L&#228;gg i varukorgen</button></div></article></div><p class=\"icons-note\">Det h&#228;r &#228;r dofterna kvinnor &#229;terv&#228;nder till n&#228;r de vill k&#228;nna sig eleganta, sedda och helt som sig sj&#228;lva.</p></div></section><section class=\"section reviews\" id=\"reviews\"><div class=\"wrap\"><div class=\"section-head\"><p class=\"eyebrow\">Ta inte bara v&#229;rt ord f&#246;r det</p><h2>D&#228;rf&#246;r &#228;lskar kunderna dessa dofter</h2><p>&#9733;&#9733;&#9733;&#9733;&#9733; 4,9/5 &#8212; Kvinnor som s&#246;kte samma k&#228;nsla &#228;lskade dessa dofter.</p></div><div class=\"review-grid\"><article class=\"quote-card\"><div class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote>&#8221;Doften &#228;r otroligt kr&#228;mig, pudrig och mycket elegant. Den doftar lyxigt och ger massor av komplimanger.&#8221;</blockquote><cite>Dorota</cite></article><article class=\"quote-card\"><div class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote>&#8221;Doften h&#229;ller mycket l&#228;ngre &#228;n jag f&#246;rv&#228;ntade mig. Jag har redan f&#229;tt flera komplimanger n&#228;r jag har anv&#228;nt den.&#8221;</blockquote><cite>Alina Maier</cite></article><article class=\"quote-card\"><div class=\"stars\">&#9733;&#9733;&#9733;&#9733;&#9733;</div><blockquote>&#8221;Otroligt fr&#228;sch, elegant och feminin, och f&#246;rv&#229;nansv&#228;rt n&#228;ra exklusiva parfymer.&#8221;</blockquote><cite>Lulu</cite></article></div></div></section><section class=\"section paying\"><div class=\"wrap pay-grid\"><div><p class=\"eyebrow\">Vad du egentligen betalar f&#246;r</p><h2>Du betalar f&#246;r doften.</h2></div><div class=\"pay-copy\"><p>Varje doft fr&#229;n TryScent &#228;r inspirerad av n&#229;gra av v&#228;rldens mest ikoniska lyxparfymer. Skapad av samma parfymexperter som ligger bakom n&#229;gra av v&#228;rldens mest v&#228;lk&#228;nda parfymer.</p><p>Framst&#228;lld med den kvalitet och prestanda som m&#228;nniskor f&#246;rv&#228;ntar sig av en premiumdoft. Skillnaden ligger i vad du slipper betala f&#246;r.</p><div class=\"not-paying\"><span>Designervarum&#228;rket</span><span>K&#228;ndiskampanjerna</span><span>Lyxf&#246;rpackningen</span><span>Butiksp&#229;slagen</span></div><p>Att betala mindre betyder d&#228;rf&#246;r inte att du f&#229;r mindre.</p><div class=\"final\">Du betalar f&#246;r doften.<br><em>Ist&#228;llet f&#246;r loggan p&#229; flaskan.</em></div></div></div></section><section class=\"offer\"><div class=\"wrap offer-inner\"><h2>Gnistan f&#246;rsvann aldrig.</h2><p class=\"intensity\">Ibland r&#228;cker det med tv&#229; &#8221;spray&#8221; f&#246;r att v&#228;cka k&#228;nslan igen.</p><p>Du har sett vad som fungerar. Nu &#228;r det din tur. Best&#228;ll idag s&#229; f&#229;r du en kostnadsfri Mystery Fragrance i full storlek. S&#229; att du kan uppt&#228;cka &#228;nnu en ny favorit.</p><a class=\"btn\" href=\"#fragrances\">Hitta den r&#228;tta</a></div></section><section class=\"section faq\" id=\"faq\"><div class=\"wrap\"><div class=\"section-head\"><p class=\"eyebrow\">Fr&#229;gor och svar</p><h2>Allt du beh&#246;ver veta</h2></div><div class=\"faq-list\"><div class=\"faq-item open\"><button type=\"button\" class=\"faq-q\">Hur l&#228;nge h&#229;ller dofterna?<span>+</span></button><div class=\"faq-a\"><p>V&#229;ra parfymer inneh&#229;ller 21%+ parfymolja och ger den l&#229;ngvariga doft som m&#228;nniskor f&#246;rv&#228;ntar sig av premiumparfymer.</p></div></div><div class=\"faq-item\"><button type=\"button\" class=\"faq-q\">Varf&#246;r &#228;r de s&#229; mycket billigare?<span>+</span></button><div class=\"faq-a\"><p>Du betalar f&#246;r sj&#228;lva doften. Inte f&#246;r designervarum&#228;rket, k&#228;ndiskampanjerna, lyxf&#246;rpackningen eller allt annat som driver upp priset.</p></div></div><div class=\"faq-item\"><button type=\"button\" class=\"faq-q\">&#196;r de s&#228;kra att anv&#228;nda?<span>+</span></button><div class=\"faq-a\"><p>Ja. V&#229;ra dofter &#228;r tillverkade i Europa, IFRA-godk&#228;nda och har en Clean Label-formulering utan ftalater eller parabener. Samtliga ingredienser redovisas &#246;ppet.</p></div></div><div class=\"faq-item\"><button type=\"button\" class=\"faq-q\">Vad h&#228;nder om jag inte tycker om doften?<span>+</span></button><div class=\"faq-a\"><p>Du omfattas av v&#229;r 60 dagars pengarna-tillbaka-garanti, s&#229; att du kan testa den utan att oroa dig.</p></div></div><div class=\"faq-item\"><button type=\"button\" class=\"faq-q\">Vilken doft ska jag v&#228;lja?<span>+</span></button><div class=\"faq-a\"><p>B&#246;rja med rekommendationerna p&#229; den h&#228;r sidan. De bygger p&#229; tusentals kundupplevelser fr&#229;n kvinnor som ville f&#229; fler komplimanger, f&#246;rnya sitt sj&#228;lvf&#246;rtroende och hitta dofter som l&#228;mnar ett best&#229;ende intryck.</p></div></div></div></div></section><section class=\"section membership\" id=\"membership\"><div class=\"wrap member-grid\"><div class=\"member-copy\"><p class=\"eyebrow\">Signature Membership</p><h2>Du b&#228;r inte samma kl&#228;der till varje tillf&#228;lle. <span>Varf&#246;r b&#228;ra samma parfym?</span></h2><ul class=\"benefits\"><li>Personliga doftrekommendationer</li><li>Medlemsexklusiva lanseringar och erbjudanden</li><li>S&#228;songens favoriter utvalda f&#246;r dig</li><li>Exklusiva medlemspriser</li><li>2 flaskor per m&#229;nad</li></ul><div class=\"member-price\">149 kr<small>/m&#229;nad &#183; Begr&#228;nsat antal nya platser varje m&#229;nad</small></div></div><div><div class=\"steps\"><div class=\"step\"><div class=\"step-num\">01</div><div><h3>Anm&#228;l ditt intresse</h3><p>Vi meddelar dig n&#228;r en plats i Signature Membership blir tillg&#228;nglig.</p></div></div><div class=\"step\"><div class=\"step-num\">02</div><div><h3>Om du erbjuds en plats</h3><p>F&#229;r du din f&#246;rsta personliga Signature-rekommendation och en v&#228;lkomstg&#229;va som medlem.</p></div></div></div><div class=\"member-actions\"><a class=\"btn\" href=\"#lp55-optin\">Ans&#246;k till Signature Membership</a></div><div id=\"lp55-optin\"><form class=\"optin-form\" method=\"post\" action=\"/contact#lp55-optin\" accept-charset=\"UTF-8\"><input type=\"hidden\" name=\"form_type\" value=\"customer\"><input type=\"hidden\" name=\"utf8\" value=\"&#10003;\"><input type=\"hidden\" name=\"return_to\" value=\"\" class=\"lp55-return-to\"><input type=\"hidden\" name=\"contact[tags]\" value=\"newsletter,LP55\"><input type=\"email\" name=\"contact[email]\" required autocomplete=\"email\" placeholder=\"Ange din e-post\"><button class=\"btn\" type=\"submit\">Skriv upp dig p&#229; listan</button></form><p class=\"lp55-optin-ok\" hidden>Tack! Du &#228;r p&#229; listan.</p></div></div></div></section>\n\n<script>\n(function(){\n  var SECTIONS='cart-drawer,cart-icon-bubble';\n  function drawerEl(){return document.querySelector('cart-drawer');}\n  function closeDrawer(d){\n    if(typeof d.close==='function'){d.close();}\n    else{d.classList.remove('active');document.body.classList.remove('overflow-hidden');}\n  }\n  function applySections(sec){\n    var d=drawerEl();\n    if(!d)return false;\n    if(typeof d.renderContents==='function'){\n      try{d.renderContents({sections:sec});return true;}catch(err){}\n    }\n    if(!sec||!sec['cart-drawer'])return false;\n    var t=document.createElement('div');t.innerHTML=sec['cart-drawer'];\n    var inner=t.querySelector('cart-drawer');\n    if(!inner)return false;\n    d.innerHTML=inner.innerHTML;\n    d.className=inner.className;\n    var ov=d.querySelector('#CartDrawer-Overlay');\n    if(ov)ov.addEventListener('click',function(){closeDrawer(d);});\n    if(typeof d.open==='function'){d.open();}\n    else{d.classList.add('animate','active');document.body.classList.add('overflow-hidden');}\n    return true;\n  }\n  function fetchAndOpen(){\n    fetch('/?sections='+SECTIONS)\n      .then(function(r){return r.json()})\n      .then(function(sec){if(!applySections(sec))window.location.href='/cart';})\n      .catch(function(){window.location.href='/cart';});\n  }\n  document.addEventListener('click',function(e){\n    var cartBtn=e.target.closest('.lp55-cart');\n    if(cartBtn){e.preventDefault();fetchAndOpen();return;}\n    var arrow=e.target.closest('.lp55-slide');\n    if(arrow){\n      var row=document.getElementById('lp55ProductRow');\n      if(row)row.scrollBy({left:parseInt(arrow.getAttribute('data-dir'),10)*(row.clientWidth*0.72),behavior:'smooth'});\n      return;\n    }\n    var fq=e.target.closest('.faq-q');\n    if(fq){fq.parentElement.classList.toggle('open');return;}\n    var btn=e.target.closest('.lp55-atc');\n    if(!btn)return;\n    e.preventDefault();\n    var vid=btn.getAttribute('data-variant-id');\n    var orig=btn.innerHTML;\n    btn.disabled=true;btn.innerHTML='L&auml;gger till...';\n    fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},\n      body:JSON.stringify({items:[{id:parseInt(vid,10),quantity:1}],sections:SECTIONS,sections_url:window.location.pathname})})\n      .then(function(r){if(!r.ok)throw new Error('add failed');return r.json()})\n      .then(function(data){\n        btn.innerHTML='Tillagd \\u2713';\n        if(!applySections(data&&data.sections))fetchAndOpen();\n        setTimeout(function(){btn.innerHTML=orig;btn.disabled=false;},1500);\n      })\n      .catch(function(){\n        btn.disabled=false;btn.innerHTML=orig;\n        window.location.href='/products/'+btn.getAttribute('data-handle');\n      });\n  });\n  var rt=document.querySelector('.lp55-return-to');\n  if(rt)rt.value=window.location.pathname+'?customer_posted=true#lp55-optin';\n  if(/[?&]customer_posted=true/.test(window.location.search)){\n    var box=document.getElementById('lp55-optin');\n    if(box){\n      var f=box.querySelector('form');if(f)f.hidden=true;\n      var ok=box.querySelector('.lp55-optin-ok');if(ok)ok.hidden=false;\n      box.scrollIntoView({block:'center'});\n    }\n  }\n})();\n</script>\n\n</div>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "custom_liquid_gXRa6j": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "name": "Hide Header/Footer",
+      "settings": {
+        "custom_liquid": "{% comment %}\n  TryScent listicle — page chrome hider.\n\n  Hides the theme's header, footer, and announcement bar on the current page only.\n  Custom Liquid sections only render on pages they're added to, so the CSS\n  scopes itself naturally — other pages are unaffected.\n\n  USAGE:\n  1. Online Store → Themes → Customize → open the page that has the listicle.\n  2. Add section → Custom Liquid\n  3. Drag this section to the TOP of the page (above everything else).\n  4. Paste this entire file into the textarea.\n  5. Save.\n\n  If something on your theme isn't getting hidden, paste its selector into the\n  rule below. To find selectors: right-click the element → Inspect.\n{% endcomment %}\n\n<style>\n  /* OS 2.0 theme groups (Dawn, Sense, Refresh, Studio, Crave, Origin, Trade,\n     Publisher, Colorblock, Taste, Ride, Spotlight, etc.) */\n  .shopify-section-group-header-group,\n  .shopify-section-group-footer-group,\n  .shopify-section-group-announcement-group,\n  .shopify-section-group-aside-group,\n\n  /* Vintage themes + common explicit IDs/classes */\n  #shopify-section-header,\n  #shopify-section-footer,\n  #shopify-section-announcement-bar,\n  .shopify-section-header,\n  .shopify-section-footer,\n  .shopify-section-announcement-bar,\n\n  /* Direct element fallbacks */\n  body > header,\n  body > footer,\n  .site-header,\n  .site-footer,\n  .header-wrapper,\n  .footer-wrapper,\n  .announcement-bar,\n  .announcement,\n\n  /* Newsletter popups & promo banners that float */\n  .promo-bar,\n  .header__promo,\n  .top-bar,\n  .topbar,\n  #topbar,\n  [class*=\"topbar\"],\n  [id*=\"topbar\"],\n  .shopify-section[id*=\"topbar\"],\n\n  /* Sale / countdown / timer banner sections (Lönedagsrea, BFCM, etc.) */\n  [class*=\"countdown\"],\n  [class*=\"timer-bar\"],\n  [class*=\"sale-bar\"],\n  [class*=\"salebar\"],\n  [class*=\"payday\"],\n  [class*=\"lonedag\"],\n  [class*=\"lönedag\"],\n  [id*=\"countdown\"],\n  [id*=\"timer-bar\"],\n  [id*=\"payday\"],\n  [id*=\"salebar\"],\n  .shopify-section[id*=\"countdown\"],\n  .shopify-section[id*=\"timer\"],\n  .shopify-section[id*=\"payday\"],\n  .shopify-section[id*=\"sale-bar\"],\n  .shopify-section[id*=\"promo\"],\n  .shopify-section[id*=\"banner\"]:not([id*=\"hero\"]) {\n    display: none !important;\n    visibility: hidden !important;\n    height: 0 !important;\n    margin: 0 !important;\n    padding: 0 !important;\n    overflow: hidden !important;\n  }\n\n  /* Reset main content offsets so the listicle starts at the very top */\n  body,\n  main,\n  #MainContent,\n  .main-content,\n  .page-width {\n    padding-top: 0 !important;\n    margin-top: 0 !important;\n  }\n\n  /* Remove default body padding some themes set for sticky headers */\n  body {\n    padding-top: 0 !important;\n  }\n</style>",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "massive_review_xhTApH": {
+      "type": "massive-review",
+      "blocks": {
+        "review_JAb9H3": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc8.png",
+            "content": "<p>\"This is my first purchase and I am hooked. I will never purchase perfume from anywhere else again. I could never find a dupe scent that really smelled authentic and consistent.\"</p>",
+            "author": "Killian P.",
+            "date": "1 day ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamot-sage-cedar-50-ml"
+          }
+        },
+        "review_t3JNTL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is the best fragrance I’ve smelt in a very long time the notes drives me insane with happiness. I will keep this in rotation forever.\"</p>",
+            "author": "Jenniffer W.",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_MWJkGN": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc15.png",
+            "content": "<p>\"Huele muy bien, me fascinó\"</p>",
+            "author": "Castillo B.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "tryscent-collection"
+          }
+        },
+        "review_QXJ4Un": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"All three of the scents I received are very good. Last long and smell as they should. I was only unhappy with the time it took to recieve them. But honestly I made a second order, so just expect a wait. Lol!<br/>\"</p>",
+            "author": "Clara P.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "apple-cinnamon-sandalwood"
+          }
+        },
+        "review_r7gDXY": {
+          "type": "review",
+          "disabled": true,
+          "settings": {
+            "review_image": "shopify://shop_images/dupestore_3221df98-e409-4141-82ec-bdbe62af3756.jpg",
+            "content": "<p>\"Been trying to find scents that smell expensive as well as lasted long, to no avail. The fit is exactly what I was looking for..\"</p>",
+            "author": "Tiana N.",
+            "author_image": "shopify://shop_images/ugc15.png",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "fresh-escape-premium"
+          }
+        },
+        "review_FN3hXc": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc1.png",
+            "content": "<p>\"Great brand and great products!\"</p>",
+            "author": "Juliana B",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_U9UXyj": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I wasn’t sure what to expect, but this really impressed me. Smells super fresh and honestly pretty close to Aventus. It lasts well and the price is way better.\"</p>",
+            "author": "Michael T.",
+            "date": "2 days ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_Cx3je3": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"One of my favorite scents. Got to me really fast. Smells so nice.\"</p>",
+            "author": "Alex W.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_pGMWC6": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\" I Loooove these perfumes !!! Every single one I got smells divine. Some I would say better than the original .\"</p>",
+            "author": "Christine N.",
+            "date": "5 days ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_g9ftXn": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"At first I was worried the shipment delayed a bit but once I received them, I'm amazed at the smell, once it settles, my goodness it is just amazing.\"</p>",
+            "author": "Lionel M.",
+            "date": "7 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "4x-100ml-perfume-bottles"
+          }
+        },
+        "review_XLm8tA": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"It smells very nice but not last longer as it supposed to be\"</p>",
+            "author": "Terence M.",
+            "date": "2 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_QzxWN7": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc7.png",
+            "content": "<p>\"Is perfect and the beautiful 🥰🥰🥰\"</p>",
+            "author": "Lidis A.",
+            "date": "2 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "saffron-rose-amber-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_7inGY8": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Idealnie pachnące perfumy, zapachy utrzymują sie bardzo długo, świetna jakość\"</p>",
+            "author": "Kamila G.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_DMLLB7": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Smells just like Luna Rossa Carbon, but way cheaper. Can’t believe how close it is.\"</p>",
+            "author": "Robinson D.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_7DPENV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is the kind of scent that makes you feel put together. Not overpowering, just right. 👌\"</p>",
+            "author": "Michael R.",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "alpha-oil"
+          }
+        },
+        "review_FzpGta": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/ugc3.png",
+            "content": "<p>\"The product came in nicely. The perfume wasnt broken, didnt leak and was in good shape. Scent is perfect and didnt reek bad oder. I love it, high quality\"</p>",
+            "author": "Roxanne S",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "jasmine-cocoa-tonka"
+          }
+        },
+        "review_RbM4wH": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I’ve worn Creed Aventus for years, but this is the closest dupe I’ve found—and at a fraction of the price. The pineapple and vanilla combo is spot on.\"</p>",
+            "author": "Alvarez P.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "pineapple-smoke-vanilla-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_QQcF89": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The product came in nicely. The perfume wasnt broken, didnt leak and was in good shape. Scent is perfect and didnt reek bad oder. I love it, high quality\"</p>",
+            "author": "Anne E.",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_EFY8jM": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Gorgeous fragrance. Long lasting. <br/>Sweet and warm. Good fast delivery. <br/>Will buy again.\"</p>",
+            "author": "Lucy R",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_4zNfT8": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I’m happy with TryScent. The scent smells very similar to the original and lasts well. The packaging is neat and the bottle looks nice. Overall, it’s a great option if you want a quality fragrance for a reasonable price.\"</p>",
+            "author": "Alina M",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": "black-berry-vanilla-musk"
+          }
+        },
+        "review_i3Ah4D": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Their products are of good quality for a very affordable price.\"</p>",
+            "author": "Amanda G",
+            "date": "5 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "amber-glow"
+          }
+        },
+        "review_D8TJwt": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great scents, great products, no issues.\"</p>",
+            "author": "Alex S.",
+            "date": "6 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_c9kmRL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"From service to product, the experience was phenomenal. Happy to buy again anytime.\"</p>",
+            "author": "Benjamin M",
+            "date": "5 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_JmRe87": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great product! Super affordable alternative to the name brand perfumes. The scent lasts a long time and you get a great bang for your buck\"</p>",
+            "author": "EM",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamote-le-labo-bergamote-22"
+          }
+        },
+        "review_AYqk8N": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Oommgg i loveed Wow! Just like the original and it lasts all day!❤️‍🔥❤️‍🔥\"</p>",
+            "author": "شيطانة YT",
+            "date": "4 Months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": "desert-storm"
+          }
+        },
+        "review_nKgPdV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The smell of this perfume is super rich and I love how beautiful the bottle is and its design.. I would really use it again.\"</p>",
+            "author": "Eliannys Y",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "aldehydes-rose-sandalwood-50-ml-1-7-fl-oz"
+          }
+        },
+        "review_nCUWBq": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I like it! Like this scent. Good fragrance\"</p>",
+            "author": "Aleksandra M",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": "alpha-oil"
+          }
+        },
+        "review_mPjPtL": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Great product smells amazing. I always get people asking me questions about my scent and what I use\"</p>",
+            "author": "Damario R",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "azure-dreams-pure"
+          }
+        },
+        "review_9KaYUp": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"After a small delay I finally have my TryScent perfumes and they are spot on! I almost can’t believe how accurate they are to the originals, for reference I got \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\" they are really beautiful fragrances\"</p>",
+            "author": "Gabriella K",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "amalfi-coast-mandarino-di-amalfi-fragrance"
+          }
+        },
+        "review_AktQqw": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Very good brand, I love the packaging and the aroma\"</p>",
+            "author": "Rosa B",
+            "date": "7 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "bergamote-le-labo-bergamote-22"
+          }
+        },
+        "review_hGwbhU": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I'm huge into cologne so I'm a picky guy when it comes to clones, but TryScent completely won me over. I originally ordered the Sauvage clone on the homepage and instantly recognized the scent when spraying. I now own 4 TryScent fragrances total and I love them all. Got 3 more on the way thanks to their bundle deals. If u want something that works on a budget and delivers designer performance I couldn't recommend them more.\"</p>",
+            "author": "Sean P",
+            "date": "4 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "fresh-escape-premium"
+          }
+        },
+        "review_e7kCGV": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Im very happy with the perfume from this brand they have such a beautiful smell like original and cheaper I will definitely get it again\"</p>",
+            "author": "Angel",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "6x-30ml-perfume-bottles"
+          }
+        },
+        "review_V6ah97": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"this summer i got a sampler of Creed aventus as a gift and i really liked it but i couldn't buy of the real thing so i looked for dupes. i found Tryscent and ordered \"Pineapple Smoke Vanilla\" it got to me in abt a week and it smells really good, close to my original sample too very satisfied with the product especially for the price\"</p>",
+            "author": "Hwan H",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "3x-50ml-perfume-bottles"
+          }
+        },
+        "review_PFNbFU": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I tried their 7.5ml sample scents and to my surprise I liked it. Have ordered a 2nd batch but this time I got the larger bottles. I have to say I got my orders on time and they delivered the scents I like!\"</p>",
+            "author": "Lauri E",
+            "date": "8 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": "black-berry-vanilla-musk"
+          }
+        }
+      },
+      "block_order": [
+        "review_JAb9H3",
+        "review_t3JNTL",
+        "review_MWJkGN",
+        "review_QXJ4Un",
+        "review_r7gDXY",
+        "review_FN3hXc",
+        "review_U9UXyj",
+        "review_Cx3je3",
+        "review_pGMWC6",
+        "review_g9ftXn",
+        "review_XLm8tA",
+        "review_QzxWN7",
+        "review_7inGY8",
+        "review_DMLLB7",
+        "review_7DPENV",
+        "review_FzpGta",
+        "review_RbM4wH",
+        "review_QQcF89",
+        "review_EFY8jM",
+        "review_4zNfT8",
+        "review_i3Ah4D",
+        "review_D8TJwt",
+        "review_c9kmRL",
+        "review_JmRe87",
+        "review_AYqk8N",
+        "review_nKgPdV",
+        "review_nCUWBq",
+        "review_mPjPtL",
+        "review_9KaYUp",
+        "review_AktQqw",
+        "review_hGwbhU",
+        "review_e7kCGV",
+        "review_V6ah97",
+        "review_PFNbFU"
+      ],
+      "disabled": true,
+      "settings": {
+        "background_color": "#fcfbf9",
+        "heading": "Join 10,000+ Happy Customers",
+        "review_text": "4.9/5 based on 10,000+ reviews",
+        "button_text": "Show more reviews",
+        "button_link": "#",
+        "padding_top": 60,
+        "padding_bottom": 72
+      }
+    }
+  },
+  "order": [
+    "main",
+    "custom_liquid_WEexep",
+    "custom_liquid_yeNUkf",
+    "custom_liquid_QJELPM",
+    "custom_liquid_gXRa6j",
+    "massive_review_xhTApH"
+  ]
+}

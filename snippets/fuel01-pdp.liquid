@@ -1,0 +1,65 @@
+{% comment %}
+  FUEL_01 doftgarderob module on the single-perfume PDP. Sits between the size
+  buttons and the add to cart button, which is one seam inside
+  snippets/reactive-variant-selector.liquid, so it renders from there rather
+  than from the section's own block loop. The block in the template only
+  carries the settings.
+
+  Gated four ways: only the atc_bundle_builder render site passes section
+  through, only a template whose main section holds a fuel01_pdp block renders
+  anything, bundle products (the metafield check) never show it, and only the
+  Swedish market gets it at all. The copy in the block settings is written in
+  Swedish and is not translated, so on the Danish, Norwegian and Finnish
+  markets the module is not emitted and both arms get the stock page. On top of
+  all that the wrapper ships hidden behind the .fuel01 gate in
+  assets/fuel01-global.css.
+
+  Accepts:
+  - product: {Object} the product being viewed (required)
+  - section: {Object} the hosting section, for the fuel01_pdp block (required;
+    render sites that do not pass it render nothing)
+{% endcomment %}
+
+{%- if section != blank and request.locale.iso_code == 'sv' and product.metafields.custom.choose_your_fragrances_options == blank -%}
+  {%- assign fuel01_pdp_block = section.blocks | where: 'type', 'fuel01_pdp' | first -%}
+  {%- if fuel01_pdp_block -%}
+    {%- liquid
+      comment
+        The collection object's url carries the market's locale prefix, which
+        a hardcoded path would not; the literal stays as the last resort for a
+        store where the collection is missing.
+      endcomment
+      assign module_link = fuel01_pdp_block.settings.link | default: collections['bundle-save'].url | default: '/collections/bundle-save'
+    -%}
+    {%- comment -%}
+      The box around the card is the container its own type scale is read
+      from. Two columns from 750px make the buy box narrower than a
+      phone's, so a window breakpoint hands the widest cards in the range
+      the smallest type; the card's own width does not. The .fuel01 gate
+      moves onto the box, with the same inline fallback for the moment
+      before the stylesheet lands.
+    {%- endcomment -%}
+    <div class="fuel01 fuel01--pdp-box" style="display: none;">
+      <a
+        class="fuel01--pdp"
+        href="{{ module_link }}"
+        style="--fuel01-pdp-shelf: url('{{ 'fuel01-pdp-shelf.jpg' | asset_url }}');"
+        {{ fuel01_pdp_block.shopify_attributes }}>
+        <span class="fuel01-pdp__copy">
+          {%- if fuel01_pdp_block.settings.heading != blank -%}
+            <strong class="fuel01-pdp__heading">{{ fuel01_pdp_block.settings.heading | escape }}</strong>
+          {%- endif -%}
+          {%- if fuel01_pdp_block.settings.subline != blank -%}
+            <span class="fuel01-pdp__subline">{{ fuel01_pdp_block.settings.subline | escape }}</span>
+          {%- endif -%}
+        </span>
+        <span class="fuel01-pdp__cta">
+          <span class="fuel01-pdp__label">{{- fuel01_pdp_block.settings.cta_label | escape -}}</span>
+          <svg class="fuel01-pdp__arrow" width="8" height="7" viewBox="0 0 8 7" fill="none" aria-hidden="true">
+            <path d="M4.4 0.6 7.3 3.5 4.4 6.4 M7.3 3.5 H0.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  {%- endif -%}
+{%- endif -%}

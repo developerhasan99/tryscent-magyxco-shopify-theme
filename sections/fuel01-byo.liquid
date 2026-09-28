@@ -1,0 +1,1504 @@
+{% comment %}
+  FUEL_01 build-your-own bundle page. Mounted on templates/collection.json (the
+  default collection template), so it renders an empty wrapper on every
+  collection and real content only on the one the "Show on collection" setting
+  names (bundle-save unless changed). In the variant arm it takes the page over:
+  a rule in assets/fuel01-byo.css hides the template's other sections whenever
+  this one has content and the testing tool's class is on the html element. In
+  control, and on every other collection, nothing changes.
+
+  Everything ships hidden behind the .fuel01 gate (assets/fuel01-global.css,
+  sitewide) and is revealed by the testing tool's class, or in the theme editor
+  so a strategist can configure the content next to the control sections.
+
+  Picking scents fills an Alpine store with the same shape as the one
+  snippets/bundle-builder.liquid declares on the bundle PDPs. Since Sep 23
+  the sticky bar's button puts the pack in the cart as its own bottles, each
+  at its own price, and adds the pack's discount code (a Buy X get Y code in
+  Discounts), which takes one bottle off, the cheapest when they differ. So
+  the pack price always follows the bottle prices and there is no separate
+  pack price to keep up to date. The bundle product is still read for the
+  bottle size and the pack count; nothing is sold through it any more.
+{% endcomment %}
+
+{%- liquid
+  assign target_handle = section.settings.target_collection.handle | default: 'bundle-save'
+-%}
+{%- comment -%}
+  Every string on this page is written in Swedish and none of it goes through
+  the locale files, so on the store's other markets it would land beside a
+  translated theme. The output is gated on the Swedish locale for that reason:
+  da, nb and fi keep the stock collection page in both arms.
+
+  The locale alone does not hold that line. The Danish, Finnish and Norwegian
+  sites are the Swedish page run through the translation app, so Liquid still
+  renders them in sv, only with the country set to DK, FI or NO. The builder
+  showed there half translated, and its cart calls went to /sv-dk/cart/...,
+  which the app answers with a redirect that drops the order. So the country
+  has to be Sweden as well.
+{%- endcomment -%}
+{%- if request.page_type == 'collection' and collection.handle == target_handle and request.locale.iso_code == 'sv' and localization.country.iso_code == 'SE' -%}
+  {%- liquid
+    assign st = section.settings
+
+    assign bundle_product = st.bundle_product | default: all_products['4x-100ml-perfume-bottles']
+    assign grid_pool = st.grid_collection | default: collections['best-sellers']
+
+    comment
+      Same variant key the builder itself derives on the PDP
+      (snippets/bundle-builder.liquid lines 1-4): the ml metafield plus 'ml',
+      matched against downcased variant titles. The grid only offers scents
+      that carry that variant, because a pick without it could never be added
+      to the builder on the other side.
+    endcomment
+    assign dropdown_ml = bundle_product.metafields.custom.select_bundle_dropdown_ml | default: '50'
+    assign bundle_ml = dropdown_ml | append: 'ml'
+    assign bottle_count = bundle_product.metafields.custom.choose_your_fragrances_options | default: 4
+    assign slot_count = bottle_count | plus: 0
+    assign paid_count = slot_count | minus: 1
+
+    comment
+      The two top summary labels carry a bracket the design keeps whole:
+      "Ord. totalpris (4 × 100 ml):" may break before the bracket and never
+      inside it. Everything from the first " (" onwards is split off here so
+      the markup can hold it in one nowrap span. A label written without a
+      bracket, "Paketrabatt" for one, comes back whole and gains no span, so
+      nothing new can break it.
+    endcomment
+    assign total_label_main = st.total_label
+    assign total_label_note = ''
+    if st.total_label contains ' ('
+      assign total_label_main = st.total_label | split: ' (' | first
+      assign total_label_note = st.total_label | remove_first: total_label_main | strip
+    endif
+    assign discount_label_main = st.discount_label
+    assign discount_label_note = ''
+    if st.discount_label contains ' ('
+      assign discount_label_main = st.discount_label | split: ' (' | first
+      assign discount_label_note = st.discount_label | remove_first: discount_label_main | strip
+    endif
+
+    assign ribbon = st.ribbon_text
+    if ribbon == blank and paid_count > 0
+      assign ribbon = 'Köp ' | append: paid_count | append: ', få 1 gratis'
+    endif
+
+    comment
+      One eligibility pass over the pool: which products carry the bundle_ml
+      variant in stock, and which brand and gender values exist for the filter
+      selects. In stock, because the pack now goes into the cart as those
+      bottles and a sold-out one would stop the whole pack at the cart. The
+      card loop and the store loop below re-check membership against the
+      handle list so all three can never disagree.
+    endcomment
+    assign eligible_handles = ''
+    assign brand_acc = ''
+    assign gender_acc = ''
+    assign unit_default = 0
+    for p in grid_pool.products
+      assign has_ml = false
+      for v in p.variants
+        assign vt = v.title | downcase | replace: ' ml', 'ml'
+        if vt == bundle_ml and v.available
+          assign has_ml = true
+          if unit_default == 0
+            assign unit_default = v.price
+          endif
+          break
+        endif
+      endfor
+      unless has_ml
+        continue
+      endunless
+      assign eligible_handles = eligible_handles | append: '|' | append: p.handle | append: '|'
+      assign b = p.metafields.custom.brand.value | join: '||'
+      if b != blank
+        assign brand_acc = brand_acc | append: b | append: '||'
+      endif
+      assign g = p.metafields.custom.gender.value | join: '||'
+      if g != blank
+        assign gender_acc = gender_acc | append: g | append: '||'
+      endif
+    endfor
+    assign brand_options = brand_acc | split: '||' | uniq | sort_natural
+    assign gender_options = gender_acc | split: '||' | uniq | sort_natural
+    assign eligible_count = eligible_handles | split: '||' | size
+
+    comment
+      The summary's three numbers. The ordinary total is the pack's scents
+      bought one by one at the bundle size, the discount is one scent, and
+      your price is the difference (review, Sep 2: "four times that minus one
+      times that", one perfume free). Since Sep 23 that is also what checkout
+      charges, because the bottles go into the cart at their own prices and the
+      pack's discount code takes one off. With picks at different prices the
+      free one is the cheapest, which is how Shopify's Buy X get Y discounts
+      pick it, so the page takes the cheapest pick off too (freeCents in
+      fuel01Byo). Neither reads a compare-at price: the first cut showed the
+      bundle product's own compare-at (1.449 kr against 790) and was called
+      out in review as a number nobody could trace. The page repaints the
+      numbers from the actual picks (ordTotal in fuel01Byo).
+      Nothing is pre-filled: the box starts at 0 kr and climbs one scent at a
+      time, and the ordinary total, the discount and the saving only appear
+      once the pack is full, because that is when the free bottle applies.
+      The Liquid values below are the full-pack figures for the rows that
+      start hidden.
+    endcomment
+    assign ordinary_price = unit_default | times: slot_count
+    assign saving = unit_default
+
+    comment
+      The sticky bar paints the two numbers green and the rest of the counter
+      plain, so the setting is split around its placeholders rather than having
+      the literal '[selected] / [total]' stripped out of it. The sentinels keep
+      every part non-empty when a placeholder sits at the very start or end, so
+      the split always returns the same three pieces. Anything the split cannot
+      read falls back to the whole substituted string.
+    endcomment
+    assign counter_marked = 'S0S' | append: st.counter_text | append: 'E0E'
+    assign counter_marked = counter_marked | replace: '[selected]', '~F01~' | replace: '[total]', '~F01~'
+    assign counter_bits = counter_marked | split: '~F01~'
+    assign counter_split_ok = false
+    if counter_bits.size == 3
+      assign counter_split_ok = true
+      assign counter_pre = counter_bits[0] | remove_first: 'S0S'
+      assign counter_mid = counter_bits[1]
+      assign counter_post = counter_bits[2] | remove_last: 'E0E'
+    endif
+
+    assign start_counter = st.counter_text | replace: '[selected]', 0 | replace: '[total]', slot_count
+    assign start_hint = st.hint_text | replace: '[remaining]', slot_count
+    if slot_count == 1
+      assign start_hint = st.hint_text_one
+    endif
+    assign start_cta = st.sticky_cta_view | replace: '[count]', 0
+  -%}
+
+  {{ 'fuel01-byo.css' | asset_url | stylesheet_tag }}
+  {%- comment -%}
+    Pinned, not a floating 3.x.x range: the page is unusable if Alpine does not
+    boot, so the version the test runs on must be the version that was tested.
+  {%- endcomment -%}
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.17.0/dist/cdn.min.js"></script>
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+  </style>
+
+  <div class="fuel01 fuel01-byo" style="display: none;" x-data="fuel01Byo">
+    <header class="fuel01-byo__head">
+      {%- if st.heading != blank -%}
+        <h1 class="fuel01-byo__title">{{ st.heading | escape }}</h1>
+      {%- endif -%}
+      {%- comment -%}
+        Both sentences in one paragraph, not one paragraph each: the design
+        runs them together on a single line and lets them wrap where they
+        must on narrow screens. Two block paragraphs could only ever stack.
+        The joining space is an output tag because Shopify's renderer drops
+        an if body that is only whitespace.
+
+        Each sentence is its own inline-block, so the line the paragraph
+        breaks on is the space between them. Joined they measure about
+        795px at the 20px desktop size, which is wider than the column
+        from 750 up to roughly 830 and would otherwise break mid-sentence
+        at both 768 and 820. Above that the two still sit on one line, and
+        on a phone an inline-block that cannot fit still wraps inside
+        itself rather than running off the screen.
+      {%- endcomment -%}
+      {%- if st.subheading != blank or st.subheading_2 != blank -%}
+        <p class="fuel01-byo__sub">
+          {%- if st.subheading != blank -%}
+            <span class="fuel01-byo__sub-part">{{ st.subheading | escape }}</span>
+          {%- endif -%}
+          {%- if st.subheading != blank and st.subheading_2 != blank -%}
+            {{- ' ' -}}<span class="fuel01-byo__sub-sep" aria-hidden="true">&bull;</span>{{ ' ' }}
+          {%- endif -%}
+          {%- if st.subheading_2 != blank -%}
+            <span class="fuel01-byo__sub-part">{{ st.subheading_2 | escape }}</span>
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+    </header>
+
+    <div class="fuel01-byo__builder">
+      <div class="fuel01-builder">
+        <div class="fuel01-builder__main">
+          <div class="fuel01-builder__slots">
+            {%- for i in (1..slot_count) -%}
+              {%- assign slot_index = forloop.index0 -%}
+              {%- comment -%}
+                The free tag starts on the last slot and moves to the cheapest
+                pick once the pack is full (freeSlot in fuel01Byo): that is the
+                bottle the discount code takes off at checkout.
+              {%- endcomment -%}
+              <div
+                class="fuel01-slot{% if forloop.last %} fuel01-slot--free{% endif %}"
+                :class="{ 'fuel01-slot--filled': slot({{ slot_index }}), 'fuel01-slot--free': freeSlot === {{ slot_index }} }">
+                <span class="fuel01-slot__pill" x-show="freeSlot === {{ slot_index }}"{% unless forloop.last %} style="display: none;"{% endunless %}>{{ st.free_pill_label | escape }}</span>
+                <span
+                  class="fuel01-slot__badge"
+                  :class="{ 'fuel01-slot__badge--filled': slot({{ slot_index }}) }"
+                  x-show="freeSlot !== {{ slot_index }}"{% if forloop.last %} style="display: none;"{% endif %}>{{ forloop.index }}</span>
+                {%- comment -%}
+                  The remove control is the X in the corner, not the picture:
+                  a tap on the picture took the scent out of the pack, which
+                  in review read as an easy way to lose a pick by accident.
+                {%- endcomment -%}
+                <template x-if="slot({{ slot_index }})">
+                  <span class="fuel01-slot__pick">
+                    <img class="fuel01-slot__img" :src="slot({{ slot_index }}).image" alt="" width="151" height="151">
+                    <button
+                      type="button"
+                      class="fuel01-slot__x"
+                      :aria-label="'Ta bort ' + slot({{ slot_index }}).name"
+                      :title="'Ta bort ' + slot({{ slot_index }}).name"
+                      @click="removeAt({{ slot_index }})">
+                      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                    </button>
+                  </span>
+                </template>
+                <template x-if="!slot({{ slot_index }})">
+                  <svg class="fuel01-slot__bottle" width="62" height="120" viewBox="0 0 62 120" aria-hidden="true">
+                    <rect x="21.8" y="0.8" width="18.4" height="26" rx="3"/>
+                    <rect x="0.8" y="26.8" width="60.4" height="92.4" rx="8"/>
+                  </svg>
+                </template>
+                {%- comment -%}
+                  Once a slot is filled it carries the picked scent's name, the
+                  way the builder on the bundle pages does. The settings stay as
+                  the empty-state copy.
+                {%- endcomment -%}
+                <span class="fuel01-slot__labels">
+                  <span class="fuel01-slot__label" x-show="!slot({{ slot_index }})">
+                    {%- if forloop.last -%}{{ st.free_slot_label | escape }}{%- else -%}{{ st.slot_label | escape }}{%- endif -%}
+                  </span>
+                  <span
+                    class="fuel01-slot__label fuel01-slot__label--name"
+                    x-show="slot({{ slot_index }})"
+                    x-cloak
+                    x-text="slot({{ slot_index }}) && slot({{ slot_index }}).name"></span>
+                  <span class="fuel01-slot__label fuel01-slot__label--free" x-show="freeSlot === {{ slot_index }}"{% unless forloop.last %} style="display: none;"{% endunless %}>{{ st.free_slot_sub | escape }}</span>
+                </span>
+              </div>
+            {%- endfor -%}
+          </div>
+          <div class="fuel01-builder__progress" :class="{ 'fuel01-builder__progress--full': full }">
+            <div
+              class="fuel01-builder__track"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuenow="0"
+              aria-valuemax="{{ slot_count }}"
+              aria-labelledby="{{ section.id }}-fuel01-count"
+              :aria-valuenow="picked">
+              <div class="fuel01-builder__fill" style="width: 0%" :style="'width: ' + percent + '%'"></div>
+            </div>
+            <p class="fuel01-builder__copy">
+              <span id="{{ section.id }}-fuel01-count" x-text="counter">{{ start_counter | escape }}</span>
+              <span aria-hidden="true">&bull;</span>
+              <span x-text="message">{{ start_hint | escape }}</span>
+            </p>
+          </div>
+        </div>
+        <aside class="fuel01-summary">
+          {%- if saving > 0 -%}
+            <div class="fuel01-summary__rows" x-show="full" x-cloak>
+              <div class="fuel01-summary__row">
+                <span class="fuel01-summary__label">
+                  {{- total_label_main | escape -}}
+                  {%- if total_label_note != blank %} <span class="fuel01-summary__label-note">{{ total_label_note | escape }}</span>{% endif -%}
+                </span>
+                <span class="fuel01-summary__value" x-text="money(ordTotal)">{{ ordinary_price | money }}</span>
+              </div>
+              <div class="fuel01-summary__row fuel01-summary__row--discount">
+                <span class="fuel01-summary__label">
+                  {{- discount_label_main | escape -}}
+                  {%- if discount_label_note != blank %} <span class="fuel01-summary__label-note">{{ discount_label_note | escape }}</span>{% endif -%}
+                </span>
+                <span class="fuel01-summary__value" x-text="'\u2212' + money(discount)">&minus;{{ saving | money }}</span>
+              </div>
+            </div>
+          {%- endif -%}
+          <div class="fuel01-summary__row fuel01-summary__row--total">
+            <span class="fuel01-summary__label">{{ st.price_label | escape }}</span>
+            <span class="fuel01-summary__value" x-text="money(yourPrice)">{{ 0 | money }}</span>
+          </div>
+          {%- if saving > 0 -%}
+            {%- comment -%}
+              Label and amount are separate so the uppercase treatment can stay
+              on the label and leave the shop's own money formatting alone.
+            {%- endcomment -%}
+            <p class="fuel01-summary__pill" x-show="full && discount > 0" x-cloak>
+              <span class="fuel01-summary__pill-label">{{ st.savings_label | escape }}</span>
+              <span class="fuel01-summary__pill-value" x-text="money(discount)">{{ saving | money }}</span>
+            </p>
+          {%- endif -%}
+        </aside>
+      </div>
+    </div>
+
+    {%- assign perk_blocks = section.blocks | where: 'type', 'fuel01_perk' -%}
+    {%- if perk_blocks.size > 0 -%}
+      <div class="fuel01-perks">
+        {%- for block in perk_blocks -%}
+          <div class="fuel01-perks__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 80 | image_tag: class: 'fuel01-perks__icon', alt: '', loading: 'lazy' }}
+            {%- elsif block.settings.icon_asset != blank -%}
+              <img
+                class="fuel01-perks__icon"
+                src="{{ block.settings.icon_asset | asset_url }}"
+                alt=""
+                width="40"
+                height="40"
+                loading="lazy">
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <p class="fuel01-perks__title">{{ block.settings.title | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <p class="fuel01-perks__text">{{ block.settings.text | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="fuel01-byo__shop" x-ref="gridtop">
+      <div class="fuel01-controls" :class="{ 'fuel01-controls--open': filtersOpen }">
+        <button
+          class="fuel01-controls__toggle"
+          type="button"
+          :aria-expanded="filtersOpen"
+          @click="filtersOpen = !filtersOpen">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M2 6 H18 M5 10 H15 M8 14 H12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          Filtrera och sortera
+        </button>
+        <span class="fuel01-controls__count" x-text="countText">
+          {%- if eligible_count == 1 -%}1 produkt{%- else -%}{{ eligible_count }} produkter{%- endif -%}
+        </span>
+        {%- comment -%}
+          The search stands on its own above the disclosure, at every width.
+          Inside it, a phone showed no search until "Filtrera och sortera" was
+          opened, and the theme's own header search (same placeholder) was the
+          one people found instead; that one is hidden on this page in the
+          variant by a rule in fuel01-byo.css.
+        {%- endcomment -%}
+        <form class="fuel01-search" role="search" @submit.prevent>
+          <input
+            class="fuel01-search__field"
+            type="search"
+            placeholder="{{ st.search_placeholder | escape }}"
+            aria-label="{{ st.search_placeholder | escape }}"
+            x-model="q">
+          {%- comment -%}
+            Decoration, not a control: the grid filters as the field is typed
+            in, so this never had anything to submit.
+          {%- endcomment -%}
+          <span class="fuel01-search__btn" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <circle cx="9.5" cy="9.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+              <path d="M14.5 14.5 19 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </form>
+        <div class="fuel01-controls__row">
+          <div class="fuel01-controls__filters">
+            <span class="fuel01-controls__label" aria-hidden="true">Filter:</span>
+            {%- comment -%}
+              The list is the designer-house names from the brand metafield,
+              which is what a scent is inspired by, not who makes it. The label
+              says so: "Varumärke" read as if the store sold Dior.
+
+              Review, Sep 3: a house name on its own cannot be shown, it has to
+              be read as what the scent is like. So every name is printed as
+              "Doftar som <house>", the way the shop already names the products
+              themselves. The option's value is the bare name and does not
+              change: the filter in fuel01Byo matches the card's data-brand
+              against it, and a prefix on the value would match nothing.
+            {%- endcomment -%}
+            {%- if brand_options.size > 0 -%}
+              <select class="fuel01-controls__select" aria-label="Inspirerad av" x-model="brand">
+                <option value="">Inspirerad av</option>
+                {%- for option in brand_options -%}
+                  <option value="{{ option | escape }}">Doftar som {{ option | escape }}</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+            {%- if gender_options.size > 0 -%}
+              <select class="fuel01-controls__select" aria-label="Kön" x-model="gender">
+                <option value="">Kön</option>
+                {%- for option in gender_options -%}
+                  <option value="{{ option | escape }}">{{ option | escape }}</option>
+                {%- endfor -%}
+              </select>
+            {%- endif -%}
+            <label class="fuel01-controls__sort">
+              <span class="fuel01-controls__label">Sortera efter:</span>
+              <select class="fuel01-controls__select" x-model="sort" @change="resort()">
+                <option value="featured">Utvald</option>
+                <option value="price-asc">Pris: lågt till högt</option>
+                <option value="price-desc">Pris: högt till lågt</option>
+              </select>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="fuel01-grid" x-ref="cards">
+        {%- assign card_index = 0 -%}
+        {%- for grid_product in grid_pool.products -%}
+          {%- assign handle_token = '|' | append: grid_product.handle | append: '|' -%}
+          {%- unless eligible_handles contains handle_token -%}
+            {%- continue -%}
+          {%- endunless -%}
+          {%- liquid
+            assign match = blank
+            for v in grid_product.variants
+              assign vt = v.title | downcase | replace: ' ml', 'ml'
+              if vt == bundle_ml
+                assign match = v
+                break
+              endif
+            endfor
+            assign card_brand = grid_product.metafields.custom.brand.value | join: '||'
+            assign card_gender = grid_product.metafields.custom.gender.value | join: '||'
+            assign insp = ''
+            if grid_product.metafields.custom.inspiration.value
+              assign insp = grid_product.metafields.custom.inspiration.value.name
+            endif
+
+            comment
+              Everything the search may match, in one attribute: the name, the
+              house and scent it is inspired by, the gender, the tags (which
+              carry the inspiration names, the scent family and the occasion),
+              and the notes from the three note lists plus the three note
+              write-ups. The first cut matched the name, the brand and the
+              inspiration only, so "sandelträ" or "körsbär" found nothing.
+            endcomment
+            assign tag_text = grid_product.tags | join: ' ' | replace: 'scent:', ' ' | replace: 'occasion:', ' ' | replace: 'säsong:', ' '
+            assign hay = grid_product.title | append: ' ' | append: card_brand | append: ' ' | append: insp | append: ' ' | append: card_gender | append: ' ' | append: tag_text
+            for note in grid_product.metafields.custom.upper_notes.value
+              assign hay = hay | append: ' ' | append: note.name
+            endfor
+            for note in grid_product.metafields.custom.center_notes.value
+              assign hay = hay | append: ' ' | append: note.name
+            endfor
+            for note in grid_product.metafields.custom.deeper_notes.value
+              assign hay = hay | append: ' ' | append: note.name
+            endfor
+            assign note_text = grid_product.metafields.custom.top_notes.value.description | metafield_text | default: ''
+            assign hay = hay | append: ' ' | append: note_text
+            assign note_text = grid_product.metafields.custom.middle_notes.value.description | metafield_text | default: ''
+            assign hay = hay | append: ' ' | append: note_text
+            assign note_text = grid_product.metafields.custom.base_notes.value.description | metafield_text | default: ''
+            assign hay = hay | append: ' ' | append: note_text
+            assign hay = hay | replace: '||', ' ' | strip_newlines | strip
+          -%}
+          <div
+            class="fuel01-card"
+            data-fuel01-card
+            data-idx="{{ card_index }}"
+            data-id="{{ grid_product.id }}"
+            data-name="{{ grid_product.title | escape }}"
+            data-brand="{{ card_brand | escape }}"
+            data-gender="{{ card_gender | escape }}"
+            data-insp="{{ insp | escape }}"
+            data-search="{{ hay | escape }}"
+            data-price="{{ match.price }}"
+            {% if card_index >= 8 %}style="display: none;"{% endif %}
+            x-show="visible($el.dataset)">
+            {%- comment -%}
+              Picture and name open the scent's own page in a new tab, so the
+              pack being built stays where it is. The button below stays the
+              pick. In review the card could not be opened at all.
+            {%- endcomment -%}
+            <div class="fuel01-card__media">
+              <a class="fuel01-card__link" href="{{ grid_product.url }}" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true">
+                {{ grid_product.featured_image | image_url: width: 560 | image_tag: class: 'fuel01-card__img', widths: '280, 560', loading: 'lazy', alt: grid_product.title }}
+              </a>
+              {%- if ribbon != blank -%}
+                <span class="fuel01-card__ribbon">
+                  <span class="fuel01-card__ribbon-track">
+                    {%- for r in (1..4) -%}
+                      <span class="fuel01-card__ribbon-item"{% unless forloop.first %} aria-hidden="true"{% endunless %}>{{ ribbon | escape }}</span>
+                      <span class="fuel01-card__ribbon-dot" aria-hidden="true"></span>
+                    {%- endfor -%}
+                  </span>
+                </span>
+              {%- endif -%}
+            </div>
+            {%- comment -%}
+              The name is the product's own title from Shopify and nothing
+              else. The first cut set the designer-house name from the brand
+              metafield above it, which read as if that were the product.
+            {%- endcomment -%}
+            <div class="fuel01-card__titles">
+              <p class="fuel01-card__title">
+                <a class="fuel01-card__title-link" href="{{ grid_product.url }}" target="_blank" rel="noopener">{{ grid_product.title | escape }}<span class="visually-hidden"> (öppnas i ny flik)</span></a>
+              </p>
+            </div>
+            <p class="fuel01-card__price">
+              <span class="fuel01-card__price-now">{{ match.price | money }}</span>
+              {%- if match.compare_at_price > match.price -%}
+                <s class="fuel01-card__price-was">{{ match.compare_at_price | money }}</s>
+              {%- endif -%}
+              <span class="fuel01-card__size">{{ dropdown_ml }} ml</span>
+            </p>
+            {%- comment -%}
+              The button is the pick and the un-pick: tapping a card that is
+              already in the pack takes it back out, at every width. Below 750px
+              it is the only remove control there is, so the name says which of
+              the two it will do and which scent it is about.
+            {%- endcomment -%}
+            <button
+              type="button"
+              class="fuel01-card__cta"
+              :class="{ 'fuel01-card__cta--active': isSelected({{ grid_product.id }}), 'fuel01-card__cta--blocked': !canToggle({{ grid_product.id }}) }"
+              :disabled="!canToggle({{ grid_product.id }})"
+              :aria-pressed="isSelected({{ grid_product.id }})"
+              aria-label="Lägg till {{ grid_product.title | escape }}"
+              :aria-label="ctaName({{ grid_product.id }}, $el)"
+              :title="ctaName({{ grid_product.id }}, $el)"
+              @click="toggle({{ grid_product.id }})">
+              <svg class="fuel01-card__cta-plus" x-show="!isSelected({{ grid_product.id }})" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+                <path d="M5 1v8M1 5h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+              <svg class="fuel01-card__cta-check" x-show="isSelected({{ grid_product.id }})" x-cloak width="12" height="10" viewBox="0 0 12 10" aria-hidden="true">
+                <path d="M1 5.4 4.4 8.8 11 1.6" fill="none" stroke="currentColor" stroke-width="1.33" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span x-text="ctaLabel({{ grid_product.id }})">{{ st.cta_label | escape }}</span>
+            </button>
+          </div>
+          {%- assign card_index = card_index | plus: 1 -%}
+        {%- endfor -%}
+      </div>
+      {%- if st.empty_text != blank -%}
+        <p class="fuel01-grid__empty" x-show="matchCount === 0" x-cloak>{{ st.empty_text | escape }}</p>
+      {%- endif -%}
+      {%- if st.reveal_label != blank and card_index > 8 -%}
+        <div class="fuel01-reveal" x-show="limited && !filtering" x-cloak>
+          <button type="button" class="fuel01-reveal__btn" @click="reveal()">{{ st.reveal_label | escape }}</button>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%}
+      Review, Sep 3: the "Färdiga doftpaket" carousel that stood here is gone.
+      It listed the shop's ready-made packs, and none of them can be picked
+      into this pack: they are whole bundles of their own, so they carry a
+      single Default Title variant and never the 100ml one the builder needs.
+      Offering them beside the scents was a second, unrelated way to buy on
+      the one page the test is measuring. The scent grid itself never showed
+      them - the bundle-size filter above already drops every product without
+      that variant - so nothing else here changes.
+    {%- endcomment -%}
+
+    <div class="fuel01-sticky fuel01-sticky--on">
+      <div class="fuel01-sticky__panel">
+        {%- comment -%}
+          Below 750px this row is the only picture of the pack, so each filled
+          thumb carries its own remove control; above, it mirrors the X on the
+          builder's slots. No aria-hidden any more for that reason.
+        {%- endcomment -%}
+        <div class="fuel01-sticky__slots">
+          {%- for i in (1..slot_count) -%}
+            <div
+              class="fuel01-sticky__slot{% if forloop.last %} fuel01-sticky__slot--free{% endif %}"
+              :class="{ 'fuel01-sticky__slot--filled': slot({{ forloop.index0 }}), 'fuel01-sticky__slot--free': freeSlot === {{ forloop.index0 }} }">
+              <template x-if="slot({{ forloop.index0 }})">
+                <span class="fuel01-sticky__pick">
+                  <img class="fuel01-sticky__thumb" :src="slot({{ forloop.index0 }}).image" alt="" width="66" height="66">
+                  <button
+                    type="button"
+                    class="fuel01-sticky__x"
+                    :aria-label="'Ta bort ' + slot({{ forloop.index0 }}).name"
+                    :title="'Ta bort ' + slot({{ forloop.index0 }}).name"
+                    @click="removeAt({{ forloop.index0 }})">
+                    <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                  </button>
+                </span>
+              </template>
+              <template x-if="!slot({{ forloop.index0 }})">
+                <svg class="fuel01-sticky__bottle" width="24" height="44" viewBox="0 0 24 44" aria-hidden="true">
+                  <rect x="8.5" y="0.5" width="7" height="9" rx="1"/>
+                  <rect x="0.5" y="9.5" width="23" height="34" rx="3"/>
+                </svg>
+              </template>
+              <span class="fuel01-sticky__pill" x-show="freeSlot === {{ forloop.index0 }}"{% unless forloop.last %} style="display: none;"{% endunless %}>{{ st.free_pill_label | escape }}</span>
+            </div>
+          {%- endfor -%}
+        </div>
+        {%- comment -%}
+          The one live region on the page: the counter and the hint both sit in
+          it, so a pick or a full pack is announced once, politely, instead of
+          changing silently.
+        {%- endcomment -%}
+        <div class="fuel01-sticky__mid" aria-live="polite" :class="{ 'fuel01-sticky__mid--full': full }">
+          <p class="fuel01-sticky__counter" id="{{ section.id }}-fuel01-sticky-count">
+            {%- if counter_split_ok -%}
+              {{- counter_pre | escape -}}
+              <span class="fuel01-sticky__count"><span x-text="picked">0</span>{{ counter_mid | escape }}<span x-text="total">{{ slot_count }}</span></span>
+              {{- counter_post | escape -}}
+            {%- else -%}
+              <span class="fuel01-sticky__count" x-text="counter">{{ start_counter | escape }}</span>
+            {%- endif -%}
+          </p>
+          <p class="fuel01-sticky__message" x-text="message">{{ start_hint | escape }}</p>
+          <div
+            class="fuel01-sticky__track"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuenow="0"
+            aria-valuemax="{{ slot_count }}"
+            aria-labelledby="{{ section.id }}-fuel01-sticky-count"
+            :aria-valuenow="picked">
+            <div class="fuel01-sticky__fill" style="width: 0%" :style="'width: ' + percent + '%'"></div>
+          </div>
+        </div>
+        <div class="fuel01-sticky__buy">
+          <div class="fuel01-sticky__price">
+            <span class="fuel01-sticky__price-label">{{ st.sticky_price_label | escape }}</span>
+            <span class="fuel01-sticky__price-row">
+              <span class="fuel01-sticky__price-now" x-text="money(yourPrice)">{{ 0 | money }}</span>
+              {%- if saving > 0 -%}
+                <s class="fuel01-sticky__price-was" x-text="money(ordTotal)" x-show="full && discount > 0" x-cloak>{{ ordinary_price | money }}</s>
+              {%- endif -%}
+            </span>
+          </div>
+          {%- comment -%}
+            Below a full pack the button scrolls back to the grid, so the second
+            line only appears once it really does hand over.
+          {%- endcomment -%}
+          <button type="button" class="fuel01-sticky__cta" @click="go()" :disabled="busy" :aria-busy="busy ? 'true' : 'false'">
+            <span class="fuel01-sticky__cta-main" x-text="ctaView">{{ start_cta | escape }}</span>
+            <span class="fuel01-sticky__cta-sub" x-show="full" x-cloak>{{ st.sticky_cta_checkout | escape }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Neither BYO frame draws a sticky bar. It is the checkout path for the
+    // page, as the builder card has no button of its own, and it has no
+    // business sitting on top of the builder itself; a short landscape
+    // tablet is where that bites, and at 1024x768 the panel covered the
+    // whole progress bar, the whole counter line and most of the summary.
+    // So the bar steps aside while the builder card is in its way: while
+    // any of the card is in the band at the foot of the window that the
+    // panel paints over. Review, Sep 23: it used to step aside whenever any
+    // of the card was on screen, which on a laptop left no way to the cart
+    // until the card had scrolled right off, about 760px down. A window
+    // tall enough to hold the card above the bar now never loses the bar.
+    // The class ships on in the markup, so with no script at all the bar is
+    // simply always there, and under 750 the builder is display:none -
+    // there the bar is the only builder there is.
+    //
+    // The same pass publishes what the bar covers as --fuel01-sticky-h, which
+    // is the one rule in fuel01-byo.css that lifts the theme's scent-quiz
+    // button clear of it. It is read off the panel's own height and its CSS
+    // bottom rather than off its box, because the box travels through a 0.3s
+    // transform and would be measured mid-slide; and it goes to zero the
+    // moment the bar steps aside, or the button stays lifted over a bar that
+    // is not there. That is what put it on the free slot's caption at
+    // 1024x768 and on the builder at 768 and 1440.
+    (function fuel01Sticky() {
+      const bar = document.querySelector('.fuel01-sticky');
+      const panel = document.querySelector('.fuel01-sticky__panel');
+      if (!bar || !panel) return;
+      const root = document.documentElement;
+      const publish = () => {
+        const cs = getComputedStyle(panel);
+        const fixed = cs.position === 'fixed' && cs.display !== 'none' && panel.offsetHeight > 0;
+        const on = bar.classList.contains('fuel01-sticky--on') && fixed;
+        const clearance = fixed ? Math.max(0, Math.round(panel.offsetHeight + (parseFloat(cs.bottom) || 0))) : 0;
+        // Two numbers, because they answer two questions. The scent quiz
+        // button only has to move while the bar is actually there, so its
+        // one goes to zero the moment the bar steps aside. The room at the
+        // end of the page has to be there whether the bar is showing or
+        // not, or the page would grow and shrink under the reader every
+        // time the builder scrolled past.
+        root.style.setProperty('--fuel01-sticky-h', (on ? clearance : 0) + 'px');
+        root.style.setProperty('--fuel01-sticky-reserve', clearance + 'px');
+      };
+      const step = (aside) => {
+        bar.classList.toggle('fuel01-sticky--on', !aside);
+        publish();
+      };
+      const builder = document.querySelector('.fuel01-builder');
+      if (builder && typeof IntersectionObserver !== 'undefined') {
+        const builderShown = () => builder.offsetParent !== null;
+        // The band the panel paints over: its own height plus its gap from
+        // the bottom edge. offsetHeight ignores the slide transform, so the
+        // band reads the same with the bar in or out.
+        const band = () => Math.max(0, Math.round(panel.offsetHeight + (parseFloat(getComputedStyle(panel).bottom) || 0)));
+        const covers = () => {
+          // Read here rather than waited for, so the bar is never painted
+          // over the builder for the frame before the observer first reports.
+          const box = builder.getBoundingClientRect();
+          return builderShown() && box.bottom > window.innerHeight - band() && box.top < window.innerHeight;
+        };
+        // A negative top margin cuts the observer's root down to that band,
+        // so it reports exactly when the card moves into or out of the bar's
+        // way. The band follows the window height and the bar's own height,
+        // so the observer is rebuilt whenever either changes.
+        let watcher = null;
+        let watched = '';
+        const watch = () => {
+          const h = band();
+          const key = window.innerHeight + ':' + h;
+          if (key === watched) return;
+          watched = key;
+          if (watcher) watcher.disconnect();
+          watcher = new IntersectionObserver(function (entries) {
+            step(builderShown() && entries[entries.length - 1].isIntersecting);
+          }, { rootMargin: -Math.max(0, window.innerHeight - h) + 'px 0px 0px 0px' });
+          watcher.observe(builder);
+        };
+        step(covers());
+        watch();
+        if (typeof ResizeObserver !== 'undefined') new ResizeObserver(watch).observe(panel);
+        window.addEventListener('resize', watch);
+      } else {
+        publish();
+      }
+      if (typeof ResizeObserver !== 'undefined') new ResizeObserver(publish).observe(panel);
+      window.addEventListener('resize', publish);
+    })();
+
+    document.addEventListener('alpine:init', function () {
+      if (window.fuel01ByoRegistered) return;
+      window.fuel01ByoRegistered = true;
+
+      // Same store name and product shape as snippets/bundle-builder.liquid
+      // declares on the bundle PDPs, so the pick semantics match the builder's
+      // own. That snippet never runs on a collection page, so this is the only
+      // declaration here.
+      Alpine.store('bundleBuilder', {
+        selectedVariant: {{ bundle_ml | json }},
+        bundleLength: {{ slot_count }},
+        selectedProducts: [],
+        availableProducts: [
+          {%- for grid_product in grid_pool.products -%}
+            {%- assign handle_token = '|' | append: grid_product.handle | append: '|' -%}
+            {%- unless eligible_handles contains handle_token -%}
+              {%- continue -%}
+            {%- endunless -%}
+            {
+              id: {{ grid_product.id }},
+              name: {{ grid_product.title | json }},
+              image: {{ grid_product.featured_image | image_url: width: 320, height: 320 | json }},
+              {%- for variant in grid_product.variants -%}
+                {%- assign vt = variant.title | downcase | replace: ' ml', 'ml' -%}
+                {%- if vt == bundle_ml %}
+              price: {{ variant.price }},
+                {%- endif -%}
+              {%- endfor %}
+              variants: {
+                {%- for variant in grid_product.variants -%}
+                  {{ variant.title | downcase | replace: ' ml', 'ml' | json }}: {
+                    title: {{ variant.title | json }},
+                    id: {{ variant.id | append: '' | json }}
+                  },
+                {%- endfor -%}
+              }
+            },
+          {%- endfor -%}
+        ],
+        removeProduct(index) {
+          this.selectedProducts.splice(index, 1);
+        },
+        isProductSelected(productId) {
+          return this.selectedProducts.some((product) => Number(product.id) === Number(productId));
+        }
+      });
+
+      Alpine.data('fuel01Byo', function () {
+        return {
+          q: '',
+          brand: '',
+          gender: '',
+          sort: 'featured',
+          filtersOpen: false,
+          limited: true,
+          total: {{ slot_count }},
+          unitDefault: {{ unit_default }},
+          discountCode: {{ st.discount_code | strip | json }},
+          busy: false,
+          moneyFormat: {{ shop.money_format | json }},
+          get store() {
+            try {
+              return (window.Alpine && typeof Alpine.store === 'function') ? Alpine.store('bundleBuilder') || null : null;
+            } catch (err) {
+              return null;
+            }
+          },
+          get picked() {
+            const s = this.store;
+            if (!s || !Array.isArray(s.selectedProducts)) return 0;
+            return Math.min(s.selectedProducts.length, this.total);
+          },
+          get remaining() {
+            return Math.max(0, this.total - this.picked);
+          },
+          get percent() {
+            return this.total ? Math.min(100, Math.round((this.picked / this.total) * 100)) : 0;
+          },
+          get full() {
+            return this.total > 0 && this.picked >= this.total;
+          },
+          get counter() {
+            return {{ st.counter_text | json }}.replace('[selected]', this.picked).replace('[total]', this.total);
+          },
+          get message() {
+            if (this.remaining === 0) return {{ st.done_text | json }};
+            // Swedish needs "1 doft" and "2 dofter", so one bottle left has its
+            // own line rather than a number dropped into the plural one.
+            if (this.remaining === 1) return {{ st.hint_text_one | json }};
+            return {{ st.hint_text | json }}.replace('[remaining]', this.remaining);
+          },
+          get ctaView() {
+            return {{ st.sticky_cta_view | json }}.replace('[count]', this.picked);
+          },
+          get ordTotal() {
+            // The picked scents bought one by one at the bundle size. Empty
+            // slots count nothing, so the figure climbs with every pick.
+            let sum = 0;
+            for (let i = 0; i < this.total; i++) {
+              const p = this.slot(i);
+              if (p && Number(p.price) > 0) sum += Number(p.price);
+            }
+            return sum;
+          },
+          get freeCents() {
+            // The bottle the discount code takes off once the pack is full:
+            // the cheapest pick, the one Shopify's Buy X get Y makes free.
+            // With no code set, nothing comes off at checkout, so none here.
+            if (!this.full || !this.discountCode) return 0;
+            let low = Infinity;
+            for (let i = 0; i < this.total; i++) {
+              const p = this.slot(i);
+              if (p && Number(p.price) > 0) low = Math.min(low, Number(p.price));
+            }
+            return Number.isFinite(low) ? low : 0;
+          },
+          get yourPrice() {
+            // A running subtotal while the pack is being filled, then the
+            // bottles minus the free one, which is what checkout charges.
+            return this.ordTotal - this.freeCents;
+          },
+          get freeSlot() {
+            // Where the free tag sits: the last slot while the pack fills,
+            // then the cheapest pick, the one freeCents takes off. Equal
+            // prices keep it on the later slot, so an even pack looks as drawn.
+            const last = this.total - 1;
+            if (!this.full || !this.discountCode) return last;
+            let at = last;
+            let low = Infinity;
+            for (let i = 0; i < this.total; i++) {
+              const p = this.slot(i);
+              const price = p ? Number(p.price) : 0;
+              if (price > 0 && price <= low) {
+                low = price;
+                at = i;
+              }
+            }
+            return at;
+          },
+          get discount() {
+            return this.freeCents;
+          },
+          money(cents) {
+            // The shop's own money format, so the live numbers read the way
+            // the Liquid-rendered ones do (1.449,00 kr on this store).
+            const n = Math.round(Number(cents) || 0);
+            const abs = Math.abs(n);
+            const int = String(Math.floor(abs / 100));
+            const dec = String(abs % 100).padStart(2, '0');
+            const grp = (s, sep) => s.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+            const forms = {
+              amount: grp(int, ',') + '.' + dec,
+              amount_no_decimals: grp(int, ','),
+              amount_with_comma_separator: grp(int, '.') + ',' + dec,
+              amount_no_decimals_with_comma_separator: grp(int, '.'),
+              amount_with_space_separator: grp(int, ' ') + ',' + dec,
+              amount_no_decimals_with_space_separator: grp(int, ' '),
+              amount_with_apostrophe_separator: grp(int, "'") + '.' + dec
+            };
+            const out = String(this.moneyFormat || '{' + '{amount}' + '}').replace(/\{\{\s*(\w+)\s*\}\}/g, (m, k) => (forms[k] !== undefined ? forms[k] : forms.amount)).replace(/<[^>]+>/g, '');
+            return (n < 0 ? '-' : '') + out;
+          },
+          get filtering() {
+            // Sorting is not filtering: it re-orders the whole list but leaves
+            // the eight-card gate and its "show more" button where they were.
+            return this.q.trim() !== '' || this.brand !== '' || this.gender !== '';
+          },
+          fold(s) {
+            // Case and accent insensitive, so "sandeltra" finds "Sandelträ".
+            return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          },
+          matches(ds) {
+            if (this.brand && (ds.brand || '').split('||').indexOf(this.brand) === -1) return false;
+            if (this.gender && (ds.gender || '').split('||').indexOf(this.gender) === -1) return false;
+            const q = this.fold(this.q.trim());
+            if (!q) return true;
+            // Every typed word has to be found somewhere in the card's haystack
+            // (name, inspiration, tags, notes), in any order.
+            const hay = this.fold([ds.name, ds.brand, ds.insp, ds.search].join(' '));
+            return q.split(/\s+/).every((w) => hay.includes(w));
+          },
+          visible(ds) {
+            // A picked card always renders, whatever the filters or the
+            // eight-card gate say. Its button is the only way to take that pick
+            // back below 750px, so it can never be filtered out of reach.
+            if (this.isSelected(ds.id)) return true;
+            if (!this.matches(ds)) return false;
+            if (this.limited && !this.filtering && Number(ds.idx) >= 8) return false;
+            return true;
+          },
+          get matchCount() {
+            let n = 0;
+            for (const el of this.$root.querySelectorAll('[data-fuel01-card]')) {
+              if (this.matches(el.dataset)) n++;
+            }
+            return n;
+          },
+          get countText() {
+            // How many scents match, not how many happen to be rendered, and
+            // Swedish wants "1 produkt" for one of them.
+            const n = this.matchCount;
+            return n === 1 ? '1 produkt' : n + ' produkter';
+          },
+          resort() {
+            const wrap = this.$refs.cards;
+            if (!wrap) return;
+            const key = this.sort;
+            const cards = Array.from(wrap.querySelectorAll('[data-fuel01-card]'));
+            cards.sort((a, b) => {
+              if (key === 'price-asc') return Number(a.dataset.price) - Number(b.dataset.price);
+              if (key === 'price-desc') return Number(b.dataset.price) - Number(a.dataset.price);
+              return Number(a.dataset.idx) - Number(b.dataset.idx);
+            });
+            for (const card of cards) wrap.appendChild(card);
+          },
+          lookup(id) {
+            const s = this.store;
+            if (!s || !Array.isArray(s.availableProducts)) return null;
+            return s.availableProducts.find((p) => Number(p.id) === Number(id)) ?? null;
+          },
+          isSelected(id) {
+            const s = this.store;
+            if (!s || !Array.isArray(s.selectedProducts)) return false;
+            return s.selectedProducts.some((p) => Number(p.id) === Number(id));
+          },
+          stepOf(id) {
+            const s = this.store;
+            if (!s || !Array.isArray(s.selectedProducts)) return 0;
+            return s.selectedProducts.findIndex((p) => Number(p.id) === Number(id)) + 1;
+          },
+          ctaLabel(id) {
+            if (this.isSelected(id)) return {{ st.cta_added_label | json }}.replace('[n]', this.stepOf(id));
+            if (this.picked > 0 && !this.full) return {{ st.cta_next_label | json }}.replace('[n]', this.picked + 1);
+            return {{ st.cta_label | json }};
+          },
+          ctaName(id, el) {
+            // The visible label says which step the scent is in; the name says
+            // what pressing the button will do, and to which scent.
+            const card = el ? el.closest('[data-fuel01-card]') : null;
+            return (this.isSelected(id) ? 'Ta bort ' : 'Lägg till ') + (card ? card.dataset.name : '');
+          },
+          canToggle(id) {
+            if (this.isSelected(id)) return true;
+            return !this.full && !!this.lookup(id);
+          },
+          toggle(id) {
+            const s = this.store;
+            if (!s || !Array.isArray(s.selectedProducts)) return;
+            if (this.isSelected(id)) {
+              const idx = s.selectedProducts.findIndex((p) => Number(p.id) === Number(id));
+              if (idx !== -1) s.removeProduct(idx);
+              return;
+            }
+            if (this.full) return;
+            const product = this.lookup(id);
+            if (!product || !product.variants || !product.variants[s.selectedVariant]) return;
+            product.variant = product.variants[s.selectedVariant];
+            s.selectedProducts.push(product);
+          },
+          slot(i) {
+            const s = this.store;
+            if (!s || !Array.isArray(s.selectedProducts)) return null;
+            return s.selectedProducts[i] || null;
+          },
+          removeAt(i) {
+            const s = this.store;
+            if (s && typeof s.removeProduct === 'function') s.removeProduct(i);
+          },
+          reveal() {
+            // The button hides itself, so keyboard focus would fall to the body
+            // and skip everything it just revealed. Hand it to the first card
+            // that was not there a moment ago instead.
+            const wrap = this.$refs.cards;
+            const cards = wrap ? Array.from(wrap.querySelectorAll('[data-fuel01-card]')) : [];
+            // Which card is new is decided from the list itself, not from what
+            // is painted: the rendering catches up a beat later.
+            const before = new Set(cards.filter((el) => this.visible(el.dataset)));
+            this.limited = false;
+            const revealed = cards.find((el) => !before.has(el) && this.visible(el.dataset));
+            const cta = revealed ? revealed.querySelector('.fuel01-card__cta') : null;
+            if (!cta) return;
+            this.$nextTick(() => {
+              cta.focus();
+              // If the card had not been shown yet the line above did nothing,
+              // and the browser drops focus to the body as the button hides. One
+              // retry takes it back, and only if focus was lost rather than
+              // moved on purpose.
+              setTimeout(() => {
+                if (document.activeElement === document.body) cta.focus();
+              }, 60);
+            });
+          },
+          init() {
+            // Leaving for the cart parks this page in the browser's
+            // back-forward cache with the button still busy from that press,
+            // and the back button brings it back exactly like that, greyed
+            // out for good. It is handed back on the way in.
+            window.addEventListener('pageshow', (event) => {
+              if (event.persisted) this.busy = false;
+            });
+          },
+          go() {
+            if (this.full && this.store) {
+              this.addPack();
+              return;
+            }
+            const target = this.$refs.gridtop;
+            if (target) {
+              const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+              target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+            }
+          },
+          async addPack() {
+            // One cart line per bottle at the bottle's own price, all marked
+            // with the same _f01_box id so an order shows which bottles came
+            // in as one pack. The pack's code joins whatever codes the cart
+            // already carries, because the cart API replaces the whole list on
+            // every update.
+            //
+            // Other apps on this store write to the cart whenever lines are
+            // added (the shipping test tags each new line, the gift app adds
+            // its gifts, a tracker saves its id), and a write that lands at the
+            // same moment as ours can answer 409 or quietly drop the code. So
+            // the code goes in first, while the cart is quiet, and once the
+            // bottles are in it is read back until it has held for two reads in
+            // a row, put back whenever it went missing. The shopper only leaves
+            // for the cart page after that.
+            //
+            // Review, Sep 23: a pack already in the cart from an earlier press
+            // (the back button, a second tab, a return visit) is this pack's
+            // older version, not a second order. Pressing again stacked a
+            // second four bottles on top and the cart asked 2 069,94 for what
+            // the builder showed as 1 034,97. So the button now updates: an
+            // identical pack is left as it is, and a different one is replaced.
+            // The old lines come out first and are read back gone before the
+            // new bottles go in: with both packs in the cart at once, while the
+            // shipping test was rewriting each new line (its _abs_shipping_group
+            // mark), one run lost a bottle of the new pack. The read-back at the
+            // end also puts back any bottle of the pack that went missing. Only
+            // lines carrying the _f01_box mark count as a pack; bottles added
+            // anywhere else are left alone.
+            const s = this.store;
+            if (this.busy || !s || !Array.isArray(s.selectedProducts)) return;
+            this.busy = true;
+            const code = this.discountCode;
+            const box = String(Date.now());
+            const items = s.selectedProducts.slice(0, this.total).map((p) => ({
+              id: Number((p.variants?.[s.selectedVariant] ?? p.variant)?.id),
+              quantity: 1,
+              properties: { _f01_box: box }
+            }));
+            const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+            const post = (url, body) =>
+              fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify(body)
+              });
+            const readCart = async () => {
+              const res = await fetch({{ routes.cart_url | append: '.js' | json }}, {
+                headers: { Accept: 'application/json' },
+                cache: 'no-store'
+              });
+              if (!res.ok) throw new Error();
+              return res.json();
+            };
+            const codesIn = (cart) => {
+              const codes = new Set((cart.discount_codes ?? []).map((d) => d.code));
+              for (const app of cart.cart_level_discount_applications ?? []) {
+                if (app.type === 'discount_code') codes.add(app.title);
+              }
+              for (const line of cart.items ?? []) {
+                for (const alloc of line.line_level_discount_allocations ?? []) {
+                  if (alloc.discount_application?.type === 'discount_code') codes.add(alloc.discount_application.title);
+                }
+              }
+              return codes;
+            };
+            const hasCode = (codes) => [...codes].some((c) => String(c).toLowerCase() === code.toLowerCase());
+            const addCode = async () => {
+              const codes = codesIn(await readCart());
+              if (hasCode(codes)) return;
+              codes.add(code);
+              await post({{ routes.cart_update_url | append: '.js' | json }}, { discount: [...codes].join(',') });
+            };
+            const clear = (lines) =>
+              post({{ routes.cart_update_url | append: '.js' | json }}, {
+                updates: Object.fromEntries(lines.map((line) => [line.key, 0]))
+              });
+            try {
+              const earlier = ((await readCart()).items ?? []).filter((line) => line.properties?._f01_box);
+              const unchanged =
+                earlier.length > 0 &&
+                earlier.flatMap((line) => Array(line.quantity).fill(line.variant_id)).sort().join() ===
+                  items.map((item) => item.id).sort().join();
+              const current = unchanged ? earlier[0].properties._f01_box : box;
+              const keep = new Set(unchanged ? earlier.map((line) => line.properties._f01_box) : [box]);
+              const stale = (cart) => (cart.items ?? []).filter((line) => line.properties?._f01_box && !keep.has(line.properties._f01_box));
+              const missing = (cart) => {
+                const left = (cart.items ?? [])
+                  .filter((line) => keep.has(line.properties?._f01_box))
+                  .flatMap((line) => Array(line.quantity).fill(line.variant_id));
+                return items.filter((item) => {
+                  const at = left.indexOf(item.id);
+                  if (at === -1) return true;
+                  left.splice(at, 1);
+                  return false;
+                });
+              };
+              if (!unchanged && earlier.length) {
+                await clear(earlier);
+                for (let tries = 0; tries < 3; tries++) {
+                  const left = stale(await readCart());
+                  if (!left.length) break;
+                  await wait(300);
+                  await clear(left);
+                }
+              }
+              if (code) await addCode();
+              if (!unchanged) {
+                const added = await post({{ routes.cart_add_url | append: '.js' | json }}, { items });
+                if (!added.ok) throw await added.json().catch(() => ({}));
+              }
+              // The pack is in the cart now. A failed read here must not hand
+              // the button back, or a second tap adds a second pack. An old
+              // line that survived its removal (another app's write can answer
+              // 409) is taken out again, and a bottle of this pack that went
+              // missing is put back, like a code that went missing.
+              let held = 0;
+              for (let tries = 0; tries < 10 && held < 2; tries++) {
+                await wait(400);
+                try {
+                  const cart = await readCart();
+                  const left = stale(cart);
+                  const lost = missing(cart);
+                  if (left.length) {
+                    held = 0;
+                    await clear(left);
+                  } else if (lost.length) {
+                    held = 0;
+                    await post({{ routes.cart_add_url | append: '.js' | json }}, {
+                      items: lost.map((item) => ({ ...item, properties: { _f01_box: current } }))
+                    });
+                  } else if (!code || hasCode(codesIn(cart))) {
+                    held += 1;
+                  } else {
+                    held = 0;
+                    await addCode();
+                  }
+                } catch (err) {
+                  held = 0;
+                }
+              }
+              window.location.href = {{ routes.cart_url | json }};
+            } catch (err) {
+              this.busy = false;
+              // The store's own error text (e.g. sold out) is Swedish; a network error's message is the browser's English.
+              window.alert(err?.description || 'Något gick fel. Försök igen.');
+            }
+          }
+        };
+      });
+    });
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Build-your-own bundle",
+  "class": "fuel01-byo-wrap",
+  "enabled_on": {
+    "templates": ["collection"]
+  },
+  "settings": [
+    {
+      "type": "collection",
+      "id": "target_collection",
+      "label": "Show on collection",
+      "info": "The page renders only on this collection. Defaults to bundle-save."
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle product",
+      "info": "Sets the bottle size and how many bottles make a pack. Defaults to the 4x 100ml bundle."
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Pack discount code",
+      "default": "DOFTPAKET",
+      "info": "Added to the cart with the pack's bottles. Must be a Buy X get Y code in Discounts that makes one of the pack's bottles free."
+    },
+    {
+      "type": "collection",
+      "id": "grid_collection",
+      "label": "Scent grid collection",
+      "info": "Defaults to best-sellers. The pack discount code has to cover every bottle this grid offers, or a pack with a bottle outside the code gets no free bottle."
+    },
+    { "type": "header", "content": "Heading" },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Bygg ditt eget Välj & spara"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Sub-line 1",
+      "default": "3 × 100 ml parfymer – få den 4:e helt gratis"
+    },
+    {
+      "type": "text",
+      "id": "subheading_2",
+      "label": "Sub-line 2",
+      "default": "Välj dina favoritdofter och spara mer."
+    },
+    { "type": "header", "content": "Builder" },
+    {
+      "type": "text",
+      "id": "slot_label",
+      "label": "Empty slot label",
+      "default": "Välj din doft"
+    },
+    {
+      "type": "text",
+      "id": "free_slot_label",
+      "label": "Free slot label",
+      "default": "Din 4:e doft"
+    },
+    {
+      "type": "text",
+      "id": "free_slot_sub",
+      "label": "Free slot second line",
+      "default": "GRATIS"
+    },
+    {
+      "type": "text",
+      "id": "free_pill_label",
+      "label": "Free slot tag",
+      "info": "The frame's own tag, a 71 x 36 pill. GRATIS sets it 88.6 wide.",
+      "default": "FREE"
+    },
+    {
+      "type": "text",
+      "id": "counter_text",
+      "label": "Progress counter",
+      "info": "[selected] and [total] are replaced live.",
+      "default": "[selected] / [total] valda"
+    },
+    {
+      "type": "text",
+      "id": "hint_text",
+      "label": "Progress hint",
+      "info": "[remaining] is replaced live. The frames carry the same sentence at 0, 1, 3 and 4 picked, so the shipped default does not count.",
+      "default": "Lägg till 1 doft till för att låsa upp din gratis doft!"
+    },
+    {
+      "type": "text",
+      "id": "hint_text_one",
+      "label": "Progress hint, one left",
+      "default": "Lägg till 1 doft till för att låsa upp din gratis doft!"
+    },
+    {
+      "type": "text",
+      "id": "done_text",
+      "label": "Progress done message",
+      "default": "Ditt paket är klart!"
+    },
+    { "type": "header", "content": "Price summary" },
+    {
+      "type": "text",
+      "id": "total_label",
+      "label": "Ordinary total label",
+      "default": "Ord. totalpris (4 × 100 ml)"
+    },
+    {
+      "type": "text",
+      "id": "discount_label",
+      "label": "Discount label",
+      "default": "Rabatt (1 doft gratis)"
+    },
+    {
+      "type": "text",
+      "id": "price_label",
+      "label": "Your price label",
+      "default": "Ditt pris"
+    },
+    {
+      "type": "text",
+      "id": "savings_label",
+      "label": "Savings tag label",
+      "info": "The amount is added after it.",
+      "default": "Du sparar"
+    },
+    { "type": "header", "content": "Scent grid" },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Hitta din parfym"
+    },
+    {
+      "type": "text",
+      "id": "ribbon_text",
+      "label": "Card ribbon",
+      "info": "Leave empty to build it from the bundle size, e.g. Köp 3, få 1 gratis."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Card button",
+      "default": "Lägg"
+    },
+    {
+      "type": "text",
+      "id": "cta_next_label",
+      "label": "Card button, next step",
+      "info": "[n] is replaced live.",
+      "default": "Lägg till i steg [n]"
+    },
+    {
+      "type": "text",
+      "id": "cta_added_label",
+      "label": "Card button, added",
+      "info": "[n] is replaced live.",
+      "default": "Tillagd i steg [n]"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "No results message",
+      "default": "Inga dofter matchar din sökning."
+    },
+    {
+      "type": "text",
+      "id": "reveal_label",
+      "label": "Show more label",
+      "default": "Kolla in mer!"
+    },
+    { "type": "header", "content": "Sticky bar" },
+    {
+      "type": "text",
+      "id": "sticky_price_label",
+      "label": "Price label",
+      "default": "Ditt pris"
+    },
+    {
+      "type": "text",
+      "id": "sticky_cta_view",
+      "label": "Button first line",
+      "info": "[count] is replaced live.",
+      "default": "Se ditt paket ([count])"
+    },
+    {
+      "type": "text",
+      "id": "sticky_cta_checkout",
+      "label": "Button second line",
+      "default": "Gå till kassan"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fuel01_perk",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_asset",
+          "label": "Icon asset filename",
+          "info": "Used when no icon image is picked, e.g. fuel01-perk-hours.png."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Build-your-own bundle",
+      "blocks": [
+        {
+          "type": "fuel01_perk",
+          "settings": {
+            "icon_asset": "fuel01-perk-hours.png",
+            "title": "Håller i 12+ timmar",
+            "text": "En doft som håller hela dagen."
+          }
+        },
+        {
+          "type": "fuel01_perk",
+          "settings": {
+            "icon_asset": "fuel01-perk-guarantee.png",
+            "title": "60 dagars garanti",
+            "text": "Pengarna tillbaka inom 60 dagar."
+          }
+        },
+        {
+          "type": "fuel01_perk",
+          "settings": {
+            "icon_asset": "fuel01-perk-quality.png",
+            "title": "Fransk kvalitetsstandard",
+            "text": "Kvalitet i nivå med designerdofter."
+          }
+        },
+        {
+          "type": "fuel01_perk",
+          "settings": {
+            "icon_asset": "fuel01-perk-eu.png",
+            "title": "Tillverkad i EU",
+            "text": "Clean label."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

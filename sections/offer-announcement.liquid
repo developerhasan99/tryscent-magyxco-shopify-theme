@@ -1,0 +1,52 @@
+<div class="py-2 bg-green-700/85" style="background-color: {{ section.settings.background_color }}de;">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-center">
+      <a href="{{ section.settings.link }}" class="text-white font-medium no-underline flex flex-wrap gap-y-2 items-center justify-center text-sm md:text-base">
+        {{ section.settings.prepend_text }}
+        <span class="text-white inline-block mx-2 font-bold bg-green-700 px-2 py-0.5 rounded [transform:rotate(-3deg)]" style="background-color: {{ section.settings.background_color }};">{{ section.settings.link_text }}</span>
+        {{ section.settings.append_text }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Offer Announcement",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#15803d"
+      },
+      {
+        "type": "text",
+        "id": "prepend_text",
+        "label": "Prepend Text",
+        "default": "Exclusive Offer"
+      },
+      {
+        "type": "text",
+        "id": "link_text",
+        "label": "Link Text",
+        "default": "Buy 1 Get 1 Free!"
+      },
+      {
+        "type": "text",
+        "id": "append_text",
+        "label": "Append Text",
+        "default": "Shop Now 👉"
+      }, {
+        "type": "url",
+        "id": "link",
+        "label": "Link"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Offer Announcement"
+      }
+    ]
+  }
+{% endschema %}

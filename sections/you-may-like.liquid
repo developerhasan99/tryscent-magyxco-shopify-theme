@@ -1,0 +1,200 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% endif %}
+    {% if section.settings.background_image != blank %}
+      background-image: url('{{ section.settings.background_image | image_url }}');
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="{{ section.id }}" class="section-{{ section.id }}-padding bg-cover bg-center">
+  <div class="page-width">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-3">
+      <div class="flex flex-col gap-3 text-center md:text-left">
+        <h2 class="text-3xl md:text-4xl font-black my-0">{{ section.settings.title }}</h2>
+        <div class="[&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
+          {{ section.settings.description }}
+        </div>
+      </div>
+      <a href="{{ section.settings.button_link }}" class="no-underline text-black border-2 border-solid border-black px-6 py-2 shrink-0">{{ section.settings.button_text }}</a>
+    </div>
+    <div class="swiper" id="you-may-like-swiper">
+      <div class="swiper-wrapper">
+        {% for product in section.settings.collection.products limit: 5 %}
+          {% assign selected_variant = product.selected_or_first_available_variant %}
+          {% for variant in product.variants %}
+            {% if variant.title contains '100' %}
+              {% assign selected_variant = variant %}
+            {% endif %}
+          {% endfor %}
+          <div class="swiper-slide max-w-[250px]">
+            <div class="block no-underline text-inherit bg-white p-3 rounded-lg border border-solid border-gray-200">
+              <a href="{{ product.url }}" class="aspect-square flex rounded-lg overflow-hidden bg-[#FAF8F3] mb-3 relative">
+                {% if false %}
+                  <div class="absolute z-50 bg-[#226139] font-medium text-xs tracking-normal text-white px-2 py-1 leading-none top-0 left-0 text-center">{{ product.metafields.custom.custom_label }}</div>
+                {% endif %}
+                <img
+                  src="{{ product.featured_image | image_url: width: 300 }}"
+                  alt="{{ product.title }}"
+                  height="216"
+                  width="216"
+                  class="w-full h-full object-cover">
+              </a>
+              <p class="text-xs text-gray-500 m-0 mb-1 line-clamp-1">Inspirerad av: {{ product.metafields.custom.inspiration.value.name }}</p>
+              <h3 class="text-sm font-semibold m-0 mb-2 line-clamp-1">
+                <a class="text-black no-underline" href="{{ product.url }}">{{ product.title }}</a>
+              </h3>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-sm font-bold text-gray-900">{{ product.price | money }}</span>
+                <span class="text-xs text-gray-400 line-through">{{ product.compare_at_price | money }}</span>
+              </div>
+              {% comment %} Add to cart form {% endcomment %}
+              <product-form
+                class="product-form !m-0 [&_form]:flex"
+                data-hide-errors=""
+                data-section-id="{{ section.id }}">
+                {%- form 'product'
+                  , product
+                  , id: ''
+                  , class: 'form'
+                  , novalidate: 'novalidate'
+                  , data-type: 'add-to-cart-form'
+                -%}
+                  <input
+                    type="hidden"
+                    name="id"
+                    id="product-variant-id"
+                    value="{{ selected_variant.id }}"
+                    class="product-variant-id">
+                  <button
+                    type="submit"
+                    name="add"
+                    value="1"
+                    class="shimmer-btn p-3 rounded-lg hover:bg-[#17803d] bg-[#146b32] transition-colors shadow-xl tracking-normal border-0 text-white w-full button leading-snug !px-2 text-sm md:text-base"
+                    aria-label="Add to cart">
+                    <span>{{ 'products.product.add_to_cart' | t }}</span>
+                    {%- render 'loading-spinner' -%}
+                  </button>
+                {%- endform -%}
+              </product-form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="swiper-button-prev border-0 rounded-full !flex bg-white !size-8 [&]:after:!text-sm [&]:after:text-black disabled:!pointer-events-auto" aria-label="Previous"></button>
+      <button class="swiper-button-next border-0 rounded-full !flex bg-white !size-8 [&]:after:!text-sm [&]:after:text-black disabled:!pointer-events-auto" aria-label="Next"></button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const youMayLikeSwiper = new Swiper('#you-may-like-swiper', {
+        slidesPerView: 2,
+        spaceBetween: 10,
+
+        navigation: {
+            nextEl: '#you-may-like-swiper .swiper-button-next',
+            prevEl: '#you-may-like-swiper .swiper-button-prev',
+        },
+
+        breakpoints: {
+            768: {
+                slidesPerView: 5,
+                spaceBetween: 20,
+            }
+        }
+    });
+
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "You May Like",
+    "class": "you-may-like",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "image_picker",
+        "id": "background_image",
+        "label": "Background Image"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "You may also like"
+      },
+      {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description"
+      },
+      {
+        "type": "collection",
+        "id": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "View All"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "Section Padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 36
+      }
+    ],
+    "presets": [
+      {
+        "name": "You May Like"
+      }
+    ]
+  }
+{% endschema %}

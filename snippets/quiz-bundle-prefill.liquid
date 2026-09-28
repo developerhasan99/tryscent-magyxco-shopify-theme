@@ -1,0 +1,130 @@
+<!--
+  TryScent quiz bundle prefill
+  Reads ?scents=<id>,<id>,... (numeric product ids, max 6) from the URL
+  and preselects those scents in the Alpine bundleBuilder store on the
+  6x-50ml bundle PDP.
+
+  IMPORTANT: this file is pure HTML/JS on purpose. Do NOT add any Liquid
+  tags, not even Liquid comment blocks: the Shopify Custom Liquid editor in
+  this theme errors on them. HTML comments only.
+
+  CRITICAL: never call store.addRemoveProduct() from here. Adding the 6th
+  product through it auto-fires doATCandCheckout() which POSTs /cart/add.js
+  and redirects the visitor straight to /checkout. Prefill pushes full
+  product objects directly into store.selectedProducts instead.
+-->
+<script>
+(function () {
+  'use strict';
+  try {
+    var raw = new URLSearchParams(window.location.search).get('scents');
+    if (!raw) return;
+
+    var ids = [];
+    raw.split(',').forEach(function (part) {
+      var n = parseInt(part.trim(), 10);
+      if (isFinite(n) && n > 0 && ids.indexOf(n) === -1 && ids.length < 6) {
+        ids.push(n);
+      }
+    });
+    if (!ids.length) return;
+
+    var done = false;
+    var pollTimer = null;
+    var microtask = window.queueMicrotask || function (fn) { Promise.resolve().then(fn); };
+
+    function getStore() {
+      try {
+        return (window.Alpine && typeof window.Alpine.store === 'function')
+          ? window.Alpine.store('bundleBuilder')
+          : null;
+      } catch (err) {
+        return null;
+      }
+    }
+
+    function isSelected(store, productId) {
+      if (typeof store.isProductSelected === 'function') {
+        return store.isProductSelected(productId);
+      }
+      return store.selectedProducts.some(function (p) { return p.id === productId; });
+    }
+
+    function prefill(store) {
+      if (done) return;
+      done = true;
+      if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+      try {
+        if (!store ||
+            !Array.isArray(store.availableProducts) ||
+            !Array.isArray(store.selectedProducts)) {
+          return;
+        }
+
+        var added = 0;
+        ids.forEach(function (id) {
+          if (store.selectedProducts.length >= 6) return;
+
+          var product = null;
+          for (var i = 0; i < store.availableProducts.length; i++) {
+            if (Number(store.availableProducts[i].id) === id) {
+              product = store.availableProducts[i];
+              break;
+            }
+          }
+          if (!product) return;
+          if (isSelected(store, product.id)) return;
+
+          // Push the FULL product object directly. NEVER addRemoveProduct():
+          // its 6th add auto-runs doATCandCheckout() (cart POST + /checkout redirect).
+          store.selectedProducts.push(product);
+          added++;
+        });
+
+        if (added > 0) {
+          var target = document.querySelector('.atc-bundle-builder');
+          if (target && typeof target.scrollIntoView === 'function') {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+        console.debug('[quiz-prefill] applied ' + added + '/' + ids.length + ' scents');
+      } catch (err) {
+        /* stay silent on the storefront */
+      }
+    }
+
+    function tryPrefill() {
+      var store = getStore();
+      if (store) prefill(store);
+      return done;
+    }
+
+    // Path 1: snippet loaded BEFORE alpine:init fired. The theme registers the
+    // store in its own alpine:init listener, so defer past the synchronous
+    // dispatch (microtask) plus one frame before touching the store.
+    document.addEventListener('alpine:init', function () {
+      microtask(function () {
+        if (typeof window.requestAnimationFrame === 'function') {
+          window.requestAnimationFrame(function () { tryPrefill(); });
+        } else {
+          tryPrefill();
+        }
+      });
+    });
+
+    // Path 2: snippet loaded AFTER alpine:init already fired (placement relative
+    // to Alpine's deferred script is not guaranteed). Poll up to ~10s.
+    var elapsed = 0;
+    var STEP = 100;
+    var MAX = 10000;
+    pollTimer = setInterval(function () {
+      elapsed += STEP;
+      if (tryPrefill() || elapsed >= MAX) {
+        if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+      }
+    }, STEP);
+  } catch (err) {
+    /* never break the PDP */
+  }
+})();
+</script>

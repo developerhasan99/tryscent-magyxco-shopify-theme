@@ -1,0 +1,144 @@
+{% comment %}
+  Renders the pair scent recommendation card for the configured product pages.
+  Emits nothing at all, wrapper included, unless the product being viewed has
+  a matching fuel03_pair_scent block whose paired variant is available, so
+  every page outside the test is left exactly as it was.
+  Hidden by default via assets/fuel03-pair-scent.css; revealed by a class on
+  <html> added by the testing tool, or in the theme editor.
+
+  Accepts:
+  - product: {Object} the product being viewed (required)
+  - section: {Object} the hosting section (required)
+  - mode: {String} 'assets' | 'v1' | 'v2m' | 'v2d' (required). 'assets' emits
+    the stylesheet and the QA reveal script once per page and no markup; the
+    other three each render one placement and name its wrapper modifier.
+  - block: {Object} a fuel03_pair_scent block. Pass it when rendering from
+    that block's own case; when absent the snippet finds the matching block
+    in section.blocks itself.
+  - host_block: {Object} the block whose case renders this placement, when
+    that is not the fuel03_pair_scent block itself. Its shopify_attributes go
+    on the wrapper so the theme editor can still select it.
+
+  Usage:
+  {% render 'fuel03-pair-scent', product: product, section: section, block: block, mode: 'v1' %}
+{% endcomment %}
+
+{%- liquid
+  assign pair_block = false
+  if block
+    if block.settings.page_product.id == product.id
+      assign pair_block = block
+    endif
+  else
+    for b in section.blocks
+      if b.type == 'fuel03_pair_scent' and b.settings.page_product.id == product.id
+        assign pair_block = b
+        break
+      endif
+    endfor
+  endif
+
+  assign wrapper_block = host_block
+  unless wrapper_block
+    assign wrapper_block = block
+  endunless
+
+  assign pair_product = false
+  if pair_block
+    assign pair_product = pair_block.settings.pair_product
+  endif
+-%}
+
+{%- if pair_product and pair_product != blank and pair_product.id != product.id and pair_product.featured_image != blank -%}
+  {%- liquid
+    assign pair_variant = pair_product.selected_or_first_available_variant
+    for v in pair_product.variants
+      assign v_title = v.title | downcase
+      if v_title contains '100'
+        assign pair_variant = v
+        break
+      endif
+    endfor
+
+    assign pair_name = pair_block.settings.pair_name | default: pair_product.title
+    assign inspired_name = pair_block.settings.inspired_name
+    if inspired_name == blank
+      assign inspired_name = pair_product.metafields.custom.inspiration.value.name
+    endif
+    assign form_id = 'fuel03-pair-form-' | append: mode | append: '-' | append: section.id
+  -%}
+  {%- if pair_variant.available -%}
+    {%- if mode == 'assets' -%}
+      {{ 'fuel03-pair-scent.css' | asset_url | stylesheet_tag }}
+      <script>
+        // QA and preview reveal, mirrors the one in fuel05-ugc.js. On any theme
+        // that is not the live one, #f03 in the address shows variant 1 and
+        // #f03v2 shows variant 2, so the card can be checked without running
+        // Intelligems. Shopify.theme.role is 'main' on the live theme, so this
+        // can never fire there. The hash is read again on every hashchange,
+        // because typing #f03 into the bar of a page that is already open
+        // never reloads it. The window flag keeps this to one listener.
+        if (!window.fuel03QaReady) {
+          window.fuel03QaReady = true;
+          if (window.Shopify && Shopify.theme && Shopify.theme.role !== 'main') {
+            var fuel03ApplyHash = function () {
+              var root = document.documentElement;
+              root.classList.remove('ab-f03-pair-v1', 'ab-f03-pair-v2');
+              if (window.location.hash === '#f03') root.classList.add('ab-f03-pair-v1');
+              if (window.location.hash === '#f03v2') root.classList.add('ab-f03-pair-v2');
+            };
+            fuel03ApplyHash();
+            window.addEventListener('hashchange', fuel03ApplyHash);
+          }
+        }
+      </script>
+    {%- else -%}
+      <div class="fuel03-pair-scent fuel03-pair-scent--{{ mode }}" style="display: none;" {{ wrapper_block.shopify_attributes }}>
+        <div class="fuel03-pair-scent__card">
+          <div class="fuel03-pair-scent__top">
+            <div class="fuel03-pair-scent__text">
+              <div class="fuel03-pair-scent__head">
+                <p class="fuel03-pair-scent__eyebrow">Matcha doften med</p>
+                <p class="fuel03-pair-scent__name">{{ pair_name | escape }}</p>
+              </div>
+              {%- if pair_block.settings.reason != blank -%}
+                <p class="fuel03-pair-scent__reason">{{ pair_block.settings.reason | escape }}</p>
+              {%- endif -%}
+              {%- if inspired_name != blank -%}
+                <div class="fuel03-pair-scent__inspired">
+                  <svg preserveAspectRatio="none" overflow="visible" width="16.032" height="16" viewBox="0 0 16.032 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6.99301 0C6.99301 3.1968 9.59041 5.79421 12.7872 5.79421V6.99301C9.59441 6.99301 6.99301 9.59041 6.99301 12.7872H5.79421C5.79421 9.59041 3.1968 6.99301 0 6.99301V5.79421C3.1968 5.79421 5.79421 3.1968 5.79421 0H6.99301ZM2.82118 6.39361C4.41424 7.09955 5.68766 8.37297 6.39361 9.96603C7.09955 8.37297 8.37297 7.09955 9.96603 6.39361C8.37297 5.68766 7.09955 4.41424 6.39361 2.82118C5.68766 4.41424 4.41424 5.68766 2.82118 6.39361ZM12.2358 9.60639H13.4346C13.4346 11.037 14.6014 12.2038 16.032 12.2038V13.4026C14.6014 13.4026 13.4346 14.5694 13.4346 16H12.2358C12.2358 14.5694 11.0689 13.4026 9.63836 13.4026V12.2038C11.0689 12.2038 12.2358 11.037 12.2358 9.60639ZM11.6763 12.8032C12.1439 13.1029 12.5395 13.4985 12.8352 13.962C13.1349 13.4945 13.5305 13.0989 13.994 12.8032C13.5288 12.5049 13.1335 12.1096 12.8352 11.6444C12.5369 12.1096 12.1416 12.5049 11.6763 12.8032Z" fill="black"/>
+                  </svg>
+                  <span>Inspirerad av {{ inspired_name | escape }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="fuel03-pair-scent__media">
+              <img
+                src="{{ pair_product.featured_image | image_url: width: 302 }}"
+                alt="{{ pair_product.featured_image.alt | default: pair_product.title | escape }}"
+                width="151"
+                height="151"
+                loading="lazy">
+            </div>
+          </div>
+          <product-form class="fuel03-pair-scent__form" data-section-id="{{ section.id }}" data-hide-errors="false">
+            {%- form 'product', pair_product, id: form_id, novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input type="hidden" name="id" value="{{ pair_variant.id }}">
+              {%- if pair_product.metafields.custom.nuta != blank -%}
+                <input type="hidden" name="properties[Inspired By]" value="{{ pair_product.metafields.custom.nuta | escape }}">
+              {%- endif -%}
+              <button type="submit" name="add" class="fuel03-pair-scent__atc" aria-label="Lägg i kundvagnen: {{ pair_name | escape }}">
+                <span>Lägg i kundvagnen</span>
+                {%- render 'loading-spinner' -%}
+              </button>
+              <div class="product-form__error-message-wrapper" hidden>
+                <span class="fuel03-pair-scent__error product-form__error-message" role="alert"></span>
+              </div>
+            {%- endform -%}
+          </product-form>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

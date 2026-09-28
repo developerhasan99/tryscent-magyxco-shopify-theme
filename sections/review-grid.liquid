@@ -1,0 +1,204 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-xl md:text-3xl font-bold text-slate-900 my-0">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="[display:grid] grid-cols-1 md:grid-cols-3 gap-3 md:gap-8">
+      {% for block in section.blocks %}
+        <div class="mb-3 rounded-lg bg-white border border-solid border-gray-100 overflow-hidden" {{ block.shopify_attributes }}>
+          <div class="p-4">
+            <div class="flex flex-wrap gap-2 justify-between mb-4">
+              <div class="flex leading-none">
+                {% assign rating = block.settings.rating | default: 5 | plus: 0 %}
+                {% assign empty_stars = 5 | minus: rating %}
+
+                {% for i in (1..rating) %}
+                  <span class="text-[#ffc109]">★</span>
+                {% endfor %}
+
+                {% for i in (1..empty_stars) %}
+                  <span class="text-gray-400">★</span>
+                {% endfor %}
+              </div>
+            {% comment %} <div class="text-xs text-gray-400">{{ block.settings.date }}</div> {% endcomment %}
+            </div>
+            <h3 class="my-0 font-semibold text-black text-xl">{{ block.settings.heading }}</h3>
+            <div class="text-gray-600 leading-relaxed text-lg">
+              {{ block.settings.content }}
+            </div>
+            <div class="flex items-center gap-3">
+              {% if block.settings.author_image != blank %}
+                <img
+                  class="size-10 rounded-full [display:none] md:block flex-1"
+                  src="{{ block.settings.author_image |  image_url: width: 40, height: 40 }}"
+                  alt="{{ block.settings.author }}"
+                  width="40"
+                  height="40">
+              {% endif %}
+              <div class="flex flex-col gap-1">
+                <p class="text-base font-bold text-slate-900 my-0">{{ block.settings.author | default: "Alex Thompson" }}</p>
+                {% if block.settings.show_verified_badge %}
+                  <div class="flex items-center gap-1 text-xs text-[#297af4] font-medium">
+                    <img
+                      src="{{ 'verified-badge.svg' | asset_url }}"
+                      alt="Verified Buyer"
+                      width="16"
+                      height="16"
+                      loading="lazy">
+                    Verifierad köpare
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Review Grid",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Customer Reviews"
+      },
+      {
+        "type": "text",
+        "id": "review_text",
+        "label": "Review Text",
+        "default": "4.9/5 based on 2,400+ reviews"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text",
+        "default": "Read all reviews"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "review",
+        "name": "Review",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "review_image",
+            "label": "Review Image"
+          },
+          {
+            "type": "text",
+            "id": "heading",
+            "label": "Review Heading",
+            "default": "One of our ‘go to’ Scents."
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Review Content",
+            "default": "<p>\"The fit is exactly what I was looking for. Shipping was incredibly fast, arrived in 2 days.\"</p>"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author Name",
+            "default": "Alex Thompson"
+          },
+          {
+            "type": "image_picker",
+            "id": "author_image",
+            "label": "Author Image"
+          },
+          {
+            "type": "text",
+            "id": "date",
+            "label": "Date",
+            "default": "2 days ago"
+          },
+          {
+            "type": "range",
+            "id": "rating",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Rating",
+            "default": 5
+          },
+          {
+            "type": "checkbox",
+            "id": "show_verified_badge",
+            "label": "Show Verified Badge",
+            "default": true
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          }
+
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Review Grid"
+      }
+    ]
+  }
+{% endschema %}

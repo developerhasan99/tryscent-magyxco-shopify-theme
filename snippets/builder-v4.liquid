@@ -1,0 +1,3960 @@
+{% comment %}
+  Product Bundler Snippet
+  Snippet do wywołania przez Custom Liquid w sekcji main-product
+{% endcomment %}
+
+{% assign bundle_collection = collections['smells-like'] %}
+{% unless bundle_collection %}
+  {% assign bundle_collection = collections.first %}
+{% endunless %}
+
+<div class="page-width" data-bundler>
+  <div class="bundler-container">
+    <!-- Main Content with Sidebar -->
+    <div class="md:grid md:grid-cols-10 gap-12">
+      <!-- DESKTOP SIDEBAR -->
+      <div class="bundler-sidebar desktop-sidebar col-span-4 mb-8 md:order-1">
+        <div class="px-4 py-6 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.12)] rounded-2xl">
+          <!-- Variant Selection -->
+          <div class="variant-selection">
+            <h3 class="variant-title">Select Size!</h3>
+            <p class="variant-subtitle">80% of customers buy 100ML</p>
+            <div class="variant-buttons grid grid-cols-3 gap-3">
+              <button
+                class="variant-btn active"
+                data-variant="100ML"
+                onclick="selectVariant('100ML')">
+                <div class="variant-badge bestseller">Bestseller</div>
+                <div class="variant-image">
+                  <img src="https://tryscent.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="100ML">
+                </div>
+                <span class="variant-size">100ML</span>
+              </button>
+              <button
+                class="variant-btn"
+                data-variant="50ML"
+                onclick="selectVariant('50ML')">
+                <div class="variant-badge popular">Popular</div>
+                <div class="variant-image">
+                  <img src="https://tryscent.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="50ML">
+                </div>
+                <span class="variant-size">50ML</span>
+              </button>
+              <button
+                class="variant-btn"
+                data-variant="30ML"
+                onclick="selectVariant('30ML')">
+                <div class="variant-image">
+                  <img src="https://tryscent.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="30ML">
+                </div>
+                <span class="variant-size">30ML</span>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- Bundle Type Selection -->
+          <div class="bundle-type-selection" id="bundleSelection">
+            {% assign first_product = bundle_collection.products.first %}
+            {% assign first_variant_100ml = first_product.variants | where: 'title', '100ML' | first %}
+            {% assign base_price = first_variant_100ml.price | default: 2699 %}
+            <div class="bundle-type-buttons space-y-4">
+              <button
+                class="bundle-type-btn [&.active_.pill]:block active"
+                data-bundle-type="4+3"
+                onclick="selectBundleType('4+3')">
+                <div class="flex-shrink-0 size-5 border border-solid border-gray-200 rounded-full">
+                  <div class="pill size-[14px] rounded-full bg-[#28A745] mt-0.5 ml-0.5"></div>
+                </div>
+                <div class="flex justify-between items-center w-full">
+                  <div class="flex flex-col items-start justify-center gap-2">
+                    <div class="bundle-badge bestseller">Most Popular</div>
+                    <span class="bundle-type-desc">Buy 4, Get 3 Free</span>
+                    <div class="bundle-savings free-shipping" id="savings-4+3">SAVE {{ base_price | times: 3 | money }}</div>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="bundle-total-price">{{ base_price | times: 4 | money }}</span>
+                    <span class="bundle-price" id="price-4+3">{{ base_price | times: 4 | divided_by: 7 | money }} per bottle</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                class="bundle-type-btn [&.active_.pill]:block"
+                data-bundle-type="3+2"
+                onclick="selectBundleType('3+2')">
+                <div class="flex-shrink-0 size-5 border border-solid border-gray-200 rounded-full">
+                  <div class="pill size-[14px] rounded-full bg-[#28A745] mt-0.5 ml-0.5"></div>
+                </div>
+                <div class="flex justify-between items-center w-full">
+                  <div class="flex flex-col items-start justify-center gap-2">
+                    <span class="bundle-type-desc">Buy 3, Get 2 Free</span>
+                    <div class="bundle-savings" id="savings-3+2">SAVE {{ base_price | times: 2 | money }}</div>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="bundle-total-price">{{ base_price | times: 3 | money }}</span>
+                    <span class="bundle-price" id="price-3+2">{{ base_price | times: 3 | divided_by: 5 | money }} per bottle</span>
+                  </div>
+                </div>
+              </button>
+              <button
+                class="bundle-type-btn [&.active_.pill]:block"
+                data-bundle-type="2+1"
+                onclick="selectBundleType('2+1')">
+                <div class="flex-shrink-0 size-5 border border-solid border-gray-200 rounded-full">
+                  <div class="pill size-[14px] rounded-full bg-[#28A745] mt-0.5 ml-0.5"></div>
+                </div>
+                <div class="flex justify-between items-center w-full">
+                  <div class="flex flex-col items-start justify-center gap-2">
+                    <span class="bundle-type-desc">Buy 2, Get 1 Free</span>
+                    <div class="bundle-savings" id="savings-2+1">SAVE {{ base_price | money }}</div>
+                  </div>
+                  <div class="flex flex-col items-end">
+                    <span class="bundle-total-price">{{ base_price | times: 2 | money }}</span>
+                    <span class="bundle-price" id="price-2+1">{{ base_price | times: 2 | divided_by: 3 | money }} per bottle</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="px-4 py-6 bg-white shadow-[0_4px_12px_rgba(0,0,0,0.12)] rounded-2xl mt-8 [display:none] md:block">
+          <!-- Desktop Header -->
+          <h3 class="sidebar-title" id="sidebarTitle">Shopping Cart</h3>
+
+          <!-- Progress Section -->
+          <div class="cart-progress">
+            <div class="progress-text" id="cartProgressText">Please select at least 3 scents</div>
+            <div class="bundler-progress-container">
+              <div class="bundler-progress-bar">
+                <div class="bundler-progress-fill" id="cartProgressFill"></div>
+                <div class="progress-markers" id="progressMarkers">
+                  <!-- Markers will be generated dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Items -->
+          <div class="selected-items" id="selectedItems">
+            <div class="empty-cart">
+              <p>Your cart is empty.</p>
+            </div>
+          </div>
+
+          <!-- Add Bundle Button -->
+          <div class="sidebar-footer">
+            <button
+              id="addBundleBtnDesktop"
+              class="add-bundle-btn"
+              disabled>
+              <span class="btn-text" id="btnTextDesktop">Please Select 3 More Scents</span>
+              <span class="btn-status" id="btnStatusDesktop">0/3</span>
+            </button>
+          </div>
+          <div class="flex flex-col items-center gap-3 text-center bg-[#f0f2ec] p-6 rounded mt-5">
+            <img
+              src="//tryscent.co/cdn/shop/files/wt-money-back_1_64x64.svg?v=1751973614"
+              height="64"
+              width="64"
+              alt=""
+              class="size-16">
+            <h3 class="text-lg font-semibold tracking-normal m-0">Smell Before You Commit</h3>
+            <div class="m-0 leading-snug tracking-normal [&amp;&gt;p]:m-0 text-gray-950">
+              <p>Choosing a signature scent shouldn’t feel like a gamble. If something doesn’t feel like you, no pressure, you’re covered with our
+                <strong>60-day satisfaction guarantee. Return it. Keep what you love.</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-6">
+        <!-- Search and Filter Section -->
+        <div class="bundler-search-filter">
+          <div class="search-container">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search for scents..."
+              onkeyup="filterProducts()">
+          </div>
+          <div class="filter-container">
+            <button
+              class="filter-btn active"
+              data-filter="all"
+              onclick="filterByCategory('all')">All</button>
+            <button
+              class="filter-btn"
+              data-filter="man"
+              onclick="filterByCategory('man')">Men</button>
+            <button
+              class="filter-btn"
+              data-filter="woman"
+              onclick="filterByCategory('woman')">Women</button>
+          </div>
+        </div>
+        <!-- Products Grid -->
+        <div class="bundler-products" id="productsGrid">
+          {% for product in bundle_collection.products %}
+            {% assign default_variant = product.variants | where: "title", "100ML" | first %}
+            {% unless default_variant %}
+              {% assign default_variant = product.variants.first %}
+            {% endunless %}
+
+            <div
+              class="product-card bundler-product"
+              data-product-id="{{ product.id }}"
+              data-variant-id="{{ default_variant.id }}"
+              data-category="{{ product.tags | join: ' ' | downcase }}"
+              data-current-variant="{{ currentVariant }}">
+              <!-- Product Badge -->
+              {% if product.tags contains 'new' %}
+                <div class="product-badge new">New</div>
+              {% elsif product.tags contains 'popular' %}
+                <div class="product-badge popular">Most Popular</div>
+              {% endif %}
+
+              <!-- Product Image -->
+              <div class="product-image">
+                <img
+                  src="{{ product.featured_image | image_url: width: 200 }}"
+                  alt="{{ product.title }}"
+                  loading="lazy">
+              </div>
+
+              <!-- Product Info -->
+              <div class="product-info">
+                <h3 class="product-title">{{ product.title }}</h3>
+
+                <!-- Reviews -->
+                <div class="product-reviews">
+                  {%- if product.metafields.reviews.rating.value != blank -%}
+                    <div
+                      class="rating"
+                      role="img"
+                      aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}">
+                      <img
+                        src="{{ 'rating-stars.svg' | asset_url }}"
+                        alt="*****"
+                        height="13"
+                        width="66">
+                    </div>
+                    <span class="rating-text">{{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}</span>
+                    <span class="rating-count">({{ product.metafields.reviews.rating_count }})</span>
+                  {%- else -%}
+                    <div class="rating">
+                      <img
+                        src="{{ 'rating-stars.svg' | asset_url }}"
+                        alt="*****"
+                        height="13"
+                        width="66">
+                    </div>
+                    <span class="rating-text">5 / 5</span>
+                    <span class="rating-count">({{ product.metafields.judgeme.reviews_count | default: '150' }})</span>
+                  {%- endif -%}
+                </div>
+
+                <!-- Price Display -->
+                <div class="product-price-display">
+                  {% assign variant_30ml = product.variants | where: 'title', '30ML' | first %}
+                  {% assign variant_50ml = product.variants | where: 'title', '50ML' | first %}
+                  {% assign variant_100ml = product.variants | where: 'title', '100ML' | first %}
+                  {% if default_variant.compare_at_price > default_variant.price %}
+                    <span class="product-compare-price">{{ default_variant.compare_at_price | money }}</span>
+                  {% endif %}
+                  <span
+                    class="product-price"
+                    id="price-{{ product.id }}"
+                    data-30ml="{% if variant_30ml %}{{ variant_30ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
+                    data-50ml="{% if variant_50ml %}{{ variant_50ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
+                    data-100ml="{% if variant_100ml %}{{ variant_100ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
+                    data-variant-30ml="{% if variant_30ml %}{{ variant_30ml.id }}{% else %}{{ default_variant.id }}{% endif %}"
+                    data-variant-50ml="{% if variant_50ml %}{{ variant_50ml.id }}{% else %}{{ default_variant.id }}{% endif %}"
+                    data-variant-100ml="{% if variant_100ml %}{{ variant_100ml.id }}{% else %}{{ default_variant.id }}{% endif %}">{{ default_variant.price | money }}</span>
+                </div>
+
+                <!-- Add to Bundle Button -->
+                <button class="add-to-bundle-btn" onclick="selectProduct({{ product.id }}, {{ default_variant.id }});">
+                  ADD TO BUNDLE
+                </button>
+              </div>
+
+              <!-- Selection Indicator -->
+              <div class="selection-indicator" style="display: none;">
+                <div class="check-icon">✓</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- MOBILE STICKY FOOTER -->
+      <div
+        class="mobile-sticky-footer"
+        id="mobileStickyFooter"
+        style="display: none;">
+        <div class="sticky-content">
+          <div class="shoppingNote"></div>
+          <button id="addBundleBtnSticky" class="add-bundle-btn">
+            <span class="btn-text" id="btnTextSticky">REVIEW BUNDLE</span>
+            <span class="btn-status" id="btnStatusSticky">0/3</span>
+          </button>
+
+          <!-- Mobile Benefits Footer -->
+          <div class="mobile-benefits">
+            <div class="mobile-benefit-item">5-8 Days Shipping Worldwide</div>
+            <div class="mobile-benefit-item">60-days Money Back Guarantee</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MOBILE FULLSCREEN CART -->
+      <div
+        class="mobile-fullscreen-cart"
+        id="mobileFullscreenCart"
+        style="display: none;">
+        <div class="fullscreen-content">
+          <!-- Mobile Header -->
+          <div class="sidebar-header">
+            <div class="header-left">
+              <span class="scents-count" id="scentsCountFullscreen">0 scents in box</span>
+            </div>
+            <div class="header-right">
+              <button class="keep-shopping-btn" onclick="closeFullscreenSidebar()">Keep Shopping</button>
+            </div>
+          </div>
+
+          <!-- Progress Section -->
+          <div class="cart-progress">
+            <div class="bundler-progress-container">
+              <div class="bundler-progress-bar">
+                <div class="bundler-progress-fill" id="cartProgressFillFullscreen"></div>
+                <div class="progress-markers" id="progressMarkersFullscreen">
+                  <!-- Markers will be generated dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Items -->
+          <div class="selected-items" id="selectedItemsFullscreen">
+            <div class="empty-cart">
+              <p>Your cart is empty.</p>
+            </div>
+          </div>
+
+          <!-- Add Bundle Button -->
+          <div class="sidebar-footer">
+            <button id="addBundleBtnFullscreen" class="add-bundle-btn">
+              <span class="btn-text" id="btnTextFullscreen">REVIEW BUNDLE</span>
+              <span class="btn-status" id="btnStatusFullscreen">0/3</span>
+            </button>
+          </div>
+
+          <!-- Benefits Section -->
+          <div class="benefits-section" id="benefitsSectionFullscreen">
+            <div class="benefits-list">
+              <div class="benefit-item">Scent lasts 12 hours</div>
+              <div class="benefit-item">You pay 1/10 of original prices</div>
+              <div class="benefit-item">You can return up to 60 days</div>
+              <div class="benefit-item">Worldwide shipping</div>
+              <div class="benefit-item">Discount on future purchases</div>
+              <div class="benefit-item">Scent guarantee</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backdrop for mobile fullscreen -->
+      <div
+        class="sidebar-backdrop"
+        id="sidebarBackdrop"
+        onclick="closeFullscreenSidebar()"></div>
+    </div>
+  </div>
+
+</div>
+
+{% comment %} <script>
+                                                                                                                                                                                                    /* Woot Buble holder */
+                                                                                                                                                                                                    document.addEventListener('DOMContentLoaded', function() {
+                                                                                                                                                                                                      const wootBubble = document.querySelector('.woot--bubble-holder .woot-widget-bubble');
+                                                                                                                                                                                                      wootBubble.style.bottom = '105px';
+                                                                                                                                                                                                    });
+</script> {% endcomment %}
+
+<style>
+
+  .woot--bubble-holder {
+    display: none;
+  }
+
+  /* Header */
+  .bundler-header {
+    text-align: center;
+    padding: 40px 32px 32px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 1px solid #eee;
+  }
+
+  .bundler-title h1 {
+    margin: 0 0 8px;
+    font-size: 7.5rem;
+    font-weight: 800;
+    color: #222;
+    letter-spacing: -0.5px;
+  }
+
+  .bundler-subtitle {
+    margin: 0 0 16px;
+    font-size: 3.3rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .bundler-reviews {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: 72px;
+    font-size: 2.7rem;
+    color: #666;
+  }
+
+  .bundler-reviews .rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .bundler-reviews .rating img {
+    height: 30px;
+    width: 150px;
+  }
+
+  .bundler-reviews .rating-text {
+    font-size: 1.35rem;
+    color: #000;
+    font-weight: 700;
+    margin: 0;
+    line-height: 30px;
+  }
+
+  .bundler-reviews .rating-count {
+    font-size: 0.45rem;
+    color: #000;
+    font-weight: 700;
+    margin: 0;
+    line-height: 30px;
+  }
+
+  .review-count {
+    font-size: 1.35rem;
+    color: #000;
+    font-weight: 700;
+  }
+
+  .bundler-savings-info {
+    margin-top: 12px;
+  }
+
+  .savings-badge {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+  }
+
+  .variant-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 8px;
+    text-align: center;
+  }
+
+  .variant-subtitle {
+    text-align: center;
+    color: #666;
+    margin: 0 0 30px;
+  }
+
+  .variant-btn {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    position: relative;
+  }
+
+  .variant-btn:hover {
+    border-color: #28a745;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.15);
+  }
+
+  .variant-btn.active {
+    border-color: #28a745;
+    border-width: 4px;
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%);
+    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.2);
+  }
+
+  .variant-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .variant-size {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .variant-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 10px;
+    border-radius: 24px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+  }
+
+  .variant-badge.popular {
+    background: #ff6b6b;
+  }
+
+  .variant-badge.bestseller {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  }
+
+  /* Bundle Type Selection */
+  .bundle-type-selection {
+    margin-top: 20px;
+  }
+
+  .bundle-type-btn {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: visible;
+  }
+
+  .bundle-type-btn:hover {
+    border-color: #28a745;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.15);
+  }
+
+  .bundle-type-btn.active {
+    border-color: #28a745;
+    background: white;
+    color: #222;
+    border-width: 4px;
+    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.15);
+  }
+
+  .bundle-type-btn.active .bundle-type-title,
+  .bundle-type-btn.active .bundle-type-desc {
+    color: #222 !important;
+  }
+
+  .bundle-type-btn .bundle-type-title,
+  .bundle-type-btn .bundle-type-desc {
+    color: #222;
+  }
+
+
+  .bundle-total-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #28a745;
+  }
+
+  .bundle-price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #dc3545;
+    margin-top: 4px;
+  }
+
+  .bundle-type-btn.active .bundle-price {
+    color: #dc3545;
+  }
+
+  .bundle-type-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .bundle-type-desc {
+    font-size: 1.6rem;
+    color: #222;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .bundle-type-btn.active .bundle-type-title,
+  .bundle-type-btn.active .bundle-type-desc {
+    color: white;
+  }
+
+  .bundle-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 1;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+
+  .bundle-badge.bestseller {
+    background: linear-gradient(45deg, #ffd700, #ff8c00, #ffa500, #ffd700);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    color: white;
+  }
+
+  .bundle-badge.best-value {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    color: white;
+  }
+
+  .bundle-savings {
+    color: #888888;
+    font-weight: 500;
+  }
+
+  .bundle-savings.free-shipping {
+    color: #28a745 !important;
+  }
+
+  .free-shipping.bundle-savings:after {
+    content: " + Free Shipping";
+  }
+
+  @keyframes shiny-gradient {
+    0% {
+      background-position: 0 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+
+
+  .progress-step.free-step .progress-indicator {
+    border-color: #28a745;
+  }
+
+  /* Search and Filter */
+  .bundler-search-filter {
+    padding: 24px 32px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    margin-bottom: 10px;
+  }
+
+  .search-container {
+    margin-bottom: 16px;
+  }
+
+  .search-container input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1.6rem;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+  }
+
+  .search-container input:focus {
+    border-color: #28a745;
+    background-color: white;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+  }
+
+  .filter-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .filter-btn {
+    padding: 8px 20px 7px;
+    border: 2px solid #e0e0e0;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    color: #666666;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .filter-btn.active {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #e8f5e8 0%, #f8fff9 100%);
+    color: #28a745;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+  }
+
+  /* Products Grid */
+  .bundler-products {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+
+  .product-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card:hover {
+    border-color: #28a745;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.15);
+  }
+
+  .product-card.selected {
+    border-color: #28a745;
+    background: linear-gradient(135deg, #e8f5e8 0%, #f8fff9 100%);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+    transform: translateY(-4px);
+  }
+
+  /* Product Badge */
+  .product-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .product-badge.new {
+    background-color: #ffd700;
+    color: #222;
+  }
+
+  .product-badge.popular {
+    background-color: #ff6b6b;
+    color: white;
+  }
+
+  /* Product Image */
+  .product-image {
+    text-align: center;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .product-image img {
+    transform: scale(1.05);
+  }
+
+  /* Product Info */
+  .product-info {
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-title {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.3;
+  }
+
+  /* Product Reviews */
+  .product-reviews {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 5px;
+  }
+
+  .product-reviews .rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .product-reviews .rating img {
+    height: 13px;
+    width: 66px;
+  }
+
+  .product-reviews .rating-text {
+    font-size: 1.1rem;
+    color: #222;
+    margin: 0;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .product-reviews .rating-count {
+    font-size: 1.1rem;
+    color: #333;
+    margin: 0;
+  }
+
+  .product-reviews .review-count {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  /* Price Display */
+  .product-price-display {
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  .product-price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #28a745;
+  }
+
+  .product-compare-price {
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #999;
+    text-decoration: line-through;
+    margin-right: 8px;
+  }
+
+  /* Selected Item Quantity */
+  .selected-item-quantity {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: white;
+    overflow: hidden;
+    margin-right: 8px;
+  }
+
+  .selected-item-quantity .quantity-btn {
+    width: 24px;
+    height: 28px;
+    border: none;
+    background: #f8f9fa;
+    color: #666;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .selected-item-quantity .quantity-btn:hover {
+    background: #e9ecef;
+    color: #222;
+  }
+
+  .selected-item-quantity .quantity-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .selected-item-quantity .quantity-display {
+    width: 32px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #222;
+    background: white;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+  }
+
+  /* Add to Bundle Button */
+  .add-to-bundle-btn {
+    margin-top: auto;
+    padding: 16px 20px;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #28a745, #20c997, #28a745);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .add-to-bundle-btn:hover {
+    border-color: #28a745;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.15);
+  }
+
+  .add-to-bundle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .add-to-bundle-btn.selected {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #ffffff 100%);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    border-color: #28a745;
+  }
+
+  /* Selection Indicator */
+  .selection-indicator {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border: 2px solid #28a745;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #28a745;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .product-card.selected .selection-indicator {
+    opacity: 1;
+  }
+
+  .check-icon {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  /* Mobile Sticky Footer */
+  .mobile-sticky-footer {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  }
+
+  .sticky-content {
+    padding: 8px 16px;
+  }
+
+  /* Mobile Benefits in Sticky Footer */
+  .mobile-sticky-footer .mobile-benefits {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 8px;
+    gap: 8px;
+  }
+
+  .mobile-sticky-footer .mobile-benefit-item {
+    flex: 1;
+    text-align: center;
+  }
+
+  /* Mobile Fullscreen Cart */
+  .mobile-fullscreen-cart {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 2000;
+    background: white;
+    overflow-y: auto;
+    cursor: default;
+  }
+
+  .fullscreen-content {
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Fullscreen Cart Header */
+  .mobile-fullscreen-cart .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mobile-fullscreen-cart .header-left {
+    flex: 1;
+  }
+
+  .mobile-fullscreen-cart .scents-count {
+    font-weight: 600;
+    color: #222;
+  }
+
+  .mobile-fullscreen-cart .header-right {
+    flex: 0 0 auto;
+  }
+
+  .mobile-fullscreen-cart .keep-shopping-btn {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .mobile-fullscreen-cart .keep-shopping-btn:hover {
+    background: #e9ecef;
+    color: #222;
+  }
+
+  /* Fullscreen Cart Progress */
+  .mobile-fullscreen-cart .cart-progress {
+    display: block !important;
+    margin-bottom: 16px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 12px;
+  }
+
+  .mobile-fullscreen-cart .progress-text {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .mobile-fullscreen-cart .bundler-progress-container {
+    position: relative;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    display: block !important;
+  }
+
+  .mobile-fullscreen-cart .bundler-progress-bar {
+    height: 28px;
+    background: #f2f2f2;
+    border-radius: 20px;
+    position: relative;
+    overflow: visible;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: block !important;
+  }
+
+  .mobile-fullscreen-cart .bundler-progress-fill {
+    height: 100% !important;
+    background: #28a745 !important;
+    border-radius: 20px;
+    transition: width 0.5s ease;
+    width: 0;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
+
+  .mobile-fullscreen-cart .progress-markers {
+    position: absolute;
+    top: 14px;
+    left: 0;
+    right: 0;
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    padding: 0 12px;
+    pointer-events: none;
+  }
+
+  .mobile-fullscreen-cart .marker.active {
+    border-color: #fff;
+    background: #28a745;
+    color: white;
+    border-width: 2px;
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
+  }
+
+  /* Fullscreen Cart Save Info */
+  .mobile-fullscreen-cart .save-info {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 12px 16px;
+    border-radius: 8px;
+    display: block;
+    text-align: center;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(40, 167, 69, 0.3);
+  }
+
+  /* Fullscreen Cart Selected Items */
+  .mobile-fullscreen-cart .selected-items {
+    flex: 1;
+    max-height: none;
+    overflow-y: auto;
+    opacity: 1;
+    margin-bottom: 16px;
+    padding-right: 1rem;
+  }
+
+  .mobile-fullscreen-cart .selected-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background: white;
+  }
+
+  .mobile-fullscreen-cart .selected-item-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .mobile-fullscreen-cart .selected-item-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .mobile-fullscreen-cart .selected-item-price {
+    font-size: 0.9rem;
+    color: #28a745;
+    font-weight: 600;
+  }
+
+  /* Fullscreen Benefits */
+  .mobile-fullscreen-cart .benefits-section {
+    margin-top: 16px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .mobile-fullscreen-cart .benefits-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .mobile-fullscreen-cart .benefit-item {
+    font-size: 0.8rem;
+    color: #666;
+    line-height: 1.2;
+    position: relative;
+    padding-left: 16px;
+  }
+
+  .mobile-fullscreen-cart .benefit-item:before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: bold;
+  }
+
+  .sidebar-content {
+    padding: 24px;
+  }
+
+  .sidebar-title {
+    margin: 0 0 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #222;
+    text-align: center;
+  }
+
+  /* Cart Progress */
+  .cart-progress {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 12px;
+  }
+
+  .progress-text {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+
+  .bundler-progress-container {
+    position: relative;
+    margin-bottom: 8px;
+  }
+
+  .bundler-progress-bar {
+    height: 28px;
+    background: #f2f2f2;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .progress-markers {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: auto;
+    /* z-index: 10; */
+    padding: 0 12px;
+    pointer-events: none;
+  }
+
+  .progress-markers .marker {
+    pointer-events: auto;
+  }
+
+  .bundler-progress-fill {
+    height: 100% !important;
+    background: #28a745 !important;
+    border-radius: 0;
+    transition: width 0.5s ease;
+    width: 0;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    max-width: 100% !important;
+    display: block !important;
+    box-sizing: border-box;
+    min-height: 28px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+
+  .marker {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #666;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    pointer-events: auto;
+    z-index: 11;
+  }
+
+  .marker.active {
+    border-color: #fff;
+    background: #28a745;
+    color: white;
+    box-shadow: 0 8px 24px rgba(40, 167, 69, 0.4);
+    border-width: 2px;
+  }
+
+  .buy-marker {
+    border-color: #ddd;
+  }
+
+  .free-marker {
+    border-color: #28a745;
+    background: #e8f5e8;
+    color: #28a745;
+  }
+
+
+  /* Selected Items */
+  .selected-items {
+    margin-bottom: 24px;
+  }
+
+  .empty-cart {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+  }
+
+  .empty-cart p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .selected-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: white;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .selected-item:hover {
+    border-color: #28a745;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.1);
+  }
+
+  .selected-item-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .selected-item-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .selected-item-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #222;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .selected-item-variant {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+  }
+
+  .selected-item-remove {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    border: 1px solid #ddd;
+  }
+
+  .selected-item-remove:hover {
+    background: #ff6b6b;
+    color: white;
+  }
+
+  /* Selected Item Actions */
+  .selected-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* Free Badge */
+  .free-badge {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 6px 2px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    /* z-index: 10; */
+  }
+
+  .free-item {
+    border-color: #28a745 !important;
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%) !important;
+  }
+
+  /* Sidebar Footer */
+  .sidebar-footer {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 20px;
+  }
+
+  .add-bundle-btn {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #ffffff 100%);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btn-text {
+    flex: 1;
+    text-align: left;
+  }
+
+  .btn-status {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  .add-bundle-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+  }
+
+  .add-bundle-btn:disabled {
+    background: #e0e0e0;
+    color: #666;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Mobile button disabled state */
+  .add-bundle-btn.disabled {
+    background: #e0e0e0 !important;
+    color: #999 !important;
+    box-shadow: none !important;
+    animation: none !important;
+  }
+
+  .add-bundle-btn.disabled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .product-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+  }
+
+  .product-variant {
+    margin-bottom: 12px;
+  }
+
+  .product-variant label {
+    display: block;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .variant-select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background: white;
+  }
+
+  .quantity-selector {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .quantity-selector .quantity-btn {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background: linear-gradient(45deg, #28a745, #20c997, #28a745);
+    background-size: 200% 200%;
+    animation: shiny-gradient 2s ease-in-out infinite;
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .quantity-selector .quantity-btn:hover {
+    border-color: #28a745;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.15);
+  }
+
+  .quantity-selector .quantity-display {
+    min-width: 40px;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .category-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .category-tag.man {
+    background-color: #e3f2fd;
+    color: #1976d2;
+  }
+
+  .category-tag.woman {
+    background-color: #fce4ec;
+    color: #c2185b;
+  }
+
+
+  /* Responsive */
+
+  @media (max-width: 768px) {
+    .bundler-header {
+      padding: 24px 20px;
+    }
+
+    .bundler-title h1 {
+      font-size: 2rem;
+    }
+
+    .bundle-type-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bundle-type-btn {
+      min-width: 200px;
+    }
+
+    .bundler-search-filter {
+      padding: 20px;
+    }
+
+    .filter-container {
+      flex-wrap: wrap;
+    }
+
+    .product-card {
+      min-height: 400px;
+    }
+
+    .product-image img {
+      height: 200px;
+    }
+  }
+
+  /* Mobile Responsive Styles */
+  @media (max-width: 768px) {
+
+    /* Show mobile sidebar when has items */
+    .mobile-sidebar.show {
+      display: block !important;
+    }
+
+    /* Mobile sidebar sticky footer styling */
+    .mobile-sidebar:not(.fullscreen) {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 1000 !important;
+    }
+
+    /* Hide desktop progress bar on mobile */
+    .desktop-sidebar .bundler-progress-fill {
+      display: none !important;
+    }
+
+    /* Header Mobile */
+    .bundler-header {
+      padding: 20px 16px;
+    }
+
+    .bundler-title h1 {
+      font-size: 3.5rem;
+      margin: 0 0 8px;
+    }
+
+    .bundler-subtitle {
+      font-size: 1.6rem;
+      margin: 0 0 16px;
+    }
+
+    .bundler-reviews {
+      gap: 8px !important;
+      margin-bottom: 20px !important;
+      font-size: 0.6rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .bundler-reviews .rating img {
+      height: 20px !important;
+      width: 100px !important;
+    }
+
+    .bundler-reviews .rating-text {
+      font-size: 0.675rem !important;
+      color: #000 !important;
+      font-weight: 700 !important;
+      line-height: 20px !important;
+      height: 20px !important;
+    }
+
+    .bundler-reviews .rating-count {
+      font-size: 0.3rem !important;
+      color: #000 !important;
+      font-weight: 700 !important;
+      line-height: 20px !important;
+      height: 20px !important;
+    }
+
+    .bundle-type-btn {
+      padding: 16px 8px;
+      gap: 6px;
+      min-width: auto;
+      flex: none;
+    }
+
+    .bundle-type-desc {
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    .bundle-total-price {
+      font-size: 2.1rem;
+    }
+
+    .bundle-price {
+      font-size: 1.2rem;
+    }
+
+    .bundle-badge {
+      font-size: 0.9rem;
+      padding: 2px 6px;
+      top: -6px;
+    }
+
+    /* Search and Filter Mobile */
+    .bundler-search-filter {
+      padding: 16px;
+      margin-bottom: 8px;
+    }
+
+    .search-container input {
+      padding: 12px 16px;
+      font-size: 16px;
+      /* Prevent zoom on iOS */
+    }
+
+    .filter-container {
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 16px;
+      font-size: 0.8rem;
+    }
+
+    /* Products Grid Mobile - 2 Columns */
+    .bundler-products {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .product-card {
+      padding: 12px;
+      min-height: 350px;
+    }
+
+    .product-title {
+      font-size: 1.2rem;
+      margin: 0 0 6px;
+    }
+
+    .product-image img {
+      height: 180px;
+    }
+
+    .product-price {
+      font-size: 1.4rem;
+    }
+
+    .product-compare-price {
+      font-size: 1rem;
+    }
+
+    .add-to-bundle-btn {
+      padding: 12px 16px;
+      font-size: 1rem;
+    }
+
+    /* Sticky Footer Content */
+    .mobile-sidebar:not(.fullscreen) .sidebar-content {
+      padding: 8px 16px;
+    }
+
+    .mobile-sidebar:not(.fullscreen) .sidebar-title {
+      display: none !important;
+    }
+
+    .mobile-sidebar:not(.fullscreen) .cart-progress {
+      display: none !important;
+    }
+
+    .mobile-sidebar:not(.fullscreen) .selected-items {
+      display: none !important;
+    }
+
+    .sidebar-content {
+      padding: 8px 16px;
+    }
+
+    .sidebar-title {
+      font-size: 1.1rem;
+      margin: 0 0 12px;
+      display: none !important;
+    }
+
+    /* Cart Progress Mobile - Hidden in sticky footer */
+    .cart-progress {
+      display: none !important;
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+    }
+
+    .bundler-progress-container {
+      margin-top: 8px;
+    }
+
+    .bundler-progress-bar {
+      height: 8px;
+    }
+
+    .progress-markers {
+      top: -4px;
+    }
+
+    .progress-marker {
+      width: 16px;
+      height: 16px;
+      font-size: 0.7rem;
+    }
+
+    /* Selected Items Mobile */
+    .selected-items {
+      max-height: 0;
+      overflow: hidden;
+      margin-bottom: 0;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .selected-item {
+      padding: 8px;
+      gap: 8px;
+    }
+
+    .selected-item-image {
+      width: 40px;
+      height: 40px;
+    }
+
+    .selected-item-info {
+      flex: 1;
+    }
+
+    .selected-item-title {
+      font-size: 0.9rem;
+    }
+
+    .selected-item-price {
+      font-size: 0.8rem;
+    }
+
+    .selected-item-quantity {
+      margin-right: 4px;
+    }
+
+    .selected-item-quantity .quantity-btn {
+      width: 20px;
+      height: 24px;
+      font-size: 0.8rem;
+    }
+
+    .selected-item-quantity .quantity-display {
+      width: 28px;
+      height: 24px;
+      font-size: 0.8rem;
+    }
+
+    .remove-item-btn {
+      padding: 4px 8px;
+      font-size: 0.7rem;
+    }
+
+    /* Add Bundle Button Mobile */
+    .add-bundle-btn {
+      padding: 16px;
+      font-size: 1.1rem;
+    }
+
+    /* Empty Cart Mobile */
+    .empty-cart {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .empty-cart p {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .bundler-sidebar.fullscreen .sidebar-content {
+      padding: 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .bundler-sidebar.fullscreen .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .bundler-sidebar.fullscreen .header-left {
+      flex: 1;
+    }
+
+    .bundler-sidebar.fullscreen .scents-count {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #222;
+    }
+
+    .bundler-sidebar.fullscreen .header-right {
+      flex: 0 0 auto;
+    }
+
+    .bundler-sidebar.fullscreen .sidebar-title {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+
+    .bundler-sidebar.fullscreen .keep-shopping-btn {
+      background: #f8f9fa;
+      border: 1px solid #e0e0e0;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .bundler-sidebar.fullscreen .keep-shopping-btn:hover {
+      background: #e9ecef;
+      color: #222;
+    }
+
+    .bundler-sidebar.fullscreen .cart-progress {
+      display: block !important;
+      margin-bottom: 16px;
+      padding: 12px;
+    }
+
+    .bundler-sidebar.fullscreen .selected-items {
+      flex: 1;
+      max-height: none !important;
+      overflow-y: auto;
+      opacity: 1 !important;
+      margin-bottom: 16px !important;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item {
+      padding: 12px;
+      margin-bottom: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item-image {
+      width: 60px;
+      height: 60px;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item-title {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item-price {
+      font-size: 0.9rem;
+      color: #28a745;
+      font-weight: 600;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item-quantity {
+      margin-right: 8px;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item-quantity .quantity-btn {
+      width: 28px;
+      height: 32px;
+      font-size: 1rem;
+    }
+
+    .bundler-sidebar.fullscreen .selected-item-quantity .quantity-display {
+      width: 36px;
+      height: 32px;
+      font-size: 1rem;
+    }
+
+    .bundler-sidebar.fullscreen .remove-item-btn {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+    }
+
+    /* Benefits Section Mobile */
+    .bundler-sidebar.fullscreen .benefits-section {
+      margin-top: 8px;
+      padding: 8px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .bundler-sidebar.fullscreen .benefits-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #222;
+    }
+
+    .bundler-sidebar.fullscreen .benefits-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .bundler-sidebar.fullscreen .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .bundler-sidebar.fullscreen .benefit-item::before {
+      content: "✔";
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    /* Save Info Mobile */
+    .bundler-sidebar.fullscreen .save-info {
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      color: white;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    /* Add Bundle Button Fullscreen Mobile */
+    .bundler-sidebar.fullscreen .add-bundle-btn {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    /* Backdrop for fullscreen */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1999;
+    }
+
+    .sidebar-backdrop.active {
+      display: block;
+    }
+
+    /* Mobile Benefits Footer */
+    .mobile-benefits {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid #eee;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .mobile-benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.9rem;
+      color: #666;
+      flex: 1;
+    }
+
+    .mobile-benefit-item::before {
+      content: "✔";
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    /* Show sidebar on mobile always */
+    .bundler-sidebar {
+      display: block !important;
+    }
+  }
+
+  /* Extra small mobile */
+  @media (max-width: 480px) {
+    .bundler-title h1 {
+      font-size: 3rem;
+    }
+
+    .bundler-subtitle {
+      font-size: 1.4rem;
+    }
+
+    .variant-image {
+      width: 60px;
+      height: 60px;
+    }
+
+    .bundle-type-buttons {
+      gap: 8px;
+    }
+
+    .bundle-type-btn {
+      padding: 12px 6px;
+    }
+
+    .bundle-type-desc {
+      font-size: 1.2rem;
+    }
+
+    .bundle-total-price {
+      font-size: 1.8rem;
+    }
+
+    .product-card {
+      min-height: 320px;
+    }
+
+    .product-image img {
+      height: 160px;
+    }
+
+    .bundler-sidebar.fullscreen .benefits-list {
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .bundler-sidebar.fullscreen .benefit-item {
+      font-size: 0.75rem;
+      padding: 2px 0;
+      line-height: 1.1;
+    }
+  }
+
+  /* Desktop Sidebar Font Size Updates - Following UX Guidelines */
+  .desktop-sidebar .sidebar-title {
+    font-size: 24px !important;
+    /* H2/H3 - 20-24px */
+  }
+
+  .desktop-sidebar .progress-text {
+    display: none !important;
+    /* Hide duplicate text in gray box */
+  }
+
+  .desktop-sidebar .empty-cart p {
+    font-size: 16px !important;
+    /* Body text - 16-18px */
+  }
+
+  .desktop-sidebar .selected-item-title {
+    font-size: 16px !important;
+    /* Body text - product names */
+  }
+
+  .desktop-sidebar .selected-item-variant {
+    font-size: 14px !important;
+    /* Labels - variant info */
+  }
+
+  .desktop-sidebar .btn-text {
+    font-size: 16px !important;
+    /* Primary CTA button - 16px */
+  }
+
+  .desktop-sidebar .btn-status {
+    font-size: 14px !important;
+    /* Labels - counter */
+  }
+
+  .desktop-sidebar .marker {
+    font-size: 13px !important;
+    /* Captions - progress markers */
+  }
+
+  .desktop-sidebar .selected-item-price {
+    font-size: 14px !important;
+    /* Labels - price info */
+  }
+
+  .desktop-sidebar .quantity-btn {
+    font-size: 14px !important;
+    /* Labels - quantity buttons */
+  }
+
+  .desktop-sidebar .quantity-display {
+    font-size: 16px !important;
+    /* Body text - quantity numbers */
+  }
+</style>
+<script>
+  // Global variables
+  let selectedProducts = [];
+  let currentFilter = "all";
+  let currentSearch = "";
+  let currentBundleType = "4+3"; // Default bundle type
+  let productQuantities = {}; // Store quantities for each product
+  let currentVariant = "100ML"; // Default variant
+  let variantPrices = {
+    "30ML": 1399, // $13.99 in cents
+    "50ML": 1999, // $19.99 in cents
+    "100ML": 2699, // $26.99 in cents
+  };
+  let bundleConfig = {
+    "2+1": { buy: 2, free: 1, total: 3 },
+    "3+2": { buy: 3, free: 2, total: 5 },
+    "4+3": { buy: 4, free: 3, total: 7 },
+    "5+4": { buy: 5, free: 4, total: 9 },
+  };
+
+  // Make functions globally available immediately
+  window.selectProduct = function (productId, passedVariantId) {
+    const productCard = document.querySelector(
+      `[data-product-id="${productId}"]`
+    );
+
+    if (!productCard) {
+      return;
+    }
+
+    // Convert productId to number for consistent comparison
+    productId = parseInt(productId);
+
+    // Use current selected variant instead of passed variantId
+    const priceElement = productCard.querySelector(".product-price");
+    const variantKey = currentVariant.toLowerCase().replace("ml", "ml");
+    const currentVariantPrice = priceElement
+      ? priceElement.dataset[variantKey] || priceElement.textContent
+      : "";
+
+    // Update product card variant ID to current variant
+    productCard.dataset.variantId = currentVariant;
+
+    const config = bundleConfig[currentBundleType];
+
+    // NEW APPROACH: Only consider product selected if it has quantity selector AND is in array
+    const hasQuantitySelector =
+      productCard.querySelector(".quantity-selector") !== null;
+    const isInArray = selectedProducts.some(
+      (p) => parseInt(p.id) === productId
+    );
+
+    // Product is only selected if BOTH conditions are true
+    const isSelected = hasQuantitySelector && isInArray;
+
+    if (isSelected) {
+      // Deselect product
+      productCard.classList.remove("selected");
+
+      // Reset button text
+      const button = productCard.querySelector(".add-to-bundle-btn");
+      if (button) {
+        button.textContent = "ADD TO BUNDLE";
+        button.classList.remove("selected");
+      }
+
+      // Hide selection indicator
+      const indicator = productCard.querySelector(".selection-indicator");
+      if (indicator) {
+        indicator.style.display = "none";
+      }
+
+      selectedProducts = selectedProducts.filter(
+        (p) => parseInt(p.id) !== productId
+      );
+      delete productQuantities[productId];
+
+      // Update progress text and indicators
+      updateProgressText();
+      updateCartProgress();
+      updateSelectedItems();
+      updateAddButton();
+
+      // Update fullscreen button text if in fullscreen
+      if (window.innerWidth <= 768) {
+        const sidebar = document.querySelector(".bundler-sidebar");
+        if (sidebar && sidebar.classList.contains("fullscreen")) {
+          updateFullscreenButtonText();
+        }
+      }
+    } else {
+      // FORCE CLEAN STATE before adding
+      const existingIndex = selectedProducts.findIndex(
+        (p) => parseInt(p.id) === productId
+      );
+      if (existingIndex !== -1) {
+        selectedProducts.splice(existingIndex, 1);
+      }
+      delete productQuantities[productId];
+
+      // Select product (check max based on bundle type)
+      if (selectedProducts.length >= config.total) {
+        alert(`You can only select ${config.total} scents for this bundle`);
+        return;
+      }
+
+      // Get product title
+      const productTitle = productCard.querySelector(".product-title");
+      const title = productTitle ? productTitle.textContent : "Unknown Product";
+
+      // Get price
+      const priceElement = productCard.querySelector(".product-price");
+      const price = priceElement ? priceElement.textContent : "";
+
+      // Get variant ID for current variant
+      const variantKey = `variant-${currentVariant.toLowerCase()}`;
+      let variantId =
+        productCard.querySelector(".product-price").dataset[variantKey];
+
+      if (!variantId) {
+        // Use the passedVariantId as fallback
+        variantId = passedVariantId || productCard.dataset.variantId;
+      }
+
+      // Add selected class
+      productCard.classList.add("selected");
+
+      // Change button to quantity selector
+      const button = productCard.querySelector(".add-to-bundle-btn");
+
+      if (button) {
+        // Create quantity selector
+        const quantitySelector = document.createElement("div");
+        quantitySelector.className = "quantity-selector";
+        quantitySelector.innerHTML = `
+        <button class="quantity-btn minus" onclick="changeProductQuantity(${productId}, -1)">-</button>
+        <span class="quantity-display">1</span>
+        <button class="quantity-btn plus" onclick="changeProductQuantity(${productId}, 1)">+</button>
+      `;
+
+        // Replace button with selector
+        button.parentNode.replaceChild(quantitySelector, button);
+      }
+
+      // Show selection indicator
+      const indicator = productCard.querySelector(".selection-indicator");
+      if (indicator) {
+        indicator.style.display = "flex";
+      }
+
+      // Get product image
+      const productImage = productCard.querySelector(".product-image img");
+      const image = productImage ? productImage.src : "";
+
+      selectedProducts.push({
+        id: productId,
+        variantId: parseInt(variantId), // Use actual variant ID
+        title: title,
+        price: currentVariantPrice, // Use price from data attribute
+        image: image,
+        variant: currentVariant,
+      });
+
+      // Initialize quantity for this product
+      productQuantities[productId] = 1;
+
+      // Update progress text and indicators
+      updateProgressText();
+      updateCartProgress();
+      updateSelectedItems();
+      updateAddButton();
+
+      // Update fullscreen button text if in fullscreen
+      if (window.innerWidth <= 768) {
+        const sidebar = document.querySelector(".bundler-sidebar");
+        if (sidebar && sidebar.classList.contains("fullscreen")) {
+          updateFullscreenButtonText();
+        }
+      }
+    }
+  };
+
+  // Bundle type selection
+  window.selectBundleType = function (bundleType) {
+    currentBundleType = bundleType;
+    // DON'T reset selections when changing bundle type - preserve cart
+
+    // Update button states
+    document.querySelectorAll(".bundle-type-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    event.target.closest(".bundle-type-btn").classList.add("active");
+
+    // Update progress text
+    updateProgressText();
+
+    // Generate progress markers
+    generateProgressMarkers();
+
+    // Update cart progress
+    updateCartProgress();
+
+    // Update selected items
+    updateSelectedItems();
+
+    // Update add button
+    updateAddButton();
+
+    // Update fullscreen button text
+    updateFullscreenButtonText();
+
+    // Update bundle prices
+    updateBundlePrices();
+
+    // Scroll to product grid and search with offset
+    const productGrid = document.querySelector(".bundler-products");
+    if (productGrid) {
+      const offset = productGrid.offsetTop - 200;
+      window.scrollTo({ top: offset, behavior: "smooth" });
+    }
+
+    // Save state to localStorage
+    window.saveBundlerState();
+  };
+
+  // Function to clear all cart selections
+  function clearAllSelections() {
+    // Complete reset of all data
+    selectedProducts.length = 0; // Clear array completely
+    Object.keys(productQuantities).forEach(
+      (key) => delete productQuantities[key]
+    ); // Clear object completely
+
+    // Reset filter to "All"
+    currentFilter = "all";
+    currentSearch = "";
+
+    // Reset filter button states
+    document.querySelectorAll(".filter-btn").forEach((btn) => {
+      btn.classList.remove("active");
+      if (btn.dataset.filter === "all") {
+        btn.classList.add("active");
+      }
+    });
+
+    // Reset product card states and show all products
+    document.querySelectorAll(".product-card").forEach((card) => {
+      // Remove all selection-related classes and styles
+      card.classList.remove("selected");
+      card.style.display = "flex";
+      card.style.borderColor = "";
+
+      // Force replace any quantity selector with fresh button
+      const quantitySelector = card.querySelector(".quantity-selector");
+      if (quantitySelector) {
+        const productId = parseInt(card.dataset.productId);
+        const variantId = parseInt(card.dataset.variantId);
+
+        // Create completely fresh button
+        const newButton = document.createElement("button");
+        newButton.className = "add-to-bundle-btn";
+        newButton.textContent = "ADD TO BUNDLE";
+        newButton.setAttribute(
+          "onclick",
+          `selectProduct(${productId}, ${variantId});`
+        );
+
+        // Replace immediately
+        quantitySelector.parentNode.replaceChild(newButton, quantitySelector);
+      }
+
+      // Reset any existing button
+      const button = card.querySelector(".add-to-bundle-btn");
+      if (button) {
+        button.textContent = "ADD TO BUNDLE";
+        button.classList.remove("selected");
+        button.disabled = false;
+      }
+
+      // Hide selection indicator
+      const indicator = card.querySelector(".selection-indicator");
+      if (indicator) {
+        indicator.style.display = "none";
+      }
+    });
+
+    // Clear search input if exists
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+      searchInput.value = "";
+    }
+
+    // Force complete UI update
+    setTimeout(() => {
+      updateProgressText();
+      generateProgressMarkers();
+      updateCartProgress();
+      updateSelectedItems();
+      updateAddButton();
+      updateFullscreenButtonText();
+    }, 10);
+  }
+
+  // Add all other functions to window immediately
+  window.selectVariant = function (variant) {
+    currentVariant = variant;
+
+    // Update variant button states
+    document.querySelectorAll(".variant-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    event.target.closest(".variant-btn").classList.add("active");
+
+    // Clear all selections when variant changes
+    clearAllSelections();
+
+    // Clean and update prices
+    cleanDataAttributes();
+
+    // Update product prices for new variant
+    updateProductPrices(variant);
+
+    // Update bundle prices
+    updateBundlePrices();
+
+    // Scroll to bundle selection with offset
+    const bundleSelection = document.querySelector(".bundle-type-selection");
+    if (bundleSelection) {
+      const offset = bundleSelection.offsetTop - 200;
+      window.scrollTo({ top: offset, behavior: "smooth" });
+    }
+
+    // Save state to localStorage
+    window.saveBundlerState();
+  };
+
+  window.changeProductQuantity = function (productId, change) {
+    const productCard = document.querySelector(
+      `.product-card[data-product-id="${productId}"]`
+    );
+    if (!productCard) return;
+
+    const quantityDisplay = productCard.querySelector(".quantity-display");
+    if (!quantityDisplay) return;
+
+    let currentQuantity = parseInt(quantityDisplay.textContent) || 1;
+    let newQuantity = currentQuantity + change;
+
+    // If quantity goes to 0 or below, remove product completely
+    if (newQuantity <= 0) {
+      console.log(productCard);
+      // Remove product from selection
+      productCard.classList.remove("selected");
+
+      // Remove quantity selector and restore button
+      const quantitySelector = productCard.querySelector(".quantity-selector");
+      if (quantitySelector) {
+        const button = document.createElement("button");
+        button.className = "add-to-bundle-btn";
+        button.textContent = "ADD TO BUNDLE";
+        button.onclick = () => selectProduct(productId, currentVariant);
+        quantitySelector.parentNode.replaceChild(button, quantitySelector);
+      }
+
+      // Hide selection indicator
+      const indicator = productCard.querySelector(".selection-indicator");
+      if (indicator) {
+        indicator.style.display = "none";
+      }
+
+      // Remove from selected products
+      selectedProducts = selectedProducts.filter(
+        (p) => parseInt(p.id) !== productId
+      );
+      delete productQuantities[productId];
+
+      // Update progress
+      updateProgressText();
+      updateCartProgress();
+      updateSelectedItems();
+      updateAddButton();
+
+      return;
+    }
+
+    // Limit quantity to 10
+    if (newQuantity > 10) newQuantity = 10;
+
+    // Update quantity display in product card
+    quantityDisplay.textContent = newQuantity;
+
+    // Update quantity display in side cart
+    const selectedItem = document.querySelector(
+      `.selected-item[data-product-id="${productId}"]`
+    );
+    if (selectedItem) {
+      const sideCartQuantityDisplay =
+        selectedItem.querySelector(".quantity-display");
+      if (sideCartQuantityDisplay) {
+        sideCartQuantityDisplay.textContent = newQuantity;
+      }
+    }
+
+    // Update product quantities
+    productQuantities[productId] = newQuantity;
+
+    // Update selected product
+    const selectedProduct = selectedProducts.find((p) => p.id === productId);
+    if (selectedProduct) {
+      selectedProduct.quantity = newQuantity;
+    }
+
+    // Update progress
+    updateProgressText();
+    updateCartProgress();
+    updateSelectedItems();
+    updateAddButton();
+
+    // Save state to localStorage
+    window.saveBundlerState();
+  };
+
+  window.changeQuantity = function (productId, change) {
+    // Find all quantity displays for this product (desktop and fullscreen)
+    const selectedItems = document.querySelectorAll(
+      `.selected-item[data-product-id="${productId}"]`
+    );
+
+    if (selectedItems.length === 0) {
+      return;
+    }
+
+    // Get current quantity from the first item
+    const firstItem = selectedItems[0];
+    const firstQuantityDisplay = firstItem.querySelector(".quantity-display");
+
+    if (!firstQuantityDisplay) {
+      return;
+    }
+
+    let currentQuantity = parseInt(firstQuantityDisplay.textContent) || 1;
+    let newQuantity = currentQuantity + change;
+
+    // If quantity goes to 0 or below, remove product completely
+    if (newQuantity <= 0) {
+      // Remove product from selection
+      const productCard = document.querySelector(
+        `.product-card[data-product-id="${productId}"]`
+      );
+      if (productCard) {
+        productCard.classList.remove("selected");
+
+        // Remove quantity selector and restore button
+        const quantitySelector =
+          productCard.querySelector(".quantity-selector");
+        if (quantitySelector) {
+          const button = document.createElement("button");
+          button.className = "add-to-bundle-btn";
+          button.textContent = "ADD TO BUNDLE";
+          button.onclick = () => selectProduct(productId, currentVariant);
+          quantitySelector.parentNode.replaceChild(button, quantitySelector);
+        }
+
+        // Hide selection indicator
+        const indicator = productCard.querySelector(".selection-indicator");
+        if (indicator) {
+          indicator.style.display = "none";
+        }
+      }
+
+      // Remove from selected products
+      selectedProducts = selectedProducts.filter(
+        (p) => parseInt(p.id) !== productId
+      );
+      delete productQuantities[productId];
+
+      // Update progress
+      updateProgressText();
+      updateCartProgress();
+      updateSelectedItems();
+      updateAddButton();
+
+      return;
+    }
+
+    // Limit quantity to 10
+    if (newQuantity > 10) newQuantity = 10;
+
+    // Update quantity display in all carts (desktop and fullscreen)
+    selectedItems.forEach((item) => {
+      const quantityDisplay = item.querySelector(".quantity-display");
+      if (quantityDisplay) {
+        quantityDisplay.textContent = newQuantity;
+      }
+
+      // Update button states
+      const minusBtn = quantityDisplay
+        ? quantityDisplay.previousElementSibling
+        : null;
+      const plusBtn = quantityDisplay
+        ? quantityDisplay.nextElementSibling
+        : null;
+
+      if (minusBtn) minusBtn.disabled = newQuantity <= 1;
+      if (plusBtn) plusBtn.disabled = newQuantity >= 10;
+    });
+
+    // Update quantity display in product card
+    const productCard = document.querySelector(
+      `[data-product-id="${productId}"]`
+    );
+    if (productCard) {
+      const cardQuantityDisplay =
+        productCard.querySelector(".quantity-display");
+      if (cardQuantityDisplay) {
+        cardQuantityDisplay.textContent = newQuantity;
+      }
+    }
+
+    productQuantities[productId] = newQuantity;
+
+    // Update selected product
+    const selectedProduct = selectedProducts.find((p) => p.id === productId);
+    if (selectedProduct) {
+      selectedProduct.quantity = newQuantity;
+    }
+
+    // Button states are now updated in the forEach loop above
+
+    // Update progress
+    updateProgressText();
+    updateCartProgress();
+    updateSelectedItems();
+    updateAddButton();
+    updateFullscreenButtonText();
+  };
+
+  window.filterProducts = function () {
+    const searchTerm = document
+      .getElementById("searchInput")
+      .value.toLowerCase();
+    currentSearch = searchTerm;
+    applyFilters();
+
+    // Save state to localStorage
+    window.saveBundlerState();
+  };
+
+  window.filterByCategory = function (category) {
+    currentFilter = category;
+
+    // Update filter buttons
+    document.querySelectorAll(".filter-btn").forEach((btn) => {
+      btn.classList.remove("active");
+    });
+    event.target.classList.add("active");
+
+    applyFilters();
+
+    // Save state to localStorage
+    window.saveBundlerState();
+  };
+
+  window.addBundleToCart = function () {
+    const config = bundleConfig[currentBundleType];
+
+    // Calculate total items including quantities
+    let totalItems = 0;
+    selectedProducts.forEach((product) => {
+      const quantity = productQuantities[product.id] || 1;
+      totalItems += quantity;
+    });
+
+    if (totalItems < config.total) {
+      return;
+    }
+
+    const items = selectedProducts.map((product) => {
+      return {
+        id: product.variantId,
+        quantity: productQuantities[product.id] || 1,
+        properties: {
+          _bundle_type: currentBundleType,
+          _bundle_total: totalItems.toString(),
+        },
+      };
+    });
+
+    // Add to cart using Shopify AJAX API
+    fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: items }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.status) {
+          // Add builder tag to cart attributes
+          fetch("/cart/update.js", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              attributes: {
+                _bundle_type: currentBundleType,
+                _bundle_total: totalItems.toString(),
+              },
+            }),
+          });
+
+          // Redirect to checkout
+          window.location.href = "/checkout";
+        }
+      })
+      .catch((error) => {
+        // Silent error handling
+      });
+  };
+
+  // Get ordinal suffix (1st, 2nd, 3rd, etc.)
+  function getOrdinalSuffix(num) {
+    if (num >= 11 && num <= 13) return "th";
+    switch (num % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  }
+
+  // Update progress text and sidebar title
+  function updateProgressText() {
+    const cartProgressText = document.getElementById("cartProgressText");
+    const cartProgressTextFullscreen = document.getElementById(
+      "cartProgressTextFullscreen"
+    );
+    const sidebarTitle = document.getElementById("sidebarTitle");
+    const shoppingNotes = document.querySelectorAll(".shoppingNote");
+    const config = bundleConfig[currentBundleType];
+
+    let text = "";
+    let title = "";
+
+    if (selectedProducts.length === 0) {
+      text = `Please select at least ${config.total} scents`;
+      title = `Please Select At Least ${config.total} Scents`;
+    } else if (selectedProducts.length < config.total) {
+      text = `Please select ${
+        config.total - selectedProducts.length
+      } more scents`;
+      title = `Please Select ${
+        config.total - selectedProducts.length
+      } More Scents`;
+    } else {
+      text = "Perfect! Your bundle is ready";
+      title = "Your Bundle Is Ready!";
+    }
+
+    if (cartProgressText) cartProgressText.textContent = text;
+    if (cartProgressTextFullscreen)
+      cartProgressTextFullscreen.textContent = text;
+    if (sidebarTitle) sidebarTitle.textContent = title;
+    if (shoppingNotes.length > 0) shoppingNotes.forEach((note) => {
+      note.textContent = text;
+    });
+  }
+
+  // Generate progress markers
+  function generateProgressMarkers() {
+    const markersContainer = document.getElementById("progressMarkers");
+    const markersContainerFullscreen = document.getElementById(
+      "progressMarkersFullscreen"
+    );
+    const config = bundleConfig[currentBundleType];
+
+    let markersHTML = "";
+
+    // Add buy markers
+    for (let i = 1; i <= config.buy; i++) {
+      markersHTML += `<span class="marker buy-marker" data-value="${i}">${i}</span>`;
+    }
+
+    // Add free markers
+    for (let i = config.buy + 1; i <= config.total; i++) {
+      markersHTML += `<span class="marker free-marker" data-value="${i}">${i}</span>`;
+    }
+
+    // Update desktop markers
+    if (markersContainer) {
+      markersContainer.innerHTML = markersHTML;
+    }
+
+    // Update fullscreen markers
+    if (markersContainerFullscreen) {
+      markersContainerFullscreen.innerHTML = markersHTML;
+    }
+  }
+
+  // Update cart progress bar
+  function updateCartProgress() {
+    const progressFill = document.getElementById("cartProgressFill");
+    const progressFillFullscreen = document.getElementById(
+      "cartProgressFillFullscreen"
+    );
+    const config = bundleConfig[currentBundleType];
+
+    // Calculate total items including quantities
+    let totalItems = 0;
+    selectedProducts.forEach((product) => {
+      const quantity = productQuantities[product.id] || 1;
+      totalItems += quantity;
+    });
+
+    // Update progress based on device
+    const isMobile = window.innerWidth <= 768;
+
+    // Update desktop progress
+    if (progressFill) {
+      const progressPercent = (totalItems / config.total) * 100;
+      progressFill.style.width = progressPercent + "%";
+    }
+
+    // Update fullscreen progress
+    if (progressFillFullscreen) {
+      const progressPercent = (totalItems / config.total) * 100;
+      progressFillFullscreen.style.width = progressPercent + "%";
+    }
+
+    // Update markers (both desktop and mobile)
+    document.querySelectorAll(".marker").forEach((marker) => {
+      const value = parseInt(marker.dataset.value);
+      if (totalItems >= value) {
+        marker.classList.add("active");
+      } else {
+        marker.classList.remove("active");
+      }
+    });
+  }
+
+  // Update selected items in sidebar
+  function updateSelectedItems() {
+    const selectedItemsContainer = document.getElementById("selectedItems");
+    const selectedItemsContainerFullscreen = document.getElementById(
+      "selectedItemsFullscreen"
+    );
+    const config = bundleConfig[currentBundleType];
+
+    const emptyCartHTML = `
+    <div class="empty-cart">
+      <p>Your cart is empty.</p>
+    </div>
+  `;
+
+    if (selectedProducts.length === 0) {
+      if (selectedItemsContainer) {
+        selectedItemsContainer.innerHTML = emptyCartHTML;
+      }
+      if (selectedItemsContainerFullscreen) {
+        selectedItemsContainerFullscreen.innerHTML = emptyCartHTML;
+      }
+      return;
+    }
+
+    let itemsHTML = "";
+
+    // Sort products: FREE items first, then paid items
+    const sortedProducts = [...selectedProducts].sort((a, b) => {
+      const aIndex = selectedProducts.indexOf(a);
+      const bIndex = selectedProducts.indexOf(b);
+      const aIsFree = aIndex >= config.buy;
+      const bIsFree = bIndex >= config.buy;
+
+      if (aIsFree && !bIsFree) return -1; // FREE first
+      if (!aIsFree && bIsFree) return 1; // Paid second
+      return aIndex - bIndex; // Keep original order within each group
+    });
+
+    sortedProducts.forEach((product) => {
+      const originalIndex = selectedProducts.indexOf(product);
+      const isFree = originalIndex >= config.buy;
+      const freeBadge = isFree ? '<span class="free-badge">FREE</span>' : "";
+
+      const quantity = productQuantities[product.id] || 1;
+      itemsHTML += `
+      <div class="selected-item ${
+        isFree ? "free-item" : ""
+      }" data-product-id="${product.id}">
+        <img src="${product.image || ""}" alt="${
+        product.title
+      }" class="selected-item-image">
+        <div class="selected-item-info">
+          <h4 class="selected-item-title">${product.title}</h4>
+          <p class="selected-item-variant">${product.variant || "100ML"}</p>
+        </div>
+        <div class="selected-item-quantity">
+          <button class="quantity-btn minus" onclick="changeQuantity(${
+            product.id
+          }, -1)">-</button>
+          <span class="quantity-display">${quantity}</span>
+          <button class="quantity-btn plus" onclick="changeQuantity(${
+            product.id
+          }, 1)">+</button>
+        </div>
+        <div class="selected-item-actions">
+          ${freeBadge}
+          <button class="selected-item-remove" onclick="removeFromCart(${
+            product.id
+          })">×</button>
+        </div>
+      </div>
+    `;
+    });
+
+    // Update both desktop and fullscreen containers
+    if (selectedItemsContainer) {
+      selectedItemsContainer.innerHTML = itemsHTML;
+    }
+    if (selectedItemsContainerFullscreen) {
+      selectedItemsContainerFullscreen.innerHTML = itemsHTML;
+    }
+
+    // Update add button after updating selected items
+    updateAddButton();
+  }
+
+  // Remove item from cart
+  function removeFromCart(productId) {
+    // Remove from selectedProducts array
+    selectedProducts = selectedProducts.filter(p => parseInt(p.id) !== parseInt(productId));
+    
+    // Reset quantity for this product
+    if (productQuantities[productId]) {
+      delete productQuantities[productId];
+    }
+    
+    // Update UI
+    updateSelectedItems();
+    updateCartProgress();
+    updateAddButton();
+    
+    // Update the product card state
+    const productCard = document.querySelector(`.product-card[data-product-id="${productId}"]`);
+    if (productCard) {
+      productCard.classList.remove('selected');
+      // Remove quantity selector and restore button
+      const quantitySelector =
+        productCard.querySelector(".quantity-selector");
+      if (quantitySelector) {
+        const button = document.createElement("button");
+        button.className = "add-to-bundle-btn";
+        button.textContent = "ADD TO BUNDLE";
+        button.onclick = () => selectProduct(productId, currentVariant);
+        quantitySelector.parentNode.replaceChild(button, quantitySelector);
+      }
+
+      // Hide selection indicator
+      const indicator = productCard.querySelector(".selection-indicator");
+      if (indicator) {
+        indicator.style.display = "none";
+      }
+    }
+    
+    // Save the updated state
+    saveBundlerState();
+  }
+
+  // Initialize bundler
+  document.addEventListener("DOMContentLoaded", function () {
+    updateProgressText();
+    generateProgressMarkers();
+    updateCartProgress();
+    updateSelectedItems();
+    updateAddButton();
+
+    // Clean HTML from data attributes on load
+    cleanDataAttributes();
+
+    // updateProgress will be called after function is defined
+    if (typeof applyFilters === "function") {
+      applyFilters(); // Apply initial filters
+    }
+  });
+
+  // Clean HTML from data attributes
+  function cleanDataAttributes() {
+    document.querySelectorAll(".product-price").forEach((priceElement) => {
+      const variantKey = currentVariant.toLowerCase().replace("ml", "ml");
+      const rawPrice = priceElement.dataset[variantKey];
+      if (rawPrice) {
+        // Remove any HTML tags and get clean text
+        const cleanPrice = rawPrice.replace(/<[^>]*>/g, "");
+        priceElement.innerHTML = cleanPrice;
+      }
+    });
+
+    // Update bundle selector prices
+    updateBundlePrices();
+  }
+
+  // Update product prices based on selected variant
+  function updateProductPrices(variant) {
+    const productCards = document.querySelectorAll(".product-card");
+
+    productCards.forEach((card) => {
+      const priceElement = card.querySelector(".product-price");
+      if (!priceElement) return;
+
+      // Get the price data for the selected variant
+      const variantData = variant.toLowerCase();
+      const priceData = priceElement.getAttribute(`data-${variantData}`);
+      const variantId = priceElement.getAttribute(
+        `data-variant-${variantData}`
+      );
+
+      if (priceData) {
+        priceElement.innerHTML = priceData;
+        // Update variant ID in card
+        card.setAttribute("data-variant-id", variantId);
+      }
+    });
+  }
+
+  // Update bundle selector prices
+  function updateBundlePrices() {
+    // Get current price from first product
+    const firstProduct = document.querySelector(".product-price");
+    if (!firstProduct) return;
+
+    const currentPrice = firstProduct.textContent;
+
+    // Extract numeric value from price
+    const priceMatch = currentPrice.match(/[\d,]+\.?\d*/);
+    if (!priceMatch) return;
+
+    // Handle European number format (comma as decimal separator)
+    let priceString = priceMatch[0];
+    if (priceString.includes(",")) {
+      // If there's a comma, check if it's a decimal separator or thousands separator
+      const parts = priceString.split(",");
+      if (parts.length === 2 && parts[1].length <= 2) {
+        // Comma is decimal separator (European format)
+        priceString = parts[0] + "." + parts[1];
+      } else {
+        // Comma is thousands separator, remove it
+        priceString = priceString.replace(/,/g, "");
+      }
+    }
+
+    const basePrice = parseFloat(priceString);
+
+    // Update bundle prices
+
+    Object.keys(bundleConfig).forEach((bundleType) => {
+      const config = bundleConfig[bundleType];
+
+      // Update total price
+      const totalPriceElement = document.querySelector(
+        `[data-bundle-type="${bundleType}"] .bundle-total-price`
+      );
+      if (totalPriceElement) {
+        const totalPrice = config.buy * basePrice;
+        const totalPriceText = currentPrice.replace(
+          /[\d,]+\.?\d*/,
+          totalPrice.toFixed(2)
+        );
+        totalPriceElement.innerHTML = totalPriceText;
+      }
+
+      // Update per bottle price
+      const perBottleElement = document.getElementById(`price-${bundleType}`);
+      if (perBottleElement) {
+        const perBottlePrice = (config.buy * basePrice) / config.total;
+        const perBottleText = currentPrice.replace(
+          /[\d,]+\.?\d*/,
+          perBottlePrice.toFixed(2)
+        );
+        perBottleElement.innerHTML = perBottleText + " / bottle";
+      }
+
+      // Update savings
+      const savingsElement = document.getElementById(`savings-${bundleType}`);
+      if (savingsElement) {
+        const savings = config.free * basePrice;
+        const savingsText = currentPrice.replace(
+          /[\d,]+\.?\d*/,
+          savings.toFixed(2)
+        );
+        savingsElement.textContent = `SAVE ${savingsText}`;
+      }
+    });
+  }
+
+  // Change product quantity function
+  function changeProductQuantity(productId, change) {
+    const productCard = document.querySelector(
+      `[data-product-id="${productId}"]`
+    );
+    if (!productCard) return;
+
+    const quantityDisplay = productCard.querySelector(".quantity-display");
+    if (!quantityDisplay) return;
+
+    let currentQuantity = parseInt(quantityDisplay.textContent) || 1;
+    let newQuantity = currentQuantity + change;
+
+    // If quantity goes to 0 or below, remove product completely
+    if (newQuantity <= 0) {
+      // Remove product from selection
+      productCard.classList.remove("selected");
+
+      // Remove quantity selector and restore button
+      const quantitySelector = productCard.querySelector(".quantity-selector");
+      if (quantitySelector) {
+        const button = document.createElement("button");
+        button.className = "add-to-bundle-btn";
+        button.textContent = "ADD TO BUNDLE";
+        button.onclick = () => selectProduct(productId, currentVariant);
+        quantitySelector.parentNode.replaceChild(button, quantitySelector);
+      }
+
+      // Hide selection indicator
+      const indicator = productCard.querySelector(".selection-indicator");
+      if (indicator) {
+        indicator.style.display = "none";
+      }
+
+      // Remove from selected products
+      selectedProducts = selectedProducts.filter(
+        (p) => parseInt(p.id) !== productId
+      );
+      delete productQuantities[productId];
+
+      // Update progress
+      updateProgressText();
+      updateCartProgress();
+      updateSelectedItems();
+      updateAddButton();
+
+      console.log("Product removed from selection");
+      return;
+    }
+
+    // Limit quantity to 10
+    if (newQuantity > 10) newQuantity = 10;
+
+    // Update quantity display in product card
+    quantityDisplay.textContent = newQuantity;
+
+    // Update quantity display in side cart
+    const selectedItem = document.querySelector(
+      `.selected-item[data-product-id="${productId}"]`
+    );
+    if (selectedItem) {
+      const sideCartQuantityDisplay =
+        selectedItem.querySelector(".quantity-display");
+      if (sideCartQuantityDisplay) {
+        sideCartQuantityDisplay.textContent = newQuantity;
+      }
+    }
+
+    // Update product quantities
+    productQuantities[productId] = newQuantity;
+
+    // Update selected product
+    const selectedProduct = selectedProducts.find((p) => p.id === productId);
+    if (selectedProduct) {
+      selectedProduct.quantity = newQuantity;
+    }
+
+    // Update progress
+    updateProgressText();
+    updateCartProgress();
+    updateSelectedItems();
+    updateAddButton();
+
+    console.log(
+      `Quantity changed for product ${productId}: ${currentQuantity} -> ${newQuantity}`
+    );
+  }
+
+  // Update variant when select changes
+  document.addEventListener("change", function (e) {
+    if (e.target.classList.contains("variant-select")) {
+      e.stopPropagation(); // Prevent triggering card click
+
+      const productId = parseInt(e.target.dataset.productId);
+      const selectedOption = e.target.options[e.target.selectedIndex];
+      const productCard = e.target.closest(".product-card");
+      const priceElement = productCard.querySelector(".product-price");
+
+      // Update price display
+      priceElement.innerHTML = selectedOption.dataset.price;
+
+      // Update selected product if it's in the selection
+      const selectedProduct = selectedProducts.find((p) => p.id === productId);
+      if (selectedProduct) {
+        selectedProduct.variantId = parseInt(selectedOption.value);
+        selectedProduct.price = selectedOption.dataset.price;
+      }
+    }
+  });
+
+  // Add single product to cart (for individual products)
+  function addSingleToCart(productId) {
+    const productCard = document.querySelector(
+      `[data-product-id="${productId}"]`
+    );
+    const variantSelect = productCard.querySelector(".variant-select");
+    const selectedVariant = variantSelect.options[variantSelect.selectedIndex];
+
+    const item = {
+      id: parseInt(selectedVariant.value),
+      quantity: 1,
+    };
+
+    // Add visual feedback
+    productCard.classList.add("adding");
+    const indicator = productCard.querySelector(".add-to-cart-indicator");
+    const originalText = indicator.textContent;
+    indicator.textContent = "ADDING...";
+
+    // Add to cart using Shopify AJAX API
+    fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: [item] }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status) {
+          alert("Error adding product to cart: " + data.description);
+          // Reset visual feedback on error
+          productCard.classList.remove("adding");
+          indicator.textContent = originalText;
+        } else {
+          // Success - show feedback
+          indicator.textContent = "ADDED!";
+          indicator.style.backgroundColor = "#218838";
+
+          setTimeout(() => {
+            productCard.classList.remove("adding");
+            indicator.textContent = originalText;
+            indicator.style.backgroundColor = "#222";
+          }, 2000);
+
+          // Optional: Update cart count
+          if (typeof updateCartCount === "function") {
+            updateCartCount();
+          }
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error adding product to cart. Please try again.");
+        // Reset visual feedback on error
+        productCard.classList.remove("adding");
+        indicator.textContent = originalText;
+      });
+  }
+
+  // Mobile sidebar functions
+  function openFullscreenSidebar() {
+    const fullscreenCart = document.getElementById("mobileFullscreenCart");
+    const addButtonFullscreen = document.getElementById(
+      "addBundleBtnFullscreen"
+    );
+
+    if (fullscreenCart) {
+      fullscreenCart.style.display = "block";
+
+      // Update all fullscreen cart elements
+      updateFullscreenButtonText();
+      updateProgressText();
+      generateProgressMarkers();
+      updateCartProgress();
+      updateSelectedItems();
+      updateSaveInfo();
+      updateAddButton();
+
+      // Remove existing event listeners and add new one
+      if (addButtonFullscreen) {
+        const newButton = addButtonFullscreen.cloneNode(true);
+        addButtonFullscreen.parentNode.replaceChild(
+          newButton,
+          addButtonFullscreen
+        );
+
+        newButton.addEventListener("click", function () {
+          const config = bundleConfig[currentBundleType];
+          let totalItems = 0;
+          selectedProducts.forEach((product) => {
+            const quantity = productQuantities[product.id] || 1;
+            totalItems += quantity;
+          });
+
+          if (totalItems >= config.total) {
+            // Bundle is complete - go to checkout
+            addBundleToCartAndCheckout();
+          } else {
+            // Bundle not complete - close fullscreen and continue shopping
+            closeFullscreenSidebar();
+          }
+        });
+      }
+
+      // Prevent body scroll
+      document.body.style.overflow = "hidden";
+    }
+  }
+
+  function closeFullscreenSidebar() {
+    const fullscreenCart = document.getElementById("mobileFullscreenCart");
+
+    if (fullscreenCart) {
+      fullscreenCart.style.display = "none";
+
+      // Restore body scroll
+      document.body.style.overflow = "";
+    }
+  }
+
+  function updateSaveInfo() {
+    const saveInfoFullscreen = document.getElementById("saveInfoFullscreen");
+    const config = bundleConfig[currentBundleType];
+
+    // Calculate savings based on bundle type
+    let savings = 0;
+    const basePrice = 2699; // Base price in cents
+
+    switch (currentBundleType) {
+      case "2+1":
+        savings = basePrice; // Save 1 bottle
+        break;
+      case "3+2":
+        savings = basePrice * 2; // Save 2 bottles
+        break;
+      case "4+3":
+        savings = basePrice * 3; // Save 3 bottles
+        break;
+      case "5+4":
+        savings = basePrice * 4; // Save 4 bottles
+        break;
+    }
+
+    const savingsFormatted = (savings / 100).toFixed(0);
+    if (saveInfoFullscreen) {
+      saveInfoFullscreen.textContent = `Save $${savingsFormatted} with ${currentBundleType} Bundle`;
+    }
+  }
+
+  // Save state to localStorage
+  window.saveBundlerState = function () {
+    try {
+      const state = {
+        selectedProducts: selectedProducts,
+        productQuantities: productQuantities,
+        currentBundleType: currentBundleType,
+        currentVariant: currentVariant,
+        currentFilter: currentFilter,
+        currentSearch: currentSearch,
+      };
+      console.log("Saving bundler state:", state);
+      localStorage.setItem("bundlerState", JSON.stringify(state));
+      console.log("State saved successfully");
+    } catch (error) {
+      console.log("Error saving bundler state:", error);
+    }
+  };
+
+  // Load state from localStorage
+  function loadBundlerState() {
+    try {
+      const savedState = localStorage.getItem("bundlerState");
+      console.log("Loading bundler state:", savedState);
+
+      if (savedState) {
+        const state = JSON.parse(savedState);
+        console.log("Parsed state:", state);
+
+        // Restore variables
+        if (state.selectedProducts) {
+          selectedProducts = state.selectedProducts;
+          console.log("Restored selectedProducts:", selectedProducts);
+        }
+        if (state.productQuantities) {
+          productQuantities = state.productQuantities;
+          console.log("Restored productQuantities:", productQuantities);
+        }
+        if (state.currentBundleType) {
+          currentBundleType = state.currentBundleType;
+          console.log("Restored currentBundleType:", currentBundleType);
+        }
+        if (state.currentVariant) {
+          currentVariant = state.currentVariant;
+          console.log("Restored currentVariant:", currentVariant);
+        }
+        if (state.currentFilter) {
+          currentFilter = state.currentFilter;
+          console.log("Restored currentFilter:", currentFilter);
+        }
+        if (state.currentSearch) {
+          currentSearch = state.currentSearch;
+          console.log("Restored currentSearch:", currentSearch);
+        }
+
+        // Restore UI state
+        console.log("About to restore UI state...");
+        restoreUIState();
+      } else {
+        console.log("No saved state found");
+      }
+    } catch (error) {
+      console.log("Error loading bundler state:", error);
+    }
+  }
+
+  // Restore UI based on saved state
+  function restoreUIState() {
+    // Use setTimeout to ensure DOM is fully loaded
+    setTimeout(() => {
+      // Restore variant selection
+      const variantButtons = document.querySelectorAll(".variant-btn");
+      variantButtons.forEach((btn) => {
+        if (btn.dataset.variant === currentVariant) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+
+      // Restore bundle type selection
+      const bundleButtons = document.querySelectorAll(".bundle-type-btn");
+      bundleButtons.forEach((btn) => {
+        if (btn.dataset.bundleType === currentBundleType) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+
+      // Restore filter selection
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      filterButtons.forEach((btn) => {
+        if (btn.dataset.filter === currentFilter) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+
+      // Restore search input
+      const searchInput = document.getElementById("searchInput");
+      if (searchInput && currentSearch) {
+        searchInput.value = currentSearch;
+      }
+
+      // Update product prices for current variant first
+      updateProductPrices(currentVariant);
+
+      // Then update bundle prices
+      updateBundlePrices();
+
+      // Restore selected products
+      selectedProducts.forEach((product) => {
+        const productCard = document.querySelector(
+          `[data-product-id="${product.id}"]`
+        );
+        if (productCard) {
+          productCard.classList.add("selected");
+          productCard.style.borderColor = "#28a745";
+
+          // Replace add button with quantity selector
+          const addButton = productCard.querySelector(".add-to-bundle-btn");
+          if (addButton) {
+            const quantity = productQuantities[product.id] || 1;
+            addButton.outerHTML = `
+          <div class="quantity-selector">
+            <button class="quantity-btn minus" onclick="changeProductQuantity(${product.id}, -1)">-</button>
+            <span class="quantity-display">${quantity}</span>
+            <button class="quantity-btn plus" onclick="changeProductQuantity(${product.id}, 1)">+</button>
+          </div>
+        `;
+          }
+        }
+      });
+
+      // Update all UI elements
+      updateSelectedItems();
+      updateCartProgress();
+      updateAddButton();
+      generateProgressMarkers();
+      applyFilters();
+    }, 100); // Small delay to ensure DOM is ready
+  }
+
+  // Add click handler to sidebar for mobile
+  document.addEventListener("DOMContentLoaded", function () {
+    // Load saved state first
+    loadBundlerState();
+    const sidebar = document.querySelector(".bundler-sidebar");
+    const mobileBenefits = document.querySelector(".mobile-benefits");
+    const addButtonDesktop = document.getElementById("addBundleBtnDesktop");
+    const addButtonMobile = document.getElementById("addBundleBtnMobile");
+
+    // Add event listener to desktop button
+    if (addButtonDesktop) {
+      addButtonDesktop.addEventListener("click", function () {
+        // Desktop button - check if bundle complete and go to checkout
+        const config = bundleConfig[currentBundleType];
+        let totalItems = 0;
+        selectedProducts.forEach((product) => {
+          const quantity = productQuantities[product.id] || 1;
+          totalItems += quantity;
+        });
+
+        if (totalItems >= config.total) {
+          addBundleToCartAndCheckout();
+        }
+      });
+    }
+
+    // Add event listener to sticky footer button
+    const addButtonSticky = document.getElementById("addBundleBtnSticky");
+    if (addButtonSticky) {
+      addButtonSticky.addEventListener("click", function () {
+        // Sticky button - always open fullscreen first
+        openFullscreenSidebar();
+      });
+    }
+
+    // Show mobile benefits on mobile
+    if (window.innerWidth <= 768) {
+      mobileBenefits.style.display = "flex";
+
+      // Always allow clicking on mobile sidebar to open fullscreen
+      const mobileSidebar = document.querySelector(".mobile-sidebar");
+      if (mobileSidebar) {
+        mobileSidebar.addEventListener("click", function (e) {
+          // Don't open if clicking on buttons or links
+          if (
+            e.target.tagName === "BUTTON" ||
+            e.target.tagName === "A" ||
+            e.target.closest("button") ||
+            e.target.closest("a")
+          ) {
+            return;
+          }
+          openFullscreenSidebar();
+        });
+      }
+    }
+
+    // Handle window resize
+    window.addEventListener("resize", function () {
+      if (window.innerWidth > 768) {
+        closeFullscreenSidebar();
+        mobileBenefits.style.display = "none";
+      } else {
+        mobileBenefits.style.display = "flex";
+      }
+    });
+
+    // Initialize mobile sidebar state
+    updateAddButton();
+  });
+
+  // Function to add bundle to cart and go to checkout (for mobile fullscreen)
+  function addBundleToCartAndCheckout() {
+    const config = bundleConfig[currentBundleType];
+
+    // Calculate total items including quantities
+    let totalItems = 0;
+    selectedProducts.forEach((product) => {
+      const quantity = productQuantities[product.id] || 1;
+      totalItems += quantity;
+    });
+
+    const items = selectedProducts.map((product) => {
+      return {
+        id: product.variantId,
+        quantity: productQuantities[product.id] || 1,
+        properties: {
+          _bundle_type: currentBundleType,
+          _bundle_total: totalItems.toString(),
+        },
+      };
+    });
+
+    // Fire ATC event immediately for tracking
+    if (typeof window.dataLayer !== "undefined") {
+      window.dataLayer.push({
+        event: "add_to_cart",
+        ecommerce: {
+          items: items.map((item) => ({
+            item_id: item.id,
+            quantity: item.quantity,
+          })),
+        },
+      });
+    }
+
+    // Dispatch custom ATC event
+    const atcEvent = new CustomEvent("bundle:add_to_cart", {
+      detail: { items: items, bundleType: currentBundleType },
+    });
+    document.dispatchEvent(atcEvent);
+
+    // Add to cart using Shopify AJAX API (non-blocking)
+    fetch("/cart/add.js", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ items: items }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data.status) {
+          // Add builder tag to cart attributes (non-blocking)
+          fetch("/cart/update.js", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              attributes: {
+                _bundle_type: currentBundleType,
+                _bundle_total: totalItems.toString(),
+              },
+            }),
+          });
+        }
+      })
+      .catch((error) => {
+        // Silent error handling
+      });
+
+    // Clear saved state after successful add to cart
+    localStorage.removeItem("bundlerState");
+
+    // Redirect to checkout immediately (don't wait for API calls)
+    setTimeout(() => {
+      window.location.href = "/checkout";
+    }, 1); // Minimal delay to ensure events fire
+  }
+
+  // Add missing helper functions
+  function updateAddButton() {
+    // Desktop elements
+    const addButtonDesktop = document.getElementById("addBundleBtnDesktop");
+    const btnTextDesktop = document.getElementById("btnTextDesktop");
+    const btnStatusDesktop = document.getElementById("btnStatusDesktop");
+
+    // Mobile elements
+    const addButtonMobile = document.getElementById("addBundleBtnMobile");
+    const btnTextMobile = document.getElementById("btnTextMobile");
+    const btnStatusMobile = document.getElementById("btnStatusMobile");
+    const mobileSidebar = document.querySelector(".mobile-sidebar");
+
+    const config = bundleConfig[currentBundleType];
+
+    // Calculate total items including quantities
+    let totalItems = 0;
+    selectedProducts.forEach((product) => {
+      const quantity = productQuantities[product.id] || 1;
+      totalItems += quantity;
+    });
+
+    // Update desktop button
+    if (addButtonDesktop && btnTextDesktop && btnStatusDesktop) {
+      addButtonDesktop.disabled = totalItems < config.total;
+
+      if (totalItems >= config.total) {
+        btnTextDesktop.textContent = "ADD TO CART";
+        btnStatusDesktop.textContent = `${totalItems}/${config.total}`;
+      } else {
+        btnTextDesktop.textContent = `Please Select ${
+          config.total - totalItems
+        } More Scents`;
+        btnStatusDesktop.textContent = `${totalItems}/${config.total}`;
+      }
+    }
+
+    // Update sticky footer
+    const stickyFooter = document.getElementById("mobileStickyFooter");
+    const addButtonSticky = document.getElementById("addBundleBtnSticky");
+    const btnTextSticky = document.getElementById("btnTextSticky");
+    const btnStatusSticky = document.getElementById("btnStatusSticky");
+
+    if (stickyFooter && addButtonSticky && btnTextSticky && btnStatusSticky) {
+      // Show/hide sticky footer based on selection
+      if (window.innerWidth <= 768) {
+        if (totalItems > 0) {
+          stickyFooter.style.display = "block";
+        } else {
+          stickyFooter.style.display = "none";
+        }
+      }
+
+      // Button styling
+      if (totalItems < config.total) {
+        addButtonSticky.classList.add("disabled");
+      } else {
+        addButtonSticky.classList.remove("disabled");
+      }
+
+      btnTextSticky.textContent = "REVIEW BUNDLE";
+      btnStatusSticky.textContent = `${totalItems}/${config.total}`;
+    }
+
+    // Update mobile save info if on mobile
+    if (window.innerWidth <= 768) {
+      updateSaveInfo();
+    }
+  }
+
+  // Update button text for fullscreen cart
+  function updateFullscreenButtonText() {
+    const addButton = document.getElementById("addBundleBtnFullscreen");
+    const btnText = document.getElementById("btnTextFullscreen");
+    const btnStatus = document.getElementById("btnStatusFullscreen");
+    const scentsCount = document.getElementById("scentsCountFullscreen");
+
+    if (addButton && btnText) {
+      const config = bundleConfig[currentBundleType];
+
+      // Calculate total items including quantities
+      let totalItems = 0;
+      selectedProducts.forEach((product) => {
+        const quantity = productQuantities[product.id] || 1;
+        totalItems += quantity;
+      });
+
+      // Update button text for fullscreen
+      if (totalItems >= config.total) {
+        btnText.textContent = "GO TO CHECKOUT";
+      } else {
+        btnText.textContent = "CONTINUE SHOPPING";
+      }
+
+      // Update button status
+      if (btnStatus) {
+        btnStatus.textContent = `${totalItems}/${config.total}`;
+      }
+
+      // Update scents count
+      if (scentsCount) {
+        scentsCount.textContent = `${totalItems} scents in box`;
+      }
+    }
+  }
+
+  function applyFilters() {
+    const products = document.querySelectorAll(".product-card");
+
+    products.forEach((product) => {
+      const title = product
+        .querySelector(".product-title")
+        .textContent.toLowerCase();
+      const tags = product.dataset.category; // tags are stored in data-category
+      const matchesSearch =
+        title.includes(currentSearch) || tags.includes(currentSearch);
+
+      let matchesFilter = true;
+      if (currentFilter !== "all") {
+        // Check if the product has the specific tag
+        const tagArray = tags.split(" ");
+        matchesFilter = tagArray.includes(currentFilter);
+      }
+
+      if (matchesSearch && matchesFilter) {
+        product.style.display = "flex";
+      } else {
+        product.style.display = "none";
+      }
+    });
+  }
+</script>

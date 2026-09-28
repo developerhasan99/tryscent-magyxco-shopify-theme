@@ -1,0 +1,320 @@
+{% liquid
+  assign gift_product = all_products['gift-bag']
+  assign bundle_collection = collections['top-sellers']
+  assign chosen_product = all_products['pineapple-smoke-vanilla-50-ml-1-7-fl-oz']
+  assign chosen_variant = chosen_product.variants.first
+
+  for variant in chosen_product.variants
+    if variant.title == '50ML'
+      assign chosen_variant = variant
+    endif
+  endfor
+%}
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<div class="[display:grid] grid-cols-2 gap-4 pt-4">
+  <div class="flex items-center gap-2">
+    <div class="size-6 [&>svg]:fill-[#22613A]">
+      {{ 'icon-stopwatch.svg' | inline_asset_content }}
+    </div>
+    <div class="text-sm md:text-lg font-semibold text-black">Långvarig</div>
+  </div>
+  <div class="flex items-center gap-2">
+    <div class="size-6 [&>svg]:fill-[#22613A]">
+      {{ 'icon-price-tag.svg' | inline_asset_content }}
+    </div>
+    <div class="text-sm md:text-lg font-semibold text-black">Till bråkkostnad</div>
+  </div>
+</div>
+
+<div class="text-center relative pt-6 !mb-6 border-0 border-b border-gray-200 border-solid">
+  <span class="bg-[#faf9f6] absolute left-1/2 [transform:translateX(-50%)] -bottom-4 font-semibold text-nowrap text-black">🎉 Påskerbjudande 🎉</span>
+</div>
+
+<div x-data class="flex flex-col gap-2">
+  <button
+    @click="$store.bundle.setPackage('buy_1')"
+    class="border-[3px] border-solid cursor-pointer p-3 flex gap-4 bg-white rounded-xl"
+    :class="$store.bundle.package === 'buy_1' ? 'border-[#22613A]' : 'border-gray-300'">
+    <div class="shrink-0 size-6 flex items-center justify-center rounded-full border-2 border-solid" :class="$store.bundle.package === 'buy_1' ? 'border-[#22613A]' : 'border-gray-300'">
+      <span
+        x-show="$store.bundle.package === 'buy_1'"
+        class="block size-4 rounded-full bg-[#22613A]"
+        style="display: none;"></span>
+    </div>
+    <div class="space-y-1 flex-1">
+      <div class="flex items-center justify-between">
+        <h3 class="my-0 text-xl font-semibold">Buy One</h3>
+        <div class="text-xl font-semibold shrink-0">
+          {{ chosen_variant.price | money }}
+        </div>
+      </div>
+      <div class="mt-1" x-show="$store.bundle.package === 'buy_1'">
+        <select
+          @change="$store.bundle.updateVariant('buy_1', 0, $event.target.value)"
+          :value="$store.bundle.variants.buy_1[0]"
+          class="px-2 py-2 w-full border border-gray-200 rounded border-solid block focus:ring-0 focus:outline-none focus:shadow-none"
+          name="buy_one">
+          {% for product in bundle_collection.products %}
+            {% liquid
+              assign variant = product.variants.first
+              assign nuta_list = product.metafields.custom.nuta | split: ','
+              for variant in product.variants
+                if variant.title == '50ML'
+                  assign variant = variant
+                endif
+              endfor
+            %}
+            <option value="{{ variant.id }}">...{{ nuta_list[1] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </button>
+
+  <button
+    @click="$store.bundle.setPackage('buy_3_get_1_free')"
+    class="border-[3px] border-solid cursor-pointer p-3 flex gap-4 bg-white rounded-xl"
+    :class="$store.bundle.package === 'buy_3_get_1_free' ? 'border-[#22613A]' : 'border-gray-300'">
+    <div class="shrink-0 size-6 flex items-center justify-center rounded-full border-2 border-solid" :class="$store.bundle.package === 'buy_3_get_1_free' ? 'border-[#22613A]' : 'border-gray-300'">
+      <span
+        x-show="$store.bundle.package === 'buy_3_get_1_free'"
+        class="block size-4 rounded-full bg-[#22613A]"
+        style="display: none;"></span>
+    </div>
+    <div class="flex-1 space-y-1">
+      <div class="flex items-center justify-between">
+        <h3 class="my-0 text-xl font-semibold">
+          3+1 (Köp 3 Få 1 Gratis)
+        </h3>
+        <div class="text-xl font-semibold shrink-0">
+          {{ chosen_variant.price | times: 3 | money }}
+        </div>
+      </div>
+      <p class="my-0 text-base text-left">
+        Du sparar {{ chosen_variant.price | money }}
+      </p>
+      <div x-show="$store.bundle.package === 'buy_3_get_1_free'" class="space-y-1">
+        <template x-for="(variant, index) in $store.bundle.variants.buy_3_get_1_free" :key="index">
+          <select
+            @change="$store.bundle.updateVariant('buy_3_get_1_free', index, $event.target.value)"
+            :value="variant"
+            class="px-2 py-2 w-full border border-gray-200 rounded border-solid block focus:ring-0 focus:outline-none focus:shadow-none">
+            {% for product in bundle_collection.products %}
+              {% liquid
+                assign selected_variant = product.variants.first
+                assign nuta_list = product.metafields.custom.nuta | split: ','
+                for v in product.variants
+                  if v.title == '50ML'
+                    assign selected_variant = v
+                    break
+                  endif
+                endfor
+              %}
+              <option value="{{ selected_variant.id }}">...{{ nuta_list[1] }}</option>
+            {% endfor %}
+          </select>
+        </template>
+      </div>
+    </div>
+  </button>
+
+  <div class="pt-6 relative">
+    <div class="absolute top-0 right-2 text-white text-xs leading-snug px-2 py-1 uppercase bg-[#22613A] font-semibold">Best Value</div>
+    <button
+      @click="$store.bundle.setPackage('buy_4_get_2_free')"
+      class="border-[3px] border-solid cursor-pointer p-3 flex gap-4 bg-white w-full rounded-xl"
+      :class="$store.bundle.package === 'buy_4_get_2_free' ? 'border-[#22613A]' : 'border-gray-300'">
+      <div class="shrink-0 size-6 flex items-center justify-center rounded-full border-2 border-solid" :class="$store.bundle.package === 'buy_4_get_2_free' ? 'border-[#22613A]' : 'border-gray-300'">
+        <span x-show="$store.bundle.package === 'buy_4_get_2_free'" class="block size-4 rounded-full bg-[#22613A]"></span>
+      </div>
+      <div class="flex-1 space-y-1">
+        <div class="flex items-center justify-between">
+          <h3 class="my-0 text-xl font-semibold">4+2 (Köp 4 Få 2 Gratis)
+          </h3>
+          <div class="text-xl font-semibold shrink-0">
+            {{ chosen_variant.price | times: 4 | money }}
+          </div>
+        </div>
+        <p class="my-0 text-base text-left">
+          Du sparar {{ chosen_variant.price | times: 2 | money }}
+        </p>
+        <div x-show="$store.bundle.package === 'buy_4_get_2_free'" class="space-y-1">
+          <template x-for="(variant, index) in $store.bundle.variants.buy_4_get_2_free" :key="index">
+            <select
+              @change="$store.bundle.updateVariant('buy_4_get_2_free', index, $event.target.value)"
+              :value="variant"
+              class="px-2 py-2 w-full border border-gray-200 rounded border-solid block focus:ring-0 focus:outline-none focus:shadow-none">
+              {% for product in bundle_collection.products %}
+                {% liquid
+                  assign selected_variant = product.variants.first
+                  assign nuta_list = product.metafields.custom.nuta | split: ','
+                  for v in product.variants
+                    if v.title == '50ML'
+                      assign selected_variant = v
+                      break
+                    endif
+                  endfor
+                %}
+                <option value="{{ selected_variant.id }}">...{{ nuta_list[1] }}</option>
+              {% endfor %}
+            </select>
+          </template>
+        </div>
+      </div>
+    </button>
+  </div>
+  {%comment%}
+    <div class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl bg-white mt-4">
+    <input
+    type="checkbox"
+    id="gift-bag"
+    x-model="$store.bundle.addGiftBag"
+    class="!size-5 cursor-pointer accent-[#22613A] border-gray-300 rounded">
+    <label for="gift-bag" class="flex items-center gap-4 cursor-pointer flex-1">
+    <img
+    src="{{ gift_product.featured_image | image_url: width: 100 }}"
+    alt="Gift Bag"
+    height="64"
+    width="64"
+    class="size-16 object-cover rounded-md bg-gray-100">
+    <div>
+    <div class="text-base font-semibold">Add:
+    <span class="font-bold">Gift Bag</span>
+    </div>
+    <div class="text-base font-semibold">{{ gift_product.price | money }}</div>
+    </div>
+    </label>
+    </div>
+  {%endcomment%}
+
+  <button
+    :disabled="$store.bundle.addingToCart"
+    @click="$store.bundle.addToCart()"
+    class="w-full flex flex-wrap items-center text-2xl py-3 rounded-xl button bg-[#22613a] transition-colors shadow-xl tracking-normal mt-4">
+    Add to Cart
+    <div x-show="$store.bundle.addingToCart" class="loading__spinner">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="spinner"
+        viewBox="0 0 66 66">
+        <circle
+          stroke-width="6"
+          cx="33"
+          cy="33"
+          r="30"
+          fill="none"
+          class="path"></circle>
+      </svg>
+    </div>
+  </button>
+</div>
+
+<div class="!my-6">
+  <p class="my-0 text-center font-semibold tracking-normal">
+    Levereras till
+    <span class="shipping_location">{{ localization.country.name }}</span>
+    inom 5 arbetsdagar. Inga tullavgifter.
+  </p>
+</div>
+
+<div class="flex justify-center gap-2">
+  {% assign enabled_payment_types = 'visa,master,american_express,paypal,klarna,google_pay,apple_pay,shopify_pay' | remove: ' ' | split: ','
+  %}
+  {% for type in enabled_payment_types %}
+    {{ type | payment_type_svg_tag: class: 'icon icon--full-color payment-icon-inline' }}
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('alpine:init', function() {
+  Alpine.store('bundle', {
+    package: 'buy_1',
+    addGiftBag: false,
+    giftVariantId: '{{ gift_product.selected_or_first_available_variant.id }}',
+    addingToCart: false,
+    variants: {
+      buy_1: [
+        {% liquid 
+          assign first_product = bundle_collection.products[0]
+          assign selected_variant = first_product.variants.first
+          for v in first_product.variants
+            if v.title == '50ML'
+              assign selected_variant = v
+              break
+            endif
+          endfor
+        %}
+        '{{ selected_variant.id }}'
+      ],
+      buy_3_get_1_free: [
+        {% for product in bundle_collection.products limit: 4 %}
+          {% liquid 
+            assign selected_variant = product.variants.first
+            for v in product.variants
+              if v.title == '50ML'
+                assign selected_variant = v
+                break
+              endif
+            endfor
+          %}
+          '{{ selected_variant.id }}'{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ],
+      buy_4_get_2_free: [
+        {% for product in bundle_collection.products limit: 6 %}
+          {% liquid 
+            assign selected_variant = product.variants.first
+            for v in product.variants
+              if v.title == '50ML'
+                assign selected_variant = v
+                break
+              endif
+            endfor
+          %}
+          '{{ selected_variant.id }}'{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    },
+    
+    setPackage(pkg) {
+      this.package = pkg;
+    },
+    
+    updateVariant(pkg, index, variantId) {
+      this.variants[pkg][index] = variantId;
+    },
+    
+    addToCart() {
+        this.addingToCart = true;
+
+        // Clone selected variants to avoid mutating original array
+        let selectedVariants = [...this.variants[this.package]];
+        
+        // Add gift bag if checked
+        if (this.addGiftBag && this.giftVariantId) {
+          selectedVariants.push(this.giftVariantId);
+        }
+
+        const variantCounts = {};
+        
+        // Count occurrences of each variant
+        selectedVariants.forEach(variantId => {
+          variantCounts[variantId] = (variantCounts[variantId] || 0) + 1;
+        });
+        
+        // Build cart URL: /cart/variant_id:quantity,variant_id:quantity
+        const cartItems = Object.entries(variantCounts).map(([id, qty]) => `${id}:${qty}`);
+        const cartUrl = '/cart/' + cartItems.join(',');
+        
+        // Redirect to cart
+        window.location.href = cartUrl;
+
+        setTimeout(() => {
+          this.addingToCart = false;
+        }, 10000 );
+      }
+  });
+  });
+</script>

@@ -1,0 +1,123 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="section-{{ section.id }}-padding"
+  style="background-color: {{ section.settings.background_color }}">
+  <div class="page-width">
+    <h2 class="text-3xl md:text-3xl font-black tracking-tight leading-snug text-center mt-0">{{ section.settings.makes_diferent_title }}</h2>
+    <div class="grid grid-cols-3 section_videos">
+      {% for block in section.blocks %}
+        <div class="aspect-w-16 aspect-h-9 relative">
+          <video
+            width="100%"
+            class="rounded-lg shadow cursor-pointer"
+            poster="{{ block.settings.video_poster |  image_url }}">
+            <source src="{{ block.settings.video.sources[1].url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const ctaVideos = document.querySelectorAll(".section_videos video");
+
+    function pauseAllVideos() {
+      ctaVideos.forEach(video => {
+        video.pause();
+      });
+    }
+
+    ctaVideos.forEach(video => {
+      video.addEventListener("click", function () {
+        if (video.paused) {
+          pauseAllVideos();
+          video.play();
+        } else {
+          video.pause();
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "People Are Loving",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#f0f2ec"
+      },
+      {
+        "type": "text",
+        "id": "makes_diferent_title",
+        "label": "Title",
+        "default": "People Are Loving"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "default": 72
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 72
+      }
+    ],
+    "blocks": [
+      {
+        "type": "video",
+        "name": "Video",
+        "settings": [
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video"
+          }, {
+            "type": "image_picker",
+            "id": "video_poster",
+            "label": "Video Poster"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "People Are Loving"
+      }
+    ]
+  }
+{% endschema %}

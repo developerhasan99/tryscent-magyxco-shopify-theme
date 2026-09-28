@@ -1,0 +1,563 @@
+{% layout 'theme.no-header-footer' %}
+<style>
+  #epb_container {
+    display: none !important;
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+  body,
+  .slot-game-container,
+  .slot-offer-container {
+    background: #224488 !important;
+  }
+
+  .slot-wrapper a,
+  .slot-wrapper a:hover {
+    color: #fff;
+  }
+
+  .slot-wrapper {
+    display: grid;
+    grid-template: 1fr / 1fr;
+    place-items: start;
+    text-align: center;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .slot-game-container,
+  .slot-offer-container {
+    padding: 16px 0;
+    color: white;
+    min-height: 100vh;
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+    position: relative;
+  }
+
+  .slot-offer-container {
+    z-index: 2;
+    width: 100%;
+  }
+
+  .slot-game-container {
+    z-index: 1;
+  }
+
+  .slot-game-container > div {
+    position: relative;
+    z-index: 10;
+  }
+
+  .slot-image-container {
+    margin-top: -28%;
+    z-index: 5 !important;
+  }
+
+  .slot-button-container {
+    margin-top: -28%;
+  }
+
+  #game,
+  #offer {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  #offer {
+    transform: translateX(100vw);
+  }
+
+  #offer.active {
+    transform: translateX(0);
+  }
+
+  #game.active {
+    transform: translateX(0);
+  }
+
+  #game {
+    transform: translateX(-100vw);
+  }
+
+  .slot-game-container {
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .slot-title-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .slot-title-container h1 {
+    font-size: 44.8px;
+    margin: 0;
+  }
+
+  .slot-title-container h2 {
+    font-size: 20.8px;
+    font-weight: 400;
+  }
+
+  .slot-title-container p.banner {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 8px;
+    padding: 4px 8px;
+    background: #d13d3a;
+    margin: 0;
+  }
+
+  .slot-title-container p.banner a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .slot-timer-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-transform: uppercase;
+  }
+
+  .slot-timer-title {
+    font-size: 14px;
+  }
+
+  .slot-timer-text {
+    font-size: 24px;
+  }
+
+  .slot-timer-counter {
+    font-weight: bold;
+    color: #d13d3a;
+    margin-left: 4px;
+  }
+
+  .slot-image-container {
+    width: 100%;
+    max-width: 320px;
+    overflow: hidden;
+  }
+
+  .slot-image-container video {
+    width: 100%;
+    height: auto;
+  }
+
+  #slot-video-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    cursor: pointer;
+    z-index: 100;
+    border: 0;
+    outline: none;
+  }
+
+  /* offer */
+
+  .slot-offer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 19.2px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .slot-offer-title h1 {
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+  }
+
+  .slot-offer-title-sm {
+    font-size: 27.2px;
+  }
+
+  .slot-offer-title-big {
+    font-size: 56px;
+    line-height: 1;
+  }
+
+  .slot-offer-ribbon {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    position: relative;
+  }
+
+  .slot-offer-ribbon::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 30px;
+    background: #d32f2f;
+    transform: translateY(calc(-50%));
+    z-index: 1;
+  }
+
+  .slot-offer-ribbon img {
+    width: 100px;
+    height: 100px;
+    z-index: 2;
+    object-fit: contain;
+  }
+
+  .slot-offer-coupon-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(3, min-content);
+    width: 360px;
+    max-width: 95%;
+    margin: 0 auto;
+    place-items: center;
+    text-transform: uppercase;
+    border: 1px dashed #fff;
+    background: #082768;
+    color: #fff;
+    padding: 16px;
+  }
+
+  .slot-offer-coupon-1 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    font-weight: 400;
+  }
+
+  .slot-offer-coupon-2 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    font-weight: 400;
+  }
+
+  .slot-offer-coupon-3 {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    place-self: end;
+  }
+
+  .slot-offer-coupon-4 {
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
+    margin-top: 8px;
+  }
+
+  .slot-offer-coupon-1,
+  .slot-offer-coupon-2 {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1;
+    font-family: 'Oswald'
+    , sans-serif;
+  }
+
+  .slot-offer-coupon-3 {
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .slot-offer-coupon-3 .heavy {
+    font-size: 96px;
+    font-weight: 700;
+    font-family: 'Oswald'
+    , sans-serif;
+  }
+
+  .slot-offer-coupon-3 .light {
+    font-size: 64px;
+    font-weight: 400;
+    font-family: 'Oswald'
+    , sans-serif;
+  }
+
+  .slot-offer-coupon-4 {
+    font-size: 28.8px;
+    color: #d32f2f;
+    font-weight: 700;
+  }
+
+  .slot-offer-cta-container {
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: linear-gradient(45deg, #d32f2f, #d32f2f);
+    border: 0 solid #ffffff;
+    width: 100%;
+    border-radius: 10px;
+    gap: 16px;
+    cursor: pointer;
+    color: white;
+    transition: all 2s ease;
+    font-weight: 700;
+  }
+
+  .slot-offer-cta-container a {
+    color: #fff;
+  }
+
+  .slot-offer-cta-container img {
+    width: 25px;
+  }
+</style>
+
+{% liquid
+  assign offer_url = "https://tryscent.co/pages/build-your-bundle"
+%}
+
+<div id="spin-to-win" class="shopify-section">
+  <div class="slot-wrapper">
+    <div class="slot-game-container active" id="game">
+      <div class="slot-title-container">
+        <h1 class="font-semibold text-white">SPIN TO WIN</h1>
+        <h2 class="mt-0 mb-2 text-gray-200">WIN FROM ONE FREE BOTTLE UP TO FOUR</h2>
+        <p class="banner">
+          <a href="{{ offer_url }}">💰 SUMMER SUPER GIVEAWAY 💰</a>
+        </p>
+      </div>
+      <div class="slot-timer-container">
+        <div class="slot-timer-title">LIMITED TIME OFFER</div>
+        <div class="slot-timer-text">
+          ENDS IN:
+          <span class="slot-timer-counter" id="slot-timer-counter-game">05:17</span>
+        </div>
+      </div>
+      <div class="slot-image-container">
+        <button id="slot-video-button"></button>
+        <video
+          id="slot-video"
+          poster="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/videoframe_poster.png?v=1754757078"
+          playsinline="">
+          <source src="https://cdn.shopify.com/videos/c/o/v/72356ecc38bb408cbea67b818db0f12d.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="slot-button-container">
+        <button id="slot-submit-button" class="border-0 bg-transparent cursor-pointer">
+          <img
+            src="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/Big_Red_Button.png?v=1753159352"
+            alt="big red button that says press to play"
+            class="rounded-full"
+            width="200"
+            height="200">
+        </button>
+      </div>
+    </div>
+    <div class="slot-offer-container" id="offer">
+      <div class="slot-offer-title">
+        <h1>
+          <span class="slot-offer-title-big text-white">GET UP TO 4 FREE BOTTLES!</span>
+        </h1>
+      </div>
+      <div class="slot-offer-ribbon">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0335/1622/4645/files/Carpe_Gold.png?v=1751037407"
+          alt="ribbon with text 'Top Prize'"
+          width="100"
+          height="100">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0335/1622/4645/files/Carpe_Gold.png?v=1751037407"
+          alt="ribbon with text 'Top Prize'"
+          width="100"
+          height="100">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0335/1622/4645/files/Carpe_Gold.png?v=1751037407"
+          alt="ribbon with text 'Top Prize'"
+          width="100"
+          height="100">
+      </div>
+      <a class="slot-offer-coupon-container no-underline" href="{{ offer_url }}">
+        <span class="slot-offer-coupon-1">UP</span>
+        <span class="slot-offer-coupon-2">TO</span>
+        <span class="slot-offer-coupon-3">
+          <span class="heavy">67%</span>
+          <span class="light">OFF</span>
+        </span>
+        <span class="slot-offer-coupon-4">WITH 4 FREE GIFTS</span>
+      </a>
+
+      <a class="slot-offer-cta-container no-underline" href="{{ offer_url }}">
+        <div>CLAIM DISCOUNT</div>
+        <img
+          src="https://cdn.shopify.com/s/files/1/0335/1622/4645/files/arrow.png?v=1713279846"
+          loading="lazy"
+          width="25"
+          height="25"
+          alt="arrow pointing right">
+      </a>
+
+      <div class="slot-offer-timer-container slot-timer-container">
+        <div class="slot-timer-title">LIMITED TIME OFFER</div>
+        <div class="slot-timer-text">
+          ENDS IN:
+          <span class="slot-timer-counter" id="slot-timer-counter-offer">05:17</span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+            let hasVideoTriggered = false;
+
+            const timerGameId = 'slot-timer-counter-game';
+            const timerOfferId = 'slot-timer-counter-offer';
+            const bigRedButtonId = 'slot-submit-button';
+            const videoId = 'slot-video';
+            const videoButtonId = 'slot-video-button';
+            const gameId = 'game';
+            const offerId = 'offer';
+
+            function startTimer(elementId) {
+                var tenMinutes = 60 * 10;
+                var timer = tenMinutes,
+                    minutes,
+                    seconds;
+                var display = document.getElementById(elementId);
+                if (!display) return;
+                var interval = setInterval(function () {
+                    minutes = Math.floor(timer / 60);
+                    seconds = timer % 60;
+
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+                    seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                    display.textContent = minutes + ':' + seconds;
+
+                    if (--timer < 0) {
+                        clearInterval(interval);
+                        display.textContent = '00:00';
+                    }
+                }, 1000);
+            }
+            function showOffer() {
+                const offer = document.getElementById(offerId);
+                const game = document.getElementById(gameId);
+                if (!offer || !game) {
+                    console.error('elements not found with ID:', offerId, gameId);
+                    return;
+                }
+                offer.classList.add('active');
+                game.classList.remove('active');
+            }
+
+            function exitFullscreen() {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            }
+
+            function playSlotVideo() {
+                var video = document.getElementById(videoId);
+                if (!video) {
+                    console.error('Video element not found with ID:', videoId);
+                    return;
+                }
+
+                if (hasVideoTriggered) {
+                    console.warn('Video has already been triggered.');
+                    return;
+                }
+                video.playbackRate = 2.0
+                video.play().catch(function (error) {
+                    hasVideoTriggered = true;
+                    console.error('Video playback failed:', error);
+                    showOffer();
+                });
+            }
+
+            function setupBigRedButton() {
+                const bigRedButton = document.getElementById(bigRedButtonId);
+                if (!bigRedButton) {
+                    console.error('Element not found with ID:', bigRedButton);
+                    return;
+                }
+                bigRedButton.addEventListener('click', function () {
+                    playSlotVideo();
+                });
+            }
+
+            function setUpVideoButton() {
+                const videoButton = document.getElementById(videoButtonId);
+                if (!videoButton) {
+                    console.error('Element not found with ID:', videoButtonId);
+                    return;
+                }
+                videoButton.addEventListener('click', function () {
+                    playSlotVideo();
+                });
+            }
+
+            function addVideoListeners() {
+                const video = document.getElementById(videoId);
+                if (!video) {
+                    console.error('Video element not found with ID:', videoId);
+                    return;
+                }
+
+                video.addEventListener('fullscreenchange', (e) => {
+                    exitFullscreen();
+                });
+
+                video.addEventListener('ended', function () {
+                    showOffer();
+                });
+            }
+
+            // Sync the offer timer with the main timer
+            function syncTimers(mainId, offerId) {
+                var mainTimer = document.getElementById(mainId);
+                var offerTimer = document.getElementById(offerId);
+                if (!mainTimer || !offerTimer) return;
+
+                // Update offer timer every second to match main timer
+                var syncInterval = setInterval(function () {
+                    offerTimer.textContent = mainTimer.textContent;
+                    if (mainTimer.textContent === '00:00') {
+                        clearInterval(syncInterval);
+                    }
+                }, 1000);
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                startTimer(timerGameId);
+                syncTimers(timerGameId, timerOfferId);
+                addVideoListeners();
+                setupBigRedButton();
+                setUpVideoButton();
+            });
+    </script>
+  </div>
+</div>

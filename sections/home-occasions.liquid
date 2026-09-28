@@ -1,0 +1,196 @@
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    {% if section.settings.background_color != blank %}
+      background-color: {{ section.settings.background_color }};
+    {% endif %}
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="{{ section.id }}" class="section-{{ section.id }}-padding">
+  <div class="page-width">
+    <div class="max-w-2xl">
+      {% if section.settings.eyebrow != blank %}
+        <p class="m-0 font-mono text-xs font-semibold uppercase tracking-[0.2em] text-[#2A5C45]">{{ section.settings.eyebrow }}</p>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="mt-3 mb-4 font-serif text-3xl font-bold text-[#1A1A24] md:text-5xl">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <div class="prose text-base leading-7 text-[#5c5c5c] [&>p]:m-0">{{ section.settings.description }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 md:gap-8">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.link }}"
+          class="group flex flex-col overflow-hidden border border-solid border-[#E7E2D9] bg-white text-inherit no-underline"
+          {{ block.shopify_attributes }}
+        >
+          <div class="relative aspect-[4/5] overflow-hidden bg-[#ece7de]">
+            {% if block.settings.image != blank %}
+              <span
+                class="absolute inset-0 block bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-105"
+                style="background-image: url({{ block.settings.image | image_url: width: 600 }});"
+              ></span>
+            {% endif %}
+          </div>
+          <div class="flex grow flex-col gap-2 p-6">
+            {% if block.settings.eyebrow != blank %}
+              <p class="m-0 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[#2A5C45]">{{ block.settings.eyebrow }}</p>
+            {% endif %}
+            {% if block.settings.title != blank %}
+              <h3 class="m-0 font-serif text-2xl font-bold text-[#1A1A24]">{{ block.settings.title }}</h3>
+            {% endif %}
+            {% if block.settings.description != blank %}
+              <p class="m-0 grow text-sm text-[#5c5c5c]">{{ block.settings.description }}</p>
+            {% endif %}
+            {% if block.settings.link_text != blank %}
+              <span class="mt-1 inline-flex w-fit items-center gap-1 border-0 border-b border-solid border-[#2A5C45] pb-0.5 text-[13px] font-semibold uppercase tracking-wider text-[#2A5C45] transition-all group-hover:gap-2">
+                {{ block.settings.link_text }}
+                <span aria-hidden="true">→</span>
+              </span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Home Occasions",
+    "class": "home-occasions",
+    "settings": [
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "default": "#F5F2EC"
+      }, {
+        "type": "text",
+        "id": "eyebrow",
+        "label": "Eyebrow Text",
+        "default": "Build Your Collection"
+      }, {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "A fragrance for every occasion."
+      }, {
+        "type": "richtext",
+        "id": "description",
+        "label": "Description",
+        "default": "<p>We are here to help you build a personalized and elite fragrance collection designed specifically for the most important occasions in life.</p>"
+      }, {
+        "type": "header",
+        "content": "Section Padding"
+      }, {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Top",
+        "default": 60
+      }, {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 60
+      }
+    ],
+    "blocks": [
+      {
+        "type": "occasion",
+        "name": "Occasion Card",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          }, {
+            "type": "text",
+            "id": "eyebrow",
+            "label": "Eyebrow Text",
+            "default": "01 · Presence"
+          }, {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Attraction"
+          }, {
+            "type": "text",
+            "id": "description",
+            "label": "Description",
+            "default": "Leave a lasting impression."
+          }, {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link Text",
+            "default": "Find Your Scent"
+          }, {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Home Occasions",
+        "blocks": [
+          {
+            "type": "occasion",
+            "settings": {
+              "eyebrow": "01 · Presence",
+              "title": "Attraction",
+              "description": "Leave a lasting impression.",
+              "link_text": "Find Your Scent"
+            }
+          }, {
+            "type": "occasion",
+            "settings": {
+              "eyebrow": "02 · Composure",
+              "title": "Confidence",
+              "description": "Feel your best wherever the day takes you.",
+              "link_text": "Wear Confidence"
+            }
+          }, {
+            "type": "occasion",
+            "settings": {
+              "eyebrow": "03 · Occasion",
+              "title": "Special Occasions",
+              "description": "For the moments that deserve something extra.",
+              "link_text": "Make It Memorable"
+            }
+          }, {
+            "type": "occasion",
+            "settings": {
+              "eyebrow": "04 · Signature",
+              "title": "Everyday",
+              "description": "Your signature scent people will remember you by.",
+              "link_text": "Find Your Everyday"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

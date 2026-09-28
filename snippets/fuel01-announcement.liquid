@@ -1,0 +1,40 @@
+{% comment %}
+  FUEL_01 variant announcement row. Rendered inside the offer-timebar link,
+  between the top banner and the control offer row, and shipped hidden. With
+  the variant class on, assets/fuel01-global.css hides the control row and the
+  white mobile icon strip and shows this row in their place, inside the same
+  link, on the section's own colour.
+
+  What changes against control: the sale label and the countdown go away on
+  both breakpoints, the offer text (append_text, "30% RABATT" on the Swedish
+  market) stays on mobile only, and the payment icons stay on both. The new
+  copy is the test's own line and is not merchant copy, so it is written here.
+
+  Accepts:
+  - section: {Object} the hosting offer-timebar section, for its settings and
+    payment icon blocks (required)
+{% endcomment %}
+<div
+  class="fuel01-v fuel01-bar"
+  style="display: none; background-color: {{ section.settings.secondary_color }}; color: {{ section.settings.primary_color }};">
+  <div class="fuel01-bar__inner">
+    <p class="fuel01-bar__copy">Bygg din doftkapsel &ndash; välj 3 dofter, få 1 gratis</p>
+    <div class="fuel01-bar__extras">
+      {%- if section.settings.append_text != blank -%}
+        <span class="fuel01-bar__offer">{{ section.settings.append_text }}</span>
+      {%- endif -%}
+      {%- if section.blocks.size > 0 -%}
+        <div class="fuel01-bar__icons">
+          {%- for block in section.blocks -%}
+            <img
+              class="fuel01-bar__icon"
+              src="{{ block.settings.icon | image_url: height: 50 }}"
+              height="25"
+              width=""
+              alt="{{ block.settings.label }}">
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

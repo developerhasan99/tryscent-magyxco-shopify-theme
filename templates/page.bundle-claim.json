@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "rich-text",
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      },
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "CLAIM YOUR FREE BOTTLS",
+            "heading_size": "h1"
+          }
+        },
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "CHOOSE WHICH OFFER SUITS YOU BEST",
+            "text_style": "caption-with-letter-spacing",
+            "text_size": "medium"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "BUILD YOUR BUNDLE",
+            "button_link": "https://tryscent.co/pages/build-your-bundle/",
+            "button_style_secondary": false
+          }
+        }
+      },
+      "block_order": ["heading", "caption", "button"]
+    }
+  },
+  "order": ["main"]
+} 

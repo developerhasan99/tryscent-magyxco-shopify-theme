@@ -1,0 +1,61 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "context": {
+    "market": "denmark"
+  },
+  "parent": "header-group.json",
+  "sections": {
+    "offer_timebar_xLgmJd": {
+      "settings": {
+        "top_banner_text": "KUN I KORT TID",
+        "prepend_text": "LØNINGSDAGSALG",
+        "countdown_date": "2026/10/04",
+        "append_text": "30% RABAT",
+        "link": "https://tryscent.co/da-dk/collections/bestseller-singles"
+      },
+      "blocks": {
+        "payment_icon_6GxdtN": {
+          "settings": {
+            "label": "Hurtig"
+          }
+        },
+        "payment_icon_gqazqP": {
+          "settings": {
+            "label": "Eu Fragt"
+          }
+        },
+        "payment_icon_cNizYM": {
+          "settings": {
+            "icon": "shopify://shop_images/mobilepay.CTpQfBiI.svg",
+            "label": "Direkte"
+          }
+        },
+        "payment_icon_C7Etjn": {
+          "settings": {
+            "label": "Fleksibel"
+          }
+        }
+      }
+    },
+    "header": {
+      "settings": {},
+      "blocks": {
+        "menu_item_JjXgCN": {
+          "disabled": false,
+          "settings": {
+            "label": "Nye dufte",
+            "url": "shopify://collections/new"
+          }
+        }
+      }
+    }
+  }
+}
