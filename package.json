@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack --mode development",
-    "serve": "shopify theme dev --store=globisoft.myshopify.com",
+    "serve": "shopify theme dev --store=magicperfumenet.myshopify.com",
     "build": "webpack --mode production"
   },
   "dependencies": {

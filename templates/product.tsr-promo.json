@@ -63,19 +63,6 @@
           "type": "atc_bundle_builder",
           "settings": {}
         },
-        "videos_iXPFhh": {
-          "type": "videos",
-          "disabled": true,
-          "settings": {
-            "video1": "shopify://files/videos/Perfume REV 2 UGC 15-6-25.mp4",
-            "video_poster_1": "shopify://shop_images/videoframe_715.png",
-            "video2": "shopify://files/videos/Perfume 2nd 21-06-25.mp4",
-            "video_poster_2": "shopify://shop_images/videoframe_5651.png",
-            "video3": "shopify://files/videos/Perfume rev 2  2nd  UGC 15-6-25.mp4",
-            "video_poster_3": "shopify://shop_images/videoframe_5040.png",
-            "video4": "shopify://files/videos/RIEV 21-06-25.mp4"
-          }
-        },
         "tsr_block_UYREzJ": {
           "type": "tsr_block",
           "settings": {
@@ -169,7 +156,6 @@
         "custom_liquid_eKzwKK",
         "subscribfy_block_product_page_vip_widget_HiHLd7",
         "atc_bundle_builder_aLJUaV",
-        "videos_iXPFhh",
         "tsr_block_UYREzJ",
         "money_back_qdbhc9",
         "expanded_notes_3Qg4Mi",

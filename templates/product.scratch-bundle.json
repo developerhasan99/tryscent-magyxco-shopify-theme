@@ -101,34 +101,12 @@
           "disabled": true,
           "settings": {}
         },
-        "videos_iXPFhh": {
-          "type": "videos",
-          "settings": {
-            "video1": "shopify://files/videos/Perfume REV 2 UGC 15-6-25.mp4",
-            "video_poster_1": "shopify://shop_images/videoframe_715.png",
-            "video2": "shopify://files/videos/Perfume 2nd 21-06-25.mp4",
-            "video_poster_2": "shopify://shop_images/videoframe_5651.png",
-            "video3": "shopify://files/videos/Perfume rev 2  2nd  UGC 15-6-25.mp4",
-            "video_poster_3": "shopify://shop_images/videoframe_5040.png",
-            "video4": "shopify://files/videos/RIEV 21-06-25.mp4"
-          }
-        },
         "collapsible_tab_XYmgtQ": {
           "type": "collapsible_tab",
           "settings": {
             "heading": "Description",
             "icon": "clipboard",
             "content": "{{ product.description }}",
-            "page": ""
-          }
-        },
-        "collapsible_tab_PtUaDN": {
-          "type": "collapsible_tab",
-          "disabled": true,
-          "settings": {
-            "heading": "Scent Notes",
-            "icon": "perfume",
-            "content": "{{ product.metafields.custom.scent_profile | metafield_tag }}",
             "page": ""
           }
         },
@@ -216,9 +194,7 @@
         "icon_with_text_rgXMXN",
         "people_purchased_cYxaYJ",
         "cta_review_g7n3R8",
-        "videos_iXPFhh",
         "collapsible_tab_XYmgtQ",
-        "collapsible_tab_PtUaDN",
         "collapsible_tab_tUEYBx",
         "collapsible_tab_nhKiAc",
         "collapsible_tab_pCrhqV",

@@ -129,78 +129,11 @@
             "heading": "Älskad av tusentals"
           }
         },
-        "fuel05_vid_1": {
-          "type": "fuel05_ugc_video",
-          "settings": {
-            "video": "shopify://files/videos/brand_NathalieE_d5888085.mov",
-            "video_url": "",
-            "product": "",
-            "audience_tag": ""
-          }
-        },
-        "fuel05_vid_2": {
-          "type": "fuel05_ugc_video",
-          "settings": {
-            "video": "shopify://files/videos/brand_EmelieS_e278788a.mov",
-            "video_url": "",
-            "product": "",
-            "audience_tag": ""
-          }
-        },
-        "fuel05_vid_3": {
-          "type": "fuel05_ugc_video",
-          "settings": {
-            "video": "shopify://files/videos/brand_SofiaK_c199046e_sdr.mp4",
-            "video_url": "",
-            "product": "",
-            "audience_tag": ""
-          }
-        },
-        "fuel05_vid_4": {
-          "type": "fuel05_ugc_video",
-          "settings": {
-            "video": "shopify://files/videos/brand_EbbaW_94875ae2.mov",
-            "video_url": "",
-            "product": "",
-            "audience_tag": ""
-          }
-        },
-        "fuel05_vid_5": {
-          "type": "fuel05_ugc_video",
-          "settings": {
-            "video": "shopify://files/videos/brand_SofiaK_6df4295a_sdr.mp4",
-            "video_url": "",
-            "product": "",
-            "audience_tag": ""
-          }
-        },
-        "fuel05_vid_6": {
-          "type": "fuel05_ugc_video",
-          "settings": {
-            "video": "shopify://files/videos/brand_DannieN_4e6dc2b2.mp4",
-            "video_url": "",
-            "product": "",
-            "audience_tag": ""
-          }
-        },
         "money_back_Wrmpn7": {
           "type": "money_back",
           "settings": {
             "title": "Prova i 60 dagar, riskfritt.",
             "text": "Färre än 0,5 % av köparna använder vår pengarna-tillbaka-garanti."
-          }
-        },
-        "videos_iXPFhh": {
-          "type": "videos",
-          "disabled": true,
-          "settings": {
-            "video1": "shopify://files/videos/Perfume REV 2 UGC 15-6-25.mp4",
-            "video_poster_1": "shopify://shop_images/videoframe_715.png",
-            "video2": "shopify://files/videos/Perfume 2nd 21-06-25.mp4",
-            "video_poster_2": "shopify://shop_images/videoframe_5651.png",
-            "video3": "shopify://files/videos/Perfume rev 2  2nd  UGC 15-6-25.mp4",
-            "video_poster_3": "shopify://shop_images/videoframe_5040.png",
-            "video4": "shopify://files/videos/RIEV 21-06-25.mp4"
           }
         },
         "expanded_notes_3Qg4Mi": {
@@ -300,14 +233,7 @@
         "tsr_block_CWYfba",
         "fuel03_pair_v2",
         "fuel05_ugc_slot",
-        "fuel05_vid_1",
-        "fuel05_vid_2",
-        "fuel05_vid_3",
-        "fuel05_vid_4",
-        "fuel05_vid_5",
-        "fuel05_vid_6",
         "money_back_Wrmpn7",
-        "videos_iXPFhh",
         "expanded_notes_3Qg4Mi",
         "collapsible_tab_XYmgtQ",
         "collapsible_tab_tUEYBx",
