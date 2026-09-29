@@ -16,13 +16,6 @@
           "type": "title",
           "settings": {}
         },
-        "fuel01_heading": {
-          "type": "fuel01_heading",
-          "settings": {
-            "heading": "Build your own Pick & Save",
-            "subheading": "[count] × [size] ml perfumes – pick your favorites at a bundle price"
-          }
-        },
         "made_in_the_eu_78caec": {
           "type": "made_in_the_eu",
           "settings": {}
@@ -35,28 +28,10 @@
           "type": "bundle_price",
           "settings": {}
         },
-        "fuel01_steps": {
-          "type": "fuel01_steps",
-          "settings": {
-            "counter_text": "[selected] / [total] valda",
-            "hint_text": "Add [remaining] more scents to complete your bundle!",
-            "hint_text_one": "Add 1 more scent to complete your bundle!",
-            "done_text": "Your bundle is ready!"
-          }
-        },
         "atc_bundle_builder_aLJUaV": {
           "type": "atc_bundle_builder",
           "settings": {
             "collection_handles": "top-sellers-men:For Men,top-seller-women:For Women,new"
-          }
-        },
-        "fuel01_summary": {
-          "type": "fuel01_summary",
-          "settings": {
-            "total_label": "Reg. total price ([count] × [size] ml)",
-            "discount_label": "Bundle discount",
-            "price_label": "Your price",
-            "savings_label": "YOU SAVE"
           }
         },
         "dialect_notes_NHiwen": {
@@ -172,13 +147,10 @@
       },
       "block_order": [
         "title",
-        "fuel01_heading",
         "made_in_the_eu_78caec",
         "bundle_content_Fp4nMk",
         "bundle_price_BXLEVb",
-        "fuel01_steps",
         "atc_bundle_builder_aLJUaV",
-        "fuel01_summary",
         "dialect_notes_NHiwen",
         "reactive_variant_selector_JyFrkg",
         "shipping_text_HCVN8A",

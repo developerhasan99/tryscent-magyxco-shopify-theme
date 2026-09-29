@@ -24,7 +24,6 @@
   {%- if product.quantity_price_breaks_configured? -%}
     {{ 'component-volume-pricing.css' | asset_url | stylesheet_tag }}
   {%- endif -%}
-  {% render 'fuel03-pair-scent', product: product, section: section, mode: 'assets' %}
 
   {%- style -%}
     .section-{{ section.id }}-padding {
@@ -233,38 +232,10 @@
                     {% render 'reactive-variant-selector', product: product, section: section %}
                   {% endif %}
                 </div>
-              {%- when 'fuel03_pair_scent' -%}
-                {% render 'fuel03-pair-scent', product: product, section: section, block: block, mode: 'v1' %}
-              {%- when 'fuel03_pair_scent_v2' -%}
-                {% render 'fuel03-pair-scent', product: product, section: section, host_block: block, mode: 'v2m' %}
-              {%- when 'fuel05_ugc' -%}
-                <div
-                  class="fuel05-ugc fuel05-ugc--pdp fuel05-ugc--pdp-mobile"
-                  data-fuel05-row
-                  data-gap-mobile="10"
-                  data-gap-desktop="8"
-                  style="display: none;"
-                  {{ block.shopify_attributes }}>
-                  {% render 'fuel05-ugc-pdp', section: section, product: product, mode: 'mobile' %}
-                </div>
-              {%- when 'fuel05_ugc_video' -%}
-                <div {{ block.shopify_attributes }}></div>
               {% when 'bundle_builder_2' %}
                 {% render 'bundle-builder' %}
               {%- when 'magic_perfume_atc' -%}
                 {% render 'magic-perfume-atc' %}
-              {%- when 'fuel01_heading' -%}
-                <div class="fuel01 fuel01--heading" style="display: none;" {{ block.shopify_attributes }}>
-                  {% render 'fuel01-bundle', product: product, block: block, mode: 'heading', with_assets: true %}
-                </div>
-              {%- when 'fuel01_steps' -%}
-                <div class="fuel01 fuel01--steps" style="display: none;" {{ block.shopify_attributes }}>
-                  {% render 'fuel01-bundle', product: product, block: block, mode: 'steps' %}
-                </div>
-              {%- when 'fuel01_summary' -%}
-                <div class="fuel01 fuel01--summary" style="display: none;" {{ block.shopify_attributes }}>
-                  {% render 'fuel01-bundle', product: product, block: block, mode: 'summary' %}
-                </div>
               {%- when 'shipping_text' -%}
                 <div class="!my-6">
                   <p class="my-0 text-center font-semibold tracking-normal">
@@ -1452,88 +1423,6 @@
           "type": "product",
           "id": "product",
           "label": "Select Product"
-        }
-      ]
-    },
-    {
-      "type": "fuel03_pair_scent",
-      "name": "Pair Scent",
-      "settings": [
-        {
-          "type": "product",
-          "id": "page_product",
-          "label": "Show on product"
-        },
-        {
-          "type": "product",
-          "id": "pair_product",
-          "label": "Recommended product"
-        },
-        {
-          "type": "text",
-          "id": "pair_name",
-          "label": "Displayed name"
-        },
-        {
-          "type": "text",
-          "id": "reason",
-          "label": "Reason line"
-        },
-        {
-          "type": "text",
-          "id": "inspired_name",
-          "label": "Inspired by",
-          "info": "Leave blank to use the recommended product's own data"
-        }
-      ]
-    },
-    {
-      "type": "fuel05_ugc",
-      "name": "UGC video row",
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Loved by thousands"
-        }
-      ]
-    },
-    {
-      "type": "fuel03_pair_scent_v2",
-      "name": "Pair Scent alt position",
-      "settings": []
-    },
-    {
-      "type": "fuel05_ugc_video",
-      "name": "UGC video",
-      "settings": [
-        {
-          "type": "video",
-          "id": "video",
-          "label": "Video"
-        },
-        {
-          "type": "text",
-          "id": "video_url",
-          "label": "Video URL",
-          "info": "Used when no video is picked above"
-        },
-        {
-          "type": "image_picker",
-          "id": "video_poster",
-          "label": "Poster image"
-        },
-        {
-          "type": "product",
-          "id": "product",
-          "label": "Linked product"
-        },
-        {
-          "type": "text",
-          "id": "audience_tag",
-          "label": "Show only when product is tagged",
-          "info": "Leave empty to show everywhere. Example: Herr"
         }
       ]
     },
@@ -3139,135 +3028,6 @@
           "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
-        }
-      ]
-    },
-    {
-      "type": "fuel01_heading",
-      "name": "FUEL_01 Bundle heading",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "Shown only in the FUEL_01 test variant. [count] becomes the number of bottles in the pack and [size] becomes the bottle size in ml."
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "default": "Build your own Pick & Save",
-          "label": "Heading"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "default": "3 × 100 ml perfumes – get the 4th completely free",
-          "label": "Line under the heading"
-        }
-      ]
-    },
-    {
-      "type": "fuel01_steps",
-      "name": "FUEL_01 Bundle steps bar",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "Shown only in the FUEL_01 test variant. [selected] becomes how many bottles are picked, [total] the pack size and [remaining] how many are left to pick."
-        },
-        {
-          "type": "text",
-          "id": "counter_text",
-          "default": "[selected] / [total] valda",
-          "label": "Counter"
-        },
-        {
-          "type": "text",
-          "id": "hint_text",
-          "default": "Add [remaining] more scents to unlock your free scent!",
-          "label": "Line while the pack is unfinished"
-        },
-        {
-          "type": "text",
-          "id": "hint_text_one",
-          "default": "Add 1 more scent to unlock your free scent!",
-          "label": "Line when one bottle is left",
-          "info": "Singular and plural differ (1 scent vs 2 scents), so the last one has its own line"
-        },
-        {
-          "type": "text",
-          "id": "done_text",
-          "default": "Your bundle is ready!",
-          "label": "Line when the pack is full"
-        }
-      ]
-    },
-    {
-      "type": "fuel01_summary",
-      "name": "FUEL_01 Bundle summary",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "Shown only in the FUEL_01 test variant. Every amount is read from the product itself, so nothing here needs a price typed into it. [count] becomes the number of bottles in the pack and [size] becomes the bottle size in ml."
-        },
-        {
-          "type": "text",
-          "id": "total_label",
-          "default": "Reg. total price ([count] × [size] ml)",
-          "label": "Ordinary total label"
-        },
-        {
-          "type": "text",
-          "id": "discount_label",
-          "default": "Discount (1 scent free)",
-          "label": "Discount label"
-        },
-        {
-          "type": "text",
-          "id": "price_label",
-          "default": "Your price",
-          "label": "Your price label"
-        },
-        {
-          "type": "text",
-          "id": "savings_label",
-          "default": "YOU SAVE",
-          "label": "Savings label"
-        }
-      ]
-    },
-    {
-      "type": "fuel01_pdp",
-      "name": "FUEL_01 Scent wardrobe",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "paragraph",
-          "content": "Shown only in the FUEL_01 test variant. It always sits between the size buttons and the add to cart button, whatever position this block holds in the list."
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "default": "Stock up your fragrance wardrobe",
-          "label": "Heading"
-        },
-        {
-          "type": "text",
-          "id": "subline",
-          "default": "Pick 3 scents – get 1 free.",
-          "label": "Line under the heading"
-        },
-        {
-          "type": "text",
-          "id": "cta_label",
-          "default": "Pick your scents",
-          "label": "Button label"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Button link",
-          "info": "Empty goes to /collections/bundle-save."
         }
       ]
     }
