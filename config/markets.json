@@ -23,6 +23,9 @@
     },
     "poland": {
       "parent": "@default"
+    },
+    "singapore": {
+      "parent": "@default"
     }
   }
 }

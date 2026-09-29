@@ -12,5 +12,17 @@
     "market": "singapore"
   },
   "parent": "header-group.json",
-  "sections": {}
+  "sections": {
+    "offer_timebar_xLgmJd": {
+      "settings": {},
+      "blocks": {
+        "payment_icon_GE6fq4": {
+          "settings": {
+            "label": "SG Wide",
+            "icon": "shopify://shop_images/sg-flag.webp"
+          }
+        }
+      }
+    }
+  }
 }
