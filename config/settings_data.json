@@ -9,7 +9,7 @@
  */
 {
   "current": {
-    "enable_scent_quiz": true,
+    "enable_scent_quiz": false,
     "scent_quiz_bundle_product": "6-x-50ml-parfymflasko",
     "scent_quiz_collection": "top-sellers",
     "scent_quiz_klaviyo_enabled": true,
