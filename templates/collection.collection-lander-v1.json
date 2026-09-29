@@ -65,8 +65,6 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "products_per_page": 16,
         "columns_desktop": 4,

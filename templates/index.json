@@ -227,11 +227,11 @@
       "name": "New Products",
       "settings": {
         "background_color": "#fcfbf9",
-        "title": "🔥Latest scents",
+        "title": "Best Sellers 🔥",
         "description": "",
-        "collection": "new",
+        "collection": "best-sellers",
         "button_text": "View all",
-        "button_link": "shopify://collections/new",
+        "button_link": "shopify://collections/best-sellers",
         "padding_top": 72,
         "padding_bottom": 40
       }

@@ -156,18 +156,6 @@
     },
     "178355294278227247": {
       "type": "apps",
-      "blocks": {
-        "eb_easy_bundle_builder_app_block_bundle_page_3pBGjD": {
-          "type": "shopify://apps/eb-easy-bundle-builder/blocks/app-block-bundlePage/05b1325c-6303-4da5-8e2f-b13ab2a50e1a",
-          "settings": {
-            "bundle_id": 1,
-            "loadingUrl": "https://d3ks0ngva6go34.cloudfront.net/public/Loading_Spinner.gif"
-          }
-        }
-      },
-      "block_order": [
-        "eb_easy_bundle_builder_app_block_bundle_page_3pBGjD"
-      ],
       "settings": {
         "include_margins": true
       }
