@@ -9,16 +9,7 @@
  */
 {
   "markets": {
-    "sweden": {
-      "parent": "@default"
-    },
-    "denmark": {
-      "parent": "@default"
-    },
-    "norway": {
-      "parent": "@default"
-    },
-    "finlad": {
+    "australia": {
       "parent": "@default"
     }
   }
