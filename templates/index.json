@@ -243,9 +243,9 @@
         "background_color": "#fcfbf9",
         "title": "New Scents ✨",
         "description": "<p>”Without a doubt the best dupes I've tried. They last for hours once applied—and I'm already planning my next order.” — <strong>Jim Rogers</strong></p>",
-        "collection": "best-sellers",
+        "collection": "new-scents",
         "button_text": "View all",
-        "button_link": "shopify://collections/bestseller-singles",
+        "button_link": "shopify://collections/new-scents",
         "padding_top": 40,
         "padding_bottom": 72
       }
