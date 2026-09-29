@@ -51,7 +51,9 @@
                   width="216"
                   class="w-full h-full object-cover">
               </a>
-              <p class="text-xs text-gray-500 m-0 mb-1 line-clamp-1">Inspired by: {{ product.metafields.custom.inspiration.value.name }}</p>
+              {% if product.metafields.custom.inspiration.value != blank %}
+                <p class="text-xs text-gray-500 m-0 mb-1 line-clamp-1">Inspired by: {{ product.metafields.custom.inspiration.value.name }}</p>
+              {% endif %}
               <h3 class="text-sm font-semibold m-0 mb-2 line-clamp-1">
                 <a class="text-black no-underline" href="{{ product.url }}">{{ product.title }}</a>
               </h3>
