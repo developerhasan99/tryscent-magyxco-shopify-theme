@@ -481,6 +481,7 @@
 .card--standard > .card__content .card__information {
   padding-left: 0;
   padding-right: 0;
+  padding-top: 0;
 }
 
 .card--card.card--media .card__inner .card__information,

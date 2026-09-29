@@ -67,7 +67,7 @@
         <button
             type="button"
             @click="$store.qb.selectSize('{{ size_key }}')"
-            class="variant-button rounded-lg px-3 py-2.5 bg-white border-2 border-solid cursor-pointer font-['Plus_Jakarta_Sans'] relative"
+            class="variant-button rounded-lg px-3 py-2.5 bg-white border-2 border-solid cursor-pointer relative"
             :class="$store.qb.selectedSize === '{{ size_key }}' ? 'border-black' : 'border-gray-200'"
             data-variant-id="{{ variant.id }}"
             data-variant-title="{{ variant.title }}"
@@ -96,7 +96,7 @@
   <div class="flex flex-col gap-3">
     <template x-for="tier in $store.qb.tiers" :key="tier.key">
       <div
-        class="rounded-xl border-2 border-solid font-['Plus_Jakarta_Sans'] relative transition-colors duration-200"
+        class="rounded-xl border-2 border-solid relative transition-colors duration-200"
         :class="$store.qb.selectedTierKey === tier.key ? 'border-black bg-[#f7f3ee] shadow-sm' : 'border-gray-200 bg-white'">
         {% comment %} Card header — selects the tier {% endcomment %}
         <div

@@ -183,7 +183,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                 >
               {%- endif -%}
             </div>
-            {% unless card_product.tags contains 'Bundle_Price_Show' %}
+            {% unless true %}
               {%- if settings.product_card_promo_text != blank -%}
                 <div class="card__promo-marquee absolute left-0 right-0 bottom-0 bg-[#137c44] text-white" aria-label="{{ settings.product_card_promo_text }}">
                   <div class="card__promo-marquee-rail">
@@ -228,49 +228,51 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
       <div class="card__content">
         <div class="card__information">
 
-          <div class="flex items-center flex-wrap gap-x-2 gap-y-1">
-            {% if card_product.tags contains 'onsale' %}
-              <div class="text-green-600 text-xs font-semibold bg-green-600/10 px-2 py-1 rounded inline-block">
-                Rea
-              </div>
-            {% endif %}
+          {% if card_product.tags contains 'onsale' or show_rating and card_product.metafields.reviews.rating.value != blank %}
+            <div class="flex items-center flex-wrap gap-x-2 gap-y-1 pt-4">
+              {% if card_product.tags contains 'onsale' %}
+                <div class="text-green-600 text-xs font-semibold bg-green-600/10 px-2 py-1 rounded inline-block">
+                  Sale
+                </div>
+              {% endif %}
 
-            {% comment %} <span class="text-gray-300 [display:none] md:inline-block">|</span> {% endcomment %}
+              {% comment %} <span class="text-gray-300 [display:none] md:inline-block">|</span> {% endcomment %}
 
-            {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
-              {% liquid
-                assign rating_decimal = 0
-                assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
-                if decimal >= 0.3 and decimal <= 0.7
-                  assign rating_decimal = 0.5
-                elsif decimal > 0.7
-                  assign rating_decimal = 1
-                endif
-              %}
-              <div>
-                <div
-                class="rating"
-                role="img"
-                aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}"
-              >
-                <img src="{{ 'rating-stars.svg' | asset_url }}" alt="*****" height="13" width="66">
-              </div>
-              <p class="rating-text caption">
-                <span aria-hidden="true">
-                  {{- card_product.metafields.reviews.rating.value }} /
-                  {{ card_product.metafields.reviews.rating.value.scale_max -}}
-                </span>
-              </p>
-              <p class="rating-count caption">
-                <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
-                <span class="visually-hidden">
-                  {{- card_product.metafields.reviews.rating_count }}
-                  {{ 'accessibility.total_reviews' | t -}}
-                </span>
-              </p>
-              </div>
-            {%- endif -%}
-          </div>
+              {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
+                {% liquid
+                  assign rating_decimal = 0
+                  assign decimal = card_product.metafields.reviews.rating.value.rating | modulo: 1
+                  if decimal >= 0.3 and decimal <= 0.7
+                    assign rating_decimal = 0.5
+                  elsif decimal > 0.7
+                    assign rating_decimal = 1
+                  endif
+                %}
+                <div>
+                  <div
+                  class="rating"
+                  role="img"
+                  aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: card_product.metafields.reviews.rating.value, rating_max: card_product.metafields.reviews.rating.value.scale_max }}"
+                >
+                  <img src="{{ 'rating-stars.svg' | asset_url }}" alt="*****" height="13" width="66">
+                </div>
+                <p class="rating-text caption">
+                  <span aria-hidden="true">
+                    {{- card_product.metafields.reviews.rating.value }} /
+                    {{ card_product.metafields.reviews.rating.value.scale_max -}}
+                  </span>
+                </p>
+                <p class="rating-count caption">
+                  <span aria-hidden="true">({{ card_product.metafields.reviews.rating_count }})</span>
+                  <span class="visually-hidden">
+                    {{- card_product.metafields.reviews.rating_count }}
+                    {{ 'accessibility.total_reviews' | t -}}
+                  </span>
+                </p>
+                </div>
+              {%- endif -%}
+            </div>
+          {% endif %}
           <h3
             class="card__heading{% if card_product.featured_media or settings.card_style == 'standard' %} h5{% endif %}"
             {% if card_product.featured_media or settings.card_style == 'card' %}
