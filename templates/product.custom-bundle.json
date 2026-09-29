@@ -117,10 +117,17 @@
           "disabled": true,
           "settings": {}
         },
+        "share": {
+          "type": "share",
+          "disabled": true,
+          "settings": {
+            "share_label": "Share"
+          }
+        },
         "collapsible_tab_XYmgtQ": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Product description",
+            "heading": "Description",
             "icon": "clipboard",
             "content": "{{ product.description }}",
             "page": ""
@@ -129,72 +136,37 @@
         "collapsible_tab_tUEYBx": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Why are your perfumes so affordable?",
+            "heading": "Why are your perfumes so accessible?",
             "icon": "perfume",
-            "content": "<p><strong>Our perfumes are affordable because we focus on what matters most: the scent itself. At the same time, we cut out unnecessary costs.</strong></p><p>✔️<strong>No expensive marketing</strong><br/><br/>We don't spend money on celebrity campaigns or over-the-top luxury branding. That<br/>lets us keep prices lower.</p><p>✔️<strong>Simple, elegant packaging</strong><br/><br/>Instead of expensive designer bottles, we use clean, minimalist<br/>packaging that keeps production costs down.</p><p>✔️<strong>Direct to customer</strong><br/><br/>By selling online and bottling ourselves, we avoid middlemen and<br/>retail markups.</p><p>✔️<strong>Alternative compositions with a premium feel</strong><br/><br/>We create scents inspired by well-known favorites, focusing on quality, longevity and the feeling you want to wear.</p><p><strong>The result?</strong><br/><br/>You get long-lasting, high-quality perfumes at a price that feels fair</p>",
+            "content": "<p>We focus on the essentials: the perfume.<br/><br/>No luxurious bottles, no excessive packaging, no expensive stores or overpriced influencer partnerships to experience luxury without exceeding your budget.</p>",
             "page": ""
           }
         },
         "collapsible_tab_nhKiAc": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Is it real perfume?",
+            "heading": "How long does the perfume last?",
             "icon": "perfume",
-            "content": "<p><strong>Our scents are far from ordinary perfumed water.</strong></p><p>At Try Scent we offer high-quality <strong>Eau de Parfum (EDP) </strong>with a perfume oil concentration of <strong>19–21%</strong>.<br/>That gives a scent that lasts long, comes through clearly and gains more depth on the skin.</p><p>Unlike light body sprays or simpler scented waters, our compositions are made to last for many hours, often until the next day.</p><p><em>You get an intense and elegant fragrance experience at a fraction of the price<br/>of luxury brands</em></p>",
+            "content": "<p>Perfume longevity varies by skin type, generally between 8 and 12 hours for a soft but present trail.<br/><br/>Over time, the fragrance gradually fades.</p>",
             "page": ""
           }
         },
         "collapsible_tab_pCrhqV": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Our perfumes are made to last.",
+            "heading": "Is the inspired perfume different?",
             "icon": "perfume",
-            "content": "<p>Thanks to a high perfume oil concentration of <strong>19–21% </strong>most of our scents stay clearly noticeable on the skin for up to <strong>24 hours</strong>. Often the scent can still be noticed on clothes or in your hair the next day.</p><p>Exact longevity of course depends on the scent itself, your skin type and how the perfume is applied.</p><p>But compared to many simpler alternatives or lighter <strong>Eau de Toilette</strong>, Try Scent gives a noticeably stronger and longer-lasting fragrance experience.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_tab_gkD4Ei": {
-          "type": "collapsible_tab",
-          "disabled": true,
-          "settings": {
-            "heading": "Is the inspired fragrance different?",
-            "icon": "perfume",
-            "content": "<p>No — our inspired fragrances are designed as an <strong>exact copy</strong> of the originals from famous luxury brands. We carefully recreate the same fragrance structure, using identical scent notes and raw materials wherever possible.</p><p>✔️ <strong>1:1 fragrance impression</strong> – The scent is virtually indistinguishable from the original, even for experienced perfume lovers.<br/><br/>✔️ <strong>Same longevity and projection</strong> – Thanks to the high concentration of perfume oils (19-21%), our fragrances last just as long as the originals.<br/><br/>✔️ <strong>Affordable price, no compromise</strong> – You get the exact same olfactory experience without paying for the logo, marketing, or designer packaging.</p><p>In short: Our perfumes are identical to luxury brands in scent, quality, and durability — the only difference is the price.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_tab_pdYPYn": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "What does 19–21% perfume oil mean?",
-            "icon": "perfume",
-            "content": "<p>The percentage shows how much of the fragrance is made up of pure perfume oils.</p><p>At Try Scent our perfumes contain <strong>19–21% perfume oil</strong>, which puts them at the upper end of <strong>Eau<br/>de Parfum (EDP)</strong>, one of the most intense fragrance types for everyday use.</p><p>✔️<strong>Eau de Parfum quality</strong><br/><br/>With 19–21% perfume oil you get a clearer, deeper and longer-lasting scent than lighter alternatives.</p><p>✔️<strong>Long-lasting</strong><br/><br/>The high concentration keeps the scent on your skin for many hours, often until the next day.</p><p>✔️<strong>Better projection and more depth</strong><br/><br/>The scent develops in layers and keeps its character longer, instead of<br/>fading quickly after application.</p><p><strong>For comparison:</strong></p><p><strong>Eau de Toilette:</strong> usually around 5–15% perfume oil.<br/><br/><strong>Eau de Parfum:</strong> usually around 15–25% perfume oil.<br/><br/><strong>Parfum/Extrait:</strong> often 25% or more, but<br/>usually at a significantly higher price.</p><p><strong>In short:</strong><br/><br/>With 19–21% you get an intense, long-lasting, high-quality fragrance experience, perfect if you want the feel and performance of a designer fragrance at a more reasonable price.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_tab_F64PJg": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "What are the perfumes made of? (Ingredients)",
-            "icon": "perfume",
-            "content": "<p>Alcohol Denat., Parfum (Fragrance), Aqua (Water), Limonene, Linalool,<br/>Citronellol, Geraniol, Citral, Benzyl Salicylate, Coumarin, Alpha-Isomethyl<br/>Ionone, Hexyl Cinnamal, Benzyl Benzoate.</p>",
+            "content": "<p>No. This fragrance was developed to offer a very similar olfactory experience, with the same note family and comparable longevity.</p>",
             "page": ""
           }
         },
         "collapsible_tab_ydfzCq": {
           "type": "collapsible_tab",
           "settings": {
-            "heading": "Disclaimer",
+            "heading": "COMPARATIVE ADVERTISING DISCLAIMER",
             "icon": "star",
-            "content": "<p>All fragrance references are intended as a guide only and should under no<br/>circumstances be confused with original products from well-known designer, high street or niche brands. Names, trademarks and copyrights, whether mentioned or not, belong to their respective manufacturers and/or designers.</p><p>Our scents are only inspired by other fragrance profiles and are not identical to any other perfume or original fragrance.</p><p>Magyx perfumes should not be confused with original products and we have no<br/>affiliation with the manufacturers behind these designer or niche brands.</p><p>All trademarks, whether mentioned or not, belong to their respective owners. We are not endorsed by, sponsored by, maintained by, directly affiliated with<br/>or otherwise connected to any trademark holder that may be referenced, directly or indirectly.</p><p>Product names are used for identification and reference purposes only and do not imply any connection, association or affiliation with the respective trademark holder.</p>",
+            "content": "<p>Please be aware that products mentioned throughout our site are a mere guide and in no circumstance should be mistaken for the actual high street, designer or Niche brand. Names and copyrights, used or unused, are properties of their respective manufacturers and/or designers. <br/><br/>These are simply inspirations, and are not ‘identical’ to any other fragrance or original.<br/><br/>Tryscent perfumes are not to be confused with originals and we have no affiliation with the manufacturers of these unnamed designer brands. <br/><br/>All ‘Trademarks’, used or unused, are property of their respective owners. We are not endorsed by, directly affiliated with, maintained, authorised, or sponsored by any trademark holder referenced or unreferenced herein. <br/><br/>The use of any product name is for identification and reference purposes only, and does not imply any association with the trademark holder.</p>",
             "page": ""
-          }
-        },
-        "share": {
-          "type": "share",
-          "disabled": true,
-          "settings": {
-            "share_label": "Share"
           }
         }
       },
@@ -220,9 +192,6 @@
         "collapsible_tab_tUEYBx",
         "collapsible_tab_nhKiAc",
         "collapsible_tab_pCrhqV",
-        "collapsible_tab_gkD4Ei",
-        "collapsible_tab_pdYPYn",
-        "collapsible_tab_F64PJg",
         "collapsible_tab_ydfzCq",
         "share"
       ],
