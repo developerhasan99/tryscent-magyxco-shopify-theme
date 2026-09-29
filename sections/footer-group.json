@@ -24,40 +24,31 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "image_aEwGgP": {
-          "type": "image",
+        "link_list_nemT7J": {
+          "type": "link_list",
           "settings": {
-            "image": "shopify://shop_images/catsoft-logo.svg",
-            "image_width": 120,
-            "alignment": ""
+            "heading": "Quick links",
+            "menu": "main-menu"
           }
         },
         "link_list_VCpt9M": {
           "type": "link_list",
           "settings": {
-            "heading": "About us",
-            "menu": "footer"
-          }
-        },
-        "link_list_nemT7J": {
-          "type": "link_list",
-          "settings": {
             "heading": "Information",
-            "menu": "information"
+            "menu": "footer"
           }
         },
         "text_FEF8Xw": {
           "type": "text",
           "settings": {
-            "heading": "Contact",
-            "subtext": "<p>Operating company: </p><p>Lancer Properties LLC</p><p><strong>Phone:</strong>+18883736114</p><p><strong>Email:</strong><a href=\"mailto:hello@magyx.co\">hello@magyx.co</a></p>"
+            "heading": "Address",
+            "subtext": "<p>1209 Orange Street, Wilmington Delaware 19801, United States<br/><br/>Phone: +1 888 373 6114<br/>Email: hello@magyx.co</p>"
           }
         }
       },
       "block_order": [
-        "image_aEwGgP",
-        "link_list_VCpt9M",
         "link_list_nemT7J",
+        "link_list_VCpt9M",
         "text_FEF8Xw"
       ],
       "settings": {
