@@ -380,48 +380,6 @@
         "button_text": "Browse more scents"
       }
     },
-    "image_and_text_RDUKE4": {
-      "type": "image-and-text",
-      "blocks": {
-        "heading_JRmP7t": {
-          "type": "heading",
-          "settings": {
-            "content": "Why EU-Made Fragrances Hit Different?",
-            "heading_type": "h2",
-            "font_size": 32,
-            "mobile_font_size": 24
-          }
-        },
-        "text_XtA94X": {
-          "type": "text",
-          "settings": {
-            "content": "<ul><li>⁠Produced in EU facilities </li><li>⁠IFRA-compliant ingredients and formulations</li><li>No corner-cutting, no grey-market blending</li></ul><p>We Craft Perfumes under strict European cosmetic standards</p>",
-            "mobile_content": "",
-            "font_size": 18
-          }
-        }
-      },
-      "block_order": [
-        "heading_JRmP7t",
-        "text_XtA94X"
-      ],
-      "settings": {
-        "background_color": "#ffffff",
-        "rounded_image": true,
-        "image_placement": "1",
-        "mobile_image_placement": "under_heading",
-        "button_text": "",
-        "button_url": "",
-        "columns_gap": 40,
-        "rows_gap": 20,
-        "content_alignment": "center",
-        "blocks_gap": 24,
-        "padding_top": 72,
-        "padding_bottom": 72,
-        "mobile_padding_top": 40,
-        "mobile_padding_bottom": 40
-      }
-    },
     "massive_review_jpzJnz": {
       "type": "massive-review",
       "blocks": {
@@ -1752,7 +1710,6 @@
     "stacks_up_xtpACd",
     "manus_why_it_last_hWmPFr",
     "manus_comparison_b6n9Rh",
-    "image_and_text_RDUKE4",
     "massive_review_jpzJnz",
     "massive_review_Hk9BGz",
     "special_offer_bogo_CFP4NP",
