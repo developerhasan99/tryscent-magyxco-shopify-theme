@@ -86,7 +86,9 @@
         },
         "atc_bundle_builder_aLJUaV": {
           "type": "atc_bundle_builder",
-          "settings": {}
+          "settings": {
+            "collection_handles": "best-sellers,new"
+          }
         },
         "money_back_cEqkRK": {
           "type": "money_back",
@@ -129,13 +131,10 @@
           "settings": {
             "layout": "horizontal",
             "icon_1": "stopwatch",
-            "image_1": "shopify://shop_images/sandwatch.svg",
             "heading_1": "Lasts 12+ Hours",
             "icon_2": "heart",
-            "image_2": "shopify://shop_images/heart.svg",
             "heading_2": "loved by 10,000+",
             "icon_3": "truck",
-            "image_3": "shopify://shop_images/sheild-star.svg",
             "heading_3": "60 day satisfaction guarantee"
           }
         },
@@ -350,6 +349,7 @@
     },
     "scent_breakdown_rG4H3T": {
       "type": "scent-breakdown",
+      "disabled": true,
       "name": "Scent Breakdown",
       "settings": {
         "background_color": "#faf9f6",
@@ -478,7 +478,6 @@
       ],
       "settings": {
         "background_color": "#ffffff",
-        "image": "shopify://shop_images/WhatsApp_Image_2026-01-17_at_10.59.01.jpg",
         "rounded_image": true,
         "image_placement": "1",
         "mobile_image_placement": "under_heading",
@@ -1471,21 +1470,18 @@
         "perk_ka86VC": {
           "type": "perk",
           "settings": {
-            "icon": "shopify://shop_images/sandwatch.svg",
             "text": "Lasts 12+ Hours"
           }
         },
         "perk_dBbEYA": {
           "type": "perk",
           "settings": {
-            "icon": "shopify://shop_images/heart.svg",
             "text": "loved by 10,000+"
           }
         },
         "perk_8Q6daz": {
           "type": "perk",
           "settings": {
-            "icon": "shopify://shop_images/sheild-star.svg",
             "text": "60 day satisfaction guarantee"
           }
         }
@@ -1498,8 +1494,6 @@
       "disabled": true,
       "name": "Special Offer",
       "settings": {
-        "background_image": "shopify://shop_images/Frame_349.png",
-        "offer_image": "shopify://shop_images/Group_27.png",
         "offer_text": "Special Offer",
         "offer_title": "Buy More, Get More Free",
         "offer_description": "Choose your perfect bundle and receive matching free bottles in the same size: 30ml, 50ml, or 100ml.",
@@ -1563,7 +1557,6 @@
       "name": "Magyx Statistics",
       "settings": {
         "background_color": "#faf9f6",
-        "statistic_image": "shopify://shop_images/cinnamon_leather_gold.png",
         "heading": "10,000+ Magyx Bottles Shipped Worldwide",
         "disclaimer": "*RESULTS BASED ON 1,000+ POST-PURCHASE SURVEYS",
         "padding_top": 12,
@@ -1611,7 +1604,6 @@
       "disabled": true,
       "name": "Magyx Steps Timeline",
       "settings": {
-        "satisfaction_bg_image": "shopify://shop_images/Frame_367.png",
         "satisfaction_title": "Your Satisfaction Guarantee"
       }
     },
@@ -1668,7 +1660,6 @@
       "disabled": true,
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/magyx_factory.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -1771,7 +1762,6 @@
       "name": "Tryscent Guarantee",
       "settings": {
         "background_color": "#fcfbf9",
-        "icon": "shopify://shop_images/wt-money-back_1.svg",
         "title": "Magyx Guarantee",
         "description": "<p>At Magyx, we believe in fragrances that make you feel amazing. That's why we offer a 60-day money-back guarantee—so you can shop with confidence.</p><p>If you're not completely in love with your scent, simply return it within 60 days for a full refund. No hassle, no stress—just a promise that you'll find a fragrance you truly adore.</p>",
         "padding_top": 72,
@@ -1808,7 +1798,6 @@
       "custom_css": [],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/magyx_factory.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
