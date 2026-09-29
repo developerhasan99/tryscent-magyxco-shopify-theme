@@ -20,6 +20,9 @@
     },
     "new-zealand": {
       "parent": "@default"
+    },
+    "poland": {
+      "parent": "@default"
     }
   }
 }

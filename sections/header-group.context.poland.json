@@ -12,5 +12,17 @@
     "market": "poland"
   },
   "parent": "header-group.json",
-  "sections": {}
+  "sections": {
+    "offer_timebar_xLgmJd": {
+      "settings": {},
+      "blocks": {
+        "payment_icon_GE6fq4": {
+          "settings": {
+            "label": "PL Wide",
+            "icon": "shopify://shop_images/Flag_of_Poland.svg"
+          }
+        }
+      }
+    }
+  }
 }
