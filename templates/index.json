@@ -73,6 +73,7 @@
       "settings": {
         "background_color": "#faf9f6",
         "background_image": "shopify://shop_images/MAGYX_Site_Header.webp",
+        "mobile_background_image": "shopify://shop_images/MAGYX_Site_Header_Mobile_A.jpg",
         "review_text": "Loved by 10,000+ Customers",
         "title": "Find the fragrance you'll be remembered for.",
         "subtitle": "The world's No. 1 designer-inspired fragrances. Made by the same experts behind some of the world's best-known perfumes.",
