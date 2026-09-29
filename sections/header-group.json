@@ -75,9 +75,9 @@
       "settings": {
         "primary_color": "#173e34",
         "secondary_color": "#dce9de",
-        "top_banner_text": "Autumn Sale",
+        "top_banner_text": "",
         "prepend_text": "Buy 1 Get 1 Free 🎁",
-        "countdown_date": "2026/10/04",
+        "countdown_date": "",
         "append_text": "Shop Now",
         "link": "shopify://collections/best-sellers"
       }
