@@ -15,7 +15,7 @@
     "scent_quiz_klaviyo_enabled": true,
     "scent_quiz_klaviyo_public_key": "RhTHcL",
     "scent_quiz_klaviyo_list_id": "ThzFmW",
-    "logo": "shopify://shop_images/TryScent_Wide_Logo_27e6524c-91f1-4dde-8e9e-67b75c9b195b.svg",
+    "logo": "shopify://shop_images/MAGYX.svg",
     "logo_width": 140,
     "favicon": "shopify://shop_images/favicon_2.svg",
     "type_header_font": "figtree_n4",
@@ -151,79 +151,6 @@
     },
     "content_for_index": [],
     "blocks": {
-      "4061484991452085298": {
-        "type": "shopify://apps/commslayer-helpdesk-chat/blocks/chat-widget/e555a08e-ceaa-4a9b-ab9f-a58bccbfc762",
-        "disabled": false,
-        "settings": {}
-      },
-      "855628211100114053": {
-        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
-        "disabled": false,
-        "settings": {}
-      },
-      "4113930173634242220": {
-        "type": "shopify://apps/referral-program-shopjar/blocks/app-shopjar/bf205236-47cf-42ff-acf9-5de1b0804e4d",
-        "disabled": false,
-        "settings": {}
-      },
-      "2567389343055140935": {
-        "type": "shopify://apps/microsoft-clarity/blocks/clarity_js/31c3d126-8116-4b4a-8ba1-baeda7c4aeea",
-        "disabled": false,
-        "settings": {}
-      },
-      "5537102726230261467": {
-        "type": "shopify://apps/revenuehunt-recommender-quiz/blocks/v2-link-quiz/672f3d48-fd3b-4227-8778-c6e58c4f8a98",
-        "disabled": false,
-        "settings": {
-          "quiz_width": "100",
-          "quiz_height": "100",
-          "quiz_z_index": 100,
-          "popup_close_color": "#777777",
-          "show_list": true,
-          "quiz_id": ""
-        }
-      },
-      "16803653808412383594": {
-        "type": "shopify://apps/ysms-sms-marketing/blocks/back_in_stock/100124b5-2f57-4ba4-97a3-a4d223780a62",
-        "disabled": false,
-        "settings": {
-          "button_label": "Notify me when available",
-          "title": "Notify me when available",
-          "subtitle": "We'll notify you when this product is back in stock",
-          "button_label_modal": "Notify me when available",
-          "note": "<p>You will receive an SMS notification when the product is back in stock. Subscribing to this notification does not constitute consent to receive marketing SMS</p>",
-          "success_message": "We will notify you as soon as the product becomes available again.",
-          "error_message": "There is an error with your phone number",
-          "product_tags": "",
-          "target_selector": "",
-          "remove_target": true,
-          "background_color": "#FFFFFF",
-          "text_color": "#121212",
-          "button_color": "#121212",
-          "button_label_color": "#FFFFFF",
-          "outline_button_color": "#121212",
-          "input_label_color": "#121212",
-          "input_color": "#ffffff",
-          "outline_input_color": "#121212",
-          "border_radius_modal": 12,
-          "padding_modal": 24,
-          "border_radius_button": 4,
-          "outline_button_width": 1,
-          "border_radius_input": 4,
-          "outline_input_width": 1,
-          "brand": false
-        }
-      },
-      "6174324309569838175": {
-        "type": "shopify://apps/smile-io/blocks/smile-shopify-app/2fae4e25-1841-4ea2-bc02-bd548478c4f6",
-        "disabled": true,
-        "settings": {}
-      },
-      "2786716548061469553": {
-        "type": "shopify://apps/axon/blocks/app-embed/baa0f014-62ea-462f-a8aa-a94befb1cbad",
-        "disabled": false,
-        "settings": {}
-      },
       "17676059084223943535": {
         "type": "shopify://apps/triplewhale/blocks/triple_pixel_snippet/483d496b-3f1a-4609-aea7-8eee3b6b7a2a",
         "disabled": false,
@@ -232,78 +159,6 @@
       "8218531531362863771": {
         "type": "shopify://apps/kite-discount-free-gift/blocks/app-embed/2c7302c4-455d-4078-a829-48563ba26089",
         "disabled": false,
-        "settings": {}
-      },
-      "18228966181090706294": {
-        "type": "shopify://apps/selleasy/blocks/app-embed/790c1a03-a71f-4bc1-9869-00dad526d3c2",
-        "disabled": false,
-        "settings": {
-          "storefrontAccessToken": "",
-          "scriptInitMode": "immediate"
-        }
-      },
-      "6987625696575125306": {
-        "type": "shopify://apps/weglot-translate-your-store/blocks/weglot/3097482a-fafe-42ff-bc33-ea19e35c4a20",
-        "disabled": false,
-        "settings": {}
-      },
-      "1877152918344802950": {
-        "type": "shopify://apps/intelligems-a-b-testing/blocks/intelligems-script/fa83b64c-0c77-4c0c-b4b2-b94b42f5ef19",
-        "disabled": false,
-        "settings": {}
-      },
-      "12995158295224700252": {
-        "type": "shopify://apps/insureful/blocks/app-embed/9d68bce0-511b-458e-a75c-59b30247783c",
-        "disabled": false,
-        "settings": {}
-      },
-      "18348123794867637515": {
-        "type": "shopify://apps/wiz/blocks/app-embed/240b6bc0-e686-4c07-8fde-eb7ee1949893",
-        "disabled": false,
-        "settings": {}
-      },
-      "16398131499962928326": {
-        "type": "shopify://apps/product-recommendation-quiz/blocks/v2-chat-button/672f3d48-fd3b-4227-8778-c6e58c4f8a98",
-        "disabled": true,
-        "settings": {
-          "chat_color": "#1878B9",
-          "chat_icon_color": "#ffffff",
-          "chat_position": "bottom-right",
-          "chat_hide": false,
-          "chat_dot": true,
-          "chat_greeting": "",
-          "chat_z_index": 98,
-          "quiz_width": "100",
-          "quiz_height": "100",
-          "quiz_z_index": 100,
-          "popup_close_color": "#777777",
-          "quiz_id": ""
-        }
-      },
-      "2441077020710769822": {
-        "type": "shopify://apps/aimerce-first-party-pixel/blocks/c-track-embed/51cbda5a-dbfc-4e7b-8d12-c9e90363dcd7",
-        "disabled": false,
-        "settings": {}
-      },
-      "9748066820213027771": {
-        "type": "shopify://apps/subscribfy/blocks/embed-global/92b2aa79-0e8b-44a2-8415-48904e56b61e",
-        "disabled": false,
-        "settings": {
-          "color_discounted_price": "#eb637d",
-          "main_color_non_member": "#eb637d",
-          "main_color_member": "#c7ac2a",
-          "enable_buy_now_btn": false,
-          "hide_add_to_cart_btn": false
-        }
-      },
-      "10912811961125325620": {
-        "type": "shopify://apps/absolutely/blocks/absolutely_extension/121741f7-5296-410e-8ae4-71174169eced",
-        "disabled": false,
-        "settings": {}
-      },
-      "11349500561483629931": {
-        "type": "shopify://apps/notify-me/blocks/app-embed/b399b727-6c85-44fc-9e21-63114bd72054",
-        "disabled": true,
         "settings": {}
       }
     },
