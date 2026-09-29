@@ -121,8 +121,8 @@
 
 <div>
   <img
-    class="max-w-full mx-auto mt-8 block [filter:grayscale(1)]"
-    src="{{ 'payment-badge.png' | asset_url }}"
+    class="max-w-[400px] w-full mx-auto mt-8 block [filter:grayscale(1)]"
+    src="{{ 'payment-badge.svg' | asset_url }}"
     alt="Payment methods"
     width="100%"
     height="auto"
@@ -156,8 +156,8 @@
   <div>
     <p class="m-0 font-semibold tracking-normal text-black leading-snug">Ships Next Day from {% render 'ships-from-location' %}</p>
   {% comment %} {% unless localization.country.iso_code == 'US' %}
-                      <p class="m-0 text-gray-500 tracking-normal text-sm">Delivered in 3-7 business days.</p>
-            {% endunless %} {% endcomment %}
+                              <p class="m-0 text-gray-500 tracking-normal text-sm">Delivered in 3-7 business days.</p>
+                {% endunless %} {% endcomment %}
   </div>
 </div>
 
