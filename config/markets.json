@@ -14,6 +14,12 @@
     },
     "canada": {
       "parent": "@default"
+    },
+    "eu-market": {
+      "parent": "@default"
+    },
+    "new-zealand": {
+      "parent": "@default"
     }
   }
 }
