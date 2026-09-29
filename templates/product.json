@@ -38,6 +38,12 @@
             "collection_handles": "best-sellers,new"
           }
         },
+        "tsr_block_eMWiKb": {
+          "type": "tsr_block",
+          "settings": {
+            "product": "bundle-6x50-79"
+          }
+        },
         "money_back_cEqkRK": {
           "type": "money_back",
           "settings": {
@@ -183,6 +189,7 @@
         "inspired_by_idtdrk",
         "custom_liquid_dWtbAc",
         "atc_bundle_builder_aLJUaV",
+        "tsr_block_eMWiKb",
         "money_back_cEqkRK",
         "dialect_notes_NHiwen",
         "reactive_variant_selector_JyFrkg",
