@@ -18,35 +18,30 @@
           "type": "label",
           "disabled": true,
           "settings": {
-            "icon": "shopify://shop_images/fast-delivery-truck-van-svgrepo-com.svg",
             "label": "FREE SHIPPING ON ORDERS ABOVE $50"
           }
         },
         "label_h4EKbX": {
           "type": "label",
           "settings": {
-            "icon": "shopify://shop_images/save-pound-svgrepo-com.svg",
             "label": "SAVE UPTO 50% OFF WITH OUR BUNDLES & GIFT SETS"
           }
         },
         "label_yJphg9": {
           "type": "label",
           "settings": {
-            "icon": "shopify://shop_images/verified-svgrepo-com.svg",
             "label": "100% AUTHENTIC"
           }
         },
         "label_nYhF3R": {
           "type": "label",
           "settings": {
-            "icon": "shopify://shop_images/achievement-svgrepo-com.svg",
             "label": "EXPERT-CURATED COLLECTIONS"
           }
         },
         "label_RqnDUx": {
           "type": "label",
           "settings": {
-            "icon": "shopify://shop_images/money-back-business-warranty-satisfaction-marketing-guaranted-svgrepo-com.svg",
             "label": "RISK-FREE 60 DAYS MONEY BACK GUARANTEE"
           }
         }
@@ -76,42 +71,6 @@
     },
     "offer_timebar_xLgmJd": {
       "type": "offer-timebar",
-      "blocks": {
-        "payment_icon_6GxdtN": {
-          "type": "payment_icon",
-          "settings": {
-            "icon": "shopify://shop_images/090e7fd71af4b4e7589642874d6cae93a0a34f77.png",
-            "label": "Fast"
-          }
-        },
-        "payment_icon_gqazqP": {
-          "type": "payment_icon",
-          "settings": {
-            "icon": "shopify://shop_images/65f2284e66ff1dcb1a272319f1ef543c429f73e2_1.png",
-            "label": "EU shipping"
-          }
-        },
-        "payment_icon_cNizYM": {
-          "type": "payment_icon",
-          "settings": {
-            "icon": "shopify://shop_images/swish_logo.webp",
-            "label": "Instant"
-          }
-        },
-        "payment_icon_C7Etjn": {
-          "type": "payment_icon",
-          "settings": {
-            "icon": "shopify://shop_images/777929254296c2d290f0836dc4e68451f4cfdbc4.png",
-            "label": "Flexible"
-          }
-        }
-      },
-      "block_order": [
-        "payment_icon_6GxdtN",
-        "payment_icon_gqazqP",
-        "payment_icon_cNizYM",
-        "payment_icon_C7Etjn"
-      ],
       "name": "Offer Timebar",
       "settings": {
         "primary_color": "#173e34",
@@ -130,14 +89,14 @@
           "type": "sub_menu_items",
           "settings": {
             "label": "For Him",
-            "link_list": "herr-menu"
+            "link_list": ""
           }
         },
         "sub_menu_items_6Yj9eC": {
           "type": "sub_menu_items",
           "settings": {
             "label": "For Her",
-            "link_list": "dam-menu"
+            "link_list": ""
           }
         },
         "mega_menu_item_kgEd9W": {
@@ -208,7 +167,7 @@
       "settings": {
         "logo_position": "top-left",
         "mobile_logo_position": "center",
-        "menu": "main-menu-3-1",
+        "menu": "",
         "menu_type_desktop": "mega",
         "sticky_header_type": "on-scroll-up",
         "show_line_separator": true,
