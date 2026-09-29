@@ -71,6 +71,34 @@
     },
     "offer_timebar_xLgmJd": {
       "type": "offer-timebar",
+      "blocks": {
+        "payment_icon_GE6fq4": {
+          "type": "payment_icon",
+          "settings": {
+            "icon": "shopify://shop_images/us-flag.webp",
+            "label": "US Wide"
+          }
+        },
+        "payment_icon_qP37UR": {
+          "type": "payment_icon",
+          "settings": {
+            "icon": "shopify://shop_images/download.png",
+            "label": "Fast"
+          }
+        },
+        "payment_icon_yexejk": {
+          "type": "payment_icon",
+          "settings": {
+            "icon": "shopify://shop_images/Mastercard_logo.jpg",
+            "label": "Secure"
+          }
+        }
+      },
+      "block_order": [
+        "payment_icon_GE6fq4",
+        "payment_icon_qP37UR",
+        "payment_icon_yexejk"
+      ],
       "name": "Offer Timebar",
       "settings": {
         "primary_color": "#173e34",
