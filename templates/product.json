@@ -16,72 +16,20 @@
           "type": "title",
           "settings": {}
         },
-        "selling_points_9tdid6": {
-          "type": "selling_points",
-          "disabled": true,
-          "settings": {}
+        "custom_rating_text_qMgzTM": {
+          "type": "custom_rating_text",
+          "settings": {
+            "text": "4.9/5 based on over 10,000 reviews"
+          }
         },
         "inspired_by_idtdrk": {
           "type": "inspired_by",
           "settings": {}
         },
-        "designer_price_GYGxtE": {
-          "type": "designer_price",
-          "settings": {}
-        },
-        "scent_intensity_qajxtz": {
-          "type": "scent_intensity",
-          "settings": {}
-        },
-        "made_in_the_eu_78caec": {
-          "type": "made_in_the_eu",
-          "settings": {}
-        },
-        "cheaper_than_yDGYG9": {
-          "type": "cheaper_than",
+        "custom_liquid_dWtbAc": {
+          "type": "custom_liquid",
           "settings": {
-            "number": 0
-          }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "disabled": true,
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "text_fQLMC7": {
-          "type": "text",
-          "disabled": true,
-          "settings": {
-            "text": "Scent Notes: {{ product.metafields.custom.top_notes.value.heading.value }}",
-            "text_style": "subtitle"
-          }
-        },
-        "price": {
-          "type": "price",
-          "disabled": true,
-          "settings": {}
-        },
-        "text_GrNJKg": {
-          "type": "text",
-          "settings": {
-            "text": "<strong>Top notes:</strong> {{ product.metafields.custom.top_notes.value.heading.value }}",
-            "text_style": "body"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "disabled": true,
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "disabled": true,
-          "settings": {
-            "show_dynamic_checkout": false,
-            "show_gift_card_recipient": true
+            "custom_liquid": "{% render 'scent-profiling' %}"
           }
         },
         "atc_bundle_builder_aLJUaV": {
@@ -231,18 +179,9 @@
       },
       "block_order": [
         "title",
-        "selling_points_9tdid6",
+        "custom_rating_text_qMgzTM",
         "inspired_by_idtdrk",
-        "designer_price_GYGxtE",
-        "scent_intensity_qajxtz",
-        "made_in_the_eu_78caec",
-        "cheaper_than_yDGYG9",
-        "variant_picker",
-        "text_fQLMC7",
-        "price",
-        "text_GrNJKg",
-        "quantity_selector",
-        "buy_buttons",
+        "custom_liquid_dWtbAc",
         "atc_bundle_builder_aLJUaV",
         "money_back_cEqkRK",
         "dialect_notes_NHiwen",
