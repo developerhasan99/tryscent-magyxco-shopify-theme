@@ -11,24 +11,23 @@
     }
   }
 {%- endstyle -%}
-
 <div
   id="{{ section.id }}"
   class="section-{{ section.id }}-padding"
   style="background-color: {{ section.settings.background_color }}">
   <div class="page-width">
-    <p class="text-center text-[#137c44] font-bold tracking-wider">Us vs. the original</p>
-    <h2 class="text-center text-2xl md:text-4xl font-bold max-w-2xl mx-auto mt-0">{{ section.settings.title }}</h2>
+    <p class="text-center text-[#137c44] font-bold tracking-wider">Ours vs. Original</p>
+    <h2 class="text-center text-2xl md:text-4xl font-bold max-w-2xl mx-auto mt-0 mb-8">{{ section.settings.title }}</h2>
     <div class="grid gap-0 w-full max-w-3xl grid-cols-4 mx-auto">
       <div class="col-span-2 !flex items-end border-0 border-b border-[#12121233] border-solid px-4 py-4 text-sm font-black md:text-base"></div>
       <div class="text-center rounded-t-xl border-0 border-solid border-b border-[#12121233] bg-[#137c44] px-2 md:px-4 py-4">
         <div class="text-sm font-black text-white md:text-base">
-          Our scents
+          Our Fragrances
         </div>
-        <span class="[display:none] md:inline-block text-xs font-bold text-[#8dffcf] py-1 px-2 rounded-full bg-[#ffffff1a]">19-21% concentration</span>
+        <span class="[display:none] md:inline-block text-xs font-bold text-[#8dffcf] py-1 px-2 rounded-full bg-[#ffffff1a]">21% concentration</span>
       </div>
       <div class="flex items-center justify-center rounded-t-xl border-0 border-solid border-b border-[#12121233] px-2 md:px-4 py-4 text-center text-sm font-black md:text-base [overflow-wrap:anywhere]">
-        Designer brands
+        Designer Brands
       </div>
       {% for block in section.blocks %}
         {% if block.type == "stack" %}
@@ -70,7 +69,7 @@
       <ul class="flex justify-center flex-wrap gap-x-6 gap-y-3 list-unstyled">
         <li class="flex items-center gap-1.5">
           <img
-            src="/cdn/shop/files/sandwatch.svg?v=1753955350"
+            src="{{ 'sandwatch.svg' | asset_url }}"
             height="16"
             width="auto"
             alt="Icon">
@@ -79,20 +78,11 @@
 
         <li class="flex items-center gap-1.5">
           <img
-            src="/cdn/shop/files/heart.svg?v=1753955924"
+            src="{{ 'heart.svg' | asset_url }}"
             height="16"
             width="auto"
             alt="Icon">
-          <span class="leading-none">loved by 10,000+</span>
-        </li>
-
-        <li class="flex items-center gap-1.5">
-          <img
-            src="/cdn/shop/files/sheild-star.svg?v=1753955264"
-            height="16"
-            width="auto"
-            alt="Icon">
-          <span class="leading-none">60-day satisfaction guarantee</span>
+          <span class="leading-none">Loved by 10,000+</span>
         </li>
 
       </ul>
@@ -115,13 +105,13 @@
         "type": "text",
         "id": "title",
         "label": "Title",
-        "default": "How Magyx stacks up"
+        "default": "How TryScent Compares"
       },
       {
         "type": "text",
         "id": "btn_text",
         "label": "Button Text",
-        "default": "View all"
+        "default": "View All"
       },
       {
         "type": "url",
@@ -176,7 +166,58 @@
     ],
     "presets": [
       {
-        "name": "Stacks Up"
+        "name": "Stacks Up",
+        "blocks": [
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "Fragrance concentration",
+              "stack_subheading": "More oil = longer-lasting scent"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "Lasts 12+ hours on the skin",
+              "stack_subheading": "Lasts longer than most designer EDTs"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "90% less than the designer price",
+              "stack_subheading": "Without compromising on quality"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "Exactly the same scent as the original",
+              "stack_subheading": "Created with the same fragrance accords"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "Ships within 1-2 days",
+              "stack_subheading": "No waiting in store"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "Cruelty-free formula",
+              "stack_subheading": "Clean ingredients, safe for skin"
+            }
+          },
+          {
+            "type": "stack",
+            "settings": {
+              "stack_heading": "90-day money-back guarantee",
+              "stack_subheading": "Love it or receive a full refund — no questions asked"
+            }
+          }
+        ]
       }
     ]
   }

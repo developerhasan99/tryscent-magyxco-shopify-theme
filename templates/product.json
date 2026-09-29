@@ -289,73 +289,73 @@
     "stacks_up_xtpACd": {
       "type": "stacks-up",
       "blocks": {
-        "stack_MFtFgQ": {
+        "stack_U4VzGa": {
           "type": "stack",
           "settings": {
-            "stack_heading": "Perfume concentration",
-            "stack_subheading": "More oil = longer longevity"
+            "stack_heading": "Fragrance concentration",
+            "stack_subheading": "More oil = longer-lasting scent"
           }
         },
-        "stack_y3YFEi": {
+        "stack_MQpHMQ": {
           "type": "stack",
           "settings": {
-            "stack_heading": "Lasts 8–12 hours on the skin",
+            "stack_heading": "Lasts 12+ hours on the skin",
             "stack_subheading": "Lasts longer than most designer EDTs"
           }
         },
-        "stack_7VxTNi": {
+        "stack_FWjJJn": {
           "type": "stack",
           "settings": {
-            "stack_heading": "90% cheaper than the designer price",
+            "stack_heading": "90% less than the designer price",
             "stack_subheading": "Without compromising on quality"
           }
         },
-        "stack_FCeAmJ": {
+        "stack_HjWL3a": {
           "type": "stack",
           "settings": {
             "stack_heading": "Exactly the same scent as the original",
-            "stack_subheading": "Created with the same scent accords"
+            "stack_subheading": "Created with the same fragrance accords"
           }
         },
-        "stack_C37XnK": {
+        "stack_JHWxX9": {
           "type": "stack",
           "settings": {
-            "stack_heading": "Ships within 24 hours",
+            "stack_heading": "Ships within 1-2 days",
             "stack_subheading": "No waiting in store"
           }
         },
-        "stack_NjRUB3": {
+        "stack_UUKJ8p": {
           "type": "stack",
           "settings": {
             "stack_heading": "Cruelty-free formula",
-            "stack_subheading": "Clean ingredients, safe for the skin"
+            "stack_subheading": "Clean ingredients, safe for skin"
           }
         },
-        "stack_q9jAyL": {
+        "stack_Va3wDh": {
           "type": "stack",
           "settings": {
-            "stack_heading": "60-day money-back guarantee",
-            "stack_subheading": "Love it or get a full refund — no questions asked"
+            "stack_heading": "90-day money-back guarantee",
+            "stack_subheading": "Love it or receive a full refund — no questions asked"
           }
         }
       },
       "block_order": [
-        "stack_MFtFgQ",
-        "stack_y3YFEi",
-        "stack_7VxTNi",
-        "stack_FCeAmJ",
-        "stack_C37XnK",
-        "stack_NjRUB3",
-        "stack_q9jAyL"
+        "stack_U4VzGa",
+        "stack_MQpHMQ",
+        "stack_FWjJJn",
+        "stack_HjWL3a",
+        "stack_JHWxX9",
+        "stack_UUKJ8p",
+        "stack_Va3wDh"
       ],
       "name": "Stacks Up",
       "settings": {
-        "background_color": "#faf9f6",
-        "title": "You can compare scent. You should also compare the math.",
-        "btn_text": "Browse more scents",
-        "btn_url": "https://magyx.co/products/4-x-100ml-perfume-bottles",
-        "padding_top": 32,
-        "padding_bottom": 72
+        "background_color": "#fcfbf9",
+        "title": "How Magyx Compares",
+        "btn_text": "Browse Best Fragrances",
+        "btn_url": "shopify://collections/best-sellers",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "manus_why_it_last_hWmPFr": {
