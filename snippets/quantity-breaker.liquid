@@ -1,0 +1,647 @@
+{% liquid
+  assign product_form_id = 'product-form-' | append: section.id
+
+  assign selected_variant = product.selected_or_first_available_variant
+
+  for variant in product.variants
+    assign variant_title_down = variant.title | downcase
+
+    if variant_title_down contains '50'
+      assign selected_variant = variant
+      break
+    endif
+  endfor
+
+  assign bonus_collection = collections['best-sellers']
+  assign selected_size_key = selected_variant.title | downcase | remove: ' '
+%}
+
+{% comment %} Hide Rapi bundle for default template {% endcomment %}
+<style>
+  .rapi-bundle-content-0,
+  .rapi-bundle-boosters-afteratc-0 {
+    display: none !important;
+  }
+
+  [x-cloak] {
+    display: none !important;
+  }
+
+  {% comment %} .button.loading only fades inherited text color; this badge sets its
+     own background/text color so it needs to be hidden explicitly while loading {% endcomment %}
+  .atc-button.loading > *:not(.loading__spinner) {
+    visibility: hidden;
+  }
+</style>
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+<div
+  x-data
+  x-effect="$store.qb.currentPrice; $store.qb.currentCompare; $store.qb.syncGlobalPrices()">
+  {% if product.variants.size > 1 %}
+    {% comment %} Variant Selector — 30 / 50 / 100 ml {% endcomment %}
+    <div class="flex justify-between items-center mb-3 !mt-6">
+      <h2 class="m-0 text-sm md:text-base font-semibold">Select size:</h2>
+      <div class="text-xs md:text-sm italic text-gray-500">80% of our customers buy 50 ml or more</div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-3" id="variant-selector">
+      {% for variant in product.variants %}
+        {% liquid
+          assign variant_ml = 0
+          if variant.title contains '100'
+            assign variant_ml = 100
+          elsif variant.title contains '50'
+            assign variant_ml = 50
+          elsif variant.title contains '30'
+            assign variant_ml = 30
+          endif
+
+          if variant_ml > 0
+            assign price_per_ml = variant.price | times: 1.0 | divided_by: variant_ml
+          endif
+
+          assign size_key = variant.title | downcase | remove: ' '
+        %}
+        <button
+            type="button"
+            @click="$store.qb.selectSize('{{ size_key }}')"
+            class="variant-button rounded-lg px-3 py-2.5 bg-white border-2 border-solid cursor-pointer font-['Plus_Jakarta_Sans'] relative"
+            :class="$store.qb.selectedSize === '{{ size_key }}' ? 'border-black' : 'border-gray-200'"
+            data-variant-id="{{ variant.id }}"
+            data-variant-title="{{ variant.title }}"
+            data-original-price="{{ variant.price | money }}"
+            data-compare-price="{{ variant.compare_at_price | money }}">
+            <div class="text-center leading-tight">
+              <div class="text-sm font-semibold">{{ variant.title }}</div>
+              {% if variant_ml > 0 %}
+                <div class="text-[11px] text-gray-500 mt-0.5">{{ price_per_ml | money }} / ml</div>
+              {% endif %}
+            </div>
+            {% if variant.title contains '50' %}
+              <span class="text-[10px] italic text-white rounded absolute -top-[10px] left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5 leading-normal">Popular</span>
+            {% endif %}
+            {% if variant.title contains '100' %}
+              <span class="text-[10px] italic text-white rounded absolute -top-[10px] left-1/2 [transform:translateX(-50%)] bg-[#17803d] px-2 py-0.5 leading-normal">Bestseller</span>
+            {% endif %}
+          </button>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% comment %} Quantity breaker tiers {% endcomment %}
+  <h2 class="m-0 text-sm md:text-base font-semibold !mt-4 mb-2">Choose quantity &amp; save:</h2>
+
+  <div class="flex flex-col gap-3">
+    <template x-for="tier in $store.qb.tiers" :key="tier.key">
+      <div
+        class="rounded-xl border-2 border-solid font-['Plus_Jakarta_Sans'] relative transition-colors duration-200"
+        :class="$store.qb.selectedTierKey === tier.key ? 'border-black bg-[#f7f3ee] shadow-sm' : 'border-gray-200 bg-white'">
+        {% comment %} Card header — selects the tier {% endcomment %}
+        <div
+          @click="$store.qb.selectTier(tier.key)"
+          class="px-3 py-2.5 cursor-pointer flex items-center gap-2.5">
+          <span
+            class="shrink-0 size-[18px] rounded-full border-2 border-solid flex items-center justify-center transition-colors"
+            :class="$store.qb.selectedTierKey === tier.key ? 'border-black' : 'border-gray-300'">
+            <span
+              x-show="$store.qb.selectedTierKey === tier.key"
+              class="size-2.5 rounded-full bg-black"></span>
+          </span>
+
+          <span class="grow min-w-0">
+            <span class="flex items-center gap-1.5 flex-wrap">
+              <span class="text-sm font-bold text-black" x-text="tier.label"></span>
+              <span
+                x-show="$store.qb.savingsPercent(tier) > 0"
+                x-cloak
+                class="rounded bg-[#17803d]/10 text-[#17803d] text-[11px] font-bold px-1.5 py-0.5 leading-none"
+                x-text="'−' + $store.qb.savingsPercent(tier) + '%'"></span>
+            </span>
+            <span
+              class="block text-[11px] text-gray-500 mt-0.5 font-bold"
+              x-show="tier.total > 1 || tier.note"
+              x-text="tier.total > 1 ? $store.qb.money($store.qb.perBottle(tier)) + ' / bottle' : tier.note"></span>
+          </span>
+
+          <span class="shrink-0 text-right leading-tight">
+            <span class="block text-base font-extrabold text-black" x-text="$store.qb.money($store.qb.tierPrice(tier))"></span>
+            <span
+              class="block text-xs text-gray-400 line-through"
+              x-show="$store.qb.tierCompare(tier) > $store.qb.tierPrice(tier)"
+              x-text="$store.qb.money($store.qb.tierCompare(tier))"></span>
+            <span
+              class="block text-[11px] text-gray-400"
+              x-show="tier.total === 1"
+              x-text="'incl. VAT'"></span>
+          </span>
+        </div>
+
+        <span
+          x-show="tier.badge"
+          x-text="tier.badge"
+          x-cloak
+          :style="{ '--qb-badge-c': tier.badgeColor }"
+          class="absolute -top-2.5 right-4 bg-[color:var(--qb-badge-c)] text-white text-[10px] leading-normal not-italic font-bold tracking-wide px-2 py-0.5 shadow-sm
+            before:content-[''] before:absolute before:right-full before:top-0 before:-z-10 before:border-solid before:border-y-[9px] before:border-y-transparent before:border-r-[7px] before:border-r-[color:var(--qb-badge-c)] before:border-l-0
+            after:content-[''] after:absolute after:left-full after:top-0 after:-z-10 after:border-solid after:border-y-[9px] after:border-y-transparent after:border-l-[7px] after:border-l-[color:var(--qb-badge-c)] after:border-r-0"></span>
+
+        {% comment %} Expanded body — bundle slots (1 pre-selected + the rest chosen by the customer) {% endcomment %}
+        <div
+          x-show="$store.qb.selectedTierKey === tier.key && tier.total > 1"
+          x-cloak
+          class="mx-3 border-0 border-t border-solid border-black/10 pt-2 pb-2.5 flex flex-col gap-2">
+          <p class="m-0 text-[11px] font-semibold text-gray-500">
+            <span x-text="tier.total"></span> scents in bundle —
+            <span x-show="$store.qb.remaining > 0" x-text="$store.qb.remaining + ' left to choose'"></span>
+            <span x-show="$store.qb.remaining === 0" class="text-[#17803d]">complete ✓</span>
+          </p>
+
+          <template x-for="(slot, i) in $store.qb.slotList(tier)" :key="i">
+            <div class="flex items-center gap-2.5">
+              <div class="relative shrink-0">
+                <template x-if="slot.product">
+                  <img
+                    :src="slot.product.image"
+                    :alt="slot.product.name"
+                    width="44"
+                    height="44"
+                    class="size-11 rounded-lg object-cover bg-white border border-solid border-black/10">
+                </template>
+                <template x-if="!slot.product">
+                  <div class="size-11 rounded-lg bg-white border border-dashed border-solid border-black/25 flex items-center justify-center text-gray-300">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                  </div>
+                </template>
+              </div>
+
+              <div class="grow min-w-0">
+                <template x-if="slot.product">
+                  <div>
+                    <div class="text-[13px] font-bold text-black line-clamp-1" x-text="slot.product.name"></div>
+                    <div
+                      class="text-[11px] text-gray-500 line-clamp-1"
+                      x-show="slot.product.inspiration_name"
+                      x-text="'Inspired by ' + slot.product.inspiration_name"></div>
+                  </div>
+                </template>
+                <template x-if="!slot.product">
+                  <div class="text-[13px] font-semibold text-gray-500">Choose scent</div>
+                </template>
+              </div>
+
+              <span
+                x-show="slot.preselected"
+                class="shrink-0 text-[11px] font-semibold text-[#17803d]">Preselected</span>
+              <button
+                x-show="!slot.preselected"
+                type="button"
+                @click="$store.qb.openModal()"
+                class="shrink-0 rounded-lg text-[11px] font-semibold px-3 py-1.5 cursor-pointer border border-solid transition-colors"
+                :class="slot.product ? 'bg-white text-black border-gray-300 hover:border-black' : 'bg-black text-white border-black hover:bg-gray-800'"
+                x-text="slot.product ? 'Change' : 'Select'"></button>
+            </div>
+          </template>
+        </div>
+      </div>
+    </template>
+  </div>
+
+  {% comment %} Add to cart form — real product-form component; bundle items are
+     submitted as items[0..n] hidden inputs kept in sync by Alpine {% endcomment %}
+  <product-form
+    @submit.capture="$store.qb.prepareSubmit($event)"
+    class="product-form !mb-0 block"
+    data-hide-errors="{{ gift_card_recipient_feature_active }}"
+    data-section-id="{{ section.id }}">
+    <div class="product-form__error-message-wrapper" role="alert" hidden>
+      <span class="product-form__error-message"></span>
+    </div>
+
+    {%- form 'product'
+      , product
+      , id: product_form_id
+      , class: 'form'
+      , novalidate: 'novalidate'
+      , data-type: 'add-to-cart-form'
+    -%}
+      {% comment %} Required by product-form.js's constructor (looks up [name=id]);
+         disabled right before submit so it doesn't collide with items[0] below {% endcomment %}
+      <input
+        type="hidden"
+        name="id"
+        id="product-variant-id"
+        value="{{ selected_variant.id }}"
+        :value="$store.qb.selectedVariantId"
+        class="product-variant-id">
+
+      {% comment %} slot 0 — the pre-selected current product {% endcomment %}
+      <input type="hidden" name="items[0][id]" :value="$store.qb.selectedVariantId">
+      <input type="hidden" name="items[0][quantity]" value="1">
+
+      {% comment %} slots 1..n — customer-chosen bonus fragrances {% endcomment %}
+      <template x-for="(p, idx) in $store.qb.selectedProducts.slice(0, $store.qb.bundleLength)" :key="p.id">
+        <span>
+          <input type="hidden" :name="'items[' + (idx + 1) + '][id]'" :value="p.variant.id">
+          <input type="hidden" :name="'items[' + (idx + 1) + '][quantity]'" value="1">
+          <input type="hidden" :name="'items[' + (idx + 1) + '][properties][Bundle scent]'" :value="p.name">
+        </span>
+      </template>
+
+      <button
+        type="submit"
+        name="add"
+        value="1"
+        :aria-disabled="!$store.qb.isComplete"
+        :class="!$store.qb.isComplete ? 'opacity-60 cursor-not-allowed' : ''"
+        class="atc-button shimmer-btn cta_product_from_submit_btn flex gap-x-2 flex-wrap items-center justify-center !mb-0 text-2xl !p-3 rounded-lg button hover:bg-[#17803d] bg-[#146b32] transition-colors shadow-xl tracking-normal button--full-width button--primary"
+        aria-label="Add to cart">
+        <span
+          x-show="!$store.qb.isComplete"
+          x-cloak
+          x-text="'Choose ' + $store.qb.remaining + ' more ' + ($store.qb.remaining === 1 ? 'scent' : 'scents')"></span>
+
+        <span x-show="$store.qb.isComplete">{{ 'products.product.add_to_cart' | t }}</span>
+        {% comment %} <div class="flex items-center" x-show="$store.qb.isComplete">
+          <div
+            class="inline-block text-lg bg-[#0c5224] px-3 rounded"
+            id="product-price"
+            role="status"
+            {{ block.shopify_attributes }}>
+            <span class="compare-price line-through text-white/50 text-base" style="display: none">{{ selected_variant.compare_at_price | money }}</span>
+            <span class="current-price">{{ selected_variant.price | money }}</span>
+          </div>
+        </div> {% endcomment %}
+
+        {%- render 'loading-spinner' -%}
+      </button>
+    {%- endform -%}
+  </product-form>
+
+  {% comment %} Bonus fragrance modal — teleported to <body> so it sits above the header and sticky bars {% endcomment %}
+  <template x-teleport="body">
+  <div
+    x-show="$store.qb.showModal"
+    x-cloak
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-end md:items-center justify-center z-[9999]">
+    <div
+      class="bg-white rounded-3xl pb-3 max-w-xl w-full h-[80vh] md:h-[90vh] flex flex-col relative"
+      @click.away="$store.qb.showModal = false">
+      <button
+        @click="$store.qb.showModal = false"
+        class="absolute -top-10 right-2 md:top-2 md:right-2 w-8 h-8 bg-[#f1f4f2] text-black rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white border-0 text-2xl cursor-pointer transition">
+        <span class="[rotate:45deg] leading-none">+</span>
+      </button>
+
+      <div class="flex-shrink-0">
+        <div class="p-3 pt-5 border-0 border-b border-solid border-[#e3e8e5]">
+          <h2 class="text-lg font-bold text-gray-900 my-0 text-center tracking-normal">
+            <span x-show="$store.qb.remaining === 0">Selection complete!</span>
+            <span x-show="$store.qb.remaining > 0">
+              <span>Choose </span>
+              <span x-text="$store.qb.remaining"></span>
+              <span x-show="$store.qb.remaining === 1">more scent</span>
+              <span x-show="$store.qb.remaining > 1">more scents</span>
+            </span>
+          </h2>
+          <p class="my-0 text-center text-sm text-[#6b7280]">
+            <span x-text="$store.qb.selectedTier.total"></span> scents in bundle ·
+            Size <span x-text="$store.qb.selectedSizeLabel"></span>
+          </p>
+        </div>
+
+        <div class="px-3 py-2">
+          <div class="flex gap-1.5">
+            <button
+              @click="$store.qb.activeCategory = 'All'"
+              :class="$store.qb.activeCategory === 'All' ? 'border-[#17803d] bg-[#17803d] text-white hover:!text-white' : 'bg-white border-gray-200'"
+              class="px-2 py-1.5 rounded-full font-semibold border-2 border-solid cursor-pointer hover:text-[#17803d] hover:border-[#17803d]">Bestseller</button>
+            <button
+              @click="$store.qb.activeCategory = 'fuer-maenner'"
+              :class="$store.qb.activeCategory === 'fuer-maenner' ? 'border-[#17803d] bg-[#17803d] text-white hover:!text-white' : 'bg-white border-gray-200'"
+              class="px-2 py-1.5 rounded-full font-semibold border-2 border-solid cursor-pointer hover:text-[#17803d] hover:border-[#17803d]">Men</button>
+            <button
+              @click="$store.qb.activeCategory = 'fuer-frauen'"
+              :class="$store.qb.activeCategory === 'fuer-frauen' ? 'border-[#17803d] bg-[#17803d] text-white hover:!text-white' : 'bg-white border-gray-200'"
+              class="px-2 py-1.5 rounded-full font-semibold border-2 border-solid cursor-pointer hover:text-[#17803d] hover:border-[#17803d]">Women</button>
+          </div>
+        </div>
+
+        <div class="px-3 pb-3">
+          <div class="relative">
+            <div class="absolute top-[7px] left-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search..."
+              x-model="$store.qb.searchText"
+              class="block w-full p-2 pl-8 rounded-xl border-2 border-solid cursor-pointer bg-white border-gray-200 focus:outline-none focus:border-[#17803d] focus:shadow-none focus:border-2">
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Product grid {% endcomment %}
+      <div class="flex-1 overflow-y-auto p-3 pt-0">
+        <div class="flex flex-col gap-1.5">
+          <template x-for="product in $store.qb.availableProducts" :key="product.id">
+            <template
+              x-if="(product.tags.some(tag => tag === $store.qb.activeCategory) || $store.qb.activeCategory === 'All') &&
+                ($store.qb.searchText === '' || product.name.toLowerCase().includes($store.qb.searchText.toLowerCase()) || (product.inspiration_name && product.inspiration_name.toLowerCase().includes($store.qb.searchText.toLowerCase())))">
+              <button
+                @click="$store.qb.addRemoveProduct(product)"
+                :class="$store.qb.isProductSelected(product.id) ? 'border-[#17803d]' : 'border-gray-200 border'"
+                class="border-[1.5px] border-solid w-full p-2 flex items-center gap-2 justify-between cursor-pointer rounded-xl bg-white">
+                <img
+                  class="object-cover rounded-lg"
+                  :src="product.image"
+                  :alt="product.name"
+                  width="56"
+                  height="56">
+                <div class="text-left flex flex-col gap-1 mr-auto min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <h3 class="my-0 font-bold text-base leading-tight text-black line-clamp-1" x-text="product.name"></h3>
+                    <span
+                      x-show="product.tags.some(tag => tag.toLowerCase() === 'bestseller')"
+                      class="shrink-0 px-2 py-0.5 rounded-full bg-[#17803d] text-white text-[10px] font-semibold leading-tight">Bestseller</span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span
+                      x-show="product.tags.some(tag => tag === 'fuer-maenner')"
+                      class="shrink-0 px-2 py-0.5 rounded-full bg-[#f1f4f2] text-[#6b7280] text-[10px] font-semibold leading-tight">Men</span>
+                    <span
+                      x-show="product.tags.some(tag => tag === 'fuer-frauen')"
+                      class="shrink-0 px-2 py-0.5 rounded-full bg-[#f1f4f2] text-[#6b7280] text-[10px] font-semibold leading-tight">Women</span>
+                    <span
+                      x-show="product.occasion"
+                      x-html="product.occasion"
+                      class="shrink-0 px-2 py-0.5 rounded-full bg-[#f1f4f2] text-[#6b7280] text-[10px] font-semibold leading-tight line-clamp-1"></span>
+                  </div>
+                </div>
+                <div class="shrink-0 ml-auto text-center">
+                  <div class="text-xs font-semibold text-[#6b7280]" x-text="$store.qb.selectedSizeLabel"></div>
+                  <div
+                    class="size-8 rounded-full border-[1.5px] border-solid border-[#17803d] flex items-center justify-center text-xl text-[#17803d]"
+                    :class="{ 'bg-[#17803d]' : $store.qb.isProductSelected(product.id) }">
+                    <span x-show="!$store.qb.isProductSelected(product.id)">+</span>
+                    <svg x-show="$store.qb.isProductSelected(product.id)" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+                  </div>
+                </div>
+              </button>
+            </template>
+          </template>
+        </div>
+      </div>
+
+      <div class="flex-shrink-0 px-3 pt-2">
+        <button
+          @click="$store.qb.showModal = false"
+          class="w-full rounded-full bg-[#146b32] hover:bg-[#17803d] text-white border-0 text-lg font-bold py-3 cursor-pointer transition-colors">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+  </template>
+</div>
+
+<script>
+  document.addEventListener('alpine:init', function () {
+    var MONEY = new Intl.NumberFormat('de-DE', { style: 'currency', currency: '{{ shop.currency }}' });
+
+    Alpine.store('qb', {
+      variants: {
+        {% for variant in product.variants %}
+          "{{ variant.title | downcase | remove: ' ' }}": {
+            id: {{ variant.id }},
+            label: "{{ variant.title }}",
+            price: {{ variant.price }},
+            compare: {{ variant.compare_at_price | default: 0 }}
+          },
+        {% endfor %}
+      },
+      selectedSize: "{{ selected_size_key }}",
+      selectedVariantId: {{ selected_variant.id }},
+
+      {% comment %} pay = bottles the customer pays for · total = bottles shipped (rest free via the automatic discount) {% endcomment %}
+      tiers: [
+        { key: 't1', label: 'Regular single bottle', pay: 1, total: 1, badge: '', badgeColor: '', note: '' },
+        { key: 't2', label: 'Buy 1 Get 1 Free', pay: 1, total: 2, badge: 'Popular', badgeColor: '#c8202f' },
+        { key: 't3', label: 'Buy 2 Get 3 Free', pay: 2, total: 5, badge: 'Best price 🔥', badgeColor: '#17803d' }
+      ],
+      selectedTierKey: 't1',
+
+      showModal: false,
+      activeCategory: 'All',
+      searchText: '',
+      selectedProducts: [],
+
+      mainProduct: {
+        id: {{ product.id }},
+        name: "{{ product.title | escape }}",
+        image: "{{ product.featured_image | image_url: width: 120, height: 120 }}",
+        inspiration_name: "{% if product.metafields.custom.inspiration.value %}{{ product.metafields.custom.inspiration.value.name | escape }}{% endif %}"
+      },
+
+      availableProducts: [
+        {% for bonus_product in bonus_collection.products %}
+          {
+            id: {{ bonus_product.id }},
+            name: "{{ bonus_product.title | escape }}",
+            image: "{{ bonus_product.featured_image | image_url: width: 120, height: 120 }}",
+            inspiration_name: "{% if bonus_product.metafields.custom.inspiration.value %}{{ bonus_product.metafields.custom.inspiration.value.name | escape }}{% endif %}",
+            occasion: "{{ bonus_product.metafields.custom.occasion | escape }}",
+            tags: {{ bonus_product.tags | json }},
+            variants: {
+              {% for variant in bonus_product.variants %}
+                "{{ variant.title | downcase | remove: ' ' }}": { id: {{ variant.id }}, title: "{{ variant.title }}" },
+              {% endfor %}
+            }
+          },
+        {% endfor %}
+      ],
+
+      get selectedTier() {
+        var key = this.selectedTierKey;
+        return this.tiers.find(function (t) { return t.key === key; }) || this.tiers[0];
+      },
+      {% comment %} slot 0 is the pre-selected current product; the customer fills the rest {% endcomment %}
+      get bundleLength() { return Math.max(0, this.selectedTier.total - 1); },
+      get remaining() { return Math.max(0, this.bundleLength - this.selectedProducts.length); },
+      get isComplete() { return this.remaining === 0; },
+      get unit() { return this.variants[this.selectedSize] || Object.values(this.variants)[0]; },
+      get selectedSizeLabel() { return this.unit ? this.unit.label : ''; },
+      get unitCompare() {
+        return this.unit.compare > this.unit.price ? this.unit.compare : this.unit.price;
+      },
+      get currentPrice() { return this.tierPrice(this.selectedTier); },
+      get currentCompare() { return this.tierCompare(this.selectedTier); },
+
+      tierPrice: function (t) { return t.pay * this.unit.price; },
+      tierCompare: function (t) { return t.total * this.unitCompare; },
+      perBottle: function (t) { return Math.round(this.tierPrice(t) / t.total); },
+      savingsPercent: function (t) {
+        var full = this.tierCompare(t);
+        if (full <= this.tierPrice(t)) return 0;
+        return Math.round((full - this.tierPrice(t)) / full * 100);
+      },
+      money: function (cents) { return MONEY.format((cents || 0) / 100); },
+
+      selectSize: function (key) {
+        if (!this.variants[key]) return;
+        this.selectedSize = key;
+        this.selectedVariantId = this.variants[key].id;
+        var input = document.getElementById('product-variant-id');
+        if (input) input.value = this.variants[key].id;
+        this.selectedProducts.forEach(function (p) {
+          if (p.variants[key]) p.variant = p.variants[key];
+        });
+      },
+
+      selectTier: function (key) {
+        this.selectedTierKey = key;
+        if (this.selectedProducts.length > this.bundleLength) {
+          this.selectedProducts.splice(this.bundleLength);
+        }
+      },
+
+      {% comment %} Slot 0 = pre-selected current product · slots 1..n = customer picks (null until chosen) {% endcomment %}
+      slotList: function (tier) {
+        var out = [{ product: this.mainProduct, preselected: true }];
+        var need = Math.max(0, tier.total - 1);
+        for (var i = 0; i < need; i++) {
+          out.push({ product: this.selectedProducts[i] || null, preselected: false });
+        }
+        return out;
+      },
+
+      openModal: function () { this.showModal = true; },
+
+      isProductSelected: function (id) {
+        return this.selectedProducts.some(function (p) { return p.id === id; });
+      },
+
+      addRemoveProduct: function (product) {
+        var idx = this.selectedProducts.findIndex(function (p) { return p.id === product.id; });
+        if (idx > -1) { this.selectedProducts.splice(idx, 1); return; }
+        if (this.selectedProducts.length >= this.bundleLength) return;
+
+        var picked = Object.assign({}, product);
+        picked.variant = product.variants[this.selectedSize] || Object.values(product.variants)[0];
+        this.selectedProducts.push(picked);
+
+        if (this.selectedProducts.length >= this.bundleLength) this.showModal = false;
+      },
+
+      removeProduct: function (i) { this.selectedProducts.splice(i, 1); },
+
+      syncGlobalPrices: function () {
+        var priceText = this.money(this.currentPrice);
+        var compareText = this.money(this.currentCompare);
+        var hasCompare = this.currentCompare > this.currentPrice;
+
+        document.querySelectorAll('.current-price').forEach(function (el) {
+          el.textContent = priceText;
+        });
+        document.querySelectorAll('.compare-price').forEach(function (el) {
+          el.textContent = compareText;
+          el.style.display = hasCompare ? '' : 'none';
+        });
+      },
+
+      {% comment %} Runs on the submit event's capture phase, before product-form.js's
+         own submit handler on the inner <form>: blocks the submit while the bundle
+         isn't complete, and clears the legacy "id" field so it can't collide with
+         "items[0][id]" (both would otherwise be sent to /cart/add.js) {% endcomment %}
+      prepareSubmit: function (evt) {
+        if (!this.isComplete) {
+          evt.preventDefault();
+          evt.stopPropagation();
+          this.openModal();
+          return;
+        }
+        var idInput = evt.target.querySelector('[name="id"]');
+        if (idInput) idInput.disabled = true;
+      }
+    });
+  });
+</script>
+
+<div>
+  <img
+    class="max-w-[400px] mx-auto mt-8 block [filter:grayscale(1)]"
+    src="{{ 'payment-badge-de.png' | asset_url }}"
+    alt="Payment methods"
+    width="100%"
+    height="auto"
+    loading="lazy">
+</div>
+
+{% if localization.country.iso_code == 'DE' %}
+  <div class="!my-6 flex items-center gap-3 rounded-lg border border-solid border-gray-200 bg-gray-50 p-3">
+    <svg
+      class="size-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#1a1a1a"
+      stroke-width="1.5"
+      xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M5 12H19M12 5V19"
+        stroke="#1a1a1a"
+        stroke-width="2"
+        stroke-linecap="round"></path>
+      <path
+        d="M12 22C12 22 20 16 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 16 12 22 12 22Z"
+        fill="white"
+        stroke="#1a1a1a"
+        stroke-width="2"></path>
+      <circle
+        cx="12"
+        cy="10"
+        r="3"
+        fill="#1a1a1a"></circle>
+    </svg>
+    <div>
+      <p class="m-0 font-semibold tracking-normal text-black leading-snug">Next-day shipping from Berlin 🇩🇪</p>
+    </div>
+  </div>
+{% else %}
+  <div class="!my-6">
+    <p class="my-0 text-center font-semibold tracking-normal">
+      Delivered to
+      {{ localization.country.name }}
+      in 5 business days.
+    </p>
+  </div>
+{% endif %}
+
+{% assign bundle_product = all_products['8x-50ml-parfumflaschen'] %}
+{% if bundle_product != blank and product.template_suffix == 'tsr-promo' %}
+  <a href="{{ bundle_product.url }}" class="mt-8 [display:grid] grid-cols-3 overflow-hidden rounded-lg border-2 border-[#cc303d] border-solid bg-white text-inherit no-underline shadow-[0_1px_0_rgba(17,24,39,0.03)] md:flex-row">
+    <div class="relative w-full overflow-hidden bg-[#f2ede7] md:max-w-[280px]">
+      <img
+        src="{{ bundle_product.featured_image | image_url: width: 560 }}"
+        alt="{{ bundle_product.title | escape }}"
+        class="h-full w-full object-cover"
+        loading="lazy"
+        width="280"
+        height="280">
+    </div>
+
+    <div class="col-span-2 p-4 md:p-[18px]">
+      <div class="inline-block rounded-xl bg-green-100 text-green-600 px-2 py-1 text-xs font-semibold uppercase">
+        Save 64%
+      </div>
+      <h3 class="my-2 tracking-normal font-semibold text-base md:text-lg">
+        Our best deal: build your bundle!
+      </h3>
+      <div class="m-0 tracking-normal text-black text-sm md:text-base">
+        Only
+        <strong>{{ bundle_product.price | divided_by: 8 | money }}</strong>
+        per bottle
+      </div>
+    </div>
+  </a>
+{% endif %}
