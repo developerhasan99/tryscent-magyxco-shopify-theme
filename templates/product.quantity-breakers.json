@@ -47,6 +47,7 @@
         },
         "tsr_block_eMWiKb": {
           "type": "tsr_block",
+          "disabled": true,
           "settings": {
             "product": "bundle-6x50-79"
           }
