@@ -104,6 +104,7 @@
                   <h3 class="my-0 font-bold text-base leading-tight text-black line-clamp-1" x-text="product.name"></h3>
                   <div x-show="product.inspiration_name != ''" class="flex items-center gap-2">
                     <img
+                      style="filter: blur(2px);"
                       class="object-contain object-center size-6"
                       :src="product.inspiration_image"
                       :alt="product.inspiration_name"

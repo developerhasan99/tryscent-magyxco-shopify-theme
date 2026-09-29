@@ -89,7 +89,7 @@
           </div>
 
           <div class="flex items-center gap-2 mb-3">
-            <img class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image | image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="24" height="24">
+            <img style="filter: blur(2px);" class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image | image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="24" height="24">
             <p class="text-sm my-0 whitespace-nowrap">Inspired by:</p>
             <h4 class="font-semibold my-0 line-clamp-1 inspiration_heading">{{ product.metafields.custom.inspiration.value.name }}</h4>
           </div>

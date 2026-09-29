@@ -93,13 +93,13 @@
                 {% if product.metafields.custom.inspiration != blank %}
                   {% if product.template_suffix == 'cro-deck' %}
                     <div class="flex items-center gap-2 mb-3">
-                      <img class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image |  image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="24" height="24">
+                      <img style="filter: blur(2px);" class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image |  image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="24" height="24">
                       <p class="text-sm my-0">Inspired by:</p>
                       <h4 class="font-semibold my-0 line-clamp-1 inspiration_heading">{{ product.metafields.custom.inspiration.value.name }}</h4>
                     </div>
                   {% else %}
                     <div class="flex items-center gap-2 mb-3">
-                      <img class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image |  image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="45" height="45">
+                      <img style="filter: blur(2px);" class="object-contain object-center bg-white" src="{{ product.metafields.custom.inspiration.value.image |  image_url }}" alt="{{ product.metafields.custom.inspiration.value.image.alt | escape }}" width="45" height="45">
                       <div>
                         <p class="text-sm my-0">Inspired by:</p>
                         <h4 class="font-semibold my-0 line-clamp-1 inspiration_heading">{{ product.metafields.custom.inspiration.value.name }}</h4>

@@ -306,7 +306,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
             <span class="caption-large light">{{ block.settings.description | escape }}</span>
               {% if card_product.metafields.custom.inspiration != blank %}
                 <div class="flex items-center gap-2 mb-3">
-                  <img class="object-contain object-center" src="{{ card_product.metafields.custom.inspiration.value.image |  image_url: width: 90, height: 90 }}" alt="{{ card_product.metafields.custom.inspiration.value.image.alt | escape }}" width="35" height="35">
+                  <img style="filter: blur(2px);" class="object-contain object-center" src="{{ card_product.metafields.custom.inspiration.value.image |  image_url: width: 90, height: 90 }}" alt="{{ card_product.metafields.custom.inspiration.value.image.alt | escape }}" width="35" height="35">
                   <div>
                     <p class="text-xs my-0">Inspired by:</p>
                     <h4 class="text-sm font-semibold my-0 line-clamp-1 inspiration_heading">{{ card_product.metafields.custom.inspiration.value.name }}</h4>
