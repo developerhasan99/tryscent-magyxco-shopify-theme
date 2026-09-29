@@ -335,8 +335,16 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                 {{ discount_percent }}% <span class="discount_off_text">Av</span>
               </span>
             {% endif %}
+                <span class="inline-flex items-center gap-1 bg-[#c8202f] text-white text-xs font-bold leading-none px-1.5 py-1 rounded">
+                  <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.5-1.5 5.5-3 7.5C7.5 11.4 6 13.3 6 16a6 6 0 0 0 12 0c0-2.6-1.2-4.6-2.6-6.2-.3 1.5-1.1 2.6-2.4 3.2.4-3.8-.2-7.8-1-11z"/></svg>
+                  BOGO
+                </span>
               </div>
-            
+              <div class="mt-2 flex flex-col gap-1 font-bold tracking-normal text-[#c8202f] {% if collection.template_suffix == 'action-modal' %}text-sm{% else %}text-base{% endif %} leading-tight">
+                <p class="m-0 !text-[#c8202f]">Buy 1, Get 1 FREE!</p>
+                <p class="m-0 !text-[#c8202f]">Buy 2, Get 3 FREE!</p>
+              </div>
+
             {%- if card_product.quantity_price_breaks_configured? -%}
               {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
                 {% liquid
