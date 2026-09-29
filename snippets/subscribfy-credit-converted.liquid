@@ -1,9 +1,9 @@
-{%- comment -%}
-  {% render 'subscribfy-credit-converted', amount: customer.metafields.exison.exison_st %}
+{%- comment -%} 
+  {% render 'subscribfy-credit-converted', amount: customer.metafields.exison.exison_st %} 
 {%- endcomment -%}
 {%- assign exm_credit_usd = amount | default: 0 | times: 1.0 -%}
 {%- assign exm_variant_id = shop.metafields.exison.exison_plan_settings.product_variant_id -%}
-{%- assign exm_variant = all_products['tryscent-vip-membership'].variants | where: 'id', exm_variant_id | first -%}
+{%- assign exm_variant = all_products['magyx-vip-membership'].variants | where: 'id', exm_variant_id | first -%}
 {%- assign exm_usd_price = shop.metafields.exison.exison_plan_settings.product_price | times: 1.0 -%}
 
 {%- if exm_variant and exm_usd_price > 0 -%}

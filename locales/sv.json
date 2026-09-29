@@ -3091,7 +3091,7 @@
         "sms": {
           "disclaimer": {
             "privacy_policy": "Integritetspolicy",
-            "description_html": "Genom att markera kryssrutan ovan samtycker du till att ta emot återkommande automatiserade meddelanden från TryScent, inklusive påminnelser om varukorgen, till det angivna telefonnumret. Samtycke är inte ett villkor för köp. Svara STOP för att avsluta prenumerationen. Svara HELP för hjälp. Meddelandefrekvensen varierar. Avgifter för meddelanden och data kan tillkomma. Se vår {{ privacy_policy_link }} och {{ terms_of_service_link }}.",
+            "description_html": "Genom att markera kryssrutan ovan samtycker du till att ta emot återkommande automatiserade meddelanden från Magyx, inklusive påminnelser om varukorgen, till det angivna telefonnumret. Samtycke är inte ett villkor för köp. Svara STOP för att avsluta prenumerationen. Svara HELP för hjälp. Meddelandefrekvensen varierar. Avgifter för meddelanden och data kan tillkomma. Se vår {{ privacy_policy_link }} och {{ terms_of_service_link }}.",
             "description_transactional_html": "Du kan få textmeddelanden relaterade till orderbekräftelse och fraktuppdateringar. Svara STOP för att avregistrera dig. Svara HJÄLP för hjälp. Meddelandefrekvensen varierar. Meddelande- och datakostnader kan tillkomma. Se vår %{privacy_policy_modal_link} och %{terms_of_service_modal_link}."
           },
           "mobile_phone_number": "Mobiltelefonnummer",

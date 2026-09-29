@@ -16,21 +16,21 @@
 
   Every tile carries a product pill (review, Sep 2: "on top of all of the
   videos"). Which product, from the clips themselves:
-    1. NathalieE (car): names Valentino Born in Roma, so the women's No. 469.
-    2. EmelieS (tattoos): holds the Valentino Uomo Born in Roma bottle next to
-       the dupe, so the men's No. 360.
-    3. SofiaK (sofa, "the four-pack is their best offer"): names no scent,
-       recommends the four-pack, so the 4x 100 ml bundle.
-    4. EbbaW ("this one costs 174 kronor"): names no scent; the best-selling
-       women's scent, Cherry Vanilla No. 438.
-    5. SofiaK (unboxing): bottles 469W and 437W on screen, "number 437", so
-       the women's No. 437.
-    6. DannieN (Danish, man): names no scent; the best-selling men's scent,
-       Ginger Amber No. 230.
-    7. JoacimE (car): holds a Magic Perfume bottle whose label reads 3?0M, the
-       middle digit too soft in the 1080p transcode to be sure. Only No. 350 and
-       No. 360 fit, so the men's best seller, Uomo Born in Roma No. 360, until the
-       client confirms the number.
+  1. NathalieE (car): names Valentino Born in Roma, so the women's No. 469.
+  2. EmelieS (tattoos): holds the Valentino Uomo Born in Roma bottle next to
+  the dupe, so the men's No. 360.
+  3. SofiaK (sofa, "the four-pack is their best offer"): names no scent,
+  recommends the four-pack, so the 4x 100 ml bundle.
+  4. EbbaW ("this one costs 174 kronor"): names no scent; the best-selling
+  women's scent, Cherry Vanilla No. 438.
+  5. SofiaK (unboxing): bottles 469W and 437W on screen, "number 437", so
+  the women's No. 437.
+  6. DannieN (Danish, man): names no scent; the best-selling men's scent,
+  Ginger Amber No. 230.
+  7. JoacimE (car): holds a Magic Perfume bottle whose label reads 3?0M, the
+  middle digit too soft in the 1080p transcode to be sure. Only No. 350 and
+  No. 360 fit, so the men's best seller, Uomo Born in Roma No. 360, until the
+  client confirms the number.
   Tiles 3, 4 and 6 are fallbacks the client may want to swap; tile 7 needs the
   client to confirm the bottle number.
 
@@ -74,50 +74,80 @@
     <div class="fuel05-ugc__header">
       <h2 class="fuel05-ugc__heading">Loved by thousands</h2>
       <div class="fuel05-ugc__nav">
-        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Previous">
-          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button
+          class="fuel05-ugc__arrow fuel05-ugc__arrow--prev"
+          type="button"
+          aria-label="Previous">
+          <svg
+            preserveAspectRatio="none"
+            overflow="visible"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"><path
+              d="M9 4L17 12L9 20"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round" /></svg>
         </button>
-        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Next">
-          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button
+          class="fuel05-ugc__arrow fuel05-ugc__arrow--next"
+          type="button"
+          aria-label="Next">
+          <svg
+            preserveAspectRatio="none"
+            overflow="visible"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"><path
+              d="M9 4L17 12L9 20"
+              stroke="black"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round" /></svg>
         </button>
       </div>
     </div>
     <div class="fuel05-ugc__slider swiper">
       <div class="swiper-wrapper">
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600',
-          product_item: all_products['magic-perfume-no-469w']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/b58364a24e90479d995c8cc6dc96a73b/b58364a24e90479d995c8cc6dc96a73b.SD-480p-1.5Mbps-92843392.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/b58364a24e90479d995c8cc6dc96a73b.thumbnail.0000000000.jpg?v=1787894772&width=600'
+          , product_item: all_products['magic-perfume-no-469w']
         %}
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600',
-          product_item: all_products['magic-perfume-no-360m']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/f5fcc4ff10f64169ae5095bfe2f58bcc/f5fcc4ff10f64169ae5095bfe2f58bcc.SD-480p-1.5Mbps-92843390.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/f5fcc4ff10f64169ae5095bfe2f58bcc.thumbnail.0000000000.jpg?v=1787894759&width=600'
+          , product_item: all_products['magic-perfume-no-360m']
         %}
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/5a878e22b12744d19421b651e8d4a241/5a878e22b12744d19421b651e8d4a241.SD-480p-1.5Mbps-93044584.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/5a878e22b12744d19421b651e8d4a241.thumbnail.0000000000.jpg?v=1788153261&width=600',
-          product_item: all_products['4x-100ml-perfume-bottles']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/5a878e22b12744d19421b651e8d4a241/5a878e22b12744d19421b651e8d4a241.SD-480p-1.5Mbps-93044584.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/5a878e22b12744d19421b651e8d4a241.thumbnail.0000000000.jpg?v=1788153261&width=600'
+          , product_item: all_products['4x-100ml-perfume-bottles']
         %}
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/818572396d674cd5910b24ef0fe6a1a3/818572396d674cd5910b24ef0fe6a1a3.SD-480p-1.5Mbps-92843389.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/818572396d674cd5910b24ef0fe6a1a3.thumbnail.0000000000.jpg?v=1787894737&width=600',
-          product_item: all_products['sweet-cherry-vanilla-50-ml-1-7-fl-oz']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/818572396d674cd5910b24ef0fe6a1a3/818572396d674cd5910b24ef0fe6a1a3.SD-480p-1.5Mbps-92843389.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/818572396d674cd5910b24ef0fe6a1a3.thumbnail.0000000000.jpg?v=1787894737&width=600'
+          , product_item: all_products['sweet-cherry-vanilla-50-ml-1-7-fl-oz']
         %}
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/baa8d6ccc21d4d4683ac5ee1a7ac4100/baa8d6ccc21d4d4683ac5ee1a7ac4100.SD-480p-1.5Mbps-93044583.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/baa8d6ccc21d4d4683ac5ee1a7ac4100.thumbnail.0000000000.jpg?v=1788153263&width=600',
-          product_item: all_products['magic-perfume-no-437w']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/baa8d6ccc21d4d4683ac5ee1a7ac4100/baa8d6ccc21d4d4683ac5ee1a7ac4100.SD-480p-1.5Mbps-93044583.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/baa8d6ccc21d4d4683ac5ee1a7ac4100.thumbnail.0000000000.jpg?v=1788153263&width=600'
+          , product_item: all_products['magic-perfume-no-437w']
         %}
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/938402e6513447aab5b85b254fea9984/938402e6513447aab5b85b254fea9984.SD-480p-1.5Mbps-92843388.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/938402e6513447aab5b85b254fea9984.thumbnail.0000000000.jpg?v=1787894717&width=600',
-          product_item: all_products['bergamot-pepper-ambroxan']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/938402e6513447aab5b85b254fea9984/938402e6513447aab5b85b254fea9984.SD-480p-1.5Mbps-92843388.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/938402e6513447aab5b85b254fea9984.thumbnail.0000000000.jpg?v=1787894717&width=600'
+          , product_item: all_products['bergamot-pepper-ambroxan']
         %}
-        {% render 'fuel05-ugc-tile',
-          video_url: 'https://tryscent.co/cdn/shop/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.HD-1080p-2.5Mbps-92843391.mp4?v=0',
-          poster_url: 'https://tryscent.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600',
-          product_item: all_products['magic-perfume-no-360m']
+        {% render 'fuel05-ugc-tile'
+          , video_url: 'https://magyx.co/cdn/shop/videos/c/vp/73022be108864290bab62feaa5898a34/73022be108864290bab62feaa5898a34.HD-1080p-2.5Mbps-92843391.mp4?v=0'
+          , poster_url: 'https://magyx.co/cdn/shop/files/preview_images/73022be108864290bab62feaa5898a34.thumbnail.0000000000.jpg?v=1787894721&width=600'
+          , product_item: all_products['magic-perfume-no-360m']
         %}
       </div>
     </div>

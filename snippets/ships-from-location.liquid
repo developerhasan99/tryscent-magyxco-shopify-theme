@@ -1,0 +1,54 @@
+{% comment %}
+  Outputs the warehouse city + flag for the visitor's country, e.g. "London 🇬🇧".
+  Single source of truth for all "Ships from ..." text. To add or change a
+  country, edit the list below (key = ISO country code). Anything not listed
+  falls back to the default.
+
+  Usage:
+    Ships from {% render 'ships-from-location' %}
+{% endcomment %}
+
+{%- liquid
+  assign location = 'Savannah 🇺🇸'
+
+  case localization.country.iso_code
+    when 'AT'
+      assign location = 'Salzburg 🇦🇹'
+    when 'AU'
+      assign location = 'Canberra 🇦🇺'
+    when 'BE'
+      assign location = 'Brussels 🇧🇪'
+    when 'CA'
+      assign location = 'Markham 🇨🇦'
+    when 'CH'
+      assign location = 'Bern 🇨🇭'
+    when 'DE'
+      assign location = 'Berlin 🇩🇪'
+    when 'DK'
+      assign location = 'Copenhagen 🇩🇰'
+    when 'FI'
+      assign location = 'Helsinki 🇫🇮'
+    when 'GB'
+      assign location = 'London 🇬🇧'
+    when 'HU'
+      assign location = 'Budapest 🇭🇺'
+    when 'IE'
+      assign location = 'Dublin 🇮🇪'
+    when 'LI'
+      assign location = 'Vaduz 🇱🇮'
+    when 'LU'
+      assign location = 'Luxembourg 🇱🇺'
+    when 'NL'
+      assign location = 'Amsterdam 🇳🇱'
+    when 'NZ'
+      assign location = 'Wellington 🇳🇿'
+    when 'PL'
+      assign location = 'Warsaw 🇵🇱'
+    when 'SE'
+      assign location = 'Stockholm 🇸🇪'
+    when 'SG'
+      assign location = 'Singapore 🇸🇬'
+  endcase
+
+  echo location
+-%}

@@ -287,52 +287,43 @@
       "settings": {}
     },
     "feature_highlights_F49xPK": {
-      "type": "feature-highlights",
+      "type": "feature-ships-from",
       "blocks": {
-        "perks_DPGCpd": {
+        "perks_x8n9DF": {
           "type": "perks",
           "settings": {
-            "perk_image": "shopify://shop_images/icons_eu.webp",
-            "perk_title": "Made in the EU",
-            "perk_content": "Vegan, cruelty-free, and made in the EU."
+            "perk_image": "shopify://shop_images/quality_check.webp",
+            "perk_title": "French Fragrance Quality",
+            "perk_content": "Made with the same care as leading luxury brands."
           }
         },
-        "perks_EWQVaW": {
+        "perks_yTdgqz": {
           "type": "perks",
           "settings": {
-            "perk_image": "shopify://shop_images/icons_quality.webp",
-            "perk_title": "French Quality Standard",
-            "perk_content": "Crafted with the same attention to detail as designer brands."
+            "perk_image": "shopify://shop_images/money_back_g.webp",
+            "perk_title": "90-day money-back guarantee",
+            "perk_content": "Not convinced? Send your order back within 60 days and get your money back"
           }
         },
-        "perks_DrmURb": {
+        "perks_7zj6gB": {
           "type": "perks",
           "settings": {
-            "perk_image": "shopify://shop_images/icons_guarantee.webp",
-            "perk_title": "Money-Back Guarantee",
-            "perk_content": "We accept products back within 60 days for a refund."
-          }
-        },
-        "perks_CTzfGb": {
-          "type": "perks",
-          "settings": {
-            "perk_image": "shopify://shop_images/icons_time.webp",
-            "perk_title": "Long-Lasting",
-            "perk_content": "Lasts for 12+ hours (some say longer)."
+            "perk_image": "shopify://shop_images/long_lasting.webp",
+            "perk_title": "Long-Lasting Scent",
+            "perk_content": "Lasts over 12 hours on the skin (some report even longer lasting wear)."
           }
         }
       },
       "block_order": [
-        "perks_DPGCpd",
-        "perks_EWQVaW",
-        "perks_DrmURb",
-        "perks_CTzfGb"
+        "perks_x8n9DF",
+        "perks_yTdgqz",
+        "perks_7zj6gB"
       ],
       "name": "Feature Highlights",
       "settings": {
         "background_color": "#ffffff",
-        "padding_top": 32,
-        "padding_bottom": 32
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "cupid-video-reviews": {
@@ -433,7 +424,7 @@
         "background_color": "#faf9f6",
         "title": "You can compare scent. You should also compare the math.",
         "btn_text": "Browse more scents",
-        "btn_url": "https://tryscent.co/products/4-x-100ml-perfume-bottles",
+        "btn_url": "https://magyx.co/products/4-x-100ml-perfume-bottles",
         "padding_top": 32,
         "padding_bottom": 72
       }
@@ -1514,7 +1505,7 @@
         "offer_description": "Choose your perfect bundle and receive matching free bottles in the same size: 30ml, 50ml, or 100ml.",
         "offer_sub_description": "Shop Scents that last all day.",
         "offer_button_text": "Buy 4 for $44.00 Only",
-        "offer_button_link": "https://tryscent.co/products/4-x-100ml-perfume-bottles",
+        "offer_button_link": "https://magyx.co/products/4-x-100ml-perfume-bottles",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -1538,21 +1529,21 @@
         "padding_bottom": 72
       }
     },
-    "tryscent_statistics_3GrMac": {
+    "magyx_statistics_3GrMac": {
       "type": "tryscent-statistics",
       "blocks": {
         "stat_zHpLq3": {
           "type": "stat",
           "settings": {
             "percentage": 99,
-            "text": "Said TryScent smells luxurious without the luxury price tag."
+            "text": "Said Magyx smells luxurious without the luxury price tag."
           }
         },
         "stat_ym9zVf": {
           "type": "stat",
           "settings": {
             "percentage": 96,
-            "text": "of our customers love TryScent as their new signature scent."
+            "text": "of our customers love Magyx as their new signature scent."
           }
         },
         "stat_YMCTgd": {
@@ -1569,11 +1560,11 @@
         "stat_YMCTgd"
       ],
       "disabled": true,
-      "name": "TryScent Statistics",
+      "name": "Magyx Statistics",
       "settings": {
         "background_color": "#faf9f6",
         "statistic_image": "shopify://shop_images/cinnamon_leather_gold.png",
-        "heading": "10,000+ TryScent Bottles Shipped Worldwide",
+        "heading": "10,000+ Magyx Bottles Shipped Worldwide",
         "disclaimer": "*RESULTS BASED ON 1,000+ POST-PURCHASE SURVEYS",
         "padding_top": 12,
         "padding_bottom": 72
@@ -1586,7 +1577,7 @@
           "type": "step",
           "settings": {
             "step_title": "Step 01",
-            "step_description": "Order your TryScent fragrance."
+            "step_description": "Order your Magyx fragrance."
           }
         },
         "step_icybe6": {
@@ -1618,7 +1609,7 @@
         "step_7wCD4n"
       ],
       "disabled": true,
-      "name": "TryScent Steps Timeline",
+      "name": "Magyx Steps Timeline",
       "settings": {
         "satisfaction_bg_image": "shopify://shop_images/Frame_367.png",
         "satisfaction_title": "Your Satisfaction Guarantee"
@@ -1677,7 +1668,7 @@
       "disabled": true,
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/tryscent_factory.png",
+        "image": "shopify://shop_images/magyx_factory.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -1774,15 +1765,15 @@
         "padding_bottom": 72
       }
     },
-    "tryscent_guarantee_8hATfM": {
+    "magyx_guarantee_8hATfM": {
       "type": "tryscent-guarantee",
       "disabled": true,
       "name": "Tryscent Guarantee",
       "settings": {
         "background_color": "#fcfbf9",
         "icon": "shopify://shop_images/wt-money-back_1.svg",
-        "title": "TryScent Guarantee",
-        "description": "<p>At TryScent, we believe in fragrances that make you feel amazing. That's why we offer a 60-day money-back guarantee—so you can shop with confidence.</p><p>If you're not completely in love with your scent, simply return it within 60 days for a full refund. No hassle, no stress—just a promise that you'll find a fragrance you truly adore.</p>",
+        "title": "Magyx Guarantee",
+        "description": "<p>At Magyx, we believe in fragrances that make you feel amazing. That's why we offer a 60-day money-back guarantee—so you can shop with confidence.</p><p>If you're not completely in love with your scent, simply return it within 60 days for a full refund. No hassle, no stress—just a promise that you'll find a fragrance you truly adore.</p>",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -1817,7 +1808,7 @@
       "custom_css": [],
       "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "image": "shopify://shop_images/tryscent_factory.png",
+        "image": "shopify://shop_images/magyx_factory.png",
         "height": "adapt",
         "desktop_image_width": "medium",
         "layout": "image_first",
@@ -1848,7 +1839,7 @@
     "massive_review_Hk9BGz",
     "special_offer_bogo_CFP4NP",
     "related-products",
-    "tryscent_statistics_3GrMac",
+    "magyx_statistics_3GrMac",
     "satisfaction_JKqcnA",
     "review_section_top_NPxmhB",
     "cupid-images-slider",
@@ -1856,7 +1847,7 @@
     "1751863713a9594609",
     "image_with_text_peK6rF",
     "faq-section",
-    "tryscent_guarantee_8hATfM",
+    "magyx_guarantee_8hATfM",
     "floating-atc",
     "image_with_text_hmaWn4"
   ]

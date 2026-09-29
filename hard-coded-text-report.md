@@ -14,7 +14,7 @@ This report lists all hard-coded English text found in the Shopify theme liquid 
 - "Get Up To 4 Bottles For"
 - "FREE"
 - "Get to try more scents. Keep some, give some!"
-- "Add to cart & enjoy TryScent"
+- "Add to cart & enjoy Magyx"
 - "We offer 60-day satisfaction guarantee."
 - "Works for work, dates, or just hanging out. Can't go wrong with this one."
 - "Verified Customer"
@@ -23,8 +23,8 @@ This report lists all hard-coded English text found in the Shopify theme liquid 
 
 ### magic-compare.liquid
 - "⭐ Recommended"
-- "TryScent"
-- "Shop TryScent Now"
+- "Magyx"
+- "Shop Magyx Now"
 - "Expensive Luxury Brands"
 
 ### scent-breakdown.liquid
@@ -57,7 +57,7 @@ This report lists all hard-coded English text found in the Shopify theme liquid 
 - "Your browser does not support the video tag."
 
 ### page.free-sample.liquid
-- "5,000+ Happy TryScent explorers"
+- "5,000+ Happy Magyx explorers"
 - "Get A"
 - "FREE Sample Box"
 - "Of"
@@ -83,8 +83,8 @@ This report lists all hard-coded English text found in the Shopify theme liquid 
 - "Full Retail Bottle" (alt text)
 - "Fragrance enthusiasts typically spend $300+ on a single luxury bottle."
 - "Smart Choice"
-- "TryScent Decants"
-- "TryScent Sampler" (alt text)
+- "Magyx Decants"
+- "Magyx Sampler" (alt text)
 - "Achieve an elite collection for only $24-$49 and save the rest for your future."
 - "500,000+ Happy scent explorers"
 - "Long lasting Scent Guarantee"
@@ -97,7 +97,7 @@ This report lists all hard-coded English text found in the Shopify theme liquid 
 - "Great value for money."
 - "I was genuinely impressed by the quality. The scent holds up well and feels comparable to much more expensive brands."
 - "Our Guarantees"
-- "Your TryScent collection comes with complete peace of mind:"
+- "Your Magyx collection comes with complete peace of mind:"
 - "Satisfaction Guarantee"
 - "If you're not satisfied with your scents, we'll work with you to make things right and find your perfect match."
 - "Fast service guarantee"
@@ -154,4 +154,4 @@ This report lists all hard-coded English text found in the Shopify theme liquid 
 ---
 
 **Report Generated**: January 2025
-**Theme**: tryscent-shopify-theme
+**Theme**: magyx-shopify-theme

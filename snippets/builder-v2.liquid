@@ -9,116 +9,155 @@
 {% endunless %}
 
 
-
 <div class="product-bundler" data-bundler>
   <div class="bundler-container">
-      <!-- Header -->
-      <div class="bundler-header">
-        <div class="bundler-title">
-          <h1>🎉 WINNER CONFIRMED</h1>
-          <p class="bundler-subtitle">Claim Up To 4 FREE Bottles</p>
-          <div class="bundler-reviews">
-            {%- if shop.metafields.reviews.rating.value != blank -%}
-              <div
-                class="rating"
-                role="img"
-                aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: shop.metafields.reviews.rating.value, rating_max: shop.metafields.reviews.rating.value.scale_max }}"
-              >
-                <img src="{{ 'rating-stars.svg' | asset_url }}" alt="*****" height="40" width="200">
-        </div>
-              <span class="rating-text">({{ shop.metafields.reviews.rating.value }} / {{ shop.metafields.reviews.rating.value.scale_max }})</span>
-              <span class="review-count">{{ shop.metafields.judgeme.all_reviews_count | default: '150,983' }} Reviews</span>
-            {%- else -%}
-              <div class="rating">
-                <img src="{{ 'rating-stars.svg' | asset_url }}" alt="*****" height="40" width="200">
-              </div>
-              <span class="rating-text">(5 / 5)</span>
-              <span class="review-count">{{ shop.metafields.judgeme.all_reviews_count | default: '150,983' }} Reviews</span>
-            {%- endif -%}
-      </div>
-
-        </div>
-          </div>
-
-      <!-- Variant Selection -->
-      <div class="variant-selection">
-        <h3 class="variant-title">Select Size!</h3>
-        <p class="variant-subtitle">80% of customers buy 100ML</p>
-        <div class="variant-buttons">
-          <button class="variant-btn" data-variant="30ML" onclick="selectVariant('30ML')">
-            <div class="variant-image">
-              <img src="https://tryscent.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="30ML">
-          </div>
-            <span class="variant-size">30ML</span>
-          </button>
-          <button class="variant-btn" data-variant="50ML" onclick="selectVariant('50ML')">
-            <div class="variant-badge popular">Popular</div>
-            <div class="variant-image">
-              <img src="https://tryscent.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="50ML">
-          </div>
-            <span class="variant-size">50ML</span>
-          </button>
-          <button class="variant-btn active" data-variant="100ML" onclick="selectVariant('100ML')">
-            <div class="variant-badge bestseller">Bestseller</div>
-            <div class="variant-image">
-              <img src="https://tryscent.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="100ML">
+    <!-- Header -->
+    <div class="bundler-header">
+      <div class="bundler-title">
+        <h1>🎉 WINNER CONFIRMED</h1>
+        <p class="bundler-subtitle">Claim Up To 4 FREE Bottles</p>
+        <div class="bundler-reviews">
+          {%- if shop.metafields.reviews.rating.value != blank -%}
+            <div
+              class="rating"
+              role="img"
+              aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: shop.metafields.reviews.rating.value, rating_max: shop.metafields.reviews.rating.value.scale_max }}">
+              <img
+                src="{{ 'rating-stars.svg' | asset_url }}"
+                alt="*****"
+                height="40"
+                width="200">
             </div>
-            <span class="variant-size">100ML</span>
-          </button>
+            <span class="rating-text">({{ shop.metafields.reviews.rating.value }} / {{ shop.metafields.reviews.rating.value.scale_max }})</span>
+            <span class="review-count">{{ shop.metafields.judgeme.all_reviews_count | default: '150,983' }} Reviews</span>
+          {%- else -%}
+            <div class="rating">
+              <img
+                src="{{ 'rating-stars.svg' | asset_url }}"
+                alt="*****"
+                height="40"
+                width="200">
+            </div>
+            <span class="rating-text">(5 / 5)</span>
+            <span class="review-count">{{ shop.metafields.judgeme.all_reviews_count | default: '150,983' }} Reviews</span>
+          {%- endif -%}
         </div>
+
       </div>
+    </div>
 
-      <!-- Bundle Type Selection -->
-      <div class="bundle-type-selection" id="bundleSelection">
-        {% assign first_product = bundle_collection.products.first %}
-        {% assign first_variant_100ml = first_product.variants | where: 'title', '100ML' | first %}
-        {% assign base_price = first_variant_100ml.price | default: 2699 %}
-        <div class="bundle-type-buttons">
-          <button class="bundle-type-btn active" data-bundle-type="2+1" onclick="selectBundleType('2+1')">
-            <span class="bundle-type-desc">Buy 2, Get 1 Free</span>
-            <span class="bundle-total-price">{{ base_price | times: 2 | money }}</span>
-            <span class="bundle-price" id="price-2+1">{{ base_price | times: 2 | divided_by: 3 | money }} per bottle</span>
-            <div class="bundle-savings" id="savings-2+1">SAVE {{ base_price | money }}</div>
-          </button>
-          <button class="bundle-type-btn" data-bundle-type="3+2" onclick="selectBundleType('3+2')">
-            <span class="bundle-type-desc">Buy 3, Get 2 Free</span>
-            <span class="bundle-total-price">{{ base_price | times: 3 | money }}</span>
-            <span class="bundle-price" id="price-3+2">{{ base_price | times: 3 | divided_by: 5 | money }} per bottle</span>
-            <div class="bundle-savings" id="savings-3+2">SAVE {{ base_price | times: 2 | money }}</div>
-          </button>
-          <button class="bundle-type-btn" data-bundle-type="4+3" onclick="selectBundleType('4+3')">
-                              <div class="bundle-badge bestseller">FREE SHIPPING</div>
-            <span class="bundle-type-desc">Buy 4, Get 3 Free</span>
-            <span class="bundle-total-price">{{ base_price | times: 4 | money }}</span>
-            <span class="bundle-price" id="price-4+3">{{ base_price | times: 4 | divided_by: 7 | money }} per bottle</span>
-            <div class="bundle-savings" id="savings-4+3">SAVE {{ base_price | times: 3 | money }}</div>
-          </button>
-          <button class="bundle-type-btn" data-bundle-type="5+4" onclick="selectBundleType('5+4')">
-            <div class="bundle-badge best-value">Best Value</div>
-            <span class="bundle-type-desc">Buy 5, Get 4 Free</span>
-            <span class="bundle-total-price">{{ base_price | times: 5 | money }}</span>
-            <span class="bundle-price" id="price-5+4">{{ base_price | times: 5 | divided_by: 9 | money }} per bottle</span>
-            <div class="bundle-savings" id="savings-5+4">SAVE {{ base_price | times: 4 | money }}</div>
-          </button>
-        </div>
+    <!-- Variant Selection -->
+    <div class="variant-selection">
+      <h3 class="variant-title">Select Size!</h3>
+      <p class="variant-subtitle">80% of customers buy 100ML</p>
+      <div class="variant-buttons">
+        <button
+          class="variant-btn"
+          data-variant="30ML"
+          onclick="selectVariant('30ML')">
+          <div class="variant-image">
+            <img src="https://magyx.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="30ML">
+          </div>
+          <span class="variant-size">30ML</span>
+        </button>
+        <button
+          class="variant-btn"
+          data-variant="50ML"
+          onclick="selectVariant('50ML')">
+          <div class="variant-badge popular">Popular</div>
+          <div class="variant-image">
+            <img src="https://magyx.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="50ML">
+          </div>
+          <span class="variant-size">50ML</span>
+        </button>
+        <button
+          class="variant-btn active"
+          data-variant="100ML"
+          onclick="selectVariant('100ML')">
+          <div class="variant-badge bestseller">Bestseller</div>
+          <div class="variant-image">
+            <img src="https://magyx.co/cdn/shop/files/Pineapple_Smoke_Vanilla_-_30ml.png?crop=center&height=100&v=1754413628&width=100" alt="100ML">
+          </div>
+          <span class="variant-size">100ML</span>
+        </button>
       </div>
+    </div>
 
-
-
-      <!-- Search and Filter Section -->
-      <div class="bundler-search-filter">
-        <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Search for scents..." onkeyup="filterProducts()">
-        </div>
-        <div class="filter-container">
-        <button class="filter-btn active" data-filter="all" onclick="filterByCategory('all')">All</button>
-        <button class="filter-btn" data-filter="man" onclick="filterByCategory('man')">Men</button>
-        <button class="filter-btn" data-filter="woman" onclick="filterByCategory('woman')">Women</button>
-        </div>
+    <!-- Bundle Type Selection -->
+    <div class="bundle-type-selection" id="bundleSelection">
+      {% assign first_product = bundle_collection.products.first %}
+      {% assign first_variant_100ml = first_product.variants | where: 'title', '100ML' | first %}
+      {% assign base_price = first_variant_100ml.price | default: 2699 %}
+      <div class="bundle-type-buttons">
+        <button
+          class="bundle-type-btn active"
+          data-bundle-type="2+1"
+          onclick="selectBundleType('2+1')">
+          <span class="bundle-type-desc">Buy 2, Get 1 Free</span>
+          <span class="bundle-total-price">{{ base_price | times: 2 | money }}</span>
+          <span class="bundle-price" id="price-2+1">{{ base_price | times: 2 | divided_by: 3 | money }} per bottle</span>
+          <div class="bundle-savings" id="savings-2+1">SAVE {{ base_price | money }}</div>
+        </button>
+        <button
+          class="bundle-type-btn"
+          data-bundle-type="3+2"
+          onclick="selectBundleType('3+2')">
+          <span class="bundle-type-desc">Buy 3, Get 2 Free</span>
+          <span class="bundle-total-price">{{ base_price | times: 3 | money }}</span>
+          <span class="bundle-price" id="price-3+2">{{ base_price | times: 3 | divided_by: 5 | money }} per bottle</span>
+          <div class="bundle-savings" id="savings-3+2">SAVE {{ base_price | times: 2 | money }}</div>
+        </button>
+        <button
+          class="bundle-type-btn"
+          data-bundle-type="4+3"
+          onclick="selectBundleType('4+3')">
+          <div class="bundle-badge bestseller">FREE SHIPPING</div>
+          <span class="bundle-type-desc">Buy 4, Get 3 Free</span>
+          <span class="bundle-total-price">{{ base_price | times: 4 | money }}</span>
+          <span class="bundle-price" id="price-4+3">{{ base_price | times: 4 | divided_by: 7 | money }} per bottle</span>
+          <div class="bundle-savings" id="savings-4+3">SAVE {{ base_price | times: 3 | money }}</div>
+        </button>
+        <button
+          class="bundle-type-btn"
+          data-bundle-type="5+4"
+          onclick="selectBundleType('5+4')">
+          <div class="bundle-badge best-value">Best Value</div>
+          <span class="bundle-type-desc">Buy 5, Get 4 Free</span>
+          <span class="bundle-total-price">{{ base_price | times: 5 | money }}</span>
+          <span class="bundle-price" id="price-5+4">{{ base_price | times: 5 | divided_by: 9 | money }} per bottle</span>
+          <div class="bundle-savings" id="savings-5+4">SAVE {{ base_price | times: 4 | money }}</div>
+        </button>
       </div>
+    </div>
 
-      <!-- Main Content with Sidebar -->
-      <div class="bundler-main-content">
+
+    <!-- Search and Filter Section -->
+    <div class="bundler-search-filter">
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search for scents..."
+          onkeyup="filterProducts()">
+      </div>
+      <div class="filter-container">
+        <button
+          class="filter-btn active"
+          data-filter="all"
+          onclick="filterByCategory('all')">All</button>
+        <button
+          class="filter-btn"
+          data-filter="man"
+          onclick="filterByCategory('man')">Men</button>
+        <button
+          class="filter-btn"
+          data-filter="woman"
+          onclick="filterByCategory('woman')">Women</button>
+      </div>
+    </div>
+
+    <!-- Main Content with Sidebar -->
+    <div class="bundler-main-content">
       <!-- Products Grid -->
       <div class="bundler-products" id="productsGrid">
         {% for product in bundle_collection.products %}
@@ -126,83 +165,100 @@
           {% unless default_variant %}
             {% assign default_variant = product.variants.first %}
           {% endunless %}
-          
-              <div class="product-card bundler-product" data-product-id="{{ product.id }}" data-variant-id="{{ default_variant.id }}" data-category="{{ product.tags | join: ' ' | downcase }}" data-current-variant="{{ currentVariant }}">
-                <!-- Product Badge -->
-                {% if product.tags contains 'new' %}
-                  <div class="product-badge new">New</div>
-                {% elsif product.tags contains 'popular' %}
-                  <div class="product-badge popular">Most Popular</div>
-                {% endif %}
-                
-                <!-- Product Image -->
+
+          <div
+            class="product-card bundler-product"
+            data-product-id="{{ product.id }}"
+            data-variant-id="{{ default_variant.id }}"
+            data-category="{{ product.tags | join: ' ' | downcase }}"
+            data-current-variant="{{ currentVariant }}">
+            <!-- Product Badge -->
+            {% if product.tags contains 'new' %}
+              <div class="product-badge new">New</div>
+            {% elsif product.tags contains 'popular' %}
+              <div class="product-badge popular">Most Popular</div>
+            {% endif %}
+
+            <!-- Product Image -->
             <div class="product-image">
-                  <img src="{{ product.featured_image | image_url: width: 200 }}" alt="{{ product.title }}" loading="lazy">
+              <img
+                src="{{ product.featured_image | image_url: width: 200 }}"
+                alt="{{ product.title }}"
+                loading="lazy">
             </div>
-                
-                <!-- Product Info -->
+
+            <!-- Product Info -->
             <div class="product-info">
               <h3 class="product-title">{{ product.title }}</h3>
-                  
-                  <!-- Reviews -->
-                  <div class="product-reviews">
-                    {%- if product.metafields.reviews.rating.value != blank -%}
-                      <div
-                        class="rating"
-                        role="img"
-                        aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}"
-                      >
-                        <img src="{{ 'rating-stars.svg' | asset_url }}" alt="*****" height="13" width="66">
+
+              <!-- Reviews -->
+              <div class="product-reviews">
+                {%- if product.metafields.reviews.rating.value != blank -%}
+                  <div
+                    class="rating"
+                    role="img"
+                    aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}">
+                    <img
+                      src="{{ 'rating-stars.svg' | asset_url }}"
+                      alt="*****"
+                      height="13"
+                      width="66">
+                  </div>
+                  <span class="rating-text">{{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}</span>
+                  <span class="rating-count">({{ product.metafields.reviews.rating_count }})</span>
+                {%- else -%}
+                  <div class="rating">
+                    <img
+                      src="{{ 'rating-stars.svg' | asset_url }}"
+                      alt="*****"
+                      height="13"
+                      width="66">
+                  </div>
+                  <span class="rating-text">5 / 5</span>
+                  <span class="rating-count">({{ product.metafields.judgeme.reviews_count | default: '150' }})</span>
+                {%- endif -%}
               </div>
-                      <span class="rating-text">{{ product.metafields.reviews.rating.value }} / {{ product.metafields.reviews.rating.value.scale_max }}</span>
-                      <span class="rating-count">({{ product.metafields.reviews.rating_count }})</span>
-                    {%- else -%}
-                      <div class="rating">
-                        <img src="{{ 'rating-stars.svg' | asset_url }}" alt="*****" height="13" width="66">
+
+              <!-- Price Display -->
+              <div class="product-price-display">
+                {% assign variant_30ml = product.variants | where: 'title', '30ML' | first %}
+                {% assign variant_50ml = product.variants | where: 'title', '50ML' | first %}
+                {% assign variant_100ml = product.variants | where: 'title', '100ML' | first %}
+                {% if default_variant.compare_at_price > default_variant.price %}
+                  <span class="product-compare-price">{{ default_variant.compare_at_price | money }}</span>
+                {% endif %}
+                <span
+                  class="product-price"
+                  id="price-{{ product.id }}"
+                  data-30ml="{% if variant_30ml %}{{ variant_30ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
+                  data-50ml="{% if variant_50ml %}{{ variant_50ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
+                  data-100ml="{% if variant_100ml %}{{ variant_100ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
+                  data-variant-30ml="{% if variant_30ml %}{{ variant_30ml.id }}{% else %}{{ default_variant.id }}{% endif %}"
+                  data-variant-50ml="{% if variant_50ml %}{{ variant_50ml.id }}{% else %}{{ default_variant.id }}{% endif %}"
+                  data-variant-100ml="{% if variant_100ml %}{{ variant_100ml.id }}{% else %}{{ default_variant.id }}{% endif %}">{{ default_variant.price | money }}</span>
               </div>
-                      <span class="rating-text">5 / 5</span>
-                      <span class="rating-count">({{ product.metafields.judgeme.reviews_count | default: '150' }})</span>
-                    {%- endif -%}
-                </div>
-                  
-                  <!-- Price Display -->
-                  <div class="product-price-display">
-                    {% assign variant_30ml = product.variants | where: 'title', '30ML' | first %}
-                    {% assign variant_50ml = product.variants | where: 'title', '50ML' | first %}
-                    {% assign variant_100ml = product.variants | where: 'title', '100ML' | first %}
-                    {% if default_variant.compare_at_price > default_variant.price %}
-                      <span class="product-compare-price">{{ default_variant.compare_at_price | money }}</span>
-                    {% endif %}
-                    <span class="product-price" id="price-{{ product.id }}" 
-                          data-30ml="{% if variant_30ml %}{{ variant_30ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}" 
-                          data-50ml="{% if variant_50ml %}{{ variant_50ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}" 
-                          data-100ml="{% if variant_100ml %}{{ variant_100ml.price | money }}{% else %}{{ default_variant.price | money }}{% endif %}"
-                          data-variant-30ml="{% if variant_30ml %}{{ variant_30ml.id }}{% else %}{{ default_variant.id }}{% endif %}"
-                          data-variant-50ml="{% if variant_50ml %}{{ variant_50ml.id }}{% else %}{{ default_variant.id }}{% endif %}"
-                          data-variant-100ml="{% if variant_100ml %}{{ variant_100ml.id }}{% else %}{{ default_variant.id }}{% endif %}">{{ default_variant.price | money }}</span>
-              </div>
-                  
-                  <!-- Add to Bundle Button -->
-                  <button class="add-to-bundle-btn" onclick="selectProduct({{ product.id }}, {{ default_variant.id }});">
-                    ADD TO BUNDLE
-                  </button>
-              </div>
-                
-                <!-- Selection Indicator -->
-                <div class="selection-indicator" style="display: none;">
+
+              <!-- Add to Bundle Button -->
+              <button class="add-to-bundle-btn" onclick="selectProduct({{ product.id }}, {{ default_variant.id }});">
+                ADD TO BUNDLE
+              </button>
+            </div>
+
+            <!-- Selection Indicator -->
+            <div class="selection-indicator" style="display: none;">
               <div class="check-icon">✓</div>
             </div>
           </div>
         {% endfor %}
       </div>
 
-                <!-- Shopping Cart Sidebar -->
+      <!-- Shopping Cart Sidebar -->
       <!-- DESKTOP SIDEBAR -->
       <div class="bundler-sidebar desktop-sidebar">
         <div class="sidebar-content">
           <!-- Desktop Header -->
           <h3 class="sidebar-title" id="sidebarTitle">Shopping Cart</h3>
-          
+
           <!-- Progress Section -->
           <div class="cart-progress">
             <div class="progress-text" id="cartProgressText">Please select at least 3 scents</div>
@@ -225,22 +281,28 @@
 
           <!-- Add Bundle Button -->
           <div class="sidebar-footer">
-            <button id="addBundleBtnDesktop" class="add-bundle-btn" disabled>
+            <button
+              id="addBundleBtnDesktop"
+              class="add-bundle-btn"
+              disabled>
               <span class="btn-text" id="btnTextDesktop">Please Select 3 More Scents</span>
               <span class="btn-status" id="btnStatusDesktop">0/3</span>
-        </button>
-      </div>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- MOBILE STICKY FOOTER -->
-      <div class="mobile-sticky-footer" id="mobileStickyFooter" style="display: none;">
+      <div
+        class="mobile-sticky-footer"
+        id="mobileStickyFooter"
+        style="display: none;">
         <div class="sticky-content">
           <button id="addBundleBtnSticky" class="add-bundle-btn">
             <span class="btn-text" id="btnTextSticky">REVIEW BUNDLE</span>
             <span class="btn-status" id="btnStatusSticky">0/3</span>
           </button>
-          
+
           <!-- Mobile Benefits Footer -->
           <div class="mobile-benefits">
             <div class="mobile-benefit-item">5-8 Days Shipping Worldwide</div>
@@ -250,7 +312,10 @@
       </div>
 
       <!-- MOBILE FULLSCREEN CART -->
-      <div class="mobile-fullscreen-cart" id="mobileFullscreenCart" style="display: none;">
+      <div
+        class="mobile-fullscreen-cart"
+        id="mobileFullscreenCart"
+        style="display: none;">
         <div class="fullscreen-content">
           <!-- Mobile Header -->
           <div class="sidebar-header">
@@ -261,7 +326,7 @@
               <button class="keep-shopping-btn" onclick="closeFullscreenSidebar()">Keep Shopping</button>
             </div>
           </div>
-          
+
           <!-- Progress Section -->
           <div class="cart-progress">
             <div class="bundler-progress-container">
@@ -304,15 +369,14 @@
       </div>
 
       <!-- Backdrop for mobile fullscreen -->
-      <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeFullscreenSidebar()"></div>
-      </div>
-</div>
-
+      <div
+        class="sidebar-backdrop"
+        id="sidebarBackdrop"
+        onclick="closeFullscreenSidebar()"></div>
     </div>
   </div>
-</div>
 
-<style>
+</div></div></div><style>
 /* Bundler Styles - bez modala */
 .product-bundler {
   max-width: 1200px;
@@ -333,13 +397,13 @@
 /* Header */
 .bundler-header {
   text-align: center;
-  padding: 40px 32px 32px 32px;
+  padding: 40px 32px 32px;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   border-bottom: 1px solid #eee;
 }
 
 .bundler-title h1 {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 7.5rem;
   font-weight: 800;
   color: #222;
@@ -347,7 +411,7 @@
 }
 
 .bundler-subtitle {
-  margin: 0 0 16px 0;
+  margin: 0 0 16px;
   font-size: 3.3rem;
   color: #666;
   font-weight: 500;
@@ -424,13 +488,13 @@
   font-size: 3rem;
   font-weight: 700;
   color: #222;
-  margin: 0 0 16px 0;
+  margin: 0 0 16px;
 }
 
 .variant-subtitle {
   font-size: 2rem;
   color: #666;
-  margin: 0 0 48px 0;
+  margin: 0 0 48px;
 }
 
 .variant-buttons {
@@ -573,7 +637,6 @@
 }
 
 
-
 .bundle-total-price {
   font-size: 2rem;
   font-weight: 800;
@@ -661,16 +724,15 @@
 
 @keyframes shiny-gradient {
   0% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
   50% {
     background-position: 100% 50%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0 50%;
   }
 }
-
 
 
 .progress-step.free-step .progress-indicator {
@@ -865,7 +927,7 @@
 }
 
 .product-title {
-  margin: 0 0 8px 0;
+  margin: 0 0 8px;
   font-size: 1.6rem;
   font-weight: 700;
   color: #222;
@@ -987,9 +1049,9 @@
   border: 2px solid #e0e0e0;
   border-radius: 16px;
   background: linear-gradient(45deg, #28a745, #20c997, #28a745);
-background-size: 200% 200%;
-animation: shiny-gradient 2s ease-in-out infinite;
-color: white;
+  background-size: 200% 200%;
+  animation: shiny-gradient 2s ease-in-out infinite;
+  color: white;
   font-size: 1.2rem;
   font-weight: 700;
   cursor: pointer;
@@ -1208,7 +1270,7 @@ color: white;
   background: #28a745 !important;
   border-radius: 20px;
   transition: width 0.5s ease;
-  width: 0%;
+  width: 0;
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
@@ -1338,7 +1400,7 @@ color: white;
 }
 
 .sidebar-title {
-  margin: 0 0 20px 0;
+  margin: 0 0 20px;
   font-size: 1.3rem;
   font-weight: 700;
   color: #222;
@@ -1399,7 +1461,7 @@ color: white;
   background: #28a745 !important;
   border-radius: 0;
   transition: width 0.5s ease;
-  width: 0%;
+  width: 0;
   position: absolute !important;
   top: 0 !important;
   left: 0 !important;
@@ -1410,7 +1472,6 @@ color: white;
   opacity: 1 !important;
   visibility: visible !important;
 }
-
 
 
 .marker {
@@ -1448,7 +1509,6 @@ color: white;
   background: #e8f5e8;
   color: #28a745;
 }
-
 
 
 /* Selected Items */
@@ -1502,7 +1562,7 @@ color: white;
   font-size: 0.9rem;
   font-weight: 600;
   color: #222;
-  margin: 0 0 4px 0;
+  margin: 0 0 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1721,18 +1781,13 @@ color: white;
 }
 
 
-
-
-
-
-
 /* Responsive */
 @media (max-width: 1024px) {
   .bundler-main-content {
     flex-direction: column;
     gap: 24px;
   }
-  
+
   .bundler-sidebar {
     width: 100%;
     position: static;
@@ -1744,37 +1799,37 @@ color: white;
   .bundler-header {
     padding: 24px 20px;
   }
-  
+
   .bundler-title h1 {
     font-size: 2rem;
   }
-  
+
   .bundle-type-buttons {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .bundle-type-btn {
     min-width: 200px;
   }
-  
+
   .bundler-search-filter {
     padding: 20px;
   }
-  
+
   .filter-container {
     flex-wrap: wrap;
   }
-  
+
   .bundler-products {
     padding: 20px;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
-  
+
   .product-card {
     min-height: 400px;
   }
-  
+
   .product-image img {
     height: 200px;
   }
@@ -1786,12 +1841,12 @@ color: white;
   .desktop-sidebar {
     display: none !important;
   }
-  
+
   /* Show mobile sidebar when has items */
   .mobile-sidebar.show {
     display: block !important;
   }
-  
+
   /* Mobile sidebar sticky footer styling */
   .mobile-sidebar:not(.fullscreen) {
     position: fixed !important;
@@ -1801,12 +1856,11 @@ color: white;
     width: 100% !important;
     z-index: 1000 !important;
   }
-  
+
   .product-bundler {
-    padding: 10px !important;
-    padding-bottom: 0 !important;
+    padding: 10px 10px 0 !important;
   }
-  
+
   /* Hide desktop progress bar on mobile */
   .desktop-sidebar .bundler-progress-fill {
     display: none !important;
@@ -1819,17 +1873,17 @@ color: white;
 
   /* Header Mobile */
   .bundler-header {
-    padding: 20px 16px 20px 16px;
+    padding: 20px 16px;
   }
 
   .bundler-title h1 {
     font-size: 3.5rem;
-    margin: 0 0 8px 0;
+    margin: 0 0 8px;
   }
 
   .bundler-subtitle {
     font-size: 1.6rem;
-    margin: 0 0 16px 0;
+    margin: 0 0 16px;
   }
 
   .bundler-reviews {
@@ -1870,12 +1924,12 @@ color: white;
 
   .variant-title {
     font-size: 2rem;
-    margin: 0 0 12px 0;
+    margin: 0 0 12px;
   }
 
   .variant-subtitle {
     font-size: 1.2rem;
-    margin: 0 0 24px 0;
+    margin: 0 0 24px;
   }
 
   .variant-buttons {
@@ -1961,7 +2015,8 @@ color: white;
 
   .search-container input {
     padding: 12px 16px;
-    font-size: 16px; /* Prevent zoom on iOS */
+    font-size: 16px;
+    /* Prevent zoom on iOS */
   }
 
   .filter-container {
@@ -1970,7 +2025,7 @@ color: white;
   }
 
   .filter-btn {
-  padding: 8px 16px;
+    padding: 8px 16px;
     font-size: 0.8rem;
   }
 
@@ -1995,7 +2050,7 @@ color: white;
 
   .product-title {
     font-size: 1.2rem;
-    margin: 0 0 6px 0;
+    margin: 0 0 6px;
   }
 
   .product-image img {
@@ -2038,7 +2093,7 @@ color: white;
 
   .sidebar-title {
     font-size: 1.1rem;
-    margin: 0 0 12px 0;
+    margin: 0 0 12px;
     display: none !important;
   }
 
@@ -2048,11 +2103,11 @@ color: white;
   }
 
   .progress-text {
-  font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 
   .bundler-progress-container {
-  margin-top: 8px;
+    margin-top: 8px;
   }
 
   .bundler-progress-bar {
@@ -2106,7 +2161,7 @@ color: white;
 
   .selected-item-quantity .quantity-btn {
     width: 20px;
-  height: 24px;
+    height: 24px;
     font-size: 0.8rem;
   }
 
@@ -2155,14 +2210,14 @@ color: white;
   .bundler-sidebar.fullscreen .sidebar-content {
     padding: 20px;
     height: 100%;
-  display: flex;
+    display: flex;
     flex-direction: column;
   }
 
   .bundler-sidebar.fullscreen .sidebar-header {
     display: flex;
     justify-content: space-between;
-  align-items: center;
+    align-items: center;
     margin-bottom: 20px;
     padding-bottom: 16px;
     border-bottom: 1px solid #eee;
@@ -2222,7 +2277,7 @@ color: white;
     margin-bottom: 8px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-  background: white;
+    background: white;
   }
 
   .bundler-sidebar.fullscreen .selected-item-image {
@@ -2267,12 +2322,12 @@ color: white;
     margin-top: 8px;
     padding: 8px;
     background: #f8f9fa;
-  border-radius: 8px;
+    border-radius: 8px;
   }
 
   .bundler-sidebar.fullscreen .benefits-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 600;
     margin-bottom: 12px;
     color: #222;
   }
@@ -2300,13 +2355,13 @@ color: white;
   /* Save Info Mobile */
   .bundler-sidebar.fullscreen .save-info {
     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
+    color: white;
     padding: 12px 16px;
-  border-radius: 8px;
+    border-radius: 8px;
     margin-bottom: 16px;
     text-align: center;
     font-size: 1rem;
-  font-weight: 600;
+    font-weight: 600;
   }
 
   /* Add Bundle Button Fullscreen Mobile */
@@ -2404,7 +2459,7 @@ color: white;
   .bundle-total-price {
     font-size: 1.8rem;
   }
-  
+
   .bundler-products {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -2423,7 +2478,7 @@ color: white;
     grid-template-columns: 1fr 1fr;
     gap: 4px;
   }
-  
+
   .bundler-sidebar.fullscreen .benefit-item {
     font-size: 0.75rem;
     padding: 2px 0;
@@ -2433,51 +2488,59 @@ color: white;
 
 /* Desktop Sidebar Font Size Updates - Following UX Guidelines */
 .desktop-sidebar .sidebar-title {
-  font-size: 24px !important; /* H2/H3 - 20-24px */
+  font-size: 24px !important;
+  /* H2/H3 - 20-24px */
 }
 
 .desktop-sidebar .progress-text {
-  display: none !important; /* Hide duplicate text in gray box */
+  display: none !important;
+  /* Hide duplicate text in gray box */
 }
 
 .desktop-sidebar .empty-cart p {
-  font-size: 16px !important; /* Body text - 16-18px */
+  font-size: 16px !important;
+  /* Body text - 16-18px */
 }
 
 .desktop-sidebar .selected-item-title {
-  font-size: 16px !important; /* Body text - product names */
+  font-size: 16px !important;
+  /* Body text - product names */
 }
 
 .desktop-sidebar .selected-item-variant {
-  font-size: 14px !important; /* Labels - variant info */
+  font-size: 14px !important;
+  /* Labels - variant info */
 }
 
 .desktop-sidebar .btn-text {
-  font-size: 16px !important; /* Primary CTA button - 16px */
+  font-size: 16px !important;
+  /* Primary CTA button - 16px */
 }
 
 .desktop-sidebar .btn-status {
-  font-size: 14px !important; /* Labels - counter */
+  font-size: 14px !important;
+  /* Labels - counter */
 }
 
 .desktop-sidebar .marker {
-  font-size: 13px !important; /* Captions - progress markers */
+  font-size: 13px !important;
+  /* Captions - progress markers */
 }
 
 .desktop-sidebar .selected-item-price {
-  font-size: 14px !important; /* Labels - price info */
+  font-size: 14px !important;
+  /* Labels - price info */
 }
 
 .desktop-sidebar .quantity-btn {
-  font-size: 14px !important; /* Labels - quantity buttons */
+  font-size: 14px !important;
+  /* Labels - quantity buttons */
 }
 
 .desktop-sidebar .quantity-display {
-  font-size: 16px !important; /* Body text - quantity numbers */
-}
-</style>
-
-<script>
+  font-size: 16px !important;
+  /* Body text - quantity numbers */
+}</style><script>
 // Global variables
 let selectedProducts = [];
 let currentFilter = 'all';
@@ -4030,4 +4093,4 @@ function applyFilters() {
     }
   });
 }
-</script> 
+</script>

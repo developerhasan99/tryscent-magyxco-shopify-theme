@@ -175,52 +175,43 @@
       }
     },
     "feature_highlights_F49xPK": {
-      "type": "feature-highlights",
+      "type": "feature-ships-from",
       "blocks": {
-        "perks_DPGCpd": {
+        "perks_x8n9DF": {
           "type": "perks",
           "settings": {
-            "perk_image": "shopify://shop_images/icons_eu.webp",
-            "perk_title": "Made in the EU",
-            "perk_content": "Vegan, cruelty-free and made in the EU."
+            "perk_image": "shopify://shop_images/quality_check.webp",
+            "perk_title": "French Fragrance Quality",
+            "perk_content": "Made with the same care as leading luxury brands."
           }
         },
-        "perks_EWQVaW": {
+        "perks_yTdgqz": {
           "type": "perks",
           "settings": {
-            "perk_image": "shopify://shop_images/icons_quality.webp",
-            "perk_title": "French quality standard",
-            "perk_content": "Crafted with the same attention to detail as designer brands."
+            "perk_image": "shopify://shop_images/money_back_g.webp",
+            "perk_title": "90-day money-back guarantee",
+            "perk_content": "Not convinced? Send your order back within 60 days and get your money back"
           }
         },
-        "perks_DrmURb": {
+        "perks_7zj6gB": {
           "type": "perks",
           "settings": {
-            "perk_image": "shopify://shop_images/icons_guarantee.webp",
-            "perk_title": "Money-back guarantee",
-            "perk_content": "We accept product returns within 60 days for a refund."
-          }
-        },
-        "perks_CTzfGb": {
-          "type": "perks",
-          "settings": {
-            "perk_image": "shopify://shop_images/icons_time.webp",
-            "perk_title": "Long-lasting",
-            "perk_content": "Lasts 12+ hours (some say longer)."
+            "perk_image": "shopify://shop_images/long_lasting.webp",
+            "perk_title": "Long-Lasting Scent",
+            "perk_content": "Lasts over 12 hours on the skin (some report even longer lasting wear)."
           }
         }
       },
       "block_order": [
-        "perks_DPGCpd",
-        "perks_EWQVaW",
-        "perks_DrmURb",
-        "perks_CTzfGb"
+        "perks_x8n9DF",
+        "perks_yTdgqz",
+        "perks_7zj6gB"
       ],
       "name": "Feature Highlights",
       "settings": {
         "background_color": "#ffffff",
-        "padding_top": 32,
-        "padding_bottom": 32
+        "padding_top": 36,
+        "padding_bottom": 36
       }
     },
     "scent_breakdown_rG4H3T": {
@@ -311,7 +302,7 @@
         "background_color": "#faf9f6",
         "title": "You can compare scent. You should also compare the math.",
         "btn_text": "Browse more scents",
-        "btn_url": "https://tryscent.co/products/4-x-100ml-perfume-bottles",
+        "btn_url": "https://magyx.co/products/4-x-100ml-perfume-bottles",
         "padding_top": 32,
         "padding_bottom": 72
       }

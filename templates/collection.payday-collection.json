@@ -141,8 +141,8 @@
       "settings": {
         "background_color": "#f5f1e9",
         "text_color": "#000000",
-        "bg_image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_DK.webp",
-        "bg_mobile_image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_DK_-_Mobile.webp",
+        "bg_image": "shopify://shop_images/PaydayDeal_Header_-_Magyx_-_DK.webp",
+        "bg_mobile_image": "shopify://shop_images/PaydayDeal_Header_-_Magyx_-_DK_-_Mobile.webp",
         "social_proof_text": "Approved by 10,000+ happy fragrance lovers",
         "collection_title": "Payday sale 30% off",
         "collection_description": "Shop your favorite scents at even better prices! And save even more with bundle deals!",
@@ -158,7 +158,7 @@
       "type": "blocky-image-embedded",
       "name": "Blocky Image Embed",
       "settings": {
-        "image": "shopify://shop_images/PaydayDeal_Header_-_TryScent_-_SV.webp",
+        "image": "shopify://shop_images/PaydayDeal_Header_-_Magyx_-_SV.webp",
         "section_height": "550px",
         "mobile_height": "500px",
         "image_fit": "cover",
@@ -179,9 +179,9 @@
         "background_color": "#fcfbf9",
         "title": "Save more and buy more with bundles!",
         "description": "",
-        "collection": "tryscent-days-bundles",
+        "collection": "magyx-days-bundles",
         "button_text": "",
-        "button_link": "shopify://collections/tryscent-day",
+        "button_link": "shopify://collections/magyx-day",
         "padding_top": 36,
         "padding_bottom": 36
       }
