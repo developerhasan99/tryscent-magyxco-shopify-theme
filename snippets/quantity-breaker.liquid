@@ -408,7 +408,7 @@
 
 <script>
   document.addEventListener('alpine:init', function () {
-    var MONEY = new Intl.NumberFormat('de-DE', { style: 'currency', currency: '{{ shop.currency }}' });
+    var MONEY = new Intl.NumberFormat('de-DE', { style: 'currency', currency: '{{ cart.currency.iso_code | default: shop.currency }}' });
 
     Alpine.store('qb', {
       variants: {
