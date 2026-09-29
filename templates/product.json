@@ -200,10 +200,19 @@
         "padding_bottom": 72
       }
     },
-    "pdp_bundle_builder": {
-      "type": "pdp-bundle-builder",
-      "disabled": true,
-      "settings": {}
+    "you_may_like_qhFiPV": {
+      "type": "you-may-like",
+      "name": "You May Like",
+      "settings": {
+        "background_color": "#fcfbf9",
+        "title": "You may also like",
+        "description": "",
+        "collection": "best-sellers",
+        "button_text": "View All",
+        "button_link": "shopify://collections/all",
+        "padding_top": 0,
+        "padding_bottom": 36
+      }
     },
     "feature_highlights_F49xPK": {
       "type": "feature-ships-from",
@@ -1735,7 +1744,7 @@
   },
   "order": [
     "main",
-    "pdp_bundle_builder",
+    "you_may_like_qhFiPV",
     "feature_highlights_F49xPK",
     "cupid-video-reviews",
     "manus_smell_journey_enxN4a",
