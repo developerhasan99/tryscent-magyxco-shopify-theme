@@ -450,7 +450,7 @@
         "heading_ax7WWJ": {
           "type": "heading",
           "settings": {
-            "content": "What does it mean for a fragrance to be made in the EU?",
+            "content": "No cheap imports. Made within the EU.",
             "heading_type": "h2",
             "font_size": 32,
             "mobile_font_size": 24
@@ -459,7 +459,7 @@
         "text_gzPVkb": {
           "type": "text",
           "settings": {
-            "content": "<p>We make all our perfumes to the EU's strict cosmetics standards. That means you get a product that is as safe for your skin as it is luxurious for your senses.</p><ul><li><strong>Strict safety requirements:</strong> We use only IFRA-approved ingredients, ensuring the scent is gentle and safe to wear.</li><li><strong>No cheap shortcuts:</strong> No cheap dilutions or questionable chemicals from gray zones outside Europe.</li><li><strong>Certified facilities:</strong> Every bottle is blended and filled in controlled European laboratories with full traceability.</li></ul>",
+            "content": "<p>Our European production guarantees the highest quality standards and allows us to control every step of the manufacturing process.<br/><br/>From the selection of premium raw materials to the careful filling of each bottle, we ensure that every product meets our rigorous quality and craftsmanship requirements.</p>",
             "mobile_content": "",
             "font_size": 18
           }
@@ -471,6 +471,7 @@
       ],
       "settings": {
         "background_color": "#ffffff",
+        "image": "shopify://shop_images/MAGYX_Site_02_1.webp",
         "rounded_image": true,
         "image_placement": "1",
         "mobile_image_placement": "under_heading",
@@ -532,6 +533,7 @@
         "category_yXjfNN": {
           "type": "category",
           "settings": {
+            "image": "shopify://shop_images/MAGYX_Site_Bundle_Save_1.webp",
             "text": "Bundle & save",
             "link": "shopify://collections/bundle-save"
           }
@@ -541,7 +543,7 @@
           "settings": {
             "image": "shopify://shop_images/MAGYX_Site_For_Him.webp",
             "text": "For Him",
-            "link": "shopify://collections/man"
+            "link": "shopify://collections/best-sellers-for-men"
           }
         },
         "category_kcgbew": {
@@ -549,7 +551,7 @@
           "settings": {
             "image": "shopify://shop_images/MAGYX_Site_For_Her.webp",
             "text": "For Her",
-            "link": "shopify://collections/woman"
+            "link": "shopify://collections/best-sellers-for-women"
           }
         },
         "category_PLwfRa": {
