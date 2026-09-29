@@ -20,7 +20,7 @@
     render sites that do not pass it render nothing)
 {% endcomment %}
 
-{%- if section != blank and request.locale.iso_code == 'sv' and product.metafields.custom.choose_your_fragrances_options == blank -%}
+{%- if section != blank and request.locale.iso_code == 'sv' and product.metafields.custom.bundle_product_count == blank -%}
   {%- assign fuel01_pdp_block = section.blocks | where: 'type', 'fuel01_pdp' | first -%}
   {%- if fuel01_pdp_block -%}
     {%- liquid

@@ -74,7 +74,7 @@
       x-model="$store.bundleBuilder.variantId"
       value="{{ selected_variant.id }}"
       class="product-variant-id">
-    {% if product.metafields.custom.choose_your_fragrances_options != blank %}
+    {% if product.metafields.custom.bundle_product_count != blank %}
       {% render 'bundle-mix-dropdown' %}
     {% else %}
       <input
@@ -89,7 +89,7 @@
       value="1"
       class="atc-button shimmer-btn cta_product_from_submit_btn flex flex-wrap items-center !mb-0 text-2xl !pb-3 !pt-3 rounded-lg button bg-[#22613a] hover:bg-[#368856] transition-colors shadow-xl tracking-normal button--full-width button--primary"
       aria-label="Add to cart"
-      {% if product.metafields.custom.choose_your_fragrances_options != blank %}
+      {% if product.metafields.custom.bundle_product_count != blank %}
       disabled="disabled"
       {% endif %}>
       <span>Add to cart</span>

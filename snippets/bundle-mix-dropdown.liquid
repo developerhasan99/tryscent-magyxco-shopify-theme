@@ -1,13 +1,13 @@
   <div class="progress-container">
     <div class="progress-bar-wraps">
-      {% for loop in (1..product.metafields.custom.choose_your_fragrances_options) %}
+      {% for loop in (1..product.metafields.custom.bundle_product_count) %}
         <div class="progress-step {% if forloop.first %}active{% endif %}">{{ forloop.index }}</div>
       {% endfor %}
     </div>
 
     <div class="dropdown-container">
       
-      {% for loop in (1..product.metafields.custom.choose_your_fragrances_options) %}
+      {% for loop in (1..product.metafields.custom.bundle_product_count) %}
         <div class="dropdown-header {% unless forloop.first %}disabled{% endunless %}">
           <h3 class="selectedPerfume">{% render 'perfume-icon' %} Choose your perfume</h3>
           <div class="caret">{% render 'arrow-down' %}</div>

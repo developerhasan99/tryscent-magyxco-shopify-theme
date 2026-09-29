@@ -27,7 +27,7 @@
 </div>
 
 {% assign bundle_collection = collections['best-sellers'] %}
-{% assign product_count = product.metafields.custom.choose_your_fragrances_options %}
+{% assign product_count = product.metafields.custom.bundle_product_count %}
 {% assign dropdown_ml = product.metafields.custom.select_bundle_dropdown_ml | default: "50" %}
 {% assign bundle_ml = dropdown_ml | append: "ml" %}
 {% assign selected_variant = product.selected_or_first_available_variant %}

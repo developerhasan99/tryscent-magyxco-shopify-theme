@@ -210,7 +210,7 @@
                         </span>
                       {% endif %}
                     </div>
-                    {% assign price_per_bottle = product.price | divided_by: product.metafields.custom.choose_your_fragrances_options | money %}
+                    {% assign price_per_bottle = product.price | divided_by: product.metafields.custom.bundle_product_count | money %}
                     <div class="text-lg font-semibold text-black leading-normal">
                       {{ 'bundle.price_per_bottle' | t: price: price_per_bottle }}
                     </div>
@@ -227,7 +227,7 @@
                 </div>
               {%- when 'atc_bundle_builder' -%}
                 <div class="atc-bundle-builder" {{ block.shopify_attributes }}>
-                   {% if product.metafields.custom.choose_your_fragrances_options != blank %}
+                   {% if product.metafields.custom.bundle_product_count != blank %}
                     {% render 'bundle-builder', product: product, block: block %}
                   {% else %}
                     {% render 'reactive-variant-selector', product: product, section: section %}
@@ -343,7 +343,7 @@
                       </h3>
                       <p class="m-0 tracking-normal text-slate-600 text-sm md:text-base">
                         {{ 'bundle.tsr_offer_price_prefix' | t }}
-                        <strong class="text-slate-900">{{ block.settings.product.price | divided_by: block.settings.product.metafields.custom.choose_your_fragrances_options | money }}</strong>
+                        <strong class="text-slate-900">{{ block.settings.product.price | divided_by: block.settings.product.metafields.custom.bundle_product_count | money }}</strong>
                         {{ 'bundle.tsr_offer_price_suffix' | t }}
                       </p>
                     </div>
@@ -1154,7 +1154,7 @@
   </div>
 </product-info>
 
-{% if product.metafields.custom.choose_your_fragrances_options != blank %}
+{% if product.metafields.custom.bundle_product_count != blank %}
     {% render 'bundle-builder-modal' %}
 {% endif %}
   

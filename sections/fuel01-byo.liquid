@@ -53,7 +53,7 @@
     endcomment
     assign dropdown_ml = bundle_product.metafields.custom.select_bundle_dropdown_ml | default: '50'
     assign bundle_ml = dropdown_ml | append: 'ml'
-    assign bottle_count = bundle_product.metafields.custom.choose_your_fragrances_options | default: 4
+    assign bottle_count = bundle_product.metafields.custom.bundle_product_count | default: 4
     assign slot_count = bottle_count | plus: 0
     assign paid_count = slot_count | minus: 1
 
