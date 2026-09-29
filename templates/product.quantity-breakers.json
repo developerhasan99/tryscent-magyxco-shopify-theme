@@ -32,8 +32,15 @@
             "custom_liquid": "{% render 'scent-profiling' %}"
           }
         },
+        "custom_liquid_7fWyxx": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% render 'quantity-breaker' %}"
+          }
+        },
         "atc_bundle_builder_aLJUaV": {
           "type": "atc_bundle_builder",
+          "disabled": true,
           "settings": {
             "collection_handles": "best-sellers,new"
           }
@@ -164,6 +171,7 @@
         "custom_rating_text_qMgzTM",
         "inspired_by_idtdrk",
         "custom_liquid_dWtbAc",
+        "custom_liquid_7fWyxx",
         "atc_bundle_builder_aLJUaV",
         "tsr_block_eMWiKb",
         "money_back_cEqkRK",
