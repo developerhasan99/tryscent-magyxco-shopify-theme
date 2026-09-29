@@ -26,6 +26,9 @@
     },
     "singapore": {
       "parent": "@default"
+    },
+    "united-kingdome": {
+      "parent": "@default"
     }
   }
 }
