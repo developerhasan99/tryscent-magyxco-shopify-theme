@@ -22,29 +22,6 @@
             "text": "4.9/5 based on over 10,000 reviews"
           }
         },
-        "subscribfy_block_product_page_vip_widget_KdxxVY": {
-          "type": "shopify://apps/subscribfy/blocks/block-product-page-Vip-widget/92b2aa79-0e8b-44a2-8415-48904e56b61e",
-          "settings": {
-            "join_title": "10% off with Tryscent+",
-            "join_you_save_label": "Buy more, save more • Monthly store credit • Early access to drops • Free perfumes",
-            "join_body_text": "<p>Buy more, save more • Monthly store credit • Early access to drops • Free perfumes</p>",
-            "non-member_title": "Shop at regular price",
-            "active_member_title": "10% off with Tryscent+",
-            "active_member_you_save_label": "You save",
-            "active_member_body_text": "<p>Buy more, save more • Monthly store credit • Early access to drops • Free perfumes</p>",
-            "custom_form_id": "product-form-[section.id]",
-            "color_member_price": "#000000",
-            "default_join": false,
-            "widget_template": "3",
-            "template3_control_style": "checkbox",
-            "member_badge_image": "shopify://shop_images/cGLuWmsD6gNb.png",
-            "always_show_widget": true,
-            "hide_discount_badge": true,
-            "hide_price": true,
-            "cart_item_title": "",
-            "cart_item_text": ""
-          }
-        },
         "custom_liquid_G7fm64": {
           "type": "custom_liquid",
           "settings": {
@@ -185,7 +162,6 @@
       "block_order": [
         "title",
         "custom_rating_text_XVDQcU",
-        "subscribfy_block_product_page_vip_widget_KdxxVY",
         "custom_liquid_G7fm64",
         "reactive_variant_selector_JyFrkg",
         "shipping_text_HCVN8A",

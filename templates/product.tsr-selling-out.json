@@ -36,29 +36,6 @@
             "custom_liquid": "{% render 'scent-profiling' %}"
           }
         },
-        "subscribfy_block_product_page_vip_widget_yWfexG": {
-          "type": "shopify://apps/subscribfy/blocks/block-product-page-Vip-widget/92b2aa79-0e8b-44a2-8415-48904e56b61e",
-          "settings": {
-            "join_title": "10% off with Tryscent+",
-            "join_you_save_label": "Buy more, save more • Monthly store credit • Early access to drops • Free perfumes",
-            "join_body_text": "<p>Buy more, save more • Monthly store credit • Early access to drops • Free perfumes</p>",
-            "non-member_title": "Shop at regular price",
-            "active_member_title": "10% off with Tryscent+",
-            "active_member_you_save_label": "You save",
-            "active_member_body_text": "<p>Buy more, save more • Monthly store credit • Early access to drops • Free perfumes</p>",
-            "custom_form_id": "product-form-[section.id]",
-            "color_member_price": "#000000",
-            "default_join": false,
-            "widget_template": "3",
-            "template3_control_style": "checkbox",
-            "member_badge_image": "shopify://shop_images/cGLuWmsD6gNb.png",
-            "always_show_widget": true,
-            "hide_discount_badge": true,
-            "hide_price": true,
-            "cart_item_title": "",
-            "cart_item_text": ""
-          }
-        },
         "atc_bundle_builder_aLJUaV": {
           "type": "atc_bundle_builder",
           "settings": {
@@ -241,7 +218,6 @@
         "inspired_by_CYaPpm",
         "designer_price_NbU6nd",
         "custom_liquid_eKzwKK",
-        "subscribfy_block_product_page_vip_widget_yWfexG",
         "atc_bundle_builder_aLJUaV",
         "fuel03_pair_1",
         "fuel03_pair_2",
@@ -972,6 +948,7 @@
         "review_PiLjha",
         "review_AEQxcH"
       ],
+      "disabled": true,
       "name": "Massive Review",
       "settings": {
         "background_color": "#fcfbf9",
@@ -981,8 +958,7 @@
         "button_link": "",
         "padding_top": 72,
         "padding_bottom": 72
-      },
-      "disabled": true
+      }
     },
     "massive_review_WfHeUd": {
       "type": "massive-review",
@@ -1458,6 +1434,7 @@
         "review_PiLjha",
         "review_AEQxcH"
       ],
+      "disabled": true,
       "name": "Massive Review",
       "settings": {
         "background_color": "#fcfbf9",
@@ -1467,8 +1444,7 @@
         "button_link": "",
         "padding_top": 72,
         "padding_bottom": 72
-      },
-      "disabled": true
+      }
     },
     "massive_review_WfKGRf": {
       "type": "massive-review",
