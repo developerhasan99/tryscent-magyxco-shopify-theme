@@ -63,7 +63,9 @@
   {% endif %}
 {% endif %}
 
-{% render 'fuel01-pdp', product: product, section: section %}
+{% render 'fuel01-pdp'
+  , product: product
+  , section: section %}
 
 {% comment %} Add to cart form {% endcomment %}
 <product-form
@@ -127,15 +129,37 @@
     loading="lazy">
 </div>
 
-{% unless product.template_suffix == 'cro-deck' %}
-  <div class="!my-6">
-    <p class="my-0 text-center font-semibold tracking-normal">
-      Delivered to
-      <span class="shipping_location">{{ localization.country.name }}</span>
-      within 5 business days.
-    </p>
+<div class="!my-6 flex items-center gap-3 rounded-lg border border-solid border-gray-200 bg-gray-50 p-3">
+  <svg
+    class="size-6"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#1a1a1a"
+    stroke-width="1.5"
+    xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M5 12H19M12 5V19"
+      stroke="#1a1a1a"
+      stroke-width="2"
+      stroke-linecap="round"></path>
+    <path
+      d="M12 22C12 22 20 16 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 16 12 22 12 22Z"
+      fill="white"
+      stroke="#1a1a1a"
+      stroke-width="2"></path>
+    <circle
+      cx="12"
+      cy="10"
+      r="3"
+      fill="#1a1a1a"></circle>
+  </svg>
+  <div>
+    <p class="m-0 font-semibold tracking-normal text-black leading-snug">Ships Next Day from {% render 'ships-from-location' %}</p>
+  {% comment %} {% unless localization.country.iso_code == 'US' %}
+                      <p class="m-0 text-gray-500 tracking-normal text-sm">Delivered in 3-7 business days.</p>
+            {% endunless %} {% endcomment %}
   </div>
-{% endunless %}
+</div>
 
 <script>
   (function() {
