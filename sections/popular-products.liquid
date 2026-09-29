@@ -49,26 +49,6 @@
   </div>
 </div>
 
-{%- comment -%}
-  FUEL_05: the UGC video row rides inside this section because the homepage
-  template sits at Shopify's 25-section cap, so the row cannot be its own
-  section. Gated to the "Latest scents" instance only. The row ships
-  hidden; the test (or the #f05 QA hash) reveals it. Remove with the FUEL_05
-  cleanup.
-{%- endcomment -%}
-{%- comment -%}
-  contains, not ==: in a JSON template section.id is the long
-  "template--<id>__popular_products_XDHbay" form, never the bare key.
-  The title is the belt to that braces: the key dies silently if anyone
-  deletes and re-adds the section in the editor (the bot rewrites
-  templates/index.json from editor state several times a day), and the
-  title dies silently if anyone rewords the heading. Either one alone
-  keeps the row alive; only losing both drops it.
-{%- endcomment -%}
-{%- if section.id contains 'popular_products_XDHbay' or section.settings.title == '🔥Latest scents' -%}
-  {% render 'fuel05-ugc-home-row' %}
-{%- endif -%}
-
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     new Swiper('#slider-{{ section.id }}', {
