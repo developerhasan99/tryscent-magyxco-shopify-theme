@@ -567,81 +567,44 @@
     });
   });
 </script>
-
 <div>
   <img
-    class="max-w-[400px] mx-auto mt-8 block [filter:grayscale(1)]"
-    src="{{ 'payment-badge-de.png' | asset_url }}"
+    class="max-w-[400px] w-full mx-auto mt-8 block [filter:grayscale(1)]"
+    src="{{ 'payment-badge.svg' | asset_url }}"
     alt="Payment methods"
     width="100%"
     height="auto"
     loading="lazy">
 </div>
 
-{% if localization.country.iso_code == 'DE' %}
-  <div class="!my-6 flex items-center gap-3 rounded-lg border border-solid border-gray-200 bg-gray-50 p-3">
-    <svg
-      class="size-6"
-      viewBox="0 0 24 24"
-      fill="none"
+<div class="!my-6 flex items-center gap-3 rounded-lg border border-solid border-gray-200 bg-gray-50 p-3">
+  <svg
+    class="size-6"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="#1a1a1a"
+    stroke-width="1.5"
+    xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M5 12H19M12 5V19"
       stroke="#1a1a1a"
-      stroke-width="1.5"
-      xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M5 12H19M12 5V19"
-        stroke="#1a1a1a"
-        stroke-width="2"
-        stroke-linecap="round"></path>
-      <path
-        d="M12 22C12 22 20 16 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 16 12 22 12 22Z"
-        fill="white"
-        stroke="#1a1a1a"
-        stroke-width="2"></path>
-      <circle
-        cx="12"
-        cy="10"
-        r="3"
-        fill="#1a1a1a"></circle>
-    </svg>
-    <div>
-      <p class="m-0 font-semibold tracking-normal text-black leading-snug">Next-day shipping from Berlin 🇩🇪</p>
-    </div>
+      stroke-width="2"
+      stroke-linecap="round"></path>
+    <path
+      d="M12 22C12 22 20 16 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 16 12 22 12 22Z"
+      fill="white"
+      stroke="#1a1a1a"
+      stroke-width="2"></path>
+    <circle
+      cx="12"
+      cy="10"
+      r="3"
+      fill="#1a1a1a"></circle>
+  </svg>
+  <div>
+    <p class="m-0 font-semibold tracking-normal text-black leading-snug">Ships Next Day from {% render 'ships-from-location' %}</p>
+  {% comment %} {% unless localization.country.iso_code == 'US' %}
+                              <p class="m-0 text-gray-500 tracking-normal text-sm">Delivered in 3-7 business days.</p>
+                {% endunless %} {% endcomment %}
   </div>
-{% else %}
-  <div class="!my-6">
-    <p class="my-0 text-center font-semibold tracking-normal">
-      Delivered to
-      {{ localization.country.name }}
-      in 5 business days.
-    </p>
-  </div>
-{% endif %}
-
-{% assign bundle_product = all_products['8x-50ml-parfumflaschen'] %}
-{% if bundle_product != blank and product.template_suffix == 'tsr-promo' %}
-  <a href="{{ bundle_product.url }}" class="mt-8 [display:grid] grid-cols-3 overflow-hidden rounded-lg border-2 border-[#cc303d] border-solid bg-white text-inherit no-underline shadow-[0_1px_0_rgba(17,24,39,0.03)] md:flex-row">
-    <div class="relative w-full overflow-hidden bg-[#f2ede7] md:max-w-[280px]">
-      <img
-        src="{{ bundle_product.featured_image | image_url: width: 560 }}"
-        alt="{{ bundle_product.title | escape }}"
-        class="h-full w-full object-cover"
-        loading="lazy"
-        width="280"
-        height="280">
-    </div>
-
-    <div class="col-span-2 p-4 md:p-[18px]">
-      <div class="inline-block rounded-xl bg-green-100 text-green-600 px-2 py-1 text-xs font-semibold uppercase">
-        Save 64%
-      </div>
-      <h3 class="my-2 tracking-normal font-semibold text-base md:text-lg">
-        Our best deal: build your bundle!
-      </h3>
-      <div class="m-0 tracking-normal text-black text-sm md:text-base">
-        Only
-        <strong>{{ bundle_product.price | divided_by: 8 | money }}</strong>
-        per bottle
-      </div>
-    </div>
-  </a>
-{% endif %}
+</div>
