@@ -890,7 +890,7 @@
         "review_KK6jhW": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/261_revie.webp",
+            "review_image": "shopify://shop_images/magic_revie.webp",
             "content": "<p>\"The smell was consistant while wearing it for a long while. No complains there\"</p>",
             "author": "Michael R.",
             "date": "4 months ago",
@@ -902,6 +902,7 @@
         "review_HjyT3p": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/261_revie.webp",
             "content": "<p>\"Very high quality!!\"</p>",
             "author": "Alvarez P.",
             "date": "4 months ago",
@@ -913,6 +914,7 @@
         "review_6Bhttk": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/2026-07-22_16h43_29.webp",
             "content": "<p>\"These smells amazing , good price fast delivery.\"</p>",
             "author": "Anne E.",
             "date": "4 months ago",
