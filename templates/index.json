@@ -714,6 +714,7 @@
         "review_yEDVJD": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp",
             "content": "<p>\"Easy process throw payment and trust worthy website\"</p>",
             "author": "Robinson K.",
             "date": "2 days ago",
@@ -737,6 +738,7 @@
         "review_XfwcAY": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
             "content": "<p>\"I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!\"</p>",
             "author": "Clara P.",
             "date": "3 days ago",
