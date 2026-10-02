@@ -774,6 +774,7 @@
         "review_icFmQQ": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h55_49.webp",
             "content": "<p>\"the perfume is mega-true, beautiful scent, I fell in love with it\"</p>",
             "author": "Tiana N.",
             "date": "3 Weeks ago",
