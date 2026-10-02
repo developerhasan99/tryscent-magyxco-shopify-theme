@@ -844,6 +844,7 @@
         "review_wbXdLy": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h41_42.webp",
             "content": "<p>\"It smells very good, but it doesn't last as long as it should.\"</p>",
             "author": "Terence M.",
             "date": "2 months ago",
@@ -889,6 +890,7 @@
         "review_KK6jhW": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/261_revie.webp",
             "content": "<p>\"The smell was consistant while wearing it for a long while. No complains there\"</p>",
             "author": "Michael R.",
             "date": "4 months ago",
