@@ -401,237 +401,10 @@
         "mobile_padding_bottom": 40
       }
     },
-    "massive_review_Hk9BGz": {
+    "massive_review_qA8RJM": {
       "type": "massive-review",
       "blocks": {
-        "review_zAw7dR": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/2_24.png",
-            "content": "<p>\"I really like this brand and the fragrance are amazing..\"</p>",
-            "author": "Lilian M.",
-            "date": "1 day ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_yEDVJD": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"Easy process throw payment and trust worthy website\"</p>",
-            "author": "Robinson K.",
-            "date": "2 days ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_yCzQxH": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/1_24.png",
-            "content": "<p>\"Supergood alternativ, lasting long and is the same like the more expansive perfumes. Highly recommend to test you will not be disappointed.\"</p>",
-            "author": "Maria M",
-            "date": "2 days ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_XfwcAY": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!\"</p>",
-            "author": "Clara P.",
-            "date": "3 days ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_8jw9Px": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/6_14.png",
-            "content": "<p>\"High quality product for only $29! The perfume smells exactly like the original and it last for hours!<br/>Recommended \"</p>",
-            "author": "Adele S.",
-            "date": "2 Weeks ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_UPwGBF": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/5_12.png",
-            "content": "<p>\"I bought one perfume inspired by mademoiselle , and it’s fantastic . It last long on the skin and the smell it’s absolutely identical. \"</p>",
-            "author": "Jenniffer W.",
-            "date": "3 Weeks ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_icFmQQ": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"the perfume is mega-true, beautiful scent, I fell in love with it\"</p>",
-            "author": "Tiana N.",
-            "date": "3 Weeks ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_RnXXg9": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"I love it. I love it, one of my favourite!\"</p>",
-            "author": "Michael T.",
-            "date": "2 Weeks ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_aThE8h": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"Best of the BEST!\"</p>",
-            "author": "Alex W.",
-            "date": "3 Weeks ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_YXwWcc": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/1_25.png",
-            "content": "<p>\"I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.\"</p>",
-            "author": "Christine N.",
-            "date": "3 Months ago",
-            "rating": 4,
-            "show_verified_badge": false,
-            "product": ""
-          }
-        },
-        "review_nQ6MLV": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"Woow this is my second order I love it \"</p>",
-            "author": "Lionel M.",
-            "date": "3 Weeks ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_y8tq9b": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/7_6.png",
-            "content": "<p>\"Quick service, Great products 🥰🥰🥰\"</p>",
-            "author": "Lidis A.",
-            "date": "2 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_wbXdLy": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"It smells very good, but it doesn't last as long as it should.\"</p>",
-            "author": "Terence M.",
-            "date": "2 months ago",
-            "rating": 5,
-            "show_verified_badge": false,
-            "product": ""
-          }
-        },
-        "review_bjRzPy": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"It smells very good, I'm fascinated by it.\"</p>",
-            "author": "Castillo B.",
-            "date": "3 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_639hbA": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"Very good! I am going to recommend this yo all my friend \"</p>",
-            "author": "Kamila G.",
-            "date": "3 Months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_G3HzBj": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/3_16.png",
-            "content": "<p>\"I love your perfumes♥️♥️\"</p>",
-            "author": "Robinson D.",
-            "date": "4 months ago",
-            "rating": 4,
-            "show_verified_badge": false,
-            "product": ""
-          }
-        },
-        "review_KK6jhW": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"The smell was consistant while wearing it for a long while. No complains there\"</p>",
-            "author": "Michael R.",
-            "date": "4 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_HjyT3p": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"Very high quality!!\"</p>",
-            "author": "Alvarez P.",
-            "date": "4 months ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_6Bhttk": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"These smells amazing , good price fast delivery.\"</p>",
-            "author": "Anne E.",
-            "date": "4 months ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_8FxpJj": {
-          "type": "review",
-          "settings": {
-            "content": "<p>\"Good Order and really good Delivery service\"</p>",
-            "author": "Lucy R",
-            "date": "4 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_JRzxRP": {
+        "review_B8ndVT": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_07.png",
@@ -643,31 +416,18 @@
             "product": ""
           }
         },
-        "review_9T4pt3": {
+        "review_h8aNpa": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_10.png",
-            "content": "<p>\"Their products are good quality at a very affordable price.\"</p>",
-            "author": "Amanda G",
-            "date": "5 months ago",
+            "content": "<p>\"I love it. I love it, one of my favourite!\"</p>",
+            "author": "Michael T.",
+            "date": "2 Weeks ago",
             "rating": 4,
             "show_verified_badge": true,
             "product": ""
           }
         },
-        "review_aietxq": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_29.png",
-            "content": "<p>\"Superb fragrances, excellent products, no problem.\"</p>",
-            "author": "Alex S.",
-            "date": "6 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_YtFw34": {
+        "review_984YgE": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_02.png",
@@ -679,7 +439,7 @@
             "product": ""
           }
         },
-        "review_WnPpEf": {
+        "review_hA4EbT": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_28.png",
@@ -691,55 +451,7 @@
             "product": ""
           }
         },
-        "review_jRgbTk": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_13.png",
-            "content": "<p>\"Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.\"</p>",
-            "author": "EM",
-            "date": "4 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_GbhyC3": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_18.png",
-            "content": "<p>\"Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥\"</p>",
-            "author": "Marianne",
-            "date": "4 months ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_C3bd9b": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_27.png",
-            "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
-            "author": "Eliannys Y",
-            "date": "7 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_NYCPwJ": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_16.png",
-            "content": "<p>\"I like it! I appreciate this fragrance. Good smell.\"</p>",
-            "author": "Metrine M",
-            "date": "7 months ago",
-            "rating": 5,
-            "show_verified_badge": false,
-            "product": ""
-          }
-        },
-        "review_EniFK9": {
+        "review_RigmVH": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_30.png",
@@ -751,43 +463,7 @@
             "product": ""
           }
         },
-        "review_r8Gi8i": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_12.png",
-            "content": "<p>\"Super brand and excellent products!\"</p>",
-            "author": "Juliana B",
-            "date": "4 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_LRkiUH": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_17.png",
-            "content": "<p>\"After a small delay, I finally received my Magic Perfume perfumes and they are exactly as they should be! I can hardly believe how much they match the originals — for reference, I received \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\", these are really beautiful fragrances.\"</p>",
-            "author": "Gabriella K",
-            "date": "7 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_Vb9HW7": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_33.png",
-            "content": "<p>\"Very good brand, I love the packaging and the aroma.\"</p>",
-            "author": "Rosa B",
-            "date": "7 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_JdiNyt": {
+        "review_hrpDqz": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_31.png",
@@ -799,19 +475,65 @@
             "product": ""
           }
         },
-        "review_bNVhH6": {
+        "review_RYpYqk": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_32.png",
-            "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
-            "author": "Angel",
-            "date": "8 months ago",
+            "content": "<p>\"Woow this is my second order I love it \"</p>",
+            "author": "Lionel M.",
+            "date": "3 Weeks ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
           }
         },
-        "review_PiLjha": {
+        "review_zLEAxC": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_29.png",
+            "content": "<p>\"Superb fragrances, excellent products, no problem.\"</p>",
+            "author": "Alex S.",
+            "date": "6 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_4xNMaz": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_27.png",
+            "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
+            "author": "Eliannys Y",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_HVb8rX": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"It smells very good, I'm fascinated by it.\"</p>",
+            "author": "Castillo B.",
+            "date": "3 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_6rtVRR": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_10.png",
+            "content": "<p>\"Their products are good quality at a very affordable price.\"</p>",
+            "author": "Amanda G",
+            "date": "5 months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_pCc6Ff": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_35.png",
@@ -823,7 +545,31 @@
             "product": ""
           }
         },
-        "review_AEQxcH": {
+        "review_MXihd7": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_17.png",
+            "content": "<p>\"After a small delay, I finally received my Magic Perfume perfumes and they are exactly as they should be! I can hardly believe how much they match the originals — for reference, I received \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\", these are really beautiful fragrances.\"</p>",
+            "author": "Gabriella K",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_MQEdzQ": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/7_6.png",
+            "content": "<p>\"Quick service, Great products 🥰🥰🥰\"</p>",
+            "author": "Lidis A.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_eTetrw": {
           "type": "review",
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_34.png",
@@ -834,46 +580,309 @@
             "show_verified_badge": true,
             "product": ""
           }
+        },
+        "review_HBtJwk": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_16.png",
+            "content": "<p>\"I like it! I appreciate this fragrance. Good smell.\"</p>",
+            "author": "Metrine M",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_CV4kEJ": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_32.png",
+            "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
+            "author": "Angel",
+            "date": "8 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_MFiWGC": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_33.png",
+            "content": "<p>\"Very good brand, I love the packaging and the aroma.\"</p>",
+            "author": "Rosa B",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_qA7LGA": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_18.png",
+            "content": "<p>\"Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥\"</p>",
+            "author": "Marianne",
+            "date": "4 months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_7WAJtQ": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_12.png",
+            "content": "<p>\"Super brand and excellent products!\"</p>",
+            "author": "Juliana B",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_43LFTQ": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/6_14.png",
+            "content": "<p>\"High quality product for only $29! The perfume smells exactly like the original and it last for hours!<br/>Recommended \"</p>",
+            "author": "Adele S.",
+            "date": "2 Weeks ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_xTht7F": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/5_12.png",
+            "content": "<p>\"I bought one perfume inspired by mademoiselle , and it’s fantastic . It last long on the skin and the smell it’s absolutely identical. \"</p>",
+            "author": "Jenniffer W.",
+            "date": "3 Weeks ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_88jwhV": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/3_16.png",
+            "content": "<p>\"I love your perfumes♥️♥️\"</p>",
+            "author": "Robinson D.",
+            "date": "4 months ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_pgMdyt": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/2026-07-22_16h43_29.webp",
+            "content": "<p>\"These smells amazing , good price fast delivery.\"</p>",
+            "author": "Anne E.",
+            "date": "4 months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_hbmj4V": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Good Order and really good Delivery service\"</p>",
+            "author": "Lucy R",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_8rdX3N": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_13.png",
+            "content": "<p>\"Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.\"</p>",
+            "author": "EM",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_trGJYX": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h58_13.webp",
+            "content": "<p>\"Best of the BEST!\"</p>",
+            "author": "Alex W.",
+            "date": "3 Weeks ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_d4M39G": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/2_24.png",
+            "content": "<p>\"I really like this brand and the fragrance are amazing..\"</p>",
+            "author": "Lilian M.",
+            "date": "1 day ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_hmWfiE": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
+            "content": "<p>\"I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!\"</p>",
+            "author": "Clara P.",
+            "date": "3 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_ikAHQm": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h57_29.webp",
+            "content": "<p>\"Very good! I am going to recommend this yo all my friend \"</p>",
+            "author": "Kamila G.",
+            "date": "3 Months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_9eqae8": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/magic_revie.webp",
+            "content": "<p>\"The smell was consistant while wearing it for a long while. No complains there\"</p>",
+            "author": "Michael R.",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_EiG6wq": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/1_25.png",
+            "content": "<p>\"I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.\"</p>",
+            "author": "Christine N.",
+            "date": "3 Months ago",
+            "rating": 4,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_AN63TN": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h55_49.webp",
+            "content": "<p>\"the perfume is mega-true, beautiful scent, I fell in love with it\"</p>",
+            "author": "Tiana N.",
+            "date": "3 Weeks ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_ffFYtq": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h41_42.webp",
+            "content": "<p>\"It smells very good, but it doesn't last as long as it should.\"</p>",
+            "author": "Terence M.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
+        "review_eXt8t8": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp",
+            "content": "<p>\"Easy process throw payment and trust worthy website\"</p>",
+            "author": "Robinson K.",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_M7Bnzc": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/261_revie.webp",
+            "content": "<p>\"Very high quality!!\"</p>",
+            "author": "Alvarez P.",
+            "date": "4 months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_GUAMgN": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/1_24.png",
+            "content": "<p>\"Supergood alternativ, lasting long and is the same like the more expansive perfumes. Highly recommend to test you will not be disappointed.\"</p>",
+            "author": "Maria M",
+            "date": "2 days ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
         }
       },
       "block_order": [
-        "review_zAw7dR",
-        "review_yEDVJD",
-        "review_yCzQxH",
-        "review_XfwcAY",
-        "review_8jw9Px",
-        "review_UPwGBF",
-        "review_icFmQQ",
-        "review_RnXXg9",
-        "review_aThE8h",
-        "review_YXwWcc",
-        "review_nQ6MLV",
-        "review_y8tq9b",
-        "review_wbXdLy",
-        "review_bjRzPy",
-        "review_639hbA",
-        "review_G3HzBj",
-        "review_KK6jhW",
-        "review_HjyT3p",
-        "review_6Bhttk",
-        "review_8FxpJj",
-        "review_JRzxRP",
-        "review_9T4pt3",
-        "review_aietxq",
-        "review_YtFw34",
-        "review_WnPpEf",
-        "review_jRgbTk",
-        "review_GbhyC3",
-        "review_C3bd9b",
-        "review_NYCPwJ",
-        "review_EniFK9",
-        "review_r8Gi8i",
-        "review_LRkiUH",
-        "review_Vb9HW7",
-        "review_JdiNyt",
-        "review_bNVhH6",
-        "review_PiLjha",
-        "review_AEQxcH"
+        "review_B8ndVT",
+        "review_h8aNpa",
+        "review_984YgE",
+        "review_hA4EbT",
+        "review_RigmVH",
+        "review_hrpDqz",
+        "review_RYpYqk",
+        "review_zLEAxC",
+        "review_4xNMaz",
+        "review_HVb8rX",
+        "review_6rtVRR",
+        "review_pCc6Ff",
+        "review_MXihd7",
+        "review_MQEdzQ",
+        "review_eTetrw",
+        "review_HBtJwk",
+        "review_CV4kEJ",
+        "review_MFiWGC",
+        "review_qA7LGA",
+        "review_7WAJtQ",
+        "review_43LFTQ",
+        "review_xTht7F",
+        "review_88jwhV",
+        "review_pgMdyt",
+        "review_hbmj4V",
+        "review_8rdX3N",
+        "review_trGJYX",
+        "review_d4M39G",
+        "review_hmWfiE",
+        "review_ikAHQm",
+        "review_9eqae8",
+        "review_EiG6wq",
+        "review_AN63TN",
+        "review_ffFYtq",
+        "review_eXt8t8",
+        "review_M7Bnzc",
+        "review_GUAMgN"
       ],
       "name": "Massive Review",
       "settings": {
@@ -1244,7 +1253,7 @@
     "scent_breakdown_rG4H3T",
     "stacks_up_xtpACd",
     "image_and_text_CWYTKx",
-    "massive_review_Hk9BGz",
+    "massive_review_qA8RJM",
     "special_offer_bogo_CFP4NP",
     "related-products",
     "magyx_statistics_3GrMac",
