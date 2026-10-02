@@ -797,6 +797,7 @@
         "review_aThE8h": {
           "type": "review",
           "settings": {
+            "review_image": "shopify://shop_images/2026-07-02_16h58_13.webp",
             "content": "<p>\"Best of the BEST!\"</p>",
             "author": "Alex W.",
             "date": "3 Weeks ago",
