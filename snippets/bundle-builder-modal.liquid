@@ -61,6 +61,7 @@
             type="text"
             placeholder="Search..."
             x-model="$store.bundleBuilder.searchText"
+            x-effect="$store.bundleBuilder.showModal && $nextTick(() => $el.focus({ preventScroll: true }))"
             class="block w-full p-2 pl-8 rounded-xl border-2 border-solid cursor-pointer bg-white border-gray-200 focus:outline-none focus:border-[#22613A] focus:shadow-none focus:border-2">
         </div>
       </div>
