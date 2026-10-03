@@ -31,7 +31,7 @@
         "atc_bundle_builder_aLJUaV": {
           "type": "atc_bundle_builder",
           "settings": {
-            "collection_handles": "top-sellers-men:For Men,top-seller-women:For Women,new"
+            "collection_handles": "best-sellers,new"
           }
         },
         "dialect_notes_NHiwen": {
