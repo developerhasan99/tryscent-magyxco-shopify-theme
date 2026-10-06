@@ -6,7 +6,7 @@
   for variant in product.variants
     assign variant_title_down = variant.title | downcase
 
-    if variant_title_down contains '50'
+    if variant_title_down contains '100'
       assign selected_variant = variant
       break
     endif
@@ -47,7 +47,7 @@
     </div>
 
     <div class="grid grid-cols-3 gap-3" id="variant-selector">
-      {% for variant in product.variants %}
+      {% for variant in product.variants reversed %}
         {% liquid
           assign variant_ml = 0
           if variant.title contains '100'
@@ -415,7 +415,7 @@
 
     Alpine.store('qb', {
       variants: {
-        {% for variant in product.variants %}
+        {% for variant in product.variants reversed %}
           "{{ variant.title | downcase | remove: ' ' }}": {
             id: {{ variant.id }},
             label: "{{ variant.title }}",
