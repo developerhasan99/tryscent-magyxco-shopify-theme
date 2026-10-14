@@ -2,7 +2,6 @@
 <script defer src="https://pbutcher.uk/flipdown/js/flipdown/flipdown.js"></script>
 
 <style>
-  /* FlipDown Custom Styles */
   .flipdown {
     width: 190px;
     height: 42px;
@@ -83,7 +82,6 @@
     text-transform: uppercase;
   }
 
-  /* Timebar Section Styles */
   .timebar-section-bg {
     display: block;
     text-decoration: none;
@@ -121,7 +119,6 @@
     }
   }
 
-  /* Coupon Button Styles */
   .flipdown.flipdown__theme-dark .rotor-bottom,
   .flipdown.flipdown__theme-dark .rotor-leaf-rear,
   .flipdown.flipdown__theme-dark .rotor,
@@ -147,151 +144,222 @@
 </style>
 
 {% unless product.template_suffix == 'payday-60' or collection.template_suffix == 'bundle-save' %}
+
   <div id="{{ section.id }}">
     <a href="{{ section.settings.link }}" class="no-underline block">
-      {% if section.settings.top_banner_text != blank %}
+
+      {% if section.settings.enable_top_bar and section.settings.top_banner_text != blank %}
         <div class="py-3" style="background-color: {{ section.settings.primary_color }};">
           <div class="page-width">
-            <div class="text-center text-white flex items-center justify-center gap-4 leading-none">-
+            <div class="text-center text-white flex items-center justify-center gap-4 leading-none">
+              -
               <span>{{ section.settings.top_banner_text }}</span>
-              -</div>
+              -
+            </div>
           </div>
         </div>
       {% endif %}
-      {% comment %} {% render 'fuel01-announcement'
-                    , section: section %} {% endcomment %}
+
       <div class="py-3 md:py-2" style="background-color: {{ section.settings.secondary_color }};">
         <div class="container mx-auto px-4">
+
           <div class="flex flex-wrap items-center gap-x-6 gap-y-1 justify-center">
+
             <div class="flex flex-wrap gap-x-4 gap-y-1 items-center justify-center">
-              <div style="color: {{ section.settings.primary_color }};" class="font-bold text-base md:text-xl">
+
+              <div style="color: {{ section.settings.primary_color }};" class="text-center font-bold text-base md:text-xl">
                 {{ section.settings.prepend_text }}
               </div>
-              <div style="color: {{ section.settings.primary_color }};" class="font-semibold text-sm md:text-lg tracking-wider md:order-1 underline">
+
+              <div style="color: {{ section.settings.primary_color }};" class="text-center font-semibold text-sm md:text-lg tracking-wider md:order-1 underline">
                 {{ section.settings.append_text }}
               </div>
-              <div class="flex items-center gap-2">
-                <div style="color: {{ section.settings.primary_color }};" class="text-sm md:text-base font-bold leading-none md:hidden">
-                  Ends in
-                </div>
-                <div id="flipdown" class="flipdown"></div>
-              </div>
-            </div>
-            {% if section.blocks.size > 0 %}
-              <div class="[display:none] md:flex gap-4">
-                {% for block in section.blocks %}
-                  <div class="flex flex-col items-center {% unless forloop.last %}pr-4 border-0 border-r border-solid border-gray-300{% endunless %}">
-                    <img
-                      class="rounded"
-                      src="{{ block.settings.icon |  image_url  }}"
-                      height="25"
-                      width=""
-                      alt="{{ block.settings.label }}">
-                    <div class="leading-none text-xs mt-1 font-semibold text-black">
-                      {{ block.settings.label }}
-                    </div>
+
+              {% if section.settings.enable_timer %}
+                <div class="flex items-center gap-2">
+
+                  <div style="color: {{ section.settings.primary_color }};" class="text-sm md:text-base font-bold leading-none md:hidden">
+                    Endet in
                   </div>
-                {% endfor %}
-              </div>
+
+                  <div id="flipdown" class="flipdown"></div>
+
+                </div>
+              {% endif %}
+
+            </div>
+
+            {% if section.settings.enable_badges %}
+              {% if section.blocks.size > 0 %}
+
+                <div class="[display:none] md:flex gap-4">
+
+                  {% for block in section.blocks %}
+
+                    <div class="flex flex-col items-center {% unless forloop.last %}pr-4 border-0 border-r border-solid border-gray-300{% endunless %}" {{ block.shopify_attributes }}>
+
+                      {% if block.settings.icon != blank %}
+                        <img
+                          class="rounded"
+                          src="{{ block.settings.icon | image_url }}"
+                          height="25"
+                          width=""
+                          alt="{{ block.settings.label }}">
+                      {% endif %}
+
+                      {% if block.settings.label != blank %}
+                        <div class="leading-none text-xs mt-1 font-semibold text-black">
+                          {{ block.settings.label }}
+                        </div>
+                      {% endif %}
+
+                    </div>
+
+                  {% endfor %}
+
+                </div>
+
+              {% endif %}
             {% endif %}
+
           </div>
+
         </div>
       </div>
+
     </a>
   </div>
+
 {% endunless %}
-{% if section.blocks.size > 0 %}
-  <div class="md:hidden py-3 border-0 border-b border-solid border-gray-200">
-    <div class="page-width">
-      <div class="flex gap-2 justify-between">
-        {% for block in section.blocks %}
-          <div class="flex flex-col items-center">
-            <img
-              class="rounded"
-              src="{{ block.settings.icon |  image_url  }}"
-              height="25"
-              width=""
-              alt="{{ block.settings.label }}">
-            <div class="leading-none text-xs mt-1 font-semibold text-black">
-              {{ block.settings.label }}
+
+
+{% if section.settings.enable_badges %}
+  {% if section.blocks.size > 0 %}
+
+    <div class="md:hidden py-3 border-0 border-b border-solid border-gray-200">
+
+      <div class="page-width">
+
+        <div class="flex gap-2 justify-between">
+
+          {% for block in section.blocks %}
+
+            <div class="flex flex-col items-center" {{ block.shopify_attributes }}>
+
+              {% if block.settings.icon != blank %}
+                <img
+                  class="rounded"
+                  src="{{ block.settings.icon | image_url }}"
+                  height="25"
+                  width=""
+                  alt="{{ block.settings.label }}">
+              {% endif %}
+
+              {% if block.settings.label != blank %}
+                <div class="leading-none text-xs mt-1 font-semibold text-black">
+                  {{ block.settings.label }}
+                </div>
+              {% endif %}
+
             </div>
-          </div>
-          {% unless forloop.last %}
-            <div class="!block w-[1px] bg-gray-200 self-stretch"></div>
-          {% endunless %}
-        {% endfor %}
+
+            {% unless forloop.last %}
+              <div class="!block w-[1px] bg-gray-200 self-stretch"></div>
+            {% endunless %}
+
+          {% endfor %}
+
+        </div>
+
       </div>
+
     </div>
-  </div>
+
+  {% endif %}
 {% endif %}
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    function getNextMidnightTimestamp() {
-      const nextMidnight = new Date();
 
-      nextMidnight.setHours(24, 0, 0, 0); // next day 00:00:00
+{% if section.settings.enable_timer %}
 
-      return Math.floor(nextMidnight.getTime() / 1000);
-    }
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    function getCountdownDeadline() {
-      const configuredDate = {{ section.settings.countdown_date | json }};
+      function getNextMidnightTimestamp() {
+        const nextMidnight = new Date();
 
-      if (!configuredDate) {
-        return getNextMidnightTimestamp();
+        nextMidnight.setHours(24, 0, 0, 0);
+
+        return Math.floor(nextMidnight.getTime() / 1000);
       }
 
-      const configuredTimestamp = Math.floor(new Date(configuredDate).getTime() / 1000);
+      function getCountdownDeadline() {
+        const configuredDate = {{ section.settings.countdown_date | json }};
 
-      return Number.isNaN(configuredTimestamp) ? getNextMidnightTimestamp() : configuredTimestamp;
-    }
+        if (!configuredDate) {
+          return getNextMidnightTimestamp();
+        }
 
-    const deadline = getCountdownDeadline();
+        const configuredTimestamp =
+          Math.floor(new Date(configuredDate).getTime() / 1000);
 
-    // Countdown headings per Weglot language (falls back to "en")
-    const countdownHeadings = {
-      en: ["Days", "Hours", "Min", "Sec"],
-      sv: ["Dag", "Tim", "Min", "Sek"],
-      da: ["Dag", "Timer", "Min", "Sek"],
-      fi: ["Päivä", "Tunti", "Min", "Sek"],
-      no: ["Dag", "Time", "Min", "Sek"],
-    };
-
-    const flipdownEl = document.getElementById('flipdown');
-
-    function buildFlipdown(lang) {
-      const headings = countdownHeadings[lang] || countdownHeadings.en;
-
-      // Clear any previously rendered rotors before re-instantiating
-      if (flipdownEl) {
-        flipdownEl.innerHTML = '';
+        return Number.isNaN(configuredTimestamp)
+          ? getNextMidnightTimestamp()
+          : configuredTimestamp;
       }
 
-      new FlipDown(deadline, {
-        headings: headings,
-      })
-        .start()
-        .ifEnded(() => {
-          console.log('Countdown ended');
-        });
-    }
+      function initializeFlipdown() {
+        const flipdownElement = document.getElementById('flipdown');
 
-    const currentLang = (window.Weglot && typeof Weglot.getCurrentLang === 'function' && Weglot.getCurrentLang()) || 'en';
-    buildFlipdown(currentLang);
+        if (!flipdownElement) {
+          return;
+        }
 
-    if (window.Weglot && typeof Weglot.on === 'function') {
-      Weglot.on('languageChanged', function (newLang) {
-        buildFlipdown(newLang);
-      });
-    }
-  });
-</script>
+        if (typeof FlipDown === 'undefined') {
+          setTimeout(initializeFlipdown, 100);
+          return;
+        }
+
+        const deadline = getCountdownDeadline();
+
+        new FlipDown(deadline, {
+          headings: ["Tage", "Std", "Min", "Sek"]
+        })
+          .start()
+          .ifEnded(() => {
+            console.log('Countdown ended');
+          });
+      }
+
+      initializeFlipdown();
+
+    });
+  </script>
+
+{% endif %}
+
 
 {% schema %}
   {
     "name": "Offer Timebar",
     "settings": [
+      {
+        "type": "checkbox",
+        "id": "enable_top_bar",
+        "label": "Enable Top Bar",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_timer",
+        "label": "Enable Countdown Timer",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_badges",
+        "label": "Enable Badges",
+        "default": true
+      },
       {
         "type": "color",
         "id": "primary_color",
@@ -308,7 +376,7 @@
         "type": "text",
         "id": "top_banner_text",
         "label": "Top Banner Text",
-        "info": "Leaving this field will disable the banner."
+        "info": "Leaving this field empty will also disable the top banner."
       },
       {
         "type": "text",
@@ -337,7 +405,7 @@
     "blocks": [
       {
         "type": "payment_icon",
-        "name": "Payment Icon",
+        "name": "Badge",
         "settings": [
           {
             "type": "image_picker",

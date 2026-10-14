@@ -342,12 +342,6 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                   </span>
                 {% endunless %}
               </div>
-              {% unless card_product.tags contains 'Bundle_Price_Show' %}
-                <div class="mt-2 flex flex-col gap-1 font-bold tracking-normal text-[#c8202f] {% if collection.template_suffix == 'action-modal' %}text-sm{% else %}text-base{% endif %} leading-tight">
-                  <p class="m-0 !text-[#c8202f]">Buy 1, Get 1 FREE!</p>
-                  <p class="m-0 !text-[#c8202f]">Buy 2, Get 3 FREE!</p>
-                </div>
-              {% endunless %}
 
             {%- if card_product.quantity_price_breaks_configured? -%}
               {% if card_product.variants_count == 1 and quick_add == 'bulk' %}
