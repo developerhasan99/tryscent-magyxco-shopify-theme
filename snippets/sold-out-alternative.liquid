@@ -1,0 +1,166 @@
+{% comment %}
+  Shown instead of the variant selector + ATC form when the product is sold out.
+  Picks the first available entry of custom.recommended_alternative that isn't this product.
+  Classes are soa-* on purpose: the main selector, sticky and floating ATC scripts query
+  .variant-button, .current-price, .cta_product_from_submit_btn and button[name="add"].
+{% endcomment %}
+{% liquid
+  assign alt = nil
+  for candidate in product.metafields.custom.recommended_alternative.value
+    if candidate.available and candidate.id != product.id
+      assign alt = candidate
+      break
+    endif
+  endfor
+
+  if alt
+    assign alt_variant = alt.first_available_variant
+    for variant in alt.variants
+      if variant.available and variant.title contains '50'
+        assign alt_variant = variant
+        break
+      endif
+    endfor
+    assign alt_inspiration = alt.metafields.custom.inspiration.value.name
+    assign soa_form_id = 'soa-form-' | append: alt.id
+  endif
+%}
+
+<style>
+  .soa-notice { margin-top: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 12px; border: 2px dashed #d1d5db; border-radius: 8px; background: #f3f4f6; color: #6b7280; cursor: not-allowed; user-select: none; }
+  .soa-notice__title { margin: 0; font-weight: 600; line-height: 1.375; font-size: 16px; }
+  .soa-notice__text { margin: 0; font-size: 14px; line-height: 1.375; }
+  @media (min-width: 750px) { .soa-notice__title { font-size: 19px; } }
+
+  .soa-card { margin-top: 16px; border: 2px solid #e5e7eb; border-radius: 12px; overflow: hidden; background: #fff; }
+  .soa-card__header { background: #22613a; color: #fff; font-weight: 600; padding: 8px 16px; }
+  .soa-card__body { padding: 16px; }
+  .soa-product { display: flex; align-items: center; gap: 16px; color: #000; text-decoration: none; }
+  .soa-product__img { width: 80px; height: 80px; object-fit: contain; flex-shrink: 0; }
+  .soa-product__title { margin: 0; font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+  .soa-product__insp { margin: 0; font-size: 16px; color: #374151; line-height: 1.375; }
+  .soa-product__stock { margin-top: 4px; font-size: 14px; color: #15803d; display: flex; align-items: center; gap: 6px; }
+  .soa-product__stock::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #16a34a; }
+
+  .soa-sizes__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin: 24px 0 12px; }
+  .soa-sizes__title { margin: 0; font-size: 14px; font-weight: 600; }
+  .soa-sizes__hint { font-size: 12px; font-style: italic; color: #6b7280; }
+  .soa-sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
+  .soa-tile { position: relative; text-align: center; border-radius: 8px; padding: 16px 8px 12px; background: #fff; border: 2px solid #e5e7eb; cursor: pointer; font-family: 'Figtree', var(--font-body-family); }
+  .soa-tile:has(:checked) { border-color: #944234; }
+  .soa-tile:has(:focus-visible) { outline: 2px solid #944234; outline-offset: 2px; }
+  .soa-tile__title { font-size: 14px; font-weight: 600; }
+  .soa-tile__ml { font-size: 12px; color: #6b7280; }
+  .soa-tile__badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 12px; font-style: italic; color: #fff; border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
+
+  .soa-card .soa-atc { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; margin-bottom: 0; padding: 16px 12px; border-radius: 8px; background: #22613a; color: #fff; letter-spacing: normal; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); transition: background-color 0.15s; }
+  .soa-card .soa-atc:hover { background: #368856; }
+  .soa-atc__label { font-size: 20px; }
+  .soa-atc__price { background: #1e5834; padding: 0 12px; border-radius: 4px; font-size: 16px; }
+  .soa-atc__compare { text-decoration: line-through; color: rgb(255 255 255 / 0.5); font-size: 14px; }
+  @media (min-width: 768px) {
+    .soa-sizes__title { font-size: 16px; }
+    .soa-sizes__hint { font-size: 14px; }
+    .soa-atc__label { font-size: 24px; }
+    .soa-atc__price { font-size: 18px; }
+    .soa-atc__compare { font-size: 16px; }
+  }
+</style>
+
+<div class="soa-notice" aria-disabled="true">
+  <p class="soa-notice__title">{{ 'products.product.sold_out' | t }} – temporarily out of stock</p>
+  <p class="soa-notice__text">
+    This item can't be ordered right now.{% if alt %} Try our alternative below.{% endif %}
+  </p>
+</div>
+
+{% if alt %}
+  <div class="soa-card" data-sold-out-alternative>
+    <div class="soa-card__header">✓ Recommended alternative</div>
+    <div class="soa-card__body">
+      <a class="soa-product" href="{{ alt.url }}">
+        {% if alt.featured_image %}
+          {{ alt.featured_image | image_url: width: 160 | image_tag: class: 'soa-product__img', loading: 'lazy', width: 80, height: 80, alt: alt.featured_image.alt | default: alt.title }}
+        {% endif %}
+        <div>
+          <h3 class="soa-product__title">{{ alt.title }}</h3>
+          {% if alt_inspiration != blank %}
+            <p class="soa-product__insp">Inspired by: {{ alt_inspiration }}</p>
+          {% endif %}
+          <div class="soa-product__stock">{{ 'products.product.inventory_in_stock' | t }}</div>
+        </div>
+      </a>
+
+      <product-form class="product-form !m-0" data-section-id="{{ section.id }}">
+        {%- form 'product', alt, id: soa_form_id, class: 'form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+          {% if alt.variants.size > 1 %}
+            <div class="soa-sizes__head">
+              <h4 class="soa-sizes__title">Choose your size:</h4>
+              <span class="soa-sizes__hint">50 ml is the choice of 8 out of 10 customers.</span>
+            </div>
+            <div class="soa-sizes" role="radiogroup" aria-label="Choose your size">
+              {% for variant in alt.variants %}
+                {% unless variant.available %}{% continue %}{% endunless %}
+                {% liquid
+                  assign variant_ml = 0
+                  if variant.title contains '100'
+                    assign variant_ml = 100
+                  elsif variant.title contains '50'
+                    assign variant_ml = 50
+                  elsif variant.title contains '30'
+                    assign variant_ml = 30
+                  endif
+                %}
+                <label class="soa-tile">
+                  <input class="sr-only" type="radio" name="id" value="{{ variant.id }}" {% if variant.id == alt_variant.id %}checked{% endif %}>
+                  <div class="soa-tile__title">{{ variant.title }}</div>
+                  {% if variant_ml > 0 %}
+                    <div class="soa-tile__ml">{{ variant.price | times: 1.0 | divided_by: variant_ml | money }} / ml</div>
+                  {% endif %}
+                  {% if variant.title contains '50' %}
+                    <span class="soa-tile__badge" style="background: #c8202f">Popular</span>
+                  {% elsif variant.title contains '100' %}
+                    <span class="soa-tile__badge" style="background: #944234">Bestseller</span>
+                  {% endif %}
+                </label>
+              {% endfor %}
+            </div>
+          {% else %}
+            <input type="hidden" name="id" value="{{ alt_variant.id }}">
+          {% endif %}
+
+          {% if alt.metafields.custom.nuta != blank %}
+            <input type="hidden" name="properties[Inspired By]" value="{{ alt.metafields.custom.nuta }}">
+          {% endif %}
+
+          <button type="submit" class="soa-atc shimmer-btn button button--full-width" aria-label="{{ 'products.product.add_to_cart' | t }}: {{ alt.title | escape }}">
+            <span class="soa-atc__label">{{ 'products.product.add_to_cart' | t }}</span>
+            <div class="soa-atc__price" role="status">
+              {% for variant in alt.variants %}
+                {% unless variant.available %}{% continue %}{% endunless %}
+                <span data-price-for="{{ variant.id }}" {% unless variant.id == alt_variant.id %}hidden{% endunless %}>
+                  {% if variant.compare_at_price > variant.price %}
+                    <span class="soa-atc__compare">{{ variant.compare_at_price | money }}</span>
+                  {% endif %}
+                  {{ variant.price | money }}
+                </span>
+              {% endfor %}
+            </div>
+            {%- render 'loading-spinner' -%}
+          </button>
+        {%- endform -%}
+      </product-form>
+    </div>
+  </div>
+
+  <script>
+    document.querySelectorAll('[data-sold-out-alternative] form').forEach((form) => {
+      form.addEventListener('change', (e) => {
+        if (e.target.name !== 'id') return;
+        form.querySelectorAll('[data-price-for]').forEach((el) => {
+          el.hidden = el.dataset.priceFor !== e.target.value;
+        });
+      });
+    });
+  </script>
+{% endif %}

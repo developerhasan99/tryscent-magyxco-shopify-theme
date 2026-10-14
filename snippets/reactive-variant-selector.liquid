@@ -13,6 +13,9 @@
   endfor
 %}
 
+{% unless product.available %}
+  {% render 'sold-out-alternative', product: product, section: section %}
+{% else %}
 {% if product.variants.size > 1 %}
   {% comment %} Variant Selector {% endcomment %}
   <div class="flex justify-between items-center mb-3 !mt-6">
@@ -114,6 +117,7 @@
     </button>
   {%- endform -%}
 </product-form>
+{% endunless %}
 
 <div>
   <img
@@ -157,6 +161,7 @@
   </div>
 </div>
 
+{% if product.available %}
 <script>
   (function() {
     // Variant data object
@@ -259,6 +264,7 @@
     });
   })();
 </script>
+{% endif %}
 
 <script>
   (() => {
