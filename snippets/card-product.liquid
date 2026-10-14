@@ -335,12 +335,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                 {{ discount_percent }}% <span class="discount_off_text">Av</span>
               </span>
             {% endif %}
-                {% unless card_product.tags contains 'Bundle_Price_Show' %}
-                  <span class="inline-flex items-center gap-1 bg-[#c8202f] text-white text-xs font-bold leading-none px-1.5 py-1 rounded">
-                    <svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2c.5 3.5-1.5 5.5-3 7.5C7.5 11.4 6 13.3 6 16a6 6 0 0 0 12 0c0-2.6-1.2-4.6-2.6-6.2-.3 1.5-1.1 2.6-2.4 3.2.4-3.8-.2-7.8-1-11z"/></svg>
-                    BOGO
-                  </span>
-                {% endunless %}
+              
               </div>
 
             {%- if card_product.quantity_price_breaks_configured? -%}
