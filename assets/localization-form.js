@@ -106,6 +106,25 @@ if (!customElements.get('localization-form')) {
         event.preventDefault();
         const form = this.querySelector('form');
         this.elements.input.value = event.currentTarget.dataset.value;
+        // The server-rendered return_to is page-cached with another visitor's query string. Use this
+        // address bar instead, minus Shopify's ?country= switch, which would override the pick.
+        const returnTo = form && form.querySelector('input[name="return_to"]');
+        if (returnTo) {
+          const query = window.location.search
+            .replace(/^\?/, '')
+            .split('&')
+            .filter((part) => part && !/^country=/i.test(part))
+            .join('&');
+          // With an empty query Shopify takes the query from the Referer (this address bar), so clean that
+          // too; with no Referer, a return_to without '?' is a 404, so the '?' stays.
+          const search = query ? `?${query}` : '';
+          if (search !== window.location.search) {
+            try {
+              history.replaceState(history.state, '', window.location.pathname + search + window.location.hash);
+            } catch (e) {}
+          }
+          returnTo.value = window.location.pathname + `?${query}`;
+        }
         if (form) form.submit();
       }
 

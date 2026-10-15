@@ -485,7 +485,7 @@
             body: JSON.stringify({ items: items })
           })
             .then(function (res) { if (!res.ok) throw new Error('cart add failed'); return res.json(); })
-            .then(function () { window.location.href = '/checkout'; })
+            .then(function () { window.location.href = ((window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/') + 'checkout'; })
             .catch(function () { this.adding = false; }.bind(this));
         }
       };

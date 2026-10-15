@@ -61,7 +61,7 @@ function exm_localise_cart_url(url) {
 
   const value = String(url == null ? '' : url);
 
-  if (value.indexOf('/cart/') !== 0) {
+  if (value.indexOf('/cart/') !== 0 && value !== '/cart.js' && value.indexOf('/cart.js?') !== 0) {
     return url;
   }
 

@@ -37,6 +37,13 @@
       }
       if (m && !s) {
         p.set("utm_source", r);
+        // Tells snippets/location-popup.liquid this page is about to be replaced, and that the
+        // replacement is still a visit from outside the site (its referrer will be this page).
+        document.documentElement.setAttribute("data-nohi-redirect", "1");
+        try {
+          var g = JSON.parse(localStorage.getItem("mgx_geo") || "null");
+          if (g && g.s === "accepted") sessionStorage.setItem("mgx_geo_landing", u.toString());
+        } catch (e) {}
         window.location.replace(u.toString());
       }
     } catch (e) {}
