@@ -219,6 +219,7 @@
         "enable_filtering": true,
         "filter_type": "horizontal",
         "enable_sorting": true,
+        "enable_search": true,
         "padding_top": 36,
         "padding_bottom": 40
       }
