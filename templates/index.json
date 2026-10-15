@@ -9,40 +9,40 @@
  */
 {
   "sections": {
-    "collection_stories_yhzcjq": {
+    "collection_stories_XqQN9E": {
       "type": "collection-stories",
       "blocks": {
-        "collection_w7FbzD": {
+        "collection_yLxFLk": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "for-men",
             "title": "Men",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
         },
-        "collection_MDtct7": {
+        "collection_9Rk9qw": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "for-women",
             "title": "Women",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
         },
-        "collection_xxWmDm": {
+        "collection_afFD3h": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "best-sellers",
             "title": "Bestsellers",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
         },
-        "collection_N7xgY9": {
+        "collection_dXUfYz": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "new-scents",
             "title": "New",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
@@ -50,10 +50,10 @@
         }
       },
       "block_order": [
-        "collection_w7FbzD",
-        "collection_MDtct7",
-        "collection_xxWmDm",
-        "collection_N7xgY9"
+        "collection_yLxFLk",
+        "collection_9Rk9qw",
+        "collection_afFD3h",
+        "collection_dXUfYz"
       ],
       "name": "Story circles",
       "settings": {
@@ -989,7 +989,7 @@
     }
   },
   "order": [
-    "collection_stories_yhzcjq",
+    "collection_stories_XqQN9E",
     "homepage_hero_GDeBtq",
     "marquee_labels_RLdqpN",
     "feature_highlights_wfUacV",
