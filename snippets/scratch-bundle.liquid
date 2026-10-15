@@ -171,7 +171,7 @@
             name: "{{ bundle_product.title }}",
             image: "{{ bundle_product.featured_image | image_url: width: 120, height: 120 }}",
             nuta: "{{ bundle_product.metafields.custom.nuta |  replace: ',', '' }}",
-            inspiration_image: "{% if bundle_product.metafields.custom.inspiration.value %}{{ bundle_product.metafields.custom.inspiration.value.image | image_url: width: 90, height: 90 }}{% endif %}",
+            inspiration_image: "{% if bundle_product.metafields.custom.inspiration.value.image != blank %}{{ bundle_product.metafields.custom.inspiration.value.image | image_url: width: 90, height: 90 }}{% endif %}",
             inspiration_name: "{% if bundle_product.metafields.custom.inspiration.value %}{{ bundle_product.metafields.custom.inspiration.value.name }}{% endif %}",
             tags: {{ bundle_product.tags | json }},
             collections: "{{ collection_handles }}",
