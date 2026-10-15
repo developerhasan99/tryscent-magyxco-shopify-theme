@@ -1,0 +1,54 @@
+{% comment %}
+  Search bar above the collection grid (sections/main-collection-product-grid.liquid, setting
+  "Show the search bar"). Filters the grid by scent name, number, brand, inspiration and tags;
+  logic in assets/collection-search.js. No form and no name attribute: nothing reaches the URL
+  or facets.js.
+
+  Accepts:
+  - st: section.settings of the grid section
+  - section_id: section.id
+{% endcomment %}
+{{ 'collection-search.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'collection-search.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="mgx-csearch page-width"
+  data-mgx-csearch
+  data-results-text="{{ st.search_results_text | escape }}"
+  data-result-text="{{ st.search_result_text | escape }}"
+  data-empty-text="{{ st.search_empty_text | escape }}"
+  data-loading-text="{{ st.search_loading_text | escape }}"
+  data-clear-label="{{ st.search_clear_label | escape }}">
+  <div class="mgx-csearch__inner" role="search">
+    <label class="visually-hidden" for="MgxCollectionSearch-{{ section_id }}">{{ st.search_placeholder | default: 'Search this collection' | escape }}</label>
+    <div class="mgx-csearch__field">
+      <svg
+        class="mgx-csearch__ico"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        focusable="false">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/>
+      </svg>
+      <input
+        id="MgxCollectionSearch-{{ section_id }}"
+        class="mgx-csearch__input"
+        type="search"
+        placeholder="{{ st.search_placeholder | escape }}"
+        autocomplete="off"
+        autocapitalize="off"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="search"
+        aria-controls="product-grid">
+      <button class="mgx-csearch__clear" type="button" aria-label="{{ st.search_clear_label | escape }}" hidden>
+        &times;
+      </button>
+    </div>
+    <p class="mgx-csearch__status" role="status" aria-live="polite" aria-atomic="true"></p>
+  </div>
+</div>

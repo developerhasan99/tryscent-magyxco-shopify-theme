@@ -22,6 +22,8 @@
   <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
+<script src="{{ 'collection-grid-loader.js' | asset_url }}" defer="defer"></script>
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -93,6 +95,10 @@
       </facet-filters-form>
     {%- endif -%}
 
+    {%- if section.settings.enable_search and section.settings.filter_type == 'vertical' -%}
+      {% render 'collection-search', st: section.settings, section_id: section.id %}
+    {%- endif -%}
+
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
@@ -110,6 +116,10 @@
             , paginate: paginate
           %}
         </aside>
+      {%- endif -%}
+
+      {%- if section.settings.enable_search and section.settings.filter_type != 'vertical' -%}
+        {% render 'collection-search', st: section.settings, section_id: section.id %}
       {%- endif -%}
 
       {%- assign fuel05_has_tiles = false -%}
@@ -240,8 +250,17 @@
                 {%- if forloop.index > 2 -%}
                   {%- assign lazy_load = true -%}
                 {%- endif -%}
+                {%- liquid
+                  assign mgx_inspiration = ''
+                  if product.metafields.custom.inspiration.value
+                    assign mgx_inspiration = product.metafields.custom.inspiration.value.name
+                  endif
+                -%}
                 <li
                   class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  data-mgx-pid="{{ product.id }}"
+                  data-mgx-hay="{{ product.title | escape }} | {{ mgx_inspiration | escape }}"
+                  data-mgx-tags="{{ product.tags | join: '|' | escape }}"
                   {% if settings.animations_reveal_on_scroll %}
                   data-cascade
                   style="--animation-order: {{ forloop.index }};"
@@ -269,6 +288,8 @@
                     id="load-more-btn"
                     class="button"
                     data-next-url="{{ paginate.next.url }}"
+                    data-mgx-pages="{{ paginate.pages }}"
+                    data-mgx-per-page="{{ section.settings.products_per_page }}"
                     style="visibility: hidden; height: 1px; overflow: hidden; padding: 0; border: none;">Load More Products</button>
                   <div id="loading-indicator" style="display: none; font-size: 16px; color: #000;">
                     <span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span>
@@ -297,92 +318,6 @@
   {%- endif -%}
 </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    console.log("Infinite scroll script loaded");
-    let loading = false;
-
-    async function loadMoreProducts() {
-      if (loading) return;
-
-      const loadMoreBtn = document.querySelector("#load-more-btn");
-      if (!loadMoreBtn) {
-        console.log("No load more button found");
-        return;
-      }
-
-      const url = loadMoreBtn.dataset.nextUrl;
-      if (!url) {
-        console.log("No next URL found");
-        return;
-      }
-
-      console.log("Loading products from:", url);
-      loading = true;
-      const loadingIndicator = document.querySelector("#loading-indicator");
-      if (loadingIndicator) {
-        loadingIndicator.style.display = "block";
-        console.log("Showing loading indicator");
-      }
-
-      try {
-        // Use section rendering for faster load - only fetch the product grid section
-        const sectionUrl = url + (url.includes('?') ? '&' : '?') + 'section_id=main-collection-product-grid';
-        const res = await fetch(sectionUrl);
-        const text = await res.text();
-        console.log("Fetched response, length:", text.length);
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(text, "text/html");
-
-        const newProducts = doc.querySelectorAll("#product-grid .grid__item");
-        console.log("Found new products:", newProducts.length);
-        const grid = document.querySelector("#product-grid");
-
-        newProducts.forEach(item => grid.appendChild(item));
-
-        const newNextUrl = doc.querySelector("#load-more-btn")?.dataset.nextUrl;
-        console.log("New next URL:", newNextUrl);
-
-        if (newNextUrl) {
-          loadMoreBtn.dataset.nextUrl = newNextUrl;
-        } else {
-          loadMoreBtn.remove(); // no more pages
-          if (loadingIndicator) loadingIndicator.remove();
-          console.log("No more pages");
-        }
-
-      } catch (err) {
-        console.error("Error loading products:", err);
-      }
-
-      loading = false;
-      if (loadingIndicator) loadingIndicator.style.display = "none";
-      console.log("Loading complete");
-    }
-
-    // Use Intersection Observer for efficient scroll detection
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        console.log("Intersection observed:", entry.isIntersecting);
-        if (entry.isIntersecting && !loading) {
-          console.log("Triggering load more");
-          loadMoreProducts();
-        }
-      });
-    }, {
-      rootMargin: '100px'
-    });
-
-    const loadMoreBtn = document.querySelector("#load-more-btn");
-    if (loadMoreBtn) {
-      observer.observe(loadMoreBtn);
-      console.log("Observer attached to load more button");
-    } else {
-      console.log("Load more button not found on page load");
-    }
-  });
-</script>
 
 {% schema %}
   {
@@ -569,6 +504,54 @@
         "id": "enable_sorting",
         "default": true,
         "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+      },
+      {
+        "type": "header",
+        "content": "Search"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_search",
+        "default": false,
+        "label": "Show the search bar",
+        "info": "Filters this grid by scent name, number, brand, inspiration and tags. Loads the whole collection on first use."
+      },
+      {
+        "type": "text",
+        "id": "search_placeholder",
+        "default": "Search by brand, scent or number",
+        "label": "Placeholder"
+      },
+      {
+        "type": "text",
+        "id": "search_results_text",
+        "default": "[count] results for \u201c[query]\u201d",
+        "label": "Results text",
+        "info": "[count] and [query] are replaced."
+      },
+      {
+        "type": "text",
+        "id": "search_result_text",
+        "default": "1 result for \u201c[query]\u201d",
+        "label": "Single result text"
+      },
+      {
+        "type": "text",
+        "id": "search_empty_text",
+        "default": "No match for \u201c[query]\u201d. Try the brand or the name of the original.",
+        "label": "No results text"
+      },
+      {
+        "type": "text",
+        "id": "search_loading_text",
+        "default": "Searching all scents\u2026",
+        "label": "Loading text"
+      },
+      {
+        "type": "text",
+        "id": "search_clear_label",
+        "default": "Clear search",
+        "label": "Clear button label"
       },
       {
         "type": "header",

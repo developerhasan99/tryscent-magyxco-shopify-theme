@@ -1,0 +1,142 @@
+/* Collection search bar (snippets/collection-search.liquid). Pill like magicperfume.co's bundle
+   page search, in MAGYX tokens. */
+.mgx-csearch {
+  padding-top: 4px;
+  padding-bottom: 16px;
+}
+
+.mgx-csearch__field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 2px 0 14px;
+  border: 1.5px solid var(--mgx-black);
+  border-radius: 999px;
+  background: var(--mgx-white);
+  color: var(--mgx-text);
+  cursor: text;
+}
+
+.mgx-csearch__field:focus-within {
+  box-shadow: 0 0 0 3px rgba(var(--mgx-black-rgb), 0.12);
+}
+
+.mgx-csearch__ico {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: rgba(var(--mgx-graphite-rgb), 0.72);
+}
+
+.mgx-csearch__input.mgx-csearch__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--mgx-text);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mgx-csearch__input.mgx-csearch__input:focus,
+.mgx-csearch__input.mgx-csearch__input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.mgx-csearch__input::placeholder {
+  color: rgba(var(--mgx-graphite-rgb), 0.72);
+  font-weight: 500;
+  opacity: 1;
+}
+
+.mgx-csearch__input::-webkit-search-cancel-button,
+.mgx-csearch__input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.mgx-csearch__clear {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0 0 2px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(var(--mgx-silver-rgb), 0.45);
+  color: var(--mgx-black);
+  font-family: inherit;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mgx-csearch__clear:hover {
+  background: rgba(var(--mgx-silver-rgb), 0.8);
+}
+
+.mgx-csearch__clear:focus-visible {
+  outline: 2px solid var(--mgx-black);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.mgx-csearch__clear[hidden] {
+  display: none;
+}
+
+.mgx-csearch__status {
+  min-height: 1.5em;
+  margin: 8px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--mgx-text-muted);
+  text-align: center;
+}
+
+.mgx-csearch__reset {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  color: var(--mgx-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.mgx-csearch__reset:hover {
+  text-decoration-color: var(--mgx-accent);
+}
+
+#product-grid > li[hidden] {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .mgx-csearch {
+    padding-bottom: 20px;
+  }
+
+  .mgx-csearch__inner {
+    max-width: 460px;
+  }
+
+  .mgx-csearch__status {
+    text-align: left;
+  }
+}
