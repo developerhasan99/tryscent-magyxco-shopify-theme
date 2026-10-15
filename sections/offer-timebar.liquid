@@ -201,7 +201,14 @@
 
                     <div class="flex flex-col items-center {% unless forloop.last %}pr-4 border-0 border-r border-solid{% endunless %}" style="border-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.25 }};" {{ block.shopify_attributes }}>
 
-                      {% if block.settings.icon != blank %}
+                      {% if block.settings.use_country_flag %}
+                        <img
+                          class="rounded"
+                          src="{{ localization.country | image_url: width: 72 }}"
+                          height="25"
+                          width=""
+                          alt="{{ localization.country.name | escape }}">
+                      {% elsif block.settings.icon != blank %}
                         <img
                           class="rounded"
                           src="{{ block.settings.icon | image_url }}"
@@ -249,7 +256,14 @@
 
             <div class="flex flex-col items-center" {{ block.shopify_attributes }}>
 
-              {% if block.settings.icon != blank %}
+              {% if block.settings.use_country_flag %}
+                <img
+                  class="rounded"
+                  src="{{ localization.country | image_url: width: 72 }}"
+                  height="25"
+                  width=""
+                  alt="{{ localization.country.name | escape }}">
+              {% elsif block.settings.icon != blank %}
                 <img
                   class="rounded"
                   src="{{ block.settings.icon | image_url }}"
@@ -422,6 +436,13 @@
         "type": "payment_icon",
         "name": "Badge",
         "settings": [
+          {
+            "type": "checkbox",
+            "id": "use_country_flag",
+            "label": "Show the visitor's country flag",
+            "info": "Uses the flag of the country the shopper browses in, instead of the icon below.",
+            "default": false
+          },
           {
             "type": "image_picker",
             "id": "icon",
