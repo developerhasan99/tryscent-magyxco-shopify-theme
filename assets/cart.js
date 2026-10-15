@@ -176,7 +176,7 @@ class CartItems extends HTMLElement {
     const eventTarget =
       event.currentTarget instanceof CartRemoveButton ? "clear" : "change";
 
-    fetch(`https://www.magyx.co/cart/change`, {
+    fetch(`${routes.cart_change_url}`, {
       ...fetchConfig(),
       ...{ body },
     })
