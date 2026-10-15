@@ -213,7 +213,10 @@
                     <div class="text-lg font-semibold text-black leading-normal">
                       {{ 'bundle.price_per_bottle' | t: price: price_per_bottle }}
                     </div>
-                    <div class="inline-flex items-center gap-1 mt-2 mgx-badge-amber-soft font-bold text-sm rounded-full py-1 px-2 border border-solid mgx-border-amber"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"></path></svg>You save 670 kr today</div>
+                    {% if product.compare_at_price > product.price %}
+                      {% assign you_save = product.compare_at_price | minus: product.price %}
+                      <div class="inline-flex items-center gap-1 mt-2 mgx-badge-amber-soft font-bold text-sm rounded-full py-1 px-2 border border-solid mgx-border-amber"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"></path></svg>You save {{ you_save | money }} today</div>
+                    {% endif %}
                   </div>
                 {% endif %}
               {%- when 'mobile_gallery' -%}
