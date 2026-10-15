@@ -37,6 +37,8 @@
       }
       if (m && !s) {
         p.set("utm_source", r);
+        // Tells snippets/location-popup.liquid this page is about to be replaced.
+        document.documentElement.setAttribute("data-nohi-redirect", "1");
         window.location.replace(u.toString());
       }
     } catch (e) {}

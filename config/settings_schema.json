@@ -155,6 +155,110 @@
     ]
   },
   {
+    "name": "Location popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "location_popup_enabled",
+        "label": "Show the location popup",
+        "default": true,
+        "info": "Untick to switch the popup off everywhere at once. Shopify's own automatic redirection must stay off (Online Store > Preferences > Automatic redirection > Country/region), otherwise visitors are moved before they see the question."
+      },
+      {
+        "type": "paragraph",
+        "content": "Asks visitors whose location (from their IP address) is one of your Markets countries, and whose prices would change on that country's version, whether they want to switch. Yes keeps the same page and its tracking links (UTMs) in their country's version. No keeps them where they are. A country picked in the header selector always wins. Never shown to search or ad crawlers or on account pages. Shopify's cookie banner goes first; the newsletter popup waits until this one is answered."
+      },
+      {
+        "type": "checkbox",
+        "id": "location_popup_editor_preview",
+        "label": "Preview the popup in the theme editor",
+        "default": false,
+        "info": "Shows a sample (Poland) while you edit the text below, even when the popup is switched off. Visitors never see this preview. Untick when you are done."
+      },
+      {
+        "type": "paragraph",
+        "content": "Testing on the live site: add ?geo_test=IE to any address to act as a visitor in Ireland, ?geo=reset to forget earlier answers in your browser, ?geo=off to hide the popup in that browser tab."
+      },
+      {
+        "type": "header",
+        "content": "Text"
+      },
+      {
+        "type": "paragraph",
+        "content": "[country] becomes the visitor's country (Ireland, the United Kingdom) and [currency] its currency, for example EUR (€). [current_country] and [current_currency] are those of the page they are on. Don't start a sentence with a country token: some names begin with \"the\"."
+      },
+      {
+        "type": "text",
+        "id": "location_popup_heading",
+        "label": "Heading",
+        "default": "Hey, it looks like you're in [country]"
+      },
+      {
+        "type": "textarea",
+        "id": "location_popup_body",
+        "label": "Text",
+        "default": "Do you want to go to our site for [country]? You'll see prices in [currency] instead of [current_currency]."
+      },
+      {
+        "type": "text",
+        "id": "location_popup_accept",
+        "label": "Yes button",
+        "default": "Yes, take me there"
+      },
+      {
+        "type": "text",
+        "id": "location_popup_decline",
+        "label": "No button",
+        "default": "No, stay on this site"
+      },
+      {
+        "type": "text",
+        "id": "location_popup_note",
+        "label": "Small print under the buttons",
+        "default": "We'll remember your choice on this device.",
+        "info": "Tells visitors their answer is remembered, so it can't be removed: an empty box shows the default."
+      },
+      {
+        "type": "text",
+        "id": "location_popup_busy",
+        "label": "Yes button while switching",
+        "default": "One moment..."
+      },
+      {
+        "type": "header",
+        "content": "Behaviour"
+      },
+      {
+        "type": "range",
+        "id": "location_popup_delay",
+        "label": "Show after",
+        "min": 0,
+        "max": 5000,
+        "step": 250,
+        "unit": "ms",
+        "default": 1500
+      },
+      {
+        "type": "range",
+        "id": "location_popup_decline_days",
+        "label": "Ask again after a No",
+        "min": 1,
+        "max": 90,
+        "step": 1,
+        "unit": "d",
+        "default": 30,
+        "info": "Closing the popup without answering (close button, Esc, tapping outside) asks again after 7 days at most."
+      },
+      {
+        "type": "checkbox",
+        "id": "location_popup_auto_return",
+        "label": "Take returning visitors who said Yes straight to their country's version",
+        "default": true,
+        "info": "Only when they arrive from outside the site and are still in that country, and only until they pick another country in the header selector. Untick to ask them again instead."
+      }
+    ]
+  },
+  {
     "name": "t:settings_schema.logo.name",
     "settings": [
       {

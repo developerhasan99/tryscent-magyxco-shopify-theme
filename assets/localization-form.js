@@ -106,6 +106,17 @@ if (!customElements.get('localization-form')) {
         event.preventDefault();
         const form = this.querySelector('form');
         this.elements.input.value = event.currentTarget.dataset.value;
+        // The server-rendered return_to is page-cached with another visitor's query string. Use this
+        // address bar instead, minus Shopify's ?country= switch, which would override the pick.
+        const returnTo = form && form.querySelector('input[name="return_to"]');
+        if (returnTo) {
+          const query = window.location.search
+            .replace(/^\?/, '')
+            .split('&')
+            .filter((part) => part && !/^country=/i.test(part))
+            .join('&');
+          returnTo.value = window.location.pathname + (query ? `?${query}` : '');
+        }
         if (form) form.submit();
       }
 

@@ -1,0 +1,794 @@
+{%- comment -%}
+  Location popup. Rendered once from the head of layout/theme.liquid, right after
+  content_for_header, so Shopify's globals exist and nothing has painted yet.
+
+  Why: Shopify Markets serves this store in subfolders (/ = US, /en-pl, /en-eu,
+  /en-gb, /en-au, /en-ca, /en-nz, /en-sg). Shopify's automatic redirection moves
+  visitors silently by IP. The owner wants a question instead, and EU Regulation
+  2018/302 art. 3(2) only allows sending an EU shopper to another version of the
+  shop with their explicit consent. So automatic redirection is OFF in the admin
+  (Online Store > Preferences > Automatic redirection > Country/region) and this
+  snippet asks.
+
+  Detection: the country Shopify's edge writes into this page's Server-Timing
+  header (no request), else browsing_context_suggestions.json under the current
+  subfolder (the root endpoint resets cart_currency to USD). Asked only when
+  switching changes what the visitor pays (another currency or market): a German
+  visitor on /en-eu (default Austria, same EUR prices) is not asked.
+
+  Yes posts the same form the header country selector posts, with return_to built
+  from the address bar (the server-rendered one is page-cached with someone else's
+  query), so the visitor lands on the same page with every parameter (UTMs,
+  fbclid, gclid) in their market as their exact country (IE gets EUR as IE, not
+  the EU market's default AT).
+
+  Memory, localStorage mgx_geo = {s, c, t}, shared by every subfolder, written
+  only on a click, always about one country c:
+    accepted   365 days. Landing from outside the site (not Back, not reload)
+               while still in c on a version with other prices: switched once
+               with Shopify's ?country= link and location.replace (setting), so
+               Back still leaves the site. Consent covers later visits (recital 20).
+    declined   No button. Not asked about c for the days set in the editor.
+    dismissed  close button, Esc, backdrop, Android back. At most 7 days.
+    manual     a country picked in the header selector. Never asked or switched
+               for 365 days, wherever they are. Withdraws an earlier Yes. The
+               selector submits with form.submit(), which fires no submit event,
+               so the country link click is caught in the capture phase.
+
+  Overlays, one at a time: Shopify's cookie banner first (we wait for the answer),
+  then this popup, then the Wiz newsletter popup (hidden while this is open and
+  for 8 s after). Never in the theme editor (unless "Preview the popup in the
+  theme editor" is on), section previews, frames, account, password, gift card,
+  404 or captcha pages, app proxy pages, for crawlers or automated browsers, or
+  while snippets/nohi-attribution.liquid reloads the page.
+
+  QA: ?geo_test=IE acts as a visitor in Ireland for the tab session (also past the
+  crawler check; decisions are logged as [location popup]), ?geo_test=off ends it,
+  ?geo=reset forgets every answer, ?geo=off hides the popup for the tab session,
+  ?geo=on brings it back. Telemetry: Shopify.analytics.publish('mgx_location_popup',
+  {action, detected, current, test}); forward it to GA4 with a custom pixel.
+{%- endcomment -%}
+{%- liquid
+  assign geo_mode = 'live'
+  unless settings.location_popup_enabled
+    assign geo_mode = 'off'
+  endunless
+  if request.design_mode
+    if settings.location_popup_editor_preview
+      assign geo_mode = 'preview'
+    else
+      assign geo_mode = 'off'
+    endif
+  endif
+  if request.visual_preview_mode
+    assign geo_mode = 'off'
+  endif
+  if request.page_type contains 'customers/'
+    assign geo_mode = 'off'
+  endif
+  case request.page_type
+    when 'password', 'gift_card', '404', 'captcha'
+      assign geo_mode = 'off'
+  endcase
+  if localization.available_countries.size < 2
+    assign geo_mode = 'off'
+  endif
+-%}
+{%- unless geo_mode == 'off' -%}
+  <template id="mgx-geo-template">
+    <style>
+      .mgx-geo {
+        box-sizing: border-box;
+        width: calc(100% - 3.2rem);
+        max-width: 44rem;
+        max-height: calc(100% - 3.2rem);
+        margin: auto;
+        padding: 0;
+        border: 1px solid var(--mgx-hairline);
+        border-radius: 1.2rem;
+        background-color: var(--mgx-white);
+        color: var(--mgx-text);
+        box-shadow: 0 2.4rem 6rem rgba(var(--mgx-black-rgb), 0.18);
+        overflow: auto;
+        overscroll-behavior: contain;
+        opacity: 0;
+        transform: translateY(0.8rem);
+        transition: opacity 200ms ease-out, transform 200ms ease-out;
+      }
+      .mgx-geo.is-visible {
+        opacity: 1;
+        transform: none;
+      }
+      .mgx-geo:focus,
+      .mgx-geo:focus-visible {
+        outline: none;
+        box-shadow: 0 2.4rem 6rem rgba(var(--mgx-black-rgb), 0.18);
+      }
+      /* ::backdrop does not inherit custom properties in older browsers: literal Magyx Black. */
+      .mgx-geo::backdrop {
+        background-color: rgba(16, 15, 13, 0);
+        transition: background-color 200ms ease-out;
+      }
+      .mgx-geo.is-visible::backdrop {
+        background-color: rgba(16, 15, 13, 0.45);
+      }
+      .mgx-geo__panel {
+        position: relative;
+        padding: 3.2rem 3.2rem 2.8rem;
+        font-family: var(--font-body-family);
+      }
+      .mgx-geo__heading {
+        margin: 0 3.6rem 0.8rem 0;
+        font-family: var(--font-heading-family);
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1.25;
+        letter-spacing: 0;
+        color: var(--mgx-text);
+      }
+      .mgx-geo__body {
+        margin: 0 0 2.4rem;
+        font-size: 1.5rem;
+        line-height: 1.5;
+        letter-spacing: 0.02rem;
+        color: var(--mgx-text-muted);
+      }
+      .mgx-geo__actions {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .mgx-geo__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 4.8rem;
+        margin: 0;
+        padding: 1.2rem 2rem;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 10rem;
+        font-family: inherit;
+        font-size: 1.5rem;
+        font-weight: 600;
+        line-height: 1.2;
+        letter-spacing: 0.04rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+      }
+      .mgx-geo__btn.mgx-btn-primary {
+        border-color: var(--mgx-cta);
+      }
+      .mgx-geo__btn.mgx-btn-primary:hover,
+      .mgx-geo__btn.mgx-btn-primary:focus-visible {
+        border-color: var(--mgx-cta-hover);
+      }
+      .mgx-geo__btn[aria-disabled='true'] {
+        cursor: progress;
+      }
+      .mgx-geo__btn.mgx-btn-primary[aria-disabled='true'],
+      .mgx-geo__btn.mgx-btn-primary[aria-disabled='true']:hover {
+        background-color: var(--mgx-cta);
+        border-color: var(--mgx-cta);
+      }
+      .mgx-geo__btn.mgx-btn-outline[aria-disabled='true'] {
+        opacity: 0.5;
+      }
+      .mgx-geo__btn.mgx-btn-outline[aria-disabled='true']:hover {
+        background-color: transparent;
+        color: var(--mgx-black);
+      }
+      .mgx-geo__note {
+        margin: 1.4rem 0 0;
+        font-size: 1.2rem;
+        line-height: 1.4;
+        color: var(--mgx-text-muted);
+        text-align: center;
+      }
+      .mgx-geo__close {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 4.4rem;
+        height: 4.4rem;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        background-color: transparent;
+        color: var(--mgx-graphite);
+        cursor: pointer;
+      }
+      .mgx-geo__close:hover {
+        background-color: rgba(var(--mgx-silver-rgb), 0.3);
+        color: var(--mgx-black);
+      }
+      .mgx-geo__close span {
+        display: flex;
+      }
+      .mgx-geo__close svg {
+        width: 1.6rem;
+        height: 1.6rem;
+      }
+      .mgx-geo__btn:focus-visible,
+      .mgx-geo__close:focus-visible {
+        outline: 2px solid var(--mgx-black);
+        outline-offset: 3px;
+        box-shadow: none;
+      }
+      @media screen and (min-width: 750px) {
+        .mgx-geo__actions {
+          flex-direction: row;
+        }
+        .mgx-geo__btn {
+          flex: 1 1 0;
+          width: auto;
+        }
+      }
+      @media screen and (max-width: 749px) {
+        .mgx-geo {
+          width: 100%;
+          max-width: 100%;
+          max-height: 90%;
+          margin: auto 0 0;
+          border-width: 1px 0 0;
+          border-radius: 1.6rem 1.6rem 0 0;
+          box-shadow: 0 -0.8rem 3.2rem rgba(var(--mgx-black-rgb), 0.16);
+          transform: translateY(100%);
+          transition-duration: 260ms;
+        }
+        .mgx-geo:focus,
+        .mgx-geo:focus-visible {
+          box-shadow: 0 -0.8rem 3.2rem rgba(var(--mgx-black-rgb), 0.16);
+        }
+        .mgx-geo__panel {
+          padding: 2.8rem 2rem calc(2rem + env(safe-area-inset-bottom));
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .mgx-geo,
+        .mgx-geo::backdrop {
+          transition: none;
+        }
+        .mgx-geo,
+        .mgx-geo.is-visible {
+          transform: none;
+        }
+      }
+      /* One overlay at a time: Shopify's cookie banner and the Wiz newsletter popup wait. */
+      html.mgx-geo-open #myModal,
+      html.mgx-geo-cooldown #myModal,
+      html.mgx-geo-open #shopify-pc__banner,
+      html.mgx-geo-open #shopify-pc__prefs,
+      html.mgx-geo-open #shopify-pc__prefs__overlay {
+        visibility: hidden;
+      }
+    </style>
+    <dialog
+      class="mgx-geo"
+      aria-modal="true"
+      aria-labelledby="mgx-geo-heading"
+      aria-describedby="mgx-geo-body"
+      tabindex="-1">
+      <div class="mgx-geo__panel">
+        <h2 class="mgx-geo__heading" id="mgx-geo-heading" data-geo="heading"></h2>
+        <p class="mgx-geo__body" id="mgx-geo-body" data-geo="body"></p>
+        <div class="mgx-geo__actions">
+          <button type="button" class="mgx-geo__btn mgx-btn-primary" data-geo="accept"></button>
+          <button type="button" class="mgx-geo__btn mgx-btn-outline" data-geo="decline"></button>
+        </div>
+        <p class="mgx-geo__note" data-geo="note"></p>
+        <p class="visually-hidden" role="status" data-geo="status"></p>
+        <button
+          type="button"
+          class="mgx-geo__close"
+          data-geo="close"
+          aria-label="{{ 'accessibility.close' | t | escape }}">
+          <span aria-hidden="true">{{- 'icon-close.svg' | inline_asset_content -}}</span>
+        </button>
+      </div>
+    </dialog>
+  </template>
+  <script>
+    (() => {
+      const html = document.documentElement;
+      if (html.dataset.mgxGeo) return;
+      html.dataset.mgxGeo = '1';
+
+      const config = {
+        mode: {{ geo_mode | json }},
+        current: {{ localization.country.iso_code | json }},
+        root: {{ routes.root_url | json }},
+        countries: [
+          {%- for country in localization.available_countries -%}
+            [{{ country.iso_code | json }}, {{ country.name | json }}, {{ country.currency.iso_code | json }}, {{ country.currency.symbol | json }}, {{ country.market.handle | json }}]
+            {%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ],
+        text: {
+          heading: {{ settings.location_popup_heading | default: "Hey, it looks like you're in [country]" | json }},
+          body: {{ settings.location_popup_body | default: "Do you want to go to our site for [country]? You'll see prices in [currency] instead of [current_currency]." | json }},
+          accept: {{ settings.location_popup_accept | default: 'Yes, take me there' | json }},
+          decline: {{ settings.location_popup_decline | default: 'No, stay on this site' | json }},
+          note: {{ settings.location_popup_note | default: "We'll remember your choice on this device." | json }},
+          busy: {{ settings.location_popup_busy | default: 'One moment...' | json }},
+        },
+        delay: {{ settings.location_popup_delay | default: 1500 | json }},
+        declineDays: {{ settings.location_popup_decline_days | default: 30 | json }},
+        autoReturn: {{ settings.location_popup_auto_return | json }},
+      };
+
+      const KEY = 'mgx_geo';
+      const DAY = 864e5;
+      const KEEP_DAYS = {
+        accepted: 365,
+        manual: 365,
+        declined: config.declineDays,
+        dismissed: Math.min(7, config.declineDays),
+      };
+      const QA_PARAMS = ['geo', 'geo_test'];
+      const BOTS =
+        /bot|crawl|spider|slurp|mediapartners|google-inspectiontool|googleother|facebookexternalhit|meta-externalagent|meta-externalfetcher|preview|lighthouse|pagespeed|gtmetrix|headless|phantomjs|prerender/i;
+      // Country names that need "the" inside a sentence.
+      const THE = ['US', 'GB', 'NL', 'AE', 'PH', 'BS'];
+
+      let testCountry = null;
+      const log = (...args) => {
+        if (testCountry) console.info('[location popup]', ...args);
+      };
+
+      const storage = (area) => ({
+        get: (key) => {
+          try {
+            return window[area].getItem(key);
+          } catch (e) {
+            return null;
+          }
+        },
+        set: (key, value) => {
+          try {
+            window[area].setItem(key, value);
+          } catch (e) {
+            // Storage blocked: the page still works, the answer is just not remembered.
+          }
+        },
+        remove: (key) => {
+          try {
+            window[area].removeItem(key);
+          } catch (e) {}
+        },
+      });
+      const local = storage('localStorage');
+      const session = storage('sessionStorage');
+
+      const readState = () => {
+        try {
+          const state = JSON.parse(local.get(KEY) || 'null');
+          return state && typeof state === 'object' && state.s && state.c && typeof state.t === 'number' ? state : null;
+        } catch (e) {
+          return null;
+        }
+      };
+      const isFresh = (state) => !!(state && KEEP_DAYS[state.s] && Date.now() - state.t < KEEP_DAYS[state.s] * DAY);
+      const saveState = (s, c) => local.set(KEY, JSON.stringify({ s, c, t: Date.now() }));
+
+      const countries = {};
+      config.countries.forEach(([code, name, currency, symbol, market]) => {
+        countries[code] = { code, name, currency, symbol: String(symbol || '').trim(), market: market || null };
+      });
+      const current = config.current;
+      const prefix = String(config.root || '/').replace(/\/$/, '');
+
+      const track = (action, detected) => {
+        try {
+          const analytics = window.Shopify && window.Shopify.analytics;
+          if (analytics && typeof analytics.publish === 'function') {
+            analytics.publish('mgx_location_popup', { action, detected: detected || null, current, test: !!testCountry });
+          }
+        } catch (e) {}
+      };
+
+      // Worth asking only when switching changes what the visitor pays: another currency or market.
+      const changesPrices = (code) => {
+        const to = countries[code];
+        const from = countries[current];
+        if (!to || code === current) return false;
+        if (!from) return true;
+        return to.currency !== from.currency || (!!to.market && !!from.market && to.market !== from.market);
+      };
+
+      const countryLabel = (country) => (country ? (THE.indexOf(country.code) > -1 ? 'the ' : '') + country.name : '');
+      const currencyLabel = (country) => {
+        if (!country) return '';
+        return country.symbol && country.symbol !== country.currency
+          ? `${country.currency} (${country.symbol})`
+          : country.currency;
+      };
+      const fill = (text, country) => {
+        const here = countries[current];
+        const tokens = {
+          '[current_country]': countryLabel(here),
+          '[current_currency]': currencyLabel(here),
+          '[country]': countryLabel(country),
+          '[currency]': currencyLabel(country),
+        };
+        return Object.keys(tokens).reduce((out, token) => out.split(token).join(tokens[token]), String(text || ''));
+      };
+
+      // Edits the raw query string so every other parameter (UTMs, fbclid, gclid) stays byte for byte.
+      // URLSearchParams would re-encode %20 as +, which some analytics tools record literally.
+      const paramName = (part) => {
+        const raw = part.split('=')[0].replace(/\+/g, ' ');
+        try {
+          return decodeURIComponent(raw).toLowerCase();
+        } catch (e) {
+          return raw.toLowerCase();
+        }
+      };
+      const dropParams = (search, names) => {
+        const kept = String(search || '')
+          .replace(/^\?/, '')
+          .split('&')
+          .filter((part) => part && names.indexOf(paramName(part)) === -1);
+        return kept.length ? `?${kept.join('&')}` : '';
+      };
+
+      const ready = () =>
+        new Promise((resolve) => {
+          if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', resolve, { once: true });
+          else resolve();
+        });
+      const whenVisible = (callback) => {
+        if (document.visibilityState !== 'hidden') return callback();
+        const onChange = () => {
+          if (document.visibilityState === 'hidden') return;
+          document.removeEventListener('visibilitychange', onChange);
+          setTimeout(callback, 1000);
+        };
+        document.addEventListener('visibilitychange', onChange);
+      };
+      const isShown = (element) =>
+        !!element && element.offsetHeight > 0 && getComputedStyle(element).visibility !== 'hidden';
+      // Shopify's cookie banner or its preferences panel.
+      const bannerShowing = () =>
+        isShown(document.getElementById('shopify-pc__banner')) || isShown(document.getElementById('shopify-pc__prefs'));
+      // The visitor is busy with something: ask on the next page instead. The Wiz teaser lives inside
+      // #myModal, so the open state is read from its content box.
+      const pageBusy = () =>
+        !!document.querySelector(
+          'cart-drawer.active, localization-form [aria-expanded="true"], header-drawer details[open], details-modal details[open], dialog[open], form[data-mgx-geo]'
+        ) || isShown(document.querySelector('#myModal .emailwiz_modal_content'));
+
+      // Same request as the header country selector. Shopify swaps the market prefix in return_to and keeps
+      // the query string. Our QA parameters and Shopify's ?country= (which would undo the switch) are dropped.
+      const switchTo = (code) => {
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = `${prefix}/localization`;
+        form.hidden = true;
+        form.setAttribute('data-mgx-geo', '');
+        const fields = {
+          form_type: 'localization',
+          utf8: '\u2713',
+          _method: 'put',
+          country_code: code,
+          return_to: location.pathname + dropParams(location.search, QA_PARAMS.concat('country')),
+        };
+        Object.keys(fields).forEach((name) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          input.value = fields[name];
+          form.appendChild(input);
+        });
+        document.body.appendChild(form);
+        form.submit();
+      };
+
+      const show = (country, preview) => {
+        if (typeof HTMLDialogElement !== 'function' || typeof HTMLDialogElement.prototype.showModal !== 'function') {
+          return log('no dialog support');
+        }
+        const template = document.getElementById('mgx-geo-template');
+        if (!template || !document.body) return;
+        const fragment = template.content.cloneNode(true);
+        const dialog = fragment.querySelector('dialog');
+        const part = (name) => dialog.querySelector(`[data-geo="${name}"]`);
+        ['heading', 'body', 'accept', 'decline', 'note'].forEach((name) => {
+          part(name).textContent = fill(config.text[name], country);
+        });
+        document.body.appendChild(fragment);
+
+        const previous = document.activeElement;
+        // Taps already on their way when the sheet slides in (sticky add to cart, cookie banner) don't count.
+        const armedAt = performance.now() + 600;
+        let done = false;
+        let pressedOnBackdrop = false;
+
+        const onStorage = (event) => {
+          if (event.key !== KEY || done) return;
+          done = true;
+          log('answered in another tab');
+          cleanUp();
+        };
+        const cleanUp = () => {
+          window.removeEventListener('storage', onStorage);
+          html.classList.remove('mgx-geo-open');
+          // The newsletter popup may have fired while this was open: give the visitor a breather first.
+          html.classList.add('mgx-geo-cooldown');
+          setTimeout(() => html.classList.remove('mgx-geo-cooldown'), 8000);
+          if (dialog.open) dialog.close();
+          dialog.remove();
+          if (previous && previous !== document.body && previous.isConnected && typeof previous.focus === 'function') {
+            previous.focus({ preventScroll: true });
+          }
+        };
+        const record = (status) => {
+          if (preview) return;
+          saveState(status, country.code);
+          track(status, country.code);
+          log(status, country.code);
+        };
+        const closeWith = (status) => {
+          if (done || performance.now() < armedAt) return;
+          done = true;
+          record(status);
+          cleanUp();
+        };
+        const accept = () => {
+          if (done || performance.now() < armedAt) return;
+          done = true;
+          if (preview) return cleanUp();
+          record('accepted');
+          const busyText = fill(config.text.busy, country);
+          dialog.querySelectorAll('button').forEach((button) => button.setAttribute('aria-disabled', 'true'));
+          part('accept').textContent = busyText;
+          part('status').textContent = busyText;
+          switchTo(country.code);
+        };
+
+        part('accept').addEventListener('click', accept);
+        part('decline').addEventListener('click', () => closeWith('declined'));
+        part('close').addEventListener('click', () => closeWith('dismissed'));
+        // Esc, and the back gesture on Android.
+        dialog.addEventListener('cancel', (event) => {
+          event.preventDefault();
+          closeWith('dismissed');
+        });
+        // Chrome closes the dialog on a second Esc even when cancel is prevented: count it as a dismissal.
+        dialog.addEventListener('close', () => {
+          if (done) return;
+          done = true;
+          record('dismissed');
+          cleanUp();
+        });
+        // Backdrop: a click on the dialog box itself, outside the panel, that also started there,
+        // so selecting text and releasing outside is not an answer.
+        dialog.addEventListener('pointerdown', (event) => {
+          pressedOnBackdrop = event.target === dialog;
+        });
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog && pressedOnBackdrop) closeWith('dismissed');
+          pressedOnBackdrop = false;
+        });
+        // Back after Yes can restore this page from the back/forward cache with the dialog still busy.
+        window.addEventListener('pageshow', (event) => {
+          if (event.persisted && dialog.isConnected) {
+            done = true;
+            cleanUp();
+          }
+        });
+        if (!preview) window.addEventListener('storage', onStorage);
+
+        html.classList.add('mgx-geo-open');
+        dialog.showModal();
+        dialog.focus({ preventScroll: true });
+        requestAnimationFrame(() => requestAnimationFrame(() => dialog.classList.add('is-visible')));
+        if (!preview) track('shown', country.code);
+        log('asked about', country.code, 'on a', current, 'page');
+      };
+
+      // Theme editor preview: a sample country, nothing detected, nothing stored.
+      if (config.mode === 'preview') {
+        const sample = ['PL', 'IE', 'GB']
+          .concat(Object.keys(countries))
+          .find((code) => countries[code] && code !== current);
+        if (sample) ready().then(() => setTimeout(() => show(countries[sample], true), 300));
+        return;
+      }
+
+      // A country picked in a theme localization form is final. The header selector submits with
+      // form.submit(), which fires no submit event, so the link click is caught in the capture phase,
+      // before assets/localization-form.js handles it. Language links share the markup; only forms
+      // that carry country_code count.
+      const isCountryForm = (form) =>
+        !!(form && !form.hasAttribute('data-mgx-geo') && form.querySelector('input[name="country_code"]'));
+      document.addEventListener(
+        'click',
+        (event) => {
+          const link = event.target instanceof Element ? event.target.closest('localization-form a[data-value]') : null;
+          if (!link || !link.dataset.value) return;
+          const wrapper = link.closest('localization-form');
+          if (isCountryForm(wrapper && wrapper.querySelector('form'))) saveState('manual', link.dataset.value.toUpperCase());
+        },
+        true
+      );
+      document.addEventListener(
+        'submit',
+        (event) => {
+          const form = event.target;
+          if (!(form instanceof HTMLFormElement) || !isCountryForm(form)) return;
+          const value = form.querySelector('input[name="country_code"]').value;
+          if (value) saveState('manual', value.toUpperCase());
+        },
+        true
+      );
+
+      // QA switches. Storage is written here only when a QA parameter is in the address.
+      const params = new URLSearchParams(location.search);
+      const geo = (params.get('geo') || '').toLowerCase();
+      if (geo === 'reset') {
+        local.remove(KEY);
+        ['mgx_geo_off', 'mgx_geo_test'].forEach((key) => session.remove(key));
+      }
+      if (geo === 'off') session.set('mgx_geo_off', '1');
+      if (geo === 'on') session.remove('mgx_geo_off');
+      if (params.has('geo_test')) {
+        const forced = (params.get('geo_test') || '').toUpperCase();
+        if (/^[A-Z]{2}$/.test(forced)) session.set('mgx_geo_test', forced);
+        else session.remove('mgx_geo_test');
+      }
+      testCountry = session.get('mgx_geo_test');
+
+      const ua = navigator.userAgent || '';
+      const automated = (BOTS.test(ua) && !/cubot/i.test(ua)) || navigator.webdriver === true;
+      let framed = false;
+      try {
+        framed = window.self !== window.top;
+      } catch (e) {
+        framed = true;
+      }
+      const skip =
+        (html.dataset.nohiRedirect && 'nohi attribution is reloading the page') ||
+        (session.get('mgx_geo_off') && '?geo=off') ||
+        (framed && 'framed page') ||
+        (window.Shopify && window.Shopify.designMode && 'theme editor') ||
+        (/^(\/[a-z]{2}(-[a-z]{2})?)?\/(apps|a|community|tools)\//i.test(location.pathname) && 'app proxy page') ||
+        (automated && !testCountry && 'crawler or automated browser');
+      if (skip) return log('off:', skip);
+
+      // Shopify's ?country= link (auto-return below, or an ad) has done its job once this page is in that
+      // country: take it out of the address bar so a shared link doesn't force the next person into it.
+      if ((params.get('country') || '').toUpperCase() === current) {
+        try {
+          history.replaceState(history.state, '', location.pathname + dropParams(location.search, ['country']) + location.hash);
+        } catch (e) {}
+      }
+
+      const state = readState();
+      if (state && state.s === 'manual' && isFresh(state)) return log('picked', state.c, 'in the selector, never asking');
+
+      let navigation = null;
+      try {
+        navigation = performance.getEntriesByType('navigation')[0] || null;
+      } catch (e) {}
+      let fromSite = false;
+      try {
+        fromSite = !!document.referrer && new URL(document.referrer).origin === location.origin;
+      } catch (e) {}
+      // Arrived from outside the site: not a click inside it, not Back or Forward, not a reload.
+      const landing = (!navigation || navigation.type === 'navigate') && !fromSite;
+
+      // 1. The country Shopify's edge writes into this page's Server-Timing header: no extra request.
+      const headerCountry = () => {
+        try {
+          const entry =
+            navigation && navigation.serverTiming
+              ? Array.prototype.find.call(navigation.serverTiming, (timing) => timing.name === 'country')
+              : null;
+          const code = entry ? String(entry.description || '').toUpperCase() : '';
+          return /^[A-Z]{2}$/.test(code) ? code : null;
+        } catch (e) {
+          return null;
+        }
+      };
+      // 2. Shopify's suggestions endpoint, under this subfolder (the root one resets cart_currency to USD).
+      const askShopify = () => {
+        const controller = typeof AbortController === 'function' ? new AbortController() : null;
+        const timer = controller ? setTimeout(() => controller.abort(), 4000) : 0;
+        return fetch(`${prefix}/browsing_context_suggestions.json?country%5Benabled%5D=true`, {
+          credentials: 'same-origin',
+          headers: { Accept: 'application/json' },
+          priority: 'low',
+          signal: controller ? controller.signal : undefined,
+        })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((data) => {
+            const detected = data && data.detected_values && data.detected_values.country;
+            const suggestion = data && data.suggestions && data.suggestions[0];
+            const suggested = suggestion && suggestion.parts && suggestion.parts.country;
+            const handle = (detected && detected.handle) || (suggested && suggested.handle);
+            const code = handle ? String(handle).toUpperCase() : '';
+            return /^[A-Z]{2}$/.test(code) ? code : null;
+          })
+          .catch(() => null)
+          .finally(() => clearTimeout(timer));
+      };
+      const detect = () => {
+        if (testCountry) return Promise.resolve(testCountry);
+        const code = headerCountry();
+        return code ? Promise.resolve(code) : ready().then(askShopify);
+      };
+
+      const schedule = (country) => {
+        const before = local.get(KEY);
+        let lastInput = 0;
+        const noteInput = () => {
+          lastInput = performance.now();
+        };
+        ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'].forEach((type) =>
+          window.addEventListener(type, noteInput, { capture: true, passive: true })
+        );
+        let waitingForBanner = false;
+        const attempt = (startedAt) => {
+          if (local.get(KEY) !== before) return log('answered in another tab');
+          if (pageBusy()) return log('page busy, asking on the next page');
+          if (bannerShowing()) {
+            if (waitingForBanner) return;
+            waitingForBanner = true;
+            log('cookie banner first');
+            document.addEventListener(
+              'visitorConsentCollected',
+              () =>
+                setTimeout(() => {
+                  waitingForBanner = false;
+                  attempt(performance.now());
+                }, 800),
+              { once: true }
+            );
+            return;
+          }
+          // Wait for a calm second, so a tap meant for the page doesn't land on the popup.
+          if (performance.now() - lastInput < 1000) {
+            if (performance.now() - startedAt > 10000) return log('visitor kept interacting, asking on the next page');
+            setTimeout(() => attempt(startedAt), 250);
+            return;
+          }
+          show(country, false);
+        };
+        ready().then(() => setTimeout(() => whenVisible(() => attempt(performance.now())), config.delay));
+      };
+
+      detect().then((detected) => {
+        if (!detected) {
+          track('detect_failed');
+          return log('location unknown');
+        }
+        if (!countries[detected]) return log(detected, 'is not one of the store countries');
+        if (!changesPrices(detected)) return log('nothing to switch for', detected, 'on a', current, 'page');
+        const answer = state && state.c === detected && isFresh(state) ? state.s : null;
+        if (answer === 'declined' || answer === 'dismissed') return log('said no to', detected);
+        if (answer === 'accepted') {
+          if (!landing) return log('said yes to', detected, 'but came here inside the site, with Back or a reload');
+          if (config.autoReturn && (params.get('country') || '').toUpperCase() !== detected) {
+            // Consent given earlier covers later visits (2018/302 recital 20); a pick in the header selector
+            // withdraws it. Shopify's ?country= link 301s to the same page in that market with every
+            // parameter, and replace keeps this page out of the history, so Back still leaves the site.
+            track('auto_return', detected);
+            log('said yes before, switching to', detected);
+            const search = dropParams(location.search, QA_PARAMS.concat('country'));
+            location.replace(`${location.pathname}${search ? `${search}&` : '?'}country=${detected}${location.hash}`);
+            return;
+          }
+          // Setting off, or ?country= did not switch: ask again.
+        }
+        schedule(countries[detected]);
+      });
+    })();
+  </script>
+{%- endunless -%}
