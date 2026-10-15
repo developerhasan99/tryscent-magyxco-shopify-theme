@@ -136,6 +136,72 @@
     border-color: {{ section.settings.timer_box_color }};
   }
 
+  /* Phones: offer on line 1, "Ends in" + a smaller timer on line 2, badges grouped in the middle. */
+  @media screen and (max-width: 767px) {
+    #shopify-section-{{ section.id }} .mgx-tb-bar {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-offer {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-link {
+      font-size: 13px;
+      line-height: 20px;
+    }
+
+    /* "Ends in" lines up with the digit boxes (24px tall at this size), not with the labels above them. */
+    #shopify-section-{{ section.id }} .mgx-tb-timer {
+      flex: 0 0 100%;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-ends {
+      font-size: 13px;
+      line-height: 24px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-timer .flipdown {
+      zoom: 0.8;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-timer .flipdown .rotor {
+      font-size: 1.5rem;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-timer .flipdown.flipdown__theme-dark .rotor-group-heading:before {
+      font-size: 9px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-badges {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-badges__row {
+      justify-content: center;
+      gap: 14px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-badge {
+      min-width: 60px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-badge__icon {
+      width: auto;
+      height: 20px;
+    }
+
+    #shopify-section-{{ section.id }} .mgx-tb-badge__label {
+      margin-top: 3px;
+      font-size: 11px;
+    }
+  }
+
   {% if section.settings.countdown_date == blank %}
     .flipdown {
       width: 140px !important;
@@ -163,25 +229,25 @@
         </div>
       {% endif %}
 
-      <div class="py-3 md:py-2" style="background-color: {{ section.settings.secondary_color }};">
+      <div class="mgx-tb-bar py-3 md:py-2" style="background-color: {{ section.settings.secondary_color }};">
         <div class="container mx-auto px-4">
 
           <div class="flex flex-wrap items-center gap-x-6 gap-y-1 justify-center">
 
             <div class="flex flex-wrap gap-x-4 gap-y-1 items-center justify-center">
 
-              <div style="color: {{ section.settings.primary_color }};" class="text-center font-bold text-base md:text-xl">
+              <div style="color: {{ section.settings.primary_color }};" class="mgx-tb-offer text-center font-bold text-base md:text-xl">
                 {{ section.settings.prepend_text }}
               </div>
 
-              <div style="color: {{ section.settings.primary_color }};" class="text-center font-semibold text-sm md:text-lg tracking-wider md:order-1 underline">
+              <div style="color: {{ section.settings.primary_color }};" class="mgx-tb-link text-center font-semibold text-sm md:text-lg tracking-wider md:order-1 underline">
                 {{ section.settings.append_text }}
               </div>
 
               {% if section.settings.enable_timer %}
-                <div class="flex items-center gap-2">
+                <div class="mgx-tb-timer flex items-center gap-2">
 
-                  <div style="color: {{ section.settings.primary_color }};" class="text-sm md:text-base font-bold leading-none md:hidden">
+                  <div style="color: {{ section.settings.primary_color }};" class="mgx-tb-ends text-sm md:text-base font-bold leading-none md:hidden">
                     Ends in
                   </div>
 
@@ -246,26 +312,26 @@
 {% if section.settings.enable_badges %}
   {% if section.blocks.size > 0 %}
 
-    <div class="md:hidden py-3 border-0 border-t border-solid" style="background-color: {{ section.settings.secondary_color }}; border-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }};">
+    <div class="mgx-tb-badges md:hidden py-3 border-0 border-t border-solid" style="background-color: {{ section.settings.secondary_color }}; border-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }};">
 
       <div class="page-width">
 
-        <div class="flex gap-2 justify-between">
+        <div class="mgx-tb-badges__row flex gap-2 justify-between">
 
           {% for block in section.blocks %}
 
-            <div class="flex flex-col items-center" {{ block.shopify_attributes }}>
+            <div class="mgx-tb-badge flex flex-col items-center" {{ block.shopify_attributes }}>
 
               {% if block.settings.use_country_flag %}
                 <img
-                  class="rounded"
+                  class="mgx-tb-badge__icon rounded"
                   src="{{ localization.country | image_url: width: 72 }}"
                   height="25"
                   width=""
                   alt="{{ localization.country.name | escape }}">
               {% elsif block.settings.icon != blank %}
                 <img
-                  class="rounded"
+                  class="mgx-tb-badge__icon rounded"
                   src="{{ block.settings.icon | image_url }}"
                   height="25"
                   width=""
@@ -273,7 +339,7 @@
               {% endif %}
 
               {% if block.settings.label != blank %}
-                <div class="leading-none text-xs mt-1 font-semibold" style="color: {{ section.settings.primary_color }};">
+                <div class="mgx-tb-badge__label leading-none text-xs mt-1 font-semibold" style="color: {{ section.settings.primary_color }};">
                   {{ block.settings.label }}
                 </div>
               {% endif %}
