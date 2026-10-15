@@ -111,7 +111,7 @@
     "drawer_shadow_blur": 5,
     "badge_position": "top right",
     "badge_corner_radius": 4,
-    "sale_badge_color_scheme": "scheme-4",
+    "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
     "brand_headline": "",
     "brand_description": "<p></p>",
@@ -177,55 +177,55 @@
         "settings": {
           "background": "#ffffff",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
+          "text": "#100f0d",
+          "button": "#100f0d",
           "button_label": "#ffffff",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "secondary_button_label": "#100f0d",
+          "shadow": "#100f0d"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#faf9f6",
+          "background": "#ffffff",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#f3f3f3",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#100f0d",
+          "button": "#100f0d",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#100f0d",
+          "shadow": "#100f0d"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#242833",
+          "background": "#3a3a3c",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
-          "button_label": "#000000",
+          "button_label": "#3a3a3c",
           "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "shadow": "#100f0d"
         }
       },
       "scheme-4": {
         "settings": {
-          "background": "#121212",
+          "background": "#100f0d",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
-          "button_label": "#121212",
+          "button_label": "#100f0d",
           "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "shadow": "#100f0d"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#334fb4",
+          "background": "#9a5b1e",
           "background_gradient": "",
           "text": "#ffffff",
           "button": "#ffffff",
-          "button_label": "#334fb4",
+          "button_label": "#9a5b1e",
           "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "shadow": "#100f0d"
         }
       },
       "scheme-4ecf9bcf-7887-4727-9c21-991f25dd397a": {

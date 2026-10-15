@@ -1,0 +1,202 @@
+/*
+  MAGYX brand tokens + utilities.
+  Single source of truth for brand colours in the theme (MAGYX Brand Guidelines, Edition 01).
+  Loaded last in layout/theme.liquid so single-class utilities win ties against
+  tailwind-compiled.css / blocky.css without !important.
+  Palette: Magyx Black #100F0D, White #FFFFFF, Silver #C7C9CB, Graphite #3A3A3C, Amber #9A5B1E.
+*/
+
+:root {
+  --mgx-black: #100F0D;
+  --mgx-black-rgb: 16, 15, 13;
+  --mgx-white: #FFFFFF;
+  --mgx-white-rgb: 255, 255, 255;
+  --mgx-silver: #C7C9CB;
+  --mgx-silver-rgb: 199, 201, 203;
+  --mgx-graphite: #3A3A3C;
+  --mgx-graphite-rgb: 58, 58, 60;
+  --mgx-amber: #9A5B1E;
+  --mgx-amber-rgb: 154, 91, 30;
+
+  /* roles */
+  --mgx-hairline: var(--mgx-silver);
+  --mgx-text: var(--mgx-black);
+  --mgx-text-muted: var(--mgx-graphite);
+  --mgx-cta: var(--mgx-black);
+  --mgx-cta-hover: var(--mgx-graphite);
+  --mgx-cta-text: var(--mgx-white);
+  --mgx-accent: var(--mgx-amber);
+  --mgx-star: var(--mgx-amber);
+  --mgx-selected: var(--mgx-black);
+}
+
+/* ---------- buttons ---------- */
+.mgx-btn-primary {
+  background-color: var(--mgx-cta);
+  color: var(--mgx-cta-text);
+}
+.mgx-btn-primary:hover,
+.mgx-btn-primary:focus-visible {
+  background-color: var(--mgx-cta-hover);
+  color: var(--mgx-cta-text);
+}
+.mgx-btn-3d {
+  border: 1px solid var(--mgx-graphite);
+  box-shadow: 0 4px 0 var(--mgx-graphite), 0 10px 24px rgba(var(--mgx-black-rgb), 0.25);
+}
+.mgx-btn-3d:hover {
+  box-shadow: 0 2px 0 var(--mgx-graphite), 0 6px 16px rgba(var(--mgx-black-rgb), 0.25);
+}
+.mgx-btn-3d:active {
+  box-shadow: 0 0 0 var(--mgx-graphite), 0 2px 8px rgba(var(--mgx-black-rgb), 0.25);
+}
+.mgx-btn-outline {
+  border-color: var(--mgx-black);
+  color: var(--mgx-black);
+  background-color: transparent;
+}
+.mgx-btn-outline:hover {
+  background-color: var(--mgx-black);
+  color: var(--mgx-white);
+}
+.mgx-price-pill {
+  background-color: var(--mgx-graphite);
+  color: var(--mgx-white);
+}
+
+/* ---------- accent: badges, savings, stars, icons ---------- */
+.mgx-badge-amber {
+  background-color: var(--mgx-accent);
+  color: var(--mgx-white);
+}
+.mgx-badge-amber-soft {
+  background-color: rgba(var(--mgx-amber-rgb), 0.12);
+  color: var(--mgx-accent);
+}
+.mgx-text-accent {
+  color: var(--mgx-accent);
+}
+.mgx-fill-accent {
+  fill: var(--mgx-accent);
+}
+.mgx-stroke-accent {
+  stroke: var(--mgx-accent);
+}
+.mgx-star {
+  color: var(--mgx-star);
+}
+.mgx-star svg {
+  fill: currentColor;
+}
+.mgx-bg-amber {
+  background-color: var(--mgx-amber);
+  color: var(--mgx-white);
+}
+
+/* ---------- text + surfaces ---------- */
+.mgx-text {
+  color: var(--mgx-text);
+}
+.mgx-text-muted {
+  color: var(--mgx-text-muted);
+}
+/* empty-state glyphs: empty stars, empty bundle slots */
+.mgx-icon-subtle {
+  color: var(--mgx-silver);
+}
+.mgx-text-white {
+  color: var(--mgx-white);
+}
+.mgx-bg-black {
+  background-color: var(--mgx-black);
+  color: var(--mgx-white);
+}
+.mgx-surface {
+  background-color: var(--mgx-white);
+}
+.mgx-fill-black {
+  fill: var(--mgx-black);
+}
+.mgx-border {
+  border-color: var(--mgx-hairline);
+}
+.mgx-border-black {
+  border-color: var(--mgx-black);
+}
+.mgx-border-onblack {
+  border-color: rgba(var(--mgx-white-rgb), 0.2);
+}
+.mgx-hairline-top {
+  border-top: 1px solid var(--mgx-hairline);
+}
+.mgx-hairline-bottom {
+  border-bottom: 1px solid var(--mgx-hairline);
+}
+
+/* ---------- selection + interactive states ---------- */
+.mgx-selected {
+  border-color: var(--mgx-selected);
+}
+.mgx-dot {
+  background-color: var(--mgx-selected);
+}
+.mgx-pill {
+  border-color: var(--mgx-hairline);
+  background-color: var(--mgx-white);
+  color: var(--mgx-black);
+}
+.mgx-pill:hover {
+  border-color: var(--mgx-black);
+  color: var(--mgx-black);
+}
+.mgx-pill-active,
+.mgx-pill-active:hover {
+  border-color: var(--mgx-black);
+  background-color: var(--mgx-black);
+  color: var(--mgx-white);
+}
+.mgx-check {
+  border-color: var(--mgx-black);
+  color: var(--mgx-black);
+}
+.mgx-check--on {
+  background-color: var(--mgx-black);
+  border-color: var(--mgx-black);
+  color: var(--mgx-white);
+}
+.mgx-input:focus,
+.mgx-input:focus-visible {
+  border-color: var(--mgx-black);
+  outline: none;
+}
+.mgx-close:hover {
+  background-color: var(--mgx-black);
+  color: var(--mgx-white);
+}
+.mgx-underline-hover:hover {
+  text-decoration-color: var(--mgx-accent);
+}
+.mgx-chip-outline {
+  border-color: var(--mgx-graphite);
+  color: var(--mgx-graphite);
+}
+
+/* ---------- collection hero fade (replaces cream gradients) ---------- */
+.mgx-hero-fade {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--mgx-white-rgb), 0.92) 0%,
+    rgba(var(--mgx-white-rgb), 0.72) 55%,
+    rgba(var(--mgx-white-rgb), 0) 100%
+  );
+}
+@media (min-width: 640px) {
+  .mgx-hero-fade {
+    background: linear-gradient(
+      90deg,
+      rgba(var(--mgx-white-rgb), 0.92) 0%,
+      rgba(var(--mgx-white-rgb), 0.72) 45%,
+      rgba(var(--mgx-white-rgb), 0) 100%
+    );
+  }
+}

@@ -101,8 +101,8 @@
       ],
       "name": "Offer Timebar",
       "settings": {
-        "primary_color": "#173e34",
-        "secondary_color": "#dce9de",
+        "primary_color": "#100f0d",
+        "secondary_color": "#ffffff",
         "top_banner_text": "",
         "prepend_text": "Buy 1 Get 1 Free 🎁",
         "countdown_date": "",

@@ -213,7 +213,7 @@
       "type": "you-may-like",
       "name": "You May Like",
       "settings": {
-        "background_color": "#fcfbf9",
+        "background_color": "#ffffff",
         "title": "You may also like",
         "description": "",
         "collection": "best-sellers",
@@ -359,7 +359,7 @@
       ],
       "name": "Stacks Up",
       "settings": {
-        "background_color": "#fcfbf9",
+        "background_color": "#ffffff",
         "title": "How Magyx Compares",
         "btn_text": "Browse Best Fragrances",
         "btn_url": "shopify://collections/best-sellers",
@@ -895,7 +895,7 @@
       ],
       "name": "Massive Review",
       "settings": {
-        "background_color": "#fcfbf9",
+        "background_color": "#ffffff",
         "heading": "Loved by 10,000+ Customers",
         "review_text": "10,000+",
         "button_text": "See more reviews",
