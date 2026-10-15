@@ -41,7 +41,8 @@
         // replacement is still a visit from outside the site (its referrer will be this page).
         document.documentElement.setAttribute("data-nohi-redirect", "1");
         try {
-          sessionStorage.setItem("mgx_geo_landing", u.toString());
+          var g = JSON.parse(localStorage.getItem("mgx_geo") || "null");
+          if (g && g.s === "accepted") sessionStorage.setItem("mgx_geo_landing", u.toString());
         } catch (e) {}
         window.location.replace(u.toString());
       }

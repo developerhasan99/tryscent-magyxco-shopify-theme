@@ -7,7 +7,8 @@
   visitors silently by IP. The owner wants a question instead, and EU Regulation
   2018/302 art. 3(2) only allows sending an EU shopper to another version of the
   shop with their explicit consent. So automatic redirection is OFF in the admin
-  (Online Store > Preferences > Automatic redirection > Country/region) and this
+  (Online Store > Preferences > Automatic redirection > Country/region), the
+  Geo:Pro app embed is off (its own top bar would ask a second time), and this
   snippet asks.
 
   Detection: the country Shopify's edge writes into this page's Server-Timing
@@ -39,8 +40,9 @@
   then this popup, then the Wiz newsletter popup (hidden while this is open and
   for 8 s after). Never in the theme editor (unless "Preview the popup in the
   theme editor" is on), section previews, frames, account, password, gift card,
-  404 or captcha pages, app proxy pages, for crawlers or automated browsers, or
-  while snippets/nohi-attribution.liquid reloads the page.
+  404 or captcha pages (those only record a country picked in the header), app
+  proxy pages, for crawlers or automated browsers, or while
+  snippets/nohi-attribution.liquid reloads the page.
 
   QA: ?geo_test=IE acts as a visitor in Ireland for the tab session (also past the
   crawler check; decisions are logged as [location popup]), ?geo_test=off ends it,
@@ -63,13 +65,21 @@
   if request.visual_preview_mode
     assign geo_mode = 'off'
   endif
+  assign geo_quiet = false
   if request.page_type contains 'customers/'
-    assign geo_mode = 'off'
+    assign geo_quiet = true
   endif
   case request.page_type
     when 'password', 'gift_card', '404', 'captcha'
-      assign geo_mode = 'off'
+      assign geo_quiet = true
   endcase
+  if geo_quiet
+    if geo_mode == 'live'
+      assign geo_mode = 'quiet'
+    else
+      assign geo_mode = 'off'
+    endif
+  endif
   if localization.available_countries.size < 2
     assign geo_mode = 'off'
   endif
@@ -457,6 +467,15 @@
       // Shopify's cookie banner or its preferences panel.
       const bannerShowing = () =>
         isShown(document.getElementById('shopify-pc__banner')) || isShown(document.getElementById('shopify-pc__prefs'));
+      // Shopify says the banner is due but its script hasn't put it on screen yet (slow connection).
+      const bannerDue = () => {
+        try {
+          const privacy = window.Shopify && window.Shopify.customerPrivacy;
+          return !!(privacy && typeof privacy.shouldShowBanner === 'function' && privacy.shouldShowBanner());
+        } catch (e) {
+          return false;
+        }
+      };
       // The visitor is busy with something: ask on the next page instead. The Wiz newsletter popup opens
       // by itself right after cookie consent; it only counts as busy once the visitor is using it (focus
       // inside), otherwise this question goes first and Wiz waits (html.mgx-geo-open / -cooldown hide it).
@@ -563,6 +582,10 @@
           part('accept').textContent = busyText;
           part('status').textContent = busyText;
           switchTo(country.code);
+          // The switch was stopped (browser Stop, aborted request) or Back restored this page from the
+          // back/forward cache: don't leave a dialog nobody can close.
+          window.addEventListener('pageshow', (event) => event.persisted && dialog.isConnected && cleanUp(), { once: true });
+          setTimeout(() => dialog.isConnected && cleanUp(), 10000);
         };
 
         part('accept').addEventListener('click', accept);
@@ -641,6 +664,7 @@
         },
         true
       );
+      if (config.mode === 'quiet') return log('off: account or system page, only header picks are recorded');
 
       // QA switches. Storage is written here only when a QA parameter is in the address.
       const params = new URLSearchParams(location.search);
@@ -758,6 +782,10 @@
         const attempt = (startedAt) => {
           if (local.get(KEY) !== before) return log('answered in another tab');
           if (pageBusy()) return log('page busy, asking on the next page');
+          if (!bannerShowing() && bannerDue() && performance.now() - startedAt < 5000) {
+            setTimeout(() => attempt(startedAt), 250);
+            return;
+          }
           if (bannerShowing()) {
             if (waitingForBanner) return;
             waitingForBanner = true;

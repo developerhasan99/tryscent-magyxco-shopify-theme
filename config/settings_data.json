@@ -163,7 +163,7 @@
       },
       "1173261918193615741": {
         "type": "shopify://apps/geo-pro-geolocation/blocks/geopro/16fc5313-7aee-4e90-ac95-f50fc7c8b657",
-        "disabled": false,
+        "disabled": true,
         "settings": {}
       },
       "18348123794867637515": {

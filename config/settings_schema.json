@@ -162,7 +162,7 @@
         "id": "location_popup_enabled",
         "label": "Show the location popup",
         "default": true,
-        "info": "Untick to switch the popup off everywhere at once. Shopify's own automatic redirection must stay off (Online Store > Preferences > Automatic redirection > Country/region), otherwise visitors are moved before they see the question."
+        "info": "Untick to switch the popup off everywhere at once. Shopify's own automatic redirection must stay off (Online Store > Preferences > Automatic redirection > Country/region), otherwise visitors are moved before they see the question. Keep the Geo:Pro app embed off too: it asks the same question in its own bar."
       },
       {
         "type": "paragraph",
