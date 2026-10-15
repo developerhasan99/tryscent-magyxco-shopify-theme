@@ -472,6 +472,14 @@
       // Same request as the header country selector. Shopify swaps the market prefix in return_to and keeps
       // the query string. Our QA parameters and Shopify's ?country= (which would undo the switch) are dropped.
       const switchTo = (code) => {
+        const search = dropParams(location.search, QA_PARAMS.concat('country'));
+        // When return_to carries no query, Shopify takes the query from the Referer (this address bar), so
+        // clean the address bar too. With no Referer at all, a return_to without '?' is a 404: keep the '?'.
+        if (search !== location.search) {
+          try {
+            history.replaceState(history.state, '', location.pathname + search + location.hash);
+          } catch (e) {}
+        }
         const form = document.createElement('form');
         form.method = 'post';
         form.action = `${prefix}/localization`;
@@ -482,7 +490,7 @@
           utf8: '\u2713',
           _method: 'put',
           country_code: code,
-          return_to: location.pathname + dropParams(location.search, QA_PARAMS.concat('country')),
+          return_to: location.pathname + (search || '?'),
         };
         Object.keys(fields).forEach((name) => {
           const input = document.createElement('input');
@@ -658,6 +666,13 @@
       } catch (e) {
         framed = true;
       }
+      // nohi attribution re-opens an outside landing with location.replace(), so that second load has this
+      // site as referrer. Its marker (the exact URL it opened) keeps the load counted as a landing. Read once.
+      let nohiLanding = false;
+      if (!html.dataset.nohiRedirect) {
+        nohiLanding = session.get('mgx_geo_landing') === location.href;
+        session.remove('mgx_geo_landing');
+      }
       const skip =
         (html.dataset.nohiRedirect && 'nohi attribution is reloading the page') ||
         (session.get('mgx_geo_off') && '?geo=off') ||
@@ -687,7 +702,7 @@
         fromSite = !!document.referrer && new URL(document.referrer).origin === location.origin;
       } catch (e) {}
       // Arrived from outside the site: not a click inside it, not Back or Forward, not a reload.
-      const landing = (!navigation || navigation.type === 'navigate') && !fromSite;
+      const landing = nohiLanding || ((!navigation || navigation.type === 'navigate') && !fromSite);
 
       // 1. The country Shopify's edge writes into this page's Server-Timing header: no extra request.
       const headerCountry = () => {
