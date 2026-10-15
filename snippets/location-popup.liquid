@@ -80,7 +80,7 @@
       .mgx-geo {
         box-sizing: border-box;
         width: calc(100% - 3.2rem);
-        max-width: 44rem;
+        max-width: 48rem;
         max-height: calc(100% - 3.2rem);
         margin: auto;
         padding: 0;
@@ -145,7 +145,7 @@
         width: 100%;
         min-height: 4.8rem;
         margin: 0;
-        padding: 1.2rem 2rem;
+        padding: 1.2rem 1.6rem;
         border-width: 1px;
         border-style: solid;
         border-radius: 10rem;
@@ -457,12 +457,17 @@
       // Shopify's cookie banner or its preferences panel.
       const bannerShowing = () =>
         isShown(document.getElementById('shopify-pc__banner')) || isShown(document.getElementById('shopify-pc__prefs'));
-      // The visitor is busy with something: ask on the next page instead. The Wiz teaser lives inside
-      // #myModal, so the open state is read from its content box.
+      // The visitor is busy with something: ask on the next page instead. The Wiz newsletter popup opens
+      // by itself right after cookie consent; it only counts as busy once the visitor is using it (focus
+      // inside), otherwise this question goes first and Wiz waits (html.mgx-geo-open / -cooldown hide it).
+      const wizInUse = () => {
+        const modal = document.getElementById('myModal');
+        return !!modal && isShown(modal.querySelector('.emailwiz_modal_content')) && modal.contains(document.activeElement);
+      };
       const pageBusy = () =>
         !!document.querySelector(
           'cart-drawer.active, localization-form [aria-expanded="true"], header-drawer details[open], details-modal details[open], dialog[open], form[data-mgx-geo]'
-        ) || isShown(document.querySelector('#myModal .emailwiz_modal_content'));
+        ) || wizInUse();
 
       // Same request as the header country selector. Shopify swaps the market prefix in return_to and keeps
       // the query string. Our QA parameters and Shopify's ?country= (which would undo the switch) are dropped.
