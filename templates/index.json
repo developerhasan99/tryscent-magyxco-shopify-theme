@@ -9,64 +9,6 @@
  */
 {
   "sections": {
-    "insta_story": {
-      "type": "insta-story",
-      "blocks": {
-        "story_Pk4yRN": {
-          "type": "story",
-          "settings": {
-            "title": "Tom Ford",
-            "link": "shopify://collections/tomford®"
-          }
-        },
-        "story_VtmG7H": {
-          "type": "story",
-          "settings": {
-            "title": "Baccarat",
-            "link": "shopify://collections/baccarat-rouge®"
-          }
-        },
-        "story_wE66Dr": {
-          "type": "story",
-          "settings": {
-            "title": "LV",
-            "link": "shopify://collections/louis-vuitton®"
-          }
-        },
-        "story_nBtec6": {
-          "type": "story",
-          "settings": {
-            "title": "Creed",
-            "link": "shopify://collections/creed®"
-          }
-        },
-        "story_TRnKbC": {
-          "type": "story",
-          "settings": {
-            "title": "Dior",
-            "link": "shopify://collections/dior®"
-          }
-        },
-        "story_4qLwwC": {
-          "type": "story",
-          "disabled": true,
-          "settings": {
-            "title": "Xerjoff",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "story_Pk4yRN",
-        "story_VtmG7H",
-        "story_wE66Dr",
-        "story_nBtec6",
-        "story_TRnKbC",
-        "story_4qLwwC"
-      ],
-      "disabled": true,
-      "settings": {}
-    },
     "homepage_hero_GDeBtq": {
       "type": "homepage-hero",
       "name": "Homepage Hero",
@@ -85,14 +27,6 @@
         "padding_bottom": 80,
         "mobile_padding_top": 36,
         "mobile_padding_bottom": 400
-      }
-    },
-    "home_hero_banner_qmaB3G": {
-      "type": "home-hero-banner",
-      "disabled": true,
-      "name": "Home Hero Banner",
-      "settings": {
-        "link": "shopify://products/4-x-30ml-perfume-bottles"
       }
     },
     "marquee_labels_RLdqpN": {
@@ -180,6 +114,9 @@
       "name": "Feature Highlights",
       "settings": {
         "background_color": "#ffffff",
+        "ships_icon": "box",
+        "icon_color": "#9a5b1e",
+        "divider_color": "#e6e7e8",
         "padding_top": 36,
         "padding_bottom": 36
       }
@@ -192,38 +129,6 @@
         "color_scheme": "",
         "padding_top": 0,
         "padding_bottom": 0
-      }
-    },
-    "rich_text_4ya4cF": {
-      "type": "rich-text",
-      "blocks": {
-        "heading_hrPEKc": {
-          "type": "heading",
-          "settings": {
-            "heading": "Why pay 3,800 kr when you can pay 174 kr?",
-            "heading_size": "h2"
-          }
-        },
-        "text_HMARBK": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Big luxury houses like Creed spend enormous sums on glamorous boutiques along the Champs-Élysées, lavish ad campaigns and bottles that cost more than what's inside.</p><p>With us, you only pay for the scent.</p><p><strong>With a fragrance concentration of over 21%, we match the very top luxury brands in both scent quality and longevity.</strong></p><p>Our perfumes last all day.</p><p>The difference? <strong>You don't pay for their logo.</strong><br/></p>"
-          }
-        }
-      },
-      "block_order": [
-        "heading_hrPEKc",
-        "text_HMARBK"
-      ],
-      "disabled": true,
-      "name": "Creed Attak",
-      "settings": {
-        "desktop_content_position": "center",
-        "content_alignment": "center",
-        "color_scheme": "",
-        "full_width": true,
-        "padding_top": 32,
-        "padding_bottom": 32
       }
     },
     "popular_products_XDHbay": {
@@ -252,200 +157,6 @@
         "button_link": "shopify://collections/new-scents",
         "padding_top": 40,
         "padding_bottom": 72
-      }
-    },
-    "review_grid_H3xfHP": {
-      "type": "review-grid",
-      "blocks": {
-        "review_MKcdVw": {
-          "type": "review",
-          "settings": {
-            "heading": "Highly recommended.",
-            "content": "<p>From customer service to the product itself, the experience was excellent. Everything arrived as expected, and I'd happily buy again.</p>",
-            "author": "Benjamin M.",
-            "date": "2 days ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_kCUEm4": {
-          "type": "review",
-          "settings": {
-            "heading": "Arrived perfectly.",
-            "content": "<p>The product was well packaged, arrived in excellent condition and the scent quality exceeded my expectations. Very happy with this purchase.</p>",
-            "author": "Sharley A.",
-            "date": "2 days ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_EbFNac": {
-          "type": "review",
-          "settings": {
-            "heading": "Great value.",
-            "content": "<p>I was really impressed by the quality. The scent lasts well and feels comparable to much more expensive brands.</p>",
-            "author": "Santosh K.",
-            "date": "2 days ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "review_MKcdVw",
-        "review_kCUEm4",
-        "review_EbFNac"
-      ],
-      "disabled": true,
-      "name": "Review Grid",
-      "settings": {
-        "background_color": "#ffffff",
-        "heading": "What our customers say",
-        "review_text": "4.9/5 based on 10000+ reviews",
-        "button_text": "Read all reviews",
-        "button_link": "shopify://collections/all",
-        "padding_top": 0,
-        "padding_bottom": 0
-      }
-    },
-    "special_offer_bogo_nMzyNp": {
-      "type": "special-offer-bogo",
-      "blocks": {
-        "perk_wnTHMw": {
-          "type": "perk",
-          "settings": {
-            "text": "Lasts 12+ Hours"
-          }
-        },
-        "perk_VkFF3N": {
-          "type": "perk",
-          "settings": {
-            "text": "loved by 10,000+"
-          }
-        },
-        "perk_cG7y8p": {
-          "type": "perk",
-          "settings": {
-            "text": "60 day satisfaction guarantee"
-          }
-        }
-      },
-      "block_order": [
-        "perk_wnTHMw",
-        "perk_VkFF3N",
-        "perk_cG7y8p"
-      ],
-      "disabled": true,
-      "name": "Special Offer",
-      "settings": {
-        "offer_text": "Special Offer",
-        "offer_title": "Buy More, Get More Free",
-        "offer_description": "Choose your perfect bundle and receive matching free bottles in the same size: 30ml, 50ml, or 100ml.",
-        "offer_sub_description": "Scents that last all day. Luxury-inspired, up to 90% cheaper than designer brands.",
-        "offer_button_text": "Buy 4 for $44.00 Only",
-        "offer_button_link": "https://magyx.co/products/4-x-100ml-perfume-bottles",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "shop_by_fHtnnB": {
-      "type": "shop-by",
-      "blocks": {
-        "collection_t6NHM7": {
-          "type": "collection",
-          "settings": {
-            "heading": "Scents For Women",
-            "subheading": "100+ scents to choose from",
-            "button_text": "Explore",
-            "button_link": "shopify://collections/woman",
-            "collection": "woman"
-          }
-        },
-        "collection_zqtLKY": {
-          "type": "collection",
-          "settings": {
-            "heading": "Scents For Men",
-            "subheading": "100+ scents to choose from",
-            "button_text": "Explore",
-            "button_link": "shopify://collections/man",
-            "collection": "man"
-          }
-        }
-      },
-      "block_order": [
-        "collection_t6NHM7",
-        "collection_zqtLKY"
-      ],
-      "disabled": true,
-      "name": "Shop By",
-      "settings": {
-        "background_color": "#fcfbf9",
-        "heading": "Shop By Bestsellers",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "here_from_them_wccxKG": {
-      "type": "here-from-them",
-      "blocks": {
-        "testimonial_3jMx8n": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Marcus R.",
-            "quote": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
-          }
-        },
-        "testimonial_Bh4nVA": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Marcus R.",
-            "quote": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
-          }
-        },
-        "testimonial_P4hxWQ": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Marcus R.",
-            "quote": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
-          }
-        },
-        "testimonial_yja8kV": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Marcus R.",
-            "quote": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
-          }
-        },
-        "testimonial_MGyB3e": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Marcus R.",
-            "quote": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
-          }
-        },
-        "testimonial_EQziDc": {
-          "type": "testimonial",
-          "settings": {
-            "name": "Marcus R.",
-            "quote": "I didn’t expect much, but this is my new signature. It smells expensive, lasts all day, and actually turns heads."
-          }
-        }
-      },
-      "block_order": [
-        "testimonial_3jMx8n",
-        "testimonial_Bh4nVA",
-        "testimonial_P4hxWQ",
-        "testimonial_yja8kV",
-        "testimonial_MGyB3e",
-        "testimonial_EQziDc"
-      ],
-      "disabled": true,
-      "name": "Here From Them Carousel",
-      "settings": {
-        "heading": "Hear From Them."
       }
     },
     "image_and_text": {
@@ -489,46 +200,6 @@
         "padding_bottom": 72,
         "mobile_padding_top": 40,
         "mobile_padding_bottom": 40
-      }
-    },
-    "special_offer_bogo_NqVrAK": {
-      "type": "special-offer-bogo",
-      "blocks": {
-        "perk_HrfwXR": {
-          "type": "perk",
-          "settings": {
-            "text": "Lasts 12+ Hours"
-          }
-        },
-        "perk_d4dqHJ": {
-          "type": "perk",
-          "settings": {
-            "text": "loved by 10,000+"
-          }
-        },
-        "perk_9CajQF": {
-          "type": "perk",
-          "settings": {
-            "text": "60 day satisfaction guarantee"
-          }
-        }
-      },
-      "block_order": [
-        "perk_HrfwXR",
-        "perk_d4dqHJ",
-        "perk_9CajQF"
-      ],
-      "disabled": true,
-      "name": "Special Offer",
-      "settings": {
-        "offer_text": "Special Offer",
-        "offer_title": "Your Next Signature Scent, Trial-Sized.",
-        "offer_description": "Not ready to commit? Our travel-size perfumes let you explore luxe fragrances one spritz at a time.Perfect for pockets, purses, and perfume commitment issues.",
-        "offer_sub_description": "",
-        "offer_button_text": "BUY 4 for $44.00 Only",
-        "offer_button_link": "https://magyx.co/products/4-x-100ml-perfume-bottles",
-        "padding_top": 72,
-        "padding_bottom": 72
       }
     },
     "home_category_wNQCfP": {
@@ -1201,109 +872,20 @@
         "padding_top": 36,
         "padding_bottom": 36
       }
-    },
-    "people_are_lovin_VGanra": {
-      "type": "people-are-lovin",
-      "disabled": true,
-      "name": "People Are Loving",
-      "settings": {
-        "background_color": "#f0f2ec",
-        "makes_diferent_title": "People Are Loving",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "175501299681a2aa62": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "17551175978bd893d1": {
-      "type": "apps",
-      "disabled": true,
-      "settings": {
-        "include_margins": true
-      }
-    },
-    "marquee_labels_pxhCDL": {
-      "type": "marquee-labels",
-      "blocks": {
-        "label_q4pXPr": {
-          "type": "label",
-          "disabled": true,
-          "settings": {
-            "label": "FREE SHIPPING ON ORDERS ABOVE $50"
-          }
-        },
-        "label_3jXRHH": {
-          "type": "label",
-          "settings": {
-            "label": "SAVE UPTO 50% OFF WITH OUR BUNDLES & GIFT SETS"
-          }
-        },
-        "label_eBrDcC": {
-          "type": "label",
-          "settings": {
-            "label": "100% AUTHENTIC"
-          }
-        },
-        "label_pNxYCF": {
-          "type": "label",
-          "settings": {
-            "label": "EXPERT-CURATED COLLECTIONS"
-          }
-        },
-        "label_jRHLQB": {
-          "type": "label",
-          "settings": {
-            "label": "RISK-FREE 60 DAYS MONEY BACK GUARANTEE"
-          }
-        }
-      },
-      "block_order": [
-        "label_q4pXPr",
-        "label_3jXRHH",
-        "label_eBrDcC",
-        "label_pNxYCF",
-        "label_jRHLQB"
-      ],
-      "disabled": true,
-      "name": "Marquee Labels",
-      "settings": {}
-    },
-    "175501299598bc050d": {
-      "type": "apps",
-      "settings": {
-        "include_margins": true
-      }
     }
   },
   "order": [
-    "insta_story",
     "homepage_hero_GDeBtq",
-    "home_hero_banner_qmaB3G",
     "marquee_labels_RLdqpN",
     "feature_highlights_wfUacV",
     "custom_liquid_4rbfWw",
-    "rich_text_4ya4cF",
     "popular_products_XDHbay",
     "popular_products_pNDeh4",
-    "review_grid_H3xfHP",
-    "special_offer_bogo_nMzyNp",
-    "shop_by_fHtnnB",
-    "here_from_them_wccxKG",
     "image_and_text",
-    "special_offer_bogo_NqVrAK",
     "home_category_wNQCfP",
     "makes_different_list_YjiDH8",
     "home_occasions_BUcQ8i",
     "massive_review_section",
-    "our_bestsellers_niPBnL",
-    "people_are_lovin_VGanra",
-    "175501299681a2aa62",
-    "17551175978bd893d1",
-    "marquee_labels_pxhCDL",
-    "175501299598bc050d"
+    "our_bestsellers_niPBnL"
   ]
 }

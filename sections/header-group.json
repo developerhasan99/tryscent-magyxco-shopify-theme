@@ -83,6 +83,7 @@
         "payment_icon_qP37UR": {
           "type": "payment_icon",
           "settings": {
+            "use_country_flag": false,
             "icon": "shopify://shop_images/download.png",
             "label": "Fast"
           }
@@ -90,6 +91,7 @@
         "payment_icon_yexejk": {
           "type": "payment_icon",
           "settings": {
+            "use_country_flag": false,
             "icon": "shopify://shop_images/Mastercard_logo.jpg",
             "label": "Secure"
           }
@@ -107,6 +109,8 @@
         "enable_badges": true,
         "primary_color": "#ffffff",
         "secondary_color": "#100f0d",
+        "timer_box_color": "#3a3a3c",
+        "timer_label_color": "#c7c9cb",
         "top_banner_text": "",
         "prepend_text": "Buy 2 Get 1 Free 🎁",
         "countdown_date": "",
@@ -205,7 +209,7 @@
         "show_line_separator": true,
         "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
-        "enable_country_selector": true,
+        "enable_country_selector": false,
         "enable_language_selector": false,
         "enable_customer_avatar": true,
         "margin_bottom": 0,
