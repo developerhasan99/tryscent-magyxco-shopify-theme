@@ -1,0 +1,87 @@
+{% comment %}
+  Product card for sections/home-tabs.liquid: port of magicperfume.co's product-card in MAGYX
+  colours (badge, image, title, "Inspired by" row, price, button). Styles in assets/home-tabs.css.
+
+  Accepts:
+  - product: {Object} Product Liquid object
+  - button_text: {String} Button label
+  - inspired_label: {String} Label above the inspiration name
+
+  Price markup mirrors card-product.liquid ("From" + .ab-current-price, struck price only for
+  tag onsale), so price-test-card-sync.liquid and Weglot treat these cards like every other card.
+{% endcomment %}
+{%- liquid
+  assign inspiration = product.metafields.custom.inspiration.value
+  assign image = product.featured_media
+  assign image_alt = image.alt | default: product.title
+  assign card_price_variant = product.selected_or_first_available_variant
+  for card_variant in product.variants
+    if card_variant.price == product.price
+      assign card_price_variant = card_variant
+      break
+    endif
+  endfor
+-%}
+<div class="mgx-pcard product-card-wrapper" data-variant-id="{{ card_price_variant.id }}">
+  {%- if product.tags contains 'bestseller' -%}
+    <span class="mgx-pcard__badge">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      Bestseller
+    </span>
+  {%- elsif product.tags contains 'onsale' -%}
+    <span class="mgx-pcard__badge mgx-pcard__badge--sale">Sale</span>
+  {%- endif -%}
+
+  <a class="mgx-pcard__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 600
+        | image_tag:
+          class: 'mgx-pcard__img',
+          widths: '200, 300, 400, 600',
+          sizes: '(min-width: 1200px) 260px, (min-width: 990px) calc((100vw - 196px) / 4), calc((100vw - 54px) / 2)',
+          loading: 'lazy',
+          alt: image_alt
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'mgx-pcard__img' }}
+    {%- endif -%}
+  </a>
+
+  <h3 class="mgx-pcard__title">
+    <a href="{{ product.url }}">{{ product.title | escape }}</a>
+  </h3>
+
+  {%- if inspiration != blank -%}
+    <div class="mgx-pcard__insp">
+      {%- if inspiration.image != blank -%}
+        <img
+          class="mgx-pcard__insp-img"
+          src="{{ inspiration.image | image_url: width: 90, height: 90 }}"
+          alt=""
+          width="35"
+          height="35"
+          loading="lazy">
+      {%- endif -%}
+      <div class="mgx-pcard__insp-text">
+        <p class="mgx-pcard__insp-label">{{ inspired_label | escape }}</p>
+        <p class="mgx-pcard__insp-name">{{ inspiration.name | escape }}</p>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="mgx-pcard__price">
+    {%- unless product.tags contains 'onsale' -%}
+      <span class="starts_at_text">From</span>
+    {%- endunless %}
+    <span class="ab-current-price">{{ product.price | money }}</span>
+    {%- if product.tags contains 'onsale' and product.compare_at_price > product.price %}
+      <s class="mgx-pcard__was">{{ product.compare_at_price | money }}</s>
+    {%- endif -%}
+  </div>
+
+  <a class="mgx-pcard__cta" href="{{ product.url }}">{{ button_text | default: 'View scent' | escape }}</a>
+</div>

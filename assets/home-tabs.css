@@ -1,0 +1,326 @@
+/* Product tabs (sections/home-tabs.liquid) and its cards (snippets/home-tab-card.liquid).
+   Layout from magicperfume.co's homepage tabs, in MAGYX tokens. Mobile first: 2 columns,
+   4 from 990px like the theme's other product grids. */
+.mgx-ptabs__heading {
+  margin: 0 0 12px;
+  text-align: center;
+  color: var(--mgx-black);
+}
+
+.mgx-ptabs__sub {
+  max-width: 560px;
+  margin: 0 auto 24px;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--mgx-text-muted);
+}
+
+.mgx-ptabs__tabs {
+  display: block;
+}
+
+.mgx-ptabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mgx-ptabs__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  margin: 0;
+  padding: 8px 16px;
+  border: 2px solid rgba(var(--mgx-silver-rgb), 0.6);
+  border-radius: 8px;
+  background: var(--mgx-white);
+  color: var(--mgx-black);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.mgx-ptabs__tab:hover {
+  border-color: rgba(var(--mgx-black-rgb), 0.4);
+}
+
+.mgx-ptabs__tab[aria-selected='true'] {
+  border-color: var(--mgx-black);
+}
+
+.mgx-ptabs__tab:focus-visible {
+  outline: 2px solid var(--mgx-black);
+  outline-offset: 2px;
+}
+
+.mgx-ptabs__tab-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.mgx-ptabs__panel {
+  padding-top: 24px;
+}
+
+.mgx-ptabs__panel[hidden] {
+  display: none;
+}
+
+.mgx-ptabs__panel:focus-visible {
+  outline: 2px solid var(--mgx-black);
+  outline-offset: 4px;
+}
+
+.mgx-ptabs__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mgx-ptabs__item {
+  display: flex;
+  min-width: 0;
+}
+
+.mgx-ptabs__more {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.mgx-ptabs__all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 24px;
+  border: 2px solid var(--mgx-black);
+  background: var(--mgx-white);
+  color: var(--mgx-black);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.mgx-ptabs__all:hover {
+  background: var(--mgx-black);
+  color: var(--mgx-white);
+}
+
+.mgx-ptabs__all:focus-visible {
+  outline: 2px solid var(--mgx-black);
+  outline-offset: 2px;
+}
+
+.mgx-ptabs__empty {
+  margin: 0;
+  text-align: center;
+  color: var(--mgx-text-muted);
+}
+
+/* Card */
+.mgx-pcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--mgx-white);
+  box-shadow: 0 1px 2px rgba(var(--mgx-black-rgb), 0.05);
+}
+
+.mgx-pcard__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid rgba(var(--mgx-silver-rgb), 0.7);
+  border-radius: 999px;
+  background: var(--mgx-white);
+  color: var(--mgx-black);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mgx-pcard__badge--sale {
+  color: var(--mgx-amber);
+}
+
+.mgx-pcard__media {
+  display: block;
+}
+
+.mgx-pcard__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.mgx-pcard__title {
+  margin: 10px 0 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.mgx-pcard__title a {
+  color: var(--mgx-black);
+  text-decoration: none;
+}
+
+.mgx-pcard__title a:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mgx-pcard__insp {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.mgx-pcard__insp-img {
+  flex: none;
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+  background: var(--mgx-white);
+  filter: blur(2px);
+}
+
+.mgx-pcard__insp-text {
+  min-width: 0;
+}
+
+.mgx-pcard__insp-label {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--mgx-text-muted);
+}
+
+.mgx-pcard__insp-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--mgx-black);
+}
+
+.mgx-pcard__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 6px;
+  margin: 12px 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--mgx-black);
+}
+
+.mgx-pcard__was {
+  font-weight: 400;
+  color: var(--mgx-text-muted);
+}
+
+.mgx-pcard__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: auto;
+  padding: 12px 8px;
+  border-radius: 8px;
+  background: var(--mgx-black);
+  color: var(--mgx-white);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.mgx-pcard__cta:hover {
+  background: var(--mgx-graphite);
+}
+
+.mgx-pcard__cta:focus-visible {
+  outline: 2px solid var(--mgx-black);
+  outline-offset: 2px;
+}
+
+@media screen and (min-width: 750px) {
+  .mgx-ptabs__heading {
+    margin-bottom: 16px;
+  }
+
+  .mgx-ptabs__sub {
+    margin-bottom: 32px;
+    font-size: 16px;
+  }
+
+  .mgx-ptabs__list {
+    gap: 12px;
+  }
+
+  .mgx-ptabs__tab {
+    min-height: 48px;
+    padding: 10px 20px;
+    font-size: 17px;
+  }
+
+  .mgx-ptabs__panel {
+    padding-top: 32px;
+  }
+
+  .mgx-ptabs__grid {
+    gap: 24px;
+  }
+
+  .mgx-ptabs__more {
+    margin-top: 48px;
+  }
+
+  .mgx-pcard {
+    padding: 16px;
+  }
+
+  .mgx-pcard__title {
+    font-size: 16px;
+  }
+
+  .mgx-pcard__cta {
+    font-size: 14px;
+    letter-spacing: 0.14em;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .mgx-ptabs__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 32px;
+  }
+}

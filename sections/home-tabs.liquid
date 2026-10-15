@@ -1,0 +1,240 @@
+{% comment %}
+  Product tabs: heading, subheading, one tab per collection and a grid of cards per tab, rebuilt
+  from magicperfume.co's homepage section of the same name in MAGYX colours. Cards come from
+  snippets/home-tab-card.liquid, styles from assets/home-tabs.css, tab switching from
+  assets/home-tabs.js. Collections are picked per tab block in the theme editor.
+{% endcomment %}
+{{ 'home-tabs.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'home-tabs.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="mgx-ptabs section-{{ section.id }}-padding"
+  {% if section.settings.background_color != blank %}
+    style="background-color: {{ section.settings.background_color }};"
+  {% endif %}>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="mgx-ptabs__heading text-2xl md:text-4xl font-black">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="mgx-ptabs__sub">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+
+    <mgx-product-tabs class="mgx-ptabs__tabs">
+      <div class="mgx-ptabs__list" role="tablist" aria-label="{{ section.settings.heading | default: 'Product tabs' | escape }}">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            class="mgx-ptabs__tab"
+            role="tab"
+            id="MgxTab-{{ section.id }}-{{ forloop.index }}"
+            aria-controls="MgxPanel-{{ section.id }}-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            data-block-id="{{ block.id }}"
+            {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{ block.settings.icon | image_url: width: 48 | image_tag: class: 'mgx-ptabs__tab-icon', width: 20, height: 20, alt: '', loading: 'lazy' }}
+            {%- endif -%}
+            <span>{{ block.settings.title | escape }}</span>
+          </button>
+        {%- endfor -%}
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- assign tab_collection = block.settings.collection -%}
+        <div
+          class="mgx-ptabs__panel"
+          role="tabpanel"
+          id="MgxPanel-{{ section.id }}-{{ forloop.index }}"
+          aria-labelledby="MgxTab-{{ section.id }}-{{ forloop.index }}"
+          tabindex="0"
+          {% unless forloop.first %}
+            hidden
+          {% endunless %}>
+          {%- if tab_collection != blank and tab_collection.products_count > 0 -%}
+            <ul class="mgx-ptabs__grid" role="list">
+              {%- for product in tab_collection.products limit: section.settings.products_per_tab -%}
+                <li class="mgx-ptabs__item">
+                  {% render 'home-tab-card',
+                    product: product,
+                    button_text: section.settings.card_button_text,
+                    inspired_label: section.settings.inspired_label
+                  %}
+                </li>
+              {%- endfor -%}
+            </ul>
+            {%- if block.settings.button_text != blank -%}
+              <div class="mgx-ptabs__more">
+                <a class="mgx-ptabs__all" href="{{ tab_collection.url }}">{{ block.settings.button_text | escape }}</a>
+              </div>
+            {%- endif -%}
+          {%- elsif request.design_mode -%}
+            <p class="mgx-ptabs__empty">Pick a collection for this tab.</p>
+          {%- else -%}
+            <p class="mgx-ptabs__empty">{{ 'sections.collection_template.empty' | t }}</p>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </mgx-product-tabs>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 6,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A scent for every side of you"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Pick a scent family and discover scents that match."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "range",
+      "id": "products_per_tab",
+      "min": 2,
+      "max": 12,
+      "step": 2,
+      "label": "Products per tab",
+      "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Product cards"
+    },
+    {
+      "type": "text",
+      "id": "card_button_text",
+      "label": "Button text",
+      "default": "View scent"
+    },
+    {
+      "type": "text",
+      "id": "inspired_label",
+      "label": "Inspiration label",
+      "default": "Inspired by:"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "info": "Emoji work here, e.g. 🔥 Bestsellers.",
+          "default": "Tab"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon",
+          "info": "Optional small image shown before the title."
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Link to collection",
+          "info": "Button under the products. Leave empty to hide it.",
+          "default": "View all"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "🔥 Bestsellers"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "New scents"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Women"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Men"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
