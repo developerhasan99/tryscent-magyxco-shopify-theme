@@ -67,7 +67,7 @@
 }
 
 .exison-pick-the-way {
-  color: #0f172a;
+  color: var(--mgx-black);
   font-size: 14px;
   font-weight: 500;
   text-transform: uppercase;
@@ -103,7 +103,7 @@
   line-height: 13.97px;
   font-size: 14px;
   flex-direction: column;
-  color: #0f172a;
+  color: var(--mgx-black);
 }
 
 #cartExisonWidget .col {
@@ -127,7 +127,7 @@
   font-size: 8px;
   top: -9px;
   background: #f3f3f3;
-  color: #0f172a;
+  color: var(--mgx-black);
   border-radius: 3px;
   line-height: 100%;
   padding-inline: 4px;
@@ -161,7 +161,7 @@
   line-height: 120%;
   letter-spacing: 0;
   white-space: nowrap;
-  color: #0f172a;
+  color: var(--mgx-black);
 }
 
 .exm-rowOne-sub {
@@ -173,7 +173,7 @@
   white-space: nowrap;
   align-self: stretch;
   text-align: center;
-  color: #0f172a;
+  color: var(--mgx-black);
 }
 
 #cartExisonWidget .rowEnd {
@@ -261,7 +261,7 @@
   align-items: center;
   font-weight: 400;
   cursor: pointer;
-  color: #0f172a;
+  color: var(--mgx-black);
   background: #ffffff;
   font-size: 11px;
   border-inline: 1px solid #efefef;
@@ -275,7 +275,7 @@
 .exm-row.rowOne .col-non_member,
 .exm-row.rowOne .col-member {
   background-color: #ffffff;
-  color: #0f172a;
+  color: var(--mgx-black);
   font-weight: 500;
   font-size: 10px;
   border-top: 1px solid #efefef;
@@ -301,7 +301,7 @@
 .exm-row .col-non_member.exm_active,
 .exm-row .col-member.exm_active {
   background: #f3f3f3;
-  color: #0f172a;
+  color: var(--mgx-black);
   border-color: #878b94;
 }
 
@@ -322,7 +322,7 @@
 }
 
 .exm_active .rectangle-white {
-  color: #0f172a !important;
+  color: var(--mgx-black) !important;
   opacity: 1 !important;
 }
 
@@ -344,7 +344,7 @@
   font-size: 10px;
   font-weight: 500;
   text-decoration: underline;
-  color: #0f172a;
+  color: var(--mgx-black);
   display: flex;
   align-items: center;
   gap: 5px;
@@ -364,7 +364,7 @@
 
 #cartAlreadyExisonWidget {
   background: #f3f3f3;
-  color: #0f172a;
+  color: var(--mgx-black);
   border-radius: 12px;
 }
 
@@ -388,7 +388,7 @@
   font-size: 10px;
   line-height: 20px;
   letter-spacing: 0.37px;
-  color: #ffefb1;
+  color: var(--mgx-silver);
   border: 1px solid #424242;
   border-radius: 50px;
   padding-inline: 6px;
@@ -405,7 +405,7 @@
   font-family: Figtree, sans-serif;
   font-size: 18px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--mgx-black);
 }
 
 .exm-widget-manage-mem {
@@ -415,7 +415,7 @@
 
 #cartAlreadyExisonWidget a.exm-widget-mm-link,
 #cartAlreadyExisonWidget a.exm-widget-mm-link:hover {
-  color: #0f172a;
+  color: var(--mgx-black);
   font-weight: 700;
   font-size: 10px;
   line-height: 13px;
@@ -440,7 +440,7 @@
 .exison-widget_value {
   font-weight: 600;
   font-size: 14px;
-  color: #0f172a;
+  color: var(--mgx-black);
 }
 
 #cartAlreadyExisonWidget .exm__title_member {
@@ -520,7 +520,7 @@
   width: fit-content;
   padding: 4px 6px;
   background: #424242;
-  color: #ffefb1;
+  color: var(--mgx-silver);
 }
 
 .exm-membership-discount svg {
@@ -792,7 +792,7 @@
 }
 
 .exm-header-plus {
-  color: #0f172a;
+  color: var(--mgx-black);
 }
 
 .exm_subtitle {
@@ -832,7 +832,7 @@
   z-index: 401;
   font-size: 16px;
   font-weight: 700;
-  color: #0f172a !important;
+  color: var(--mgx-black) !important;
   position: absolute;
   top: 16px;
   right: 16px;
@@ -873,13 +873,13 @@
 .exm-pp-active-member-item .atc_btn_main_label {
   font-family: Figtree, sans-serif;
   font-size: 15px;
-  color: #0f172a;
+  color: var(--mgx-black);
   text-align: left;
 }
 
 .exm-pp-purchase-vip-item .exm-info-button,
 .exm-pp-active-member-item .exm-info-button {
-  color: #0f172a;
+  color: var(--mgx-black);
   width: 17px;
   height: 17px;
 }
@@ -893,7 +893,7 @@
   font-family: Figtree, sans-serif;
   font-size: 11px;
   text-align: left;
-  color: #0f172a;
+  color: var(--mgx-black);
   font-weight: 400;
 }
 
@@ -973,10 +973,10 @@
    rules above are left untouched.
    -------------------------------------------------------------------------- */
 .exm_dialog-collection {
-  --exm-popup-ink: #0f172a;
+  --exm-popup-ink: var(--mgx-black);
   --exm-popup-surface: #f7f7f7;
   --exm-popup-card: #424242;
-  --exm-popup-accent: #ffefb1;
+  --exm-popup-accent: var(--mgx-silver);
   --exm-popup-on-ink: #eff0f5;
   font-family: Figtree, sans-serif;
 }
@@ -1123,7 +1123,7 @@
 }
 
 .exm_continue_shopping:hover {
-  background: #1e2537;
+  background: var(--mgx-graphite);
 }
 
 .exm_dialog-learn-more {

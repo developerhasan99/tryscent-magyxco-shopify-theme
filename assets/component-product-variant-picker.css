@@ -89,11 +89,11 @@ variant-selects {
 }
 
 .product-form__input--pill input[type='radio'] + label:hover {
-  border-color: #22613a;
+  border-color: var(--mgx-black);
 }
 
 .product-form__input--pill input[type='radio']:checked + label {
-  background-color: #22613a;
+  background-color: var(--mgx-black);
   color: rgb(var(--color-background));
 }
 

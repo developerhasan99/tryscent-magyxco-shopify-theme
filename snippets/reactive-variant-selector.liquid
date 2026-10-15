@@ -41,7 +41,7 @@
       %}
       <button
         type="button"
-        class="variant-button rounded-lg px-2 pt-4 pb-3 bg-white border-2 border-solid cursor-pointer font-['Figtree'] relative {% if variant.id == selected_variant.id %}border-green-700{% else %}border-gray-200{% endif %}"
+        class="variant-button rounded-lg px-2 pt-4 pb-3 bg-white border-2 border-solid cursor-pointer font-['Figtree'] relative {% if variant.id == selected_variant.id %}mgx-selected{% else %}border-gray-200{% endif %}"
         data-variant-id="{{ variant.id }}"
         data-variant-ml="{{ variant_ml }}"
         data-variant-title="{{ variant.title }}"
@@ -50,10 +50,10 @@
         data-compare-price="{{ variant.compare_at_price | money }}">
         <div class="text-sm font-semibold">{{ variant.title }}</div>
         {% if variant.title contains '50' %}
-          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#c8202f] px-2 py-0.5 whitespace-nowrap">Most Popular</span>
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] mgx-badge-amber px-2 py-0.5 whitespace-nowrap">Most Popular</span>
         {% endif %}
         {% if variant.title contains '100' %}
-          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] bg-[#22613a] px-2 py-0.5 whitespace-nowrap">Best value</span>
+          <span class="text-xs italic text-white rounded absolute -top-2.5 left-1/2 [transform:translateX(-50%)] mgx-badge-amber px-2 py-0.5 whitespace-nowrap">Best value</span>
         {% endif %}
         {% if variant_ml > 0 %}
           <div class="text-xs text-gray-500 price-per-ml">{{ price_per_ml | money }} / ml</div>
@@ -95,7 +95,7 @@
       type="submit"
       name="add"
       value="1"
-      class="atc-button shimmer-btn cta_product_from_submit_btn flex gap-2 flex-wrap items-center !mb-0 !py-4 !px-3 rounded-lg button bg-[#22613a] hover:bg-[#368856] transition-colors shadow-xl tracking-normal button--full-width button--primary"
+      class="atc-button shimmer-btn cta_product_from_submit_btn flex gap-2 flex-wrap items-center !mb-0 !py-4 !px-3 rounded-lg button mgx-btn-primary transition-colors shadow-xl tracking-normal button--full-width button--primary"
       aria-label="{{ 'products.product.add_to_cart' | t }}"
       {% if product.metafields.custom.bundle_product_count != blank %}
       disabled="disabled"
@@ -103,7 +103,7 @@
       <span class="text-[20px] md:text-[24px]">{{ 'products.product.add_to_cart' | t }}</span>
       <div class="flex items-center">
         <div
-          class="inline-block text-base md:text-lg bg-[#1E5834] px-3 rounded"
+          class="inline-block text-base md:text-lg mgx-price-pill px-3 rounded"
           id="product-price"
           role="status"
           {{ block.shopify_attributes }}>
@@ -202,10 +202,10 @@
       // Update button styles
       variantButtons.forEach(button => {
         if (button.dataset.variantId === variantId) {
-          button.classList.add('border-green-700');
+          button.classList.add('mgx-selected');
           button.classList.remove('border-gray-200');
         } else {
-          button.classList.remove('border-green-700');
+          button.classList.remove('mgx-selected');
           button.classList.add('border-gray-200');
         }
       });

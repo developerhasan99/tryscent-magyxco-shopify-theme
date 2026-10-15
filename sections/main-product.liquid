@@ -113,14 +113,14 @@
                     {% assign intensity = product.metafields.custom.scent_intensity.value | times: 1 %}
                     <div class="flex gap-[5px] items-center justify-center ml-1">
                         {% for i in (1..3) %}
-                          <div class="w-[8px] h-[8px] rounded-full {% if i <= intensity %}bg-[#22613A]{% else %}bg-gray-300{% endif %} !inline-block"></div>
+                          <div class="w-[8px] h-[8px] rounded-full {% if i <= intensity %}mgx-dot{% else %}bg-gray-300{% endif %} !inline-block"></div>
                         {% endfor %}
                     </div>
                   </div>
                 {% endif %}
               {% when 'made_in_the_eu' %}
                 <div {{ block.shopify_attributes }}>
-                  <div class="inline-flex items-center gap-2 px-2 py-1 rounded-full bg-blue-100 font-semibold">
+                  <div class="inline-flex items-center gap-2 px-2 py-1 rounded-full mgx-bg-silver-tint font-semibold">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg" alt="🇪🇺" height="20" width="20" class="object-cover size-5 rounded-full"> <span>Made in the EU</span>
                   </div>
                 </div>
@@ -153,27 +153,27 @@
                     <h3 class="!mb-3"><strong>Strength</strong> (Choose Concentration)</h3>
                     <div class="flex gap-3">
                       {%  if product.tags contains '25_edp' %}
-                        <a href="{{ alternate_product.url }}" class="flex-1 border-2 border-solid border-gray-100 hover:border-green-600 rounded-xl p-3 pt-4 bg-white no-underline transition-all">
-                          <h3 class="my-0 text-green-700 font-bold text-xl">18% EDP</h3>
+                        <a href="{{ alternate_product.url }}" class="flex-1 border-2 border-solid border-gray-100 mgx-hover-selected rounded-xl p-3 pt-4 bg-white no-underline transition-all">
+                          <h3 class="my-0 mgx-text font-bold text-xl">18% EDP</h3>
                           <p class="my-0 text-gray-700 text-sm">4–8 hours longevity</p>
                         </a>
-                        <div class="flex-1 border-2 border-solid border-amber-600 rounded-xl p-3 pt-4 bg-amber-50 relative">
-                          <span class="absolute top-0 right-0 bg-amber-600 text-white text-xs font-semibold px-3 py-[2px] uppercase rounded-tr-lg rounded-bl-lg">
+                        <div class="flex-1 border-2 border-solid mgx-selected rounded-xl p-3 pt-4 mgx-bg-silver-tint relative">
+                          <span class="absolute top-0 right-0 mgx-badge-amber text-xs font-semibold px-3 py-[2px] uppercase rounded-tr-lg rounded-bl-lg">
                             Best Value
                           </span>
-                          <h3 class="my-0 text-amber-700 font-bold text-xl">25% EDP</h3>
+                          <h3 class="my-0 mgx-text font-bold text-xl">25% EDP</h3>
                           <p class="my-0 text-gray-700 text-sm">12+ hours longevity</p>
                         </div>
                       {%  else %} 
-                        <div class="flex-1 border-2 border-solid border-green-600 cursor-not-allowed rounded-xl p-3 pt-4 bg-white no-underline">
-                          <h3 class="my-0 text-green-700 font-bold text-xl">18% EDP</h3>
+                        <div class="flex-1 border-2 border-solid mgx-selected cursor-not-allowed rounded-xl p-3 pt-4 bg-white no-underline">
+                          <h3 class="my-0 mgx-text font-bold text-xl">18% EDP</h3>
                           <p class="my-0 text-gray-700 text-sm">4–8 hours longevity</p>
                         </div>
-                        <a href="{{ alternate_product.url }}" class="flex-1 border-2 border-solid border-gray-100 hover:border-amber-600 rounded-xl p-3 pt-4 bg-amber-50 relative no-underline transition-all">
-                          <span class="absolute top-0 right-0 bg-amber-600 text-white text-xs font-semibold px-3 py-[2px] uppercase rounded-tr-lg rounded-bl-lg">
+                        <a href="{{ alternate_product.url }}" class="flex-1 border-2 border-solid border-gray-100 mgx-hover-selected rounded-xl p-3 pt-4 mgx-bg-silver-tint relative no-underline transition-all">
+                          <span class="absolute top-0 right-0 mgx-badge-amber text-xs font-semibold px-3 py-[2px] uppercase rounded-tr-lg rounded-bl-lg">
                             Best Value
                           </span>
-                          <h3 class="my-0 text-amber-700 font-bold text-xl">25% EDP</h3>
+                          <h3 class="my-0 mgx-text font-bold text-xl">25% EDP</h3>
                           <p class="my-0 text-gray-700 text-sm">12+ hours longevity</p>
                         </a>
                       {% endif %}
@@ -204,7 +204,7 @@
                       {% if product.compare_at_price > product.price %}
                         {% assign discount = product.compare_at_price | minus: product.price %}
                         {% assign discount_percent = discount | times: 100 | divided_by: product.compare_at_price | round %}
-                        <span class="bg-red-600 text-white font-bold px-2 text-xs md:text-base">
+                        <span class="mgx-badge-amber font-bold px-2 text-xs md:text-base">
                           -{{ discount_percent }}%
                         </span>
                       {% endif %}
@@ -213,7 +213,7 @@
                     <div class="text-lg font-semibold text-black leading-normal">
                       {{ 'bundle.price_per_bottle' | t: price: price_per_bottle }}
                     </div>
-                    <div class="inline-flex items-center gap-1 mt-2 bg-[#F2F8F4] text-[#22613A] font-bold text-sm rounded-full py-1 px-2 border border-solid border-[#cfe6d8]"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"></path></svg>You save 670 kr today</div>
+                    <div class="inline-flex items-center gap-1 mt-2 mgx-badge-amber-soft font-bold text-sm rounded-full py-1 px-2 border border-solid mgx-border-amber"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"></path></svg>You save 670 kr today</div>
                   </div>
                 {% endif %}
               {%- when 'mobile_gallery' -%}
@@ -271,8 +271,8 @@
                 </div>
               {% when 'tsr_block' %}
                 {% if block.settings.product != blank %}
-                  <a href="{{ block.settings.product.url }}" class="!mb-6 flex items-stretch overflow-hidden rounded-xl border-2 border-[#cc303d] border-solid bg-white text-inherit no-underline shadow-[0_1px_2px_rgba(17,24,39,0.06)] transition-shadow hover:shadow-[0_2px_10px_rgba(17,24,39,0.08)]">
-                    <div class="flex w-[46%] max-w-[260px] shrink-0 items-center bg-[#f2ede7]">
+                  <a href="{{ block.settings.product.url }}" class="!mb-6 flex items-stretch overflow-hidden rounded-xl border-2 mgx-border border-solid bg-white text-inherit no-underline shadow-[0_1px_2px_rgba(17,24,39,0.06)] transition-shadow hover:shadow-[0_2px_10px_rgba(17,24,39,0.08)]">
+                    <div class="flex w-[46%] max-w-[260px] shrink-0 items-center bg-white">
                       {%- liquid
                         assign tsr_localized_image_found = false
                         assign tsr_currency_alt = localization.country.iso_code | prepend: 'bundle_' | downcase
@@ -305,7 +305,7 @@
                       {% if block.settings.product.compare_at_price > block.settings.product.price %}
                         {% assign discount = block.settings.product.compare_at_price | minus: block.settings.product.price %}
                         {% assign discount_percent = discount | times: 100 | divided_by: block.settings.product.compare_at_price | round %}
-                        <span class="inline-block self-start rounded-full bg-green-100 text-green-700 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide">
+                        <span class="inline-block self-start rounded-full mgx-badge-amber-soft px-2 py-0.5 text-xs font-semibold uppercase tracking-wide">
                           {{ 'bundle.tsr_offer_save' | t: percent: discount_percent }}
                         </span>
                       {% endif %}
@@ -327,7 +327,7 @@
               {%- when 'selling_fast' -%}
                 {% render 'selling-fast', block: block %}
               {% when 'people_purchased' %}
-                <div class="grid grid-cols-3 items-center gap-4 bg-[#f0f2ec] p-6 rounded">
+                <div class="grid grid-cols-3 items-center gap-4 mgx-bg-silver-tint p-6 rounded">
                   <div class="col-span-1 flex">
                     <img class="w-full h-auto" src="https://cdn.shopify.com/s/files/1/0086/7932/5753/files/people-images.png?v=1756736550" alt="" height="" width="">
                   </div>
@@ -370,12 +370,12 @@
                         {%- if product.compare_at_price > product.price -%}
                           {%- assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
                         {%- endif -%}
-                        <span class="inline-block bg-red-600 text-white text-sm font-bold px-3 py-1">
+                        <span class="inline-block mgx-badge-amber text-sm font-bold px-3 py-1">
                           {{ discount_percent }}% Off
                         </span>
                       {% endif %}
                       {% if product.tags contains 'bestseller' %}
-                        <span class="inline-block bg-[#22613A] text-white text-sm font-bold px-3 py-1">
+                        <span class="inline-block mgx-badge-amber text-sm font-bold px-3 py-1">
                           Best Seller
                         </span>
                       {% endif %}
@@ -385,7 +385,7 @@
                         </span>
                       {% endif %}
                       {% if product.template_suffix == 'expressive-notes' %}
-                        <span class="inline-flex items-center px-3 py-1 rounded-md border border-solid border-[#3b82f6] text-[#3b82f6] text-sm font-medium bg-white">
+                        <span class="inline-flex items-center px-3 py-1 rounded-md border border-solid mgx-border-black mgx-text text-sm font-medium bg-white">
                         {% if product.tags contains 'Woman' or product.tags contains 'fuer-frauen' %}
                          Women
                         {% else %}

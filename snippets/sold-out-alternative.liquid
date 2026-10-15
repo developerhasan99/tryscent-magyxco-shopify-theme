@@ -33,7 +33,7 @@
   @media (min-width: 750px) { .soa-notice__title { font-size: 19px; } }
 
   .soa-card { margin-top: 16px; border: 2px solid #e5e7eb; border-radius: 12px; overflow: hidden; background: #fff; }
-  .soa-card__header { background: #22613a; color: #fff; font-weight: 600; padding: 8px 16px; }
+  .soa-card__header { background: var(--mgx-black); color: #fff; font-weight: 600; padding: 8px 16px; }
   .soa-card__body { padding: 16px; }
   .soa-product { display: flex; align-items: center; gap: 16px; color: #000; text-decoration: none; }
   .soa-product__img { width: 80px; height: 80px; object-fit: contain; flex-shrink: 0; }
@@ -47,16 +47,16 @@
   .soa-sizes__hint { font-size: 12px; font-style: italic; color: #6b7280; }
   .soa-sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 12px; }
   .soa-tile { position: relative; text-align: center; border-radius: 8px; padding: 16px 8px 12px; background: #fff; border: 2px solid #e5e7eb; cursor: pointer; font-family: 'Figtree', var(--font-body-family); }
-  .soa-tile:has(:checked) { border-color: #944234; }
-  .soa-tile:has(:focus-visible) { outline: 2px solid #944234; outline-offset: 2px; }
+  .soa-tile:has(:checked) { border-color: var(--mgx-black); }
+  .soa-tile:has(:focus-visible) { outline: 2px solid var(--mgx-black); outline-offset: 2px; }
   .soa-tile__title { font-size: 14px; font-weight: 600; }
   .soa-tile__ml { font-size: 12px; color: #6b7280; }
   .soa-tile__badge { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); font-size: 12px; font-style: italic; color: #fff; border-radius: 4px; padding: 2px 8px; white-space: nowrap; }
 
-  .soa-card .soa-atc { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; margin-bottom: 0; padding: 16px 12px; border-radius: 8px; background: #22613a; color: #fff; letter-spacing: normal; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); transition: background-color 0.15s; }
-  .soa-card .soa-atc:hover { background: #368856; }
+  .soa-card .soa-atc { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; margin-bottom: 0; padding: 16px 12px; border-radius: 8px; background: var(--mgx-black); color: #fff; letter-spacing: normal; box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); transition: background-color 0.15s; }
+  .soa-card .soa-atc:hover { background: var(--mgx-graphite); }
   .soa-atc__label { font-size: 20px; }
-  .soa-atc__price { background: #1e5834; padding: 0 12px; border-radius: 4px; font-size: 16px; }
+  .soa-atc__price { background: var(--mgx-graphite); padding: 0 12px; border-radius: 4px; font-size: 16px; }
   .soa-atc__compare { text-decoration: line-through; color: rgb(255 255 255 / 0.5); font-size: 14px; }
   @media (min-width: 768px) {
     .soa-sizes__title { font-size: 16px; }
@@ -118,9 +118,9 @@
                     <div class="soa-tile__ml">{{ variant.price | times: 1.0 | divided_by: variant_ml | money }} / ml</div>
                   {% endif %}
                   {% if variant.title contains '50' %}
-                    <span class="soa-tile__badge" style="background: #c8202f">Popular</span>
+                    <span class="soa-tile__badge" style="background: var(--mgx-amber)">Popular</span>
                   {% elsif variant.title contains '100' %}
-                    <span class="soa-tile__badge" style="background: #944234">Bestseller</span>
+                    <span class="soa-tile__badge" style="background: var(--mgx-amber)">Bestseller</span>
                   {% endif %}
                 </label>
               {% endfor %}

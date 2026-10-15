@@ -50,7 +50,7 @@
           d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
       </svg>
       <span>
-        <a href="{{ next_bundle_product.url }}" class="ml-auto font-medium text-[#22613A] whitespace-nowrap transition-colors">
+        <a href="{{ next_bundle_product.url }}" class="ml-auto font-medium mgx-text-accent whitespace-nowrap transition-colors">
           {{ 'bundle.upgrade_cta' | t: size: next_size, price: price_difference }}</a>
       </span>
     </div>
@@ -64,9 +64,9 @@
         {% unless product.tags contains 'fixed_bundle' %}
           @click="$store.bundleBuilder.showModal = true"
         {% endunless %}
-        class="bg-white border-2 border-solid border-gray-200 flex items-center p-[7px] rounded-xl gap-2 cursor-pointer relative transition duration-300 hover:border-[#22613A]"
-        :class="{ '!border-[#22613A]' : typeof $store.bundleBuilder.selectedProducts[index - 1] !== 'undefined'}">
-        <div x-text="index" class="bg-[#22613A] size-6 rounded-lg text-white font-bold text-xs flex items-center justify-center shrink-0"></div>
+        class="bg-white border-2 border-solid border-gray-200 flex items-center p-[7px] rounded-xl gap-2 cursor-pointer relative transition duration-300 mgx-hover-selected"
+        :class="{ 'mgx-selected-strong' : typeof $store.bundleBuilder.selectedProducts[index - 1] !== 'undefined'}">
+        <div x-text="index" class="mgx-bg-black size-6 rounded-lg text-white font-bold text-xs flex items-center justify-center shrink-0"></div>
         <div x-show="!$store.bundleBuilder.selectedProducts[index - 1]" class="flex gap-2 items-center flex-grow">
             {% render 'perfume-icon'
             , size: 40 %}
@@ -103,9 +103,9 @@
     :disabled="$store.bundleBuilder.selectedProducts.length < {{ product_count }} || $store.bundleBuilder.addingToCart"
     :class="{
         'opacity-50 cursor-not-allowed': $store.bundleBuilder.selectedProducts.length < {{ product_count }},
-        'cursor-pointer hover:bg-[#368856]': $store.bundleBuilder.selectedProducts.length >= {{ product_count }}
+        'cursor-pointer': $store.bundleBuilder.selectedProducts.length >= {{ product_count }}
       }"
-    class="w-full flex gap-2 flex-wrap items-center !mb-0 text-lg font-bold !py-3 !px-2 rounded-full button bg-[#22613a] transition-colors shadow-xl tracking-normal button--full-width"
+    class="w-full flex gap-2 flex-wrap items-center !mb-0 text-lg font-bold !py-3 !px-2 rounded-full button mgx-btn-primary transition-colors shadow-xl tracking-normal button--full-width"
   >
     <span x-show="$store.bundleBuilder.selectedProducts.length < {{ product_count }}" x-text='{{ "bundle.select_more" | t: count: "__count__" | json }}.replace("__count__", {{ product_count }} - $store.bundleBuilder.selectedProducts.length)'></span>
     <span x-show="$store.bundleBuilder.selectedProducts.length === {{ product_count }}">{{ 'bundle.shop_now' | t }}</span>

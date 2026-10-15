@@ -36,7 +36,7 @@
     {% endunless %}
     <span class="ab-current-price">{{ product.price | money }}</span>
     {% if product.tags contains 'onsale' %}
-      <span class="line-through text-[#c8202f] font-normal">
+      <span class="line-through mgx-text-muted font-normal">
         {{ cart.currency.symbol }}{{ product.compare_at_price | money_without_currency }}</span>
     {% endif %}
   </div>

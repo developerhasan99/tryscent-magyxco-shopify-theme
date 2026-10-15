@@ -40,7 +40,7 @@
           {% endfor %}
           <div class="swiper-slide max-w-[250px]">
             <div class="block no-underline text-inherit bg-white p-3 rounded-lg border border-solid border-gray-200">
-              <a href="{{ product.url }}" class="aspect-square flex rounded-lg overflow-hidden bg-[#FAF8F3] mb-3 relative">
+              <a href="{{ product.url }}" class="aspect-square flex rounded-lg overflow-hidden bg-white mb-3 relative">
                 {% if false %}
                   <div class="absolute z-50 bg-[#226139] font-medium text-xs tracking-normal text-white px-2 py-1 leading-none top-0 left-0 text-center">{{ product.metafields.custom.custom_label }}</div>
                 {% endif %}
@@ -83,7 +83,7 @@
                     type="submit"
                     name="add"
                     value="1"
-                    class="shimmer-btn p-3 rounded-lg hover:bg-[#17803d] bg-[#146b32] transition-colors shadow-xl tracking-normal border-0 text-white w-full button leading-snug !px-2 text-sm md:text-base"
+                    class="shimmer-btn p-3 rounded-lg mgx-btn-primary transition-colors shadow-xl tracking-normal border-0 w-full button leading-snug !px-2 text-sm md:text-base"
                     aria-label="Add to cart">
                     <span>{{ 'products.product.add_to_cart' | t }}</span>
                     {%- render 'loading-spinner' -%}

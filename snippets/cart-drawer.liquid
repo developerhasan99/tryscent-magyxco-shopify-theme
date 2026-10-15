@@ -476,7 +476,7 @@
             <div class="totals flex-wrap gap-4 !mb-2" role="status">
               <h2 class="discount_text">Discount:</h2>
               <p class="discount_value">
-                <span class="text-green-700 text-sm font-semibold">-{{ cart.original_total_price | minus: cart.total_price | money_with_currency }}</span>
+                <span class="mgx-text-accent text-sm font-semibold">-{{ cart.original_total_price | minus: cart.total_price | money_with_currency }}</span>
               </p>
             </div>
           {% endif %}
@@ -492,7 +492,7 @@
             <button
               type="submit"
               id="CartDrawer-Checkout"
-              class="cart__checkout-button button rounded bg-[#226139] font-bold text-lg tracking-wider shadow"
+              class="cart__checkout-button button rounded mgx-btn-primary font-bold text-lg tracking-wider shadow"
               name="checkout"
               form="CartDrawer-Form"
               {% if cart == empty %}

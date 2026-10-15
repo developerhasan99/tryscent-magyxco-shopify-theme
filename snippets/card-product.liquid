@@ -115,7 +115,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
         style="--ratio-percent: {{ 1 | divided_by: ratio | times: 100 }}%;"
       >
         {% if card_product.tags contains '25_edp' %}
-          <div class="absolute z-50 bg-[#b72f33] font-medium text-xs tracking-normal md:text-base text-white px-2 py-1 leading-none top-0 left-0 text-center">25% EDP</div>
+          <div class="absolute z-50 mgx-badge-amber font-medium text-xs tracking-normal md:text-base px-2 py-1 leading-none top-0 left-0 text-center">25% EDP</div>
         {% endif %}
         {% if false %}
           <div class="absolute z-50 bg-[#226139] font-medium text-xs tracking-normal text-white px-2 py-1 leading-none top-0 left-0 text-center">{{ card_product.metafields.custom.custom_label }}</div>
@@ -231,7 +231,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
           {% if card_product.tags contains 'onsale' or show_rating and card_product.metafields.reviews.rating.value != blank %}
             <div class="flex items-center flex-wrap gap-x-2 gap-y-1 pt-4">
               {% if card_product.tags contains 'onsale' %}
-                <div class="text-green-600 text-xs font-semibold bg-green-600/10 px-2 py-1 rounded inline-block">
+                <div class="mgx-badge-amber-soft text-xs font-semibold px-2 py-1 rounded inline-block">
                   Sale
                 </div>
               {% endif %}
@@ -322,7 +322,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                 {% endunless %}
                 <span class="ab-current-price">{{ card_product.price | money }}</span>
                 {% if card_product.tags contains 'onsale' %}
-                  <span class="line-through text-[#c8202f] font-normal">
+                  <span class="line-through mgx-text-muted font-normal">
                     {{ cart.currency.symbol }}{{ card_product.compare_at_price | money_without_currency }}
                   </span>
                 {% endif %}
@@ -331,7 +331,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
               {% if card_product.compare_at_price > card_product.price %}
                 {% assign discount_percent = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round %}
               {% endif %}
-              <span class="inline-block bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+              <span class="inline-block mgx-badge-amber text-xs font-bold px-2 py-1 rounded-full">
                 {{ discount_percent }}% <span class="discount_off_text">Av</span>
               </span>
             {% endif %}
@@ -437,7 +437,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
                     id="{{ product_form_id }}-submit"
                     type="submit"
                     name="add"
-                    class="quick-add__submit button button--full-width button--primary{% if horizontal_quick_add %} card--horizontal__quick-add animate-arrow{% endif %} shimmer-btn p-3 rounded-lg hover:bg-[#17803d] bg-[#146b32] transition-colors shadow-xl tracking-normal border-0 text-white w-full button leading-snug !px-2 text-sm md:text-base"
+                    class="quick-add__submit button button--full-width button--primary{% if horizontal_quick_add %} card--horizontal__quick-add animate-arrow{% endif %} shimmer-btn p-3 rounded-lg mgx-btn-primary transition-colors shadow-xl tracking-normal border-0 text-white w-full button leading-snug !px-2 text-sm md:text-base"
                     aria-haspopup="dialog"
                     aria-labelledby="{{ product_form_id }}-submit title-{{ section_id }}-{{ card_product.id }}"
                     data-product-url="{{ card_product.url }}?view=quick-add"

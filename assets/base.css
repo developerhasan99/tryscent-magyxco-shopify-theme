@@ -2950,16 +2950,16 @@ details-disclosure > details {
 }
 
 .tabs-cta-ripple-animation {
-  box-shadow: 0px 0px 0px 0px #137c44;
+  box-shadow: 0px 0px 0px 0px rgba(var(--mgx-black-rgb), 1);
   animation: ripple infinite 1s;
 }
 .steps-ripple-animation {
-  box-shadow: 0px 0px 0px 0px #ffc002;
+  box-shadow: 0px 0px 0px 0px rgba(var(--mgx-amber-rgb), 1);
   animation: steps-ripple infinite 1s;
 }
 @keyframes steps-ripple {
   100% {
-    box-shadow: 0px 0px 0px 10px #ffc00257;
+    box-shadow: 0px 0px 0px 10px rgba(var(--mgx-amber-rgb), 0.34);
   }
 }
 

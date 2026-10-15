@@ -181,6 +181,43 @@
   color: var(--mgx-graphite);
 }
 
+/* ---------- magyx.co additions ---------- */
+.mgx-border-amber {
+  border-color: var(--mgx-amber);
+}
+.mgx-bg-amber-tint {
+  background-color: rgba(var(--mgx-amber-rgb), 0.08);
+}
+.mgx-bg-silver-tint {
+  background-color: rgba(var(--mgx-silver-rgb), 0.3);
+}
+.mgx-bg-graphite {
+  background-color: var(--mgx-graphite);
+  color: var(--mgx-white);
+}
+.mgx-text-silver {
+  color: var(--mgx-silver);
+}
+.mgx-text-graphite {
+  color: var(--mgx-graphite);
+}
+.mgx-hover-selected:hover,
+.mgx-focus-selected:focus,
+.mgx-focus-selected:focus-visible {
+  border-color: var(--mgx-selected);
+}
+.mgx-hover-text:hover {
+  color: var(--mgx-black);
+}
+/* doubled class: replaces `!border-[...]` overrides without !important */
+.mgx-selected-strong.mgx-selected-strong {
+  border-color: var(--mgx-selected);
+}
+/* swiper thumbnails: active thumb border */
+.mgx-thumbs > .swiper-slide-thumb-active {
+  border-color: var(--mgx-selected);
+}
+
 /* ---------- collection hero fade (replaces cream gradients) ---------- */
 .mgx-hero-fade {
   background: linear-gradient(
