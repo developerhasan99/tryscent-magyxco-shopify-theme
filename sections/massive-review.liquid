@@ -74,7 +74,7 @@
   style="background-color: {{ section.settings.background_color }}">
   <div class="page-width">
     <div class="flex items-center justify-between mb-6">
-      <h2 class="text-xl md:text-2xl font-bold text-slate-900 my-0">{{ section.settings.heading }}</h2>
+      <h2 class="text-xl md:text-2xl font-bold mgx-text my-0">{{ section.settings.heading }}</h2>
       <div class="flex flex-wrap justify-end text-right items-center gap-2">
         <img
           src="{{ 'rating-stars.svg' |  asset_url }}"
@@ -112,7 +112,7 @@
                 {% endif %}
 
                 <div class="flex flex-col gap-1">
-                  <p class="text-base font-bold text-slate-900 my-0">{{ block.settings.author | default: "Alex Thompson" }}</p>
+                  <p class="text-base font-bold mgx-text my-0">{{ block.settings.author | default: "Alex Thompson" }}</p>
                   {% if block.settings.show_verified_badge %}
                     <div class="flex items-center gap-1 text-xs mgx-text-graphite font-medium">
                       <img
@@ -157,7 +157,7 @@
                     height="32">
 
                   <div class="flex flex-col">
-                    <p class="text-sm font-bold text-slate-900 my-0 line-clamp-2 md:line-clamp-1">{{ block.settings.product.title }}</p>
+                    <p class="text-sm font-bold mgx-text my-0 line-clamp-2 md:line-clamp-1">{{ block.settings.product.title }}</p>
                     <div class="text-xs [display:none] md:block">Inspired by {{ block.settings.product.metafields.custom.inspiration.value.name }}</div>
                   </div>
                 </a>
@@ -171,7 +171,7 @@
     <div id="reviews-container-{{ section.id }}" class="masonry-grid masonry-container"></div>
 
     <div id="load-more-container-{{ section.id }}" class="mt-12 text-center {% if section.blocks.size <= 20 %}hidden{% endif %}">
-      <button id="load-more-btn-{{ section.id }}" class="px-5 py-2 border border-solid border-gray-400 rounded-lg text-slate-900 font-bold text-sm uppercase tracking-wide bg-white hover:bg-slate-900 hover:text-white transition-colors cursor-pointer">
+      <button id="load-more-btn-{{ section.id }}" class="px-5 py-2 border border-solid rounded-lg mgx-btn-outline font-bold text-sm uppercase tracking-wide transition-colors cursor-pointer">
         View more reviews
       </button>
       <div id="loading-spinner-{{ section.id }}" class="hidden flex items-center justify-center gap-2 mt-4">

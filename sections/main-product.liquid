@@ -263,7 +263,7 @@
                       class="w-10 h-10 flex-shrink-0"
                       width="40"
                       height="40" />
-                    <div class="text-slate-900">
+                    <div class="mgx-text">
                       <strong class="font-semibold">{{ block.settings.title }}</strong>
                       <span class="block">{{ block.settings.text }}</span>
                     </div>
@@ -309,12 +309,12 @@
                           {{ 'bundle.tsr_offer_save' | t: percent: discount_percent }}
                         </span>
                       {% endif %}
-                      <h3 class="mt-2 mb-1 tracking-normal font-semibold leading-snug text-slate-900 text-sm sm:text-base md:text-lg">
+                      <h3 class="mt-2 mb-1 tracking-normal font-semibold leading-snug mgx-text text-sm sm:text-base md:text-lg">
                         {{ 'bundle.tsr_offer_heading' | t }}
                       </h3>
                       <p class="m-0 tracking-normal text-slate-600 text-sm md:text-base">
                         {{ 'bundle.tsr_offer_price_prefix' | t }}
-                        <strong class="text-slate-900">{{ block.settings.product.price | divided_by: block.settings.product.metafields.custom.bundle_product_count | money }}</strong>
+                        <strong class="mgx-text">{{ block.settings.product.price | divided_by: block.settings.product.metafields.custom.bundle_product_count | money }}</strong>
                         {{ 'bundle.tsr_offer_price_suffix' | t }}
                       </p>
                     </div>
