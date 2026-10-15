@@ -40,6 +40,10 @@
   background-color: var(--mgx-cta-hover);
   color: var(--mgx-cta-text);
 }
+.mgx-btn-primary:disabled:hover,
+.mgx-btn-primary[aria-disabled='true']:hover {
+  background-color: var(--mgx-cta);
+}
 .mgx-btn-3d {
   border: 1px solid var(--mgx-graphite);
   box-shadow: 0 4px 0 var(--mgx-graphite), 0 10px 24px rgba(var(--mgx-black-rgb), 0.25);
