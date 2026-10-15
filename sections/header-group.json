@@ -101,10 +101,13 @@
       ],
       "name": "Offer Timebar",
       "settings": {
+        "enable_top_bar": true,
+        "enable_timer": true,
+        "enable_badges": true,
         "primary_color": "#100f0d",
         "secondary_color": "#ffffff",
         "top_banner_text": "",
-        "prepend_text": "Buy 1 Get 1 Free 🎁",
+        "prepend_text": "Buy 2 Get 1 Free 🎁",
         "countdown_date": "",
         "append_text": "Shop Now",
         "link": "shopify://collections/best-sellers"
