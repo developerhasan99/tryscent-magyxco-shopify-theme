@@ -9,6 +9,63 @@
  */
 {
   "sections": {
+    "collection_stories_yhzcjq": {
+      "type": "collection-stories",
+      "blocks": {
+        "collection_w7FbzD": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Men",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        },
+        "collection_MDtct7": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Women",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        },
+        "collection_xxWmDm": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "Bestsellers",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        },
+        "collection_N7xgY9": {
+          "type": "collection",
+          "settings": {
+            "collection": "",
+            "title": "New",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        }
+      },
+      "block_order": [
+        "collection_w7FbzD",
+        "collection_MDtct7",
+        "collection_xxWmDm",
+        "collection_N7xgY9"
+      ],
+      "name": "Story circles",
+      "settings": {
+        "aria_label": "Shop by category",
+        "ring_color_1": "#fdf497",
+        "ring_color_2": "#fd5949",
+        "ring_color_3": "#d6249f",
+        "ring_color_4": "#285aeb",
+        "padding_top": 4,
+        "padding_bottom": 2
+      }
+    },
     "homepage_hero_GDeBtq": {
       "type": "homepage-hero",
       "name": "Homepage Hero",
@@ -177,7 +234,7 @@
       "settings": {
         "heading": "A scent for every side of you",
         "subheading": "Pick a scent family and discover scents that match.",
-        "background_color": "#F5F5F5",
+        "background_color": "#f5f5f5",
         "products_per_tab": 4,
         "card_button_text": "View scent",
         "inspired_label": "Inspired by:",
@@ -932,6 +989,7 @@
     }
   },
   "order": [
+    "collection_stories_yhzcjq",
     "homepage_hero_GDeBtq",
     "marquee_labels_RLdqpN",
     "feature_highlights_wfUacV",

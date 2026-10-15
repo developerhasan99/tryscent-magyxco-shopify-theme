@@ -9,6 +9,63 @@
  */
 {
   "sections": {
+    "collection_stories_UpDe9c": {
+      "type": "collection-stories",
+      "blocks": {
+        "collection_dymT7i": {
+          "type": "collection",
+          "settings": {
+            "collection": "for-men",
+            "title": "Men",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        },
+        "collection_eBqT98": {
+          "type": "collection",
+          "settings": {
+            "collection": "for-women",
+            "title": "Women",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        },
+        "collection_hicydP": {
+          "type": "collection",
+          "settings": {
+            "collection": "best-sellers",
+            "title": "Bestsellers",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        },
+        "collection_xB8kGd": {
+          "type": "collection",
+          "settings": {
+            "collection": "new-scents",
+            "title": "New",
+            "ring_style": "gradient",
+            "ring_color": "#56c70f"
+          }
+        }
+      },
+      "block_order": [
+        "collection_dymT7i",
+        "collection_eBqT98",
+        "collection_hicydP",
+        "collection_xB8kGd"
+      ],
+      "name": "Story circles",
+      "settings": {
+        "aria_label": "Shop by category",
+        "ring_color_1": "#fdf497",
+        "ring_color_2": "#fd5949",
+        "ring_color_3": "#d6249f",
+        "ring_color_4": "#285aeb",
+        "padding_top": 4,
+        "padding_bottom": 2
+      }
+    },
     "collection_hero_P7jePR": {
       "type": "collection-hero",
       "name": "Collection Hero",
@@ -62,6 +119,7 @@
       "settings": {
         "target_collection": "",
         "bundle_product": "",
+        "discount_code": "DOFTPAKET",
         "grid_collection": "",
         "heading": "Build your own Pick & Save",
         "subheading": "3 × 100 ml perfumes – get the 4th completely free",
@@ -97,7 +155,6 @@
           "type": "story",
           "settings": {
             "title": "LV",
-            "image": "shopify://shop_images/new-arribals.png",
             "link": "shopify://collections/louis-vuitton®"
           }
         },
@@ -105,7 +162,6 @@
           "type": "story",
           "settings": {
             "title": "Dior",
-            "image": "shopify://shop_images/dior.avif",
             "link": "shopify://collections/dior®"
           }
         },
@@ -113,7 +169,6 @@
           "type": "story",
           "settings": {
             "title": "Tom Ford",
-            "image": "shopify://shop_images/Tom_ford.avif",
             "link": "shopify://collections/tomford®"
           }
         },
@@ -121,7 +176,6 @@
           "type": "story",
           "settings": {
             "title": "Baccarat",
-            "image": "shopify://shop_images/Baccarat_Rouge.png",
             "link": "shopify://collections/baccarat-rouge®"
           }
         },
@@ -129,7 +183,6 @@
           "type": "story",
           "settings": {
             "title": "Creed",
-            "image": "shopify://shop_images/Creed.png",
             "link": "shopify://collections/creed®"
           }
         },
@@ -138,7 +191,6 @@
           "disabled": true,
           "settings": {
             "title": "Xerjoff",
-            "image": "shopify://shop_images/xerjoff.avif",
             "link": ""
           }
         }
@@ -195,7 +247,6 @@
           "settings": {
             "position": 3,
             "heading": "Find Your Perfect Scent In 2 Minutes",
-            "image": "shopify://shop_images/ugc-bg.webp",
             "url": "/#quiz",
             "button_text": "Take our quiz"
           }
@@ -220,6 +271,12 @@
         "filter_type": "horizontal",
         "enable_sorting": true,
         "enable_search": true,
+        "search_placeholder": "Search by brand, scent or number",
+        "search_results_text": "[count] results for “[query]”",
+        "search_result_text": "1 result for “[query]”",
+        "search_empty_text": "No match for “[query]”. Try the brand or the name of the original.",
+        "search_loading_text": "Searching all scents…",
+        "search_clear_label": "Clear search",
         "padding_top": 36,
         "padding_bottom": 40
       }
@@ -253,6 +310,7 @@
     }
   },
   "order": [
+    "collection_stories_UpDe9c",
     "collection_hero_P7jePR",
     "fuel01_byo",
     "insta_story_6kD6Ki",
