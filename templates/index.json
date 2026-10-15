@@ -131,8 +131,63 @@
         "padding_bottom": 0
       }
     },
+    "home_tabs_CAkgLN": {
+      "type": "home-tabs",
+      "blocks": {
+        "tab_NJfWRM": {
+          "type": "tab",
+          "settings": {
+            "title": "🔥 Bestsellers",
+            "collection": "best-sellers",
+            "button_text": "View all"
+          }
+        },
+        "tab_8idQpW": {
+          "type": "tab",
+          "settings": {
+            "title": "New scents",
+            "collection": "new-scents",
+            "button_text": "View all"
+          }
+        },
+        "tab_AChTBq": {
+          "type": "tab",
+          "settings": {
+            "title": "Women",
+            "collection": "for-women",
+            "button_text": "View all"
+          }
+        },
+        "tab_TfTF3a": {
+          "type": "tab",
+          "settings": {
+            "title": "Men",
+            "collection": "for-men",
+            "button_text": "View all"
+          }
+        }
+      },
+      "block_order": [
+        "tab_NJfWRM",
+        "tab_8idQpW",
+        "tab_AChTBq",
+        "tab_TfTF3a"
+      ],
+      "name": "Product tabs",
+      "settings": {
+        "heading": "A scent for every side of you",
+        "subheading": "Pick a scent family and discover scents that match.",
+        "background_color": "#F5F5F5",
+        "products_per_tab": 4,
+        "card_button_text": "View scent",
+        "inspired_label": "Inspired by:",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "popular_products_XDHbay": {
       "type": "popular-products",
+      "disabled": true,
       "name": "New Products",
       "settings": {
         "background_color": "#ffffff",
@@ -147,6 +202,7 @@
     },
     "popular_products_pNDeh4": {
       "type": "popular-products",
+      "disabled": true,
       "name": "Popular Products",
       "settings": {
         "background_color": "#ffffff",
@@ -879,6 +935,7 @@
     "marquee_labels_RLdqpN",
     "feature_highlights_wfUacV",
     "custom_liquid_4rbfWw",
+    "home_tabs_CAkgLN",
     "popular_products_XDHbay",
     "popular_products_pNDeh4",
     "image_and_text",
