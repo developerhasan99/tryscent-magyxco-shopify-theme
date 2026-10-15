@@ -229,6 +229,7 @@
         "perks_x8n9DF": {
           "type": "perks",
           "settings": {
+            "icon": "bottle",
             "perk_image": "shopify://shop_images/quality_check.webp",
             "perk_title": "French Fragrance Quality",
             "perk_content": "Made with the same care as leading luxury brands."
@@ -237,6 +238,7 @@
         "perks_yTdgqz": {
           "type": "perks",
           "settings": {
+            "icon": "shield",
             "perk_image": "shopify://shop_images/money_back_g.webp",
             "perk_title": "60-day money-back guarantee",
             "perk_content": "Not convinced? Send your order back within 60 days and get your money back"
@@ -245,6 +247,7 @@
         "perks_7zj6gB": {
           "type": "perks",
           "settings": {
+            "icon": "clock",
             "perk_image": "shopify://shop_images/long_lasting.webp",
             "perk_title": "Long-Lasting Scent",
             "perk_content": "Lasts over 12 hours on the skin (some report even longer lasting wear)."
