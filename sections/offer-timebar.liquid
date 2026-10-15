@@ -76,9 +76,9 @@
   }
 
   .flipdown.flipdown__theme-dark .rotor-group-heading:before {
-    color: {{ section.settings.primary_color }};
+    color: {{ section.settings.timer_label_color }};
     font-size: 8px;
-    font-weight: 400;
+    font-weight: 700;
     text-transform: uppercase;
   }
 
@@ -123,14 +123,17 @@
   .flipdown.flipdown__theme-dark .rotor-leaf-rear,
   .flipdown.flipdown__theme-dark .rotor,
   .flipdown.flipdown__theme-dark .rotor-top,
-  .flipdown.flipdown__theme-dark .rotor-leaf-front,
+  .flipdown.flipdown__theme-dark .rotor-leaf-front {
+    background-color: {{ section.settings.timer_box_color }};
+  }
+
   .flipdown.flipdown__theme-dark .rotor-group:nth-child(n + 2):nth-child(-n + 3):before,
   .flipdown.flipdown__theme-dark .rotor-group:nth-child(n + 2):nth-child(-n + 3):after {
     background-color: {{ section.settings.primary_color }};
   }
 
   .flipdown.flipdown__theme-dark .rotor:after {
-    border-color: {{ section.settings.primary_color }};
+    border-color: {{ section.settings.timer_box_color }};
   }
 
   {% if section.settings.countdown_date == blank %}
@@ -151,7 +154,7 @@
       {% if section.settings.enable_top_bar and section.settings.top_banner_text != blank %}
         <div class="py-3" style="background-color: {{ section.settings.primary_color }};">
           <div class="page-width">
-            <div class="text-center text-white flex items-center justify-center gap-4 leading-none">
+            <div class="text-center flex items-center justify-center gap-4 leading-none" style="color: {{ section.settings.secondary_color }};">
               -
               <span>{{ section.settings.top_banner_text }}</span>
               -
@@ -179,7 +182,7 @@
                 <div class="flex items-center gap-2">
 
                   <div style="color: {{ section.settings.primary_color }};" class="text-sm md:text-base font-bold leading-none md:hidden">
-                    Endet in
+                    Ends in
                   </div>
 
                   <div id="flipdown" class="flipdown"></div>
@@ -196,7 +199,7 @@
 
                   {% for block in section.blocks %}
 
-                    <div class="flex flex-col items-center {% unless forloop.last %}pr-4 border-0 border-r border-solid border-gray-300{% endunless %}" {{ block.shopify_attributes }}>
+                    <div class="flex flex-col items-center {% unless forloop.last %}pr-4 border-0 border-r border-solid{% endunless %}" style="border-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.25 }};" {{ block.shopify_attributes }}>
 
                       {% if block.settings.icon != blank %}
                         <img
@@ -208,7 +211,7 @@
                       {% endif %}
 
                       {% if block.settings.label != blank %}
-                        <div class="leading-none text-xs mt-1 font-semibold text-black">
+                        <div class="leading-none text-xs mt-1 font-semibold" style="color: {{ section.settings.primary_color }};">
                           {{ block.settings.label }}
                         </div>
                       {% endif %}
@@ -236,7 +239,7 @@
 {% if section.settings.enable_badges %}
   {% if section.blocks.size > 0 %}
 
-    <div class="md:hidden py-3 border-0 border-b border-solid border-gray-200">
+    <div class="md:hidden py-3 border-0 border-t border-solid" style="background-color: {{ section.settings.secondary_color }}; border-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.15 }};">
 
       <div class="page-width">
 
@@ -256,7 +259,7 @@
               {% endif %}
 
               {% if block.settings.label != blank %}
-                <div class="leading-none text-xs mt-1 font-semibold text-black">
+                <div class="leading-none text-xs mt-1 font-semibold" style="color: {{ section.settings.primary_color }};">
                   {{ block.settings.label }}
                 </div>
               {% endif %}
@@ -264,7 +267,7 @@
             </div>
 
             {% unless forloop.last %}
-              <div class="!block w-[1px] bg-gray-200 self-stretch"></div>
+              <div class="!block w-[1px] self-stretch" style="background-color: {{ section.settings.primary_color | color_modify: 'alpha', 0.25 }};"></div>
             {% endunless %}
 
           {% endfor %}
@@ -322,7 +325,7 @@
         const deadline = getCountdownDeadline();
 
         new FlipDown(deadline, {
-          headings: ["Tage", "Std", "Min", "Sek"]
+          headings: ["Days", "Hours", "Min", "Sec"]
         })
           .start()
           .ifEnded(() => {
@@ -371,6 +374,18 @@
         "id": "secondary_color",
         "label": "Secondary Color",
         "default": "#FFFFFF"
+      },
+      {
+        "type": "color",
+        "id": "timer_box_color",
+        "label": "Timer box color",
+        "default": "#3A3A3C"
+      },
+      {
+        "type": "color",
+        "id": "timer_label_color",
+        "label": "Timer label color",
+        "default": "#C7C9CB"
       },
       {
         "type": "text",
