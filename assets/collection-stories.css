@@ -1,0 +1,148 @@
+/* Story circles (sections/collection-stories.liquid).
+   Measured from theessencevault.co.uk's mobile navigation slider: 67px circle = 3px ring +
+   2px white gap + 57px picture, 11px uppercase label, native sideways scroll, no snap.
+   px units on purpose (the theme's root font-size is ~10px). Phones only: hidden from 750px. */
+.mgx-stories {
+  --mgx-stories-c1: #fdf497;
+  --mgx-stories-c2: #fd5949;
+  --mgx-stories-c3: #d6249f;
+  --mgx-stories-c4: #285aeb;
+  display: block;
+  background-color: var(--mgx-white);
+}
+
+.mgx-stories__hint {
+  display: none;
+}
+
+.mgx-stories__track {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 4px 15px;
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mgx-stories__track::-webkit-scrollbar {
+  display: none;
+}
+
+.mgx-stories__item {
+  flex: 0 0 auto;
+  min-width: 70px;
+  margin: 0;
+  padding: 0;
+}
+
+.mgx-stories__link,
+.mgx-stories__link:hover,
+.mgx-stories__link:focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--mgx-text);
+  text-decoration: none;
+  opacity: 1;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mgx-stories__link:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.mgx-stories__link:focus-visible .mgx-stories__ring {
+  outline: 2px solid var(--mgx-black);
+  outline-offset: 2px;
+}
+
+.mgx-stories__ring {
+  display: block;
+  box-sizing: border-box;
+  width: 67px;
+  height: 67px;
+  padding: 3px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 107%,
+    var(--mgx-stories-c1) 0%,
+    var(--mgx-stories-c1) 5%,
+    var(--mgx-stories-c2) 45%,
+    var(--mgx-stories-c3) 60%,
+    var(--mgx-stories-c4) 90%
+  );
+}
+
+.mgx-stories__ring.mgx-stories__ring--solid {
+  background: var(--mgx-stories-ring, var(--mgx-black));
+}
+
+.mgx-stories__pic {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 2px solid var(--mgx-white);
+  border-radius: 50%;
+  /* empty-picture state: solid light grey (a see-through tint would pick up the ring colour) */
+  background-color: var(--mgx-white);
+  background-image: linear-gradient(rgba(var(--mgx-silver-rgb), 0.5), rgba(var(--mgx-silver-rgb), 0.5));
+}
+
+.mgx-stories__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mgx-stories__label {
+  display: block;
+  margin-top: 4px;
+  font-family: var(--font-body-family);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mgx-stories__link[aria-current='page'] .mgx-stories__label {
+  font-weight: 700;
+}
+
+@media screen and (min-width: 750px) {
+  .mgx-stories {
+    display: none;
+  }
+
+  .mgx-stories.mgx-stories--editor {
+    display: block;
+  }
+
+  .mgx-stories--editor .mgx-stories__hint {
+    display: block;
+    margin: 0 0 4px;
+    font-size: 12px;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--mgx-text-muted);
+  }
+
+  /* centre when there is room; auto margins collapse to 0 when the row overflows, so the
+     first circles stay reachable (justify-content: center would clip them on the left) */
+  .mgx-stories--editor .mgx-stories__item:first-child {
+    margin-left: auto;
+  }
+
+  .mgx-stories--editor .mgx-stories__item:last-child {
+    margin-right: auto;
+  }
+}

@@ -1,0 +1,328 @@
+{% comment %}
+  Story circles: a swipeable row of round pictures with an Instagram-style ring and a label,
+  one per block, modelled on theessencevault.co.uk's mobile collection navigation.
+  Collection block = picked collection (label, picture and link fall back to the collection);
+  Link block = any URL, e.g. a quiz page. Phones only: hidden from 750px, except in the theme
+  editor so the section stays selectable. Pictures are lazy so desktop (row hidden) never
+  downloads them; on phones the row sits in the first screen, so they load straight away.
+  Styles in assets/collection-stories.css, no JS.
+{% endcomment %}
+{{ 'collection-stories.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .mgx-stories.section-{{ section.id }}-stories {
+    --mgx-stories-c1: {{ section.settings.ring_color_1 }};
+    --mgx-stories-c2: {{ section.settings.ring_color_2 }};
+    --mgx-stories-c3: {{ section.settings.ring_color_3 }};
+    --mgx-stories-c4: {{ section.settings.ring_color_4 }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{%- endstyle -%}
+
+{%- liquid
+  assign current_handle = blank
+  if request.page_type == 'collection' and collection
+    assign current_handle = collection.handle
+  endif
+-%}
+
+{%- capture stories -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign story_url = blank
+      assign story_label = block.settings.title
+      assign story_image = block.settings.image
+      assign is_current = false
+
+      case block.type
+        when 'collection'
+          assign story_collection = block.settings.collection
+          if story_collection != blank
+            assign story_url = story_collection.url
+            if story_label == blank
+              assign story_label = story_collection.title
+            endif
+            if story_image == blank
+              assign story_image = story_collection.featured_image
+            endif
+            if current_handle != blank and story_collection.handle == current_handle
+              assign is_current = true
+            endif
+          endif
+        when 'link'
+          assign story_url = block.settings.link
+          if story_url != blank and story_url == request.path
+            assign is_current = true
+          endif
+      endcase
+
+      if story_url == blank and request.design_mode == false
+        continue
+      endif
+
+      if story_label == blank
+        unless request.design_mode
+          continue
+        endunless
+        if block.type == 'link'
+          assign story_label = 'Add a label'
+        else
+          assign story_label = 'Pick a collection'
+        endif
+      endif
+    -%}
+    <li class="mgx-stories__item" {{ block.shopify_attributes }}>
+      <a
+        class="mgx-stories__link"
+        {% if story_url != blank %}
+          href="{{ story_url }}"
+        {% endif %}
+        {% if is_current %}
+          aria-current="page"
+        {% endif %}>
+        <span
+          class="mgx-stories__ring{% if block.settings.ring_style == 'solid' %} mgx-stories__ring--solid{% endif %}"
+          {% if block.settings.ring_style == 'solid' %}
+            style="--mgx-stories-ring: {{ block.settings.ring_color }};"
+          {% endif %}>
+          <span class="mgx-stories__pic">
+            {%- if story_image != blank -%}
+              {%- assign story_focal = 'object-position: ' | append: story_image.presentation.focal_point -%}
+              {{
+                story_image
+                | image_url: width: 180
+                | image_tag:
+                  class: 'mgx-stories__img',
+                  widths: '120, 180',
+                  sizes: '57px',
+                  width: 57,
+                  height: 57,
+                  alt: '',
+                  loading: 'lazy',
+                  style: story_focal
+              }}
+            {%- endif -%}
+          </span>
+        </span>
+        <span class="mgx-stories__label">{{ story_label | escape }}</span>
+      </a>
+    </li>
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if stories != blank -%}
+  <nav
+    class="mgx-stories section-{{ section.id }}-stories{% if request.design_mode %} mgx-stories--editor{% endif %}"
+    aria-label="{{ section.settings.aria_label | default: 'Shop by category' | escape }}">
+    {%- if request.design_mode -%}
+      <p class="mgx-stories__hint">Story circles are shown on phones only.</p>
+    {%- endif -%}
+    <ul class="mgx-stories__track" role="list">
+      {{ stories }}
+    </ul>
+  </nav>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Story circles",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Round pictures with a ring that link to collections, like Instagram stories. Shown on phones only. Place it at the top of the page, right under the header."
+    },
+    {
+      "type": "text",
+      "id": "aria_label",
+      "label": "Name for screen readers",
+      "default": "Shop by category"
+    },
+    {
+      "type": "header",
+      "content": "Ring gradient"
+    },
+    {
+      "type": "color",
+      "id": "ring_color_1",
+      "label": "Colour 1 (bottom left)",
+      "default": "#fdf497"
+    },
+    {
+      "type": "color",
+      "id": "ring_color_2",
+      "label": "Colour 2",
+      "default": "#fd5949"
+    },
+    {
+      "type": "color",
+      "id": "ring_color_3",
+      "label": "Colour 3",
+      "default": "#d6249f"
+    },
+    {
+      "type": "color",
+      "id": "ring_color_4",
+      "label": "Colour 4 (top right)",
+      "default": "#285aeb"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 2
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Required. Circles without a collection are hidden in your shop."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label",
+          "info": "Leave empty to use the collection title."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Picture",
+          "info": "Square pictures work best. Leave empty to use the collection picture."
+        },
+        {
+          "type": "select",
+          "id": "ring_style",
+          "label": "Ring",
+          "options": [
+            {
+              "value": "gradient",
+              "label": "Gradient"
+            },
+            {
+              "value": "solid",
+              "label": "Solid colour"
+            }
+          ],
+          "default": "gradient"
+        },
+        {
+          "type": "color",
+          "id": "ring_color",
+          "label": "Solid ring colour",
+          "info": "Used when Ring is set to Solid colour.",
+          "default": "#56c70f"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Required. Any page, e.g. a quiz page. Circles without a link are hidden in your shop."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Label",
+          "info": "Required. Circles without a label are hidden in your shop.",
+          "default": "Quiz"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Picture",
+          "info": "Square pictures work best."
+        },
+        {
+          "type": "select",
+          "id": "ring_style",
+          "label": "Ring",
+          "options": [
+            {
+              "value": "gradient",
+              "label": "Gradient"
+            },
+            {
+              "value": "solid",
+              "label": "Solid colour"
+            }
+          ],
+          "default": "gradient"
+        },
+        {
+          "type": "color",
+          "id": "ring_color",
+          "label": "Solid ring colour",
+          "info": "Used when Ring is set to Solid colour.",
+          "default": "#56c70f"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story circles",
+      "blocks": [
+        {
+          "type": "collection",
+          "settings": {
+            "title": "Men"
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "Women"
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "Bestsellers"
+          }
+        },
+        {
+          "type": "collection",
+          "settings": {
+            "title": "New"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
