@@ -83,9 +83,24 @@
                           id="MegaMenu-Content-6"
                           class="color-scheme-1 motion-reduce py-4 border-0 border-b border-solid border-gray-200"
                           tabindex="-1">
-                          {% if block.settings.link_list != blank %}
+                          {%- liquid
+                            # No menu picked on the block: use the main-menu entry with the same name
+                            # (e.g. "For Him"), so phone and desktop show the same links from one menu.
+                            assign sub_links = block.settings.link_list.links
+                            if block.settings.link_list == blank
+                              assign sub_label = block.settings.label | strip | downcase
+                              for top_link in section.settings.menu.links
+                                assign top_title = top_link.title | strip | downcase
+                                if top_title == sub_label
+                                  assign sub_links = top_link.links
+                                  break
+                                endif
+                              endfor
+                            endif
+                          -%}
+                          {% if sub_links != blank %}
                             <ul class="m-0 flex list-none flex-col gap-1 p-0 pl-4 border-0 border-l-2 border-solid border-gray-300" role="list">
-                              {% for link in block.settings.link_list.links %}
+                              {% for link in sub_links %}
                                 <li>
                                   <a
                                     class="text-sm text-gray-700 no-underline transition hover:text-black hover:underline"

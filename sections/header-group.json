@@ -162,7 +162,7 @@
           "type": "menu_item",
           "settings": {
             "label": "Bestsellers",
-            "url": "shopify://collections/bestseller-singles"
+            "url": "shopify://collections/best-sellers"
           }
         },
         "menu_item_JjXgCN": {
@@ -175,6 +175,7 @@
         },
         "menu_item_xWyRaA": {
           "type": "menu_item",
+          "disabled": true,
           "settings": {
             "label": "Take our quiz",
             "url": "/#quiz"
