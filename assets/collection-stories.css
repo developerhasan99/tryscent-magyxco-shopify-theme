@@ -39,6 +39,17 @@
   padding: 0;
 }
 
+/* Centred while the circles fit; added circles extend the row to the right. Once it is wider
+   than the screen the auto margins collapse to 0, so it starts at the left and swipes.
+   (justify-content: center would clip the first circles on the left instead.) */
+.mgx-stories__item:first-child {
+  margin-left: auto;
+}
+
+.mgx-stories__item:last-child {
+  margin-right: auto;
+}
+
 .mgx-stories__link,
 .mgx-stories__link:hover,
 .mgx-stories__link:focus {
@@ -134,15 +145,5 @@
     line-height: 1.4;
     text-align: center;
     color: var(--mgx-text-muted);
-  }
-
-  /* centre when there is room; auto margins collapse to 0 when the row overflows, so the
-     first circles stay reachable (justify-content: center would clip them on the left) */
-  .mgx-stories--editor .mgx-stories__item:first-child {
-    margin-left: auto;
-  }
-
-  .mgx-stories--editor .mgx-stories__item:last-child {
-    margin-right: auto;
   }
 }
