@@ -1,6 +1,29 @@
 # UGC video tiles in the collection grid (magyx.co) — plan
 
-Status: PLAN, waiting for Adrian's go. Written 2026-10-16.
+Status: SHIPPED 2026-10-16 (Adrian's go: "let's focus on implementing this
+to the magyx.co Shopify store on the default collection template").
+Commit 6a94589 on `main` (branch `feat/ugc-grid-tiles`), four code files,
+no template change. Backups: tag `live-before-ugc-grid-2026-10-16` and
+branch `backup/pre-ugc-grid-2026-10-16` (= 5f17cb8, live before the push).
+Localhost QA at 375 and 1440 with three temporary blocks (desktop at 3,
+mobile at 2, both at 6, clip `TryScent-STREET-INTERVIEW-2-H2-BEHUMAN-video-9x16-21s.mp4`,
+product `bundle-6x50-71`): tiles at the right cells, mobile tile fills the
+row height, desktop tile 260/494 with the pill, hidden-device tile has no
+box, source rewritten to `SD-480p-1.5Mbps`, tap plays with sound and
+leaves the other clip paused. Reviewer round added the "no clip, no cell"
+guard. Note: `bundle-6x50-79` is not a storefront handle on magyx.co (the
+6×50 bundle is `bundle-6x50-71`); the dev theme 189300146328 still carries
+the three test blocks until the next `theme dev` run overwrites them.
+
+How Adrian adds a tile: Customize → a collection page → section "Product
+grid" → Add block → "UGC video" → Position (counted among products on
+page 1), Show on (Desktop / Mobile / Desktop and mobile), Video (Shopify
+Files picker; the clip must finish processing), optional Poster image,
+Linked product (the desktop pill). Two blocks at one position render in
+block order. Positions 1 and 3 hold the (disabled) featured product and
+quiz card blocks.
+
+Plan as written before the build follows.
 Sister plan for the Whop store: `Documents/dev/magyx-whop/UGC-TILES-PLAN.md`.
 
 ## What we are shipping
