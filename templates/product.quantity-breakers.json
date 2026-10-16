@@ -159,6 +159,24 @@
             "page": ""
           }
         },
+        "ugc_videos_main": {
+          "type": "ugc_videos",
+          "settings": {
+            "autoplay_preview": true,
+            "video_1": "shopify://files/videos/magyx_co_english_only_CecilieT_SmelLikeGood_e40e48e7.mov",
+            "caption_1": "Smells like the designer",
+            "show_caption_1": true,
+            "product_1": "bundle-6x50-71",
+            "video_2": "shopify://files/videos/magyx_co_english_only_MollyS_SmelLikePara_ab77c266.mov",
+            "caption_2": "Lasts 12+ hours",
+            "show_caption_2": true,
+            "product_2": "bundle-6x50-71",
+            "video_3": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeRoug_8c343931.mov",
+            "caption_3": "High-quality ingredients",
+            "show_caption_3": true,
+            "product_3": "bundle-6x50-71"
+          }
+        },
         "share": {
           "type": "share",
           "disabled": true,
@@ -190,6 +208,7 @@
         "collapsible_tab_nhKiAc",
         "collapsible_tab_pCrhqV",
         "collapsible_tab_ydfzCq",
+        "ugc_videos_main",
         "share"
       ],
       "custom_css": [],

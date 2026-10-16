@@ -36,7 +36,9 @@
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+{% comment %} #atc_scroll_target: the buy box anchor; the UGC videos row's card for this page's own product scrolls here. {% endcomment %}
 <div
+  id="atc_scroll_target"
   x-data
   x-effect="$store.qb.currentPrice; $store.qb.currentCompare; $store.qb.syncGlobalPrices()">
   {% if product.variants.size > 1 %}

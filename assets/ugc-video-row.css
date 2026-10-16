@@ -1,0 +1,483 @@
+/* Product page UGC video row (block 'ugc_videos' of main-product), after the
+   theessencevault.co.uk product page: up to three clips in one row inside the
+   product info column, captions under them, a product card on each clip and
+   a full-screen player on tap. One row with an 8px gap, as in the reference,
+   but three clips instead of its four and at the clips' own 9:16 instead of
+   3:4, so they are big enough to watch and the card has room. */
+
+/* Anchors the pause toggle over the row's top-left corner. The top margin is
+   the info column's block spacing (section-main-product.css,
+   `.product__info-container > * + *`): main-product renders this row in its
+   second block loop, inside a wrapper, so that rule doesn't reach it and the
+   clips would sit on the last FAQ tab's divider. */
+.ugc-row {
+  position: relative;
+  margin-top: 1.5rem;
+}
+
+/* Pause / resume for the auto-advancing preview: WCAG 2.2.2 needs a way to
+   pause it. Hover and focus on the row pause it too (JS), so the button is
+   hidden like a skip link and shows only when a keyboard user tabs to it,
+   which leaves the look unchanged for mouse and touch. It comes before the
+   grid in the page, so z-index keeps the tiles' layers from painting over it. */
+.ugc-row__toggle {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--mgx-black, #100f0d);
+  color: var(--mgx-white, #fff);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+
+.ugc-row__toggle:focus-visible {
+  width: auto;
+  height: auto;
+  padding: 6px 12px;
+  overflow: visible;
+  clip: auto;
+  clip-path: none;
+  outline: 2px solid var(--mgx-white, #fff);
+  outline-offset: 2px;
+}
+
+/* One row, each clip a third of the column. With one or two clips they keep
+   that width and sit in the middle, so the row never grows taller than with
+   three. */
+.ugc-row__grid {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  /* A caption that wraps to more lines must not stretch its neighbours'
+     tiles; captions hang from the top of their own column. */
+  align-items: flex-start;
+}
+
+.ugc-row__item {
+  flex: 0 0 calc((100% - 16px) / 3);
+  min-width: 0;
+}
+
+/* No -webkit-tap-highlight-color: iOS paints a grey plate over the whole tile
+   on touch, which read as a flash across the row on the collection tiles. */
+.ugc-row__tile {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #eee;
+  -webkit-tap-highlight-color: transparent;
+  /* The product card reads the tile's own width, not the viewport's: the
+     tile is 98px at 820px of window, 110px on a 375 phone, 143px at 1440. */
+  container-type: inline-size;
+}
+
+/* Same grey as the tile behind it, so a clip that has not painted yet reads
+   as a placeholder instead of a white box. */
+.ugc-row__video,
+.ugc-row__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ugc-row__video {
+  background: #eee;
+}
+
+/* Held over the clip until it has put a real frame on screen (iOS drops the
+   poster attribute on play). Never the tap target. */
+.ugc-row__poster {
+  pointer-events: none;
+}
+
+.ugc-row__tile--started .ugc-row__poster {
+  display: none;
+}
+
+/* The whole tile is the play button; the product card sits above it as a
+   separate link, never inside it. The positioned children paint in the order
+   they are written, so no z-index is needed. */
+.ugc-row__play {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--mgx-white, #fff);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The hover veil from the reference: 20% black over the clip. */
+.ugc-row__play::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+/* A play mark stays on at every width: on a phone there is no hover to tell
+   a shopper the clip opens. Top left, because the product card takes the
+   bottom of the clip. */
+.ugc-row__play-icon {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: rgba(var(--mgx-black-rgb, 16, 15, 13), 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ugc-row__play-icon svg {
+  width: 9px;
+  height: 11px;
+  margin-left: 2px;
+}
+
+/* A white band with a black band inside it, so the ring reads on a dark clip
+   as well as a light one. Drawn inward, because the tile clips anything
+   outside it. */
+.ugc-row__play:focus-visible {
+  outline: 2px solid var(--mgx-white, #fff);
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 4px var(--mgx-black, #100f0d);
+}
+
+@media (hover: hover) {
+  .ugc-row__play:hover::before {
+    opacity: 1;
+  }
+}
+
+/* The collection grid tile's white product card (fuel05-ugc.css: photo,
+   title, price), sized down for a clip a third of the column wide. Tiles
+   under 130px (phones, and 98px in the tablet range) get a 26px photo and a
+   10px title, which keeps the price clear of the edge at 98px; from 130px
+   (desktop) the card takes 32px, 11px and 12px. The title may take four
+   lines: long bundle names ("3 X 50ml Perfume Starter Pack") need three or
+   four at these widths, and the cap only stops a far longer name from
+   covering the clip. The
+   collection card's "+" has no room at these widths. The card is at least
+   44px tall, a full thumb target, whatever the title's length. */
+.ugc-row__product {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  box-sizing: border-box;
+  background: var(--mgx-white, #fff);
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  color: var(--mgx-black, #100f0d);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ugc-row__product-thumb {
+  display: block;
+  width: 26px;
+  height: 26px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.ugc-row__product-info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.ugc-row__product-title {
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  overflow-wrap: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ugc-row__product-price {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+@container (min-width: 130px) {
+  .ugc-row__product {
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 8px;
+  }
+
+  .ugc-row__product-thumb {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ugc-row__product-title {
+    font-size: 11px;
+  }
+
+  .ugc-row__product-price {
+    font-size: 12px;
+  }
+}
+
+/* Black ring hugging the white card, then a white band outside it, so the
+   ring reads on any frame of the clip. 4px wide in all, which fits in the
+   4-6px between the card and the tile edge (the tile clips anything past
+   it). */
+.ugc-row__product:focus-visible {
+  outline: 2px solid var(--mgx-black, #100f0d);
+  outline-offset: 0;
+  box-shadow: 0 0 0 4px var(--mgx-white, #fff);
+}
+
+.ugc-row__caption {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-align: center;
+  color: var(--mgx-text, #100f0d);
+  overflow-wrap: break-word;
+}
+
+/* Full-screen player. A native modal dialog sits in the browser's top layer,
+   above the sticky header, the floating add to cart and the sticky info
+   column, whatever their z-index, and closes on Escape by itself.
+
+   The dialog is the dark backdrop: it fills the screen and a click that lands
+   on it rather than on the frame closes it. Display is set only while open,
+   because an author display rule would otherwise show the closed dialog. */
+.ugc-player {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 16px;
+  border: 0;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.9);
+  color: var(--mgx-white, #fff);
+  overscroll-behavior: contain;
+}
+
+.ugc-player::backdrop {
+  background: transparent;
+}
+
+/* The frame is centred by its own auto margins, not by align-items or
+   justify-content: when it is taller than the screen (text-only zoom grows
+   the pill) auto margins drop to 0 and it scrolls from the top, where centring
+   would push the close button above the edge, out of reach. */
+.ugc-player[open] {
+  display: flex;
+}
+
+/* The clip is 9:16 and as tall as the screen allows once the padding, the
+   48px band above it that holds the close button (kept off the video, where
+   iOS draws its mute button top right) and, when the clip links a product,
+   the pill under it are taken off. The frame is as wide as the clip, so the
+   pill matches its width. */
+.ugc-player__frame {
+  --ugc-pill-space: 0px;
+  --ugc-h: min(calc(100vh - 32px - 48px - var(--ugc-pill-space)), calc((100vw - 32px) * 16 / 9), 860px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: calc(var(--ugc-h) * 9 / 16);
+  margin: auto;
+  padding-top: 48px;
+}
+
+@supports (height: 100dvh) {
+  .ugc-player__frame {
+    --ugc-h: min(calc(100dvh - 32px - 48px - var(--ugc-pill-space)), calc((100vw - 32px) * 16 / 9), 860px);
+  }
+}
+
+/* On a short screen (a phone on its side) the clip gets so narrow that the
+   pill has no room for its title and the price slides under the "+", so the
+   frame never goes below 260px (or the screen width). The video keeps its
+   height and contain fit on black, so a wider frame just letterboxes it. */
+.ugc-player--with-pill .ugc-player__frame {
+  --ugc-pill-space: 100px;
+  width: max(calc(var(--ugc-h) * 9 / 16), min(260px, 100vw - 32px));
+}
+
+.ugc-player__media {
+  position: relative;
+}
+
+.ugc-player__video {
+  display: block;
+  width: 100%;
+  height: var(--ugc-h);
+  object-fit: contain;
+  background: #000;
+  border-radius: 8px;
+}
+
+/* In the frame's 48px band above the clip, flush with its right edge, so it
+   never sits on the native video controls. On the dark backdrop the disc
+   gets a faint white rim, or it would vanish into the black. */
+.ugc-player__close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--mgx-white, #fff);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ugc-player__close::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+}
+
+.ugc-player__close:focus-visible {
+  outline: 2px solid var(--mgx-white, #fff);
+  outline-offset: 2px;
+}
+
+/* The collection grid tile's product pill (fuel05-ugc.css), same values, here
+   under the clip instead of over it so it never covers the video controls.
+   Copied rather than shared because that file hides the pill on phones. */
+.ugc-player__pill {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  background: var(--mgx-white, #fff);
+  border-radius: 8px;
+  padding: 12px;
+  text-decoration: none;
+  color: var(--mgx-black, #100f0d);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ugc-player__pill[hidden] {
+  display: none;
+}
+
+.ugc-player__pill-thumb {
+  width: 66px;
+  height: 66px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.ugc-player__pill-info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ugc-player__pill-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.66px;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ugc-player__pill-price {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.ugc-player__pill-add {
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid var(--mgx-black, #100f0d);
+  border-radius: 8px;
+  color: var(--mgx-black, #100f0d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mgx-white, #fff);
+}
+
+.ugc-player__pill-add svg {
+  width: 16px;
+  height: 16px;
+}
+
+.ugc-player__pill:focus-visible {
+  outline: 2px solid var(--mgx-white, #fff);
+  outline-offset: 2px;
+}
+
+/* The page behind the open player stays where it is. */
+html.ugc-player-open {
+  overflow: hidden;
+}

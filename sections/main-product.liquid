@@ -228,7 +228,7 @@
                   {% render 'reactive-variant-selector', product: product %}
                 </div>
               {%- when 'atc_bundle_builder' -%}
-                <div class="atc-bundle-builder" {{ block.shopify_attributes }}>
+                <div id="atc_scroll_target" class="atc-bundle-builder" {{ block.shopify_attributes }}>
                    {% if product.metafields.custom.bundle_product_count != blank %}
                     {% render 'bundle-builder', product: product, block: block %}
                   {% else %}
@@ -1050,6 +1050,13 @@
                       </div>
                     </details>
                   </div>
+                {%- when 'ugc_videos' -%}
+                  {%- comment -%}
+                    Here, in the second pass with the FAQ tabs, not in the first:
+                    the row belongs under the tabs, and every first-pass block
+                    renders above them whatever the block order says.
+                  {%- endcomment -%}
+                  {% render 'ugc-video-row', block: block %}
                 {%- when 'product_statistics' -%}
                   {% render 'product-statistics', block: block %}
                 {%- when 'press_quotes' -%}
@@ -3024,6 +3031,137 @@
           "default": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.default",
           "label": "t:sections.main-product.blocks.icon_with_text.settings.heading_3.label",
           "info": "t:sections.main-product.blocks.icon_with_text.settings.heading.info"
+        }
+      ]
+    },
+    {
+      "type": "ugc_videos",
+      "name": "UGC videos",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Up to 3 clips in one row. Clip: pick one from Files (the picker also lets you upload from your computer) or paste a direct link to an .mp4 file. Folders, Google Drive and YouTube won't play as a clip. Empty slots don't show."
+        },
+        {
+          "type": "checkbox",
+          "id": "autoplay_preview",
+          "label": "Preview: clips play one after another without sound",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Video 1"
+        },
+        {
+          "type": "video",
+          "id": "video_1",
+          "label": "Video"
+        },
+        {
+          "type": "text",
+          "id": "video_url_1",
+          "label": "Video link (.mp4)",
+          "info": "Used when no video is picked above"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster_1",
+          "label": "Cover (optional)"
+        },
+        {
+          "type": "text",
+          "id": "caption_1",
+          "label": "Caption",
+          "default": "Smells like the designer"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_caption_1",
+          "label": "Show caption",
+          "default": true
+        },
+        {
+          "type": "product",
+          "id": "product_1",
+          "label": "Product",
+          "info": "The product card on the clip and in the player links to this product. Empty = this page's product, and the card then scrolls to the offer."
+        },
+        {
+          "type": "header",
+          "content": "Video 2"
+        },
+        {
+          "type": "video",
+          "id": "video_2",
+          "label": "Video"
+        },
+        {
+          "type": "text",
+          "id": "video_url_2",
+          "label": "Video link (.mp4)",
+          "info": "Used when no video is picked above"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster_2",
+          "label": "Cover (optional)"
+        },
+        {
+          "type": "text",
+          "id": "caption_2",
+          "label": "Caption",
+          "default": "Lasts 12+ hours"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_caption_2",
+          "label": "Show caption",
+          "default": true
+        },
+        {
+          "type": "product",
+          "id": "product_2",
+          "label": "Product",
+          "info": "The product card on the clip and in the player links to this product. Empty = this page's product, and the card then scrolls to the offer."
+        },
+        {
+          "type": "header",
+          "content": "Video 3"
+        },
+        {
+          "type": "video",
+          "id": "video_3",
+          "label": "Video"
+        },
+        {
+          "type": "text",
+          "id": "video_url_3",
+          "label": "Video link (.mp4)",
+          "info": "Used when no video is picked above"
+        },
+        {
+          "type": "image_picker",
+          "id": "poster_3",
+          "label": "Cover (optional)"
+        },
+        {
+          "type": "text",
+          "id": "caption_3",
+          "label": "Caption",
+          "default": "High-quality ingredients"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_caption_3",
+          "label": "Show caption",
+          "default": true
+        },
+        {
+          "type": "product",
+          "id": "product_3",
+          "label": "Product",
+          "info": "The product card on the clip and in the player links to this product. Empty = this page's product, and the card then scrolls to the offer."
         }
       ]
     }

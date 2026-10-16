@@ -1,0 +1,59 @@
+{% comment %}
+  Prints the mp4 URL a UGC clip plays from: the smallest rendition that still
+  covers a card. Shared by the collection grid tile (fuel05-ugc-tile) and the
+  product page row (ugc-video-row), so both pick the same file.
+
+  Accepts:
+  - video: {Object} a video setting value (Shopify Files)
+
+  Usage:
+  {%- capture source_url -%}{% render 'ugc-video-src', video: block.settings.video %}{%- endcapture -%}
+  {%- assign source_url = source_url | strip -%}
+{% endcomment %}
+
+{%- comment -%}
+  One source, and the smallest one that still covers the card. A card is
+  265px wide at most and every tile was serving the 1080p 7.2Mbps file,
+  so a tap had to buffer a full HD stream before it could produce a
+  single frame, which is what read as a dead tap.
+
+  Two steps, because Liquid and the CDN disagree about what exists.
+  video.sources holds two entries for a Files video, an m3u8 and one
+  mp4, and that mp4 is the tallest transcode (measured: 606x1080 for
+  every clip in this test). The loop is what picks when there is a
+  choice. The rewrite is what gets the smaller file today: the CDN also
+  serves the 480p and 720p transcodes, all three named off one trailing
+  id, so only the rendition label in the middle of the file name
+  differs, and Shopify builds its ladder downwards, so a clip with a
+  1080p rendition has the 480p one. Verified 200 on all six clips this
+  test ships; 5-17MB against 22-77MB. A URL carrying any other label is
+  left exactly as it came.
+{%- endcomment -%}
+{%- liquid
+  assign picked = blank
+  assign tallest = blank
+  for source in video.sources
+    if source.format == 'mp4'
+      if tallest == blank
+        assign tallest = source
+      elsif source.height > tallest.height
+        assign tallest = source
+      endif
+      if source.height >= 480
+        if picked == blank
+          assign picked = source
+        elsif source.height < picked.height
+          assign picked = source
+        endif
+      endif
+    endif
+  endfor
+  if picked == blank
+    assign picked = tallest
+  endif
+  assign source_url = picked.url
+  if picked.height > 480
+    assign source_url = source_url | replace: 'HD-1080p-7.2Mbps', 'SD-480p-1.5Mbps'
+  endif
+-%}
+{{- source_url -}}

@@ -1,0 +1,240 @@
+{% comment %}
+  Product page UGC video row: block 'ugc_videos' of main-product, after the
+  theessencevault.co.uk product page. Up to three clips in one row, each
+  with an optional caption under it and a white product card on the clip
+  (photo, title, price) that links to the product. A tap on the clip opens a
+  full-screen player with sound, under which sits the collection grid tile's
+  product pill.
+
+  Three rather than the reference's four: four in a row left the clips too
+  small to read and the card no room. Three at 9:16 are about 110px wide and
+  195px tall on a phone, 143 x 254px on a desktop.
+
+  Accepts:
+  - block: {Object} the 'ugc_videos' block
+
+  Usage:
+  {% render 'ugc-video-row', block: block %}
+{% endcomment %}
+
+{%- capture ugc_count -%}{% render 'ugc-video-count', block: block %}{%- endcapture -%}
+{%- assign ugc_count = ugc_count | strip | plus: 0 -%}
+{%- liquid
+  # A tile is at most about 143px wide (a third of the info column) and
+  # 254px tall, cropped with cover, and the poster stays on screen for good
+  # when the preview is off, so it is asked for at a width that stays sharp
+  # on 2-3x screens.
+  assign poster_width = 600
+-%}
+
+{%- if ugc_count > 0 -%}
+  {{ 'ugc-video-row.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'ugc-video-row.js' | asset_url }}" defer="defer"></script>
+  {%- assign player_id = 'UgcPlayer-' | append: block.id -%}
+  {%- assign pills = '' -%}
+  <div
+    class="ugc-row quick-add-hidden"
+    data-ugc-row
+    data-block-id="{{ block.id }}"
+    data-autoplay="{% if block.settings.autoplay_preview %}true{% else %}false{% endif %}"
+    {{ block.shopify_attributes }}>
+    {%- if block.settings.autoplay_preview -%}
+      {%- comment -%}
+        WCAG 2.2.2 asks for a way to pause an auto-advancing preview. The
+        button is hidden until a keyboard user tabs to it, so the row looks
+        like the reference for everyone else; hover and focus also pause it
+        (assets/ugc-video-row.js).
+      {%- endcomment -%}
+      <button type="button" class="ugc-row__toggle" data-ugc-toggle data-label-pause="Pause preview" data-label-play="Resume preview">Pause preview</button>
+    {%- endif -%}
+    <div class="ugc-row__grid">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign key_video = 'video_' | append: i
+          assign key_url = 'video_url_' | append: i
+          assign clip_video = block.settings[key_video]
+          assign clip_url = block.settings[key_url] | strip
+
+          assign key_poster = 'poster_' | append: i
+          assign key_caption = 'caption_' | append: i
+          assign key_show = 'show_caption_' | append: i
+          assign key_product = 'product_' | append: i
+          assign clip_caption = block.settings[key_caption] | strip
+          assign clip_product = block.settings[key_product]
+
+          # Same rule as ugc-video-count: a Files video that is still
+          # processing has no mp4 yet, so the slot falls back to the pasted
+          # link or, with neither, stays empty.
+          assign clip_src = clip_url
+          if clip_video != blank
+            capture video_src
+              render 'ugc-video-src', video: clip_video
+            endcapture
+            assign video_src = video_src | strip
+            if video_src != blank
+              assign clip_src = video_src
+            endif
+          endif
+          assign has_clip = false
+          if clip_src != blank
+            assign has_clip = true
+          endif
+
+          # No poster picked: a Files clip still has the preview frame Shopify
+          # made for it. A pasted link has nothing, so that clip asks for
+          # metadata, and the #t fragment makes iOS Safari seek to frame 0
+          # and paint it (it decodes nothing on metadata alone; other
+          # browsers paint the first frame either way).
+          assign poster_image = block.settings[key_poster]
+          if poster_image == blank and clip_video != blank
+            assign poster_image = clip_video.preview_image
+          endif
+          if has_clip and poster_image == blank
+            unless clip_src contains '#'
+              assign clip_src = clip_src | append: '#t=0.001'
+            endunless
+          endif
+
+          # No product picked means this page's own product: one bundle
+          # template serves every bundle page (3x, 6x, 8x, 10x and their price
+          # points), and each one's card should show that bundle, not send the
+          # shopper to another. A card for the page the shopper is already on
+          # scrolls to its offer instead of reloading it (assets/ugc-video-row.js).
+          # Never a card for a product that cannot be bought.
+          if clip_product == blank
+            assign clip_product = product
+          endif
+          assign has_product = false
+          assign links_here = false
+          if has_clip and clip_product != blank and clip_product.available
+            assign has_product = true
+            if clip_product.id == product.id
+              assign links_here = true
+            endif
+          endif
+          assign clip_title = ''
+          if has_product
+            assign clip_title = clip_product.title | escape
+          endif
+
+          assign show_caption = false
+          if block.settings[key_show] and clip_caption != blank
+            assign show_caption = true
+          endif
+          assign play_label = 'Play video'
+          if show_caption
+            assign play_label = play_label | append: ': ' | append: clip_caption | escape
+          elsif has_product
+            assign play_label = play_label | append: ': ' | append: clip_title
+          endif
+        -%}
+        {%- if has_clip -%}
+        <div class="ugc-row__item">
+          <div class="ugc-row__tile" data-ugc-tile data-slot="{{ i }}">
+            <video
+              class="ugc-row__video"
+              aria-hidden="true"
+              muted
+              loop
+              playsinline
+              preload="{% if poster_image != blank %}none{% else %}metadata{% endif %}"
+              {% if poster_image != blank %}poster="{{ poster_image | image_url: width: poster_width }}"{% endif %}>
+              <source src="{{ clip_src }}" type="video/mp4">
+            </video>
+            {%- comment -%}
+              The poster again as a plain image over the video: iOS Safari drops
+              the poster attribute the moment play() is called and has no frame
+              decoded yet, so the tile would flash grey. The script takes this
+              off once the clip has put a real frame on screen.
+            {%- endcomment -%}
+            {%- if poster_image != blank -%}
+              <img
+                class="ugc-row__poster"
+                src="{{ poster_image | image_url: width: poster_width }}"
+                width="{{ poster_image.width }}"
+                height="{{ poster_image.height }}"
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+                fetchpriority="low">
+            {%- endif -%}
+            <button
+              type="button"
+              class="ugc-row__play"
+              aria-label="{{ play_label }}"
+              aria-haspopup="dialog"
+              aria-controls="{{ player_id }}"
+              data-ugc-open>
+              <span class="ugc-row__play-icon" aria-hidden="true">
+                <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M0 0.8C0 0.18 0.67 -0.2 1.2 0.12L9.6 5.32C10.1 5.63 10.1 6.37 9.6 6.68L1.2 11.88C0.67 12.2 0 11.82 0 11.2V0.8Z"/></svg>
+              </span>
+            </button>
+            {%- if has_product -%}
+              <a class="ugc-row__product" href="{{ clip_product.url }}"{% if links_here %} data-ugc-offer{% endif %}>
+                {%- if clip_product.featured_image != blank -%}
+                  <img
+                    class="ugc-row__product-thumb"
+                    src="{{ clip_product.featured_image | image_url: width: 132 }}"
+                    alt=""
+                    width="44"
+                    height="44"
+                    loading="lazy">
+                {%- endif -%}
+                <span class="ugc-row__product-info">
+                  <span class="ugc-row__product-title">{{ clip_title }}</span>
+                  <span class="ugc-row__product-price">{{ clip_product.price | money }}</span>
+                </span>
+              </a>
+            {%- endif -%}
+          </div>
+          {%- if show_caption -%}
+            <p class="ugc-row__caption">{{ clip_caption | escape }}</p>
+          {%- endif -%}
+        </div>
+        {%- if has_product -%}
+          {%- capture pill -%}
+            <a class="ugc-player__pill" href="{{ clip_product.url }}" data-slot="{{ i }}"{% if links_here %} data-ugc-offer{% endif %} hidden>
+              {%- if clip_product.featured_image != blank -%}
+                <img
+                  class="ugc-player__pill-thumb"
+                  src="{{ clip_product.featured_image | image_url: width: 132 }}"
+                  alt=""
+                  width="66"
+                  height="66"
+                  loading="lazy">
+              {%- endif -%}
+              <span class="ugc-player__pill-info">
+                <span class="ugc-player__pill-title">{{ clip_title }}</span>
+                <span class="ugc-player__pill-price">{{ clip_product.price | money }}</span>
+              </span>
+              <span class="ugc-player__pill-add" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.53125 2.375H8.46875C8.55208 2.375 8.59375 2.41667 8.59375 2.5V13.5C8.59375 13.5833 8.55208 13.625 8.46875 13.625H7.53125C7.44792 13.625 7.40625 13.5833 7.40625 13.5V2.5C7.40625 2.41667 7.44792 2.375 7.53125 2.375Z" fill="currentColor"/>
+                  <path d="M3 7.40625H13.5C13.5833 7.40625 13.625 7.44792 13.625 7.53125V8.46875C13.625 8.55208 13.5833 8.59375 13.5 8.59375H2.5C2.41667 8.59375 2.375 8.55208 2.375 8.46875V7.53125C2.375 7.44792 2.41667 7.40625 2.5 7.40625H3Z" fill="currentColor"/>
+                </svg>
+              </span>
+            </a>
+          {%- endcapture -%}
+          {%- assign pills = pills | append: pill -%}
+        {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <dialog class="ugc-player" id="{{ player_id }}" aria-label="Video player">
+      <div class="ugc-player__frame">
+        <div class="ugc-player__media">
+          <video class="ugc-player__video" controls playsinline preload="none"></video>
+          <button type="button" class="ugc-player__close" aria-label="Close" data-ugc-close>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        {{ pills }}
+      </div>
+    </dialog>
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="ugc-row__placeholder quick-add-hidden mgx-text-muted" style="padding: 12px; border: 2px dashed var(--mgx-silver); border-radius: 12px; font-size: 13px; line-height: 1.4;" {{ block.shopify_attributes }}>
+    UGC videos: add clips in the block settings (Video 1 to 3). Without clips the row does not show in the store.
+  </div>
+{%- endif -%}
