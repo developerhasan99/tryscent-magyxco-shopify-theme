@@ -127,7 +127,8 @@
           height="{{ poster_image.height }}"
           alt=""
           aria-hidden="true"
-          loading="eager">
+          loading="eager"
+          fetchpriority="low">
       {%- endif -%}
     {%- else -%}
       <video
@@ -156,7 +157,8 @@
           height="{{ poster.height }}"
           alt=""
           aria-hidden="true"
-          loading="eager">
+          loading="eager"
+          fetchpriority="low">
       {%- elsif poster_url != blank -%}
         <img
           class="fuel05-ugc__poster"
@@ -165,7 +167,8 @@
           height="1067"
           alt=""
           aria-hidden="true"
-          loading="eager">
+          loading="eager"
+          fetchpriority="low">
       {%- endif -%}
     {%- endif -%}
     {%- if product_item != blank -%}

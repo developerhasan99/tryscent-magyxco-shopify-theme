@@ -1,30 +1,31 @@
-.fuel05-ugc {
-  display: none !important;
-}
-
-/* Design mode mirrors the real breakpoints: revealing every placement at
-   once would show the editor a page that exists at no real width. */
-html.ab-f05-ugc .fuel05-ugc--home,
-.shopify-design-mode .fuel05-ugc--home {
-  display: block !important;
+/* Video rows (former FUEL_05, permanent since 2026-09-30). The product page
+   and collection rows come in a desktop and a mobile build, each shown only at
+   its own widths. */
+.fuel05-ugc--pdp-desktop,
+.fuel05-ugc--grid-desktop,
+.fuel05-ugc--pdp-mobile,
+.fuel05-ugc--grid-mobile {
+  display: none;
 }
 
 @media screen and (min-width: 750px) {
-  html.ab-f05-ugc .fuel05-ugc--pdp-desktop,
-  html.ab-f05-ugc .fuel05-ugc--grid-desktop,
-  .shopify-design-mode .fuel05-ugc--pdp-desktop,
-  .shopify-design-mode .fuel05-ugc--grid-desktop {
-    display: block !important;
+  .fuel05-ugc--pdp-desktop,
+  .fuel05-ugc--grid-desktop {
+    display: block;
   }
 }
 
 @media screen and (max-width: 749px) {
-  html.ab-f05-ugc .fuel05-ugc--pdp-mobile,
-  html.ab-f05-ugc .fuel05-ugc--grid-mobile,
-  .shopify-design-mode .fuel05-ugc--pdp-mobile,
-  .shopify-design-mode .fuel05-ugc--grid-mobile {
-    display: block !important;
+  .fuel05-ugc--pdp-mobile,
+  .fuel05-ugc--grid-mobile {
+    display: block;
   }
+}
+
+/* A grid tile set to "Desktop and mobile" is never hidden by the two rules
+   above; this only states it so the three device values read side by side. */
+.fuel05-ugc--grid-both {
+  display: block;
 }
 
 .fuel05-ugc--home {

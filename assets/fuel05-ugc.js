@@ -2,46 +2,17 @@
   if (window.fuel05UgcReady) return;
   window.fuel05UgcReady = true;
 
-  // QA and preview reveal. On any theme that is not the live one, adding #f05 to
-  // the address turns the variant on so the test can be checked without running
-  // Intelligems, and #f05-off turns it off again. Shopify.theme.role is 'main'
-  // on the live theme, so this can never fire there. The hash is read again on
-  // every hashchange, because typing #f05 into the bar of a page that is already
-  // open never reloads it.
-  //
-  // The switch only ever adds the class on #f05 and removes it on #f05-off. It
-  // must not toggle on every other address, because the testing tool's preview
-  // puts the same class on the page without any hash, and a toggle would take
-  // that straight back off on any theme that is not the live one.
-  if (window.Shopify && Shopify.theme && Shopify.theme.role !== 'main') {
-    const applyHashReveal = () => {
-      if (window.location.hash === '#f05') {
-        document.documentElement.classList.add('ab-f05-ugc');
-      } else if (window.location.hash === '#f05-off') {
-        document.documentElement.classList.remove('ab-f05-ugc');
-      }
-    };
-
-    applyHashReveal();
-    window.addEventListener('hashchange', applyHashReveal);
-
-    // Intelligems' removeViewQueryParam() drops ?view= from the address bar at
-    // startup, so the history entry for the collection page points at the
-    // default collection template, which carries none of this markup. Back and
-    // reload then show a page with no tiles. Preview themes only, QA hash only.
-    const keepView = () => {
-      if (window.location.hash !== '#f05') return;
-      if (!document.querySelector('.fuel05-ugc--grid')) return;
-      if (/[?&]view=/.test(window.location.search)) return;
-      const url = new URL(window.location.href);
-      url.searchParams.set('view', 'collection-lander-v1');
-      history.replaceState(history.state, '', url.toString());
-    };
-    window.addEventListener('load', keepView);
-    window.addEventListener('pagehide', keepView);
-  }
-
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Nothing fetches video on its own until the page has finished loading and
+  // the main thread has a quiet moment, so clips never compete with the
+  // theme's scripts, styles and above-the-fold images. A tap is not gated:
+  // somebody asked for that clip.
+  const afterLoad = (fn) => {
+    const idle = () => (window.requestIdleCallback ? requestIdleCallback(fn, { timeout: 2000 }) : setTimeout(fn, 200));
+    if (document.readyState === 'complete') idle();
+    else window.addEventListener('load', idle, { once: true });
+  };
 
   // A tap is the one moment somebody is actively waiting, so the tapped clip
   // gets the connection to itself: the background warm-up parks its chains
@@ -171,75 +142,6 @@
     if (!tile) return;
     event.preventDefault();
     toggleTile(tile);
-  });
-
-  // The store's Klaviyo "10% OFF" form leaves its container in the page
-  // after a shopper closes it, and on Roi's devices the leftover kept sitting
-  // over everything with pointer-events on: a tap on an arrow or a card hit a
-  // kl div instead of ours, and the body kept Klaviyo's scroll lock. The form
-  // is not ours to configure, so the row defends itself and stops the dead
-  // leftover taking hits. Variant only, and the class is read when the event
-  // fires because this file loads in both arms.
-  const KL_SELECTOR = '[class*="kl-private-reset-css"]';
-
-  const klaviyoShowsForm = (root) =>
-    [...root.querySelectorAll('form.klaviyo-form')].some((form) => form.getClientRects().length > 0);
-
-  const klaviyoCoversViewport = (el) => {
-    const rect = el.getBoundingClientRect();
-    return rect.width >= window.innerWidth * 0.9 && rect.height >= window.innerHeight * 0.9;
-  };
-
-  // The container, and anything left inside it still covering the viewport.
-  // Both, not just the container: pointer-events inherits only until something
-  // declares its own, and the node sitting over the page declares auto.
-  const klaviyoResidue = () => {
-    const dead = new Set();
-    document.querySelectorAll(KL_SELECTOR).forEach((root) => {
-      // Outermost container per form only.
-      if (root.parentElement && root.parentElement.closest(KL_SELECTOR)) return;
-      // A form still on screen wants its own clicks, embedded ones included.
-      if (klaviyoShowsForm(root)) return;
-      // And only where something big enough to swallow a tap is left. A teaser
-      // tab or an inline signup box is small and stays live.
-      const blockers = [root, ...root.querySelectorAll('*')].filter(klaviyoCoversViewport);
-      if (!blockers.length) return;
-      dead.add(root);
-      blockers.forEach((el) => dead.add(el));
-    });
-    return dead;
-  };
-
-  const muteKlaviyoResidue = () => {
-    if (!document.documentElement.classList.contains('ab-f05-ugc')) return;
-    klaviyoResidue().forEach((el) => {
-      el.dataset.fuel05KlMuted = 'true';
-      el.style.pointerEvents = 'none';
-    });
-    // Klaviyo holds the page still with this class while a form is open, and
-    // it has been seen to leave it on. Nothing is on screen here, so it goes.
-    if (!klaviyoShowsForm(document)) {
-      document.body.classList.remove('klaviyo-prevent-body-scrolling');
-    }
-  };
-
-  const unmuteKlaviyo = () => {
-    document.querySelectorAll('[data-fuel05-kl-muted]').forEach((el) => {
-      delete el.dataset.fuel05KlMuted;
-      el.style.pointerEvents = '';
-    });
-  };
-
-  window.addEventListener('klaviyoForms', (event) => {
-    const type = (event.detail && event.detail.type) || '';
-    if (type === 'close' || type === 'embedClose' || type === 'submit') {
-      muteKlaviyoResidue();
-      // Klaviyo fades the form out, so the first pass can still see it on
-      // screen and skip the container. One deferred retry, not a poll.
-      setTimeout(muteKlaviyoResidue, 500);
-    } else {
-      unmuteKlaviyo();
-    }
   });
 
   // The clip a shopper tapped for sound keeps the playhead. Ratios are written
@@ -427,8 +329,10 @@
     // it cold anyway. Two is still far from the parallel free-for-all that
     // fights iOS's small pool of decoders, and a tap always outranks the
     // queue either way.
-    warmNext();
-    warmNext();
+    afterLoad(() => {
+      warmNext();
+      warmNext();
+    });
 
     if (prefersReduced.matches || !('IntersectionObserver' in window)) return;
     if (!videos.length) return;
@@ -485,7 +389,7 @@
       },
       { threshold: [0, 0.5] }
     );
-    videos.forEach((video) => playObserver.observe(video));
+    afterLoad(() => videos.forEach((video) => playObserver.observe(video)));
   };
 
   const arm = (root) => {
@@ -538,9 +442,6 @@
   const start = () => {
     armAll();
     watchGrid();
-    // A page can load with a leftover already in it, from a form the shopper
-    // closed before this script ran.
-    muteKlaviyoResidue();
   };
 
   if (document.readyState === 'loading') {

@@ -185,32 +185,25 @@
                         , product_position: product_position %}
                     {% elsif block.type == 'fuel05_ugc_video' %}
                       {%- comment -%}
-                        Page one only. Desktop emits 16 products plus 7 visible tiles per
-                        page and 23 does not divide by 4, so from page two the whole grid
-                        would start mid row and the tiles would land a column off the drawn
-                        3, 1, 2, 4, 3, 1, 2. Nothing can put them back without either
-                        changing the cell count per page or moving the tiles for desktop
-                        only, which then breaks mobile, where 16 plus 7 is odd as well. The
-                        design draws page one, so page one is what we ship.
-
-                        No audience tag setting on this block, unlike the product page one. A
-                        grid cell has no product of its own to test a tag against, and the
-                        tiles are only placed on collection.collection-lander-v1, which is
-                        assigned to Best Sellers, a single mixed collection. Reading the tag
-                        off collection.title there is either a no op or it blanks every tile,
-                        and a setting labelled for product tags that quietly tests a title
-                        would mislead whoever fills it in. The client's rule names product
-                        pages, "mens also for mens pages", so the filter lives there.
+                        Page one only: a tile on a later page would push every product
+                        after it a cell over, and the positions are set against page one.
+                        A block without a clip yet (just added in the editor) renders no
+                        cell at all; the snippet would print nothing and leave a blank
+                        grid cell behind.
                       {%- endcomment -%}
-                      {%- if paginate.current_page == 1 -%}
+                      {%- liquid
+                        assign fuel05_has_source = false
+                        if block.settings.video != blank or block.settings.video_url != blank
+                          assign fuel05_has_source = true
+                        endif
+                      -%}
+                      {%- if paginate.current_page == 1 and fuel05_has_source -%}
                         <li
                           class="grid__item fuel05-ugc fuel05-ugc--grid fuel05-ugc--grid-{{ block.settings.device | default: 'desktop' }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                           data-fuel05-row
                           {% if settings.animations_reveal_on_scroll %}
                           data-cascade
-                          style="display: none; --animation-order: {{ product_position }};"
-                          {% else %}
-                          style="display: none;"
+                          style="--animation-order: {{ product_position }};"
                           {% endif %}
                           {{ block.shopify_attributes }}>
                           {% render 'fuel05-ugc-tile',
@@ -648,6 +641,10 @@
               {
                 "value": "mobile",
                 "label": "Mobile"
+              },
+              {
+                "value": "both",
+                "label": "Desktop and mobile"
               }
             ],
             "default": "desktop"
