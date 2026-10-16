@@ -175,28 +175,52 @@
     "product-grid": {
       "type": "main-collection-product-grid",
       "blocks": {
-        "featured_product_WYiyqw": {
-          "type": "featured_product",
-          "disabled": true,
+        "fuel05_ugc_video_inHnJ6": {
+          "type": "fuel05_ugc_video",
           "settings": {
-            "position": 1,
-            "product": "3-x-100ml-parfymflaskor"
+            "position": 10,
+            "device": "both",
+            "video": "shopify://files/videos/magyx_co_english_only_BeaK_SmelLikeGood_b94edd9a.mov",
+            "video_url": "",
+            "product": ""
           }
         },
-        "quiz_promo_card_hA4E9G": {
-          "type": "quiz_promo_card",
-          "disabled": true,
+        "fuel05_ugc_video_J7NQC9": {
+          "type": "fuel05_ugc_video",
           "settings": {
-            "position": 3,
-            "heading": "Find Your Perfect Scent In 2 Minutes",
-            "url": "/#quiz",
-            "button_text": "Take our quiz"
+            "position": 8,
+            "device": "both",
+            "video": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeRoug_8c343931.mov",
+            "video_url": "",
+            "product": ""
+          }
+        },
+        "fuel05_ugc_video_tcWegf": {
+          "type": "fuel05_ugc_video",
+          "settings": {
+            "position": 4,
+            "device": "both",
+            "video": "shopify://files/videos/magyx_co_english_only_MollyS_SmelLikePara_ab77c266.mov",
+            "video_url": "",
+            "product": ""
+          }
+        },
+        "fuel05_ugc_video_7fLa6X": {
+          "type": "fuel05_ugc_video",
+          "settings": {
+            "position": 2,
+            "device": "both",
+            "video": "shopify://files/videos/magyx_co_english_only_CecilieT_SmelLikeGood_e40e48e7.mov",
+            "video_url": "",
+            "product": "6-x-50ml-perfume-wardrobe-55"
           }
         }
       },
       "block_order": [
-        "featured_product_WYiyqw",
-        "quiz_promo_card_hA4E9G"
+        "fuel05_ugc_video_inHnJ6",
+        "fuel05_ugc_video_J7NQC9",
+        "fuel05_ugc_video_tcWegf",
+        "fuel05_ugc_video_7fLa6X"
       ],
       "settings": {
         "products_per_page": 16,
