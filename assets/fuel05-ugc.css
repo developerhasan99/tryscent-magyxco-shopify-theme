@@ -161,6 +161,9 @@
      whatever height the neighbouring product cards have. */
   height: auto;
   aspect-ratio: 260 / 494;
+  /* The pill sizes itself off the tile's own width, not the viewport's: the
+     same tile is 260px at 1440, 216px at 1024 and 168px on a phone. */
+  container-type: inline-size;
 }
 
 @media screen and (max-width: 749px) {
@@ -288,9 +291,55 @@
   height: 16px;
 }
 
-/* The design draws the pill on desktop cards only. */
+/* Under 250px of tile (four columns at about 1024px of window, two columns on
+   a phone) the thumbnail, gaps and button left the title and price about 46px
+   and the price ran under the button. The clip already shows the product, so
+   the pill keeps title, price and button and drops the thumbnail. Same rule
+   as the tryscent.eu grid tiles. */
+@container (max-width: 249px) {
+  .fuel05-ugc--grid .fuel05-ugc__pill {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-thumb {
+    display: none;
+  }
+}
+
+/* Phone widths (168-190px of tile): desktop type sizes would make the pill a
+   third of a 243px card, so title, price and button step down. */
+@container (max-width: 199px) {
+  .fuel05-ugc--grid .fuel05-ugc__pill {
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-title {
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    line-height: 1.25;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-price {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-add {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* The home and product-page rows draw the pill on desktop cards only. A
+   collection grid tile keeps it on phones too: the product link is the reason
+   the tile sits between product cards. */
 @media screen and (max-width: 749px) {
-  .fuel05-ugc__pill {
+  .fuel05-ugc:not(.fuel05-ugc--grid) .fuel05-ugc__pill {
     display: none;
   }
 }
