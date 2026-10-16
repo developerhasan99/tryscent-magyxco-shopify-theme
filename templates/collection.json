@@ -68,6 +68,7 @@
     },
     "collection_hero_P7jePR": {
       "type": "collection-hero",
+      "disabled": true,
       "name": "Collection Hero",
       "settings": {
         "show_rating_badge": false,
@@ -148,69 +149,10 @@
         "sticky_cta_checkout": "Go to checkout"
       }
     },
-    "insta_story_6kD6Ki": {
-      "type": "insta-story",
-      "blocks": {
-        "story_gjiCaN": {
-          "type": "story",
-          "settings": {
-            "title": "LV",
-            "link": "shopify://collections/louis-vuitton®"
-          }
-        },
-        "story_yMVHwJ": {
-          "type": "story",
-          "settings": {
-            "title": "Dior",
-            "link": "shopify://collections/dior®"
-          }
-        },
-        "story_BpqQDR": {
-          "type": "story",
-          "settings": {
-            "title": "Tom Ford",
-            "link": "shopify://collections/tomford®"
-          }
-        },
-        "story_YdjabH": {
-          "type": "story",
-          "settings": {
-            "title": "Baccarat",
-            "link": "shopify://collections/baccarat-rouge®"
-          }
-        },
-        "story_fFraf6": {
-          "type": "story",
-          "settings": {
-            "title": "Creed",
-            "link": "shopify://collections/creed®"
-          }
-        },
-        "story_TBAmBK": {
-          "type": "story",
-          "disabled": true,
-          "settings": {
-            "title": "Xerjoff",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "story_gjiCaN",
-        "story_yMVHwJ",
-        "story_BpqQDR",
-        "story_YdjabH",
-        "story_fFraf6",
-        "story_TBAmBK"
-      ],
-      "disabled": true,
-      "settings": {}
-    },
     "banner": {
       "type": "main-collection-banner",
-      "disabled": true,
       "settings": {
-        "show_collection_description": false,
+        "show_collection_description": true,
         "show_collection_image": false,
         "color_scheme": "scheme-2"
       }
@@ -313,7 +255,6 @@
     "collection_stories_UpDe9c",
     "collection_hero_P7jePR",
     "fuel01_byo",
-    "insta_story_6kD6Ki",
     "banner",
     "popular_products_F6w4h9",
     "product-grid",

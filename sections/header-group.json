@@ -106,7 +106,7 @@
       "settings": {
         "enable_top_bar": true,
         "enable_timer": true,
-        "enable_badges": true,
+        "enable_badges": false,
         "primary_color": "#ffffff",
         "secondary_color": "#100f0d",
         "timer_box_color": "#3a3a3c",
