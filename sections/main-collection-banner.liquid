@@ -1,5 +1,6 @@
 {% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
 {{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{{ 'collection-description.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   @media screen and (max-width: 749px) {
@@ -17,8 +18,122 @@
         {{- collection.title | escape -}}
       </h1>
 
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
+      {%- if section.settings.show_collection_description and collection.description != blank -%}
+        {%- comment -%}
+          Folded to the first two sentences (theessencevault.co.uk pattern): the script below runs as the page is
+          parsed, before the first paint, so the full text never flashes up. Without JavaScript the whole
+          description shows and the toggle stays hidden.
+        {%- endcomment -%}
+        <div class="collection-hero__description rte mgx-cdesc" data-mgx-cdesc>
+          <div class="mgx-cdesc__text" id="MgxCollectionDescription-{{ section.id }}">{{ collection.description }}</div>
+          <button
+            type="button"
+            class="mgx-cdesc__toggle"
+            aria-expanded="false"
+            aria-controls="MgxCollectionDescription-{{ section.id }}"
+            data-more="+ {{ section.settings.description_more_label | escape }}"
+            data-less="- {{ section.settings.description_less_label | escape }}"
+            hidden>
+            + {{ section.settings.description_more_label | escape }}
+          </button>
+        </div>
+        <script>
+          (function () {
+            // Shows the first two sentences of the description; the rest (the remainder of that paragraph and every
+            // block after it) gets [hidden] until the toggle opens it. A sentence ends at . ! or ? followed by a space
+            // and a capital, a quote, a bracket or a digit, or at the end of a paragraph; "No." before a number is not
+            // an end.
+            var SHOWN = 2;
+            var setup = function (root) {
+              if (!root || root.dataset.mgxReady) return;
+              root.dataset.mgxReady = '1';
+              var text = root.querySelector('.mgx-cdesc__text');
+              var toggle = root.querySelector('.mgx-cdesc__toggle');
+              if (!text || !toggle) return;
+              var blocks = [];
+              var loose = false;
+              for (var n = text.firstChild; n; n = n.nextSibling) {
+                if (n.nodeType === 1) blocks.push(n);
+                else if (n.nodeType === 3 && n.nodeValue.trim()) loose = true;
+              }
+              if (loose || !blocks.length) blocks = [text];
+              var ends = function (str) {
+                var out = [];
+                var re = /[.!?]+["'\u201d\u2019)]*(?=\s+["'\u201c\u2018\u201e(]?[A-Z0-9\u00c0-\u017d])/g;
+                var m;
+                while ((m = re.exec(str))) {
+                  if (/\bno\.$/i.test(str.slice(0, m.index + 1)) && /^\s+\d/.test(str.slice(re.lastIndex))) continue;
+                  out.push(re.lastIndex);
+                }
+                var trimmed = str.replace(/\s+$/, '');
+                if (/[.!?]["'\u201d\u2019)]*$/.test(trimmed) && out[out.length - 1] !== trimmed.length) out.push(trimmed.length);
+                return out;
+              };
+              var count = 0;
+              var cutBlock = -1;
+              var cutAt = -1;
+              for (var i = 0; i < blocks.length && cutBlock < 0; i++) {
+                var str = blocks[i].textContent;
+                var e = ends(str);
+                if (count + e.length >= SHOWN) {
+                  cutBlock = i;
+                  cutAt = e[SHOWN - count - 1];
+                }
+                count += e.length;
+              }
+              if (cutBlock < 0) return;
+              var hide = [];
+              var block = blocks[cutBlock];
+              var rest = block.textContent.slice(cutAt);
+              if (rest.trim()) {
+                // The second sentence ends inside a paragraph: move the rest of that paragraph into a hidden span.
+                var walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT);
+                var seen = 0;
+                var node;
+                while ((node = walker.nextNode())) {
+                  if (seen + node.nodeValue.length >= cutAt) break;
+                  seen += node.nodeValue.length;
+                }
+                if (!node) return;
+                var range = document.createRange();
+                range.setStart(node, cutAt - seen);
+                range.setEnd(block, block.childNodes.length);
+                var span = document.createElement('span');
+                span.className = 'mgx-cdesc__rest';
+                span.appendChild(range.extractContents());
+                block.appendChild(span);
+                hide.push(span);
+              }
+              for (var j = cutBlock + 1; j < blocks.length; j++) {
+                if (blocks[j] !== text && blocks[j].textContent.trim()) hide.push(blocks[j]);
+              }
+              if (!hide.length) return;
+              if (block !== text) block.classList.add('mgx-cdesc__cut');
+              hide.forEach(function (el) {
+                el.hidden = true;
+              });
+              toggle.hidden = false;
+              toggle.addEventListener('click', function () {
+                var open = toggle.getAttribute('aria-expanded') !== 'true';
+                toggle.setAttribute('aria-expanded', String(open));
+                toggle.textContent = open ? toggle.dataset.less : toggle.dataset.more;
+                root.classList.toggle('is-open', open);
+                hide.forEach(function (el) {
+                  el.hidden = !open;
+                });
+              });
+            };
+            var scripts = document.getElementsByTagName('script');
+            var me = document.currentScript || scripts[scripts.length - 1];
+            setup(me && me.previousElementSibling);
+            if (!window.mgxCdescEditor) {
+              window.mgxCdescEditor = true;
+              document.addEventListener('shopify:section:load', function (event) {
+                event.target.querySelectorAll('[data-mgx-cdesc]').forEach(setup);
+              });
+            }
+          })();
+        </script>
       {%- endif -%}
     </div>
 
@@ -59,6 +174,19 @@
       "id": "show_collection_description",
       "default": true,
       "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
+    },
+    {
+      "type": "text",
+      "id": "description_more_label",
+      "label": "Description: show more",
+      "default": "Read more",
+      "info": "The description shows its first two sentences; this opens the rest"
+    },
+    {
+      "type": "text",
+      "id": "description_less_label",
+      "label": "Description: show less",
+      "default": "Read less"
     },
     {
       "type": "checkbox",
