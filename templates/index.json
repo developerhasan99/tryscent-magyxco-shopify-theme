@@ -547,18 +547,6 @@
             "product": ""
           }
         },
-        "review_JRzxRP": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/bottle_01_centered.jpg",
-            "content": "<p>\"I am satisfied with Magic Perfume. The perfume smells very similar to the original and holds well. The packaging is neat and the bottle is beautiful. Overall, it's an excellent option if you want a quality perfume at a reasonable price.\"</p>",
-            "author": "Alina M",
-            "date": "2 months ago",
-            "rating": 5,
-            "show_verified_badge": false,
-            "product": ""
-          }
-        },
         "review_9T4pt3": {
           "type": "review",
           "settings": {
@@ -567,6 +555,18 @@
             "author": "Amanda G",
             "date": "2 months ago",
             "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_bNVhH6": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_32.png",
+            "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
+            "author": "Angel",
+            "date": "3 weeks ago",
+            "rating": 5,
             "show_verified_badge": true,
             "product": ""
           }
@@ -688,18 +688,6 @@
             "product": ""
           }
         },
-        "review_bNVhH6": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_32.png",
-            "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
-            "author": "Angel",
-            "date": "3 weeks ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
         "review_PiLjha": {
           "type": "review",
           "settings": {
@@ -715,7 +703,7 @@
         "review_LRkiUH": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_05_labeled_tilted.jpg",
+            "review_image": "shopify://shop_images/bottle_06_desk_closeup.jpg",
             "content": "<p>\"After a small delay, I finally received my Magic Perfume perfumes and they are exactly as they should be! I can hardly believe how much they match the originals — for reference, I received \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\", these are really beautiful fragrances.\"</p>",
             "author": "Gabriella K",
             "date": "3 months ago",
@@ -831,6 +819,18 @@
             "product": ""
           }
         },
+        "review_JRzxRP": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/bottle_01_centered.jpg",
+            "content": "<p>\"I am satisfied with Magic Perfume. The perfume smells very similar to the original and holds well. The packaging is neat and the bottle is beautiful. Overall, it's an excellent option if you want a quality perfume at a reasonable price.\"</p>",
+            "author": "Alina M",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
         "review_XfwcAY": {
           "type": "review",
           "settings": {
@@ -934,8 +934,8 @@
         "review_Vb9HW7",
         "review_HjyT3p",
         "review_NYCPwJ",
-        "review_JRzxRP",
         "review_9T4pt3",
+        "review_bNVhH6",
         "review_EniFK9",
         "review_C3bd9b",
         "review_aThE8h",
@@ -946,7 +946,6 @@
         "review_JdiNyt",
         "review_nQ6MLV",
         "review_bjRzPy",
-        "review_bNVhH6",
         "review_PiLjha",
         "review_LRkiUH",
         "review_y8tq9b",
@@ -958,6 +957,7 @@
         "review_8FxpJj",
         "review_jRgbTk",
         "review_zAw7dR",
+        "review_JRzxRP",
         "review_XfwcAY",
         "review_639hbA",
         "review_KK6jhW",
