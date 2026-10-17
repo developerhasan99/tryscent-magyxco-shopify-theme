@@ -929,6 +929,7 @@
         "review_L49pxB",
         "review_w9Faba"
       ],
+      "disabled": true,
       "name": "Massive Review",
       "settings": {
         "background_color": "#ffffff",
