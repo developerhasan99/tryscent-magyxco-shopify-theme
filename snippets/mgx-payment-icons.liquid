@@ -1,0 +1,17 @@
+{%- comment -%}
+  Payment methods row under the buy button: quantity-breaker, bundle-builder
+  and reactive-variant-selector. Shopify's own full-colour icons, in the order
+  of the old greyscale image (assets/payment-badge.svg) with Klarna in Amazon
+  Pay's place. A fixed list, not shop.enabled_payment_types: that one changes
+  with the shopper's market (no Klarna or PayPal for US visitors, Bancontact,
+  EPS and the like for others). Styles: .mgx-pay-icons in magyx-brand.css.
+
+  Usage:
+  {% render 'mgx-payment-icons' %}
+{%- endcomment -%}
+{%- assign mgx_pay_types = 'visa,master,american_express,paypal,diners_club,discover,google_pay,apple_pay,klarna' | split: ',' -%}
+<ul class="mgx-pay-icons" role="list" aria-label="Payment methods">
+  {%- for type in mgx_pay_types -%}
+    <li>{{ type | payment_type_svg_tag: class: 'mgx-pay-icons__icon' }}</li>
+  {%- endfor -%}
+</ul>

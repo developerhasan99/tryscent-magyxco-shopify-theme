@@ -241,3 +241,28 @@
     );
   }
 }
+
+/* ---------- payment methods row (snippets/mgx-payment-icons.liquid) ----------
+   Shopify's full-colour 38x24 icons on one line under the buy button, same
+   400px width and top margin as the greyscale image it replaces (its mt-8 is
+   32px in tailwind-compiled.css; 2rem here would be 20px, root is 10px). On a
+   narrow column the icons shrink together instead of wrapping. */
+.mgx-pay-icons {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  max-width: 400px;
+  margin: 32px auto 0;
+  padding: 0;
+  list-style: none;
+}
+.mgx-pay-icons > li {
+  flex: 0 1 38px;
+  min-width: 0;
+  margin: 0;
+}
+.mgx-pay-icons__icon {
+  display: block;
+  width: 100%;
+  height: auto;
+}

@@ -5,14 +5,14 @@
    but three clips instead of its four and at the clips' own 9:16 instead of
    3:4, so they are big enough to watch and the card has room. */
 
-/* Anchors the pause toggle over the row's top-left corner. The top margin is
-   the info column's block spacing (section-main-product.css,
-   `.product__info-container > * + *`): main-product renders this row in its
-   second block loop, inside a wrapper, so that rule doesn't reach it and the
-   clips would sit on the last FAQ tab's divider. */
+/* Anchors the pause toggle over the row's top-left corner. main-product
+   renders this row in its second block loop, inside a wrapper, first, above
+   the FAQ tabs, so the info column's block spacing doesn't reach it. The top
+   margin is the FAQ tabs' own (component-accordion.css `.accordion`, 2.5rem):
+   the same 25px under the money-back guarantee as above the first tab. */
 .ugc-row {
   position: relative;
-  margin-top: 1.5rem;
+  margin-top: 2.5rem;
 }
 
 /* Pause / resume for the auto-advancing preview: WCAG 2.2.2 needs a way to

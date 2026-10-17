@@ -1055,8 +1055,10 @@
                 {%- when 'ugc_videos' -%}
                   {%- comment -%}
                     Here, in the second pass with the FAQ tabs, not in the first:
-                    the row belongs under the tabs, and every first-pass block
-                    renders above them whatever the block order says.
+                    every first-pass block renders above the tabs whatever the
+                    block order says, so the row's place among the tabs comes
+                    from block_order (templates: first, above the tabs, right
+                    under the money-back guarantee).
                   {%- endcomment -%}
                   {% render 'ugc-video-row', block: block %}
                 {%- when 'product_statistics' -%}
