@@ -100,22 +100,37 @@
     {%- endif -%}
 
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
-      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
-      <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
-      {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
-        <aside
-          aria-labelledby="verticalTitle"
-          class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}"
-          id="main-collection-filters"
-          data-id="{{ section.id }}">
-          {% render 'facets'
-            , results: collection
-            , enable_filtering: section.settings.enable_filtering
-            , enable_sorting: section.settings.enable_sorting
-            , filter_type: section.settings.filter_type
-            , paginate: paginate
-          %}
-        </aside>
+      {%- if section.settings.filter_type == 'vertical' -%}
+        {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+        <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+        {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
+          <aside
+            aria-labelledby="verticalTitle"
+            class="facets-wrapper{% unless section.settings.enable_filtering %} facets-wrapper--no-filters{% endunless %}"
+            id="main-collection-filters"
+            data-id="{{ section.id }}">
+            {% render 'facets'
+              , results: collection
+              , enable_filtering: section.settings.enable_filtering
+              , enable_sorting: section.settings.enable_sorting
+              , filter_type: section.settings.filter_type
+              , paginate: paginate
+            %}
+          </aside>
+        {%- endif -%}
+      {%- elsif section.settings.enable_filtering or section.settings.enable_sorting -%}
+        {%- comment -%}
+          Horizontal and drawer layouts: pill bar + phone drawer in the style of
+          theessencevault.co.uk (as on magyx.whop.site and tryscent.eu), on the same Shopify filters.
+        {%- endcomment -%}
+        {{ 'mgx-filters.css' | asset_url | stylesheet_tag }}
+        <script src="{{ 'mgx-filters.js' | asset_url }}" defer="defer"></script>
+        {% render 'mgx-filters'
+          , results: collection
+          , section_id: section.id
+          , enable_filtering: section.settings.enable_filtering
+          , enable_sorting: section.settings.enable_sorting
+        %}
       {%- endif -%}
 
       {%- if section.settings.enable_search and section.settings.filter_type != 'vertical' -%}
@@ -130,8 +145,9 @@
         {%- endif -%}
       {%- endfor -%}
       {%- comment -%}
-        The asset tags sit outside #ProductGridContainer on purpose: facets.js replaces
-        that container's innerHTML on every filter and sort, and a script tag inserted
+        The asset tags sit outside #ProductGridContainer on purpose: the filter bar
+        (mgx-filters.js, or facets.js in the vertical layout) replaces that container's
+        innerHTML on every filter and sort, and a script tag inserted
         through innerHTML never runs. fuel05-ugc.js arms itself and re-scans on its own,
         so it only has to load once, here.
       {%- endcomment -%}

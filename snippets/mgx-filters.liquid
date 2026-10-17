@@ -1,0 +1,219 @@
+{% comment %}
+  Collection filter bar in the style of theessencevault.co.uk, as on magyx.whop.site, built on the
+  store's own Shopify filters (Search & Discovery: price, season, occasion, brand), so the groups
+  and their values stay managed in the admin. Port of the tryscent.eu bar; the price_range filter
+  (From / To fields, snippets/mgx-filters-price.liquid) is added here, tryscent.eu has none.
+  - From 990px: a sticky, centred row of pill dropdowns (Sort first, then one per filter) with
+    "Remove all" once anything is picked.
+  - Below 990px: one full-width "Filter and sort" pill that opens a full-screen drawer with one
+    accordion per group and an Apply button carrying the live result count.
+  Every tick applies at once (assets/mgx-filters.js re-renders this section through the Section
+  Rendering API); without JavaScript the forms still submit as plain GET requests.
+
+  Accepts:
+  - results: {Object} the collection
+  - section_id: {String} section.id of the grid section
+  - enable_filtering: {Boolean}
+  - enable_sorting: {Boolean}
+{% endcomment %}
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign sort_name = ''
+  for option in results.sort_options
+    if option.value == sort_by
+      assign sort_name = option.name
+    endif
+  endfor
+
+  assign active_count = 0
+  if enable_filtering
+    for filter in results.filters
+      if filter.type == 'list' or filter.type == 'boolean'
+        assign active_count = active_count | plus: filter.active_values.size
+      elsif filter.type == 'price_range'
+        if filter.min_value.value != nil or filter.max_value.value != nil
+          assign active_count = active_count | plus: 1
+        endif
+      endif
+    endfor
+  endif
+
+  assign show_clear = false
+  if active_count > 0
+    assign show_clear = true
+  elsif enable_sorting and sort_by != results.default_sort_by
+    assign show_clear = true
+  endif
+
+  assign label_filter_and_sort = 'products.facets.filter_and_sort' | t
+  assign label_sort = 'products.facets.sort_button' | t
+  assign label_clear = 'products.facets.clear_all' | t
+-%}
+{%- capture chevron -%}
+  <svg class="mgx-fc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg>
+{%- endcapture -%}
+
+<div
+  class="mgx-fc page-width"
+  id="MgxFiltersBar"
+  data-section-id="{{ section_id }}"
+  data-url="{{ results.url }}"
+  data-default-sort="{{ results.default_sort_by | escape }}">
+  <form class="mgx-fc-bar" action="{{ results.url }}" data-mgx-fc-form>
+    {%- if enable_sorting -%}
+      <div class="mgx-fc-dd" data-key="sort_by">
+        <button type="button" class="mgx-fc-pill" aria-expanded="false" aria-controls="MgxFcPanel-sort_by">
+          <span>{{ label_sort }}</span>
+          {{- chevron -}}
+        </button>
+        <div class="mgx-fc-panel" id="MgxFcPanel-sort_by" role="group" aria-label="{{ label_sort | escape }}" hidden>
+          {%- for option in results.sort_options -%}
+            <label class="mgx-fc-opt">
+              <input type="radio" name="sort_by" value="{{ option.value | escape }}"{% if option.value == sort_by %} checked{% endif %}>
+              <span class="mgx-fc-label">{{ option.name | escape }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if enable_filtering -%}
+      {%- for filter in results.filters -%}
+        {%- unless filter.type == 'list' or filter.type == 'boolean' or filter.type == 'price_range' -%}
+          {%- continue -%}
+        {%- endunless -%}
+        {%- liquid
+          assign fc_n = filter.active_values.size
+          if filter.type == 'price_range'
+            assign fc_n = 0
+            if filter.min_value.value != nil or filter.max_value.value != nil
+              assign fc_n = 1
+            endif
+          endif
+        -%}
+        <div class="mgx-fc-dd" data-key="{{ filter.param_name | escape }}">
+          <button type="button" class="mgx-fc-pill" aria-expanded="false" aria-controls="MgxFcPanel-{{ forloop.index }}">
+            <span>{{ filter.label | escape }}</span>
+            {%- if fc_n > 0 -%}
+              <span class="mgx-fc-pc">({{ fc_n }})</span>
+            {%- endif -%}
+            {{- chevron -}}
+          </button>
+          <div class="mgx-fc-panel" id="MgxFcPanel-{{ forloop.index }}" role="group" aria-label="{{ filter.label | escape }}" hidden>
+            {%- if filter.type == 'price_range' -%}
+              {% render 'mgx-filters-price', filter: filter, id_prefix: 'MgxFcBarPrice-' %}
+            {%- endif -%}
+            {%- for value in filter.values -%}
+              {%- liquid
+                assign off = false
+                if value.count == 0 and value.active == false
+                  assign off = true
+                endif
+              -%}
+              <label class="mgx-fc-opt{% if off %} is-off{% endif %}">
+                <input type="checkbox" name="{{ value.param_name | escape }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if off %} disabled{% endif %}>
+                <span class="mgx-fc-label">{{ value.label | escape }}</span>
+                <span class="mgx-fc-n">({{ value.count }})</span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endif -%}
+
+    <a class="mgx-fc-clear" href="{{ results.url }}" data-mgx-fc-clear{% unless show_clear %} hidden{% endunless %}>{{ label_clear }}</a>
+    <noscript><button type="submit" class="mgx-fc-clear">{{ 'products.facets.apply' | t }}</button></noscript>
+  </form>
+
+  <div class="mgx-fc-mbar">
+    <button type="button" class="mgx-fc-trigger" aria-haspopup="dialog" aria-controls="MgxFiltersDrawer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+      <span>{{ label_filter_and_sort }}</span>
+      {%- if active_count > 0 -%}
+        <span class="mgx-fc-pc">({{ active_count }})</span>
+      {%- endif -%}
+    </button>
+  </div>
+</div>
+
+<div
+  class="mgx-fc-drawer"
+  id="MgxFiltersDrawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ label_filter_and_sort | escape }}"
+  hidden>
+  <div class="mgx-fc-head">
+    <span class="mgx-fc-title">{{ label_filter_and_sort }}</span>
+    <button type="button" class="mgx-fc-x" data-mgx-fc-close aria-label="{{ 'accessibility.close' | t | escape }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <form class="mgx-fc-body" action="{{ results.url }}" data-mgx-fc-form>
+    {%- if enable_sorting -%}
+      <details class="mgx-fc-acc" data-key="sort_by">
+        <summary>
+          <span>{{ label_sort }} <span class="mgx-fc-sel">({{ sort_name | escape }})</span></span>
+        </summary>
+        <div class="mgx-fc-list">
+          {%- for option in results.sort_options -%}
+            <label class="mgx-fc-opt">
+              <input type="radio" name="sort_by" value="{{ option.value | escape }}"{% if option.value == sort_by %} checked{% endif %}>
+              <span class="mgx-fc-label">{{ option.name | escape }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if enable_filtering -%}
+      {%- for filter in results.filters -%}
+        {%- unless filter.type == 'list' or filter.type == 'boolean' or filter.type == 'price_range' -%}
+          {%- continue -%}
+        {%- endunless -%}
+        {%- liquid
+          assign fc_n = filter.active_values.size
+          if filter.type == 'price_range'
+            assign fc_n = 0
+            if filter.min_value.value != nil or filter.max_value.value != nil
+              assign fc_n = 1
+            endif
+          endif
+        -%}
+        <details class="mgx-fc-acc" data-key="{{ filter.param_name | escape }}" open>
+          <summary>
+            <span>
+              {{- filter.label | escape -}}
+              {%- if fc_n > 0 %} <span class="mgx-fc-sel">({{ fc_n }})</span>{% endif -%}
+            </span>
+          </summary>
+          <div class="mgx-fc-list">
+            {%- if filter.type == 'price_range' -%}
+              {% render 'mgx-filters-price', filter: filter, id_prefix: 'MgxFcDrawerPrice-' %}
+            {%- endif -%}
+            {%- for value in filter.values -%}
+              {%- liquid
+                assign off = false
+                if value.count == 0 and value.active == false
+                  assign off = true
+                endif
+              -%}
+              <label class="mgx-fc-opt{% if off %} is-off{% endif %}">
+                <input type="checkbox" name="{{ value.param_name | escape }}" value="{{ value.value | escape }}"{% if value.active %} checked{% endif %}{% if off %} disabled{% endif %}>
+                <span class="mgx-fc-label">{{ value.label | escape }}</span>
+                <span class="mgx-fc-n">({{ value.count }})</span>
+              </label>
+            {%- endfor -%}
+          </div>
+        </details>
+      {%- endfor -%}
+    {%- endif -%}
+    <noscript><button type="submit" class="mgx-fc-apply">{{ 'products.facets.apply' | t }}</button></noscript>
+  </form>
+  <div class="mgx-fc-foot">
+    <button type="button" class="mgx-fc-apply" data-mgx-fc-close data-mgx-fc-apply>
+      {{- 'products.facets.apply' | t }} ({{ results.products_count }})
+    </button>
+    <a class="mgx-fc-clearlink" href="{{ results.url }}" data-mgx-fc-clear{% unless show_clear %} hidden{% endunless %}>{{ label_clear }}</a>
+  </div>
+</div>

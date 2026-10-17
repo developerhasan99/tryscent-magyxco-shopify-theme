@@ -2,7 +2,8 @@
  * Infinite scroll for sections/main-collection-product-grid.liquid, shared with the collection
  * search (assets/collection-search.js) through window.mgxCollectionGrid:
  * - one request at a time; the next page is read from #load-more-btn on every call;
- * - re-armed when facets.js swaps #ProductGridContainer (filters, sort), which used to stop
+ * - re-armed when the filter bar (mgx-filters.js; facets.js in the vertical layout) swaps
+ *   #ProductGridContainer (filters, sort), which used to stop
  *   loading for good, and after every load, so it keeps going while the button stays in view;
  * - loadAll() fetches the remaining pages 4 at a time and appends them in page order.
  *

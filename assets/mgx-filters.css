@@ -1,0 +1,454 @@
+/* Collection filter bar (snippets/mgx-filters.liquid, assets/mgx-filters.js), a port of the
+   magyx.whop.site bar sized after theessencevault.co.uk, in MAGYX tokens: pill dropdowns from
+   990px, a "Filter and sort" pill + full-screen drawer below. Closed panels and the drawer use
+   [hidden]. */
+.mgx-fc-panel[hidden],
+.mgx-fc-drawer[hidden],
+.mgx-fc-clear[hidden],
+.mgx-fc-clearlink[hidden] {
+  display: none;
+}
+
+/* z-index 2, one below the sticky header section (3), so the open phone menu and the header's
+   dropdowns paint over the bar. Its desktop panels stack inside it. */
+.mgx-fc {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: rgb(var(--color-background));
+  transition: top 0.15s ease-out;
+}
+
+/* While the sticky header is shown again (scrolling up), the bar sits right under it. */
+.section-header.shopify-section-header-sticky:not(.shopify-section-header-hidden) ~ main .mgx-fc {
+  top: var(--header-height, 0px);
+}
+
+.mgx-fc-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 0;
+}
+
+.mgx-fc-dd {
+  position: relative;
+}
+
+.mgx-fc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid var(--mgx-black);
+  border-radius: 999px;
+  background: var(--mgx-white);
+  color: var(--mgx-black);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mgx-fc-pill:hover {
+  border-color: var(--mgx-graphite);
+  background: rgba(var(--mgx-silver-rgb), 0.25);
+}
+
+.mgx-fc-chev {
+  flex: none;
+  transition: transform 0.15s ease-out;
+}
+
+.mgx-fc-pill[aria-expanded='true'] .mgx-fc-chev {
+  transform: rotate(180deg);
+}
+
+.mgx-fc-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 5;
+  min-width: 256px;
+  max-height: 50vh;
+  overflow: auto;
+  padding: 8px 0;
+  background: var(--mgx-white);
+  border: 1px solid rgba(var(--mgx-black-rgb), 0.08);
+  border-radius: 6px;
+  box-shadow: 0 10px 15px -3px rgba(var(--mgx-black-rgb), 0.1), 0 4px 6px -4px rgba(var(--mgx-black-rgb), 0.1);
+}
+
+/* A panel that would run past the right edge of the window opens leftwards instead. */
+.mgx-fc-dd--end .mgx-fc-panel {
+  left: auto;
+  right: 0;
+}
+
+.mgx-fc-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--mgx-black);
+  cursor: pointer;
+}
+
+.mgx-fc-opt:hover {
+  background: rgba(var(--mgx-silver-rgb), 0.25);
+}
+
+.mgx-fc-opt.is-off {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.mgx-fc-opt.is-off:hover {
+  background: none;
+}
+
+.mgx-fc-label {
+  flex: 0 1 auto;
+}
+
+.mgx-fc-n {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.mgx-fc-opt input {
+  flex: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  background: rgba(var(--mgx-silver-rgb), 0.35);
+  border: 1px solid rgba(var(--mgx-black-rgb), 0.2);
+  border-radius: 0;
+  cursor: inherit;
+}
+
+.mgx-fc-opt input[type='radio'] {
+  border-radius: 50%;
+}
+
+.mgx-fc-opt input:checked {
+  background: var(--mgx-black) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") center / 70% no-repeat;
+  border-color: var(--mgx-black);
+}
+
+.mgx-fc-opt input[type='radio']:checked {
+  background: var(--mgx-white);
+  box-shadow: inset 0 0 0 4px var(--mgx-black);
+}
+
+.mgx-fc-opt input:focus-visible,
+.mgx-fc-pill:focus-visible,
+.mgx-fc-trigger:focus-visible,
+.mgx-fc-apply:focus-visible {
+  outline: 2px solid var(--mgx-accent);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.mgx-fc-clear,
+.mgx-fc-clearlink {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mgx-text-muted);
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.mgx-fc-clear {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+}
+
+.mgx-fc-mbar {
+  display: none;
+}
+
+/* Price filter (snippets/mgx-filters-price.liquid): two fields side by side, the currency symbol
+   inside each, under a line with the highest price. magyx.co only. */
+.mgx-fc-price {
+  padding: 4px 16px 8px;
+}
+
+.mgx-fc-price-max {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--mgx-text-muted);
+}
+
+.mgx-fc-price-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mgx-fc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--mgx-black);
+}
+
+.mgx-fc-input {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid rgba(var(--mgx-black-rgb), 0.2);
+  border-radius: 6px;
+  background: var(--mgx-white);
+}
+
+.mgx-fc-input:focus-within {
+  border-color: var(--mgx-black);
+}
+
+.mgx-fc-cur {
+  flex: none;
+  color: var(--mgx-text-muted);
+  font-size: 14px;
+}
+
+.mgx-fc-input input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mgx-black);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  box-shadow: none;
+}
+
+.mgx-fc-drawer .mgx-fc-price {
+  padding: 0 0 6px;
+}
+
+.mgx-fc-drawer .mgx-fc-input {
+  height: 48px;
+}
+
+.mgx-fc-drawer .mgx-fc-input input,
+.mgx-fc-drawer .mgx-fc-cur {
+  font-size: 16px;
+}
+
+.mgx-fc-pc {
+  font-weight: 600;
+}
+
+/* Grid while a filter or sort is loading. */
+#ProductGridContainer[aria-busy='true'] {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.15s ease-out;
+}
+
+/* Phone drawer: on <body>-level fixed layer, above the sticky header. */
+.mgx-fc-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--mgx-white);
+  color: var(--mgx-black);
+}
+
+html.mgx-fc-lock,
+html.mgx-fc-lock body {
+  overflow: hidden;
+}
+
+.mgx-fc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 54px;
+  padding: env(safe-area-inset-top, 0px) 6px 0 16px;
+  border-bottom: 1px solid rgba(var(--mgx-black-rgb), 0.1);
+}
+
+.mgx-fc-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.mgx-fc-x {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--mgx-black);
+  cursor: pointer;
+}
+
+.mgx-fc-body {
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 0 16px;
+}
+
+.mgx-fc-acc {
+  border-bottom: 1px solid rgba(var(--mgx-black-rgb), 0.08);
+}
+
+.mgx-fc-acc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 60px;
+  font-size: 14px;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+}
+
+.mgx-fc-acc summary::-webkit-details-marker {
+  display: none;
+}
+
+.mgx-fc-acc summary::after {
+  content: '+';
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.mgx-fc-acc[open] summary::after {
+  content: '\2212';
+}
+
+.mgx-fc-sel {
+  margin-left: 6px;
+  font-weight: 400;
+  color: var(--mgx-text-muted);
+}
+
+.mgx-fc-list {
+  padding: 0 0 14px;
+}
+
+.mgx-fc-drawer .mgx-fc-opt {
+  min-height: 44px;
+  padding: 4px 0;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.mgx-fc-drawer .mgx-fc-opt:hover {
+  background: none;
+}
+
+.mgx-fc-drawer .mgx-fc-opt input {
+  width: 20px;
+  height: 20px;
+}
+
+.mgx-fc-drawer .mgx-fc-n {
+  margin-left: auto;
+  font-size: 15px;
+  opacity: 0.75;
+}
+
+.mgx-fc-foot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 15px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(var(--mgx-black-rgb), 0.1);
+  box-shadow: 0 -4px 12px rgba(var(--mgx-black-rgb), 0.06);
+}
+
+.mgx-fc-apply {
+  width: 100%;
+  height: 54px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--mgx-black);
+  color: var(--mgx-white);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mgx-fc-apply:hover {
+  background: var(--mgx-graphite);
+}
+
+/* :not([hidden]): the same weight as `.mgx-fc-clearlink[hidden]` above but later, so without it
+   "Remove all" showed in the drawer with nothing picked (still the case on tryscent.eu). */
+.mgx-fc-foot .mgx-fc-clearlink:not([hidden]) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+@media screen and (max-width: 989px) {
+  .mgx-fc-bar {
+    display: none;
+  }
+
+  .mgx-fc-mbar {
+    display: block;
+    padding: 12px 0;
+  }
+
+  .mgx-fc-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 54px;
+    padding: 0 16px;
+    border: 1px solid var(--mgx-black);
+    border-radius: 999px;
+    background: var(--mgx-white);
+    color: var(--mgx-black);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+}
