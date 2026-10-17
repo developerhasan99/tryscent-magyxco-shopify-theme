@@ -17,9 +17,12 @@ then scrolls to the offer instead of reloading. Products that cannot be
 bought get no card.
 
 ## Placement
-- `product.quantity-breakers` (80 products): after the comparative
-  advertising disclaimer tab, products = `bundle-6x50-71`.
-- `product.custom-bundle` (11 bundles): same place, no product, so each card
+- Since 17.10.2026 (dc8c838, Adrian): under the money-back guarantee, above
+  the FAQ tabs (block_order: right before the first FAQ block), 25px gap
+  on both sides. Was after the comparative advertising disclaimer tab.
+- `product.quantity-breakers` (80 products): before `expanded_notes`
+  (Fragrance notes), products = `bundle-6x50-71`.
+- `product.custom-bundle` (11 bundles): before the Description tab, no product, so each card
   shows that page's bundle. `bundle-3x100-79` is sold out, so no card there.
 - Not placed: `product.json` (no visible product), `payday-60` (main off).
   The block can be added there in Customize.
@@ -30,8 +33,8 @@ bought get no card.
 ## Differences from tryscent.eu
 - magyx.co renders the FAQ tabs in a second block loop in main-product, after
   every other block. The `ugc_videos` branch lives in that second loop, so
-  the row sits under the tabs; in the first loop it would render above them
-  whatever the block order says.
+  its place among the tabs comes from block_order; in the first loop it
+  would always render above every tab whatever the block order says.
 - No "Polecany zestaw" card on this store, so no `replace_bundle` setting.
 - Titles print with `title | escape` (no Polish title snippet here).
 - Scroll anchors: `id="atc_scroll_target"` on `.atc-bundle-builder`
