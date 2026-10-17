@@ -1,0 +1,43 @@
+{%- comment -%}
+  Short description under the product title, from the product field
+  custom.short_description (1-2 sentences), and a "Full description" link
+  that opens the Description accordion further down the page.
+
+  Renders nothing while the field is empty; the theme editor shows a dashed
+  placeholder instead. The link renders only when the accordion block named in
+  the block settings is on this page.
+
+  Same file in the magyx.co and tryscent.eu themes (only the block defaults in
+  main-product differ). Spec: SHORT-DESCRIPTION.md.
+
+  Accepts:
+  - block: the short_description block
+  - section: the main-product section
+  - product: the page's product
+{%- endcomment -%}
+{%- liquid
+  assign sdesc = product.metafields.custom.short_description.value | strip
+  assign sdesc_target = blank
+  for b in section.blocks
+    if b.id == block.settings.description_block_id
+      assign sdesc_target = 'Details-' | append: b.id | append: '-' | append: section.id
+    endif
+  endfor
+-%}
+{%- if sdesc != blank -%}
+  {{ 'mgx-sdesc.css' | asset_url | stylesheet_tag }}
+  <div class="mgx-sdesc" {{ block.shopify_attributes }}>
+    <p class="mgx-sdesc__text">{{ sdesc | escape | newline_to_br }}</p>
+    {%- if sdesc_target != blank and block.settings.link_label != blank -%}
+      <a class="mgx-sdesc__more mgx-underline-hover" href="#{{ sdesc_target }}" data-mgx-sdesc-more>
+        {{- block.settings.link_label | escape -}}
+      </a>
+      <script src="{{ 'mgx-sdesc.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+  </div>
+{%- elsif request.design_mode -%}
+  {{ 'mgx-sdesc.css' | asset_url | stylesheet_tag }}
+  <div class="mgx-sdesc mgx-sdesc--placeholder" {{ block.shopify_attributes }}>
+    <p class="mgx-sdesc__text">Short description: empty for this product (product field custom.short_description).</p>
+  </div>
+{%- endif -%}

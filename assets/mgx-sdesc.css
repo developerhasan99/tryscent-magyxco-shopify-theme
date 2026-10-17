@@ -1,0 +1,47 @@
+/* Short description under the product title + "Full description" link
+   (snippets/short-description.liquid). Same file in the magyx.co and
+   tryscent.eu themes. Spacing above and below comes from the product info
+   column, like every other block there. */
+
+.mgx-sdesc__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: normal;
+  color: var(--mgx-text-muted, #3A3A3C);
+}
+
+@media screen and (min-width: 750px) {
+  .mgx-sdesc__text {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}
+
+/* 16px of text in a 44px tap target. The padding is taken back with negative
+   margins, so on screen the link sits 10px under the text and adds nothing
+   below. */
+.mgx-sdesc__more {
+  display: inline-block;
+  padding: 14px 0;
+  margin: -4px 0 -14px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mgx-black, #100F0D);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.mgx-sdesc__more:focus-visible {
+  outline: 2px solid var(--mgx-black, #100F0D);
+  outline-offset: 2px;
+}
+
+.mgx-sdesc--placeholder {
+  padding: 8px 12px;
+  border: 1px dashed var(--mgx-silver, #C7C9CB);
+}

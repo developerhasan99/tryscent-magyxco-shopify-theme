@@ -88,6 +88,8 @@
             {%- case block.type -%}
               {%- when '@app' -%}
                 {% render block %}
+              {%- when 'short_description' -%}
+                {% render 'short-description', block: block, section: section, product: product %}
               {% when 'inspired_by' %}
                 {% if product.metafields.custom.inspiration != blank %}
                   {% if product.template_suffix == 'cro-deck' %}
@@ -1710,6 +1712,30 @@
           ],
           "default": "body",
           "label": "t:sections.main-product.blocks.text.settings.text_style.label"
+        }
+      ]
+    },
+    {
+      "type": "short_description",
+      "name": "Short description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the product field custom.short_description (1-2 sentences) and a link that opens the Description accordion. Hidden while the field is empty."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "Full description"
+        },
+        {
+          "type": "text",
+          "id": "description_block_id",
+          "label": "Description accordion block id",
+          "default": "collapsible_tab_XYmgtQ",
+          "info": "The link shows only when this accordion block is on the page."
         }
       ]
     },

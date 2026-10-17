@@ -16,6 +16,13 @@
           "type": "title",
           "settings": {}
         },
+        "short_description_Sd7mQx": {
+          "type": "short_description",
+          "settings": {
+            "link_label": "Full description",
+            "description_block_id": "collapsible_tab_XYmgtQ"
+          }
+        },
         "made_in_the_eu_78caec": {
           "type": "made_in_the_eu",
           "settings": {}
@@ -162,6 +169,7 @@
       },
       "block_order": [
         "title",
+        "short_description_Sd7mQx",
         "made_in_the_eu_78caec",
         "bundle_content_Fp4nMk",
         "bundle_price_BXLEVb",
