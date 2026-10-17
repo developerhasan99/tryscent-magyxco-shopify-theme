@@ -1,0 +1,33 @@
+{%- comment -%}
+  The saving a UGC product card shows (PDP / bundle-page video row and the
+  collection grid's UGC tile), as on magyx.whop.site's videos row: against the
+  regular (compare-at) price, rounded to a whole percent. No regular price above
+  today's = no output = the plain card.
+
+  Outputs "pct|price|compare|per_bottle" (money in cents, per_bottle 0 when the
+  title does not start with a bottle count such as "6 x 50ml"), or nothing.
+  Callers capture it and split on '|':
+    {%- capture offer_data -%}{% render 'ugc-offer-data', product: some_product %}{%- endcapture -%}
+
+  Accepts:
+  - product: {Object} the product the card links to
+{%- endcomment -%}
+{%- liquid
+  assign offer_variant = product.selected_or_first_available_variant
+  if offer_variant != blank and offer_variant.compare_at_price > offer_variant.price
+    assign offer_pct = offer_variant.price | times: 100.0 | divided_by: offer_variant.compare_at_price
+    assign offer_pct = 100 | minus: offer_pct | round
+    if offer_pct > 0 and offer_pct < 100
+      # Bottle count from a title like "6 x 50ml ..." / "6X 50ml ...": the part
+      # before the first x must be a plain number, anything else = no count.
+      assign bottles_text = product.title | downcase | split: 'x' | first | strip
+      assign bottles = bottles_text | plus: 0
+      assign bottles_check = bottles | append: ''
+      assign offer_per = 0
+      if bottles > 1 and bottles_check == bottles_text
+        assign offer_per = offer_variant.price | times: 1.0 | divided_by: bottles | round
+      endif
+      echo offer_pct | append: '|' | append: offer_variant.price | append: '|' | append: offer_variant.compare_at_price | append: '|' | append: offer_per
+    endif
+  endif
+-%}

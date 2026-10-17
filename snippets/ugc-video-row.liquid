@@ -117,6 +117,21 @@
             assign clip_title = clip_product.title | escape
           endif
 
+          # A saving against the regular price (snippets/ugc-offer-data), as
+          # on magyx.whop.site: an amber -N% tab and the struck regular price
+          # on the card, plus the price per bottle in the player's pill.
+          assign offer_pct = 0
+          if has_product
+            capture offer_data
+              render 'ugc-offer-data', product: clip_product
+            endcapture
+            assign offer = offer_data | strip | split: '|'
+            assign offer_pct = offer[0] | plus: 0
+            assign offer_price = offer[1] | plus: 0
+            assign offer_compare = offer[2] | plus: 0
+            assign offer_per = offer[3] | plus: 0
+          endif
+
           assign show_caption = false
           if block.settings[key_show] and clip_caption != blank
             assign show_caption = true
@@ -169,7 +184,31 @@
                 <svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M0 0.8C0 0.18 0.67 -0.2 1.2 0.12L9.6 5.32C10.1 5.63 10.1 6.37 9.6 6.68L1.2 11.88C0.67 12.2 0 11.82 0 11.2V0.8Z"/></svg>
               </span>
             </button>
-            {%- if has_product -%}
+            {%- if has_product and offer_pct > 0 -%}
+              {%- comment -%}
+                Offer card: photo and title side by side, then the price and the
+                struck regular price across the card, and the -N% tab on the
+                card's top edge, last in the DOM so the link's name starts with
+                the title.
+              {%- endcomment -%}
+              <a class="ugc-row__product ugc-row__product--offer" href="{{ clip_product.url }}"{% if links_here %} data-ugc-offer{% endif %}>
+                {%- if clip_product.featured_image != blank -%}
+                  <img
+                    class="ugc-row__product-thumb"
+                    src="{{ clip_product.featured_image | image_url: width: 132 }}"
+                    alt=""
+                    width="44"
+                    height="44"
+                    loading="lazy">
+                {%- endif -%}
+                <span class="ugc-row__product-title">{{ clip_title }}</span>
+                <span class="ugc-row__product-offer">
+                  <span class="ugc-row__product-price">{{ offer_price | money }}</span>
+                  <s class="ugc-row__product-compare"><span class="visually-hidden">Regular price: </span>{{ offer_compare | money }}</s>
+                </span>
+                <span class="ugc-row__product-badge">-{{ offer_pct }}%</span>
+              </a>
+            {%- elsif has_product -%}
               <a class="ugc-row__product" href="{{ clip_product.url }}"{% if links_here %} data-ugc-offer{% endif %}>
                 {%- if clip_product.featured_image != blank -%}
                   <img
@@ -193,7 +232,7 @@
         </div>
         {%- if has_product -%}
           {%- capture pill -%}
-            <a class="ugc-player__pill" href="{{ clip_product.url }}" data-slot="{{ i }}"{% if links_here %} data-ugc-offer{% endif %} hidden>
+            <a class="ugc-player__pill{% if offer_pct > 0 %} ugc-player__pill--offer{% endif %}" href="{{ clip_product.url }}" data-slot="{{ i }}"{% if links_here %} data-ugc-offer{% endif %} hidden>
               {%- if clip_product.featured_image != blank -%}
                 <img
                   class="ugc-player__pill-thumb"
@@ -205,7 +244,17 @@
               {%- endif -%}
               <span class="ugc-player__pill-info">
                 <span class="ugc-player__pill-title">{{ clip_title }}</span>
-                <span class="ugc-player__pill-price">{{ clip_product.price | money }}</span>
+                {%- if offer_pct > 0 -%}
+                  <span class="ugc-player__pill-offer">
+                    <span class="ugc-player__pill-price">{{ offer_price | money }}</span>
+                    <s class="ugc-player__pill-compare"><span class="visually-hidden">Regular price: </span>{{ offer_compare | money }}</s>
+                  </span>
+                  {%- if offer_per > 0 -%}
+                    <span class="ugc-player__pill-per">{{ offer_per | money }} per bottle</span>
+                  {%- endif -%}
+                {%- else -%}
+                  <span class="ugc-player__pill-price">{{ clip_product.price | money }}</span>
+                {%- endif -%}
               </span>
               <span class="ugc-player__pill-add" aria-hidden="true">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -213,6 +262,9 @@
                   <path d="M3 7.40625H13.5C13.5833 7.40625 13.625 7.44792 13.625 7.53125V8.46875C13.625 8.55208 13.5833 8.59375 13.5 8.59375H2.5C2.41667 8.59375 2.375 8.55208 2.375 8.46875V7.53125C2.375 7.44792 2.41667 7.40625 2.5 7.40625H3Z" fill="currentColor"/>
                 </svg>
               </span>
+              {%- if offer_pct > 0 -%}
+                <span class="ugc-player__pill-badge">-{{ offer_pct }}%</span>
+              {%- endif -%}
             </a>
           {%- endcapture -%}
           {%- assign pills = pills | append: pill -%}

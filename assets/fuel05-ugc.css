@@ -291,6 +291,97 @@
   height: 16px;
 }
 
+/* Offer pill (snippets/ugc-offer-data: a regular price above today's), the
+   same as the product page player's pill (ugc-video-row.css) and
+   magyx.whop.site: an amber -N% sticker on the photo's top left corner, the
+   struck regular price beside the price, the price per bottle in amber. The
+   photo sits at the pill's bottom (align-items: flex-end), so the sticker is
+   placed from the bottom: padding + photo + 4px, minus its own height. */
+.fuel05-ugc__pill-badge {
+  position: absolute;
+  left: 6px;
+  bottom: 64px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: var(--mgx-amber, #9a5b1e);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* A narrow tile or a long price drops the struck price under the price. */
+.fuel05-ugc__pill-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 5px;
+  letter-spacing: 0;
+}
+
+.fuel05-ugc__pill-compare {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.fuel05-ugc__pill-per {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--mgx-amber, #9a5b1e);
+}
+
+/* Grid tiles step the photo down (48px under 250px, 40px under 200px), so the
+   sticker follows it and shrinks. The price per bottle shows from a 300px
+   tile only: in the ~93px text column of a 254px desktop tile it wraps to two
+   lines and the pill grows to 30% of the clip. */
+@container (max-width: 299px) {
+  .fuel05-ugc--grid .fuel05-ugc__pill-per {
+    display: none;
+  }
+}
+
+@container (max-width: 249px) {
+  .fuel05-ugc--grid .fuel05-ugc__pill-badge {
+    left: 4px;
+    bottom: 46px;
+    padding: 0 5px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-compare {
+    font-size: 11px;
+  }
+}
+
+@container (max-width: 199px) {
+  .fuel05-ugc--grid .fuel05-ugc__pill-badge {
+    left: 3px;
+    bottom: 38px;
+    padding: 0 4px;
+    font-size: 10px;
+    line-height: 14px;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-offer {
+    column-gap: 4px;
+  }
+
+  .fuel05-ugc--grid .fuel05-ugc__pill-compare {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+}
+
 /* Under 250px of tile (four columns at about 1024px of window, two columns on
    a phone) the full-size thumbnail, gaps and button left the title and price
    about 46px and the price ran under the button. The thumbnail stays, as the

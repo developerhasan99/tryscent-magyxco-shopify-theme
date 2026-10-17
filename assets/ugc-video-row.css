@@ -240,6 +240,74 @@
   white-space: nowrap;
 }
 
+/* The offer card (snippets/ugc-offer-data: a regular price above today's),
+   as on magyx.whop.site: photo and title side by side as before, the price on
+   its own row across the whole card, with room for the struck regular price.
+   Without a saving the card is the plain one above, unchanged. */
+.ugc-row__product--offer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 4px;
+  row-gap: 2px;
+}
+
+.ugc-row__product--offer .ugc-row__product-title {
+  grid-column: 2;
+}
+
+/* Wraps instead of clipping: a long price drops the struck price to a line
+   of its own. Numbers only, so no letter spacing from the body. */
+.ugc-row__product-offer {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 4px;
+  letter-spacing: 0;
+}
+
+.ugc-row__product--offer .ugc-row__product-price {
+  line-height: 1.2;
+}
+
+/* Shown from a 108px tile: below it the struck price would need a line of
+   its own and a long title would cover too much of the clip, so there the
+   tab alone shows the saving. */
+.ugc-row__product-compare {
+  display: none;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+/* The saving as an amber tab on the card's top edge, above the photo. It
+   overlaps the card by 3px, inside the 4px padding, so it never touches the
+   photo or the title. White on amber is 5.4:1. */
+.ugc-row__product-badge {
+  position: absolute;
+  left: 4px;
+  bottom: calc(100% - 3px);
+  padding: 0 4px;
+  border-radius: 3px;
+  background: var(--mgx-amber, #9a5b1e);
+  color: var(--mgx-white, #fff);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 11px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+@container (min-width: 108px) {
+  .ugc-row__product-compare {
+    display: inline;
+  }
+}
+
 @container (min-width: 130px) {
   .ugc-row__product {
     left: 6px;
@@ -261,6 +329,27 @@
 
   .ugc-row__product-price {
     font-size: 12px;
+  }
+
+  .ugc-row__product--offer {
+    column-gap: 6px;
+    row-gap: 3px;
+  }
+
+  .ugc-row__product-offer {
+    column-gap: 5px;
+  }
+
+  .ugc-row__product-compare {
+    font-size: 10px;
+  }
+
+  .ugc-row__product-badge {
+    left: 6px;
+    bottom: calc(100% - 4px);
+    padding: 0 5px;
+    font-size: 10px;
+    line-height: 14px;
   }
 }
 
@@ -475,6 +564,63 @@
 .ugc-player__pill:focus-visible {
   outline: 2px solid var(--mgx-white, #fff);
   outline-offset: 2px;
+}
+
+/* Offer pill: the same amber -N% as the tile's tab, as a sticker on the
+   photo's top left corner (the photo sits at the pill's bottom, 12px + 66px
+   above its edge), then price and struck regular price, and the price per
+   bottle in amber. */
+.ugc-player__pill--offer {
+  position: relative;
+}
+
+.ugc-player__pill-badge {
+  position: absolute;
+  left: 6px;
+  bottom: 64px;
+  padding: 0 6px;
+  border-radius: 3px;
+  background: var(--mgx-amber, #9a5b1e);
+  color: var(--mgx-white, #fff);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 18px;
+  letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* A narrow frame or a long price drops the struck price under the price. */
+.ugc-player__pill-offer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 5px;
+  letter-spacing: 0;
+}
+
+.ugc-player__pill-compare {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.ugc-player__pill-per {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--mgx-amber, #9a5b1e);
+}
+
+/* The offer pill is up to 122px tall on a 260px frame, so while one is
+   showing the clip leaves 132px for it and the gap instead of 100px. Each
+   clip can link a different product, hence the check on the visible pill. */
+.ugc-player--with-pill:has(.ugc-player__pill--offer:not([hidden])) .ugc-player__frame {
+  --ugc-pill-space: 132px;
 }
 
 /* The page behind the open player stays where it is. */
