@@ -489,6 +489,7 @@
       "blocks": {
         "review_AEQxcH": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_34.png",
             "content": "<p>\"I tried their 7.5 ml samples and to my great surprise, I loved them. I placed a 2nd order, but this time I took the larger bottles. I must say I received my orders on time and they delivered the fragrances I love!\"</p>",
@@ -501,6 +502,7 @@
         },
         "review_WnPpEf": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg",
             "content": "<p>\"From service to product, the experience was phenomenal. I will happily buy again anytime.\"</p>",
@@ -513,6 +515,7 @@
         },
         "review_Vb9HW7": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_33.png",
             "content": "<p>\"Very good brand, I love the packaging and the aroma.\"</p>",
@@ -537,6 +540,7 @@
         },
         "review_NYCPwJ": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_16.png",
             "content": "<p>\"I like it! I appreciate this fragrance. Good smell.\"</p>",
@@ -555,6 +559,18 @@
             "author": "Amanda G",
             "date": "2 months ago",
             "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_C3bd9b": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
+            "author": "Eliannys Y",
+            "date": "1 month ago",
+            "rating": 5,
             "show_verified_badge": true,
             "product": ""
           }
@@ -578,18 +594,6 @@
             "content": "<p>\"Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.\"</p>",
             "author": "Damario R",
             "date": "3 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_C3bd9b": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
-            "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
-            "author": "Eliannys Y",
-            "date": "1 month ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
@@ -644,6 +648,7 @@
         },
         "review_YtFw34": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/bottle_01_closeup.jpg",
             "content": "<p>\"The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.\"</p>",
@@ -869,6 +874,7 @@
         },
         "review_YXwWcc": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/1_25.png",
             "content": "<p>\"I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.\"</p>",
@@ -935,9 +941,9 @@
         "review_HjyT3p",
         "review_NYCPwJ",
         "review_9T4pt3",
+        "review_C3bd9b",
         "review_bNVhH6",
         "review_EniFK9",
-        "review_C3bd9b",
         "review_aThE8h",
         "review_aietxq",
         "review_RnXXg9",
