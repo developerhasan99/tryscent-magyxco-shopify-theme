@@ -15,6 +15,11 @@
     --mgx-stories-c2: {{ section.settings.ring_color_2 }};
     --mgx-stories-c3: {{ section.settings.ring_color_3 }};
     --mgx-stories-c4: {{ section.settings.ring_color_4 }};
+    --mgx-stories-bg: {{ section.settings.background_color }};
+    background-color: var(--mgx-stories-bg);
+    {%- if section.settings.background_gradient != blank %}
+    background-image: {{ section.settings.background_gradient }};
+    {%- endif %}
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
@@ -142,6 +147,19 @@
       "id": "aria_label",
       "label": "Name for screen readers",
       "default": "Shop by category"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "info": "Also the colour of the thin gap around each picture",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient",
+      "info": "Optional. Use it to continue a photo's edge, e.g. the hero's phone picture"
     },
     {
       "type": "header",
