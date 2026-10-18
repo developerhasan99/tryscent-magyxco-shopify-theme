@@ -99,6 +99,27 @@
           "disabled": true,
           "settings": {}
         },
+        "ugc_videos_main": {
+          "type": "ugc_videos",
+          "settings": {
+            "autoplay_preview": true,
+            "video_1": "shopify://files/videos/magyx_co_english_only_CecilieT_SmelLikeGood_e40e48e7.mov",
+            "video_url_1": "",
+            "caption_1": "Smells like the designer",
+            "show_caption_1": true,
+            "product_1": "",
+            "video_2": "shopify://files/videos/magyx_co_english_only_MollyS_SmelLikePara_ab77c266.mov",
+            "video_url_2": "",
+            "caption_2": "Lasts 12+ hours",
+            "show_caption_2": true,
+            "product_2": "",
+            "video_3": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeRoug_8c343931.mov",
+            "video_url_3": "",
+            "caption_3": "High-quality ingredients",
+            "show_caption_3": true,
+            "product_3": ""
+          }
+        },
         "collapsible_tab_XYmgtQ": {
           "type": "collapsible_tab",
           "settings": {
@@ -142,27 +163,6 @@
             "icon": "star",
             "content": "<p>Please be aware that products mentioned throughout our site are a mere guide and in no circumstance should be mistaken for the actual high street, designer or Niche brand. Names and copyrights, used or unused, are properties of their respective manufacturers and/or designers. <br/><br/>These are simply inspirations, and are not ‘identical’ to any other fragrance or original.<br/><br/>Tryscent perfumes are not to be confused with originals and we have no affiliation with the manufacturers of these unnamed designer brands. <br/><br/>All ‘Trademarks’, used or unused, are property of their respective owners. We are not endorsed by, directly affiliated with, maintained, authorised, or sponsored by any trademark holder referenced or unreferenced herein. <br/><br/>The use of any product name is for identification and reference purposes only, and does not imply any association with the trademark holder.</p>",
             "page": ""
-          }
-        },
-        "ugc_videos_main": {
-          "type": "ugc_videos",
-          "settings": {
-            "autoplay_preview": true,
-            "video_1": "shopify://files/videos/magyx_co_english_only_CecilieT_SmelLikeGood_e40e48e7.mov",
-            "video_url_1": "",
-            "caption_1": "Smells like the designer",
-            "show_caption_1": true,
-            "product_1": "",
-            "video_2": "shopify://files/videos/magyx_co_english_only_MollyS_SmelLikePara_ab77c266.mov",
-            "video_url_2": "",
-            "caption_2": "Lasts 12+ hours",
-            "show_caption_2": true,
-            "product_2": "",
-            "video_3": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeRoug_8c343931.mov",
-            "video_url_3": "",
-            "caption_3": "High-quality ingredients",
-            "show_caption_3": true,
-            "product_3": ""
           }
         },
         "share": {
@@ -922,6 +922,7 @@
       "blocks": {
         "review_XUrXfR": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_34.png",
             "content": "<p>\"I tried their 7.5 ml samples and to my great surprise, I loved them. I placed a 2nd order, but this time I took the larger bottles. I must say I received my orders on time and they delivered the fragrances I love!\"</p>",
@@ -934,6 +935,7 @@
         },
         "review_zGjLwi": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg",
             "content": "<p>\"From service to product, the experience was phenomenal. I will happily buy again anytime.\"</p>",
@@ -946,6 +948,7 @@
         },
         "review_fKKLb9": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_33.png",
             "content": "<p>\"Very good brand, I love the packaging and the aroma.\"</p>",
@@ -968,18 +971,6 @@
             "product": ""
           }
         },
-        "review_w9tENy": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_16.png",
-            "content": "<p>\"I like it! I appreciate this fragrance. Good smell.\"</p>",
-            "author": "Metrine M",
-            "date": "3 weeks ago",
-            "rating": 5,
-            "show_verified_badge": false,
-            "product": ""
-          }
-        },
         "review_Va8yJh": {
           "type": "review",
           "settings": {
@@ -992,13 +983,13 @@
             "product": ""
           }
         },
-        "review_wzTRyi": {
+        "review_eFTzg4": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_32.png",
-            "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
-            "author": "Angel",
-            "date": "3 weeks ago",
+            "review_image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
+            "author": "Eliannys Y",
+            "date": "1 month ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
@@ -1011,18 +1002,6 @@
             "content": "<p>\"Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.\"</p>",
             "author": "Damario R",
             "date": "3 months ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_eFTzg4": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
-            "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
-            "author": "Eliannys Y",
-            "date": "1 month ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
@@ -1052,6 +1031,19 @@
             "product": ""
           }
         },
+        "review_w9tENy": {
+          "type": "review",
+          "disabled": true,
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_16.png",
+            "content": "<p>\"I like it! I appreciate this fragrance. Good smell.\"</p>",
+            "author": "Metrine M",
+            "date": "3 weeks ago",
+            "rating": 5,
+            "show_verified_badge": false,
+            "product": ""
+          }
+        },
         "review_YNBnNr": {
           "type": "review",
           "settings": {
@@ -1075,8 +1067,22 @@
             "product": ""
           }
         },
+        "review_wzTRyi": {
+          "type": "review",
+          "disabled": true,
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_32.png",
+            "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
+            "author": "Angel",
+            "date": "3 weeks ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
         "review_zQf6Yp": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/bottle_01_closeup.jpg",
             "content": "<p>\"The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.\"</p>",
@@ -1366,15 +1372,15 @@
         "review_zGjLwi",
         "review_fKKLb9",
         "review_HRLAnf",
-        "review_w9tENy",
         "review_Va8yJh",
-        "review_wzTRyi",
-        "review_H9qUrE",
         "review_eFTzg4",
+        "review_H9qUrE",
         "review_k6CaAf",
         "review_RP4zmT",
+        "review_w9tENy",
         "review_YNBnNr",
         "review_EtXJJY",
+        "review_wzTRyi",
         "review_zQf6Yp",
         "review_8ReKQw",
         "review_iL4KXm",
