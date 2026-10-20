@@ -118,9 +118,11 @@
                 </div>
                 <div class="shrink-0 ml-auto text-center">
                     <div class="text-xs font-semibold text-[#6b7280]" x-text="$store.bundleBuilder.selectedVariant"></div>
-                    <div class="size-8 rounded-full border-[1.5px] border-solid mgx-border-black flex items-center justify-center text-xl mgx-text" :class="{ 'mgx-dot' : $store.bundleBuilder.isProductSelected(product.id) }">
-                        <span x-show="!$store.bundleBuilder.isProductSelected(product.id)">+</span>
-                        <svg x-show="$store.bundleBuilder.isProductSelected(product.id)" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+                    <div x-show="!$store.bundleBuilder.isProductSelected(product.id)" class="size-8 mx-auto rounded-full border-[1.5px] border-solid mgx-border-black flex items-center justify-center text-xl mgx-text">+</div>
+                    <div x-show="$store.bundleBuilder.isProductSelected(product.id)" class="flex items-center gap-1">
+                        <span role="button" aria-label="-1" @click.stop="$store.bundleBuilder.removeOne(product.id)" class="size-8 rounded-full border-[1.5px] border-solid mgx-border-black flex items-center justify-center text-xl mgx-text">&minus;</span>
+                        <span class="min-w-5 font-bold text-base text-black" x-text="$store.bundleBuilder.productCount(product.id)"></span>
+                        <span role="button" aria-label="+1" class="size-8 rounded-full mgx-dot flex items-center justify-center text-xl text-white">+</span>
                     </div>
                 </div>
               </button>

@@ -265,22 +265,26 @@
           {% endpaginate %}
         {% endfor %}
       ].map(product => [product.id, product])).values()),
+      // Same product can fill several slots; the modal's - n + stepper drives this and removeOne
       addRemoveProduct(product) {
-        if (this.selectedProducts.length < {{ product_count }} && !this.isProductSelected(product.id)) {
-          product.variant = product.variants[this.selectedVariant]
-          this.selectedProducts.push(product);
+        if (this.selectedProducts.length >= {{ product_count }}) return;
+        product.variant = product.variants[this.selectedVariant]
+        this.selectedProducts.push(product);
 
-          if (this.selectedProducts.length === {{ product_count }}) {
-            this.showModal = false;
-            // Do auto ATC and redirect to checkout
-            this.doATCandCheckout();
-          }
-        } else {
-          this.removeProduct(this.selectedProducts.findIndex(item => item.id === product.id));
+        if (this.selectedProducts.length === {{ product_count }}) {
+          this.showModal = false;
+          // Do auto ATC and redirect to checkout
+          this.doATCandCheckout();
         }
       },
       removeProduct(index) {
         this.selectedProducts.splice(index, 1);
+      },
+      removeOne(productId) {
+        this.removeProduct(this.selectedProducts.map(item => item.id).lastIndexOf(productId));
+      },
+      productCount(productId) {
+        return this.selectedProducts.filter(item => item.id === productId).length;
       },
       isProductSelected(productId) {
         return this.selectedProducts.some(product => product.id === productId);
