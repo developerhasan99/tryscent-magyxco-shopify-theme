@@ -161,11 +161,6 @@
         "disabled": false,
         "settings": {}
       },
-      "1173261918193615741": {
-        "type": "shopify://apps/geo-pro-geolocation/blocks/geopro/16fc5313-7aee-4e90-ac95-f50fc7c8b657",
-        "disabled": true,
-        "settings": {}
-      },
       "18348123794867637515": {
         "type": "shopify://apps/wiz/blocks/app-embed/240b6bc0-e686-4c07-8fde-eb7ee1949893",
         "disabled": false,
@@ -435,7 +430,8 @@
   },
   "platform_customizations": {
     "custom_css": [
-      "#snize-product-8303925723206,#snize-ac-product-8303925723206 {display: none !important;}"
+      "#snize-product-8303925723206,#snize-ac-product-8303925723206 {display: none !important;}",
+      ".snize-product-tag-bundle_price_show .snize-add-to-cart-button {display: none;}"
     ]
   }
 }
