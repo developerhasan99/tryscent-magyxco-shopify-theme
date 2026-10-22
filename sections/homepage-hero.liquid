@@ -19,6 +19,27 @@
       {% endif %}
     }
   }
+
+  {% if section.settings.text_color != blank %}
+    .section-{{ section.id }}-padding .homepage-hero__title,
+    .section-{{ section.id }}-padding .homepage-hero__subtitle {
+      color: {{ section.settings.text_color }};
+    }
+  {% endif %}
+
+  {% if section.settings.mobile_buttons_bottom %}
+    @media screen and (max-width: 749px) {
+      .section-{{ section.id }}-padding {
+        position: relative;
+      }
+      .section-{{ section.id }}-padding .homepage-hero__buttons {
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: {{ section.settings.mobile_buttons_offset }}px;
+      }
+    }
+  {% endif %}
 {%- endstyle -%}
 
 <div id="{{ section.id }}" class="section-{{ section.id }}-padding bg-cover bg-center">
@@ -38,9 +59,9 @@
             {{ section.settings.review_text }}
           </span>
         </div>
-        <h1 class="text-3xl md:text-4xl font-black tracking-tight leading-snug">{{ section.settings.title }}</h1>
-        <p class="text-lg font-medium text-gray-700">{{ section.settings.subtitle }}</p>
-        <div class="flex items-center gap-4 flex-wrap justify-center">
+        <h1 class="homepage-hero__title text-3xl md:text-4xl font-black tracking-tight leading-snug">{{ section.settings.title }}</h1>
+        <p class="homepage-hero__subtitle text-lg font-medium text-gray-700">{{ section.settings.subtitle }}</p>
+        <div class="homepage-hero__buttons flex items-center gap-4 flex-wrap justify-center">
           <a href="{{ section.settings.button_link }}" class="mgx-btn-primary mgx-btn-3d tracking-wide font-medium no-underline px-6 py-3 text-lg rounded-full transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1">{{ section.settings.button_text }}</a>
           {% if section.settings.secondary_button_text != blank %}
             <a href="{{ section.settings.secondary_button_link }}" class="mgx-btn-primary mgx-btn-3d tracking-wide font-medium no-underline px-6 py-3 text-lg rounded-full transition-all duration-150 hover:-translate-y-0.5 active:translate-y-1">{{ section.settings.secondary_button_text }}</a>
@@ -71,6 +92,13 @@
         "type": "color",
         "id": "background_color",
         "label": "Background Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Title and subtitle color",
+        "info": "Clear it to go back to the theme's dark text.",
         "default": "#ffffff"
       },
       {
@@ -171,6 +199,26 @@
         "unit": "px",
         "label": "Mobile Padding Bottom",
         "default": 36
+      },
+      {
+        "type": "header",
+        "content": "Mobile buttons"
+      },
+      {
+        "type": "checkbox",
+        "id": "mobile_buttons_bottom",
+        "label": "Push buttons to the bottom on mobile",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "mobile_buttons_offset",
+        "min": 0,
+        "max": 200,
+        "step": 4,
+        "unit": "px",
+        "label": "Distance from the bottom edge",
+        "default": 24
       }
     ],
     "presets": [
