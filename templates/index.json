@@ -59,7 +59,7 @@
       "settings": {
         "aria_label": "Shop by category",
         "background_color": "#f0e3de",
-        "background_gradient": "linear-gradient(90deg, rgba(245, 230, 226, 1) 0%, rgba(244, 229, 225, 1) 30%, rgba(240, 227, 222, 1) 50%, rgba(238, 223, 217, 1) 70%, rgba(235, 223, 218, 1) 85%, rgba(234, 222, 215, 1) 100%)",
+        "background_gradient": "linear-gradient(90deg, rgba(245, 230, 226, 1), rgba(244, 229, 225, 1) 30%, rgba(240, 227, 222, 1) 50%, rgba(238, 223, 217, 1) 70%, rgba(235, 223, 218, 1) 85%, rgba(234, 222, 215, 1) 100%)",
         "ring_color_1": "#fdf497",
         "ring_color_2": "#fd5949",
         "ring_color_3": "#d6249f",
@@ -73,8 +73,8 @@
       "name": "Homepage Hero",
       "settings": {
         "background_color": "#ffffff",
-        "background_image": "shopify://shop_images/MAGYX_Site_Header.webp",
-        "mobile_background_image": "shopify://shop_images/MAGYX_Site_Header_Mobile_A.jpg",
+        "background_image": "shopify://shop_images/magyx_halloween_desktop.png",
+        "mobile_background_image": "shopify://shop_images/magyx_halloween_mobile.png",
         "review_text": "Loved by 10,000+ Customers",
         "title": "Find the fragrance you'll be remembered for.",
         "subtitle": "The world's No. 1 designer-inspired fragrances. Made by the same experts behind some of the world's best-known perfumes.",
@@ -579,6 +579,7 @@
         },
         "review_bNVhH6": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_32.png",
             "content": "<p>\"I am very satisfied with the perfume from this brand, they have such a beautiful perfume like the original and cheaper, I will definitely buy again.\"</p>",
@@ -638,6 +639,7 @@
         },
         "review_GbhyC3": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_18.png",
             "content": "<p>\"Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥\"</p>",
@@ -804,6 +806,7 @@
         },
         "review_jRgbTk": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_13.png",
             "content": "<p>\"Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.\"</p>",
