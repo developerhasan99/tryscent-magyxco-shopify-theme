@@ -431,6 +431,7 @@
       "settings": {
         "background_color": "#ffffff",
         "image": "shopify://shop_images/MAGYX_Site_02_1.webp",
+        "video": "shopify://files/videos/MAGYX-SITE02.mp4",
         "rounded_image": true,
         "image_placement": "1",
         "mobile_image_placement": "under_heading",
