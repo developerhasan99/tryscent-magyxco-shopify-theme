@@ -40,6 +40,49 @@
       }
     }
   {% endif %}
+
+  {% if section.settings.button_color != blank %}
+    {%- assign hero_btn_edge = section.settings.button_color | color_darken: 18 -%}
+    .section-{{ section.id }}-padding .homepage-hero__buttons a {
+      background-color: {{ section.settings.button_color }};
+      border-color: {{ hero_btn_edge }};
+      box-shadow: 0 4px 0 {{ hero_btn_edge }}, 0 10px 24px rgba(0, 0, 0, 0.25);
+    }
+    .section-{{ section.id }}-padding .homepage-hero__buttons a:hover,
+    .section-{{ section.id }}-padding .homepage-hero__buttons a:focus-visible {
+      background-color: {{ section.settings.button_color | color_darken: 6 }};
+      box-shadow: 0 2px 0 {{ hero_btn_edge }}, 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+  {% endif %}
+  {% if section.settings.button_text_color != blank %}
+    .section-{{ section.id }}-padding .homepage-hero__buttons a,
+    .section-{{ section.id }}-padding .homepage-hero__buttons a:hover {
+      color: {{ section.settings.button_text_color }};
+    }
+  {% endif %}
+
+  {% if section.settings.mobile_background_image != blank and section.settings.mobile_image_offset > 0 %}
+    @media screen and (max-width: 749px) {
+      .section-{{ section.id }}-padding {
+        position: relative;
+        isolation: isolate;
+        background-image: none;
+        background-color: {{ section.settings.mobile_image_fill }};
+      }
+      .section-{{ section.id }}-padding::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: {{ section.settings.mobile_image_offset }}px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: linear-gradient({{ section.settings.mobile_image_fill }}, {{ section.settings.mobile_image_fill | color_modify: 'alpha', 0 }} 60px), url("{{ section.settings.mobile_background_image | image_url: width: 1920 }}");
+        background-size: cover;
+        background-position: center;
+      }
+    }
+  {% endif %}
 {%- endstyle -%}
 
 <div id="{{ section.id }}" class="section-{{ section.id }}-padding bg-cover bg-center">
@@ -219,6 +262,39 @@
         "unit": "px",
         "label": "Distance from the bottom edge",
         "default": 24
+      },
+      {
+        "type": "color",
+        "id": "button_color",
+        "label": "Button color",
+        "info": "Clear it to go back to the theme's black buttons."
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button text color"
+      },
+      {
+        "type": "header",
+        "content": "Mobile image position"
+      },
+      {
+        "type": "range",
+        "id": "mobile_image_offset",
+        "min": 0,
+        "max": 300,
+        "step": 4,
+        "unit": "px",
+        "label": "Push image down",
+        "info": "Moves the mobile background image down so the text sits above it. 0 = image fills the whole hero.",
+        "default": 160
+      },
+      {
+        "type": "color",
+        "id": "mobile_image_fill",
+        "label": "Color above the image",
+        "info": "Fills the space the image leaves at the top. Match it to the top of the image.",
+        "default": "#0b0200"
       }
     ],
     "presets": [
