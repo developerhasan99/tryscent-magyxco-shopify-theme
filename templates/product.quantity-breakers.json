@@ -42,7 +42,7 @@
         "custom_liquid_7fWyxx": {
           "type": "custom_liquid",
           "settings": {
-            "custom_liquid": "{% if product.available %}\n  {% render 'quantity-breaker' %}\n{% else %}\n  {% render 'reactive-variant-selector' %}\n{% endif %}"
+            "custom_liquid": "{% if product.available and product.variants.size == 1 %}\n  {% render 'quantity-breaker' %}\n{% else %}\n  {% render 'reactive-variant-selector' %}\n{% endif %}"
           }
         },
         "atc_bundle_builder_aLJUaV": {
