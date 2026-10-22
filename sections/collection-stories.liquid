@@ -23,6 +23,13 @@
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   }
+  {%- assign stories_bg_brightness = section.settings.background_color | color_brightness -%}
+  {%- if stories_bg_brightness < 128 %}
+  .mgx-stories.section-{{ section.id }}-stories .mgx-stories__label,
+  .mgx-stories.section-{{ section.id }}-stories .mgx-stories__hint {
+    color: var(--mgx-white);
+  }
+  {%- endif %}
 {%- endstyle -%}
 
 {%- liquid
@@ -152,7 +159,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "info": "Also the colour of the thin gap around each picture",
+      "info": "Also the colour of the thin gap around each picture. On a dark background the labels turn white.",
       "default": "#FFFFFF"
     },
     {

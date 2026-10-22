@@ -62,8 +62,7 @@
       "name": "Story circles",
       "settings": {
         "aria_label": "Shop by category",
-        "background_color": "#f0e3de",
-        "background_gradient": "linear-gradient(90deg, rgba(245, 230, 226, 1), rgba(244, 229, 225, 1) 30%, rgba(240, 227, 222, 1) 50%, rgba(238, 223, 217, 1) 70%, rgba(235, 223, 218, 1) 85%, rgba(234, 222, 215, 1) 100%)",
+        "background_color": "#0b0200",
         "ring_color_1": "#fdf497",
         "ring_color_2": "#fd5949",
         "ring_color_3": "#d6249f",
