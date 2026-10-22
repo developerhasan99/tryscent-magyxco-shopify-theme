@@ -17,6 +17,7 @@
           "settings": {
             "collection": "for-men",
             "title": "Men",
+            "image": "shopify://shop_images/IG_Magyx_Male.webp",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
@@ -26,6 +27,7 @@
           "settings": {
             "collection": "for-women",
             "title": "Women",
+            "image": "shopify://shop_images/IG_Magyx_Fem.webp",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
@@ -35,6 +37,7 @@
           "settings": {
             "collection": "best-sellers",
             "title": "Bestsellers",
+            "image": "shopify://shop_images/IG_Magyx_Bestsellers.webp",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
@@ -44,6 +47,7 @@
           "settings": {
             "collection": "new-scents",
             "title": "New",
+            "image": "shopify://shop_images/IG_Magyx_New.webp",
             "ring_style": "gradient",
             "ring_color": "#56c70f"
           }
