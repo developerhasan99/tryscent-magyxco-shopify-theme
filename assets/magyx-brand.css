@@ -3,7 +3,8 @@
   Single source of truth for brand colours in the theme (MAGYX Brand Guidelines, Edition 01).
   Loaded last in layout/theme.liquid so single-class utilities win ties against
   tailwind-compiled.css / blocky.css without !important.
-  Palette: Magyx Black #100F0D, White #FFFFFF, Silver #C7C9CB, Graphite #3A3A3C, Amber #9A5B1E.
+  Palette: Magyx Black #100F0D, White #FFFFFF, Silver #C7C9CB, Graphite #3A3A3C, Accent Pine #184031 (token keeps the name --mgx-amber;
+  it was amber #9A5B1E until 23.10.2026). Discounts use Sale red #C8202F (--mgx-sale).
 */
 
 :root {
@@ -15,8 +16,10 @@
   --mgx-silver-rgb: 199, 201, 203;
   --mgx-graphite: #3A3A3C;
   --mgx-graphite-rgb: 58, 58, 60;
-  --mgx-amber: #9A5B1E;
-  --mgx-amber-rgb: 154, 91, 30;
+  --mgx-amber: #184031;
+  --mgx-amber-rgb: 24, 64, 49;
+  --mgx-sale: #C8202F;
+  --mgx-sale-rgb: 200, 32, 47;
 
   /* roles */
   --mgx-hairline: var(--mgx-silver);
@@ -72,6 +75,17 @@
 .mgx-badge-amber {
   background-color: var(--mgx-accent);
   color: var(--mgx-white);
+}
+.mgx-badge-sale {
+  background-color: var(--mgx-sale);
+  color: var(--mgx-white);
+}
+.mgx-badge-sale-soft {
+  background-color: rgba(var(--mgx-sale-rgb), 0.1);
+  color: var(--mgx-sale);
+}
+.mgx-border-sale {
+  border-color: var(--mgx-sale);
 }
 .mgx-badge-amber-soft {
   background-color: rgba(var(--mgx-amber-rgb), 0.12);

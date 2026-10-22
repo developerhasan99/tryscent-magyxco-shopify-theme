@@ -29,7 +29,7 @@
         "custom_liquid_dWtbAc": {
           "type": "custom_liquid",
           "settings": {
-            "custom_liquid": "{% render 'scent-profiling' %}"
+            "custom_liquid": "{% render 'scent-profiling', section: section %}"
           }
         },
         "atc_bundle_builder_aLJUaV": {
@@ -254,7 +254,7 @@
       "settings": {
         "background_color": "#ffffff",
         "ships_icon": "box",
-        "icon_color": "#9a5b1e",
+        "icon_color": "#184031",
         "divider_color": "#e6e7e8",
         "padding_top": 36,
         "padding_bottom": 36

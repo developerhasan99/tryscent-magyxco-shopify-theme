@@ -3,6 +3,11 @@
    tryscent.eu themes. Spacing above and below comes from the product info
    column, like every other block there. */
 
+/* magyx.co: rendered by scent-profiling under the "95% scent similarity" line */
+.mgx-sdesc-under-match > .mgx-sdesc {
+  margin-top: 10px;
+}
+
 .mgx-sdesc__text {
   margin: 0;
   font-size: 14px;

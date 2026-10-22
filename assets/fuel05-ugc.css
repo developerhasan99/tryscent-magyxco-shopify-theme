@@ -303,7 +303,7 @@
   bottom: 64px;
   padding: 0 6px;
   border-radius: 3px;
-  background: var(--mgx-amber, #9a5b1e);
+  background: var(--mgx-sale, #c8202f);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
@@ -336,7 +336,7 @@
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: 0;
-  color: var(--mgx-amber, #9a5b1e);
+  color: var(--mgx-amber, #184031);
 }
 
 /* Grid tiles step the photo down (48px under 250px, 40px under 200px), so the

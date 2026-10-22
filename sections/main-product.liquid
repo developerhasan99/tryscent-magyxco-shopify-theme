@@ -89,7 +89,18 @@
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'short_description' -%}
-                {% render 'short-description', block: block, section: section, product: product %}
+                {%- comment -%} When the scent-profiling block gets the section, it shows the short description under the scent similarity line instead. {%- endcomment -%}
+                {%- liquid
+                  assign sdesc_in_profile = false
+                  for b in section.blocks
+                    if b.type == 'custom_liquid' and b.settings.custom_liquid contains "'scent-profiling', section: section"
+                      assign sdesc_in_profile = true
+                    endif
+                  endfor
+                -%}
+                {%- unless sdesc_in_profile -%}
+                  {% render 'short-description', block: block, section: section, product: product %}
+                {%- endunless -%}
               {% when 'inspired_by' %}
                 {% if product.metafields.custom.inspiration != blank %}
                   {% if product.template_suffix == 'cro-deck' %}
@@ -206,7 +217,7 @@
                       {% if product.compare_at_price > product.price %}
                         {% assign discount = product.compare_at_price | minus: product.price %}
                         {% assign discount_percent = discount | times: 100 | divided_by: product.compare_at_price | round %}
-                        <span class="mgx-badge-amber font-bold px-2 text-xs md:text-base">
+                        <span class="mgx-badge-sale font-bold px-2 text-xs md:text-base">
                           -{{ discount_percent }}%
                         </span>
                       {% endif %}
@@ -217,7 +228,7 @@
                     </div>
                     {% if product.compare_at_price > product.price %}
                       {% assign you_save = product.compare_at_price | minus: product.price %}
-                      <div class="inline-flex items-center gap-1 mt-2 mgx-badge-amber-soft font-bold text-sm rounded-full py-1 px-2 border border-solid mgx-border-amber"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"></path></svg>You save {{ you_save | money }} today</div>
+                      <div class="inline-flex items-center gap-1 mt-2 mgx-badge-sale-soft font-bold text-sm rounded-full py-1 px-2 border border-solid mgx-border-sale"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13z"></path></svg>You save {{ you_save | money }} today</div>
                     {% endif %}
                   </div>
                 {% endif %}
@@ -310,7 +321,7 @@
                       {% if block.settings.product.compare_at_price > block.settings.product.price %}
                         {% assign discount = block.settings.product.compare_at_price | minus: block.settings.product.price %}
                         {% assign discount_percent = discount | times: 100 | divided_by: block.settings.product.compare_at_price | round %}
-                        <span class="inline-block self-start rounded-full mgx-badge-amber-soft px-2 py-0.5 text-xs font-semibold uppercase tracking-wide">
+                        <span class="inline-block self-start rounded-full mgx-badge-sale-soft px-2 py-0.5 text-xs font-semibold uppercase tracking-wide">
                           {{ 'bundle.tsr_offer_save' | t: percent: discount_percent }}
                         </span>
                       {% endif %}
@@ -375,7 +386,7 @@
                         {%- if product.compare_at_price > product.price -%}
                           {%- assign discount_percent = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
                         {%- endif -%}
-                        <span class="inline-block mgx-badge-amber text-sm font-bold px-3 py-1">
+                        <span class="inline-block mgx-badge-sale text-sm font-bold px-3 py-1">
                           {{ discount_percent }}% Off
                         </span>
                       {% endif %}

@@ -292,7 +292,7 @@
   bottom: calc(100% - 3px);
   padding: 0 4px;
   border-radius: 3px;
-  background: var(--mgx-amber, #9a5b1e);
+  background: var(--mgx-sale, #c8202f);
   color: var(--mgx-white, #fff);
   font-size: 9px;
   font-weight: 800;
@@ -580,7 +580,7 @@
   bottom: 64px;
   padding: 0 6px;
   border-radius: 3px;
-  background: var(--mgx-amber, #9a5b1e);
+  background: var(--mgx-sale, #c8202f);
   color: var(--mgx-white, #fff);
   font-size: 12px;
   font-weight: 800;
@@ -613,7 +613,7 @@
   font-weight: 700;
   line-height: 1.3;
   letter-spacing: 0;
-  color: var(--mgx-amber, #9a5b1e);
+  color: var(--mgx-amber, #184031);
 }
 
 /* The offer pill is up to 122px tall on a 260px frame, so while one is

@@ -231,7 +231,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
           {% if card_product.tags contains 'onsale' or show_rating and card_product.metafields.reviews.rating.value != blank %}
             <div class="flex items-center flex-wrap gap-x-2 gap-y-1 pt-4">
               {% if card_product.tags contains 'onsale' %}
-                <div class="mgx-badge-amber-soft text-xs font-semibold px-2 py-1 rounded inline-block">
+                <div class="mgx-badge-sale-soft text-xs font-semibold px-2 py-1 rounded inline-block">
                   Sale
                 </div>
               {% endif %}
@@ -331,7 +331,7 @@ TODO: Show bestseller tag if the product contains "bestseller" tag.
               {% if card_product.compare_at_price > card_product.price %}
                 {% assign discount_percent = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round %}
               {% endif %}
-              <span class="inline-block mgx-badge-amber text-xs font-bold px-2 py-1 rounded-full">
+              <span class="inline-block mgx-badge-sale text-xs font-bold px-2 py-1 rounded-full">
                 {{ discount_percent }}% <span class="discount_off_text">Av</span>
               </span>
             {% endif %}
