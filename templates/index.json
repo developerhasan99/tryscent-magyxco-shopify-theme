@@ -92,7 +92,9 @@
         "mobile_padding_top": 36,
         "mobile_padding_bottom": 400,
         "mobile_buttons_bottom": true,
-        "mobile_buttons_offset": 24
+        "mobile_buttons_offset": 24,
+        "button_color": "#FF4D00",
+        "button_text_color": "#ffffff"
       }
     },
     "marquee_labels_RLdqpN": {

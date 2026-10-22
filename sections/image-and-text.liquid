@@ -3,7 +3,9 @@
     padding-top: {{ section.settings.mobile_padding_top }}px;
     padding-bottom: {{ section.settings.mobile_padding_bottom }}px;
     background-color: {{ section.settings.background_color }};
-    background-image: url('{{ section.settings.bg_mobile_image | image_url: width: 1920 }}');
+    {% if section.settings.bg_mobile_image != blank %}
+      background-image: url('{{ section.settings.bg_mobile_image | image_url: width: 1920 }}');
+    {% endif %}
     background-size: cover;
     background-position: center;
 
@@ -23,7 +25,27 @@
   if section.index == 1
     assign fetch_priority = 'high'
   endif
+  assign has_media = false
+  if section.settings.video != blank or section.settings.image != blank
+    assign has_media = true
+  endif
 -%}
+
+{%- capture media_html -%}
+  {%- if section.settings.video != blank -%}
+    {%- capture video_class -%}block w-full h-auto shadow rounded-lg{% if section.settings.rounded_image %} rounded-xl{% endif %}{%- endcapture -%}
+    {{ section.settings.video | video_tag: muted: true, loop: true, playsinline: true, preload: 'none', image_size: '1200x', class: video_class }}
+  {%- elsif section.settings.image != blank -%}
+    <img
+      class="w-full rounded-lg h-auto shadow {% if section.settings.rounded_image %} rounded-xl{% endif %}"
+      src="{{ section.settings.image |  image_url }}"
+      alt="{{ section.settings.alt }}"
+      height="{{ section.settings.image.height }}"
+      width="{{ section.settings.image.width }}"
+      fetchpriority="{{  fetch_priority }}"
+    >
+  {%- endif -%}
+{%- endcapture -%}
 
 <div class="section-{{ section.id }}">
   <div class="page-width">
@@ -32,14 +54,7 @@
       class="[display:grid] grid-cols-1 md:grid-cols-2"
     >
       <div class="{% if section.settings.mobile_image_placement == 'under_heading' %} [display:none] md:block {% endif %}">
-        <img
-            class="w-full rounded-lg h-auto shadow {% if section.settings.rounded_image %} rounded-xl{% endif %}"
-            src="{{ section.settings.image |  image_url }}"
-            alt="{{ section.settings.alt }}"
-            height="{{ section.settings.image.height }}"
-            width="{{ section.settings.image.width }}"
-            fetchpriority="{{  fetch_priority }}"
-        >
+        {{ media_html }}
       </div>
       <div style="gap: {{ section.settings.blocks_gap }}px;" class="{% if section.settings.image_placement == '1' %} md:-order-1 {% endif %} flex flex-col text-center md:text-left">
         {% for block in section.blocks %}
@@ -58,16 +73,9 @@
                         }
                     </style>
                     <{{ block.settings.heading_type }} class="block-{{ block.id }}-class" {{ block.shopify_attributes }}>{{ block.settings.content }}</{{ block.settings.heading_type }}>
-                    {% if section.settings.mobile_image_placement == 'under_heading' %}
+                    {% if section.settings.mobile_image_placement == 'under_heading' and has_media %}
                         <div class="md:hidden">
-                            <img
-                            class="w-full rounded-lg h-auto shadow {% if section.settings.rounded_image %} rounded-xl{% endif %}"
-                            src="{{ section.settings.image |  image_url }}"
-                            alt="{{ section.settings.alt }}"
-                            height="{{ section.settings.image.height }}"
-                            width="{{ section.settings.image.width }}"
-                            fetchpriority="{{  fetch_priority }}"
-                        >
+                            {{ media_html }}
                         </div>
                     {% endif %}
                 {% when 'text' %}
@@ -116,6 +124,36 @@
   </div>
 </div>
 
+{%- if section.settings.video != blank -%}
+  <script>
+    (function () {
+      var videos = document.querySelectorAll('.section-{{ section.id }} video');
+      if (!videos.length) return;
+      var play = function (v) {
+        v.muted = true;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      };
+      if (!('IntersectionObserver' in window)) {
+        videos.forEach(play);
+        return;
+      }
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) play(e.target);
+            else e.target.pause();
+          });
+        },
+        { rootMargin: '200px 0px' }
+      );
+      videos.forEach(function (v) {
+        io.observe(v);
+      });
+    })();
+  </script>
+{%- endif -%}
+
 {% schema %}
   {
     "name": "Image and Text",
@@ -144,6 +182,12 @@
         "type": "image_picker",
         "id": "image",
         "label": "Section Image",
+      },
+      {
+        "type": "video",
+        "id": "video",
+        "label": "Section Video",
+        "info": "Plays muted on a loop in place of the image. Leave empty to show the image."
       },
       {
       "type": "checkbox",

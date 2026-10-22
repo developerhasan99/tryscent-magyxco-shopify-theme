@@ -1,15 +1,14 @@
-<div class="flex gap-2 items-center">
-  <img
-    src="{{ 'icon-stopwatch.svg' |  asset_url }}"
-    alt="Watch"
-    height="24"
-    width="24">
-  <div class="font-semibold text-black text-sm md:text-base tracking-normal">
-    95% scent similarity. Up to 12 hours of longevity.
-  </div>
-</div>
+<ul class="list-none m-0 p-0 flex flex-col gap-2">
+  {%- assign claims = '20% perfume oil for 12 hours lasting effect|95% scent similarity with oils from Grasse|No phthalates, no parabens' | split: '|' -%}
+  {%- for claim in claims -%}
+    <li class="flex gap-2 items-center">
+      <img class="shrink-0" src="{{ 'check.svg' | asset_url }}" alt="" height="22" width="22">
+      <span class="font-semibold text-black text-sm md:text-base tracking-normal">{{ claim }}</span>
+    </li>
+  {%- endfor -%}
+</ul>
 {%- comment -%}
-  Short description right under the similarity line. Needs `section` passed in
+  Short description right under the claim lines. Needs `section` passed in
   (render 'scent-profiling', section: section); main-product then skips the
   block's own spot under the title.
 {%- endcomment -%}

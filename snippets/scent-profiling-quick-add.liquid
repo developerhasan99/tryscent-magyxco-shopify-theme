@@ -1,13 +1,12 @@
-<div class="flex gap-2 items-center mb-3">
-  <img
-    src="{{ 'icon-stopwatch.svg' |  asset_url }}"
-    alt="Watch"
-    height="24"
-    width="24">
-  <div class="font-semibold text-black text-sm md:text-base tracking-normal">
-    95% scent similarity. Up to 12 hours of longevity.
-  </div>
-</div>
+<ul class="list-none m-0 p-0 mb-3 flex flex-col gap-2">
+  {%- assign claims = '20% perfume oil for 12 hours lasting effect|95% scent similarity with oils from Grasse|No phthalates, no parabens' | split: '|' -%}
+  {%- for claim in claims -%}
+    <li class="flex gap-2 items-center">
+      <img class="shrink-0" src="{{ 'check.svg' | asset_url }}" alt="" height="22" width="22">
+      <span class="font-semibold text-black text-sm md:text-base tracking-normal">{{ claim }}</span>
+    </li>
+  {%- endfor -%}
+</ul>
 {% if product.metafields.custom.scent_description != blank %}
   <p class="tracking-normal">
     {{ product.metafields.custom.scent_description }}
