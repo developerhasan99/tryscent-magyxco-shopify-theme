@@ -89,11 +89,11 @@
               {%- when '@app' -%}
                 {% render block %}
               {%- when 'short_description' -%}
-                {%- comment -%} When the scent-profiling block gets the section, it shows the short description under the scent similarity line instead. {%- endcomment -%}
+                {%- comment -%} When the scent-profiling block gets the section, it shows the short description under the scent similarity line instead. A liquid setting reads back rendered, so look for the wrapper it outputs. {%- endcomment -%}
                 {%- liquid
                   assign sdesc_in_profile = false
                   for b in section.blocks
-                    if b.type == 'custom_liquid' and b.settings.custom_liquid contains "'scent-profiling', section: section"
+                    if b.type == 'custom_liquid' and b.settings.custom_liquid contains 'mgx-sdesc-under-match'
                       assign sdesc_in_profile = true
                     endif
                   endfor
