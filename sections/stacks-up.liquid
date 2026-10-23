@@ -10,6 +10,118 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  .mgx-cmp {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+  .mgx-cmp__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) repeat(3, minmax(0, 1fr));
+  }
+  /* base.css hides empty divs; the blank corner and footer cells must keep their grid slot */
+  .mgx-cmp__row > div:empty {
+    display: block;
+  }
+  .mgx-cmp__row > .mgx-cmp__cell:empty {
+    display: flex;
+  }
+  .mgx-cmp__row:not(.mgx-cmp__row--foot) > * {
+    border-bottom: 1px solid rgba(var(--mgx-black-rgb), 0.12);
+  }
+  .mgx-cmp__row > .mgx-cmp__cell--ours {
+    background-color: var(--mgx-black);
+    color: var(--mgx-white);
+    border-bottom-color: rgba(var(--mgx-white-rgb), 0.12);
+  }
+  .mgx-cmp__feature {
+    padding: 12px 8px 12px 0;
+    text-align: left;
+  }
+  .mgx-cmp__title {
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--mgx-black);
+  }
+  .mgx-cmp__sub {
+    margin-top: 2px;
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0;
+    color: var(--mgx-graphite);
+  }
+  .mgx-cmp__cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 10px 4px;
+    text-align: center;
+  }
+  .mgx-cmp__cell--top {
+    border-radius: 12px 12px 0 0;
+  }
+  .mgx-cmp__cell--bottom {
+    min-height: 12px;
+    padding: 0;
+    border-radius: 0 0 12px 12px;
+  }
+  .mgx-cmp__col {
+    font-size: 11px;
+    line-height: 14px;
+    font-weight: 800;
+    letter-spacing: 0;
+    overflow-wrap: break-word;
+  }
+  .mgx-cmp__badge {
+    display: none;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(var(--mgx-white-rgb), 0.1);
+    color: var(--mgx-silver);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 16px;
+  }
+  .mgx-cmp__icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .mgx-cmp__row {
+      grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+    }
+    .mgx-cmp__feature {
+      padding: 16px 16px 16px 0;
+    }
+    .mgx-cmp__title {
+      font-size: 16px;
+      line-height: 22px;
+    }
+    .mgx-cmp__sub {
+      font-size: 12px;
+      line-height: 17px;
+    }
+    .mgx-cmp__cell {
+      padding: 16px 8px;
+    }
+    .mgx-cmp__col {
+      font-size: 15px;
+      line-height: 20px;
+    }
+    .mgx-cmp__badge {
+      display: inline-block;
+    }
+    .mgx-cmp__icon {
+      width: 36px;
+      height: 36px;
+    }
+  }
 {%- endstyle -%}
 <div
   id="{{ section.id }}"
@@ -18,50 +130,54 @@
   <div class="page-width">
     <p class="text-center mgx-text-accent font-bold tracking-wider">Ours vs. Original</p>
     <h2 class="text-center text-2xl md:text-4xl font-bold max-w-2xl mx-auto mt-0 mb-8">{{ section.settings.title }}</h2>
-    <div class="grid gap-0 w-full max-w-3xl grid-cols-4 mx-auto">
-      <div class="col-span-2 !flex items-end border-0 border-b border-[#12121233] border-solid px-4 py-4 text-sm font-black md:text-base"></div>
-      <div class="text-center rounded-t-xl border-0 border-solid border-b border-[#12121233] mgx-bg-black px-2 md:px-4 py-4">
-        <div class="text-sm font-black text-white md:text-base">
-          Our Fragrances
+    {%- comment -%}
+      Comparison table: feature | ours | other dupes | designer brands. One block per row;
+      the "Other dupes" cell comes from the block (yes / partly / no). Phones: 4 columns
+      fit 343px by shrinking the icons and headers, no sideways scrolling.
+    {%- endcomment -%}
+    <div class="mgx-cmp" role="table" aria-label="{{ section.settings.title | escape }}">
+      <div class="mgx-cmp__row mgx-cmp__row--head" role="row">
+        <div class="mgx-cmp__feature" role="columnheader"></div>
+        <div class="mgx-cmp__cell mgx-cmp__cell--ours mgx-cmp__cell--top" role="columnheader">
+          <span class="mgx-cmp__col">{{ section.settings.ours_label | default: 'Magyx' }}</span>
+          {%- if section.settings.ours_badge != blank -%}
+            <span class="mgx-cmp__badge">{{ section.settings.ours_badge }}</span>
+          {%- endif -%}
         </div>
-        <span class="[display:none] md:inline-block text-xs font-bold mgx-text-silver py-1 px-2 rounded-full bg-[#ffffff1a]">21% concentration</span>
+        <div class="mgx-cmp__cell" role="columnheader">
+          <span class="mgx-cmp__col">{{ section.settings.dupes_label | default: 'Other dupes' }}</span>
+        </div>
+        <div class="mgx-cmp__cell" role="columnheader">
+          <span class="mgx-cmp__col">{{ section.settings.designer_label | default: 'Designer brands' }}</span>
+        </div>
       </div>
-      <div class="flex items-center justify-center rounded-t-xl border-0 border-solid border-b border-[#12121233] px-2 md:px-4 py-4 text-center text-sm font-black md:text-base [overflow-wrap:anywhere]">
-        Designer Brands
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'stack' -%}
+          {%- assign dupes = block.settings.other_dupes | default: 'partial' -%}
+          <div class="mgx-cmp__row" role="row" {{ block.shopify_attributes }}>
+            <div class="mgx-cmp__feature" role="rowheader">
+              <div class="mgx-cmp__title">{{ block.settings.stack_heading }}</div>
+              {%- if block.settings.stack_subheading != blank -%}
+                <div class="mgx-cmp__sub">{{ block.settings.stack_subheading }}</div>
+              {%- endif -%}
+            </div>
+            <div class="mgx-cmp__cell mgx-cmp__cell--ours" role="cell">{%- render 'mgx-cmp-icon', kind: 'yes' -%}</div>
+            <div class="mgx-cmp__cell" role="cell">{%- render 'mgx-cmp-icon', kind: dupes -%}</div>
+            <div class="mgx-cmp__cell" role="cell">{%- render 'mgx-cmp-icon', kind: 'no' -%}</div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      <div class="mgx-cmp__row mgx-cmp__row--foot" aria-hidden="true">
+        <div class="mgx-cmp__feature"></div>
+        <div class="mgx-cmp__cell mgx-cmp__cell--ours mgx-cmp__cell--bottom"></div>
+        <div class="mgx-cmp__cell"></div>
+        <div class="mgx-cmp__cell"></div>
       </div>
-      {% for block in section.blocks %}
-        {% if block.type == "stack" %}
-          <div class="col-span-2 border-0 border-solid border-b border-[#12121233] pr-4 py-4">
-            <div class="text-sm font-semibold text-black md:text-base">
-              {{ block.settings.stack_heading }}
-            </div>
-            <div class="text-xs">
-              {{ block.settings.stack_subheading }}
-            </div>
-          </div>
-          <div class="flex items-center justify-center [word-break:break-word] border-0 border-solid border-b border-[#12121233] mgx-bg-black text-white px-4 py-4 text-sm tracking-normal md:text-base ">
-            <svg role="img" aria-label="Check" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" fill="var(--mgx-amber)"/>
-              <path d="M16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z" fill="#ffffff"/>
-            </svg>
-          </div>
-          <div class="flex items-center justify-center [word-break:break-word] border-0 border-solid border-b border-[#12121233] p-4 py-4 text-sm tracking-normal md:text-base">
-            <svg role="img" aria-label="Cross" width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g stroke="var(--mgx-graphite)" stroke-width="2">
-                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"/>
-                <path stroke-linecap="round" d="M9 15L15 9M15 15L9 9"/>
-              </g>
-            </svg>
-          </div>
-        {% endif %}
-      {% endfor %}
-      <div class="col-span-2 !block"></div>
-      <div class="rounded-b-xl mgx-bg-black px-4 py-4 !block"></div>
-      <div class="!block"></div>
     </div>
     <div class="max-w-[400px] mx-auto mt-8 flex flex-col gap-6 items-center">
       <a
         href="{{ section.settings.btn_url }}"
+        {% if request.page_type == 'product' and section.settings.btn_scroll_to_atc %}data-mgx-to-atc{% endif %}
         class="no-underline mgx-btn-primary tracking-normal font-medium px-8 py-3 rounded-full text-lg text-center transition-colors w-full block tabs-cta-ripple-animation"
         aria-label="View All">
         {{ section.settings.btn_text }}
@@ -89,6 +205,24 @@
     </div>
   </div>
 </div>
+
+{% if request.page_type == 'product' and section.settings.btn_scroll_to_atc %}
+  <script>
+    (function () {
+      var link = document.querySelector('#{{ section.id }} [data-mgx-to-atc]');
+      if (!link) return;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+      link.addEventListener('click', function (event) {
+        var target = document.querySelector('#atc_scroll_target, .bundle-price-pdp');
+        if (!target) return;
+        event.preventDefault();
+        var header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-height')) || 0;
+        var top = target.getBoundingClientRect().top + window.scrollY - header - 12;
+        window.scrollTo({ top: Math.max(0, top), behavior: reduced.matches ? 'instant' : 'smooth' });
+      });
+    })();
+  </script>
+{% endif %}
 
 {% schema %}
   {
@@ -118,6 +252,41 @@
         "id": "btn_url",
         "label": "Button URL",
         "default": "/collections/all"
+      },
+      {
+        "type": "checkbox",
+        "id": "btn_scroll_to_atc",
+        "label": "On product pages, the button scrolls to Add to cart",
+        "info": "The Button URL is then used everywhere else.",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Table columns"
+      },
+      {
+        "type": "text",
+        "id": "ours_label",
+        "label": "Our column",
+        "default": "Magyx"
+      },
+      {
+        "type": "text",
+        "id": "ours_badge",
+        "label": "Badge under our column (desktop)",
+        "default": "20% perfume oil"
+      },
+      {
+        "type": "text",
+        "id": "dupes_label",
+        "label": "Other dupes column",
+        "default": "Other dupes"
+      },
+      {
+        "type": "text",
+        "id": "designer_label",
+        "label": "Designer column",
+        "default": "Designer brands"
       },
       {
         "type": "header",
@@ -160,6 +329,17 @@
             "id": "stack_subheading",
             "label": "Stack Subheading",
             "default": "12 +Hours"
+          },
+          {
+            "type": "select",
+            "id": "other_dupes",
+            "label": "Other dupes",
+            "options": [
+              { "value": "yes", "label": "Yes" },
+              { "value": "partial", "label": "Partly" },
+              { "value": "no", "label": "No" }
+            ],
+            "default": "partial"
           }
         ]
       }
