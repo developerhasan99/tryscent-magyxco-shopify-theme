@@ -262,7 +262,7 @@
             "icon": "bottle",
             "perk_image": "shopify://shop_images/quality_check.webp",
             "perk_title": "French Fragrance Quality",
-            "perk_content": "Made with the same care as leading luxury brands."
+            "perk_content": "Made with 20% perfume oil, the same care as leading luxury brands."
           }
         },
         "perks_yTdgqz": {
@@ -413,6 +413,11 @@
         "title": "How Magyx Compares",
         "btn_text": "Browse Best Fragrances",
         "btn_url": "shopify://collections/best-sellers",
+        "btn_scroll_to_atc": true,
+        "ours_label": "Magyx",
+        "ours_badge": "20% perfume oil",
+        "dupes_label": "Other dupes",
+        "designer_label": "Designer brands",
         "padding_top": 60,
         "padding_bottom": 60
       }
