@@ -24,6 +24,7 @@
     display: none !important;
   }
 </style>
+<script src="{{ 'mgx-scent-facets.js' | asset_url }}" defer></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 {%- liquid
@@ -78,14 +79,14 @@
         <div x-show="$store.bundleBuilder.selectedProducts[index - 1]" class="flex gap-2 items-center flex-grow">
             <img
                 class="object-cover rounded"
-                :src="$store.bundleBuilder.selectedProducts[index - 1].image"
-                :alt="$store.bundleBuilder.selectedProducts[index - 1].name"
+                :src="$store.bundleBuilder.selectedProducts[index - 1]?.image"
+                :alt="$store.bundleBuilder.selectedProducts[index - 1]?.name"
                 width="40"
                 height="40"
             >
             <div class="text-left flex flex-col gap-1">
-                <div class="font-bold text-sm leading-tight text-black line-clamp-1" x-text="$store.bundleBuilder.selectedProducts[index - 1].name"></div>
-                <div class="text-xs line-clamp-1 text-[#6b7280]" x-text="$store.bundleBuilder.selectedProducts[index - 1].inspiration_name"></div>
+                <div class="font-bold text-sm leading-tight text-black line-clamp-1" x-text="$store.bundleBuilder.selectedProducts[index - 1]?.name"></div>
+                <div class="text-xs line-clamp-1 text-[#6b7280]" x-text="$store.bundleBuilder.selectedProducts[index - 1]?.inspiration_name"></div>
             </div>
             {% unless product.tags contains 'fixed_bundle' %}
               <button @click.stop.prevent="$store.bundleBuilder.removeProduct(index - 1)" class="ml-auto size-7 bg-red-50 flex items-center justify-center rounded text-xs cursor-pointer border-0">
@@ -247,6 +248,7 @@
               %}
               {
                 id: {{ bundle_product.id }},
+                handle: {{ bundle_product.handle | json }},
                 name: "{{ bundle_product.title }}",
                 image: "{{ bundle_product.featured_image | image_url: width: 120, height: 120 }}",
                 nuta: "{% if bundle_product.metafields.custom.inspiration.value %}{{ bundle_product.metafields.custom.inspiration.value.name }}{% endif %}",
@@ -282,6 +284,21 @@
       },
       removeOne(productId) {
         this.removeProduct(this.selectedProducts.map(item => item.id).lastIndexOf(productId));
+      },
+      // Picker row chips: the most specific occasion + the scent family (two families when there is no occasion)
+      chips(product) {
+        const OCC = [['date-night', 'Date Night'], ['night-out', 'Night Out'], ['weddings-events', 'Weddings & Events'], ['special-occasion', 'Special occasion'], ['sport-fresh', 'Sport & Fresh'], ['work-office', 'Work & Office'], ['vacations-summer', 'Vacations & Summer'], ['weekend-chill', 'Weekend & Chill'], ['everyday', 'Everyday'], ['daily-signature', 'Daily Signature']];
+        const FAM = { 'aquatic-marine': 'Aquatic & Marine', 'aromatic-green': 'Aromatic & Green', 'floral': 'Floral', 'fresh-citrus': 'Fresh & Citrus', 'fruity': 'Fruity', 'gourmand': 'Gourmand', 'warm-spicy': 'Warm & Spicy', 'woody-earthy': 'Woody & Earthy' };
+        const TAG_OCC = { 'date-night': 'date-night', 'evening': 'night-out', 'special': 'special-occasion', 'sport': 'sport-fresh', 'office': 'work-office', 'everyday': 'everyday' };
+        const TAG_FAM = { 'aquatic': 'aquatic-marine', 'aromatic': 'aromatic-green', 'fougere': 'aromatic-green', 'floral': 'floral', 'fresh': 'fresh-citrus', 'citrus': 'fresh-citrus', 'fruity': 'fruity', 'gourmand': 'gourmand', 'oriental': 'warm-spicy', 'spicy': 'warm-spicy', 'woody': 'woody-earthy', 'leather': 'woody-earthy' };
+        let [occasions, families] = (window.MGX_SCENT_FACETS || {})[product.handle] || [null, null];
+        if (!occasions) {
+          const tags = (product.tags || []).map(t => t.toLowerCase());
+          occasions = tags.filter(t => t.startsWith('occasion:')).map(t => TAG_OCC[t.slice(9)]).filter(Boolean);
+          families = [...new Set(tags.filter(t => t.startsWith('scent:')).map(t => TAG_FAM[t.slice(6)]).filter(Boolean))];
+        }
+        const occ = OCC.find(o => occasions.includes(o[0]));
+        return [occ && occ[1], ...families.map(f => FAM[f])].filter(Boolean).slice(0, 2);
       },
       productCount(productId) {
         return this.selectedProducts.filter(item => item.id === productId).length;

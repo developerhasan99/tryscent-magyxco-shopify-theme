@@ -4,6 +4,24 @@
     assign filter_all = 'All'
   endif
 %}
+<style>
+  .mgx-bb-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .mgx-bb-chip {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #f4f4f5;
+    color: #6b7280;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+</style>
 <div
   x-data
   x-transition
@@ -103,17 +121,10 @@
                   height="56">
                 <div class="text-left flex flex-col gap-1 mr-auto">
                   <h3 class="my-0 font-bold text-base leading-tight text-black line-clamp-1" x-text="product.name"></h3>
-                  <div x-show="product.inspiration_name != ''" class="flex items-center gap-2">
-                    <img
-                      style="filter: blur(2px);"
-                      class="object-contain object-center size-6"
-                      x-show="product.inspiration_image"
-                      :src="product.inspiration_image"
-                      :alt="product.inspiration_name"
-                      width="35"
-                      height="35">
-                      <p class="text-xs my-0 shrink-0 text-[#6b7280]">{{ 'bundle.inspired_by' | t }}</p>
-                      <h4 x-text="product.inspiration_name" class="text-xs font-semibold my-0 line-clamp-1 inspiration_heading"></h4>
+                  <div class="mgx-bb-chips" x-show="$store.bundleBuilder.chips(product).length">
+                    <template x-for="chip in $store.bundleBuilder.chips(product)" :key="chip">
+                      <span class="mgx-bb-chip" x-text="chip"></span>
+                    </template>
                   </div>
                 </div>
                 <div class="shrink-0 ml-auto text-center">

@@ -23,12 +23,20 @@
             "description_block_id": "collapsible_tab_XYmgtQ"
           }
         },
+        "custom_rating_text_mx7Rt2": {
+          "type": "custom_rating_text",
+          "settings": {
+            "text": "4.7/5 stars (10,000 reviews)"
+          }
+        },
         "made_in_the_eu_78caec": {
           "type": "made_in_the_eu",
+          "disabled": true,
           "settings": {}
         },
         "bundle_content_Fp4nMk": {
           "type": "bundle_content",
+          "disabled": true,
           "settings": {}
         },
         "bundle_price_BXLEVb": {
@@ -176,6 +184,7 @@
       "block_order": [
         "title",
         "short_description_Sd7mQx",
+        "custom_rating_text_mx7Rt2",
         "made_in_the_eu_78caec",
         "bundle_content_Fp4nMk",
         "bundle_price_BXLEVb",
