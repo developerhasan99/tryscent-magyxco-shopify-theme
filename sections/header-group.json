@@ -109,7 +109,7 @@
         "enable_badges": false,
         "primary_color": "#B33206",
         "secondary_color": "#FFFFFF",
-        "timer_box_color": "#B33206",
+        "timer_box_color": "#0B0B0B",
         "timer_label_color": "#FFFFFF",
         "top_banner_text": "HALLOWEEN SALE",
         "prepend_text": "",

@@ -1,313 +1,220 @@
-<link rel="stylesheet" href="https://pbutcher.uk/flipdown/css/flipdown/flipdown.css">
-<script defer src="https://pbutcher.uk/flipdown/js/flipdown/flipdown.js"></script>
-
+{%- comment -%}
+  Top bar in two halves: the offer on Primary colour, the countdown on Timer background.
+  Phones stack them (offer above, timer below); from 768px they share one row with a slanted join.
+  The countdown is plain JS (no flip library): HH:MM:SS to midnight, or to "Countdown date" with days.
+{%- endcomment -%}
+{%- liquid
+  assign tb_offer_bg = section.settings.primary_color
+  assign tb_text = section.settings.secondary_color
+  assign tb_timer_bg = section.settings.timer_box_color
+  assign tb_label = section.settings.timer_label_color
+-%}
 <style>
-  .flipdown {
-    width: 190px;
-    height: 42px;
-  }
-
-  .flipdown div:empty {
-    display: block;
-  }
-
-  .flipdown .rotor {
-    font-size: 1.32rem;
-    margin-right: 1.8px;
-  }
-
-  .flipdown .rotor,
-  .flipdown .rotor-leaf,
-  .flipdown .rotor-leaf-front,
-  .flipdown .rotor-leaf-rear,
-  .flipdown .rotor-top,
-  .flipdown .rotor-bottom,
-  .flipdown .rotor:after {
-    width: 18px;
-  }
-
-  .flipdown .rotor-group {
-    padding-right: 12px;
-  }
-
-  .flipdown .rotor-group:last-child {
-    padding-right: 0;
-  }
-
-  .flipdown .rotor-group-heading:before {
-    font-size: 0.48rem;
-    height: 12px;
-    line-height: 12px;
-  }
-
-  .flipdown .rotor-group:nth-child(n + 2):nth-child(-n + 3):before,
-  .flipdown .rotor-group:nth-child(n + 2):nth-child(-n + 3):after {
-    left: 41px;
-  }
-
-  .flipdown .rotor-group:nth-child(n + 2):nth-child(-n + 3):before {
-    bottom: 7.8px;
-    height: 4.8px;
-    width: 4.8px;
-  }
-
-  .flipdown .rotor-group:nth-child(n + 2):nth-child(-n + 3):after {
-    bottom: 17.4px;
-    height: 4.8px;
-    width: 4.8px;
-  }
-
-  .flipdown .rotor-leaf-front,
-  .flipdown .rotor-top {
-    line-height: 30px;
-  }
-
-  .flipdown .rotor-leaf,
-  .flipdown .rotor {
-    height: 30px;
-  }
-
-  .flipdown .rotor-leaf-front,
-  .flipdown .rotor-leaf-rear,
-  .flipdown .rotor-top,
-  .flipdown .rotor-bottom,
-  .flipdown .rotor:after {
-    height: 15px;
-  }
-
-  .flipdown.flipdown__theme-dark .rotor-group-heading:before {
-    color: {{ section.settings.timer_label_color }};
-    font-size: 8px;
-    font-weight: 700;
-    text-transform: uppercase;
-  }
-
-  .timebar-section-bg {
-    display: block;
+  #shopify-section-{{ section.id }} .mgx-tb {
+    display: flex;
+    flex-direction: column;
+    background-color: {{ tb_timer_bg }};
+    color: {{ tb_text }};
     text-decoration: none;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    background-color: #f87171;
-    background-repeat: repeat;
+    font-family: 'Figtree', sans-serif;
   }
-
-  .timebar-container {
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .timebar-row {
+  #shopify-section-{{ section.id }} .mgx-tb__offer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 4px 12px;
+    padding: 9px 16px;
+    background-color: {{ tb_offer_bg }};
+    text-align: center;
   }
-
-  .timebar-sale-text {
-    color: white;
-    font-size: 2rem;
-    line-height: 1;
+  #shopify-section-{{ section.id }} .mgx-tb__eyebrow {
+    font-size: 11px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.85;
   }
-
-  @media (min-width: 768px) {
-    .timebar-row {
-      gap: 16px;
-    }
+  #shopify-section-{{ section.id }} .mgx-tb__rule {
+    display: block;
+    width: 1px;
+    height: 14px;
+    background-color: {{ tb_text | color_modify: 'alpha', 0.35 }};
   }
-
-  .flipdown.flipdown__theme-dark .rotor-bottom,
-  .flipdown.flipdown__theme-dark .rotor-leaf-rear,
-  .flipdown.flipdown__theme-dark .rotor,
-  .flipdown.flipdown__theme-dark .rotor-top,
-  .flipdown.flipdown__theme-dark .rotor-leaf-front {
-    background-color: {{ section.settings.timer_box_color }};
+  #shopify-section-{{ section.id }} .mgx-tb__deal {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
-
-  .flipdown.flipdown__theme-dark .rotor-group:nth-child(n + 2):nth-child(-n + 3):before,
-  .flipdown.flipdown__theme-dark .rotor-group:nth-child(n + 2):nth-child(-n + 3):after {
-    background-color: {{ section.settings.secondary_color }};
+  #shopify-section-{{ section.id }} .mgx-tb__lead {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
   }
-
-  /* Solid digits: no fold line across the middle, both halves the same colour. */
-  .flipdown.flipdown__theme-dark .rotor:after {
+  #shopify-section-{{ section.id }} .mgx-tb__timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 7px 16px 8px;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__ends {
+    font-size: 10px;
+    line-height: 14px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: {{ tb_label | color_modify: 'alpha', 0.7 }};
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__clock {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__num {
+    display: block;
+    min-width: 30px;
+    padding: 3px 4px;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 6px rgba(0, 0, 0, 0.35);
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    text-align: center;
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__cap {
+    margin-top: 3px;
+    font-size: 8px;
+    line-height: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: {{ tb_label | color_modify: 'alpha', 0.55 }};
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__sep {
+    font-style: normal;
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 800;
+    color: {{ tb_offer_bg | color_lighten: 12 }};
+  }
+  #shopify-section-{{ section.id }} .mgx-tb__badges {
     display: none;
   }
 
-  .flipdown.flipdown__theme-dark .rotor-bottom,
-  .flipdown.flipdown__theme-dark .rotor-leaf-rear {
-    color: #ffffff;
-  }
-
-  /* Phones: offer on line 1, "Ends in" + a smaller timer on line 2, badges grouped in the middle. */
-  @media screen and (max-width: 767px) {
-    #shopify-section-{{ section.id }} .mgx-tb-bar {
-      padding-top: 8px;
-      padding-bottom: 8px;
+  @media screen and (min-width: 768px) {
+    #shopify-section-{{ section.id }} .mgx-tb {
+      flex-direction: row;
+      align-items: stretch;
     }
-
-    #shopify-section-{{ section.id }} .mgx-tb-offer {
-      font-size: 14px;
-      line-height: 20px;
+    #shopify-section-{{ section.id }} .mgx-tb__offer {
+      flex: 1 1 50%;
+      justify-content: flex-end;
+      padding: 10px 44px 10px 24px;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
     }
-
-    #shopify-section-{{ section.id }} .mgx-tb-link {
-      font-size: 13px;
-      line-height: 20px;
+    #shopify-section-{{ section.id }} .mgx-tb__eyebrow {
+      font-size: 12px;
     }
-
-    /* "Ends in" lines up with the digit boxes (24px tall at this size), not with the labels above them. */
-    #shopify-section-{{ section.id }} .mgx-tb-timer {
-      flex: 0 0 100%;
-      align-items: flex-end;
-      justify-content: center;
+    #shopify-section-{{ section.id }} .mgx-tb__deal,
+    #shopify-section-{{ section.id }} .mgx-tb__lead {
+      font-size: 16px;
+      line-height: 22px;
     }
-
-    #shopify-section-{{ section.id }} .mgx-tb-ends {
-      font-size: 13px;
-      line-height: 24px;
+    #shopify-section-{{ section.id }} .mgx-tb__timer {
+      flex: 1 1 50%;
+      justify-content: flex-start;
+      padding: 8px 24px 8px 22px;
     }
-
-    #shopify-section-{{ section.id }} .mgx-tb-timer .flipdown {
-      zoom: 0.8;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-timer .flipdown .rotor {
-      font-size: 1.5rem;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-timer .flipdown.flipdown__theme-dark .rotor-group-heading:before {
-      font-size: 9px;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-badges {
-      padding-top: 7px;
-      padding-bottom: 7px;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-badges__row {
-      justify-content: center;
-      gap: 14px;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-badge {
-      min-width: 60px;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-badge__icon {
-      width: auto;
-      height: 20px;
-    }
-
-    #shopify-section-{{ section.id }} .mgx-tb-badge__label {
-      margin-top: 3px;
+    #shopify-section-{{ section.id }} .mgx-tb__ends {
       font-size: 11px;
     }
+    #shopify-section-{{ section.id }} .mgx-tb__num {
+      min-width: 34px;
+      font-size: 18px;
+      line-height: 22px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__sep {
+      font-size: 18px;
+      line-height: 30px;
+    }
+    #shopify-section-{{ section.id }} .mgx-tb__badges {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: 16px;
+      padding-left: 16px;
+      border-left: 1px solid rgba(255, 255, 255, 0.15);
+    }
   }
-
-  {% if section.settings.countdown_date == blank %}
-    .flipdown {
-      width: 140px !important;
-    }
-    .flipdown .rotor-group:first-child {
-      display: none;
-    }
-  {% endif %}
 </style>
 
 {% unless product.template_suffix == 'payday-60' or collection.template_suffix == 'bundle-save' %}
 
   <div id="{{ section.id }}">
-    <a href="{{ section.settings.link }}" class="no-underline block">
+    <a href="{{ section.settings.link }}" class="mgx-tb">
 
-      {% if section.settings.enable_top_bar and section.settings.top_banner_text != blank %}
-        <div class="py-3" style="background-color: {{ section.settings.primary_color }};">
-          <div class="page-width">
-            <div class="text-center flex items-center justify-center gap-4 leading-none" style="color: {{ section.settings.secondary_color }};">
-              -
-              <span>{{ section.settings.top_banner_text }}</span>
-              -
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <div class="mgx-tb-bar py-3 md:py-2" style="background-color: {{ section.settings.primary_color }};">
-        <div class="container mx-auto px-4">
-
-          <div class="flex flex-wrap items-center gap-x-6 gap-y-1 justify-center">
-
-            <div class="flex flex-wrap gap-x-4 gap-y-1 items-center justify-center">
-
-              <div style="color: {{ section.settings.secondary_color }};" class="mgx-tb-offer text-center font-bold text-base md:text-xl">
-                {{ section.settings.prepend_text }}
-              </div>
-
-              <div style="color: {{ section.settings.secondary_color }};" class="mgx-tb-link text-center font-semibold text-sm md:text-lg tracking-wider md:order-1 underline">
-                {{ section.settings.append_text }}
-              </div>
-
-              {% if section.settings.enable_timer %}
-                <div class="mgx-tb-timer flex items-center gap-2">
-
-                  <div style="color: {{ section.settings.secondary_color }};" class="mgx-tb-ends text-sm md:text-base font-bold leading-none md:hidden">
-                    Ends in
-                  </div>
-
-                  <div id="flipdown" class="flipdown"></div>
-
-                </div>
-              {% endif %}
-
-            </div>
-
-            {% if section.settings.enable_badges %}
-              {% if section.blocks.size > 0 %}
-
-                <div class="[display:none] md:flex gap-4">
-
-                  {% for block in section.blocks %}
-
-                    <div class="flex flex-col items-center {% unless forloop.last %}pr-4 border-0 border-r border-solid{% endunless %}" style="border-color: {{ section.settings.secondary_color | color_modify: 'alpha', 0.25 }};" {{ block.shopify_attributes }}>
-
-                      {% if block.settings.use_country_flag %}
-                        <img
-                          class="rounded"
-                          src="{{ localization.country | image_url: width: 72 }}"
-                          height="25"
-                          width=""
-                          alt="{{ localization.country.name | escape }}">
-                      {% elsif block.settings.icon != blank %}
-                        <img
-                          class="rounded"
-                          src="{{ block.settings.icon | image_url }}"
-                          height="25"
-                          width=""
-                          alt="{{ block.settings.label }}">
-                      {% endif %}
-
-                      {% if block.settings.label != blank %}
-                        <div class="leading-none text-xs mt-1 font-semibold" style="color: {{ section.settings.secondary_color }};">
-                          {{ block.settings.label }}
-                        </div>
-                      {% endif %}
-
-                    </div>
-
-                  {% endfor %}
-
-                </div>
-
-              {% endif %}
-            {% endif %}
-
-          </div>
-
-        </div>
+      <div class="mgx-tb__offer">
+        {%- if section.settings.enable_top_bar and section.settings.top_banner_text != blank -%}
+          <span class="mgx-tb__eyebrow">{{ section.settings.top_banner_text }}</span>
+          {%- if section.settings.prepend_text != blank or section.settings.append_text != blank -%}
+            <span class="mgx-tb__rule" aria-hidden="true"></span>
+          {%- endif -%}
+        {%- endif -%}
+        {%- if section.settings.prepend_text != blank -%}
+          <span class="mgx-tb__lead">{{ section.settings.prepend_text }}</span>
+        {%- endif -%}
+        {%- if section.settings.append_text != blank -%}
+          <span class="mgx-tb__deal">{{ section.settings.append_text }}</span>
+        {%- endif -%}
       </div>
+
+      {%- if section.settings.enable_timer -%}
+        <div class="mgx-tb__timer">
+          <span class="mgx-tb__ends">Ends in</span>
+          <span class="mgx-tb__clock" data-mgx-countdown data-deadline="{{ section.settings.countdown_date | escape }}" role="timer" aria-live="off">
+            {%- if section.settings.countdown_date != blank -%}
+              <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="d">00</span><span class="mgx-tb__cap">Days</span></span>
+              <i class="mgx-tb__sep" aria-hidden="true">:</i>
+            {%- endif -%}
+            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="h">00</span><span class="mgx-tb__cap">Hrs</span></span>
+            <i class="mgx-tb__sep" aria-hidden="true">:</i>
+            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="m">00</span><span class="mgx-tb__cap">Min</span></span>
+            <i class="mgx-tb__sep" aria-hidden="true">:</i>
+            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="s">00</span><span class="mgx-tb__cap">Sec</span></span>
+          </span>
+
+          {%- if section.settings.enable_badges and section.blocks.size > 0 -%}
+            <span class="mgx-tb__badges">
+              {%- for block in section.blocks -%}
+                <span class="flex flex-col items-center" {{ block.shopify_attributes }}>
+                  {%- if block.settings.use_country_flag -%}
+                    <img class="rounded" src="{{ localization.country | image_url: width: 72 }}" height="22" width="" alt="{{ localization.country.name | escape }}">
+                  {%- elsif block.settings.icon != blank -%}
+                    <img class="rounded" src="{{ block.settings.icon | image_url }}" height="22" width="" alt="{{ block.settings.label | escape }}">
+                  {%- endif -%}
+                  {%- if block.settings.label != blank -%}
+                    <span class="leading-none text-xs mt-1 font-semibold">{{ block.settings.label }}</span>
+                  {%- endif -%}
+                </span>
+              {%- endfor -%}
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
 
     </a>
   </div>
@@ -371,57 +278,36 @@
 {% if section.settings.enable_timer %}
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    (function () {
+      var clock = document.querySelector('#shopify-section-{{ section.id }} [data-mgx-countdown]');
+      if (!clock) return;
+      var cells = {};
+      clock.querySelectorAll('[data-unit]').forEach(function (el) { cells[el.dataset.unit] = el; });
 
-      function getNextMidnightTimestamp() {
-        const nextMidnight = new Date();
-
-        nextMidnight.setHours(24, 0, 0, 0);
-
-        return Math.floor(nextMidnight.getTime() / 1000);
+      // "Countdown date" when it parses, else the next local midnight (rolls over every day)
+      function deadline() {
+        var set = Date.parse(clock.dataset.deadline || '');
+        if (!isNaN(set) && set > Date.now()) return set;
+        var midnight = new Date();
+        midnight.setHours(24, 0, 0, 0);
+        return midnight.getTime();
       }
-
-      function getCountdownDeadline() {
-        const configuredDate = {{ section.settings.countdown_date | json }};
-
-        if (!configuredDate) {
-          return getNextMidnightTimestamp();
+      var end = deadline();
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function tick() {
+        var left = Math.max(0, Math.floor((end - Date.now()) / 1000));
+        if (left === 0 && !clock.dataset.deadline) { end = deadline(); left = Math.floor((end - Date.now()) / 1000); }
+        var d = Math.floor(left / 86400);
+        var h = Math.floor(left / 3600) - (cells.d ? d * 24 : 0);
+        var values = { d: d, h: h, m: Math.floor(left / 60) % 60, s: left % 60 };
+        for (var k in cells) {
+          var text = pad(values[k]);
+          if (cells[k].textContent !== text) cells[k].textContent = text;
         }
-
-        const configuredTimestamp =
-          Math.floor(new Date(configuredDate).getTime() / 1000);
-
-        return Number.isNaN(configuredTimestamp)
-          ? getNextMidnightTimestamp()
-          : configuredTimestamp;
       }
-
-      function initializeFlipdown() {
-        const flipdownElement = document.getElementById('flipdown');
-
-        if (!flipdownElement) {
-          return;
-        }
-
-        if (typeof FlipDown === 'undefined') {
-          setTimeout(initializeFlipdown, 100);
-          return;
-        }
-
-        const deadline = getCountdownDeadline();
-
-        new FlipDown(deadline, {
-          headings: ["Days", "Hours", "Min", "Sec"]
-        })
-          .start()
-          .ifEnded(() => {
-            console.log('Countdown ended');
-          });
-      }
-
-      initializeFlipdown();
-
-    });
+      tick();
+      setInterval(tick, 1000);
+    })();
   </script>
 
 {% endif %}
@@ -466,8 +352,8 @@
       {
         "type": "color",
         "id": "timer_box_color",
-        "label": "Timer box color",
-        "default": "#3A3A3C"
+        "label": "Timer background (the countdown half)",
+        "default": "#0B0B0B"
       },
       {
         "type": "color",
