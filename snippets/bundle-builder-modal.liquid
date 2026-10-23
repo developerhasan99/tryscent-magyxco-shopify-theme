@@ -10,6 +10,31 @@
     flex-wrap: wrap;
     gap: 4px;
   }
+  .mgx-bb-thumb {
+    position: relative;
+    flex-shrink: 0;
+    display: block;
+    width: 56px;
+    height: 56px;
+  }
+  .mgx-bb-badge {
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    transform: translateX(-50%);
+    padding: 1px 5px;
+    border-radius: 999px;
+    background: var(--mgx-amber);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 13px;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  .mgx-bb-badge.mgx-bb-badge--new {
+    background: var(--mgx-black);
+  }
   .mgx-bb-chip {
     padding: 2px 8px;
     border-radius: 999px;
@@ -113,12 +138,19 @@
                 @click="$store.bundleBuilder.addRemoveProduct(product)"
                 :class="$store.bundleBuilder.isProductSelected(product.id) ? 'mgx-selected-strong' : 'border-gray-200 border'"
                 class="border-[1.5px] border-solid w-full p-2 flex items-center gap-2 justify-between cursor-pointer rounded-xl bg-white">
-                <img
-                  class="object-cover rounded-lg"
-                  :src="product.image"
-                  :alt="product.name"
-                  width="56"
-                  height="56">
+                <span class="mgx-bb-thumb">
+                  <img
+                    class="object-cover rounded-lg"
+                    :src="product.image"
+                    :alt="product.name"
+                    width="56"
+                    height="56">
+                  <span
+                    x-show="$store.bundleBuilder.badge(product)"
+                    x-text="$store.bundleBuilder.badge(product)"
+                    :class="$store.bundleBuilder.badge(product) === 'New' ? 'mgx-bb-badge--new' : ''"
+                    class="mgx-bb-badge"></span>
+                </span>
                 <div class="text-left flex flex-col gap-1 mr-auto">
                   <h3 class="my-0 font-bold text-base leading-tight text-black line-clamp-1" x-text="product.name"></h3>
                   <div class="mgx-bb-chips" x-show="$store.bundleBuilder.chips(product).length">
