@@ -403,13 +403,6 @@
             "description": "And keep up through your most active hours."
           }
         },
-        "list_item_htAiEB": {
-          "type": "list_item",
-          "settings": {
-            "title": "Mini sizes to try first",
-            "description": "Test on your skin first. So you're 100% sure before you commit to a full bottle."
-          }
-        },
         "list_item_bhN48G": {
           "type": "list_item",
           "settings": {
@@ -422,7 +415,6 @@
         "list_item_LLAAfL",
         "list_item_Y8PNCx",
         "list_item_yxDVcQ",
-        "list_item_htAiEB",
         "list_item_bhN48G"
       ],
       "name": "Makes Different",
