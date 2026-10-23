@@ -20,7 +20,11 @@
   assign sdesc_target = blank
   for b in section.blocks
     if b.id == block.settings.description_block_id
-      assign sdesc_target = 'Details-' | append: b.id | append: '-' | append: section.id
+      if b.type == 'expanded_notes'
+        assign sdesc_target = 'expanded-notes'
+      else
+        assign sdesc_target = 'Details-' | append: b.id | append: '-' | append: section.id
+      endif
     endif
   endfor
 -%}
