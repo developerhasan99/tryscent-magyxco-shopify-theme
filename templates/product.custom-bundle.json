@@ -12,6 +12,12 @@
     "main": {
       "type": "main-product",
       "blocks": {
+        "custom_rating_text_mx7Rt2": {
+          "type": "custom_rating_text",
+          "settings": {
+            "text": "4.7/5 stars (10,000 reviews)"
+          }
+        },
         "title": {
           "type": "title",
           "settings": {}
@@ -21,12 +27,6 @@
           "settings": {
             "link_label": "Full description",
             "description_block_id": "collapsible_tab_XYmgtQ"
-          }
-        },
-        "custom_rating_text_mx7Rt2": {
-          "type": "custom_rating_text",
-          "settings": {
-            "text": "4.7/5 stars (10,000 reviews)"
           }
         },
         "made_in_the_eu_78caec": {
@@ -182,8 +182,8 @@
         }
       },
       "block_order": [
-        "title",
         "custom_rating_text_mx7Rt2",
+        "title",
         "short_description_Sd7mQx",
         "made_in_the_eu_78caec",
         "bundle_content_Fp4nMk",
