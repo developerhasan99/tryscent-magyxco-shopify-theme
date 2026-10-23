@@ -304,14 +304,16 @@
           "type": "stack",
           "settings": {
             "stack_heading": "Fragrance concentration",
-            "stack_subheading": "More oil = longer-lasting scent"
+            "stack_subheading": "More oil = longer-lasting scent",
+            "other_dupes": "partial"
           }
         },
         "stack_MQpHMQ": {
           "type": "stack",
           "settings": {
             "stack_heading": "Lasts 12+ hours on the skin",
-            "stack_subheading": "Lasts longer than most designer EDTs"
+            "stack_subheading": "Lasts longer than most designer EDTs",
+            "other_dupes": "partial"
           }
         },
         "stack_FWjJJn": {
@@ -326,21 +328,24 @@
           "type": "stack",
           "settings": {
             "stack_heading": "Exactly the same scent as the original",
-            "stack_subheading": "Created with the same fragrance accords"
+            "stack_subheading": "Created with the same fragrance accords",
+            "other_dupes": "partial"
           }
         },
         "stack_JHWxX9": {
           "type": "stack",
           "settings": {
             "stack_heading": "Ships within 1-2 days",
-            "stack_subheading": "No waiting in store"
+            "stack_subheading": "No waiting in store",
+            "other_dupes": "partial"
           }
         },
         "stack_UUKJ8p": {
           "type": "stack",
           "settings": {
             "stack_heading": "Cruelty-free formula",
-            "stack_subheading": "Clean ingredients, safe for skin"
+            "stack_subheading": "Clean ingredients, safe for skin",
+            "other_dupes": "partial"
           }
         },
         "stack_Va3wDh": {
@@ -367,6 +372,11 @@
         "title": "How Magyx Compares",
         "btn_text": "Browse Best Fragrances",
         "btn_url": "shopify://collections/best-sellers",
+        "btn_scroll_to_atc": true,
+        "ours_label": "Magyx",
+        "ours_badge": "20% perfume oil",
+        "dupes_label": "Other dupes",
+        "designer_label": "Designer brands",
         "padding_top": 60,
         "padding_bottom": 60
       }
@@ -962,18 +972,6 @@
             "product": ""
           }
         },
-        "review_HRLAnf": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/261_revie.webp",
-            "content": "<p>\"Very high quality!!\"</p>",
-            "author": "Alvarez P.",
-            "date": "3 weeks ago",
-            "rating": 4,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
         "review_Va8yJh": {
           "type": "review",
           "settings": {
@@ -1058,8 +1056,21 @@
             "product": ""
           }
         },
+        "review_HRLAnf": {
+          "type": "review",
+          "settings": {
+            "review_image": "shopify://shop_images/261_revie.webp",
+            "content": "<p>\"Very high quality!!\"</p>",
+            "author": "Alvarez P.",
+            "date": "3 weeks ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
         "review_EtXJJY": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_18.png",
             "content": "<p>\"Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥\"</p>",
@@ -1239,6 +1250,7 @@
         },
         "review_VTz33B": {
           "type": "review",
+          "disabled": true,
           "settings": {
             "review_image": "shopify://shop_images/Magyx_UGC_13.png",
             "content": "<p>\"Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.\"</p>",
@@ -1374,7 +1386,6 @@
         "review_XUrXfR",
         "review_zGjLwi",
         "review_fKKLb9",
-        "review_HRLAnf",
         "review_Va8yJh",
         "review_eFTzg4",
         "review_H9qUrE",
@@ -1382,6 +1393,7 @@
         "review_RP4zmT",
         "review_w9tENy",
         "review_YNBnNr",
+        "review_HRLAnf",
         "review_EtXJJY",
         "review_wzTRyi",
         "review_zQf6Yp",
@@ -1441,6 +1453,7 @@
     },
     "cupid-images-slider": {
       "type": "cupid-images-slider",
+      "disabled": true,
       "settings": {
         "padding_top": 72,
         "padding_bottom": 72,
