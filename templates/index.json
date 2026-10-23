@@ -63,6 +63,7 @@
       "settings": {
         "aria_label": "Shop by category",
         "background_color": "#0b0200",
+        "background_gradient": "",
         "ring_color_1": "#fdf497",
         "ring_color_2": "#fd5949",
         "ring_color_3": "#d6249f",
@@ -92,8 +93,10 @@
         "mobile_padding_bottom": 400,
         "mobile_buttons_bottom": true,
         "mobile_buttons_offset": 24,
-        "button_color": "#FF4D00",
-        "button_text_color": "#ffffff"
+        "button_color": "#ff4d00",
+        "button_text_color": "#ffffff",
+        "mobile_image_offset": 160,
+        "mobile_image_fill": "#0b0200"
       }
     },
     "marquee_labels_RLdqpN": {
@@ -151,7 +154,7 @@
             "icon": "bottle",
             "perk_image": "shopify://shop_images/quality_check.webp",
             "perk_title": "French Fragrance Quality",
-            "perk_content": "Made with 20% of the same care and perfume oil as leading luxury brands."
+            "perk_content": "Made with 20% perfume oil, the same care as leading luxury brands."
           }
         },
         "perks_yTdgqz": {
