@@ -318,7 +318,8 @@
           "type": "stack",
           "settings": {
             "stack_heading": "90% less than the designer price",
-            "stack_subheading": "Without compromising on quality"
+            "stack_subheading": "Without compromising on quality",
+            "other_dupes": "yes"
           }
         },
         "stack_HjWL3a": {
@@ -346,7 +347,8 @@
           "type": "stack",
           "settings": {
             "stack_heading": "60-day money-back guarantee",
-            "stack_subheading": "Love it or receive a full refund — no questions asked"
+            "stack_subheading": "Love it or receive a full refund — no questions asked",
+            "other_dupes": "no"
           }
         }
       },
