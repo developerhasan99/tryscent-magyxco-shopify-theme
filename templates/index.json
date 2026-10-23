@@ -493,14 +493,13 @@
     "massive_review_section": {
       "type": "massive-review",
       "blocks": {
-        "review_AEQxcH": {
+        "review_JdiNyt": {
           "type": "review",
-          "disabled": true,
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_34.png",
-            "content": "<p>\"I tried their 7.5 ml samples and to my great surprise, I loved them. I placed a 2nd order, but this time I took the larger bottles. I must say I received my orders on time and they delivered the fragrances I love!\"</p>",
-            "author": "Lauri E",
-            "date": "3 weeks ago",
+            "review_image": "shopify://shop_images/bottle_02_tilted_closeup_71ed5f85-c6cd-4c7e-8bb7-9cc7d8457ade.jpg",
+            "content": "<p>\"I'm a big fan of cologne, so I'm picky about clones, but MagyX completely convinced me. I ordered the Sauvage clone from the homepage and immediately recognized the scent when spraying it. I now own 4 Magic Perfume perfumes in total and I love them all. I have 3 more on the way thanks to their bundle deals. If you want something that works on a small budget and offers designer performance, I can't recommend them enough.\"</p>",
+            "author": "Violet Prescott",
+            "date": "2 weeks ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
@@ -630,6 +629,19 @@
             "product": ""
           }
         },
+        "review_AEQxcH": {
+          "type": "review",
+          "disabled": true,
+          "settings": {
+            "review_image": "shopify://shop_images/Magyx_UGC_34.png",
+            "content": "<p>\"I tried their 7.5 ml samples and to my great surprise, I loved them. I placed a 2nd order, but this time I took the larger bottles. I must say I received my orders on time and they delivered the fragrances I love!\"</p>",
+            "author": "Lauri E",
+            "date": "3 weeks ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
         "review_RnXXg9": {
           "type": "review",
           "settings": {
@@ -662,18 +674,6 @@
             "content": "<p>\"The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.\"</p>",
             "author": "Roxanne S",
             "date": "1 month ago",
-            "rating": 5,
-            "show_verified_badge": true,
-            "product": ""
-          }
-        },
-        "review_JdiNyt": {
-          "type": "review",
-          "settings": {
-            "review_image": "shopify://shop_images/bottle_02_tilted_closeup_71ed5f85-c6cd-4c7e-8bb7-9cc7d8457ade.jpg",
-            "content": "<p>\"I'm a big fan of cologne, so I'm picky about clones, but Magic Perfume completely convinced me. I ordered the Sauvage clone from the homepage and immediately recognized the scent when spraying it. I now own 4 Magic Perfume perfumes in total and I love them all. I have 3 more on the way thanks to their bundle deals. If you want something that works on a small budget and offers designer performance, I can't recommend them enough.\"</p>",
-            "author": "Violet Prescott",
-            "date": "2 weeks ago",
             "rating": 5,
             "show_verified_badge": true,
             "product": ""
@@ -944,7 +944,7 @@
         }
       },
       "block_order": [
-        "review_AEQxcH",
+        "review_JdiNyt",
         "review_WnPpEf",
         "review_Vb9HW7",
         "review_HjyT3p",
@@ -955,10 +955,10 @@
         "review_EniFK9",
         "review_aThE8h",
         "review_aietxq",
+        "review_AEQxcH",
         "review_RnXXg9",
         "review_GbhyC3",
         "review_YtFw34",
-        "review_JdiNyt",
         "review_nQ6MLV",
         "review_bjRzPy",
         "review_PiLjha",
