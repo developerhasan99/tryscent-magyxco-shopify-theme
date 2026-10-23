@@ -1,9 +1,14 @@
 {%- liquid
   assign card_price_variant = product.selected_or_first_available_variant
+  assign card_price_found = false
   for card_variant in product.variants
-    if card_variant.price == product.price
+    assign card_variant_title = card_variant.title | downcase
+    if product.variants.size > 1 and card_variant_title contains '30'
+      continue
+    endif
+    if card_price_found == false or card_variant.price < card_price_variant.price
       assign card_price_variant = card_variant
-      break
+      assign card_price_found = true
     endif
   endfor
 -%}
@@ -34,10 +39,10 @@
     {% unless product.tags contains 'onsale' %}
       <span class="starts_at_text">Starts at</span>
     {% endunless %}
-    <span class="ab-current-price">{{ product.price | money }}</span>
+    <span class="ab-current-price">{{ card_price_variant.price | money }}</span>
     {% if product.tags contains 'onsale' %}
       <span class="line-through mgx-text-muted font-normal">
-        {{ cart.currency.symbol }}{{ product.compare_at_price | money_without_currency }}</span>
+        {{ cart.currency.symbol }}{{ card_price_variant.compare_at_price | money_without_currency }}</span>
     {% endif %}
   </div>
 </a>

@@ -53,14 +53,17 @@
                       class="flex-grow pl-1 pr-3 h-8 border border-gray-200 rounded border-solid"
                       name="id"
                       aria-label="Select variant">
+                      {% assign upsell_first = true %}
                       {% for variant in product.variants %}
+                        {% assign upsell_title = variant.title | downcase %}
+                        {% if product.variants.size > 1 and upsell_title contains '30' %}{% continue %}{% endif %}
                         {% assign variant_image = variant.image | default: product.featured_image %}
                         <option
                           value="{{ variant.id }}"
                           data-price="{{ variant.price | money_without_currency }}"
                           data-img="{{ variant_image | image_url: width: 200 }}"
-                          {% if forloop.first %}
-                          selected{% endif %}>
+                          {% if upsell_first %}
+                          selected{% assign upsell_first = false %}{% endif %}>
                           {{ variant.title }} - {{ variant.price | money }}
                         </option>
                       {% endfor %}

@@ -20,7 +20,35 @@
     <div class="text-xs md:text-sm italic text-gray-500">100 ml - chosen by 8 out of 10 customers</div>
   </div>
 
-  <div class="grid grid-cols-3 gap-3" id="variant-selector">
+  {%- comment -%}
+    Sizes show largest first (100 ml on the left). 30 ml is hidden when the product
+    also has 50 ml and 100 ml; any variant without a ml size keeps its place at the end.
+  {%- endcomment -%}
+  {%- liquid
+    assign has_50 = false
+    assign has_100 = false
+    for variant in product.variants
+      if variant.title contains '100'
+        assign has_100 = true
+      elsif variant.title contains '50'
+        assign has_50 = true
+      endif
+    endfor
+    assign hide_30 = false
+    if has_50 and has_100
+      assign hide_30 = true
+    endif
+    assign size_order = '100,50,30,0' | split: ','
+    assign visible_count = 0
+    for variant in product.variants
+      if hide_30 and variant.title contains '30'
+        continue
+      endif
+      assign visible_count = visible_count | plus: 1
+    endfor
+  -%}
+  <div class="grid {% if visible_count == 2 %}grid-cols-2{% else %}grid-cols-3{% endif %} gap-3" id="variant-selector">
+    {% for size in size_order %}
     {% for variant in product.variants %}
       {% liquid
         assign variant_ml = 0
@@ -30,6 +58,13 @@
           assign variant_ml = 50
         elsif variant.title contains '30'
           assign variant_ml = 30
+        endif
+        assign variant_ml_s = variant_ml | append: ''
+        if variant_ml_s != size
+          continue
+        endif
+        if hide_30 and variant_ml == 30
+          continue
         endif
 
         if variant_ml > 0
@@ -55,6 +90,7 @@
           <div class="text-xs text-gray-500">{{ price_per_ml | money }} / ml</div>
         {% endif %}
       </button>
+    {% endfor %}
     {% endfor %}
   </div>
   {% if product.tags contains 'variant_note' %}
