@@ -300,6 +300,13 @@
         const occ = OCC.find(o => occasions.includes(o[0]));
         return [occ && occ[1], ...families.map(f => FAM[f])].filter(Boolean).slice(0, 2);
       },
+      // Small badge on the picker thumbnail: New (new-scents collection) wins over Bestseller (bestseller tag; the Best sellers collection holds almost every scent)
+      badge(product) {
+        const cols = (product.collections || '').split(',');
+        if (cols.includes('new-scents')) return 'New';
+        if ((product.tags || []).includes('bestseller')) return 'Bestseller';
+        return '';
+      },
       productCount(productId) {
         return this.selectedProducts.filter(item => item.id === productId).length;
       },
