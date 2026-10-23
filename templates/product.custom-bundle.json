@@ -314,7 +314,8 @@
           "settings": {
             "stack_heading": "Fragrance concentration",
             "stack_subheading": "More oil = longer-lasting scent",
-            "other_dupes": "partial"
+            "other_dupes": "partial",
+            "designer_brands": "partial"
           }
         },
         "stack_MQpHMQ": {
@@ -322,7 +323,8 @@
           "settings": {
             "stack_heading": "Lasts 12+ hours on the skin",
             "stack_subheading": "Lasts longer than most designer EDTs",
-            "other_dupes": "partial"
+            "other_dupes": "partial",
+            "designer_brands": "partial"
           }
         },
         "stack_FWjJJn": {
@@ -330,7 +332,8 @@
           "settings": {
             "stack_heading": "90% less than the designer price",
             "stack_subheading": "Without compromising on quality",
-            "other_dupes": "yes"
+            "other_dupes": "yes",
+            "designer_brands": "no"
           }
         },
         "stack_HjWL3a": {
@@ -338,7 +341,8 @@
           "settings": {
             "stack_heading": "Exactly the same scent as the original",
             "stack_subheading": "Created with the same fragrance accords",
-            "other_dupes": "partial"
+            "other_dupes": "partial",
+            "designer_brands": "yes"
           }
         },
         "stack_JHWxX9": {
@@ -346,7 +350,8 @@
           "settings": {
             "stack_heading": "Ships within 1-2 days",
             "stack_subheading": "No waiting in store",
-            "other_dupes": "partial"
+            "other_dupes": "partial",
+            "designer_brands": "yes"
           }
         },
         "stack_UUKJ8p": {
@@ -354,15 +359,17 @@
           "settings": {
             "stack_heading": "Cruelty-free formula",
             "stack_subheading": "Clean ingredients, safe for skin",
-            "other_dupes": "partial"
+            "other_dupes": "partial",
+            "designer_brands": "partial"
           }
         },
         "stack_Va3wDh": {
           "type": "stack",
           "settings": {
             "stack_heading": "60-day money-back guarantee",
-            "stack_subheading": "Love it or receive a full refund — no questions asked",
-            "other_dupes": "no"
+            "stack_subheading": "Love it or receive a full refund, no questions asked",
+            "other_dupes": "no",
+            "designer_brands": "no"
           }
         }
       },
