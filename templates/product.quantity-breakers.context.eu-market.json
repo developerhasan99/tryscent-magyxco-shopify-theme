@@ -12,5 +12,23 @@
     "market": "eu-market"
   },
   "parent": "product.quantity-breakers.json",
-  "sections": {}
+  "sections": {
+    "massive_review_VcYBPz": {
+      "settings": {},
+      "blocks": {
+        "review_QYPNyh": {
+          "disabled": true,
+          "settings": {}
+        },
+        "review_EFxNT7": {
+          "disabled": true,
+          "settings": {}
+        },
+        "review_EDN7XJ": {
+          "disabled": true,
+          "settings": {}
+        }
+      }
+    }
+  }
 }
