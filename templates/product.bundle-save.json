@@ -9,7 +9,7 @@
         "timer_title": "24 Hours Flash Sale",
         "timer_label": "Bundle deal countdown",
         "rating_label": "Excellent",
-        "rating_score": "4.9",
+        "rating_score": "4.68/5",
         "rating_text": "based on over 10,000 reviews",
         "headline": "WEAR MORE. <em>SAVE MORE.</em>",
         "subheading": "Bundle your favorite scents and <strong>save more with every bottle you add.</strong>",
@@ -144,7 +144,7 @@
       "type": "pm-bs-review-cards",
       "settings": {
         "color_scheme": "scheme-1",
-        "rating_text": "Excellent 4.9",
+        "rating_text": "Excellent 4.68/5",
         "heading": "Turn heads everywhere you go",
         "subheading": "From subtle glances to bold compliments",
         "padding_top": 80,
@@ -156,32 +156,32 @@
           "settings": {
             "image": "shopify://shop_images/bottle_02_closeup_alt.jpg",
             "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_02_closeup_alt.jpg",
-            "headline": "People Keep Asking",
-            "quote": "Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.",
-            "author": "Damario R",
-            "rating": 5,
-            "tag_1": "Compliments",
-            "tag_2": "Smells great"
+            "headline": "Smells Divinely Good",
+            "quote": "I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.",
+            "author": "Christine N.",
+            "rating": 4,
+            "tag_1": "Rich scent",
+            "tag_2": "Great value"
           }
         },
         "card_2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/bottle_08_boxed_pick.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_08_boxed_pick.jpg",
-            "headline": "Fast and Easy",
-            "quote": "Quick service, Great products 🥰🥰🥰",
-            "author": "Lidis A.",
+            "image": "shopify://shop_images/bottle_01_closeup.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_closeup.jpg",
+            "headline": "Arrived in Perfect Condition",
+            "quote": "The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.",
+            "author": "Roxanne S",
             "rating": 5,
-            "tag_1": "Fast delivery",
-            "tag_2": "Great products"
+            "tag_1": "Well packaged",
+            "tag_2": "High quality"
           }
         },
         "card_3": {
           "type": "card",
           "settings": {
             "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
-            "image_url": "",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
             "headline": "Lasts and Lasts",
             "quote": "I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!",
             "author": "Clara P.",
@@ -260,15 +260,15 @@
         "b_5": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/bottle_05_pair_alt.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_05_pair_alt.jpg"
+            "image": "shopify://shop_images/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg"
           }
         },
         "b_6": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/Magyx_UGC_04.png",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/Magyx_UGC_04.png"
+            "image": "shopify://shop_images/face_bottle_05_lips_9x16_478aead1-d64b-4ffa-813b-8aafbaf242eb.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_05_lips_9x16_478aead1-d64b-4ffa-813b-8aafbaf242eb.jpg"
           }
         },
         "b_7": {
@@ -473,7 +473,7 @@
         "title": "Not your average <em>dupe</em>",
         "subtitle": "Most dupes stop at close enough. Ours carry 20% perfume oil and 95% scent similarity.",
         "brand": "MAGYX",
-        "image": "shopify://shop_images/MAGYX_Site_Showcase.webp",
+        "image": "shopify://shop_images/bottle_06_desk_closeup.jpg",
         "their_title": "Designer scents",
         "btn_text": "Get 4 bottles for $60",
         "btn_url": "/products/bundle-and-save",
@@ -488,7 +488,7 @@
         "color_scheme": "scheme-1",
         "heading": "The scent that gets you noticed",
         "subheading": "Real customers on what happened after the first spray",
-        "rating_text": "Excellent 4.9",
+        "rating_text": "Excellent 4.68/5",
         "verified_text": "Verified buyer",
         "padding_top": 80,
         "padding_bottom": 80
@@ -497,9 +497,9 @@
         "r_1": {
           "type": "review",
           "settings": {
-            "quote": "Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.",
-            "author": "Damario R",
-            "rating": 5,
+            "quote": "I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.",
+            "author": "Christine N.",
+            "rating": 4,
             "verified": true,
             "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_02_closeup_alt.jpg",
             "image": "shopify://shop_images/bottle_02_closeup_alt.jpg"
@@ -523,15 +523,15 @@
             "author": "Clara P.",
             "rating": 5,
             "verified": true,
-            "image_url": "",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
             "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp"
           }
         },
         "r_4": {
           "type": "review",
           "settings": {
-            "quote": "After a small delay, I finally received my Magic Perfume perfumes and they are exactly as they should be! I can hardly believe how much they match the originals — for reference, I received \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\", these are really beautiful fragrances.",
-            "author": "Gabriella K",
+            "quote": "Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.",
+            "author": "EM",
             "rating": 5,
             "verified": true,
             "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_06_desk_closeup.jpg",
@@ -541,23 +541,23 @@
         "r_5": {
           "type": "review",
           "settings": {
-            "quote": "I am satisfied with Magic Perfume. The perfume smells very similar to the original and holds well. The packaging is neat and the bottle is beautiful. Overall, it's an excellent option if you want a quality perfume at a reasonable price.",
-            "author": "Alina M",
+            "quote": "Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.",
+            "author": "Damario R",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_centered.jpg",
-            "image": "shopify://shop_images/bottle_01_centered.jpg"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp"
           }
         },
         "r_6": {
           "type": "review",
           "settings": {
-            "quote": "Easy process throw payment and trust worthy website",
-            "author": "Robinson K.",
+            "quote": "The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.",
+            "author": "Eliannys Y",
             "rating": 5,
             "verified": true,
-            "image_url": "",
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_centered.jpg",
+            "image": "shopify://shop_images/bottle_01_centered.jpg"
           }
         }
       },
@@ -754,7 +754,7 @@
         "review_3": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_02_closeup_alt.jpg",
+            "review_image": "",
             "content": "<p>\"Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.\"</p>",
             "author": "Damario R",
             "date": "3 months ago",
@@ -1145,7 +1145,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "heading": "Loved by 10,000+ Customers",
-        "review_text": "4.9 · 10,000+ reviews",
+        "review_text": "4.68/5 · 10,000+ reviews",
         "verified_text": "Verified buyer",
         "initial_count": 9,
         "columns_desktop": "3",
