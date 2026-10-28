@@ -223,6 +223,17 @@
           "shadow": "#100f0d"
         }
       },
+      "scheme-6": {
+        "settings": {
+          "background": "#f6f6f6",
+          "background_gradient": "",
+          "text": "#100f0d",
+          "button": "#100f0d",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#100f0d",
+          "shadow": "#100f0d"
+        }
+      },
       "scheme-4ecf9bcf-7887-4727-9c21-991f25dd397a": {
         "settings": {
           "background": "#c8202f",

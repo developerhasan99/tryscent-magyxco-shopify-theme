@@ -28,14 +28,14 @@
           "type": "benefit",
           "settings": {
             "icon": "sparkle",
-            "text": "Inspired by the designer scents you love"
+            "text": "95% scent similarity to the designer original"
           }
         },
         "b3": {
           "type": "benefit",
           "settings": {
             "icon": "leaf",
-            "text": "Phthalate-free, paraben-free and vegan"
+            "text": "No harmful chemicals"
           }
         },
         "t1": {
@@ -167,14 +167,14 @@
         "card_2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/Magyx_UGC_13.png",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/Magyx_UGC_13.png",
-            "headline": "Worth Every Penny",
-            "quote": "Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.",
-            "author": "EM",
+            "image": "shopify://shop_images/bottle_08_boxed_pick.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_08_boxed_pick.jpg",
+            "headline": "Fast and Easy",
+            "quote": "Quick service, Great products 🥰🥰🥰",
+            "author": "Lidis A.",
             "rating": 5,
-            "tag_1": "Great value",
-            "tag_2": "Lasts long"
+            "tag_1": "Fast delivery",
+            "tag_2": "Great products"
           }
         },
         "card_3": {
@@ -214,7 +214,7 @@
     "pm_bs_benefits": {
       "type": "pm-bs-benefits",
       "settings": {
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-6",
         "heading": "Built to get you <em>noticed</em> & <em>last all day</em>",
         "cta_label": "Get 4 bottles for $60",
         "cta_link": "/products/bundle-and-save",
@@ -238,7 +238,7 @@
           "settings": {
             "icon": "sparkle",
             "title": "Designer-inspired",
-            "text": "Perfume oil sourced from Grasse, France. Made in the EU."
+            "text": "95% scent similarity. Perfume oil from Grasse, France."
           }
         },
         "b_3": {
@@ -260,8 +260,8 @@
         "b_5": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/Magyx_UGC_33.png",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/Magyx_UGC_33.png"
+            "image": "shopify://shop_images/bottle_05_pair_alt.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_05_pair_alt.jpg"
           }
         },
         "b_6": {
@@ -318,7 +318,7 @@
         "b_14": {
           "type": "ticker_item",
           "settings": {
-            "text": "Phthalate- and paraben-free"
+            "text": "No harmful chemicals"
           }
         }
       },
@@ -363,7 +363,7 @@
             "strength": "Strong",
             "longevity": "12+ hours",
             "oil": "20% perfume oil",
-            "summary": "Eau de Parfum with perfume oil sourced from Grasse, France. Phthalate- and paraben-free."
+            "summary": "Eau de Parfum with perfume oil sourced from Grasse, France. No harmful chemicals."
           }
         }
       },
@@ -406,7 +406,7 @@
         "our_3": {
           "type": "our_point",
           "settings": {
-            "text": "Perfume oil from Grasse, France",
+            "text": "95% scent similarity",
             "icon": "sparkle"
           }
         },
@@ -427,7 +427,7 @@
         "our_6": {
           "type": "our_point",
           "settings": {
-            "text": "Phthalate- and paraben-free",
+            "text": "No harmful chemicals",
             "icon": "leaf"
           }
         },
@@ -469,9 +469,9 @@
         "dupe_5"
       ],
       "settings": {
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-6",
         "title": "Not your average <em>dupe</em>",
-        "subtitle": "Most dupes stop at close enough. Ours are Eau de Parfum with 20% perfume oil that lasts 12+ hours.",
+        "subtitle": "Most dupes stop at close enough. Ours carry 20% perfume oil and 95% scent similarity.",
         "brand": "MAGYX",
         "image": "shopify://shop_images/MAGYX_Site_Showcase.webp",
         "their_title": "Designer scents",
@@ -508,12 +508,12 @@
         "r_2": {
           "type": "review",
           "settings": {
-            "quote": "Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥",
-            "author": "Marianne",
-            "rating": 4,
+            "quote": "The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.",
+            "author": "Roxanne S",
+            "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/Magyx_UGC_18.png",
-            "image": "shopify://shop_images/Magyx_UGC_18.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_closeup.jpg",
+            "image": "shopify://shop_images/bottle_01_closeup.jpg"
           }
         },
         "r_3": {
@@ -530,34 +530,34 @@
         "r_4": {
           "type": "review",
           "settings": {
-            "quote": "Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.",
-            "author": "EM",
+            "quote": "After a small delay, I finally received my Magic Perfume perfumes and they are exactly as they should be! I can hardly believe how much they match the originals — for reference, I received \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\", these are really beautiful fragrances.",
+            "author": "Gabriella K",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/Magyx_UGC_13.png",
-            "image": "shopify://shop_images/Magyx_UGC_13.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_06_desk_closeup.jpg",
+            "image": "shopify://shop_images/bottle_06_desk_closeup.jpg"
           }
         },
         "r_5": {
           "type": "review",
           "settings": {
-            "quote": "I bought one perfume inspired by mademoiselle , and it’s fantastic . It last long on the skin and the smell it’s absolutely identical.",
-            "author": "Jenniffer W.",
-            "rating": 4,
+            "quote": "I am satisfied with Magic Perfume. The perfume smells very similar to the original and holds well. The packaging is neat and the bottle is beautiful. Overall, it's an excellent option if you want a quality perfume at a reasonable price.",
+            "author": "Alina M",
+            "rating": 5,
             "verified": true,
-            "image_url": "",
-            "image": "shopify://shop_images/5_12.png"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_centered.jpg",
+            "image": "shopify://shop_images/bottle_01_centered.jpg"
           }
         },
         "r_6": {
           "type": "review",
           "settings": {
-            "quote": "Supergood alternativ, lasting long and is the same like the more expansive perfumes. Highly recommend to test you will not be disappointed.",
-            "author": "Maria M",
+            "quote": "Easy process throw payment and trust worthy website",
+            "author": "Robinson K.",
             "rating": 5,
             "verified": true,
             "image_url": "",
-            "image": "shopify://shop_images/1_24.png"
+            "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp"
           }
         }
       },
@@ -576,8 +576,8 @@
         "row_quality": {
           "type": "row",
           "settings": {
-            "label": "Scent",
-            "ours": "Inspired by the designer original",
+            "label": "Scent quality",
+            "ours": "95% scent similarity",
             "theirs": "Premium, but you pay for the name"
           }
         },
@@ -653,7 +653,7 @@
           "type": "question",
           "settings": {
             "question": "Do your fragrances smell the same as the designer inspiration?",
-            "answer": "<p>Our fragrances are crafted to capture the character of popular designer scents. They are inspired interpretations, not exact copies, built on the same note family with comparable longevity.</p>"
+            "answer": "<p>Our fragrances are expertly crafted to capture the essence and character of popular designer scents. They are inspired interpretations rather than exact copies, with 95% scent similarity to the original, at a fraction of the cost.</p>"
           }
         },
         "q_last": {
@@ -688,7 +688,7 @@
           "type": "question",
           "settings": {
             "question": "How can I trust the quality at this price?",
-            "answer": "<p>We cut out the middleman and the brand markup, not the quality. Every bottle is made in the EU with perfume oil sourced from Grasse, France, and meets IFRA standards. And we back it with a 60-day money-back guarantee.</p>"
+            "answer": "<p>We cut out the middleman and brand markup, not the quality. Our fragrances are made without harmful chemicals, using 20% perfume oil sourced from Grasse, France. We're so confident in our products that we offer a 60-day money-back guarantee.</p>"
           }
         },
         "q_vegan": {
@@ -717,7 +717,7 @@
         "q_skin"
       ],
       "settings": {
-        "color_scheme": "scheme-5",
+        "color_scheme": "scheme-6",
         "title": "Common questions",
         "closing_text": "<p>More questions? <a href=\"/pages/contact\">Contact us</a>.</p>",
         "padding_top": 80,
@@ -813,7 +813,7 @@
         "review_8": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_18.png",
+            "review_image": "",
             "content": "<p>\"Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥\"</p>",
             "author": "Marianne",
             "date": "3 months ago",
@@ -931,7 +931,7 @@
         "review_18": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/5_12.png",
+            "review_image": "",
             "content": "<p>\"I bought one perfume inspired by mademoiselle , and it’s fantastic . It last long on the skin and the smell it’s absolutely identical. \"</p>",
             "author": "Jenniffer W.",
             "date": "3 Weeks ago",
@@ -943,7 +943,7 @@
         "review_19": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/3_16.png",
+            "review_image": "",
             "content": "<p>\"I love your perfumes♥️♥️\"</p>",
             "author": "Robinson D.",
             "date": "4 months ago",
@@ -978,7 +978,7 @@
         "review_22": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_13.png",
+            "review_image": "",
             "content": "<p>\"Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.\"</p>",
             "author": "EM",
             "date": "1 week ago",
@@ -1050,7 +1050,7 @@
         "review_28": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/1_25.png",
+            "review_image": "",
             "content": "<p>\"I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.\"</p>",
             "author": "Christine N.",
             "date": "3 Months ago",
@@ -1074,7 +1074,7 @@
         "review_30": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/2026-07-02_16h41_42.webp",
+            "review_image": "",
             "content": "<p>\"It smells very good, but it doesn't last as long as it should.\"</p>",
             "author": "Terence M.",
             "date": "2 months ago",
@@ -1098,7 +1098,7 @@
         "review_32": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/1_24.png",
+            "review_image": "",
             "content": "<p>\"Supergood alternativ, lasting long and is the same like the more expansive perfumes. Highly recommend to test you will not be disappointed.\"</p>",
             "author": "Maria M",
             "date": "2 days ago",

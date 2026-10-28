@@ -15,13 +15,13 @@
   --pm-error: #b3261e;
   --pm-overlay: rgba(16, 15, 13, 0.2);
   --pm-on-dark-muted: rgba(255, 255, 255, 0.7);
-  --pm-sale: #9a5b1e;
-  --pm-sale-soft: rgba(154, 91, 30, 0.12);
-  --pm-gold: #9a5b1e;
-  --pm-gold-soft: rgba(154, 91, 30, 0.12);
-  --pm-good: #100f0d;
-  --pm-good-soft: #f5f4f2;
-  --pm-tint: #f5f4f2;
+  --pm-sale: #c8202f;
+  --pm-sale-soft: #fdecee;
+  --pm-gold: #e5a00d;
+  --pm-gold-soft: #fbebc6;
+  --pm-good: #16924a;
+  --pm-good-soft: #eaf7ef;
+  --pm-tint: #f8f4ee;
 
   --pm-fs-display: clamp(32px, calc(32px + 22 * (100vw - 375px) / 1065), 54px);
   --pm-lh-display: clamp(38px, calc(38px + 24 * (100vw - 375px) / 1065), 62px);
