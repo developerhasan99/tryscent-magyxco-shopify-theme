@@ -1,0 +1,438 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-reviews.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign initial_count = section.settings.initial_count | default: 20
+  assign cols_desktop = section.settings.columns_desktop | default: '3'
+  assign cols_mobile = section.settings.columns_mobile | default: '2'
+-%}
+{%- style -%}
+  .pm-scope .pm-reviews--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .pm-scope .pm-reviews--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<span id="reviews" class="pm-anchor"></span>
+<div
+  id="{{ section.id }}"
+  class="pm-reviews pm-reviews--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="pm-reviews__head">
+      <h2 class="pm-h2 pm-reviews__heading">{{ section.settings.heading }}</h2>
+      {%- if section.settings.review_text != blank -%}
+        <div class="pm-reviews__rating">
+          {% render 'pm-stars', rating: 4.9, size: 12 %}
+          <span class="pm-small pm-muted">{{ section.settings.review_text }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div id="reviews-source-{{ section.id }}" class="hidden">
+      {%- for block in section.blocks -%}
+        {%- assign rating = block.settings.rating | default: 5 | plus: 0 -%}
+        <article
+          class="pm-reviews__item pm-review"
+          data-review-index="{{ forloop.index }}"
+          {{ block.shopify_attributes }}>
+          {%- if block.settings.review_image != blank -%}
+            <img
+              class="pm-review__img"
+              src="{{ block.settings.review_image | image_url: width: 540 }}"
+              srcset="{{ block.settings.review_image | image_url: width: 360 }} 360w, {{ block.settings.review_image | image_url: width: 540 }} 540w, {{ block.settings.review_image | image_url: width: 720 }} 720w"
+              sizes="(min-width: 990px) 360px, (min-width: 750px) 45vw, 90vw"
+              alt="{{ block.settings.review_image.alt | escape }}"
+              width="{{ block.settings.review_image.width }}"
+              height="{{ block.settings.review_image.height }}"
+              loading="lazy">
+          {%- endif -%}
+          <div class="pm-review__body">
+            <div class="pm-review__meta">
+              <div class="pm-review__who">
+                {%- if block.settings.author_image != blank -%}
+                  <img
+                    class="pm-review__avatar"
+                    src="{{ block.settings.author_image | image_url: width: 64, height: 64 }}"
+                    alt=""
+                    width="32"
+                    height="32"
+                    loading="lazy">
+                {%- endif -%}
+                <div>
+                  <p class="pm-review__name">{{ block.settings.author | default: 'Customer' }}</p>
+                  {%- if block.settings.show_verified_badge -%}
+                    <span class="pm-review__verified">{% render 'pm-icon', icon: 'check', size: 12, stroke: 2 %}{{ section.settings.verified_text }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+              <div class="pm-review__rating">
+                <span class="pm-review__stars" role="img" aria-label="{{ 'premium.general.rating_aria' | t: rating: rating }}">
+                  {%- for i in (1..5) -%}
+                    <svg{% if i > rating %} class="is-empty"{% endif %} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  {%- endfor -%}
+                </span>
+                {%- if block.settings.date != blank -%}
+                  <span class="pm-review__date">{{ block.settings.date }}</span>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="pm-review__text rte">
+              {{ block.settings.content }}
+            </div>
+            {%- if block.settings.product != blank -%}
+              <a href="{{ block.settings.product.url }}" class="pm-review__product">
+                <img
+                  src="{{ block.settings.product.featured_image | image_url: width: 64, height: 64 }}"
+                  alt="{{ block.settings.product.title | escape }}"
+                  width="32"
+                  height="32"
+                  loading="lazy">
+                <div>
+                  <p class="pm-review__product-title">{{ block.settings.product.title }}</p>
+                  {%- assign inspiration = block.settings.product.metafields.custom.inspiration -%}
+                  {%- if inspiration != blank -%}
+                    {%- assign inspiration_name = inspiration.value.name | default: inspiration.value -%}
+                    <p class="pm-review__product-meta">{{ 'premium.card.inspired_by' | t: name: inspiration_name }}</p>
+                  {%- endif -%}
+                </div>
+              </a>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+
+    <div
+      id="reviews-container-{{ section.id }}"
+      class="pm-reviews__grid"
+      data-pm-cols-desktop="{{ cols_desktop }}"
+      data-pm-cols-mobile="{{ cols_mobile }}"></div>
+
+    <div id="load-more-container-{{ section.id }}" class="pm-reviews__more {% if section.blocks.size <= initial_count %}hidden{% endif %}">
+      <button id="load-more-btn-{{ section.id }}" type="button" class="pm-btn pm-btn--secondary">
+        {{ section.settings.button_text | default: 'Read all reviews' }}
+      </button>
+      <div id="loading-spinner-{{ section.id }}" class="hidden pm-reviews__loading">
+        <div class="pm-reviews__spinner"></div>
+        <span class="pm-small pm-muted">{{ section.settings.loading_text }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+  const sectionId = '{{ section.id }}';
+  const btn = document.getElementById(`load-more-btn-${sectionId}`);
+  const spinner = document.getElementById(`loading-spinner-${sectionId}`);
+  const container = document.getElementById(`reviews-container-${sectionId}`);
+  const sourceContainer = document.getElementById(`reviews-source-${sectionId}`);
+  const loadMoreContainer = document.getElementById(`load-more-container-${sectionId}`);
+
+  let currentlyShowing = 0;
+  const totalReviews = {{ section.blocks.size }};
+  const initialLoad = {{ initial_count }};
+  const desktopCols = parseInt(container.getAttribute('data-pm-cols-desktop'), 10) || 3;
+  const mobileCols = parseInt(container.getAttribute('data-pm-cols-mobile'), 10) || 2;
+
+  function columnsFor(width) {
+    if (width >= 990) return desktopCols;
+    if (width >= 750) return Math.min(desktopCols, 2);
+    return mobileCols;
+  }
+
+  let columns = [];
+  let columnHeights = [];
+  let numColumns = columnsFor(window.innerWidth);
+
+  // Initialize columns
+  function initColumns() {
+    container.innerHTML = '';
+    columns = [];
+    columnHeights = [];
+    numColumns = columnsFor(window.innerWidth);
+
+    for (let i = 0; i < numColumns; i++) {
+      const col = document.createElement('div');
+      col.className = 'pm-reviews__col';
+      container.appendChild(col);
+      columns.push(col);
+      columnHeights.push(0);
+    }
+  }
+
+  // Get shortest column index
+  function getShortestColumnIndex() {
+    let minHeight = columnHeights[0];
+    let minIndex = 0;
+
+    for (let i = 1; i < columnHeights.length; i++) {
+      if (columnHeights[i] < minHeight) {
+        minHeight = columnHeights[i];
+        minIndex = i;
+      }
+    }
+
+    return minIndex;
+  }
+
+  // Add reviews to column layout
+  function addReviews(count) {
+    const allReviews = sourceContainer.querySelectorAll('.pm-reviews__item');
+    const end = Math.min(currentlyShowing + count, totalReviews);
+
+    for (let i = currentlyShowing; i < end; i++) {
+      if (allReviews[i]) {
+        const clone = allReviews[i].cloneNode(true);
+        clone.style.opacity = '0';
+
+        // Get the shortest column
+        const shortestIndex = getShortestColumnIndex();
+        columns[shortestIndex].appendChild(clone);
+
+        // Force a reflow to get accurate height
+        clone.offsetHeight;
+
+        // Update the height tracking (approximate)
+        const cardHeight = clone.offsetHeight || 300; // fallback height
+        columnHeights[shortestIndex] += cardHeight + 12; // 12px is the gap
+
+        // Trigger fade in
+        setTimeout(() => {
+          clone.style.opacity = '';
+        }, 10);
+      }
+    }
+
+    currentlyShowing = end;
+
+    // Recalculate actual heights after all cards are added
+    setTimeout(() => {
+      for (let i = 0; i < columns.length; i++) {
+        columnHeights[i] = columns[i].offsetHeight;
+      }
+    }, 100);
+  }
+
+  // Handle window resize
+  let resizeTimeout;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+      const newNumColumns = columnsFor(window.innerWidth);
+      if (newNumColumns !== numColumns) {
+        const tempShowing = currentlyShowing;
+        currentlyShowing = 0;
+        initColumns();
+        addReviews(tempShowing);
+      }
+    }, 250);
+  });
+
+  // Initial load
+  initColumns();
+  addReviews(initialLoad);
+
+  // Load more button
+  if (btn) {
+    btn.addEventListener('click', function() {
+      btn.classList.add('hidden');
+      spinner.classList.remove('hidden');
+
+      setTimeout(function() {
+        addReviews(10);
+
+        spinner.classList.add('hidden');
+
+        if (currentlyShowing < totalReviews) {
+          btn.classList.remove('hidden');
+        } else {
+          loadMoreContainer.classList.add('hidden');
+        }
+      }, 800);
+    });
+  }
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "Bundle reviews wall",
+    "class": "pm-scope",
+    "settings": [
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color (legacy, no longer used)",
+        "default": "#fcfbf9"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "Customer Reviews"
+      },
+      {
+        "type": "text",
+        "id": "review_text",
+        "label": "Review Text",
+        "info": "Shown next to the stars in the header.",
+        "default": "Rated 4.9 by customers"
+      },
+      {
+        "type": "text",
+        "id": "verified_text",
+        "label": "Verified label",
+        "default": "Verified buyer"
+      },
+      {
+        "type": "range",
+        "id": "initial_count",
+        "label": "Reviews shown before Load more",
+        "min": 1,
+        "max": 40,
+        "step": 1,
+        "default": 20
+      },
+      {
+        "type": "select",
+        "id": "columns_desktop",
+        "label": "Columns from 990px",
+        "options": [
+          { "value": "1", "label": "1" },
+          { "value": "2", "label": "2" },
+          { "value": "3", "label": "3" },
+          { "value": "4", "label": "4" }
+        ],
+        "default": "3"
+      },
+      {
+        "type": "select",
+        "id": "columns_mobile",
+        "label": "Columns below 750px",
+        "options": [
+          { "value": "1", "label": "1" },
+          { "value": "2", "label": "2" }
+        ],
+        "default": "2"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Load more button text",
+        "default": "Read all reviews"
+      },
+      {
+        "type": "text",
+        "id": "loading_text",
+        "label": "Loading text",
+        "default": "Loading reviews..."
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Button Link (legacy, no longer used)",
+        "default": "/collections/all"
+      },
+      {
+        "type": "header",
+        "content": "t:sections.all.padding.section_padding_heading"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_top",
+        "info": "Half of this value below 990px.",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "t:sections.all.padding.padding_bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "review",
+        "name": "Review",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "review_image",
+            "label": "Review Image"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Review Content",
+            "default": "<p>Customer review text.</p>"
+          },
+          {
+            "type": "text",
+            "id": "author",
+            "label": "Author Name",
+            "default": "Customer name"
+          },
+          {
+            "type": "image_picker",
+            "id": "author_image",
+            "label": "Author Image"
+          },
+          {
+            "type": "text",
+            "id": "date",
+            "label": "Date",
+            "default": "2 days ago"
+          },
+          {
+            "type": "range",
+            "id": "rating",
+            "min": 1,
+            "max": 5,
+            "step": 1,
+            "label": "Rating",
+            "default": 5
+          },
+          {
+            "type": "checkbox",
+            "id": "show_verified_badge",
+            "label": "Show Verified Badge",
+            "default": true
+          },
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Product"
+          }
+
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Bundle reviews wall"
+      }
+    ]
+  }
+{% endschema %}

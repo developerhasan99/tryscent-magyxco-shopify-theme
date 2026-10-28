@@ -597,5 +597,20 @@
       "minutes": "Minutes",
       "seconds": "Seconds"
     }
+  },
+  "premium": {
+    "card": {
+      "inspired_by": "Inspired by {{ name }}"
+    },
+    "general": {
+      "next": "Next",
+      "previous": "Previous",
+      "rating_aria": "Rated {{ rating }} out of 5"
+    },
+    "pdp": {
+      "add_product": "Add {{ name }}",
+      "payment_methods": "Payment methods",
+      "remove_product": "Remove {{ name }}"
+    }
   }
 }

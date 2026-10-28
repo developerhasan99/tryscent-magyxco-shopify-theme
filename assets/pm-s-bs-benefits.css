@@ -1,0 +1,195 @@
+/* pm-s-bs-benefits.css: benefits block + UGC photos + USP ticker for the Bundle & Save page (sections/pm-bs-benefits.liquid).
+   Built after the HOK "vibe grid": warm tinted band, photos as rounded tiles, centred benefits with gold icons, pill button.
+   375: row of 4 square photos on top, centred heading (italic words in gold), 2x2 centred benefits, full-width pill (max 360), ticker.
+   990: two columns, copy left (heading left-aligned, benefits centred in their cells, pill left), 2x2 photos right. */
+.pm-scope .pm-bsb {
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--pm-tint);
+}
+
+.pm-scope .pm-bsb__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+}
+
+/* Photos */
+.pm-scope .pm-bsb__photos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .pm-bsb__photo {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  margin: 0;
+  border-radius: var(--pm-radius-md);
+  background: var(--pm-surface);
+  overflow: hidden;
+}
+
+.pm-scope .pm-bsb__photo img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Copy */
+.pm-scope .pm-bsb__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.pm-scope .pm-bsb__heading {
+  margin: 0 0 28px;
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsb__heading em {
+  font-style: italic;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bsb__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 16px;
+  width: 100%;
+  margin: 0 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .pm-bsb__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.pm-scope .pm-bsb__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  margin: 0 0 10px;
+  border-radius: var(--pm-radius-pill);
+  background: var(--pm-gold-soft);
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bsb__title {
+  margin: 0 0 4px;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsb__text {
+  margin: 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bsb__cta {
+  width: 100%;
+  max-width: 360px;
+  border-radius: var(--pm-radius-pill);
+}
+
+/* Ticker: gold dots between items */
+.pm-scope .pm-bsb__ticker {
+  margin: 0;
+}
+
+.pm-scope .pm-bsb__ticker .pm-ticker__sep {
+  color: var(--pm-gold);
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bsb__photos {
+    gap: 10px;
+  }
+
+  .pm-scope .pm-bsb__list {
+    max-width: 560px;
+    gap: 32px 24px;
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-bsb__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "copy photos";
+    gap: 60px;
+  }
+
+  .pm-scope .pm-bsb__photos {
+    grid-area: photos;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .pm-scope .pm-bsb__photo {
+    aspect-ratio: 1 / 1;
+  }
+
+  .pm-scope .pm-bsb__copy {
+    grid-area: copy;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .pm-scope .pm-bsb__heading {
+    margin-bottom: 36px;
+  }
+
+  .pm-scope .pm-bsb__list {
+    max-width: none;
+    margin-bottom: 36px;
+  }
+
+  .pm-scope .pm-bsb__grid--solo {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "copy";
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pm-scope .pm-bsb__grid--solo .pm-bsb__copy {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pm-scope .pm-bsb__grid {
+    gap: 80px;
+  }
+}

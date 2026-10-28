@@ -1,0 +1,263 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-compare-table.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .pm-scope .pm-bs-ct--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-scope .pm-bs-ct--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{%- liquid
+  assign ours_img = section.settings.ours_image | default: product.featured_image
+-%}
+<div
+  id="{{ section.id }}"
+  class="pm-bs-ct pm-bs-ct--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="pm-bs-ct__head">
+      {%- if section.settings.kicker != blank -%}
+        <p class="pm-bs-ct__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="pm-bs-ct__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+    </div>
+
+    <div class="pm-bs-ct__table" role="table" aria-label="{{ section.settings.kicker | escape }}">
+      {%- comment -%} Column heads: our photo + name + bundle price | designer bottles crossed out + crossed-out price {%- endcomment -%}
+      <div class="pm-bs-ct__row pm-bs-ct__row--head" role="row">
+        <div class="pm-bs-ct__cell pm-bs-ct__cell--label" role="columnheader"></div>
+        <div class="pm-bs-ct__cell pm-bs-ct__cell--ours pm-bs-ct__cell--head" role="columnheader">
+          {%- if ours_img != blank -%}
+            <span class="pm-bs-ct__media pm-bs-ct__media--ours">
+              {{ ours_img | image_url: width: 480 | image_tag: widths: '240, 360, 480', sizes: '(min-width: 750px) 220px, 34vw', loading: 'lazy', alt: section.settings.ours_sub }}
+            </span>
+          {%- endif -%}
+          <span class="pm-bs-ct__head-brand">{{ section.settings.ours_sub }}</span>
+          {%- if section.settings.ours_label != blank -%}
+            <span class="pm-bs-ct__head-note">{{ section.settings.ours_label }}</span>
+          {%- endif -%}
+        </div>
+        <div class="pm-bs-ct__cell pm-bs-ct__cell--theirs pm-bs-ct__cell--head" role="columnheader">
+          <span class="pm-bs-ct__media pm-bs-ct__media--theirs">
+            {%- if section.settings.theirs_image != blank -%}
+              {{ section.settings.theirs_image | image_url: width: 480 | image_tag: widths: '240, 360, 480', sizes: '(min-width: 750px) 220px, 34vw', loading: 'lazy', alt: section.settings.theirs_label }}
+            {%- else -%}
+              <svg class="pm-bs-ct__bottles" viewBox="0 0 120 90" aria-hidden="true" focusable="false">
+                <rect x="14" y="14" width="14" height="10" rx="2"/><rect x="6" y="24" width="30" height="58" rx="5"/>
+                <rect x="53" y="6" width="14" height="12" rx="2"/><rect x="44" y="18" width="32" height="64" rx="6"/>
+                <rect x="92" y="14" width="14" height="10" rx="2"/><rect x="84" y="24" width="30" height="58" rx="5"/>
+              </svg>
+            {%- endif -%}
+            <span class="pm-bs-ct__x" aria-hidden="true"></span>
+          </span>
+          <span class="pm-bs-ct__head-name">{{ section.settings.theirs_label }}</span>
+          {%- if section.settings.theirs_sub != blank -%}
+            <s class="pm-bs-ct__head-price">{{ section.settings.theirs_sub }}</s>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'row' -%}
+          <div class="pm-bs-ct__row" role="row" {{ block.shopify_attributes }}>
+            <div class="pm-bs-ct__cell pm-bs-ct__cell--label" role="rowheader">{{ block.settings.label }}</div>
+            <div class="pm-bs-ct__cell pm-bs-ct__cell--ours" role="cell">
+              <span class="pm-bs-ct__mark pm-bs-ct__mark--yes">{% render 'pm-icon', icon: 'check', size: 13, stroke: 2.5 %}</span>
+              <span class="pm-bs-ct__text">{{ block.settings.ours }}</span>
+            </div>
+            <div class="pm-bs-ct__cell pm-bs-ct__cell--theirs" role="cell">
+              <span class="pm-bs-ct__mark pm-bs-ct__mark--no">{% render 'pm-icon', icon: 'close', size: 12, stroke: 2.5 %}</span>
+              <span class="pm-bs-ct__text">{{ block.settings.theirs }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- comment -%} Savings band closes our column (empty setting = column closes without a band) {%- endcomment -%}
+      <div class="pm-bs-ct__row pm-bs-ct__row--save" role="row">
+        <div class="pm-bs-ct__cell pm-bs-ct__cell--label" role="cell"></div>
+        <div class="pm-bs-ct__cell pm-bs-ct__cell--save{% if section.settings.save_text == blank %} pm-bs-ct__cell--close{% endif %}" role="cell">{{ section.settings.save_text }}</div>
+        <div class="pm-bs-ct__cell" role="cell"></div>
+      </div>
+    </div>
+
+    <div class="pm-bs-ct__footer">
+      {%- if section.settings.btn_text != blank -%}
+        <a href="{{ section.settings.btn_url | default: routes.all_products_collection_url }}" class="pm-btn pm-btn--primary pm-bs-ct__cta">{{ section.settings.btn_text }}</a>
+      {%- endif -%}
+      {%- if section.settings.guarantee != blank -%}
+        <p class="pm-bs-ct__guarantee">{% render 'pm-icon', icon: 'shield', size: 16, stroke: 1.75 %}<span>{{ section.settings.guarantee }}</span></p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "BS Compare table",
+  "tag": "section",
+  "class": "pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "The difference"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "Why people switch to <em>us</em>",
+      "info": "Italic text renders in the accent colour."
+    },
+    {
+      "type": "header",
+      "content": "Our column"
+    },
+    {
+      "type": "image_picker",
+      "id": "ours_image",
+      "label": "Photo",
+      "info": "Empty = the product's main photo. A transparent cut-out of the bottles looks best."
+    },
+    {
+      "type": "text",
+      "id": "ours_sub",
+      "label": "Brand name",
+      "default": "Your brand"
+    },
+    {
+      "type": "text",
+      "id": "ours_label",
+      "label": "Note under the name",
+      "default": "Bundle price"
+    },
+    {
+      "type": "header",
+      "content": "Their column"
+    },
+    {
+      "type": "image_picker",
+      "id": "theirs_image",
+      "label": "Photo",
+      "info": "Empty = grey bottle outline. A red X is drawn over it either way."
+    },
+    {
+      "type": "text",
+      "id": "theirs_label",
+      "label": "Name",
+      "default": "Designer perfume"
+    },
+    {
+      "type": "text",
+      "id": "theirs_sub",
+      "label": "Price (shown crossed out)",
+      "default": "Retail price"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "save_text",
+      "label": "Savings band (leave empty to hide)",
+      "default": "You save with the bundle"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button label",
+      "default": "Get the bundle"
+    },
+    {
+      "type": "text",
+      "id": "btn_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "guarantee",
+      "label": "Guarantee line",
+      "default": "Money-back guarantee"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Row label",
+          "default": "Longevity"
+        },
+        {
+          "type": "text",
+          "id": "ours",
+          "label": "Ours",
+          "default": "Up to 16 hours on skin"
+        },
+        {
+          "type": "text",
+          "id": "theirs",
+          "label": "Theirs",
+          "default": "4 to 6 hours"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BS Compare table",
+      "blocks": [
+        { "type": "row", "settings": { "label": "Scent quality", "ours": "Close scent match", "theirs": "Premium, but you pay for the name" } },
+        { "type": "row", "settings": { "label": "Longevity", "ours": "Up to 16 hours on skin", "theirs": "4 to 6 hours" } },
+        { "type": "row", "settings": { "label": "Fragrance oil", "ours": "Our value", "theirs": "Their value" } },
+        { "type": "row", "settings": { "label": "Choice", "ours": "Mix and match scents", "theirs": "One scent per bottle" } },
+        { "type": "row", "settings": { "label": "Guarantee", "ours": "Money-back guarantee", "theirs": "Final sale once opened" } },
+        { "type": "row", "settings": { "label": "Price", "ours": "Bundle price", "theirs": "Retail price" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

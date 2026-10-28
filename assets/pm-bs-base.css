@@ -1,0 +1,653 @@
+/* pm-bs-base.css: shared base for the Bundle & Save sections (pm-bundle-save, pm-bs-*).
+   Self-contained: tokens live on :where(:root) (specificity 0), everything else is scoped under .pm-scope
+   (each section declares "class": "pm-scope" in its schema, so the wrapper carries it). No global body/heading rules.
+   magyx root font-size is 10px: all sizes are px, never rem. No importance overrides. */
+
+/* 1. Tokens */
+:where(:root) {
+  --pm-ink: #100f0d;
+  --pm-black: #100f0d;
+  --pm-charcoal: #3a3a3c;
+  --pm-muted: #3a3a3c;
+  --pm-line: #c7c9cb;
+  --pm-surface: #ffffff;
+  --pm-white: #ffffff;
+  --pm-error: #b3261e;
+  --pm-overlay: rgba(16, 15, 13, 0.2);
+  --pm-on-dark-muted: rgba(255, 255, 255, 0.7);
+  --pm-sale: #9a5b1e;
+  --pm-sale-soft: rgba(154, 91, 30, 0.12);
+  --pm-gold: #9a5b1e;
+  --pm-gold-soft: rgba(154, 91, 30, 0.12);
+  --pm-good: #100f0d;
+  --pm-good-soft: #f5f4f2;
+  --pm-tint: #f5f4f2;
+
+  --pm-fs-display: clamp(32px, calc(32px + 22 * (100vw - 375px) / 1065), 54px);
+  --pm-lh-display: clamp(38px, calc(38px + 24 * (100vw - 375px) / 1065), 62px);
+  --pm-fs-title: clamp(22px, calc(22px + 8 * (100vw - 375px) / 1065), 30px);
+  --pm-lh-title: clamp(28px, calc(28px + 10 * (100vw - 375px) / 1065), 38px);
+  --pm-fs-h1: clamp(20px, calc(20px + 4 * (100vw - 375px) / 1065), 24px);
+  --pm-lh-h1: clamp(26px, calc(26px + 4 * (100vw - 375px) / 1065), 30px);
+  --pm-fs-h2: clamp(18px, calc(18px + 2 * (100vw - 375px) / 1065), 20px);
+  --pm-lh-h2: clamp(26px, calc(26px + 2 * (100vw - 375px) / 1065), 28px);
+  --pm-fs-h3: clamp(15px, calc(15px + 3 * (100vw - 375px) / 1065), 18px);
+  --pm-lh-h3: clamp(22px, calc(22px + 4 * (100vw - 375px) / 1065), 26px);
+  --pm-fs-body-lg: clamp(15px, calc(15px + 1 * (100vw - 375px) / 1065), 16px);
+  --pm-lh-body-lg: clamp(24px, calc(24px + 2 * (100vw - 375px) / 1065), 26px);
+  --pm-fs-body: clamp(13px, calc(13px + 1 * (100vw - 375px) / 1065), 14px);
+  --pm-lh-body: clamp(20px, calc(20px + 2 * (100vw - 375px) / 1065), 22px);
+  --pm-fs-small: 12px;
+  --pm-lh-small: 18px;
+  --pm-fs-eyebrow: clamp(11px, calc(11px + 1 * (100vw - 375px) / 1065), 12px);
+  --pm-lh-eyebrow: 16px;
+  --pm-fs-label: clamp(12px, calc(12px + 2 * (100vw - 375px) / 1065), 14px);
+  --pm-lh-label: clamp(16px, calc(16px + 4 * (100vw - 375px) / 1065), 20px);
+  --pm-fs-button: clamp(13px, calc(13px + 1 * (100vw - 375px) / 1065), 14px);
+  --pm-lh-button: clamp(20px, calc(20px + 2 * (100vw - 375px) / 1065), 22px);
+  --pm-fs-badge: clamp(10px, calc(10px + 0.5 * (100vw - 375px) / 1065), 10.5px);
+  --pm-lh-badge: 12px;
+
+  --pm-s-1: 4px;
+  --pm-s-2: 8px;
+  --pm-s-3: 12px;
+  --pm-s-4: 16px;
+  --pm-s-5: 20px;
+  --pm-s-6: 24px;
+  --pm-s-8: 32px;
+  --pm-s-10: 40px;
+  --pm-s-12: 48px;
+
+  --pm-gutter: 20px;
+  --pm-section-y: 40px;
+  --pm-heading-gap: 32px;
+  --pm-measure: 648px;
+
+  --pm-radius-0: 0;
+  --pm-radius-sm: 4px;
+  --pm-radius-md: 8px;
+  --pm-radius-pill: 999px;
+
+  --pm-shadow-sm: 0 4px 8px rgba(16, 15, 13, 0.1);
+  --pm-shadow-md: 0 4px 6px -1px rgba(16, 15, 13, 0.1), 0 2px 4px -2px rgba(16, 15, 13, 0.1);
+  --pm-shadow-float: 0 4px 20px rgba(16, 15, 13, 0.1), 0 1px 3px rgba(16, 15, 13, 0.07);
+
+  --pm-dur: 0.3s;
+  --pm-dur-slow: 0.4s;
+  --pm-ease: ease;
+  --pm-ticker-dur: 24s;
+  --pm-pulse-dur: 1.5s;
+}
+
+@media (min-width: 750px) {
+  :where(:root) {
+    --pm-gutter: 40px;
+  }
+}
+
+@media (min-width: 990px) {
+  :where(:root) {
+    --pm-section-y: 80px;
+    --pm-heading-gap: 56px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :where(:root) {
+    --pm-gutter: 60px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(:root) {
+    --pm-dur: 0s;
+    --pm-dur-slow: 0s;
+  }
+}
+
+/* 2. Scoped type base (inside the section wrapper only) */
+:where(.pm-scope) {
+  font-size: var(--pm-fs-body);
+  line-height: 1.57;
+  letter-spacing: 0;
+}
+
+:where(.pm-scope) [class*="color-scheme-"] {
+  color: rgb(var(--color-foreground));
+}
+
+:where(.pm-scope) h1,
+:where(.pm-scope) h2,
+:where(.pm-scope) h3,
+:where(.pm-scope) h4,
+:where(.pm-scope) h5 {
+  letter-spacing: 0;
+  color: rgb(var(--color-foreground));
+}
+
+:where(.pm-scope) h1 {
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 500;
+}
+
+:where(.pm-scope) h2 {
+  font-size: var(--pm-fs-h2);
+  line-height: var(--pm-lh-h2);
+  font-weight: 700;
+}
+
+:where(.pm-scope) h3 {
+  font-size: var(--pm-fs-h3);
+  line-height: var(--pm-lh-h3);
+  font-weight: 600;
+}
+
+:where(.pm-scope) h4 {
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  font-weight: 600;
+}
+
+:where(.pm-scope) h5 {
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 600;
+}
+
+:where(.pm-scope) button,
+:where(.pm-scope) input,
+:where(.pm-scope) select,
+:where(.pm-scope) textarea {
+  font-family: inherit;
+}
+
+/* Dawn .page-width: token gutters (20 / 40 / 60); max-width stays the page_width setting */
+.pm-scope .page-width {
+  padding-left: var(--pm-gutter);
+  padding-right: var(--pm-gutter);
+}
+
+/* 3. Type utilities */
+.pm-scope .pm-h2 {
+  font-size: var(--pm-fs-h2);
+  line-height: var(--pm-lh-h2);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pm-scope .pm-eyebrow {
+  font-size: var(--pm-fs-eyebrow);
+  line-height: var(--pm-lh-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pm-scope .pm-body-lg {
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-small {
+  font-size: var(--pm-fs-small);
+  line-height: var(--pm-lh-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-muted {
+  color: var(--pm-muted);
+}
+
+.pm-scope .color-scheme-3 .pm-muted,
+.pm-scope .color-scheme-4 .pm-muted,
+.pm-scope .color-scheme-5 .pm-muted {
+  color: var(--pm-on-dark-muted);
+}
+
+/* 4. Buttons: black pill, white text, charcoal on hover */
+.pm-scope .pm-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 48px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--pm-radius-pill);
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--pm-fs-button);
+  line-height: var(--pm-lh-button);
+  font-weight: 500;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color var(--pm-dur) var(--pm-ease), color var(--pm-dur) var(--pm-ease), border-color var(--pm-dur) var(--pm-ease), box-shadow var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-btn--primary {
+  background: var(--pm-ink);
+  color: var(--pm-white);
+  border-color: var(--pm-ink);
+}
+
+.pm-scope .pm-btn--primary:hover,
+.pm-scope .pm-btn--primary:focus-visible {
+  background: var(--pm-charcoal);
+  border-color: var(--pm-charcoal);
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-btn--secondary {
+  background: transparent;
+  color: var(--pm-ink);
+  border-color: var(--pm-ink);
+}
+
+.pm-scope .pm-btn--secondary:hover {
+  background: var(--pm-ink);
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-btn--mini {
+  min-height: 32px;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+}
+
+.pm-scope .pm-btn:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.pm-scope .color-scheme-3 .pm-btn:focus-visible,
+.pm-scope .color-scheme-4 .pm-btn:focus-visible,
+.pm-scope .color-scheme-5 .pm-btn:focus-visible {
+  outline-color: var(--pm-white);
+}
+
+.pm-scope .pm-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 5. pm-accordion: hairline <details> rows, CSS plus that becomes a minus when open */
+.pm-scope .pm-accordion details {
+  margin: 0;
+  border-top: 1px solid var(--pm-line);
+}
+
+.pm-scope .pm-accordion > details:last-child,
+.pm-scope .pm-accordion > :last-child > details {
+  border-bottom: 1px solid var(--pm-line);
+}
+
+.pm-scope .pm-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--pm-fs-label);
+  line-height: var(--pm-lh-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.pm-scope .pm-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.pm-scope .pm-accordion summary::after {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 16px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1px 16px no-repeat;
+  transition: transform var(--pm-dur) var(--pm-ease), background-size var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-accordion details[open] > summary::after {
+  background-size: 16px 1px, 1px 0;
+  transform: rotate(180deg);
+}
+
+.pm-scope .pm-accordion details > :not(summary) {
+  margin: 0;
+  padding: 0 0 20px;
+  overflow: hidden;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-accordion details[open] > :not(summary) {
+  animation: pm-accordion-open var(--pm-dur) var(--pm-ease);
+}
+
+@keyframes pm-accordion-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 6. pm-anchor: in-page scroll target that clears the sticky header */
+.pm-scope .pm-anchor {
+  display: block;
+  scroll-margin-top: calc(var(--header-height, 64px) + 16px);
+}
+
+/* 7. pm-ticker: 40px band; track holds two identical groups, moves -50% */
+.pm-scope .pm-ticker {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pm-scope .pm-ticker__track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: pm-ticker var(--pm-ticker-dur) linear infinite;
+  will-change: transform;
+}
+
+.pm-scope .pm-ticker__group {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.pm-scope .pm-ticker__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pm-scope .pm-ticker__item svg,
+.pm-scope .pm-ticker__item img {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.pm-scope a.pm-ticker__item:hover,
+.pm-scope a.pm-ticker__item:focus-visible {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.pm-scope .pm-ticker__sep {
+  flex: none;
+  opacity: 0.7;
+}
+
+.pm-scope .color-scheme-3 .pm-ticker__item img,
+.pm-scope .color-scheme-4 .pm-ticker__item img,
+.pm-scope .color-scheme-5 .pm-ticker__item img {
+  filter: invert(1);
+}
+
+.pm-scope .pm-ticker:hover .pm-ticker__track {
+  animation-play-state: paused;
+}
+
+@keyframes pm-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* 8. pm-container: centred column, max-width = page_width setting, token gutters */
+.pm-scope .pm-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--page-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--pm-gutter);
+  padding-right: var(--pm-gutter);
+}
+
+/* 9. Snippet hooks: pm-icon (inline SVG) and pm-stars (5 solid stars) */
+.pm-scope .pm-icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+}
+
+.pm-scope .pm-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.pm-scope .pm-stars svg {
+  display: block;
+  flex: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .pm-ticker__track,
+  .pm-scope .pm-accordion details[open] > :not(summary) {
+    animation: none;
+  }
+
+  .pm-scope .pm-btn,
+  .pm-scope .pm-accordion summary::after {
+    transition: none;
+  }
+}
+
+/* 10. Review card (.pm-review) */
+.pm-scope .pm-review {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  overflow: hidden;
+}
+
+.pm-scope .pm-review__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--pm-radius-sm) var(--pm-radius-sm) 0 0;
+  background: var(--pm-surface);
+}
+
+.pm-scope .pm-review__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.pm-scope .pm-review__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.pm-scope .pm-review__who {
+  display: flex;
+  flex: 1 1 120px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pm-scope .pm-review__avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pm-radius-pill);
+  object-fit: cover;
+}
+
+.pm-scope .pm-review__name {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-review__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-review__verified .pm-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.pm-scope .pm-review__rating {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.pm-scope .pm-review__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--pm-ink);
+  line-height: 0;
+}
+
+.pm-scope .pm-review__stars svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.pm-scope .pm-review__stars .is-empty {
+  opacity: 0.25;
+}
+
+.pm-scope .pm-review__date {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-review__text {
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-review__text p {
+  margin: 0 0 8px;
+}
+
+.pm-scope .pm-review__text p:last-child {
+  margin-bottom: 0;
+}
+
+.pm-scope .pm-review__product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--pm-line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.pm-scope .pm-review__product:hover {
+  text-decoration: none;
+}
+
+.pm-scope .pm-review__product img {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-surface);
+  object-fit: contain;
+}
+
+.pm-scope .pm-review__product-title {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-review__product-meta {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pm-muted);
+}
+

@@ -1,0 +1,237 @@
+/* pm-s-bs-vs-split.css (Bundle & Save): "Not your average dupe", built after HOK's "Not your average scent".
+   Cards stay side by side at every width (2 columns at 375, gap 8). Ours: dark warm gradient, centred brand, rows with a
+   gold icon and a thin divider, product photo filling the bottom and fading into the card. Rival: white, 1px ink outline,
+   radius 16, centred title, rows with a red cross and a divider, grey bottle silhouette at the bottom.
+   750: gap 16, larger type. 990: grid max 1000 centred. */
+.pm-scope .pm-bs-vs {
+  box-sizing: border-box;
+}
+
+.pm-scope .pm-bs-vs__head {
+  max-width: 648px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.pm-scope .pm-bs-vs__title {
+  margin: 0;
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-vs__title em {
+  font-style: italic;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bs-vs__sub {
+  margin: 10px 0 0;
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-vs__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--pm-bs-vs-cols, 2), minmax(0, 1fr));
+  gap: 8px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.pm-scope .pm-bs-vs__card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 18px 12px 0;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.pm-scope .pm-bs-vs__card--ours {
+  background: linear-gradient(165deg, var(--pm-charcoal) 0%, var(--pm-ink) 70%);
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-bs-vs__card--theirs {
+  border: 1px solid var(--pm-ink);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-vs__brand,
+.pm-scope .pm-bs-vs__rival {
+  margin: 0 0 8px;
+  text-align: center;
+  color: inherit;
+}
+
+.pm-scope .pm-bs-vs__brand {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pm-scope .pm-bs-vs__rival {
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 800;
+}
+
+.pm-scope .pm-bs-vs__logo {
+  display: block;
+  width: auto;
+  max-width: 140px;
+  height: auto;
+  max-height: 28px;
+  margin: 0 auto 8px;
+}
+
+/* Rows with dividers */
+.pm-scope .pm-bs-vs__points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .pm-bs-vs__point {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  overflow-wrap: break-word;
+}
+
+.pm-scope .pm-bs-vs__point:last-child {
+  border-bottom: 0;
+}
+
+.pm-scope .pm-bs-vs__card--theirs .pm-bs-vs__point {
+  border-bottom-color: var(--pm-line);
+  font-weight: 500;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-vs__icon {
+  flex: 0 0 auto;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bs-vs__mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--pm-radius-pill);
+  background: var(--pm-sale-soft);
+  color: var(--pm-sale);
+}
+
+/* Bottom visuals: our photo fades into the card, rival gets a grey bottle */
+.pm-scope .pm-bs-vs__media {
+  margin: 8px -12px 0;
+  margin-top: auto;
+}
+
+.pm-scope .pm-bs-vs__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 30%);
+}
+
+.pm-scope .pm-bs-vs__ghost {
+  display: block;
+  width: 62%;
+  max-width: 200px;
+  height: auto;
+  margin: auto;
+  padding: 16px 0 24px;
+  fill: var(--pm-line);
+}
+
+.pm-scope .pm-bs-vs__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.pm-scope .pm-bs-vs__btn {
+  width: 100%;
+  max-width: 560px;
+  border-radius: var(--pm-radius-pill);
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bs-vs__grid {
+    gap: 16px;
+  }
+
+  .pm-scope .pm-bs-vs__card {
+    padding: 28px 24px 0;
+  }
+
+  .pm-scope .pm-bs-vs__brand {
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  .pm-scope .pm-bs-vs__rival {
+    font-size: 18px;
+    line-height: 32px;
+  }
+
+  .pm-scope .pm-bs-vs__point {
+    gap: 12px;
+    min-height: 56px;
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .pm-scope .pm-bs-vs__icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .pm-scope .pm-bs-vs__mark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .pm-scope .pm-bs-vs__media {
+    margin-left: -24px;
+    margin-right: -24px;
+  }
+
+  .pm-scope .pm-bs-vs__cta {
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-bs-vs__img {
+    aspect-ratio: 4 / 3;
+  }
+
+  .pm-scope .pm-bs-vs__ghost {
+    max-width: 150px;
+  }
+}

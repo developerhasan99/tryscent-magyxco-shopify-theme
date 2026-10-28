@@ -1,0 +1,1714 @@
+{%- comment -%}
+  pm-bundle-save: "Bundle & Save" buy box (gallery left, box right from 990px, stacked below).
+  Prices come from the bundle product's variants ("1 Bottle" ... "20 Bottles", mapped by the leading number).
+  Scent rows come from the collection setting: one row per product that has an available variant
+  titled like the "Bottle size" setting (default 50ml); that variant is what gets picked.
+  Picks live in the Alpine component `pmBundleSave` below.
+  Cart: mode bundle_product = one line (bundle variant for k bottles + "Bottle n" properties + _bundle_items),
+  mode per_line = one line per scent (prices then need an automatic discount in admin).
+  Styles: assets/pm-s-bundle-save.css, scoped under .pm-scope (section wrapper class from the schema).
+{%- endcomment -%}
+{%- liquid
+  assign st = section.settings
+
+  assign pm_bp = st.bundle_product
+  if pm_bp == blank
+    assign pm_bp = all_products['bundle-and-save']
+  endif
+  if pm_bp == blank and product != blank
+    assign pm_bp = product
+  endif
+
+  assign pm_coll = st.collection
+  if pm_coll == blank
+    assign pm_coll = collections.all
+  endif
+
+  assign pm_size_label = st.bottle_size | default: '50ml' | strip
+  assign pm_size_key = pm_size_label | downcase | remove: ' '
+
+  # Per-bottle "was" price: 1-bottle variant's compare-at (converted by Markets), else the setting,
+  # else the 1-bottle price itself (no invented saving)
+  assign pm_single_cents = 0
+  if st.single_price != blank
+    assign pm_single_cents = st.single_price | times: 100 | round
+  endif
+  for v in pm_bp.variants
+    assign vn = v.option1 | default: v.title | split: ' ' | first | plus: 0
+    if vn == 1
+      if v.compare_at_price > v.price
+        assign pm_single_cents = v.compare_at_price
+      elsif pm_single_cents == 0
+        assign pm_single_cents = v.price
+      endif
+      break
+    endif
+  endfor
+
+  # Variant map: leading number of option1 ("3 Bottles" -> 3) -> id / price / compare-at
+  assign pm_vmax = 0
+  assign pm_sep = ''
+  capture pm_variants_json
+    for v in pm_bp.variants
+      assign vn = v.option1 | default: v.title | split: ' ' | first | plus: 0
+      if vn < 1
+        continue
+      endif
+      if vn > pm_vmax
+        assign pm_vmax = vn
+      endif
+      assign v_compare = vn | times: pm_single_cents
+      if v.compare_at_price > v.price
+        assign v_compare = v.compare_at_price
+      endif
+      echo pm_sep
+      echo '"' | append: vn | append: '":{"id":' | append: v.id | append: ',"price":' | append: v.price | append: ',"compare":' | append: v_compare | append: ',"available":' | append: v.available | append: '}'
+      assign pm_sep = ','
+    endfor
+  endcapture
+
+  # Tiers (block order), preselected index, overall cap
+  assign pm_tier_start = -1
+  assign pm_tier_count = 0
+  assign pm_cap_max = 0
+  assign pm_best_pct = 0
+  assign pm_sep = ''
+  capture pm_tiers_json
+    for block in section.blocks
+      if block.type != 'tier'
+        continue
+      endif
+      assign t_bottles = block.settings.bottles | plus: 0
+      assign t_cap = block.settings.max_bottles | plus: 0
+      if t_cap < t_bottles
+        assign t_cap = t_bottles
+      endif
+      if pm_vmax > 0 and t_cap > pm_vmax
+        assign t_cap = pm_vmax
+      endif
+      if t_cap > pm_cap_max
+        assign pm_cap_max = t_cap
+      endif
+      if block.settings.preselected and pm_tier_start == -1
+        assign pm_tier_start = pm_tier_count
+      endif
+      echo pm_sep
+      echo '{"bottles":' | append: t_bottles | append: ',"cap":' | append: t_cap | append: '}'
+      assign pm_sep = ','
+      assign pm_tier_count = pm_tier_count | plus: 1
+    endfor
+  endcapture
+  if pm_tier_start == -1
+    assign pm_tier_start = 0
+  endif
+  assign pm_max_total = pm_cap_max
+  if pm_vmax > 0 and pm_max_total > pm_vmax
+    assign pm_max_total = pm_vmax
+  endif
+
+  # Best saving over all variants, for the [max] token in the timer eyebrow
+  for v in pm_bp.variants
+    assign vn = v.option1 | default: v.title | split: ' ' | first | plus: 0
+    if vn < 1
+      continue
+    endif
+    assign v_compare = vn | times: pm_single_cents
+    if v.compare_at_price > v.price
+      assign v_compare = v.compare_at_price
+    endif
+    if v_compare > v.price
+      assign v_pct = v_compare | minus: v.price | times: 100.0 | divided_by: v_compare | round
+      if v_pct > pm_best_pct
+        assign pm_best_pct = v_pct
+      endif
+    endif
+  endfor
+
+  # Start values for server-rendered text (the component takes over after init)
+  assign pm_start_target = 0
+  assign pm_i = 0
+  for block in section.blocks
+    if block.type != 'tier'
+      continue
+    endif
+    if pm_i == pm_tier_start
+      assign pm_start_target = block.settings.bottles | plus: 0
+    endif
+    assign pm_i = pm_i | plus: 1
+  endfor
+
+  assign pm_rating_score = st.rating_score | default: '4.9'
+
+  # Optional line blocks: their product tags (a scent belongs to the first line whose tag it carries)
+  # and oil text per line as "#KEY=|text" for the badge on each scent photo. Zero line blocks = no line step.
+  assign pm_line_tags = ''
+  assign pm_oil_map = ''
+  for block in section.blocks
+    if block.type != 'line'
+      continue
+    endif
+    assign l_tag = block.settings.tag | strip
+    if l_tag != blank
+      assign pm_line_tags = pm_line_tags | append: l_tag | append: '|'
+    endif
+    if block.settings.oil != blank
+      assign l_key = l_tag | default: 'CLASSIC'
+      assign pm_oil_map = pm_oil_map | append: '#' | append: l_key | append: '=|' | append: block.settings.oil
+    endif
+  endfor
+  assign pm_line_tag_list = pm_line_tags | split: '|'
+  assign pm_oil_map = pm_oil_map | append: '#'
+  assign pm_line_list = ''
+  assign pm_row_count = 0
+-%}
+
+{%- comment -%} Scent rows, captured first so the line cards above can show per-line counts {%- endcomment -%}
+{%- capture pm_rows -%}
+  {%- paginate pm_coll.products by 250 -%}
+    {%- for p in pm_coll.products -%}
+      {%- liquid
+        assign skip = false
+        assign v = nil
+        assign p_tags_low = p.tags | join: '|' | downcase | prepend: '|' | append: '|'
+        if p.id == pm_bp.id
+          assign skip = true
+        elsif p_tags_low contains '|bundle|' or p_tags_low contains '|hide_bundle|'
+          assign skip = true
+        endif
+        unless skip
+          for pv in p.variants
+            assign pv_key = pv.title | downcase | remove: ' '
+            if pv.available and pv_key == pm_size_key
+              assign v = pv
+              break
+            endif
+          endfor
+          if v == blank
+            assign skip = true
+          endif
+        endunless
+      -%}
+      {%- unless skip -%}
+        {%- liquid
+          assign p_line = ''
+          for lt in pm_line_tag_list
+            if p.tags contains lt
+              assign p_line = lt
+              break
+            endif
+          endfor
+          assign line_key = p_line | default: 'CLASSIC'
+          assign pm_line_list = pm_line_list | append: '#' | append: line_key | append: '#'
+          assign pm_row_count = pm_row_count | plus: 1
+
+          # Gender from tags: men / for-men, women / for-women; both or none = Unisex
+          assign g_men = false
+          assign g_women = false
+          if p_tags_low contains '|men|' or p_tags_low contains '|for-men|'
+            assign g_men = true
+          endif
+          if p_tags_low contains '|women|' or p_tags_low contains '|for-women|'
+            assign g_women = true
+          endif
+          assign p_gender = 'Unisex'
+          if g_men and g_women == false
+            assign p_gender = 'Men'
+          elsif g_women and g_men == false
+            assign p_gender = 'Women'
+          endif
+
+          # Badge: "badge:<text>" tag wins, then the bestseller tag
+          assign p_badge = ''
+          assign p_best = false
+          for t in p.tags
+            assign t_low = t | downcase | strip
+            assign t_head6 = t_low | slice: 0, 6
+            if t_head6 == 'badge:' and p_badge == blank
+              assign p_badge = t | strip | slice: 6, 60 | strip
+            elsif t_low == 'bestseller'
+              assign p_best = true
+            endif
+          endfor
+          if p_badge == blank and p_best
+            assign p_badge = 'Bestseller'
+          endif
+
+          # Row name: "No. 247" from "Smells like... Le Male - No. 247", else the full title
+          assign p_title = p.title | strip
+          assign p_name = p_title
+          if p_title contains 'No.'
+            assign p_num = p_title | split: 'No.' | last | strip
+            if p_num != blank
+              assign p_name = 'No. ' | append: p_num
+            endif
+          endif
+
+          # Designer twin: custom.inspiration metaobject name, else the title without "Smells like..." and the "- No. x" tail
+          assign p_insp = p.metafields.custom.inspiration.value.name | strip
+          if p_insp == blank
+            assign p_insp = p_title | remove_first: 'Smells like...' | remove_first: 'Smells like…' | strip
+            if p_insp contains 'No.'
+              assign p_insp_last = p_insp | split: 'No.' | last
+              assign p_insp_tail = 'No.' | append: p_insp_last
+              assign p_insp = p_insp | remove_last: p_insp_tail | strip
+            endif
+            assign p_insp_end = p_insp | slice: -1, 1
+            if p_insp_end == '-'
+              assign p_insp_cut = p_insp.size | minus: 1
+              assign p_insp = p_insp | slice: 0, p_insp_cut | strip
+            endif
+          endif
+
+          # Cart property value: "No. 247 (Le Male) · 50ml"
+          assign p_cart = p_name
+          if p_insp != blank
+            assign p_cart = p_cart | append: ' (' | append: p_insp | append: ')'
+          endif
+          if pm_size_label != blank
+            assign p_cart = p_cart | append: ' · ' | append: pm_size_label
+          endif
+
+          assign p_occasions = p.metafields.custom.occasion.value | split: ','
+
+          assign oil_token = '#' | append: line_key | append: '=|'
+          assign p_oil = ''
+          if pm_oil_map contains oil_token
+            assign p_oil = pm_oil_map | split: oil_token | last | split: '#' | first | strip
+          endif
+        -%}
+        <div
+          class="pm-bs-row"
+          role="listitem"
+          data-pm-bs-row
+          data-vid="{{ v.id }}"
+          data-title="{{ p_cart | escape }}"
+          data-line="{{ p_line | escape }}"
+          x-show="lineOk({{ p_line | json | escape }})"
+          :class="{ 'is-picked': qty({{ v.id }}) > 0 }"
+        >
+          <div class="pm-bs-row__side">
+            {%- if p_oil != blank -%}
+              <span class="pm-bs-row__oil">{{ p_oil | escape }}</span>
+            {%- endif -%}
+            <div class="pm-bs-row__media">
+              {%- if p.featured_image != blank -%}
+                {{ p.featured_image | image_url: width: 280 | image_tag: width: 140, height: 140, widths: '140, 280', sizes: '72px', loading: 'lazy', alt: p_title, class: 'pm-bs-row__img' }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'pm-bs-row__img' }}
+              {%- endif -%}
+            </div>
+            <span class="pm-bs-row__for">{{ p_gender }}</span>
+          </div>
+          <div class="pm-bs-row__body">
+            <p class="pm-bs-row__title">{{ p_name | escape }}</p>
+            {%- if p_insp != blank -%}
+              <p class="pm-bs-row__insp">{{ st.inspired_prefix | escape }} <strong>{{ p_insp | escape }}</strong></p>
+            {%- endif -%}
+            {%- if p_occasions.size > 0 -%}
+              <ul class="pm-bs-row__tags" role="list">
+                {%- for o in p_occasions -%}
+                  {%- assign o_text = o | strip -%}
+                  {%- if o_text != blank -%}<li class="pm-bs-row__tag">{{ o_text | escape }}</li>{%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </div>
+          <div class="pm-bs-row__actions">
+            {%- if p_badge != blank -%}
+              <span class="pm-bs-row__badge">{{ p_badge | escape }}</span>
+            {%- endif -%}
+            <button
+              type="button"
+              class="pm-btn pm-btn--primary pm-btn--mini pm-bs-add"
+              x-show="qty({{ v.id }}) === 0"
+              :disabled="atMax"
+              @click="add({{ v.id }})"
+              aria-label="{{ 'premium.pdp.add_product' | t: name: p_cart | escape }}"
+            >
+              {{ st.add_label | escape }}
+            </button>
+            <div class="pm-bs-step" x-show="qty({{ v.id }}) > 0" x-cloak>
+              <button type="button" class="pm-bs-step__btn" @click="remove({{ v.id }})" aria-label="{{ 'premium.pdp.remove_product' | t: name: p_cart | escape }}">
+                {%- render 'pm-icon', icon: 'minus', size: 14, stroke: 2 -%}
+              </button>
+              <span class="pm-bs-step__qty" x-text="qty({{ v.id }})">0</span>
+              <button type="button" class="pm-bs-step__btn" @click="add({{ v.id }})" :disabled="atMax" aria-label="{{ 'premium.pdp.add_product' | t: name: p_cart | escape }}">
+                {%- render 'pm-icon', icon: 'plus', size: 14, stroke: 2 -%}
+              </button>
+            </div>
+          </div>
+        </div>
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endpaginate -%}
+{%- endcapture -%}
+
+{%- liquid
+  # Lines: config + per-line row counts (stays empty with zero line blocks)
+  assign pm_line_start = -1
+  assign pm_line_idx = 0
+  assign pm_sep = ''
+  capture pm_lines_json
+    for block in section.blocks
+      if block.type != 'line'
+        continue
+      endif
+      assign l_tag = block.settings.tag | strip
+      assign l_key = l_tag | default: 'CLASSIC'
+      assign l_token = '#' | append: l_key | append: '#'
+      assign l_rest = pm_line_list | remove: l_token
+      assign l_count = pm_line_list.size | minus: l_rest.size | divided_by: l_token.size
+      if block.settings.preselected and pm_line_start == -1
+        assign pm_line_start = pm_line_idx
+      endif
+      assign l_tag_json = l_tag | json
+      echo pm_sep
+      echo '{"tag":' | append: l_tag_json | append: ',"count":' | append: l_count | append: '}'
+      assign pm_sep = ','
+      assign pm_line_idx = pm_line_idx | plus: 1
+    endfor
+  endcapture
+
+  # Figtree ships only at 400 in layout/theme.liquid; the box uses 500/600/800 too
+  assign pm_bs_f500 = settings.type_header_font | font_modify: 'weight', '500'
+  assign pm_bs_f600 = settings.type_header_font | font_modify: 'weight', '600'
+  assign pm_bs_f800 = settings.type_header_font | font_modify: 'weight', '800'
+-%}
+
+{%- style -%}
+  {%- if pm_bs_f500 != blank -%}{{ pm_bs_f500 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if pm_bs_f600 != blank -%}{{ pm_bs_f600 | font_face: font_display: 'swap' }}{%- endif -%}
+  {%- if pm_bs_f800 != blank -%}{{ pm_bs_f800 | font_face: font_display: 'swap' }}{%- endif -%}
+{%- endstyle -%}
+
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bundle-save.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="PmBundleSave-{{ section.id }}"
+  class="pm-bs color-{{ st.color_scheme }} gradient"
+  x-data="pmBundleSave"
+  data-section-id="{{ section.id }}"
+>
+  <script type="application/json" data-pm-bs-config>
+    {
+      "tiers": [{{ pm_tiers_json }}],
+      "tierStart": {{ pm_tier_start }},
+      "lines": [{{ pm_lines_json }}],
+      "lineStart": {{ pm_line_start }},
+      "rowCount": {{ pm_row_count }},
+      "variants": { {{ pm_variants_json }} },
+      "maxTotal": {{ pm_max_total }},
+      "mode": {{ st.pricing_mode | json }},
+      "moneyFormat": {{ shop.money_format | json }},
+      "timerOn": {{ st.show_timer }},
+      "timerHours": {{ st.timer_hours | default: 24 }},
+      "reviewMs": {{ st.review_interval | default: 5 | times: 1000 }},
+      "text": {
+        "scentsHeading": {{ st.scents_heading | json }},
+        "counter": {{ st.counter_text | json }},
+        "remaining": {{ st.remaining_text | json }},
+        "max": {{ st.max_text | json }},
+        "linePicked": {{ st.line_picked_text | json }},
+        "ctaEmpty": {{ st.cta_empty | json }},
+        "cta": {{ st.cta_label | json }},
+        "adding": {{ st.cta_adding | json }},
+        "error": {{ st.error_text | json }},
+        "bottle": {{ st.bottle_property | json }}
+      }
+    }
+  </script>
+
+  <div class="page-width pm-bs__grid">
+    {%- comment -%} 1. Gallery: the bundle product's media, scroll-snap track + thumbnails {%- endcomment -%}
+    <div class="pm-bs__media">
+      <div class="pm-bs-gallery">
+        <div class="pm-bs-gallery__viewport">
+          <div class="pm-bs-gallery__track" x-ref="track" @scroll.passive="onTrack()">
+            {%- assign pm_media_count = 0 -%}
+            {%- for media in pm_bp.media -%}
+              {%- if media.preview_image == blank -%}{%- continue -%}{%- endif -%}
+              {%- assign pm_media_count = pm_media_count | plus: 1 -%}
+              {%- assign pm_alt = media.alt | default: pm_bp.title -%}
+              <div class="pm-bs-gallery__slide">
+                {%- if forloop.first -%}
+                  {{ media.preview_image | image_url: width: 1400 | image_tag: widths: '375, 550, 750, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', fetchpriority: 'high', loading: 'eager', alt: pm_alt, class: 'pm-bs-gallery__img' }}
+                {%- else -%}
+                  {{ media.preview_image | image_url: width: 1400 | image_tag: widths: '375, 550, 750, 1100, 1400', sizes: '(min-width: 990px) 50vw, 100vw', loading: 'lazy', alt: pm_alt, class: 'pm-bs-gallery__img' }}
+                {%- endif -%}
+              </div>
+            {%- endfor -%}
+            {%- if pm_media_count == 0 -%}
+              <div class="pm-bs-gallery__slide">{{ 'product-1' | placeholder_svg_tag: 'pm-bs-gallery__img' }}</div>
+            {%- endif -%}
+          </div>
+          {%- if pm_media_count > 1 -%}
+            <button type="button" class="pm-bs-gallery__arrow pm-bs-gallery__arrow--prev" @click="goTo(media - 1)" :disabled="media === 0" aria-label="{{ 'premium.general.previous' | t }}">
+              {%- render 'pm-icon', icon: 'chevron-right', size: 16 -%}
+            </button>
+            <button type="button" class="pm-bs-gallery__arrow pm-bs-gallery__arrow--next" @click="goTo(media + 1)" :disabled="media === {{ pm_media_count | minus: 1 }}" aria-label="{{ 'premium.general.next' | t }}">
+              {%- render 'pm-icon', icon: 'chevron-right', size: 16 -%}
+            </button>
+          {%- endif -%}
+        </div>
+        {%- if pm_media_count > 1 -%}
+          <div class="pm-bs-gallery__thumbs">
+            {%- assign pm_mi = 0 -%}
+            {%- for media in pm_bp.media -%}
+              {%- if media.preview_image == blank -%}{%- continue -%}{%- endif -%}
+              <button
+                type="button"
+                class="pm-bs-gallery__thumb{% if pm_mi == 0 %} is-active{% endif %}"
+                :class="{ 'is-active': media === {{ pm_mi }} }"
+                @click="goTo({{ pm_mi }})"
+                aria-label="{{ pm_bp.title | escape }} {{ pm_mi | plus: 1 }}"
+              >
+                {{ media.preview_image | image_url: width: 160 | image_tag: width: 80, height: 80, loading: 'lazy', alt: '' }}
+              </button>
+              {%- assign pm_mi = pm_mi | plus: 1 -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="pm-bs__box">
+      {%- comment -%} 2. Rating, headline, subheading, benefits {%- endcomment -%}
+      <div class="pm-bs-intro">
+        {%- if st.rating_text != blank -%}
+          <div class="pm-bs-rating">
+            {%- render 'pm-stars', rating: pm_rating_score, size: 14 -%}
+            <span class="pm-bs-rating__label">{{ st.rating_label | escape }} {{ pm_rating_score | escape }}</span>
+            <span class="pm-bs-rating__sep" aria-hidden="true">|</span>
+            {%- if st.rating_link != blank -%}
+              <a class="pm-bs-rating__link" href="{{ st.rating_link }}">{{ st.rating_text | escape }}</a>
+            {%- else -%}
+              <span>{{ st.rating_text | escape }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- if st.headline != blank -%}
+          <h1 class="pm-bs-headline">{{ st.headline }}</h1>
+        {%- endif -%}
+        {%- if st.subheading != blank -%}
+          <p class="pm-bs-sub">{{ st.subheading }}</p>
+        {%- endif -%}
+        <ul class="pm-bs-benefits">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' and block.settings.text != blank -%}
+              <li class="pm-bs-benefits__item" {{ block.shopify_attributes }}>
+                {%- render 'pm-icon', icon: block.settings.icon, size: 20, stroke: 1.5, class: 'pm-bs-benefits__icon' -%}
+                <span>{{ block.settings.text | escape }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      {%- comment -%} 3. Evergreen countdown {%- endcomment -%}
+      {%- if st.show_timer -%}
+        <div class="pm-bs-timer" role="timer"{% if st.timer_label != blank %} aria-label="{{ st.timer_label | escape }}"{% endif %}>
+          <div class="pm-bs-timer__text">
+            {%- if st.timer_eyebrow != blank -%}
+              {%- liquid
+                comment
+                  The part before the first "·" is the offer ("Up to 40% off") and renders as the bold lead-in
+                endcomment
+                assign pm_eyebrow = st.timer_eyebrow | replace: '[max]', pm_best_pct | escape | split: '·'
+              -%}
+              <p class="pm-bs-timer__eyebrow">
+                {%- for seg in pm_eyebrow -%}
+                  {%- assign seg_text = seg | strip -%}
+                  {%- if forloop.first -%}
+                    <span class="pm-bs-timer__seg pm-bs-timer__sale">{{ seg_text }}</span>
+                  {%- else -%}
+                    {{ ' ' }}<span class="pm-bs-timer__seg">· {{ seg_text }}</span>
+                  {%- endif -%}
+                {%- endfor -%}
+              </p>
+            {%- endif -%}
+            <p class="pm-bs-timer__title">{{ st.timer_title | escape }}</p>
+          </div>
+          <div class="pm-bs-timer__clock" aria-live="off">
+            <div class="pm-bs-timer__unit">
+              <span class="pm-bs-timer__num" x-text="clock.h">{{ st.timer_hours | default: 24 | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="pm-bs-timer__lbl">{{ st.timer_hrs_label | escape }}</span>
+            </div>
+            <div class="pm-bs-timer__unit">
+              <span class="pm-bs-timer__num" x-text="clock.m">00</span>
+              <span class="pm-bs-timer__lbl">{{ st.timer_mins_label | escape }}</span>
+            </div>
+            <div class="pm-bs-timer__unit">
+              <span class="pm-bs-timer__num" x-text="clock.s">00</span>
+              <span class="pm-bs-timer__lbl">{{ st.timer_secs_label | escape }}</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} 4. Tier cards {%- endcomment -%}
+      {%- if pm_tier_count > 0 -%}
+        <div class="pm-bs-group">
+          {%- if st.tiers_heading != blank -%}
+            <h2 class="pm-bs-h">{{ st.tiers_heading | escape }}</h2>
+          {%- endif -%}
+          <div class="pm-bs-tiers">
+            {%- assign ti = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type != 'tier' -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                assign t_bottles = block.settings.bottles | plus: 0
+                assign t_max = block.settings.max_bottles | plus: 0
+                assign t_price = 0
+                assign t_max_price = 0
+                assign t_max_n = 0
+                assign t_compare = t_bottles | times: pm_single_cents
+                for v in pm_bp.variants
+                  assign vn = v.option1 | default: v.title | split: ' ' | first | plus: 0
+                  if vn == t_bottles
+                    assign t_price = v.price
+                    if v.compare_at_price > v.price
+                      assign t_compare = v.compare_at_price
+                    endif
+                  elsif vn > t_bottles and vn <= t_max and vn > t_max_n
+                    assign t_max_n = vn
+                    assign t_max_price = v.price
+                  endif
+                endfor
+                assign t_each = ''
+                if t_price > 0 and t_bottles > 0 and st.per_bottle_text != blank
+                  assign t_each_money = t_price | divided_by: t_bottles | money_without_trailing_zeros
+                  assign t_each = st.per_bottle_text | replace: '[price]', t_each_money
+                endif
+                assign t_stack = ''
+                if t_max_price > t_price and t_price > 0 and st.stack_text != blank
+                  assign t_extra_money = t_max_price | minus: t_price
+                  assign t_extra_n = t_max_n | minus: t_bottles
+                  assign t_extra_money = t_extra_money | divided_by: t_extra_n | money_without_trailing_zeros
+                  assign t_stack = st.stack_text | replace: '[price]', t_extra_money
+                endif
+                assign t_badge = block.settings.badge_override | strip
+                if t_badge == blank and t_price > 0 and t_compare > t_price
+                  assign t_pct = t_compare | minus: t_price | times: 100.0 | divided_by: t_compare | round
+                  assign t_badge = t_pct | append: '% OFF'
+                endif
+              -%}
+              <button
+                type="button"
+                class="pm-bs-tier{% if ti == pm_tier_start %} is-selected{% endif %}"
+                :class="{ 'is-selected': tierIndex === {{ ti }} }"
+                aria-pressed="{% if ti == pm_tier_start %}true{% else %}false{% endif %}"
+                :aria-pressed="tierIndex === {{ ti }} ? 'true' : 'false'"
+                @click="selectTier({{ ti }})"
+                {{ block.shopify_attributes }}
+              >
+                {%- if t_badge != blank -%}
+                  <span class="pm-bs-tier__badge">{{ t_badge | escape }}</span>
+                {%- endif -%}
+                <span class="pm-bs-tier__check" aria-hidden="true">{%- render 'pm-icon', icon: 'check', size: 12, stroke: 2.5 -%}</span>
+                <span class="pm-bs-tier__label">{{ block.settings.label | escape }}</span>
+                {%- if block.settings.tag != blank -%}
+                  <span class="pm-bs-tier__tag">{{ block.settings.tag | escape }}</span>
+                {%- endif -%}
+                <span class="pm-bs-tier__prices">
+                  {%- if t_price > 0 -%}
+                    <span
+                      class="pm-bs-tier__price"
+                      {% if t_max_n > t_bottles %}x-text="liveTier({{ ti }}) ? money(liveTier({{ ti }}).price) : {{ t_price | money_without_trailing_zeros | json | escape }}"{% endif %}
+                    >{{ t_price | money_without_trailing_zeros }}</span>
+                  {%- endif -%}
+                  {%- if t_compare > t_price -%}
+                    <s
+                      class="pm-bs-tier__compare"
+                      {% if t_max_n > t_bottles %}x-text="liveTier({{ ti }}) ? money(liveTier({{ ti }}).compare) : {{ t_compare | money_without_trailing_zeros | json | escape }}"{% endif %}
+                    >{{ t_compare | money_without_trailing_zeros }}</s>
+                  {%- endif -%}
+                </span>
+                {%- if t_each != blank -%}
+                  <span class="pm-bs-tier__each">{{ t_each | escape }}</span>
+                {%- endif -%}
+                {%- if t_stack != blank -%}
+                  <span class="pm-bs-tier__stack">{{ t_stack | escape }}</span>
+                {%- endif -%}
+              </button>
+              {%- assign ti = ti | plus: 1 -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} 5. Line filter: renders only when the section has line blocks {%- endcomment -%}
+      {%- if pm_line_idx > 0 -%}
+        <div class="pm-bs-group">
+          {%- if st.lines_heading != blank -%}
+            <h2 class="pm-bs-h">{{ st.lines_heading | escape }}</h2>
+          {%- endif -%}
+          <div class="pm-bs-lines" style="--pm-bs-lines: {{ pm_line_idx }};">
+            {%- assign li = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type != 'line' -%}{%- continue -%}{%- endif -%}
+              {%- liquid
+                assign l_tag = block.settings.tag | strip
+                assign l_key = l_tag | default: 'CLASSIC'
+                assign l_token = '#' | append: l_key | append: '#'
+                assign l_rest = pm_line_list | remove: l_token
+                assign l_count = pm_line_list.size | minus: l_rest.size | divided_by: l_token.size
+              -%}
+              <button
+                type="button"
+                class="pm-bs-line{% if li == pm_line_start %} is-selected{% endif %}"
+                :class="{ 'is-selected': lineIndex === {{ li }} }"
+                aria-pressed="{% if li == pm_line_start %}true{% else %}false{% endif %}"
+                :aria-pressed="lineIndex === {{ li }} ? 'true' : 'false'"
+                @click="toggleLine({{ li }})"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.badge != blank -%}
+                  <span class="pm-bs-line__badge">{{ block.settings.badge | escape }}</span>
+                {%- endif -%}
+                <span class="pm-bs-line__label">{{ block.settings.label | escape }}</span>
+                {%- assign l_strength = block.settings.strength | default: 0 -%}
+                {%- if l_strength > 0 -%}
+                  <span class="pm-bs-line__dots" aria-hidden="true">
+                    {%- for d in (1..3) -%}
+                      <span class="pm-bs-line__dot{% if d <= l_strength %} is-on{% endif %}"></span>
+                    {%- endfor -%}
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.oil != blank or block.settings.longevity != blank -%}
+                  <span class="pm-bs-line__spec">
+                    {%- if block.settings.oil != blank -%}<span>{{ block.settings.oil | escape }}</span>{%- endif -%}
+                    {%- if block.settings.longevity != blank -%}<span>{{ block.settings.longevity | escape }}</span>{%- endif -%}
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.subtext != blank -%}
+                  <span class="pm-bs-line__sub">{{ block.settings.subtext | replace: '[count]', l_count | escape }}</span>
+                {%- endif -%}
+                <span class="pm-bs-line__picked" x-show="lineCount({{ li }}) > 0" x-text="linePickedText({{ li }})" x-cloak></span>
+              </button>
+              {%- assign li = li | plus: 1 -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} 6. Scent picker {%- endcomment -%}
+      <div class="pm-bs-group pm-bs-scents">
+        <div class="pm-bs-scents__head">
+          <h2 class="pm-bs-h" x-text="scentsHeading">{{ st.scents_heading | replace: '[n]', pm_start_target | escape }}</h2>
+          <span class="pm-bs-scents__count" aria-live="polite" x-text="counterText">{{ st.counter_text | replace: '[x]', '0' | replace: '[n]', pm_start_target | escape }}</span>
+        </div>
+        <div class="pm-bs-progress" aria-hidden="true">
+          <span class="pm-bs-progress__bar" :style="{ width: percent + '%' }"></span>
+        </div>
+        <p class="pm-bs-hint" x-show="hintText" x-text="hintText" x-cloak></p>
+        <div class="pm-bs-list" x-ref="list" @scroll.passive="checkScroll()" role="list">
+          {{ pm_rows }}
+        </div>
+        <p class="pm-bs-empty" x-show="visibleRows === 0" x-cloak>{{ st.empty_text | escape }}</p>
+        {%- if st.scroll_hint != blank -%}
+          <p class="pm-bs-scroll" x-show="!scrollEnd" aria-hidden="true">
+            {{ st.scroll_hint | escape }}
+            {%- render 'pm-icon', icon: 'chevron-down', size: 12, stroke: 2 -%}
+          </p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} 7. CTA {%- endcomment -%}
+      <div class="pm-bs-cta">
+        <button
+          type="button"
+          class="pm-btn pm-btn--primary pm-bs-cta__btn"
+          disabled
+          :disabled="!canAdd"
+          :aria-busy="adding ? 'true' : 'false'"
+          @click="addToCart()"
+          {% if pm_bp != blank %}data-bundle-product-id="{{ pm_bp.id }}"{% endif %}
+        >
+          <span x-text="ctaText">{{ st.cta_empty | escape }}</span>
+        </button>
+        <p class="pm-bs-error" role="alert" x-show="error" x-text="error" x-cloak></p>
+        {%- if pm_bp == blank and request.design_mode -%}
+          <p class="pm-bs-error">Pick the bundle product in the section settings (handle bundle-and-save is used when empty).</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} 8. Payment icons {%- endcomment -%}
+      {%- if st.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+        <ul class="pm-bs-pay" aria-label="{{ 'premium.pdp.payment_methods' | t | escape }}">
+          {%- for type in shop.enabled_payment_types -%}
+            <li class="pm-bs-pay__item">{{ type | payment_type_svg_tag: class: 'pm-bs-pay__icon' }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- comment -%} 9. Mini review slider {%- endcomment -%}
+      {%- assign pm_rev_count = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'mini_review' and block.settings.quote != blank -%}
+          {%- assign pm_rev_count = pm_rev_count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if pm_rev_count > 0 -%}
+        <div class="pm-bs-reviews" @mouseenter="revPaused = true" @mouseleave="revPaused = false" @focusin="revPaused = true" @focusout="revPaused = false">
+          <div class="pm-bs-reviews__stack">
+            {%- assign ri = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type != 'mini_review' or block.settings.quote == blank -%}{%- continue -%}{%- endif -%}
+              <figure
+                class="pm-bs-review{% if ri == 0 %} is-active{% endif %}"
+                :class="{ 'is-active': rev === {{ ri }} }"
+                :aria-hidden="rev === {{ ri }} ? 'false' : 'true'"
+                {{ block.shopify_attributes }}
+              >
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 160 | image_tag: width: 64, height: 64, loading: 'lazy', alt: block.settings.name, class: 'pm-bs-review__img' }}
+                {%- endif -%}
+                <div class="pm-bs-review__body">
+                  {%- render 'pm-stars', rating: 5, size: 12, class: 'pm-bs-review__stars' -%}
+                  <blockquote class="pm-bs-review__quote">{{ block.settings.quote | escape }}</blockquote>
+                  <figcaption class="pm-bs-review__by">
+                    {%- if block.settings.verified -%}
+                      {%- render 'pm-icon', icon: 'check-circle', size: 14, stroke: 1.75 -%}
+                    {%- endif -%}
+                    <span class="pm-bs-review__name">{{ block.settings.name | escape }}</span>
+                    {%- if block.settings.verified -%}
+                      <span class="pm-bs-review__verified">{{ st.verified_label | escape }}</span>
+                    {%- endif -%}
+                  </figcaption>
+                </div>
+              </figure>
+              {%- assign ri = ri | plus: 1 -%}
+            {%- endfor -%}
+          </div>
+          {%- if pm_rev_count > 1 -%}
+            <div class="pm-bs-dots">
+              {%- for i in (1..pm_rev_count) -%}
+                {%- assign di = forloop.index0 -%}
+                <button
+                  type="button"
+                  class="pm-bs-dot{% if di == 0 %} is-active{% endif %}"
+                  :class="{ 'is-active': rev === {{ di }} }"
+                  @click="rev = {{ di }}"
+                  aria-label="{{ forloop.index }} / {{ pm_rev_count }}"
+                ></button>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} 10. Mini FAQ (own class: .pm-bs-faq belongs to the full FAQ section) {%- endcomment -%}
+      {%- capture pm_faq -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'mini_faq' and block.settings.question != blank -%}
+            <details {{ block.shopify_attributes }}>
+              <summary>{{ block.settings.question | escape }}</summary>
+              <div class="pm-bs-mfaq__a rte">{{ block.settings.answer }}</div>
+            </details>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- if pm_faq != blank -%}
+        <div class="pm-bs-mfaq">{{ pm_faq }}</div>
+      {%- endif -%}
+
+      {%- comment -%} 11. Guarantee {%- endcomment -%}
+      {%- if st.guarantee_heading != blank or st.guarantee_text != blank -%}
+        <div class="pm-bs-guarantee">
+          {%- if st.guarantee_heading != blank -%}
+            <p class="pm-bs-guarantee__title">
+              {%- render 'pm-icon', icon: 'shield', size: 20, stroke: 1.5 -%}
+              <span>{{ st.guarantee_heading | escape }}</span>
+            </p>
+          {%- endif -%}
+          {%- if st.guarantee_text != blank -%}
+            <div class="pm-bs-guarantee__text rte">{{ st.guarantee_text }}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    /* Minimal Shopify money formatter (the theme has no window.pmMoney) */
+    function withDelimiters(cents, precision, thousands, decimal) {
+      var fixed = (Math.round(Number(cents) || 0) / 100).toFixed(precision);
+      var parts = fixed.split('.');
+      var whole = parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + thousands);
+      return parts[1] ? whole + decimal + parts[1] : whole;
+    }
+    function formatMoney(cents, format) {
+      /* No literal double braces here: this file is Liquid. Empty format = plain $ amount. */
+      if (typeof format !== 'string' || format === '') format = '$';
+      var placeholder = /\{\{\s*(\w+)\s*\}\}/;
+      var match = format.match(placeholder);
+      var type = match ? match[1] : 'amount';
+      var value = Math.round(Number(cents) || 0);
+      var negative = value < 0;
+      if (negative) value = Math.abs(value);
+      var out;
+      switch (type) {
+        case 'amount_no_decimals': out = withDelimiters(value, 0, ',', '.'); break;
+        case 'amount_with_comma_separator': out = withDelimiters(value, 2, '.', ','); break;
+        case 'amount_no_decimals_with_comma_separator': out = withDelimiters(value, 0, '.', ','); break;
+        case 'amount_with_apostrophe_separator': out = withDelimiters(value, 2, "'", '.'); break;
+        case 'amount_no_decimals_with_space_separator': out = withDelimiters(value, 0, ' ', '.'); break;
+        case 'amount_with_space_separator': out = withDelimiters(value, 2, ' ', ','); break;
+        case 'amount_with_period_and_space_separator': out = withDelimiters(value, 2, ' ', '.'); break;
+        default: out = withDelimiters(value, 2, ',', '.');
+      }
+      var result = match ? format.replace(placeholder, out) : out;
+      return negative ? '-' + result : result;
+    }
+
+    function register() {
+      if (window.__pmBundleSaveRegistered) return;
+      window.__pmBundleSaveRegistered = true;
+      window.Alpine.data('pmBundleSave', function () {
+        return {
+          cfg: null,
+          tierIndex: 0,
+          lineIndex: -1,
+          picks: [],
+          names: {},
+          rowLines: {},
+          adding: false,
+          error: '',
+          scrollEnd: false,
+          media: 0,
+          rev: 0,
+          revCount: 0,
+          revPaused: false,
+          clock: { h: '00', m: '00', s: '00' },
+
+          init: function () {
+            var self = this;
+            var node = this.$el.querySelector('[data-pm-bs-config]');
+            try {
+              this.cfg = JSON.parse(node ? node.textContent : '{}');
+            } catch (e) {
+              this.cfg = {};
+            }
+            this.cfg.tiers = this.cfg.tiers || [];
+            this.cfg.lines = this.cfg.lines || [];
+            this.cfg.variants = this.cfg.variants || {};
+            this.cfg.text = this.cfg.text || {};
+            this.tierIndex = Math.min(Math.max(this.cfg.tierStart || 0, 0), Math.max(this.cfg.tiers.length - 1, 0));
+            this.lineIndex = typeof this.cfg.lineStart === 'number' && this.cfg.lineStart < this.cfg.lines.length ? this.cfg.lineStart : -1;
+
+            this.$el.querySelectorAll('[data-pm-bs-row]').forEach(function (row) {
+              self.names[row.dataset.vid] = row.dataset.title;
+              self.rowLines[row.dataset.vid] = row.dataset.line || '';
+            });
+            this.revCount = this.$el.querySelectorAll('.pm-bs-review').length;
+
+            if (this.cfg.timerOn) this.startTimer();
+            if (this.revCount > 1) this.startReviews();
+            this.$watch('lineIndex', function () {
+              if (self.$refs.list) self.$refs.list.scrollTop = 0;
+              self.$nextTick(function () { self.checkScroll(); });
+            });
+            this.$nextTick(function () { self.checkScroll(); });
+          },
+
+          /* Tiers */
+          get tier() { return this.cfg.tiers[this.tierIndex] || { bottles: 1, cap: 1 }; },
+          get target() { return this.tier.bottles; },
+          get cap() { return this.tier.cap; },
+          get maxTotal() { return this.cfg.maxTotal || 0; },
+          get atMax() { return this.picks.length >= this.maxTotal; },
+          liveTier: function (i) {
+            if (this.tierIndex !== i) return null;
+            var t = this.cfg.tiers[i];
+            var n = this.picks.length;
+            if (!t || n <= t.bottles || n > t.cap) return null;
+            return this.cfg.variants[String(n)] || null;
+          },
+          selectTier: function (i) {
+            this.tierIndex = i;
+            if (this.picks.length > this.cap) this.picks = this.picks.slice(0, this.cap);
+            this.error = '';
+          },
+          bumpTier: function () {
+            var count = this.picks.length;
+            if (count <= this.cap) return;
+            var best = -1;
+            this.cfg.tiers.forEach(function (t, i) {
+              if (t.cap < count) return;
+              if (best === -1) { best = i; return; }
+              var b = this.cfg.tiers[best];
+              if (t.cap < b.cap || (t.cap === b.cap && t.bottles < b.bottles)) best = i;
+            }, this);
+            if (best !== -1) this.tierIndex = best;
+          },
+
+          /* Lines (optional: with zero line blocks lineIndex stays -1 and every scent shows) */
+          toggleLine: function (i) { this.lineIndex = this.lineIndex === i ? -1 : i; },
+          lineOk: function (line) {
+            if (this.lineIndex < 0) return true;
+            var l = this.cfg.lines[this.lineIndex];
+            return !l || (l.tag || '') === line;
+          },
+          lineCount: function (i) {
+            var l = this.cfg.lines[i];
+            if (!l) return 0;
+            var tag = l.tag || '';
+            return this.picks.filter(function (vid) { return this.rowLines[vid] === tag; }, this).length;
+          },
+          linePickedText: function (i) {
+            return String(this.cfg.text.linePicked || '[n]').replace('[n]', this.lineCount(i));
+          },
+          get visibleRows() {
+            if (this.lineIndex < 0) return this.cfg.rowCount || 0;
+            var l = this.cfg.lines[this.lineIndex];
+            return l ? l.count : 0;
+          },
+
+          /* Picks */
+          qty: function (vid) {
+            var key = String(vid);
+            return this.picks.filter(function (p) { return p === key; }).length;
+          },
+          add: function (vid) {
+            if (this.atMax) return;
+            this.picks.push(String(vid));
+            this.bumpTier();
+            this.error = '';
+          },
+          remove: function (vid) {
+            var i = this.picks.lastIndexOf(String(vid));
+            if (i > -1) this.picks.splice(i, 1);
+            this.error = '';
+          },
+          get shownTotal() { return Math.max(this.target, this.picks.length); },
+          get percent() {
+            return this.shownTotal ? Math.min(100, Math.round((this.picks.length / this.shownTotal) * 100)) : 0;
+          },
+          get scentsHeading() { return String(this.cfg.text.scentsHeading || '').replace('[n]', this.shownTotal); },
+          get counterText() {
+            return String(this.cfg.text.counter || '').replace('[x]', this.picks.length).replace('[n]', this.shownTotal);
+          },
+          get hintText() {
+            var n = this.picks.length;
+            if (n > 0 && n >= this.maxTotal) return String(this.cfg.text.max || '').replace('[max]', this.maxTotal);
+            if (n > 0 && n < this.target) return String(this.cfg.text.remaining || '').replace('[remaining]', this.target - n);
+            return '';
+          },
+
+          /* Price + CTA */
+          get bundleVariant() { return this.cfg.variants[String(this.picks.length)] || null; },
+          get canAdd() {
+            if (this.adding || this.picks.length === 0) return false;
+            if (this.cfg.mode === 'per_line') return true;
+            return !!(this.bundleVariant && this.bundleVariant.available);
+          },
+          get ctaText() {
+            if (this.adding) return this.cfg.text.adding || '';
+            if (this.picks.length === 0) return this.cfg.text.ctaEmpty || '';
+            var v = this.bundleVariant;
+            if (this.cfg.mode !== 'per_line' && v) return this.cfg.text.cta + ' · ' + this.money(v.price);
+            return this.cfg.text.cta || '';
+          },
+          money: function (cents) {
+            return formatMoney(cents, this.cfg && this.cfg.moneyFormat).replace(/[.,]00(?=\D*$)/, '');
+          },
+          addToCart: function () {
+            if (!this.canAdd) return;
+            var self = this;
+            var items;
+            if (this.cfg.mode === 'per_line') {
+              var counts = {};
+              var order = [];
+              this.picks.forEach(function (vid) {
+                if (!counts[vid]) { counts[vid] = 0; order.push(vid); }
+                counts[vid] += 1;
+              });
+              items = order.map(function (vid) { return { id: Number(vid), quantity: counts[vid] }; });
+            } else {
+              var props = {};
+              var label = this.cfg.text.bottle || 'Bottle';
+              this.picks.forEach(function (vid, i) { props[label + ' ' + (i + 1)] = self.names[vid] || vid; });
+              props._bundle_items = this.picks.join(',');
+              items = [{ id: this.bundleVariant.id, quantity: 1, properties: props }];
+            }
+
+            var cart = document.querySelector('cart-drawer');
+            var body = { items: items };
+            if (cart && typeof cart.getSectionsToRender === 'function') {
+              body.sections = cart.getSectionsToRender().map(function (s) { return s.id; });
+              body.sections_url = window.location.pathname;
+              if (typeof cart.setActiveElement === 'function') cart.setActiveElement(document.activeElement);
+            }
+            var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+
+            this.adding = true;
+            this.error = '';
+            fetch(root + 'cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+              body: JSON.stringify(body)
+            })
+              .then(function (res) {
+                return res.json().catch(function () { return {}; }).then(function (data) {
+                  if (!res.ok || data.status) {
+                    var err = new Error(data.description || data.message || 'cart');
+                    err.data = data;
+                    throw err;
+                  }
+                  return data;
+                });
+              })
+              .then(function (data) {
+                if (cart && typeof cart.renderContents === 'function' && data.sections) {
+                  if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+                    publish(PUB_SUB_EVENTS.cartUpdate, { source: 'pm-bundle-save', cartData: data });
+                  }
+                  cart.renderContents(data);
+                  if (cart.classList.contains('is-empty')) cart.classList.remove('is-empty');
+                } else {
+                  window.location.href = (window.routes && window.routes.cart_url) || '/cart';
+                }
+              })
+              .catch(function (err) {
+                var d = (err && err.data) || {};
+                self.error = d.description || d.message || self.cfg.text.error || '';
+              })
+              .finally(function () { self.adding = false; });
+          },
+
+          /* Gallery */
+          onTrack: function () {
+            var t = this.$refs.track;
+            if (!t || !t.clientWidth) return;
+            this.media = Math.round(t.scrollLeft / t.clientWidth);
+          },
+          goTo: function (i) {
+            var t = this.$refs.track;
+            if (!t) return;
+            var n = t.children.length;
+            var idx = Math.max(0, Math.min(n - 1, i));
+            this.media = idx;
+            t.scrollTo({ left: idx * t.clientWidth, behavior: 'smooth' });
+          },
+
+          /* Scroll hint */
+          checkScroll: function () {
+            var l = this.$refs.list;
+            if (!l) return;
+            this.scrollEnd = l.scrollTop + l.clientHeight >= l.scrollHeight - 8;
+          },
+
+          /* Countdown: evergreen per visitor, start stored in localStorage, restarts after each period */
+          startTimer: function () {
+            var self = this;
+            var period = (Number(this.cfg.timerHours) || 24) * 3600000;
+            var key = 'pmBundleSaveTimerStart';
+            var start = Date.now();
+            try {
+              var saved = Number(window.localStorage.getItem(key));
+              if (saved && saved <= start) {
+                start = saved;
+              } else {
+                window.localStorage.setItem(key, String(start));
+              }
+            } catch (e) {}
+            var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+            var tick = function () {
+              var left = period - ((Date.now() - start) % period);
+              var s = Math.floor(left / 1000);
+              self.clock = { h: pad(Math.floor(s / 3600)), m: pad(Math.floor((s % 3600) / 60)), s: pad(s % 60) };
+            };
+            tick();
+            clearInterval(this._timerId);
+            this._timerId = setInterval(tick, 1000);
+          },
+
+          /* Alpine calls this when the theme editor re-renders the section */
+          destroy: function () {
+            clearInterval(this._timerId);
+            clearInterval(this._revId);
+          },
+
+          /* Reviews */
+          startReviews: function () {
+            var self = this;
+            var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduce) return;
+            clearInterval(this._revId);
+            this._revId = setInterval(function () {
+              if (self.revPaused || document.hidden) return;
+              self.rev = (self.rev + 1) % self.revCount;
+            }, this.cfg.reviewMs || 5000);
+          }
+        };
+      });
+    }
+
+    if (window.Alpine) {
+      register();
+    } else {
+      document.addEventListener('alpine:init', register);
+    }
+
+    /* Theme editor: a freshly added or re-rendered section can reach Alpine before the
+       component is registered, so re-init its tree once the section has loaded */
+    if (!window.pmBundleSaveEditorHook) {
+      window.pmBundleSaveEditorHook = true;
+      document.addEventListener('shopify:section:load', function (e) {
+        var el = e.target && e.target.querySelector('[x-data="pmBundleSave"]');
+        if (!el || !window.Alpine) return;
+        register();
+        if (window.Alpine.destroyTree) window.Alpine.destroyTree(el);
+        window.Alpine.initTree(el);
+      });
+    }
+
+    /* Alpine is not global on this theme: load it once if no other section on the page brought it */
+    function ensureAlpine() {
+      if (window.Alpine || document.querySelector('script[data-pm-alpine]')) return;
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js';
+      s.defer = true;
+      s.setAttribute('data-pm-alpine', '');
+      document.head.appendChild(s);
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', ensureAlpine);
+    } else {
+      ensureAlpine();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Bundle & Save box",
+  "tag": "div",
+  "class": "pm-scope section-pm-bundle-save",
+  "settings": [
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle product",
+      "info": "One variant per bottle count, named \"1 Bottle\", \"2 Bottles\" and so on. Empty = product with handle bundle-and-save."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Scent collection",
+      "info": "Empty = all products (up to 250). Products tagged \"bundle\" or \"Hide_Bundle\" are skipped."
+    },
+    {
+      "type": "text",
+      "id": "bottle_size",
+      "label": "Bottle size",
+      "default": "50ml",
+      "info": "Each scent shows only when it has an available variant with this title (spaces and case ignored). That variant is what gets picked, and the size is added to the cart line."
+    },
+    {
+      "type": "select",
+      "id": "pricing_mode",
+      "label": "Cart mode",
+      "options": [
+        { "value": "bundle_product", "label": "One bundle line (bundle variant price)" },
+        { "value": "per_line", "label": "One line per scent" }
+      ],
+      "default": "bundle_product",
+      "info": "\"One line per scent\" adds each scent at its own price: set up an automatic discount in admin for the bundle pricing."
+    },
+    {
+      "type": "text",
+      "id": "single_price",
+      "label": "Single bottle price for crossed-out prices",
+      "info": "Used only when the 1-bottle variant has no compare-at price. Empty = no crossed-out price without a compare-at."
+    },
+    {
+      "type": "text",
+      "id": "bottle_property",
+      "label": "Cart line label per scent",
+      "default": "Bottle"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Intro"
+    },
+    {
+      "type": "text",
+      "id": "rating_label",
+      "label": "Rating label",
+      "default": "Excellent"
+    },
+    {
+      "type": "text",
+      "id": "rating_score",
+      "label": "Rating score",
+      "default": "4.8"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "Customer reviews"
+    },
+    {
+      "type": "url",
+      "id": "rating_link",
+      "label": "Rating link"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "headline",
+      "label": "Headline",
+      "default": "WEAR MORE. <em>SAVE MORE.</em>",
+      "info": "Italic text renders in the amber accent as the emphasis."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Bundle your favorite scents and <strong>save more with every bottle you add.</strong>"
+    },
+    {
+      "type": "header",
+      "content": "Countdown"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_timer",
+      "label": "Show countdown",
+      "default": true,
+      "info": "Evergreen: each visitor gets their own countdown that restarts when it ends."
+    },
+    {
+      "type": "text",
+      "id": "timer_label",
+      "label": "Countdown name",
+      "default": "Bundle deal countdown",
+      "info": "Read out by screen readers, not shown on the page."
+    },
+    {
+      "type": "text",
+      "id": "timer_eyebrow",
+      "label": "Eyebrow",
+      "default": "Up to [max]% off · Bundle deal · Limited time",
+      "info": "[max] = biggest saving across the bundle variants. The part before the first · shows bold in white."
+    },
+    {
+      "type": "text",
+      "id": "timer_title",
+      "label": "Title",
+      "default": "Offer ends soon"
+    },
+    {
+      "type": "range",
+      "id": "timer_hours",
+      "label": "Countdown length",
+      "min": 1,
+      "max": 48,
+      "step": 1,
+      "unit": "h",
+      "default": 24
+    },
+    {
+      "type": "text",
+      "id": "timer_hrs_label",
+      "label": "Hours label",
+      "default": "Hrs"
+    },
+    {
+      "type": "text",
+      "id": "timer_mins_label",
+      "label": "Minutes label",
+      "default": "Mins"
+    },
+    {
+      "type": "text",
+      "id": "timer_secs_label",
+      "label": "Seconds label",
+      "default": "Secs"
+    },
+    {
+      "type": "header",
+      "content": "Bundle size and line"
+    },
+    {
+      "type": "text",
+      "id": "tiers_heading",
+      "label": "Bundle size heading",
+      "default": "Choose your bundle size"
+    },
+    {
+      "type": "text",
+      "id": "per_bottle_text",
+      "label": "Price per bottle",
+      "default": "[price] each",
+      "info": "[price] = card price divided by its bottles. Empty hides the line."
+    },
+    {
+      "type": "text",
+      "id": "stack_text",
+      "label": "Extra bottle note (4+ card)",
+      "default": "Only [price] per extra bottle",
+      "info": "Shown on cards whose maximum is above their bottles. [price] = price of each extra bottle."
+    },
+    {
+      "type": "text",
+      "id": "lines_heading",
+      "label": "Line heading",
+      "default": "Choose your fragrance line",
+      "info": "Only shown when the section has Fragrance line blocks."
+    },
+    {
+      "type": "text",
+      "id": "line_picked_text",
+      "label": "Picks per line",
+      "default": "[n] picked",
+      "info": "[n] = scents picked from that line."
+    },
+    {
+      "type": "header",
+      "content": "Scent picker"
+    },
+    {
+      "type": "text",
+      "id": "scents_heading",
+      "label": "Heading",
+      "default": "Choose your [n] fragrances",
+      "info": "[n] = bottles in the selected bundle."
+    },
+    {
+      "type": "text",
+      "id": "counter_text",
+      "label": "Counter",
+      "default": "[x] of [n] selected"
+    },
+    {
+      "type": "text",
+      "id": "remaining_text",
+      "label": "Remaining hint",
+      "default": "Pick [remaining] more to fill your bundle"
+    },
+    {
+      "type": "text",
+      "id": "max_text",
+      "label": "Maximum hint",
+      "default": "Maximum of [max] bottles per bundle reached"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Add button",
+      "default": "Add +"
+    },
+    {
+      "type": "text",
+      "id": "inspired_prefix",
+      "label": "Designer line prefix",
+      "default": "Inspired by",
+      "info": "Shown before the designer perfume on each scent (from the inspiration field, else from the product title). Occasion chips come from the occasion field. Tag \"bestseller\" shows a Bestseller badge; a \"badge:<text>\" tag takes priority."
+    },
+    {
+      "type": "text",
+      "id": "scroll_hint",
+      "label": "Scroll hint",
+      "default": "Scroll for more scents"
+    },
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty line text",
+      "default": "No scents in this line yet."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_empty",
+      "label": "Text with no picks",
+      "default": "Select at least 1 bottle"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text",
+      "default": "Add to cart",
+      "info": "The price of the bundle for the picked number of bottles is added after it."
+    },
+    {
+      "type": "text",
+      "id": "cta_adding",
+      "label": "Loading text",
+      "default": "Adding..."
+    },
+    {
+      "type": "text",
+      "id": "error_text",
+      "label": "Error text",
+      "default": "Something went wrong. Please try again."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show payment icons",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Reviews"
+    },
+    {
+      "type": "range",
+      "id": "review_interval",
+      "label": "Auto-advance",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "verified_label",
+      "label": "Verified label",
+      "default": "Verified buyer"
+    },
+    {
+      "type": "header",
+      "content": "Guarantee"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_heading",
+      "label": "Heading",
+      "default": "Our guarantee"
+    },
+    {
+      "type": "richtext",
+      "id": "guarantee_text",
+      "label": "Text",
+      "default": "<p>Not happy with your order? Contact our team and we will help you.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "drop", "label": "Drop" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "check-circle", "label": "Check" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "return", "label": "Return" }
+          ],
+          "default": "drop"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Long-lasting Eau de Parfum"
+        }
+      ]
+    },
+    {
+      "type": "tier",
+      "name": "Bundle size",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "range",
+          "id": "bottles",
+          "label": "Bottles",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 1,
+          "info": "Price comes from the bundle variant with this number of bottles."
+        },
+        {
+          "type": "range",
+          "id": "max_bottles",
+          "label": "Maximum bottles on this card",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 1,
+          "info": "For a \"4+\" card set the highest number of bottles. Needs a bundle variant for every count up to it. Values below Bottles are ignored."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "1 BOTTLE"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Tag",
+          "default": "STARTER"
+        },
+        {
+          "type": "text",
+          "id": "badge_override",
+          "label": "Badge",
+          "info": "Empty = saving in % from the variant's compare-at price."
+        },
+        {
+          "type": "checkbox",
+          "id": "preselected",
+          "label": "Preselected",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "line",
+      "name": "Fragrance line",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Classic"
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Product tag",
+          "info": "Exact product tag of this line. Empty = scents without any other line's tag. Without line blocks there is no line step and every scent shows."
+        },
+        {
+          "type": "range",
+          "id": "strength",
+          "label": "Strength dots",
+          "min": 0,
+          "max": 3,
+          "step": 1,
+          "default": 1,
+          "info": "0 = hide the dots."
+        },
+        {
+          "type": "text",
+          "id": "oil",
+          "label": "Perfume oil",
+          "info": "E.g. 15% oil. Also shown as a badge on each scent photo of this line."
+        },
+        {
+          "type": "text",
+          "id": "longevity",
+          "label": "Longevity",
+          "info": "E.g. Lasts 4-6 hrs"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "[count] scents",
+          "info": "[count] = number of scents in this line."
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge",
+          "info": "Amber badge on top of the card, e.g. Most Popular. Empty hides it."
+        },
+        {
+          "type": "checkbox",
+          "id": "preselected",
+          "label": "Selected on load",
+          "default": false,
+          "info": "Nothing selected = all scents shown. Clicking a selected card shows all again."
+        }
+      ]
+    },
+    {
+      "type": "mini_review",
+      "name": "Review",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Lovely scent and it lasts all day."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Customer"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified buyer",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "mini_faq",
+      "name": "FAQ",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long will the scent last?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Longevity depends on skin type, where you apply it and the weather.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle & Save box",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "drop", "text": "Long-lasting Eau de Parfum" } },
+        { "type": "benefit", "settings": { "icon": "sparkle", "text": "Inspired by designer favourites" } },
+        { "type": "benefit", "settings": { "icon": "truck", "text": "Fast shipping" } },
+        { "type": "tier", "settings": { "bottles": 1, "max_bottles": 1, "label": "1 BOTTLE", "tag": "STARTER" } },
+        { "type": "tier", "settings": { "bottles": 2, "max_bottles": 2, "label": "2 BOTTLES", "tag": "BEST SELLER" } },
+        { "type": "tier", "settings": { "bottles": 3, "max_bottles": 3, "label": "3 BOTTLES", "tag": "MOST POPULAR", "preselected": true } },
+        { "type": "tier", "settings": { "bottles": 4, "max_bottles": 5, "label": "4 BOTTLES+", "tag": "BEST VALUE" } },
+        { "type": "mini_review", "settings": { "quote": "Lovely scent and it lasts all day.", "name": "Customer" } },
+        { "type": "mini_faq", "settings": { "question": "How long will the scent last?", "answer": "<p>Longevity depends on skin type, where you apply it and the weather.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

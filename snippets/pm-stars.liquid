@@ -1,0 +1,19 @@
+{% comment %}
+  pm-stars (WP-A): five solid stars in currentColor (ink on light, white on dark), 2px gap.
+  Usage: {% render 'pm-stars', rating: 4.9, size: 12, class: 'pm-rating__stars' %}
+  Params: rating (number, default 5; only used in the aria-label), size (px, default 12), class.
+  Always draws 5 full stars; partial fills are not part of the design.
+{% endcomment %}
+{%- liquid
+  assign pm_stars_rating = rating | default: 5
+  assign pm_stars_size = size | default: 12
+  assign pm_stars_class = 'pm-stars'
+  if class != blank
+    assign pm_stars_class = pm_stars_class | append: ' ' | append: class
+  endif
+-%}
+<span class="{{ pm_stars_class }}" role="img" aria-label="{{ 'premium.general.rating_aria' | t: rating: pm_stars_rating }}">
+  {%- for i in (1..5) -%}
+    <svg width="{{ pm_stars_size }}" height="{{ pm_stars_size }}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+  {%- endfor -%}
+</span>

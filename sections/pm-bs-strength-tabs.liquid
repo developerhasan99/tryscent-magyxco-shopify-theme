@@ -1,0 +1,387 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-strength-tabs.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .pm-scope .pm-bs-st--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-scope .pm-bs-st--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{%- liquid
+  assign tabs = section.blocks | where: 'type', 'tab'
+  assign default_idx = section.settings.default_tab | plus: 0
+  if default_idx > tabs.size
+    assign default_idx = 1
+  endif
+-%}
+<div
+  id="{{ section.id }}"
+  class="pm-bs-st pm-bs-st--{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
+  data-pm-bs-tabs>
+  <div class="page-width">
+    <div class="pm-bs-st__head">
+      {%- if section.settings.kicker != blank -%}
+        <p class="pm-eyebrow pm-muted pm-bs-st__kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
+      {%- if section.settings.title != blank -%}
+        <h2 class="pm-h2 pm-bs-st__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="pm-body-lg pm-bs-st__sub">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if tabs.size > 0 -%}
+      <div class="pm-bs-st__card">
+        <div class="pm-bs-st__tabs" role="tablist" aria-label="{{ section.settings.title | escape }}">
+          {%- for block in tabs -%}
+            {%- liquid
+              assign is_active = false
+              if forloop.index == default_idx
+                assign is_active = true
+              endif
+            -%}
+            <button
+              type="button"
+              role="tab"
+              id="pm-bs-st-tab-{{ block.id }}"
+              class="pm-bs-st__tab{% if is_active %} is-active{% endif %}{% if block.settings.is_ours %} pm-bs-st__tab--ours{% endif %}"
+              aria-selected="{{ is_active }}"
+              aria-controls="pm-bs-st-panel-{{ block.id }}"
+              tabindex="{% if is_active %}0{% else %}-1{% endif %}"
+              {{ block.shopify_attributes }}>
+              <span class="pm-bs-st__tab-label">{{ block.settings.label }}</span>
+              {%- if block.settings.sublabel != blank -%}
+                <span class="pm-bs-st__tab-sub">{{ block.settings.sublabel }}</span>
+              {%- endif -%}
+            </button>
+          {%- endfor -%}
+        </div>
+
+        {%- for block in tabs -%}
+          {%- liquid
+            assign is_active = false
+            if forloop.index == default_idx
+              assign is_active = true
+            endif
+            if block.settings.is_ours
+              assign mark_icon = 'check'
+              assign mark_class = 'pm-bs-st__value--ours'
+            else
+              assign mark_icon = 'close'
+              assign mark_class = 'pm-bs-st__value--theirs'
+            endif
+          -%}
+          <div
+            role="tabpanel"
+            id="pm-bs-st-panel-{{ block.id }}"
+            class="pm-bs-st__panel"
+            aria-labelledby="pm-bs-st-tab-{{ block.id }}"
+            {% unless is_active %}hidden{% endunless %}>
+            <ul class="pm-bs-st__rows" role="list">
+              {%- if block.settings.strength != blank -%}
+                <li class="pm-bs-st__row">
+                  <span class="pm-bs-st__label">
+                    {% render 'pm-icon', icon: 'sparkle', size: 20, stroke: 1.25 %}
+                    <span>{{ section.settings.row_strength_label }}</span>
+                  </span>
+                  <span class="pm-bs-st__value {{ mark_class }}">
+                    {% render 'pm-icon', icon: mark_icon, size: 16, stroke: 2 %}
+                    <span>{{ block.settings.strength }}</span>
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if block.settings.longevity != blank -%}
+                <li class="pm-bs-st__row">
+                  <span class="pm-bs-st__label">
+                    {% render 'pm-icon', icon: 'clock', size: 20, stroke: 1.25 %}
+                    <span>{{ section.settings.row_longevity_label }}</span>
+                  </span>
+                  <span class="pm-bs-st__value {{ mark_class }}">
+                    {% render 'pm-icon', icon: mark_icon, size: 16, stroke: 2 %}
+                    <span>{{ block.settings.longevity }}</span>
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if block.settings.oil != blank -%}
+                <li class="pm-bs-st__row">
+                  <span class="pm-bs-st__label">
+                    {% render 'pm-icon', icon: 'drop', size: 20, stroke: 1.25 %}
+                    <span>{{ section.settings.row_oil_label }}</span>
+                  </span>
+                  <span class="pm-bs-st__value {{ mark_class }}">
+                    {% render 'pm-icon', icon: mark_icon, size: 16, stroke: 2 %}
+                    <span>{{ block.settings.oil }}</span>
+                  </span>
+                </li>
+              {%- endif -%}
+              {%- if block.settings.summary != blank -%}
+                <li class="pm-bs-st__row pm-bs-st__row--summary">
+                  <span class="pm-bs-st__label">
+                    {% render 'pm-icon', icon: 'bag', size: 20, stroke: 1.25 %}
+                    <span>{{ section.settings.row_summary_label }}</span>
+                  </span>
+                  <span class="pm-bs-st__value pm-bs-st__value--plain">
+                    <span>{{ block.settings.summary }}</span>
+                  </span>
+                </li>
+              {%- endif -%}
+            </ul>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.footnote != blank -%}
+      <p class="pm-small pm-muted pm-bs-st__note">{{ section.settings.footnote }}</p>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    function initTabs(root) {
+      if (!root || root.dataset.started === '1') return;
+      root.dataset.started = '1';
+      var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+      if (!tabs.length) return;
+
+      function select(tab, focus) {
+        tabs.forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.setAttribute('tabindex', on ? '0' : '-1');
+          t.classList.toggle('is-active', on);
+          var panel = root.querySelector('#' + t.getAttribute('aria-controls'));
+          if (panel) panel.hidden = !on;
+        });
+        if (focus) tab.focus();
+      }
+
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () {
+          select(tab, false);
+        });
+        tab.addEventListener('keydown', function (e) {
+          var next = null;
+          if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+          else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+          else if (e.key === 'Home') next = tabs[0];
+          else if (e.key === 'End') next = tabs[tabs.length - 1];
+          if (next) {
+            e.preventDefault();
+            select(next, true);
+          }
+        });
+      });
+
+      root.addEventListener('shopify:block:select', function (e) {
+        var tab = e.target && e.target.closest ? e.target.closest('[role="tab"]') : null;
+        if (tab) select(tab, false);
+      });
+    }
+
+    function scan(scope) {
+      (scope || document).querySelectorAll('[data-pm-bs-tabs]').forEach(initTabs);
+    }
+
+    scan(document);
+    if (!window.pmBsTabsBound) {
+      window.pmBsTabsBound = true;
+      document.addEventListener('shopify:section:load', function (e) {
+        scan(e.target);
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "BS Strength tabs",
+  "tag": "section",
+  "class": "pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Strength"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Why we use more oil"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Compare how our product stacks up against typical alternatives."
+    },
+    {
+      "type": "range",
+      "id": "default_tab",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "label": "Tab open on load",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Row labels"
+    },
+    {
+      "type": "text",
+      "id": "row_strength_label",
+      "label": "Row 1 label",
+      "default": "Scent strength"
+    },
+    {
+      "type": "text",
+      "id": "row_longevity_label",
+      "label": "Row 2 label",
+      "default": "Longevity"
+    },
+    {
+      "type": "text",
+      "id": "row_oil_label",
+      "label": "Row 3 label",
+      "default": "Fragrance oil"
+    },
+    {
+      "type": "text",
+      "id": "row_summary_label",
+      "label": "Row 4 label",
+      "default": "What you are really getting"
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote",
+      "default": "Typical ranges. Individual products vary."
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Eau de Toilette"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Tab sub-label",
+          "default": "Most brands"
+        },
+        {
+          "type": "checkbox",
+          "id": "is_ours",
+          "label": "This is our product (checks instead of crosses)",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "strength",
+          "label": "Scent strength",
+          "default": "Light"
+        },
+        {
+          "type": "text",
+          "id": "longevity",
+          "label": "Longevity",
+          "default": "4 to 6 hours"
+        },
+        {
+          "type": "text",
+          "id": "oil",
+          "label": "Fragrance oil",
+          "default": "Typical range"
+        },
+        {
+          "type": "textarea",
+          "id": "summary",
+          "label": "What you are really getting",
+          "default": "Mostly alcohol with a light layer of fragrance."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BS Strength tabs",
+      "blocks": [
+        {
+          "type": "tab"
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Eau de Parfum",
+            "sublabel": "Most brands",
+            "strength": "Moderate",
+            "longevity": "6 to 8 hours",
+            "oil": "Typical range",
+            "summary": "More oil than a toilette, but you still pay for the name on the box."
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Our product",
+            "sublabel": "Ours",
+            "is_ours": true,
+            "strength": "Strong",
+            "longevity": "Long-lasting",
+            "oil": "High perfume oil concentration",
+            "summary": "Short summary of what you really get."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

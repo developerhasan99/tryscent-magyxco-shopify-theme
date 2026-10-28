@@ -1,0 +1,204 @@
+/* pm-s-bs-strength-tabs.css (Bundle & Save): three-tab strength comparison.
+   375: card = full gutter width (335), tabs 3 equal columns, rows 2 columns (label | value), 13px text.
+   1440: card max 608 centred, rows 64px, 14px text. Shaded section, gold row icons, ours = green tick, theirs = red cross. */
+.pm-scope .pm-bs-st {
+  box-sizing: border-box;
+  background: var(--pm-tint);
+}
+
+.pm-scope .pm-bs-st__head {
+  max-width: 648px;
+  margin: 0 auto var(--pm-heading-gap, 32px);
+  text-align: center;
+}
+
+.pm-scope .pm-bs-st__kicker {
+  margin: 0 0 8px;
+}
+
+.pm-scope .pm-bs-st__title {
+  margin: 0;
+}
+
+.pm-scope .pm-bs-st__sub {
+  margin: 12px 0 0;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-st__card {
+  box-sizing: border-box;
+  max-width: 608px;
+  margin: 0 auto;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-md);
+  overflow: hidden;
+  background: var(--pm-white);
+  box-shadow: var(--pm-shadow-sm);
+}
+
+/* Tabs */
+.pm-scope .pm-bs-st__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-bottom: 1px solid var(--pm-line);
+}
+
+.pm-scope .pm-bs-st__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-sizing: border-box;
+  min-height: 56px;
+  margin: 0;
+  padding: 10px 6px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-right: 1px solid var(--pm-line);
+  border-radius: 0;
+  background: var(--pm-surface);
+  color: var(--pm-muted);
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color var(--pm-dur) var(--pm-ease), color var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-bs-st__tab:last-child {
+  border-right: 0;
+}
+
+.pm-scope .pm-bs-st__tab:hover {
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-st__tab.is-active {
+  border-bottom-color: var(--pm-gold);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-st__tab-label {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.pm-scope .pm-bs-st__tab-sub {
+  font-size: 10px;
+  line-height: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-st__tab.is-active .pm-bs-st__tab-sub {
+  color: var(--pm-ink);
+}
+
+/* Rows */
+.pm-scope .pm-bs-st__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .pm-bs-st__row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  column-gap: 12px;
+  box-sizing: border-box;
+  min-height: 56px;
+  margin: 0;
+  padding: 12px 16px;
+  border-top: 1px solid var(--pm-line);
+}
+
+.pm-scope .pm-bs-st__row:first-child {
+  border-top: 0;
+}
+
+.pm-scope .pm-bs-st__label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-st__label .pm-icon {
+  flex: 0 0 auto;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bs-st__value {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  overflow-wrap: anywhere;
+}
+
+.pm-scope .pm-bs-st__value .pm-icon {
+  flex: 0 0 auto;
+  margin-top: 3px;
+}
+
+.pm-scope .pm-bs-st__value--ours {
+  color: var(--pm-ink);
+  font-weight: 600;
+}
+
+.pm-scope .pm-bs-st__value--ours .pm-icon {
+  color: var(--pm-good);
+}
+
+.pm-scope .pm-bs-st__value--theirs {
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-st__value--theirs .pm-icon {
+  color: var(--pm-sale);
+}
+
+.pm-scope .pm-bs-st__value--plain {
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-st__note {
+  max-width: 608px;
+  margin: 16px auto 0;
+  text-align: center;
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bs-st__tab {
+    min-height: 64px;
+    padding: 12px 12px;
+  }
+
+  .pm-scope .pm-bs-st__tab-label {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .pm-scope .pm-bs-st__tab-sub {
+    font-size: 11px;
+  }
+
+  .pm-scope .pm-bs-st__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 64px;
+    padding: 12px 24px;
+    column-gap: 24px;
+  }
+}

@@ -1,0 +1,144 @@
+/* pm-s-bs-reviews.css: reviews section layout. Card styling (.pm-review) is shared in pm-sections.css.
+   Columns: data-pm-cols-mobile (1 or 2) below 750, min(desktop, 2) from 750, data-pm-cols-desktop (1 to 4) from 990.
+   Two desktop columns sit inside a 1080px container (PDP). Card gap 12 at 375, 16 from 990. */
+.pm-scope .pm-reviews {
+  box-sizing: border-box;
+}
+
+.pm-scope .pm-reviews__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin: 0 0 24px;
+}
+
+.pm-scope .pm-reviews__heading {
+  margin: 0;
+}
+
+.pm-scope .pm-reviews__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-reviews__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.pm-scope .pm-reviews__grid[data-pm-cols-mobile="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.pm-scope .pm-reviews .pm-reviews__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.pm-scope .pm-reviews .pm-reviews__item {
+  opacity: 0;
+  animation: pm-review-in 0.5s var(--pm-ease) forwards;
+}
+
+@keyframes pm-review-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.pm-scope .pm-reviews__more {
+  margin: 32px 0 0;
+  text-align: center;
+}
+
+.pm-scope .pm-reviews__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+.pm-scope .pm-reviews__spinner {
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--pm-line);
+  border-top-color: var(--pm-ink);
+  border-radius: var(--pm-radius-pill);
+  animation: pm-review-spin 0.8s linear infinite;
+}
+
+@keyframes pm-review-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-reviews__grid,
+  .pm-scope .pm-reviews__grid[data-pm-cols-mobile="1"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pm-scope .pm-reviews__grid[data-pm-cols-desktop="1"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-reviews__head {
+    margin-bottom: 40px;
+  }
+
+  .pm-scope .pm-reviews__grid,
+  .pm-scope .pm-reviews .pm-reviews__col {
+    gap: 16px;
+  }
+
+  .pm-scope .pm-reviews__grid[data-pm-cols-desktop="1"] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 648px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pm-scope .pm-reviews__grid[data-pm-cols-desktop="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .pm-scope .pm-reviews__grid[data-pm-cols-desktop="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pm-scope .pm-reviews__grid[data-pm-cols-desktop="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .pm-scope .pm-reviews__more {
+    margin-top: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .pm-reviews .pm-reviews__item {
+    opacity: 1;
+    animation: none;
+  }
+
+  .pm-scope .pm-reviews__spinner {
+    animation: none;
+  }
+}

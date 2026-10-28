@@ -1,0 +1,226 @@
+/* pm-s-bs-review-carousel.css: text review carousel for the Bundle & Save page (sections/pm-bs-review-carousel.liquid).
+   375: cards 86% wide (next one peeks), swipe only. 750: 2 cards. 990: 3 cards with round arrows on the sides.
+   Card = white on the section scheme, 1px line, radius 4, padding 20. Ink on white, no accent colour.
+   Side padding comes from .page-width (outer wrapper); the scroll track has no horizontal padding, so snap never eats it. */
+.pm-scope .pm-bsrv {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pm-scope .pm-bsrv__head {
+  max-width: var(--pm-measure);
+  margin: 0 auto var(--pm-heading-gap);
+  text-align: center;
+}
+
+.pm-scope .pm-bsrv__heading {
+  margin: 0;
+}
+
+.pm-scope .pm-bsrv__sub {
+  margin: 8px 0 0;
+}
+
+.pm-scope .pm-bsrv__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0 0;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsrv__stage {
+  position: relative;
+}
+
+.pm-scope .pm-bsrv__track {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pm-scope .pm-bsrv__track::-webkit-scrollbar {
+  display: none;
+}
+
+.pm-scope .pm-bsrv__card {
+  display: flex;
+  flex: 0 0 86%;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-md);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* Customer photo: square, edge to edge across the top of the card (cancels the card padding) */
+.pm-scope .pm-bsrv__media {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  margin: -20px -20px 4px;
+  background: var(--pm-surface);
+  overflow: hidden;
+}
+
+.pm-scope .pm-bsrv__media img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+.pm-scope .pm-bsrv__rating .pm-stars {
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bsrv__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--pm-gold);
+  line-height: 0;
+}
+
+.pm-scope .pm-bsrv__stars svg {
+  display: block;
+  width: 14px;
+  height: 14px;
+}
+
+.pm-scope .pm-bsrv__stars .is-empty {
+  opacity: 0.25;
+}
+
+.pm-scope .pm-bsrv__quote {
+  margin: 0;
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsrv__who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--pm-line);
+}
+
+.pm-scope .pm-bsrv__name {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsrv__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bsrv__verified .pm-icon {
+  width: 12px;
+  height: 12px;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bsrv__arrow {
+  display: none;
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bsrv__track {
+    gap: 16px;
+  }
+
+  .pm-scope .pm-bsrv__card {
+    flex-basis: calc((100% - 16px) / 2);
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-bsrv__card {
+    flex-basis: calc((100% - 32px) / 3);
+    padding: 24px;
+  }
+
+  .pm-scope .pm-bsrv__media {
+    aspect-ratio: 5 / 4;
+    margin: -24px -24px 4px;
+  }
+
+  .pm-scope .pm-bsrv__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0;
+    padding: 0;
+    border: 1px solid var(--pm-line);
+    border-radius: var(--pm-radius-pill);
+    background: var(--pm-white);
+    color: var(--pm-ink);
+    box-shadow: var(--pm-shadow-sm);
+    cursor: pointer;
+    transition: opacity var(--pm-dur) var(--pm-ease), background-color var(--pm-dur) var(--pm-ease);
+  }
+
+  .pm-scope .pm-bsrv__arrow--prev {
+    left: -20px;
+  }
+
+  .pm-scope .pm-bsrv__arrow--next {
+    right: -20px;
+  }
+
+  .pm-scope .pm-bsrv__arrow--prev .pm-icon {
+    transform: rotate(180deg);
+  }
+
+  .pm-scope .pm-bsrv__arrow:hover {
+    background: var(--pm-surface);
+  }
+
+  .pm-scope .pm-bsrv__arrow:focus-visible {
+    outline: 2px solid var(--pm-ink);
+    outline-offset: 2px;
+  }
+
+  .pm-scope .pm-bsrv__arrow[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .pm-bsrv__arrow {
+    transition: none;
+  }
+}

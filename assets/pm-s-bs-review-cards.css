@@ -1,0 +1,229 @@
+/* pm-s-bs-review-cards.css: photo review cards slider for the Bundle & Save page (sections/pm-bs-review-cards.liquid).
+   375: cards 72% wide so the next one peeks, swipe only (arrows hidden). 750: 3 cards. 990: 4 cards, round arrows on the sides.
+   Card = white, 1px line, radius 4, 4:5 photo on top, stars + headline + quote + name + outline tags below. Ink on white, no accent colour.
+   Side padding comes from .page-width (outer wrapper); the scroll track itself has no horizontal padding, so snap never eats it. */
+.pm-scope .pm-bsrc {
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.pm-scope .pm-bsrc__head {
+  max-width: var(--pm-measure);
+  margin: 0 auto var(--pm-heading-gap);
+  text-align: center;
+}
+
+.pm-scope .pm-bsrc__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsrc__heading {
+  margin: 0;
+}
+
+.pm-scope .pm-bsrc__sub {
+  margin: 8px 0 0;
+}
+
+.pm-scope .pm-bsrc__stage {
+  position: relative;
+}
+
+.pm-scope .pm-bsrc__track {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pm-scope .pm-bsrc__track::-webkit-scrollbar {
+  display: none;
+}
+
+.pm-scope .pm-bsrc__card {
+  display: flex;
+  flex: 0 0 72%;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.pm-scope .pm-bsrc__media {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--pm-surface);
+}
+
+.pm-scope .pm-bsrc__img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pm-scope .pm-bsrc__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+}
+
+.pm-scope .pm-bsrc__rating .pm-stars {
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bsrc__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--pm-gold);
+  line-height: 0;
+}
+
+.pm-scope .pm-bsrc__stars svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.pm-scope .pm-bsrc__stars .is-empty {
+  opacity: 0.25;
+}
+
+.pm-scope .pm-bsrc__headline {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsrc__quote {
+  margin: 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bsrc__author {
+  margin: auto 0 0;
+  padding-top: 4px;
+  font-size: var(--pm-fs-small);
+  line-height: var(--pm-lh-small);
+  font-weight: 500;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bsrc__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+}
+
+.pm-scope .pm-bsrc__tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  font-size: var(--pm-fs-badge);
+  line-height: var(--pm-lh-badge);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pm-ink);
+}
+
+/* Arrows: desktop only, round 40px, white with hairline */
+.pm-scope .pm-bsrc__arrow {
+  display: none;
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bsrc__track {
+    gap: 16px;
+  }
+
+  .pm-scope .pm-bsrc__card {
+    flex-basis: calc((100% - 32px) / 3);
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-bsrc__card {
+    flex-basis: calc((100% - 48px) / 4);
+  }
+
+  .pm-scope .pm-bsrc__arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0;
+    padding: 0;
+    border: 1px solid var(--pm-line);
+    border-radius: var(--pm-radius-pill);
+    background: var(--pm-white);
+    color: var(--pm-ink);
+    box-shadow: var(--pm-shadow-sm);
+    cursor: pointer;
+    transition: opacity var(--pm-dur) var(--pm-ease), background-color var(--pm-dur) var(--pm-ease);
+  }
+
+  .pm-scope .pm-bsrc__arrow--prev {
+    left: -20px;
+  }
+
+  .pm-scope .pm-bsrc__arrow--next {
+    right: -20px;
+  }
+
+  .pm-scope .pm-bsrc__arrow--prev .pm-icon {
+    transform: rotate(180deg);
+  }
+
+  .pm-scope .pm-bsrc__arrow:hover {
+    background: var(--pm-surface);
+  }
+
+  .pm-scope .pm-bsrc__arrow:focus-visible {
+    outline: 2px solid var(--pm-ink);
+    outline-offset: 2px;
+  }
+
+  .pm-scope .pm-bsrc__arrow[disabled] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .pm-bsrc__arrow {
+    transition: none;
+  }
+}

@@ -1,0 +1,267 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-review-cards.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .pm-scope .pm-bsrc--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .pm-scope .pm-bsrc--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="{{ section.id }}"
+  class="pm-bsrc pm-bsrc--{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
+  data-pm-bsrc>
+  <div class="page-width">
+    <div class="pm-bsrc__head">
+      {%- if section.settings.rating_text != blank -%}
+        <p class="pm-bsrc__rating">
+          {% render 'pm-stars', rating: 4.9, size: 12 %}
+          <span class="pm-small">{{ section.settings.rating_text }}</span>
+        </p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="pm-h2 pm-bsrc__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="pm-body-lg pm-muted pm-bsrc__sub">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="pm-bsrc__stage">
+      <button type="button" class="pm-bsrc__arrow pm-bsrc__arrow--prev" data-prev aria-label="{{ section.settings.prev_label | escape }}" disabled>
+        {% render 'pm-icon', icon: 'chevron-right', size: 18, stroke: 1.5 %}
+      </button>
+      <ul class="pm-bsrc__track" data-track role="list">
+        {%- for block in section.blocks -%}
+          {%- assign rating = block.settings.rating | default: 5 | plus: 0 -%}
+          <li class="pm-bsrc__card" data-card {{ block.shopify_attributes }}>
+            <div class="pm-bsrc__media">
+              {%- if block.settings.image != blank -%}
+                <img
+                  class="pm-bsrc__img"
+                  src="{{ block.settings.image | image_url: width: 540 }}"
+                  srcset="{{ block.settings.image | image_url: width: 360 }} 360w, {{ block.settings.image | image_url: width: 540 }} 540w, {{ block.settings.image | image_url: width: 720 }} 720w"
+                  sizes="(min-width: 990px) 25vw, (min-width: 750px) 33vw, 72vw"
+                  alt="{{ block.settings.image.alt | default: block.settings.author | escape }}"
+                  width="{{ block.settings.image.width }}"
+                  height="{{ block.settings.image.height }}"
+                  loading="lazy">
+              {%- elsif block.settings.image_url != blank -%}
+                <img
+                  class="pm-bsrc__img"
+                  src="{{ block.settings.image_url }}"
+                  alt="{{ block.settings.author | escape }}"
+                  width="720"
+                  height="900"
+                  loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="pm-bsrc__body">
+              <span class="pm-bsrc__stars" role="img" aria-label="{{ 'premium.general.rating_aria' | t: rating: rating }}">
+                {%- for i in (1..5) -%}
+                  <svg{% if i > rating %} class="is-empty"{% endif %} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                {%- endfor -%}
+              </span>
+              {%- if block.settings.headline != blank -%}
+                <h3 class="pm-bsrc__headline">{{ block.settings.headline }}</h3>
+              {%- endif -%}
+              {%- if block.settings.quote != blank -%}
+                <p class="pm-bsrc__quote">&ldquo;{{ block.settings.quote | escape }}&rdquo;</p>
+              {%- endif -%}
+              {%- if block.settings.author != blank -%}
+                <p class="pm-bsrc__author">{{ block.settings.author }}</p>
+              {%- endif -%}
+              {%- if block.settings.tag_1 != blank or block.settings.tag_2 != blank -%}
+                <p class="pm-bsrc__tags">
+                  {%- if block.settings.tag_1 != blank -%}<span class="pm-bsrc__tag">{{ block.settings.tag_1 }}</span>{%- endif -%}
+                  {%- if block.settings.tag_2 != blank -%}<span class="pm-bsrc__tag">{{ block.settings.tag_2 }}</span>{%- endif -%}
+                </p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      <button type="button" class="pm-bsrc__arrow pm-bsrc__arrow--next" data-next aria-label="{{ section.settings.next_label | escape }}">
+        {% render 'pm-icon', icon: 'chevron-right', size: 18, stroke: 1.5 %}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById('{{ section.id }}');
+    if (!root || root.hasAttribute('data-started')) return;
+    root.setAttribute('data-started', '1');
+
+    var track = root.querySelector('[data-track]');
+    var prev = root.querySelector('[data-prev]');
+    var next = root.querySelector('[data-next]');
+    if (!track) return;
+
+    function stepSize() {
+      var card = track.querySelector('[data-card]');
+      if (!card) return track.clientWidth;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function update() {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max;
+    }
+
+    function go(dir) {
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      track.scrollBy({ left: dir * stepSize(), behavior: reduce ? 'auto' : 'smooth' });
+    }
+
+    if (prev) prev.addEventListener('click', function () { go(-1); });
+    if (next) next.addEventListener('click', function () { go(1); });
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "BS Review cards",
+  "tag": "section",
+  "class": "pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating line",
+      "default": "Excellent 4.9"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Turn heads everywhere you go"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From subtle glances to bold compliments"
+    },
+    {
+      "type": "text",
+      "id": "prev_label",
+      "label": "Previous arrow label",
+      "default": "Previous reviews"
+    },
+    {
+      "type": "text",
+      "id": "next_label",
+      "label": "Next arrow label",
+      "default": "Next reviews"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Photo review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Photo URL (used only when no photo is picked)"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "Headline"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote (quotation marks are added automatically)"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Name"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Stars",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "tag_1",
+          "label": "Tag 1"
+        },
+        {
+          "type": "text",
+          "id": "tag_2",
+          "label": "Tag 2"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "BS Review cards",
+      "blocks": [
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" },
+        { "type": "card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

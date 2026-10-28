@@ -1,0 +1,195 @@
+/* pm-s-bs-faq.css (Bundle & Save): two-column FAQ accordion.
+   375 and 750: one column of white cards (335 / 670 wide), order = Liquid order (left column first).
+   990+: two columns, 16px apart, each column keeps its own height so opening a row never moves the other column.
+   Cards: 1px hairline, radius 4, plus turns into minus when open. Panels collapse only when JS is running (.is-js). */
+.pm-scope .pm-bs-faq {
+  box-sizing: border-box;
+}
+
+.pm-scope .pm-bs-faq__title {
+  max-width: 648px;
+  margin: 0 auto var(--pm-heading-gap, 32px);
+  text-align: center;
+}
+
+.pm-scope .pm-bs-faq__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.pm-scope .pm-bs-faq__col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.pm-scope .pm-bs-faq__item {
+  box-sizing: border-box;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-faq__q {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-bs-faq__btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 56px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: var(--pm-radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.pm-scope .pm-bs-faq__q-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* plus / minus */
+.pm-scope .pm-bs-faq__icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}
+
+.pm-scope .pm-bs-faq__icon::before,
+.pm-scope .pm-bs-faq__icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -8px;
+  background: currentColor;
+  transition: transform var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-bs-faq__icon::after {
+  transform: rotate(90deg);
+}
+
+.pm-scope .pm-bs-faq__item.is-open .pm-bs-faq__icon::after {
+  transform: rotate(0deg);
+}
+
+/* answer */
+.pm-scope .pm-bs-faq__panel-inner {
+  min-height: 0;
+}
+
+.pm-scope .pm-bs-faq__a {
+  padding: 0 16px 20px;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-faq__a p {
+  margin: 0 0 8px;
+}
+
+.pm-scope .pm-bs-faq__a p:last-child {
+  margin-bottom: 0;
+}
+
+.pm-scope .pm-bs-faq__a a {
+  color: var(--pm-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pm-scope .pm-bs-faq.is-js .pm-bs-faq__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-bs-faq.is-js .pm-bs-faq__panel-inner {
+  overflow: hidden;
+  visibility: hidden;
+  transition: visibility 0s linear var(--pm-dur);
+}
+
+.pm-scope .pm-bs-faq.is-js .pm-bs-faq__item.is-open .pm-bs-faq__panel {
+  grid-template-rows: 1fr;
+}
+
+.pm-scope .pm-bs-faq.is-js .pm-bs-faq__item.is-open .pm-bs-faq__panel-inner {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.pm-scope .pm-bs-faq__closing {
+  margin: 24px auto 0;
+  max-width: 648px;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-muted);
+  text-align: center;
+}
+
+.pm-scope .pm-bs-faq__closing p {
+  margin: 0;
+}
+
+.pm-scope .pm-bs-faq__closing a {
+  color: var(--pm-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bs-faq__btn {
+    min-height: 64px;
+    padding: 16px 24px;
+  }
+
+  .pm-scope .pm-bs-faq__a {
+    padding: 0 24px 24px;
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-bs-faq__cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .pm-scope .pm-bs-faq__col {
+    gap: 16px;
+  }
+
+  .pm-scope .pm-bs-faq__closing {
+    margin-top: 32px;
+  }
+}

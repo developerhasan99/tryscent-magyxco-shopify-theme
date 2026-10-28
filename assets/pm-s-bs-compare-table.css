@@ -1,0 +1,331 @@
+/* pm-s-bs-compare-table.css (Bundle & Save): "ours vs designer" table, built after HOK's "The difference".
+   Three columns at every width (label | ours | theirs). Our column is one tinted pillar: rounded top with the photo,
+   rows with a green tick above each value, rounded bottom closed by the red savings band. Their column: bottles under a
+   big red X, crossed-out price, red cross above each value. Empty cells are hidden by Dawn (div:empty), so every
+   value cell is pinned to its column. 375: 0.8 / 1.1 / 1.1, 13px. 750: max 860 centred, 15px, larger photos. */
+.pm-scope .pm-bs-ct {
+  box-sizing: border-box;
+}
+
+.pm-scope .pm-bs-ct__head {
+  max-width: 648px;
+  margin: 0 auto var(--pm-heading-gap, 32px);
+  text-align: center;
+}
+
+.pm-scope .pm-bs-ct__kicker {
+  margin: 0 0 10px;
+  font-size: var(--pm-fs-eyebrow);
+  line-height: var(--pm-lh-eyebrow);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bs-ct__title {
+  margin: 0;
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-ct__title em {
+  display: block;
+  font-style: italic;
+  color: var(--pm-gold);
+}
+
+.pm-scope .pm-bs-ct__table {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.pm-scope .pm-bs-ct__row {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.1fr) minmax(0, 1.1fr);
+  border-top: 1px solid var(--pm-line);
+}
+
+.pm-scope .pm-bs-ct__row--head,
+.pm-scope .pm-bs-ct__row--save {
+  border-top: 0;
+}
+
+.pm-scope .pm-bs-ct__cell {
+  box-sizing: border-box;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-ct__cell--label {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+  padding: 14px 8px 14px 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* Value cells: icon above, text centred */
+.pm-scope .pm-bs-ct__cell--ours,
+.pm-scope .pm-bs-ct__cell--theirs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 8px;
+  text-align: center;
+}
+
+.pm-scope .pm-bs-ct__cell--ours {
+  grid-column: 2;
+  border-left: 1px solid var(--pm-gold-soft);
+  border-right: 1px solid var(--pm-gold-soft);
+  background: var(--pm-tint);
+  font-weight: 700;
+}
+
+.pm-scope .pm-bs-ct__cell--theirs {
+  grid-column: 3;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-ct__text {
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.pm-scope .pm-bs-ct__mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--pm-radius-pill);
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-bs-ct__mark--yes {
+  background: var(--pm-good);
+}
+
+.pm-scope .pm-bs-ct__mark--no {
+  background: var(--pm-sale);
+}
+
+/* Column heads */
+.pm-scope .pm-bs-ct__cell--head {
+  justify-content: flex-end;
+  gap: 2px;
+  padding: 16px 8px 18px;
+}
+
+.pm-scope .pm-bs-ct__cell--ours.pm-bs-ct__cell--head {
+  border-top: 1px solid var(--pm-gold-soft);
+  border-radius: 16px 16px 0 0;
+}
+
+.pm-scope .pm-bs-ct__media {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 120px;
+  aspect-ratio: 1 / 1;
+  margin: 0 0 10px;
+}
+
+.pm-scope .pm-bs-ct__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--pm-radius-md);
+}
+
+.pm-scope .pm-bs-ct__media--theirs img {
+  object-fit: contain;
+}
+
+.pm-scope .pm-bs-ct__bottles {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: var(--pm-line);
+}
+
+/* Big red X over the designer bottles */
+.pm-scope .pm-bs-ct__x::before,
+.pm-scope .pm-bs-ct__x::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 118%;
+  height: 10px;
+  margin: -5px 0 0 -59%;
+  border-radius: 4px;
+  background: var(--pm-sale);
+  opacity: 0.8;
+  transform: rotate(45deg);
+}
+
+.pm-scope .pm-bs-ct__x::after {
+  transform: rotate(-45deg);
+}
+
+.pm-scope .pm-bs-ct__head-brand {
+  font-size: 15px;
+  line-height: 19px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-ct__head-note {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-bs-ct__head-name {
+  font-size: 14px;
+  line-height: 19px;
+  font-weight: 800;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-ct__head-price {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--pm-sale);
+}
+
+/* Savings band: closes our column */
+.pm-scope .pm-bs-ct__cell--save {
+  grid-column: 2;
+  padding: 12px 8px;
+  border-radius: 0 0 16px 16px;
+  background: var(--pm-sale);
+  color: var(--pm-white);
+  font-size: 11px;
+  line-height: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.pm-scope .pm-bs-ct__cell--save.pm-bs-ct__cell--close {
+  display: block;
+  height: 16px;
+  padding: 0;
+  border: 1px solid var(--pm-gold-soft);
+  border-top: 0;
+  background: var(--pm-tint);
+}
+
+/* Footer */
+.pm-scope .pm-bs-ct__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.pm-scope .pm-bs-ct__cta {
+  width: 100%;
+  max-width: 560px;
+  border-radius: var(--pm-radius-pill);
+}
+
+.pm-scope .pm-bs-ct__guarantee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-bs-ct__guarantee .pm-icon {
+  color: var(--pm-gold);
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bs-ct__row {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) minmax(0, 1.2fr);
+  }
+
+  .pm-scope .pm-bs-ct__cell {
+    font-size: 15px;
+    line-height: 21px;
+  }
+
+  .pm-scope .pm-bs-ct__cell--label {
+    padding: 18px 16px 18px 0;
+  }
+
+  .pm-scope .pm-bs-ct__cell--ours,
+  .pm-scope .pm-bs-ct__cell--theirs {
+    padding: 18px 16px;
+  }
+
+  .pm-scope .pm-bs-ct__cell--head {
+    padding: 20px 16px 22px;
+  }
+
+  .pm-scope .pm-bs-ct__media {
+    max-width: 200px;
+  }
+
+  .pm-scope .pm-bs-ct__x::before,
+  .pm-scope .pm-bs-ct__x::after {
+    height: 14px;
+    margin-top: -7px;
+  }
+
+  .pm-scope .pm-bs-ct__head-brand {
+    font-size: 20px;
+    line-height: 26px;
+  }
+
+  .pm-scope .pm-bs-ct__head-note {
+    font-size: 13px;
+  }
+
+  .pm-scope .pm-bs-ct__head-name {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .pm-scope .pm-bs-ct__head-price {
+    font-size: 15px;
+  }
+
+  .pm-scope .pm-bs-ct__cell--save {
+    padding: 14px 12px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .pm-scope .pm-bs-ct__footer {
+    margin-top: 40px;
+  }
+}

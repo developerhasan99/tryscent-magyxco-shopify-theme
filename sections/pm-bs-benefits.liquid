@@ -1,0 +1,287 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-benefits.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign cta_link = section.settings.cta_link | default: routes.all_products_collection_url
+  assign ticker_speed = section.settings.ticker_speed | default: 30
+  assign ticker_sep = section.settings.ticker_separator
+  assign photo_count = 0
+  assign ticker_count = 0
+  for block in section.blocks
+    if block.type == 'photo'
+      assign photo_count = photo_count | plus: 1
+    elsif block.type == 'ticker_item'
+      assign ticker_count = ticker_count | plus: 1
+    endif
+  endfor
+-%}
+{%- style -%}
+  .pm-scope .pm-bsb--{{ section.id }} {
+    --pm-ticker-dur: {{ ticker_speed }}s;
+  }
+
+  .pm-scope .pm-bsb--{{ section.id }} .pm-bsb__inner {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .pm-scope .pm-bsb--{{ section.id }} .pm-bsb__inner {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="{{ section.id }}" class="pm-bsb pm-bsb--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="pm-bsb__inner">
+  <div class="page-width">
+    <div class="pm-bsb__grid{% if photo_count == 0 %} pm-bsb__grid--solo{% endif %}">
+      {%- comment -%} Photos come first: a row of 4 above the copy on phones, a 2x2 grid right of the copy from 990 {%- endcomment -%}
+      {%- if photo_count > 0 -%}
+        <ul class="pm-bsb__photos" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'photo' -%}
+              <li class="pm-bsb__photo" {{ block.shopify_attributes }}>
+                {%- if block.settings.image != blank -%}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 540 }}"
+                    srcset="{{ block.settings.image | image_url: width: 360 }} 360w, {{ block.settings.image | image_url: width: 540 }} 540w, {{ block.settings.image | image_url: width: 720 }} 720w"
+                    sizes="(min-width: 1200px) 320px, (min-width: 990px) 28vw, 25vw"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                    loading="lazy">
+                {%- elsif block.settings.image_url != blank -%}
+                  <img
+                    src="{{ block.settings.image_url }}"
+                    alt=""
+                    width="720"
+                    height="900"
+                    loading="lazy">
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <div class="pm-bsb__copy">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="pm-bsb__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        <ul class="pm-bsb__list" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'benefit' -%}
+              <li class="pm-bsb__item" {{ block.shopify_attributes }}>
+                <span class="pm-bsb__icon">{% render 'pm-icon', icon: block.settings.icon, size: 22, stroke: 1.5 %}</span>
+                <h3 class="pm-bsb__title">{{ block.settings.title }}</h3>
+                {%- if block.settings.text != blank -%}
+                  <p class="pm-bsb__text">{{ block.settings.text }}</p>
+                {%- endif -%}
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ cta_link }}" class="pm-btn pm-btn--primary pm-bsb__cta">{{ section.settings.cta_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+  </div>
+
+  {%- if ticker_count > 0 -%}
+    <div class="pm-bsb__ticker pm-ticker color-{{ section.settings.ticker_color_scheme }} gradient" aria-label="{{ section.settings.ticker_label | escape }}">
+      <div class="pm-ticker__track">
+        {%- for copy in (1..2) -%}
+          <div class="pm-ticker__group"{% if copy == 2 %} aria-hidden="true"{% endif %}>
+            {%- for repeat in (1..3) -%}
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'ticker_item' -%}
+                  <span class="pm-ticker__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+                  {%- if ticker_sep != blank -%}
+                    <span class="pm-ticker__sep" aria-hidden="true">{{ ticker_sep }}</span>
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endfor -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "BS Benefits grid",
+  "tag": "section",
+  "class": "pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-5"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Built to get you <em>noticed</em> & <em>last all day</em>",
+      "info": "Italic text renders in the accent colour as the accent."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Get the bundle"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link",
+      "info": "Empty = all products collection"
+    },
+    {
+      "type": "header",
+      "content": "Ticker"
+    },
+    {
+      "type": "color_scheme",
+      "id": "ticker_color_scheme",
+      "label": "Ticker color scheme",
+      "default": "scheme-3"
+    },
+    {
+      "type": "text",
+      "id": "ticker_separator",
+      "label": "Separator between items",
+      "default": "•"
+    },
+    {
+      "type": "range",
+      "id": "ticker_speed",
+      "label": "Loop duration",
+      "min": 8,
+      "max": 60,
+      "step": 2,
+      "unit": "s",
+      "default": 30
+    },
+    {
+      "type": "text",
+      "id": "ticker_label",
+      "label": "Ticker accessibility label",
+      "default": "Why customers choose us"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "drop", "label": "Drop" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "star", "label": "Star" },
+            { "value": "globe", "label": "Globe" },
+            { "value": "return", "label": "Return" }
+          ],
+          "default": "drop"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Benefit title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "photo",
+      "name": "Photo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "text",
+          "id": "image_url",
+          "label": "Photo URL (used only when no photo is picked)"
+        }
+      ]
+    },
+    {
+      "type": "ticker_item",
+      "name": "Ticker item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Long-lasting"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [
+    {
+      "name": "BS Benefits grid",
+      "blocks": [
+        { "type": "benefit", "settings": { "icon": "drop", "title": "High perfume oil concentration" } },
+        { "type": "benefit", "settings": { "icon": "sparkle", "title": "Designer-inspired" } },
+        { "type": "benefit", "settings": { "icon": "heart", "title": "Compliments on repeat" } },
+        { "type": "benefit", "settings": { "icon": "clock", "title": "Long-lasting" } },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "photo" },
+        { "type": "ticker_item", "settings": { "text": "Long-lasting" } },
+        { "type": "ticker_item", "settings": { "text": "Money-back guarantee" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

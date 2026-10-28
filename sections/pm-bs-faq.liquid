@@ -1,0 +1,226 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-faq.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .pm-scope .pm-bs-faq--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-scope .pm-bs-faq--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{%- liquid
+  assign questions = section.blocks | where: 'type', 'question'
+  assign half = questions.size | plus: 1 | divided_by: 2
+-%}
+<div
+  id="{{ section.id }}"
+  class="pm-bs-faq pm-bs-faq--{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
+  data-pm-bs-faq>
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <h2 class="pm-h2 pm-bs-faq__title">{{ section.settings.title }}</h2>
+    {%- endif -%}
+
+    <div class="pm-bs-faq__cols">
+      <div class="pm-bs-faq__col">
+        {%- for block in questions -%}
+          {%- if forloop.index <= half -%}
+            <div class="pm-bs-faq__item" {{ block.shopify_attributes }}>
+              <h3 class="pm-bs-faq__q">
+                <button
+                  type="button"
+                  class="pm-bs-faq__btn"
+                  id="pm-bs-faq-btn-{{ block.id }}"
+                  aria-expanded="false"
+                  aria-controls="pm-bs-faq-panel-{{ block.id }}">
+                  <span class="pm-bs-faq__q-text">{{ block.settings.question }}</span>
+                  <span class="pm-bs-faq__icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div
+                class="pm-bs-faq__panel"
+                id="pm-bs-faq-panel-{{ block.id }}"
+                role="region"
+                aria-labelledby="pm-bs-faq-btn-{{ block.id }}">
+                <div class="pm-bs-faq__panel-inner">
+                  <div class="pm-bs-faq__a">{{ block.settings.answer }}</div>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="pm-bs-faq__col">
+        {%- for block in questions -%}
+          {%- if forloop.index > half -%}
+            <div class="pm-bs-faq__item" {{ block.shopify_attributes }}>
+              <h3 class="pm-bs-faq__q">
+                <button
+                  type="button"
+                  class="pm-bs-faq__btn"
+                  id="pm-bs-faq-btn-{{ block.id }}"
+                  aria-expanded="false"
+                  aria-controls="pm-bs-faq-panel-{{ block.id }}">
+                  <span class="pm-bs-faq__q-text">{{ block.settings.question }}</span>
+                  <span class="pm-bs-faq__icon" aria-hidden="true"></span>
+                </button>
+              </h3>
+              <div
+                class="pm-bs-faq__panel"
+                id="pm-bs-faq-panel-{{ block.id }}"
+                role="region"
+                aria-labelledby="pm-bs-faq-btn-{{ block.id }}">
+                <div class="pm-bs-faq__panel-inner">
+                  <div class="pm-bs-faq__a">{{ block.settings.answer }}</div>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    {%- if section.settings.closing_text != blank -%}
+      <div class="pm-bs-faq__closing">{{ section.settings.closing_text }}</div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    function initFaq(root) {
+      if (!root || root.dataset.started === '1') return;
+      root.dataset.started = '1';
+      root.classList.add('is-js');
+
+      function setOpen(item, open) {
+        var btn = item.querySelector('.pm-bs-faq__btn');
+        if (!btn) return;
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        item.classList.toggle('is-open', open);
+      }
+
+      root.querySelectorAll('.pm-bs-faq__item').forEach(function (item) {
+        var btn = item.querySelector('.pm-bs-faq__btn');
+        if (!btn) return;
+        btn.addEventListener('click', function () {
+          setOpen(item, btn.getAttribute('aria-expanded') !== 'true');
+        });
+      });
+
+      root.addEventListener('shopify:block:select', function (e) {
+        var item = e.target && e.target.closest ? e.target.closest('.pm-bs-faq__item') : null;
+        if (item) setOpen(item, true);
+      });
+      root.addEventListener('shopify:block:deselect', function (e) {
+        var item = e.target && e.target.closest ? e.target.closest('.pm-bs-faq__item') : null;
+        if (item) setOpen(item, false);
+      });
+    }
+
+    function scan(scope) {
+      (scope || document).querySelectorAll('[data-pm-bs-faq]').forEach(initFaq);
+    }
+
+    scan(document);
+    if (!window.pmBsFaqBound) {
+      window.pmBsFaqBound = true;
+      document.addEventListener('shopify:section:load', function (e) {
+        scan(e.target);
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "BS FAQ",
+  "tag": "section",
+  "class": "pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-5"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Common questions"
+    },
+    {
+      "type": "richtext",
+      "id": "closing_text",
+      "label": "Text under the questions"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How long will the scent last?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Answer text.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BS FAQ",
+      "blocks": [
+        {
+          "type": "question"
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "Can I mix and match scents?",
+            "answer": "<p>Yes. Pick any scents you like, in any combination.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

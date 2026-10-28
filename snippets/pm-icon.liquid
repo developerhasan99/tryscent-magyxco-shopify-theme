@@ -1,0 +1,68 @@
+{% comment %}
+  pm-icon (WP-A): inline outline SVG icon, stroke = currentColor.
+  Usage: {% render 'pm-icon', icon: 'check-circle', size: 16, stroke: 1.5, class: 'pm-trust__icon' %}
+  Params: icon (required), size (px, default 16), stroke (default 1.5), class (extra classes).
+  Icons: check-circle, check, plus, minus, chevron-down, chevron-right, arrow-right, close,
+         truck, shield, clock, leaf, drop, star, bag, search, menu, return, sparkle, globe, heart, shuffle, layers.
+  Unknown icon name renders a plain circle so a typo is visible, never a Liquid error.
+{% endcomment %}
+{%- liquid
+  assign pm_icon_size = size | default: 16
+  assign pm_icon_stroke = stroke | default: 1.5
+  assign pm_icon_class = 'pm-icon pm-icon--' | append: icon
+  if class != blank
+    assign pm_icon_class = pm_icon_class | append: ' ' | append: class
+  endif
+-%}
+<svg class="{{ pm_icon_class }}" width="{{ pm_icon_size }}" height="{{ pm_icon_size }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="{{ pm_icon_stroke }}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case icon -%}
+    {%- when 'check-circle' -%}
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m22 4-10 10.01-3-3"/>
+    {%- when 'check' -%}
+      <path d="m20 6-11 11-5-5"/>
+    {%- when 'plus' -%}
+      <path d="M12 5v14M5 12h14"/>
+    {%- when 'minus' -%}
+      <path d="M5 12h14"/>
+    {%- when 'chevron-down' -%}
+      <path d="m6 9 6 6 6-6"/>
+    {%- when 'chevron-right' -%}
+      <path d="m9 18 6-6-6-6"/>
+    {%- when 'arrow-right' -%}
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    {%- when 'close' -%}
+      <path d="M18 6 6 18M6 6l12 12"/>
+    {%- when 'truck' -%}
+      <path d="M1 4h14v12H1z"/><path d="M15 9h4l4 4v3h-8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+    {%- when 'shield' -%}
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    {%- when 'clock' -%}
+      <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+    {%- when 'leaf' -%}
+      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6C9.5 14.5 12 13 13 12"/>
+    {%- when 'drop' -%}
+      <path d="m12 2.7 5.7 5.7a8 8 0 1 1-11.4 0z"/>
+    {%- when 'star' -%}
+      <path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2 1.2-6.8-5-4.9 6.9-1z"/>
+    {%- when 'bag' -%}
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+    {%- when 'search' -%}
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+    {%- when 'menu' -%}
+      <path d="M3 6h18M3 12h18M3 18h18"/>
+    {%- when 'return' -%}
+      <path d="M1 4v6h6"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/>
+    {%- when 'sparkle' -%}
+      <path d="m12 3 1.9 5.6 5.6 1.9-5.6 1.9L12 18l-1.9-5.6-5.6-1.9 5.6-1.9z"/><path d="M19 3v3M20.5 4.5h-3M5 17v3M6.5 18.5h-3"/>
+    {%- when 'globe' -%}
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+    {%- when 'heart' -%}
+      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>
+    {%- when 'shuffle' -%}
+      <path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/>
+    {%- when 'layers' -%}
+      <path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>
+    {%- else -%}
+      <circle cx="12" cy="12" r="9"/>
+  {%- endcase -%}
+</svg>

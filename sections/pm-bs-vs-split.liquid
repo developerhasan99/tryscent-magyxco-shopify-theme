@@ -1,0 +1,292 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-vs-split.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .pm-scope .pm-bs-vs--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .pm-scope .pm-bs-vs--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+{%- liquid
+  assign product_alt = section.settings.image.alt | default: section.settings.brand
+  assign designer_points = section.blocks | where: 'type', 'their_point'
+  assign dupe_points = section.blocks | where: 'type', 'dupe_point'
+  assign cols = 1
+  if designer_points.size > 0
+    assign cols = cols | plus: 1
+  endif
+  if dupe_points.size > 0
+    assign cols = cols | plus: 1
+  endif
+-%}
+<div
+  id="{{ section.id }}"
+  class="pm-bs-vs pm-bs-vs--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    <div class="pm-bs-vs__head">
+      {%- if section.settings.title != blank -%}
+        <h2 class="pm-bs-vs__title">{{ section.settings.title }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="pm-bs-vs__sub">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Cards sit side by side at every width (as HOK): ours (dark, icon rows, photo at the bottom) next to each rival {%- endcomment -%}
+    <div class="pm-bs-vs__grid" style="--pm-bs-vs-cols: {{ cols }};">
+      <div class="pm-bs-vs__card pm-bs-vs__card--ours">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: width: 400 | image_tag: loading: 'lazy', class: 'pm-bs-vs__logo', widths: '200, 300, 400', sizes: '160px', alt: section.settings.brand }}
+        {%- elsif section.settings.brand != blank -%}
+          <p class="pm-bs-vs__brand">{{ section.settings.brand }}</p>
+        {%- endif -%}
+        <ul class="pm-bs-vs__points" role="list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'our_point' -%}
+              <li class="pm-bs-vs__point" {{ block.shopify_attributes }}>
+                {% render 'pm-icon', icon: block.settings.icon, size: 18, stroke: 1.6, class: 'pm-bs-vs__icon' %}
+                <span>{{ block.settings.text }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+        {%- if section.settings.image != blank -%}
+          <div class="pm-bs-vs__media">
+            {{ section.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', class: 'pm-bs-vs__img', widths: '300, 400, 600, 800', sizes: '(min-width: 990px) 480px, 48vw', alt: product_alt }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- for rival in (1..2) -%}
+        {%- liquid
+          if rival == 1
+            assign r_type = 'their_point'
+            assign r_title = section.settings.their_title
+            assign r_count = designer_points.size
+            assign r_mod = 'designer'
+          else
+            assign r_type = 'dupe_point'
+            assign r_title = section.settings.dupe_title
+            assign r_count = dupe_points.size
+            assign r_mod = 'dupes'
+          endif
+        -%}
+        {%- if r_count == 0 -%}{%- continue -%}{%- endif -%}
+        <div class="pm-bs-vs__card pm-bs-vs__card--theirs pm-bs-vs__card--{{ r_mod }}">
+          {%- if r_title != blank -%}
+            <p class="pm-bs-vs__rival">{{ r_title }}</p>
+          {%- endif -%}
+          <ul class="pm-bs-vs__points" role="list">
+            {%- for block in section.blocks -%}
+              {%- if block.type == r_type -%}
+                <li class="pm-bs-vs__point" {{ block.shopify_attributes }}>
+                  <span class="pm-bs-vs__mark">{% render 'pm-icon', icon: 'close', size: 10, stroke: 2.5 %}</span>
+                  <span>{{ block.settings.text }}</span>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          <svg class="pm-bs-vs__ghost" viewBox="0 0 100 150" aria-hidden="true" focusable="false">
+            <rect x="34" y="0" width="32" height="10" rx="3"/>
+            <rect x="28" y="10" width="44" height="14" rx="4"/>
+            <rect x="40" y="24" width="20" height="10"/>
+            <rect x="8" y="34" width="84" height="116" rx="8"/>
+          </svg>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.btn_text != blank -%}
+      <div class="pm-bs-vs__cta">
+        <a href="{{ section.settings.btn_url | default: routes.all_products_collection_url }}" class="pm-btn pm-btn--primary pm-bs-vs__btn">{{ section.settings.btn_text }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "BS Us vs dupes",
+  "tag": "section",
+  "class": "pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-5"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading",
+      "default": "Not your average <em>dupe</em>",
+      "info": "Italic text renders in the accent colour."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Short supporting line comparing us with the alternatives."
+    },
+    {
+      "type": "header",
+      "content": "Our card (dark)"
+    },
+    {
+      "type": "text",
+      "id": "brand",
+      "label": "Brand name",
+      "default": "Your brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Brand logo (optional, replaces the name, use a white logo)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product photo",
+      "info": "Fills the bottom of the card and fades into it. A transparent cut-out of a bottle looks best."
+    },
+    {
+      "type": "header",
+      "content": "Rival cards (light)"
+    },
+    {
+      "type": "text",
+      "id": "dupe_title",
+      "label": "Dupes card title",
+      "default": "Other dupes",
+      "info": "Shown when the section has Dupe point blocks."
+    },
+    {
+      "type": "text",
+      "id": "their_title",
+      "label": "Designer card title",
+      "default": "Designer scents",
+      "info": "Shown when the section has Designer point blocks."
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button label",
+      "default": "Get the bundle"
+    },
+    {
+      "type": "text",
+      "id": "btn_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "our_point",
+      "name": "Our point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "drop", "label": "Drop" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "sparkle", "label": "Sparkle" },
+            { "value": "layers", "label": "Layers" },
+            { "value": "shuffle", "label": "Shuffle" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "star", "label": "Star" }
+          ],
+          "default": "drop"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "High perfume oil concentration"
+        }
+      ]
+    },
+    {
+      "type": "dupe_point",
+      "name": "Dupe point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Smells close, not the same"
+        }
+      ]
+    },
+    {
+      "type": "their_point",
+      "name": "Designer point",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "You pay for the name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BS Us vs dupes",
+      "blocks": [
+        { "type": "our_point", "settings": { "icon": "drop", "text": "High perfume oil concentration" } },
+        { "type": "our_point", "settings": { "icon": "clock", "text": "Long-lasting" } },
+        { "type": "our_point", "settings": { "icon": "sparkle", "text": "Close scent match" } },
+        { "type": "our_point", "settings": { "icon": "layers", "text": "Several strengths to choose from" } },
+        { "type": "our_point", "settings": { "icon": "shuffle", "text": "Mix and match scents" } },
+        { "type": "our_point", "settings": { "icon": "shield", "text": "Money-back guarantee" } },
+        { "type": "dupe_point", "settings": { "text": "Smells close, not the same" } },
+        { "type": "dupe_point", "settings": { "text": "Fades within a few hours" } },
+        { "type": "dupe_point", "settings": { "text": "One strength for every scent" } },
+        { "type": "dupe_point", "settings": { "text": "Thin, alcohol-heavy formulas" } },
+        { "type": "dupe_point", "settings": { "text": "Short or no return window" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
