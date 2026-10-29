@@ -249,7 +249,7 @@
                   {% endif %}
                 </div>
               {% when 'bundle_builder_2' %}
-                {% render 'bundle-builder' %}
+                {% render 'bundle-builder', block: block %}
               {%- when 'magic_perfume_atc' -%}
                 {% render 'magic-perfume-atc' %}
               {%- when 'shipping_text' -%}
@@ -1377,6 +1377,20 @@
           "label": "Collection Handles",
           "info": "Comma-separated collection handles, e.g. men:Men,women,new:New arrivals. Each collection adds its products to the pool and shows as a filter button. Optional button text goes after a colon; otherwise the collection's \"Filter label\" metafield (custom.filter_label) or its title is used.",
           "default": "best-sellers,new"
+        },
+        {
+          "type": "checkbox",
+          "id": "skip_atc_button",
+          "label": "Skip add to cart button",
+          "info": "Add the bundle to cart as soon as all products are selected. When off, the modal just closes and the shopper clicks the button.",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "open_checkout",
+          "label": "Go to checkout after adding",
+          "info": "When off, the cart drawer opens instead.",
+          "default": false
         }
       ]
     },
