@@ -275,8 +275,10 @@
 
         if (this.selectedProducts.length === {{ product_count }}) {
           this.showModal = false;
-          // Do auto ATC and redirect to checkout
-          this.doATCandCheckout();
+          // bundle_builder_2 has no such setting, so nil keeps the old auto ATC
+          {% if block.settings.skip_atc_button != false %}
+            this.doATCandCheckout();
+          {% endif %}
         }
       },
       removeProduct(index) {
@@ -343,6 +345,14 @@
           }]
         };
 
+        // nil (bundle_builder_2) keeps the old checkout redirect
+        const openCheckout = {{ block.settings.open_checkout | default: true, allow_false: true | json }};
+        const cart = document.querySelector('cart-drawer');
+        if (!openCheckout && cart) {
+          items.sections = cart.getSectionsToRender().map(s => s.id);
+          items.sections_url = window.location.pathname;
+        }
+
         // Make the API call
         fetch('/cart/add.js', {
           method: 'POST',
@@ -360,9 +370,19 @@
           }
           return data;
         })
-        .then(() => {
-          // Redirect to cart after successful addition
-          window.location.href = ((window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/') + 'checkout';
+        .then(responseData => {
+          // Fixed bundles can't be re-picked, so keep their products
+          {% unless product.tags contains 'fixed_bundle' %}
+            this.selectedProducts = [];
+          {% endunless %}
+          const root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+          if (openCheckout) {
+            window.location.href = root + 'checkout';
+          } else if (cart) {
+            cart.renderContents(responseData);
+          } else {
+            window.location.href = root + 'cart';
+          }
         })
         .catch(error => {
           console.error('Error adding to cart:', error, error.response || '');
