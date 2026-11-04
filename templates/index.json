@@ -559,7 +559,7 @@
         "review_9T4pt3": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_01_raised_4x5_58be1d38-7201-461d-9f65-dcc7da9b3841.jpg",
+            "review_image": "",
             "content": "<p>\"Their products are good quality at a very affordable price.\"</p>",
             "author": "Amanda G",
             "date": "2 months ago",
@@ -596,7 +596,7 @@
         "review_EniFK9": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_02_closeup_alt.jpg",
+            "review_image": "",
             "content": "<p>\"Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.\"</p>",
             "author": "Damario R",
             "date": "3 months ago",
@@ -670,7 +670,7 @@
           "type": "review",
           "disabled": true,
           "settings": {
-            "review_image": "shopify://shop_images/bottle_01_closeup.jpg",
+            "review_image": "",
             "content": "<p>\"The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.\"</p>",
             "author": "Roxanne S",
             "date": "1 month ago",
@@ -836,7 +836,7 @@
         "review_JRzxRP": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_01_centered.jpg",
+            "review_image": "",
             "content": "<p>\"I am satisfied with Magic Perfume. The perfume smells very similar to the original and holds well. The packaging is neat and the bottle is beautiful. Overall, it's an excellent option if you want a quality perfume at a reasonable price.\"</p>",
             "author": "Alina M",
             "date": "2 months ago",
@@ -860,7 +860,7 @@
         "review_639hbA": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
+            "review_image": "",
             "content": "<p>\"Very good! I am going to recommend this yo all my friend \"</p>",
             "author": "Kamila G.",
             "date": "3 Months ago",
