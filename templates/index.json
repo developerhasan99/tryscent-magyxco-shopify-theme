@@ -620,7 +620,7 @@
         "review_aietxq": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_05_lips_9x16_478aead1-d64b-4ffa-813b-8aafbaf242eb.jpg",
+            "review_image": "",
             "content": "<p>\"Superb fragrances, excellent products, no problem.\"</p>",
             "author": "Clara Whitmore",
             "date": "2 months ago",
