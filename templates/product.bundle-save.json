@@ -167,8 +167,8 @@
         "card_2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/bottle_01_closeup.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_closeup.jpg",
+            "image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
             "headline": "Arrived in Perfect Condition",
             "quote": "The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.",
             "author": "Roxanne S",
@@ -180,8 +180,8 @@
         "card_3": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
+            "image": "shopify://shop_images/bundle-save-ugc-boxes.webp",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-boxes.webp",
             "headline": "Lasts and Lasts",
             "quote": "I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!",
             "author": "Clara P.",
@@ -193,8 +193,8 @@
         "card_4": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "image": "shopify://shop_images/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
             "headline": "Rich Scent, Beautiful Bottle",
             "quote": "The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.",
             "author": "Eliannys Y",
@@ -267,22 +267,22 @@
         "b_6": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/face_bottle_05_lips_9x16_478aead1-d64b-4ffa-813b-8aafbaf242eb.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_05_lips_9x16_478aead1-d64b-4ffa-813b-8aafbaf242eb.jpg"
+            "image": "shopify://shop_images/bundle-save-ugc-molly.webp",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-molly.webp"
           }
         },
         "b_7": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg"
+            "image": "shopify://shop_images/bundle-save-ugc-allie-2.webp",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-allie-2.webp"
           }
         },
         "b_8": {
           "type": "photo",
           "settings": {
-            "image": "shopify://shop_images/Magyx_UGC_24.png",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/Magyx_UGC_24.png"
+            "image": "shopify://shop_images/bundle-save-ugc-marie-2.webp",
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-marie-2.webp"
           }
         },
         "b_9": {
@@ -473,7 +473,7 @@
         "title": "Not your average <em>dupe</em>",
         "subtitle": "Most dupes stop at close enough. Ours carry 20% perfume oil and 95% scent similarity.",
         "brand": "MAGYX",
-        "image": "shopify://shop_images/bottle_06_desk_closeup.jpg",
+        "image": "shopify://shop_images/bundle-save-vs-ours.webp",
         "their_title": "Designer scents",
         "btn_text": "Get 4 bottles for $60",
         "btn_url": "/products/bundle-and-save",
@@ -501,8 +501,8 @@
             "author": "Christine N.",
             "rating": 4,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_02_closeup_alt.jpg",
-            "image": "shopify://shop_images/bottle_02_closeup_alt.jpg"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-cecilie.webp",
+            "image": "shopify://shop_images/bundle-save-ugc-cecilie.webp"
           }
         },
         "r_2": {
@@ -512,8 +512,8 @@
             "author": "Roxanne S",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_closeup.jpg",
-            "image": "shopify://shop_images/bottle_01_closeup.jpg"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_08_boxed_pick.jpg",
+            "image": "shopify://shop_images/bottle_08_boxed_pick.jpg"
           }
         },
         "r_3": {
@@ -523,8 +523,8 @@
             "author": "Clara P.",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_06_desk_closeup.jpg",
+            "image": "shopify://shop_images/bottle_06_desk_closeup.jpg"
           }
         },
         "r_4": {
@@ -534,8 +534,8 @@
             "author": "EM",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_06_desk_closeup.jpg",
-            "image": "shopify://shop_images/bottle_06_desk_closeup.jpg"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_05_pair_alt.jpg",
+            "image": "shopify://shop_images/bottle_05_pair_alt.jpg"
           }
         },
         "r_5": {
@@ -545,8 +545,8 @@
             "author": "Damario R",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp",
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_02_flatlay_closeup.jpg",
+            "image": "shopify://shop_images/bottle_02_flatlay_closeup.jpg"
           }
         },
         "r_6": {
@@ -643,7 +643,8 @@
         "btn_url": "/products/bundle-and-save",
         "guarantee": "60-day money-back guarantee",
         "padding_top": 80,
-        "padding_bottom": 80
+        "padding_bottom": 80,
+        "ours_image": "shopify://shop_images/bundle-save-compare-ours.webp"
       }
     },
     "pm_bs_faq": {
@@ -730,7 +731,7 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/261_revie.webp",
+            "review_image": "",
             "content": "<p>\"Very high quality!!\"</p>",
             "author": "Alvarez P.",
             "date": "3 weeks ago",
@@ -742,7 +743,7 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_01_raised_4x5_58be1d38-7201-461d-9f65-dcc7da9b3841.jpg",
+            "review_image": "",
             "content": "<p>\"Their products are good quality at a very affordable price.\"</p>",
             "author": "Amanda G",
             "date": "2 months ago",
@@ -766,7 +767,7 @@
         "review_4": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "review_image": "",
             "content": "<p>\"The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.\"</p>",
             "author": "Eliannys Y",
             "date": "1 month ago",
@@ -778,7 +779,7 @@
         "review_5": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/2026-07-02_16h58_13.webp",
+            "review_image": "",
             "content": "<p>\"Best of the BEST!\"</p>",
             "author": "Alex W.",
             "date": "3 Weeks ago",
@@ -790,7 +791,7 @@
         "review_6": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_05_lips_9x16_478aead1-d64b-4ffa-813b-8aafbaf242eb.jpg",
+            "review_image": "",
             "content": "<p>\"Superb fragrances, excellent products, no problem.\"</p>",
             "author": "Clara Whitmore",
             "date": "2 months ago",
@@ -825,7 +826,7 @@
         "review_9": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_01_closeup.jpg",
+            "review_image": "",
             "content": "<p>\"The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.\"</p>",
             "author": "Roxanne S",
             "date": "1 month ago",
@@ -837,7 +838,7 @@
         "review_10": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_02_tilted_closeup_71ed5f85-c6cd-4c7e-8bb7-9cc7d8457ade.jpg",
+            "review_image": "",
             "content": "<p>\"I'm a big fan of cologne, so I'm picky about clones, but Magic Perfume completely convinced me. I ordered the Sauvage clone from the homepage and immediately recognized the scent when spraying it. I now own 4 Magic Perfume perfumes in total and I love them all. I have 3 more on the way thanks to their bundle deals. If you want something that works on a small budget and offers designer performance, I can't recommend them enough.\"</p>",
             "author": "Violet Prescott",
             "date": "2 weeks ago",
@@ -871,7 +872,7 @@
         "review_13": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_05_pair_alt.jpg",
+            "review_image": "",
             "content": "<p>\"This summer, I received a sample of Creed Aventus as a gift and really liked it, but I couldn't buy the original, so I looked for dupes. I found Magic Perfume and ordered \"Pineapple Smoke Vanilla\", it arrived in about a week and smells really good, as close to my original sample, very satisfied with the product, especially for the price.\"</p>",
             "author": "Hwan H",
             "date": "1 month ago",
@@ -883,7 +884,7 @@
         "review_14": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_06_desk_closeup.jpg",
+            "review_image": "",
             "content": "<p>\"After a small delay, I finally received my Magic Perfume perfumes and they are exactly as they should be! I can hardly believe how much they match the originals — for reference, I received \"Ylang Ylang Rose Jasmine\" and \"Aldehydes Rose Sandalwood\", these are really beautiful fragrances.\"</p>",
             "author": "Gabriella K",
             "date": "3 months ago",
@@ -895,7 +896,7 @@
         "review_15": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_08_boxed_pick.jpg",
+            "review_image": "",
             "content": "<p>\"Quick service, Great products 🥰🥰🥰\"</p>",
             "author": "Lidis A.",
             "date": "2 months ago",
@@ -907,7 +908,7 @@
         "review_16": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_02_flatlay_closeup.jpg",
+            "review_image": "",
             "content": "<p>\"Super brand and excellent products!\"</p>",
             "author": "Juliana B",
             "date": "1 month ago",
@@ -919,7 +920,7 @@
         "review_17": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/6_14.png",
+            "review_image": "",
             "content": "<p>\"High quality product for only $29! The perfume smells exactly like the original and it last for hours!<br/>Recommended \"</p>",
             "author": "Adele S.",
             "date": "2 Weeks ago",
@@ -955,7 +956,7 @@
         "review_20": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/2026-07-22_16h43_29.webp",
+            "review_image": "",
             "content": "<p>\"These smells amazing , good price fast delivery.\"</p>",
             "author": "Anne E.",
             "date": "2 months ago",
@@ -990,7 +991,7 @@
         "review_23": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/2_24.png",
+            "review_image": "",
             "content": "<p>\"I really like this brand and the fragrance are amazing..\"</p>",
             "author": "Lilian M.",
             "date": "1 day ago",
@@ -1002,7 +1003,7 @@
         "review_24": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/bottle_01_centered.jpg",
+            "review_image": "",
             "content": "<p>\"I am satisfied with Magic Perfume. The perfume smells very similar to the original and holds well. The packaging is neat and the bottle is beautiful. Overall, it's an excellent option if you want a quality perfume at a reasonable price.\"</p>",
             "author": "Alina M",
             "date": "2 months ago",
@@ -1014,7 +1015,7 @@
         "review_25": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.33.40_AM.webp",
+            "review_image": "",
             "content": "<p>\"I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!\"</p>",
             "author": "Clara P.",
             "date": "3 days ago",
@@ -1026,7 +1027,7 @@
         "review_26": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
+            "review_image": "",
             "content": "<p>\"Very good! I am going to recommend this yo all my friend \"</p>",
             "author": "Kamila G.",
             "date": "3 Months ago",
@@ -1038,7 +1039,7 @@
         "review_27": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/magic_revie.webp",
+            "review_image": "",
             "content": "<p>\"The smell was consistant while wearing it for a long while. No complains there\"</p>",
             "author": "Michael R.",
             "date": "2 months ago",
@@ -1062,7 +1063,7 @@
         "review_29": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/2026-07-02_16h55_49.webp",
+            "review_image": "",
             "content": "<p>\"the perfume is mega-true, beautiful scent, I fell in love with it\"</p>",
             "author": "Tiana N.",
             "date": "3 Weeks ago",
@@ -1086,7 +1087,7 @@
         "review_31": {
           "type": "review",
           "settings": {
-            "review_image": "shopify://shop_images/WhatsApp_Image_2026-09-09_at_8.35.37_AM.webp",
+            "review_image": "",
             "content": "<p>\"Easy process throw payment and trust worthy website\"</p>",
             "author": "Robinson K.",
             "date": "2 days ago",
