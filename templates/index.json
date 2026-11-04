@@ -657,7 +657,7 @@
           "type": "review",
           "disabled": true,
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_18.png",
+            "review_image": "",
             "content": "<p>\"Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥\"</p>",
             "author": "Marianne",
             "date": "3 months ago",
@@ -812,7 +812,7 @@
           "type": "review",
           "disabled": true,
           "settings": {
-            "review_image": "shopify://shop_images/Magyx_UGC_13.png",
+            "review_image": "",
             "content": "<p>\"Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.\"</p>",
             "author": "EM",
             "date": "1 week ago",
