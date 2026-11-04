@@ -280,3 +280,7 @@
   width: 100%;
   height: auto;
 }
+/* "Made by wagalimited.pl" wraps as one unit */
+.footer__copyright .mgx-footer-credit {
+  white-space: nowrap;
+}
