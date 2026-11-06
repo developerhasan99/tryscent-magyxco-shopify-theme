@@ -846,6 +846,7 @@
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 3px;
+  white-space: nowrap;
 }
 
 .pm-scope .pm-bs-rw__msg {
