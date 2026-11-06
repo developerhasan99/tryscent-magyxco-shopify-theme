@@ -187,6 +187,11 @@
   border-color: var(--mgx-black);
   outline: none;
 }
+/* Header search field: the box stays light grey on any header colour scheme, so its text, label and icons keep the
+   dark ink instead of the scheme's text colour (white on the black header) */
+.header-wrapper .search-modal__form .field {
+  --color-foreground: 16, 15, 13;
+}
 .mgx-close:hover {
   background-color: var(--mgx-black);
   color: var(--mgx-white);
