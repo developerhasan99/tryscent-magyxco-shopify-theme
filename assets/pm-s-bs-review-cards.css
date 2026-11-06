@@ -148,15 +148,6 @@
   outline-offset: 2px;
 }
 
-.pm-scope .pm-bsrc__card--video .pm-bsrc__author {
-  margin-top: 0;
-  padding-top: 0;
-  font-size: var(--pm-fs-body);
-  line-height: var(--pm-lh-body);
-  font-weight: 600;
-  color: var(--pm-ink);
-}
-
 .pm-scope .pm-bsrc__body {
   display: flex;
   flex: 1 1 auto;
