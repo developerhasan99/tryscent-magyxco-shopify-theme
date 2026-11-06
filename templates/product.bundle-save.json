@@ -164,28 +164,47 @@
           "type": "card",
           "settings": {
             "video": "shopify://files/videos/magyx_co_english_only_OliwiaT_SmelLikeGood_6f9396e5.mp4",
-            "author": "Oliwia T."
+            "author": "Oliwia T.",
+            "quote": "No. 461 is exactly what I was looking for. I reach for it all the time, and this is how I'll buy perfume from now on.",
+            "rating": 5,
+            "tag_1": "Great value",
+            "tag_2": "A scent for every mood"
           }
         },
         "card_2": {
           "type": "card",
           "settings": {
             "video": "shopify://files/videos/magyx_co_english_only_SergioG_SmelLikeAven_dd25bb7b.mp4",
-            "author": "Sergio G."
+            "author": "Sergio G.",
+            "headline": "Smells just like Aventus",
+            "quote": "I love Creed Aventus, but not the price or how fast it fades. No. 288 smells just like it, and the price is way lower. Try them, they absolutely rock.",
+            "rating": 5,
+            "tag_1": "Spot-on scent",
+            "tag_2": "Lower price"
           }
         },
         "card_3": {
           "type": "card",
           "settings": {
             "video": "shopify://files/videos/magyx_co_english_only_RiiaK_SmelLikeBorn_07b902ed.mp4",
-            "author": "Riia K."
+            "author": "Riia K.",
+            "headline": "Why pay Valentino prices?",
+            "quote": "This smells just like Born in Roma, for 90% less than retail.",
+            "rating": 5,
+            "tag_1": "Spot-on scent",
+            "tag_2": "90% less"
           }
         },
         "card_4": {
           "type": "card",
           "settings": {
             "video": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeBlac_ce4e6748.mp4",
-            "author": "Allie K."
+            "author": "Allie K.",
+            "headline": "You'd never know",
+            "quote": "They smell like all our favourite perfumes at a fraction of the price, so good you'd never know. I can switch up my scent any time and never have to ration it.",
+            "rating": 5,
+            "tag_1": "Smells amazing",
+            "tag_2": "No rationing"
           }
         }
       },
@@ -541,8 +560,8 @@
             "author": "Eliannys Y",
             "rating": 5,
             "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_01_centered.jpg",
-            "image": "shopify://shop_images/bottle_01_centered.jpg"
+            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg"
           }
         }
       },

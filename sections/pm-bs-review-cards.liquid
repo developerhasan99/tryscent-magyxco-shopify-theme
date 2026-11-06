@@ -127,6 +127,12 @@
               {%- if block.settings.author != blank -%}
                 <p class="pm-bsrc__author">{{ block.settings.author }}</p>
               {%- endif -%}
+              {%- if block.settings.tag_1 != blank or block.settings.tag_2 != blank -%}
+                <p class="pm-bsrc__tags">
+                  {%- if block.settings.tag_1 != blank -%}<span class="pm-bsrc__tag">{{ block.settings.tag_1 }}</span>{%- endif -%}
+                  {%- if block.settings.tag_2 != blank -%}<span class="pm-bsrc__tag">{{ block.settings.tag_2 }}</span>{%- endif -%}
+                </p>
+              {%- endif -%}
             </div>
             {%- endif -%}
           </li>
