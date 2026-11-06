@@ -111,11 +111,11 @@
         "secondary_color": "#FFFFFF",
         "timer_box_color": "#0B0B0B",
         "timer_label_color": "#FFFFFF",
-        "top_banner_text": "HALLOWEEN SALE",
+        "top_banner_text": "EARLY BLACK FRIDAY FLASH SALE",
         "prepend_text": "",
         "countdown_date": "",
         "append_text": "30% OFF ENTIRE CART",
-        "link": "shopify://collections/best-sellers"
+        "link": "shopify://collections/bundle-save"
       }
     },
     "header": {
