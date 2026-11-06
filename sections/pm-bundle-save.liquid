@@ -775,8 +775,8 @@
         {%- if st.show_rewards -%}
           {%- comment -%}
             Cart rewards bar: the thresholds of the store's Kite "Goal Based" progress bar (the cart drawer's bar) for the
-            visitor's market and currency, read from the Kite app embed at runtime. Counts the selected bundle card's price
-            only (not the rest of the cart). Without an active Kite goal the plain progress bar stays.
+            visitor's market and currency, read from the Kite app embed at runtime. Tracks the cart only, like the cart
+            drawer's bar. Without an active Kite goal the plain progress bar stays.
           {%- endcomment -%}
           <div class="pm-bs-rw" x-show="rewards" x-cloak>
             <template x-if="rewards">
@@ -1384,20 +1384,11 @@
             var goals = this.rwGoals;
             var cart = this.rwCart;
             var text = (this.cfg && this.cfg.text) || {};
-            if (!this.cfg || !this.cfg.rewardsOn || !goals || !goals.length) return null;
-            /* Bundle cards: the selected card on its own (its price for the bottles shown, in the visitor's currency)
-               against the market's goals, so each card shows what it unlocks. What is already in the cart is left out,
-               otherwise an earlier cart line moves the bar before anything is picked. per_line mode has no card price:
-               the cart total. */
+            if (!this.cfg || !this.cfg.rewardsOn || !goals || !goals.length || !cart) return null;
+            /* The cart only: the same total the cart drawer's Kite bar tracks. Picks move the bar once they are in the
+               cart (adding publishes cartUpdate, which reloads /cart.js). */
             var extra = 0;
-            var paid = 0;
-            if (this.cfg.mode !== 'per_line') {
-              var card = this.cfg.variants[String(this.shownTotal)];
-              paid = extra = card ? Number(card.price) || 0 : 0;
-            } else {
-              if (!cart) return null;
-              paid = cart[goals[0].metric] || 0;
-            }
+            var paid = cart[goals[0].metric] || 0;
             var count = goals.length;
             var pos = function (i) { return ((2 * i + 1) / (2 * count)) * 100; };
             var pct = 100;
@@ -1975,7 +1966,7 @@
       "id": "show_rewards",
       "label": "Show cart rewards bar",
       "default": true,
-      "info": "Replaces the progress bar above the scents. Goals come from the Kite \"Goal Based\" progress bar (the one in the cart drawer), in the visitor's market and currency. The bar fills with the selected bundle card's price, so each card shows what it unlocks. Without an active Kite goal the plain progress bar stays."
+      "info": "Replaces the progress bar above the scents. Goals come from the Kite \"Goal Based\" progress bar (the one in the cart drawer), in the visitor's market and currency. The bar tracks the cart, like the cart drawer's bar. Without an active Kite goal the plain progress bar stays."
     },
     {
       "type": "text",
