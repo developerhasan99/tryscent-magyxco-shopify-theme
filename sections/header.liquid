@@ -158,14 +158,15 @@
         <h1 class="header__heading">
       {%- endif -%}
       <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-        {%- if settings.logo != blank -%}
+        {%- assign pm_logo = section.settings.pm_logo_on_header | default: settings.logo -%}
+        {%- if pm_logo != blank -%}
           <div class="header__heading-logo-wrapper">
-            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+            {%- assign logo_alt = pm_logo.alt | default: shop.name | escape -%}
+            {%- assign logo_height = settings.logo_width | divided_by: pm_logo.aspect_ratio -%}
             {% capture sizes %}(max-width: {{ settings.logo_width | times: 2 }}px) 50vw, {{ settings.logo_width }}px{% endcapture %}
             {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
             {{
-              settings.logo
+              pm_logo
               | image_url: width: 600
               | image_tag:
                 class: 'header__heading-logo motion-reduce',
@@ -265,14 +266,15 @@
         <h1 class="header__heading">
       {%- endif -%}
       <a href="{{ routes.root_url }}" class="header__heading-link link link--text focus-inset">
-        {%- if settings.logo != blank -%}
+        {%- assign pm_logo = section.settings.pm_logo_on_header | default: settings.logo -%}
+        {%- if pm_logo != blank -%}
           <div class="header__heading-logo-wrapper">
-            {%- assign logo_alt = settings.logo.alt | default: shop.name | escape -%}
-            {%- assign logo_height = settings.logo_width | divided_by: settings.logo.aspect_ratio -%}
+            {%- assign logo_alt = pm_logo.alt | default: shop.name | escape -%}
+            {%- assign logo_height = settings.logo_width | divided_by: pm_logo.aspect_ratio -%}
             {% capture sizes %}(min-width: 750px) {{ settings.logo_width }}px, 50vw{% endcapture %}
             {% capture widths %}{{ settings.logo_width }}, {{ settings.logo_width | times: 1.5 | round }}, {{ settings.logo_width | times: 2 }}{% endcapture %}
             {{
-              settings.logo
+              pm_logo
               | image_url: width: 600
               | image_tag:
                 class: 'header__heading-logo',
@@ -658,6 +660,12 @@
       "id": "color_scheme",
       "label": "t:sections.all.colors.label",
       "default": "scheme-1"
+    },
+    {
+      "type": "image_picker",
+      "id": "pm_logo_on_header",
+      "label": "Logo on the header",
+      "info": "Optional. Replaces the store logo on the header bar only, e.g. a white logo for a dark colour scheme. The menu drawer keeps the store logo."
     },
     {
       "type": "color_scheme",
