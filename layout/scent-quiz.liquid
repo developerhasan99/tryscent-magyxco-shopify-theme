@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" data-variant="us">
+  <head>
+    {%- comment -%}
+      Scent quiz page (templates/page.scent-quiz.json). Same standalone page as magyx.whop.site/scent-quiz/:
+      no store header or footer, the quiz brings its own top bar. Source of the quiz files:
+      Documents/dev/scent-profile-quiz (scripts/export_shopify.py writes the scent-quiz assets).
+    {%- endcomment -%}
+    {% render 'nohi-attribution' %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+    <title>{{ page_title }} | MAGYX</title>
+    <meta name="description" content="{{ page_description | default: 'Answer 8 quick questions and get your scent profile, your best match and a 6-bottle set picked for you.' | escape }}">
+    {% render 'meta-tags' %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {{ 'scent-quiz.css' | asset_url | stylesheet_tag }}
+    {{ content_for_header }}
+  </head>
+  <body>
+    {{ content_for_layout }}
+  </body>
+</html>

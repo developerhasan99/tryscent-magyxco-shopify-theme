@@ -1,0 +1,16 @@
+{
+  "layout": "scent-quiz",
+  "sections": {
+    "main": {
+      "type": "scent-quiz",
+      "settings": {
+        "bundle_handle": "bundle-6x50-71",
+        "bundle_collections": "best-sellers,best-sellers-for-men,best-sellers-for-women,new-scents",
+        "free_shipping_countries": "US,GB,CA,AU,NZ"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

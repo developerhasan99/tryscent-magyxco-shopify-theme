@@ -1,0 +1,72 @@
+{%- comment -%}
+  Scent quiz hand-off on the 6 x 50 ml bundle pages (product.custom-bundle), rendered from layout/theme.liquid.
+  /pages/scent-quiz links here with ?scents=<50 ml variant ids, or product ids>&checkout=1 (same link format as
+  magyx.whop.site). Puts the picks straight into the Alpine bundleBuilder store (snippets/bundle-builder.liquid)
+  and, when all slots are filled and checkout=1, runs the builder's own add-to-cart + checkout.
+  Never addRemoveProduct(): its last add starts checkout on its own, before every pick is in.
+  If a pick is not sold in this bundle the rest stay picked, no checkout, and the visitor completes the set.
+{%- endcomment -%}
+<script>
+  (function () {
+    var params = new URLSearchParams(location.search);
+    var raw = params.get('scents');
+    if (!raw) return;
+    var ids = raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    var goCheckout = params.get('checkout') === '1';
+    var done = false;
+
+    function store() {
+      try { return window.Alpine && Alpine.store('bundleBuilder'); } catch (e) { return null; }
+    }
+    function find(st, id) {
+      return st.availableProducts.find(function (p) {
+        if (String(p.id) === id) return true;
+        return Object.keys(p.variants || {}).some(function (k) { return String(p.variants[k].id) === id; });
+      });
+    }
+    function apply() {
+      var st = store();
+      if (done || !st || !Array.isArray(st.availableProducts) || !st.availableProducts.length || !Array.isArray(st.selectedProducts)) return false;
+      done = true;
+      // Refresh / back must not add the set again.
+      params.delete('scents'); params.delete('checkout');
+      var q = params.toString();
+      history.replaceState(history.state, '', location.pathname + (q ? '?' + q : '') + location.hash);
+      var max = st.bundleLength || 6;
+      st.selectedProducts.splice(0, st.selectedProducts.length);
+      var missing = 0;
+      ids.forEach(function (id) {
+        if (st.selectedProducts.length >= max) return;
+        var p = find(st, id);
+        if (!p) { missing++; return; }
+        p.variant = p.variants[st.selectedVariant];
+        st.selectedProducts.push(p);
+      });
+      console.debug('[scent quiz] prefill ' + st.selectedProducts.length + '/' + max + (missing ? ', ' + missing + ' not in this bundle' : ''));
+      if (goCheckout && st.selectedProducts.length === max && typeof st.doATCandCheckout === 'function') {
+        // The builder adds the bundle, then opens checkout or (open_checkout off on this block) the cart drawer.
+        // The quiz button promises checkout: once the add went through (picks cleared, no error), go there.
+        st.doATCandCheckout();
+        var tries = 0;
+        var wait = setInterval(function () {
+          tries++;
+          if (st.cartError || tries > 150) { clearInterval(wait); return; }
+          if (!st.addingToCart && st.selectedProducts.length === 0) {
+            clearInterval(wait);
+            location.href = ((window.Shopify && Shopify.routes && Shopify.routes.root) || '/') + 'checkout';
+          }
+        }, 100);
+      } else {
+        var t = document.getElementById('atc_scroll_target') || document.querySelector('.atc-bundle-builder');
+        t && t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      return true;
+    }
+    document.addEventListener('alpine:initialized', function () { setTimeout(apply, 0); });
+    var waited = 0;
+    var timer = setInterval(function () {
+      waited += 100;
+      if (apply() || done || waited > 10000) clearInterval(timer);
+    }, 100);
+  })();
+</script>

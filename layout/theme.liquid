@@ -488,6 +488,9 @@ body {
   {% comment %} {% render 'sb-preload-booster' %}  {% endcomment %}
   {% comment %} {% render 'checkout-modal' %} {% endcomment %}
 
+  {%- if request.page_type == 'product' and template.suffix == 'custom-bundle' -%}
+    {%- render 'scent-quiz-prefill' -%}
+  {%- endif -%}
   {%- if settings.enable_scent_quiz -%}
     {%- render 'scent-quiz-popup' -%}
     {%- assign scent_quiz_bundle_product = settings.scent_quiz_bundle_product | default: all_products['6x-50ml-perfume-bottles'] -%}

@@ -1,0 +1,129 @@
+{%- comment -%}
+  Scent quiz ("Find your scent"), port of magyx.whop.site/scent-quiz/. Used by templates/page.scent-quiz.json
+  (layout/scent-quiz.liquid, no store header/footer).
+  Quiz logic, data and photos are generated assets: assets/scent-quiz*.{js,css,jpg} and
+  snippets/scent-quiz-images.liquid come from Documents/dev/scent-profile-quiz/scripts/export_shopify.py.
+  This section passes the store's live data: visitor currency, the 6 x 50 ml bundle and each scent's
+  title, photo and 50 ml variant/price. The "Get my 6 scents" button opens the bundle page with
+  ?scents=<50 ml variant ids>&checkout=1 (snippets/scent-quiz-prefill.liquid fills the builder and checks out).
+{%- endcomment -%}
+{%- liquid
+  assign sq_bundle = all_products[section.settings.bundle_handle]
+  assign sq_bundle_variant = sq_bundle.selected_or_first_available_variant
+  assign sq_country = localization.country.iso_code | upcase
+  assign sq_free_list = section.settings.free_shipping_countries | upcase | remove: ' ' | split: ','
+  assign sq_free = false
+  if sq_free_list contains sq_country
+    assign sq_free = true
+  endif
+  assign sq_root = routes.root_url
+  unless sq_root contains '/'
+    assign sq_root = '/'
+  endunless
+  assign sq_last = sq_root | slice: -1, 1
+  if sq_last != '/'
+    assign sq_root = sq_root | append: '/'
+  endif
+-%}
+<header class="qz-head">
+  <button class="qz-back" type="button" aria-label="Back" hidden>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <a class="qz-logo" href="{{ routes.root_url }}">MAGYX</a>
+  <span class="qz-step" hidden></span>
+</header>
+
+<main id="app" class="qz-main" aria-live="polite"></main>
+
+<div class="qz-toast" role="status" hidden></div>
+
+<script>
+  window.SQ_STORE = {
+    root: {{ sq_root | json }},
+    currency: {{ cart.currency.iso_code | json }},
+    bundle: {
+      handle: {{ section.settings.bundle_handle | json }},
+      variantId: {{ sq_bundle_variant.id | json }},
+      price: {{ sq_bundle_variant.price | default: 0 | json }},
+      compare: {{ sq_bundle_variant.compare_at_price | default: 0 | json }},
+      freeShipping: {{ sq_free | json }}
+    },
+    images: {% render 'scent-quiz-images' %},
+    products: {
+      {%- comment -%} Only scents the bundle builder sells: its pool = the bundle's custom.bundle_collections, else this section's list (same as bundle-builder.liquid). {%- endcomment -%}
+      {%- liquid
+        assign sq_first = true
+        assign sq_seen = ','
+        assign sq_pool = sq_bundle.metafields.custom.bundle_collections | default: section.settings.bundle_collections | split: ','
+      -%}
+      {%- for sq_entry in sq_pool -%}
+        {%- assign sq_handle = sq_entry | split: ':' | first | strip | downcase -%}
+        {%- assign sq_col = collections[sq_handle] -%}
+        {%- if sq_col == blank -%}{%- continue -%}{%- endif -%}
+        {%- paginate sq_col.products by 250 -%}
+        {%- for p in sq_col.products -%}
+          {%- assign sq_key = ',' | append: p.id | append: ',' -%}
+          {%- if sq_seen contains sq_key -%}{%- continue -%}{%- endif -%}
+          {%- assign sq_seen = sq_seen | append: p.id | append: ',' -%}
+          {%- liquid
+            assign sq_v = nil
+            for v in p.variants
+              assign sq_size = v.title | slice: 0, 2
+              if sq_size == '50' and v.available
+                if v.inventory_management == 'shopify' and v.inventory_quantity < 1
+                  break
+                endif
+                assign sq_v = v
+                break
+              endif
+            endfor
+          -%}
+          {%- if sq_v == blank -%}{%- continue -%}{%- endif -%}
+          {%- liquid
+            assign sq_img = ''
+            if p.featured_image
+              assign sq_img = p.featured_image | image_url: width: 600
+            endif
+          -%}
+          {%- unless sq_first -%},{%- endunless -%}
+          {%- assign sq_first = false -%}
+          {{ p.id | append: '' | json }}: { "title": {{ p.title | json }}, "image": {{ sq_img | json }}, "variant": {{ sq_v.id | json }}, "price": {{ sq_v.price | json }} }
+        {%- endfor -%}
+        {%- endpaginate -%}
+      {%- endfor -%}
+    }
+  };
+</script>
+<script src="{{ 'scent-quiz-data.js' | asset_url }}" defer></script>
+<script src="{{ 'scent-quiz-score.js' | asset_url }}" defer></script>
+<script src="{{ 'scent-quiz.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Scent quiz",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "bundle_handle",
+      "label": "Bundle product handle",
+      "info": "The 6 x 50 ml bundle the results page sells. Its builder fills in the 6 picks and goes to checkout.",
+      "default": "bundle-6x50-71"
+    },
+    {
+      "type": "text",
+      "id": "bundle_collections",
+      "label": "Scents the quiz can pick",
+      "info": "Collection handles, comma separated. Must match the bundle builder's collections on the bundle page (used when the bundle has no custom.bundle_collections metafield).",
+      "default": "best-sellers,best-sellers-for-men,best-sellers-for-women,new-scents"
+    },
+    {
+      "type": "text",
+      "id": "free_shipping_countries",
+      "label": "Countries with free shipping on the bundle",
+      "info": "Country codes, comma separated. Only these visitors see \"Free shipping\" on the offer.",
+      "default": "US,GB,CA,AU,NZ"
+    }
+  ]
+}
+{% endschema %}
