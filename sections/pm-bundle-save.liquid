@@ -797,8 +797,8 @@
         {%- if st.show_rewards -%}
           {%- comment -%}
             Cart rewards bar: the thresholds of the store's Kite "Goal Based" progress bar (the cart drawer's bar) for the
-            visitor's market and currency, read from the Kite app embed at runtime. Tracks the cart only, like the cart
-            drawer's bar. Without an active Kite goal the plain progress bar stays.
+            visitor's market and currency, read from the Kite app embed at runtime. Tracks the cart plus the bottles
+            picked here (at the builder's price for that many bottles). Without an active Kite goal the plain progress bar stays.
           {%- endcomment -%}
           <div class="pm-bs-rw" x-show="rewards" x-cloak>
             <template x-if="rewards">
@@ -1403,6 +1403,8 @@
             if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined' && !this._rwUnsub) {
               this._rwUnsub = subscribe(PUB_SUB_EVENTS.cartUpdate, function () { self.loadCart(); });
             }
+            /* Back/forward cache: the cart may have changed on another page */
+            window.addEventListener('pageshow', function (e) { if (e.persisted) self.loadCart(); });
           },
           loadCart: function () {
             var self = this;
@@ -1428,10 +1430,16 @@
             var cart = this.rwCart;
             var text = (this.cfg && this.cfg.text) || {};
             if (!this.cfg || !this.cfg.rewardsOn || !goals || !goals.length || !cart) return null;
-            /* The cart only: the same total the cart drawer's Kite bar tracks. Picks move the bar once they are in the
-               cart (adding publishes cartUpdate, which reloads /cart.js). */
+            /* The cart (the total the cart drawer's Kite bar tracks) + the bottles picked here, at the builder's price
+               for that many bottles, so every pick moves the bar. Once this exact bundle is in the cart (its
+               _bundle_items match the picks) it counts through the cart only, never twice. */
             var extra = 0;
-            var paid = cart[goals[0].metric] || 0;
+            var n = this.picks.length;
+            if (n > 0 && this.cfg.mode !== 'per_line' && cart.bundles.indexOf(this.picks.join(',')) === -1) {
+              var bv = this.bundleVariant;
+              if (bv) extra = Number(bv.price) || 0;
+            }
+            var paid = (cart[goals[0].metric] || 0) + extra;
             var count = goals.length;
             var pos = function (i) { return ((2 * i + 1) / (2 * count)) * 100; };
             var pct = 100;
@@ -2057,7 +2065,7 @@
       "id": "show_rewards",
       "label": "Show cart rewards bar",
       "default": true,
-      "info": "Replaces the progress bar above the scents. Goals come from the Kite \"Goal Based\" progress bar (the one in the cart drawer), in the visitor's market and currency. The bar tracks the cart, like the cart drawer's bar. Without an active Kite goal the plain progress bar stays."
+      "info": "Replaces the progress bar above the scents. Goals come from the Kite \"Goal Based\" progress bar (the one in the cart drawer), in the visitor's market and currency. The bar tracks the cart plus the bottles picked here, so every pick moves it. Without an active Kite goal the plain progress bar stays."
     },
     {
       "type": "text",
