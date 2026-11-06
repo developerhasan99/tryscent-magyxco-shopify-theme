@@ -833,6 +833,21 @@
   margin-top: 4px;
 }
 
+/* Quiz line under the rewards bar: "Trouble finding perfume? Take our personalization quiz." */
+.pm-scope .pm-bs-quiz {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  color: var(--pm-bs-ink);
+}
+.pm-scope .pm-bs-quiz a {
+  font-weight: 600;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .pm-scope .pm-bs-rw__msg {
   margin: 0 0 10px;
   font-size: 14px;

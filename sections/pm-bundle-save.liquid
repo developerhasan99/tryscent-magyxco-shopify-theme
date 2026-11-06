@@ -825,6 +825,15 @@
           </div>
         {%- endif -%}
         <p class="pm-bs-hint" x-show="hintText" x-text="hintText" x-cloak></p>
+        {%- if st.quiz_text != blank or st.quiz_link_text != blank -%}
+          <p class="pm-bs-quiz">
+            {{- st.quiz_text | escape -}}
+            {%- if st.quiz_link_text != blank -%}
+              {%- if st.quiz_text != blank %} {% endif -%}
+              <a href="{{ st.quiz_link | default: '/pages/scent-quiz' }}">{{ st.quiz_link_text | escape }}</a>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
         {%- if st.show_filters -%}
           <div class="pm-bs-find" role="search">
             <div class="pm-bs-find__field">
@@ -2112,6 +2121,29 @@
       "id": "rewards_gift_label",
       "label": "Free gift label",
       "default": "Free mystery gift"
+    },
+    {
+      "type": "header",
+      "content": "Quiz line"
+    },
+    {
+      "type": "text",
+      "id": "quiz_text",
+      "label": "Question",
+      "default": "Trouble finding perfume?",
+      "info": "Shown under the rewards bar, above the search. Empty question and link text = hidden."
+    },
+    {
+      "type": "text",
+      "id": "quiz_link_text",
+      "label": "Link text",
+      "default": "Take our personalization quiz."
+    },
+    {
+      "type": "url",
+      "id": "quiz_link",
+      "label": "Link",
+      "info": "Empty = the scent quiz (/pages/scent-quiz)."
     },
     {
       "type": "header",
