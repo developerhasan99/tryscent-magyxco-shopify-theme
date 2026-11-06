@@ -214,13 +214,14 @@
       padding-block: 64px;
     }
     #mgx-hero-{{ section.id }}.mgx-hero--btn-bottom .mgx-hero__copy {
-      max-width: 620px;
+      max-width: 700px;
     }
     #mgx-hero-{{ section.id }} h1.mgx-hero__heading {
       margin-bottom: 20px;
       font-size: clamp(42px, calc(42px + 18 * (100vw - 701px) / 739), 60px);
       line-height: 1.12;
       letter-spacing: -0.015em;
+      text-wrap: balance;
     }
     #mgx-hero-{{ section.id }} .mgx-hero__subheading {
       max-width: 540px;
@@ -241,7 +242,7 @@
   }
   @media (min-width: 701px) and (max-width: 999px) {
     #mgx-hero-{{ section.id }}.mgx-hero--btn-bottom .mgx-hero__copy {
-      max-width: min(620px, calc(100% - 360px));
+      max-width: min(700px, calc(100% - 360px));
     }
   }
 
