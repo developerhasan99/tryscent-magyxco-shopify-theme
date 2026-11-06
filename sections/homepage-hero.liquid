@@ -206,6 +206,45 @@
     padding-top: 28px;
   }
 
+  /* Desktop + tablet (magyx.co 07.11.2026): title, subtitle and buttons as one block, centred on the photo's height.
+     Buttons on the bottom edge left a 200-380px hole under the subtitle on wide screens. */
+  @media (min-width: 701px) {
+    #mgx-hero-{{ section.id }}.mgx-hero--btn-bottom .mgx-hero__inner {
+      align-items: center;
+      padding-block: 64px;
+    }
+    #mgx-hero-{{ section.id }}.mgx-hero--btn-bottom .mgx-hero__copy {
+      max-width: 620px;
+    }
+    #mgx-hero-{{ section.id }} h1.mgx-hero__heading {
+      margin-bottom: 20px;
+      font-size: clamp(42px, calc(42px + 18 * (100vw - 701px) / 739), 60px);
+      line-height: 1.12;
+      letter-spacing: -0.015em;
+    }
+    #mgx-hero-{{ section.id }} .mgx-hero__subheading {
+      max-width: 540px;
+      margin-bottom: 0;
+      font-size: clamp(16px, calc(16px + 2 * (100vw - 701px) / 739), 18px);
+      line-height: 1.6;
+      opacity: 0.88;
+    }
+    #mgx-hero-{{ section.id }}.mgx-hero--btn-bottom .mgx-hero__buttons {
+      margin-top: 36px;
+      padding-top: 0;
+      gap: 14px;
+    }
+    #mgx-hero-{{ section.id }} .mgx-hero__btn {
+      min-width: 168px;
+      padding: 16px 32px;
+    }
+  }
+  @media (min-width: 701px) and (max-width: 999px) {
+    #mgx-hero-{{ section.id }}.mgx-hero--btn-bottom .mgx-hero__copy {
+      max-width: min(620px, calc(100% - 360px));
+    }
+  }
+
   /* Phones: copy centred on top, the photo underneath */
   @media (max-width: 700px) {
     #mgx-hero-{{ section.id }} {
