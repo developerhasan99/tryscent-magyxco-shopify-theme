@@ -175,10 +175,9 @@
         },
         "menu_item_xWyRaA": {
           "type": "menu_item",
-          "disabled": true,
           "settings": {
-            "label": "Take our quiz",
-            "url": "/#quiz"
+            "label": "Find your scent",
+            "url": "shopify://pages/scent-quiz"
           }
         },
         "menu_item_dLfQGR": {
