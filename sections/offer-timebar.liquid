@@ -2,7 +2,10 @@
   Top bar in two halves: the offer on Primary colour, the countdown on Timer background.
   Phones stack them (offer above, timer below); from 768px they share one row with a slanted join.
   The countdown is plain JS (no flip library): HH:MM:SS to midnight, or to "Countdown date" with days.
+  Not rendered on the Bundle & Save page (product template bundle-save), which has its own countdown;
+  the header skips its search bar there too.
 {%- endcomment -%}
+{%- unless request.page_type == 'product' and template.suffix == 'bundle-save' -%}
 {%- liquid
   assign tb_offer_bg = section.settings.primary_color
   assign tb_text = section.settings.secondary_color
@@ -311,6 +314,7 @@
   </script>
 
 {% endif %}
+{%- endunless -%}
 
 
 {% schema %}

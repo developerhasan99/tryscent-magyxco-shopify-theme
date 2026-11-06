@@ -17,7 +17,9 @@
 <div
   id="{{ section.id }}"
   class="pm-bsrc pm-bsrc--{{ section.id }} color-{{ section.settings.color_scheme }} gradient"
-  data-pm-bsrc>
+  data-pm-bsrc
+  data-label-sound="{{ section.settings.sound_label | escape }}"
+  data-label-mute="{{ section.settings.mute_label | escape }}">
   <div class="page-width">
     <div class="pm-bsrc__head">
       {%- if section.settings.rating_text != blank -%}
@@ -40,7 +42,95 @@
       </button>
       <ul class="pm-bsrc__track" data-track role="list">
         {%- for block in section.blocks -%}
-          {%- assign rating = block.settings.rating | default: 5 | plus: 0 -%}
+          {%- liquid
+            assign rating = block.settings.rating | default: 5 | plus: 0
+
+            # A card with a video plays the clip instead of the photo. Liquid
+            # lists two sources for a Files video, an m3u8 and one mp4 (the
+            # 1080p transcode, 606px wide for a 9:16 clip: right for a ~250px
+            # card on a 3x phone screen). The smaller CDN renditions carry a
+            # per-clip bitrate in their names, so they can't be derived here.
+            assign clip = block.settings.video
+            assign clip_src = block.settings.video_url | strip
+            if clip != blank
+              for source in clip.sources
+                if source.format == 'mp4'
+                  assign clip_src = source.url
+                  break
+                endif
+              endfor
+            endif
+            assign has_video = false
+            if clip_src != blank
+              assign has_video = true
+            endif
+
+            # Poster: the picked photo, else the frame Shopify made for a Files
+            # clip. A pasted link has neither, so #t makes iOS paint frame 0.
+            assign poster = block.settings.image
+            if poster == blank and clip != blank
+              assign poster = clip.preview_image
+            endif
+            if has_video and poster == blank
+              unless clip_src contains '#'
+                assign clip_src = clip_src | append: '#t=0.001'
+              endunless
+            endif
+
+            assign has_review = false
+            if block.settings.headline != blank or block.settings.quote != blank
+              assign has_review = true
+            endif
+          -%}
+          {%- if has_video -%}
+          <li class="pm-bsrc__card pm-bsrc__card--video" data-card {{ block.shopify_attributes }}>
+            <div class="pm-bsrc__media pm-bsrc__media--video" data-clip>
+              <video
+                class="pm-bsrc__video"
+                data-video
+                muted
+                playsinline
+                loop
+                preload="{% if poster != blank %}none{% else %}metadata{% endif %}"
+                {% if poster != blank %}poster="{{ poster | image_url: width: 720 }}"{% endif %}
+                aria-hidden="true">
+                <source src="{{ clip_src }}" type="video/mp4">
+              </video>
+              <button
+                type="button"
+                class="pm-bsrc__sound"
+                data-sound
+                aria-pressed="false"
+                data-name="{{ block.settings.author | escape }}"
+                aria-label="{{ section.settings.sound_label | escape }}{% if block.settings.author != blank %}: {{ block.settings.author | escape }}{% endif %}">
+                <span class="pm-bsrc__sound-icon" aria-hidden="true">
+                  <svg class="pm-bsrc__sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6M17 9l6 6"/></svg>
+                  <svg class="pm-bsrc__sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>
+                </span>
+              </button>
+            </div>
+            {%- if has_review or block.settings.author != blank -%}
+            <div class="pm-bsrc__body">
+              {%- if has_review -%}
+              <span class="pm-bsrc__stars" role="img" aria-label="{{ 'premium.general.rating_aria' | t: rating: rating }}">
+                {%- for i in (1..5) -%}
+                  <svg{% if i > rating %} class="is-empty"{% endif %} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                {%- endfor -%}
+              </span>
+              {%- endif -%}
+              {%- if block.settings.headline != blank -%}
+                <h3 class="pm-bsrc__headline">{{ block.settings.headline }}</h3>
+              {%- endif -%}
+              {%- if block.settings.quote != blank -%}
+                <p class="pm-bsrc__quote">&ldquo;{{ block.settings.quote | escape }}&rdquo;</p>
+              {%- endif -%}
+              {%- if block.settings.author != blank -%}
+                <p class="pm-bsrc__author">{{ block.settings.author }}</p>
+              {%- endif -%}
+            </div>
+            {%- endif -%}
+          </li>
+          {%- else -%}
           <li class="pm-bsrc__card" data-card {{ block.shopify_attributes }}>
             <div class="pm-bsrc__media">
               {%- if block.settings.image != blank -%}
@@ -86,6 +176,7 @@
               {%- endif -%}
             </div>
           </li>
+          {%- endif -%}
         {%- endfor -%}
       </ul>
       <button type="button" class="pm-bsrc__arrow pm-bsrc__arrow--next" data-next aria-label="{{ section.settings.next_label | escape }}">
@@ -129,6 +220,77 @@
     track.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
     update();
+
+    // Video cards: a muted preview plays while at least 60% of the clip is on
+    // screen and pauses off screen (no autoplay with reduced motion). A tap
+    // plays that clip with sound from the start and mutes the others; a second
+    // tap mutes it again. A clip that leaves the screen goes back to muted.
+    var clips = Array.prototype.slice.call(root.querySelectorAll('[data-clip]'));
+    if (!clips.length) return;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var labelSound = root.getAttribute('data-label-sound') || 'Play with sound';
+    var labelMute = root.getAttribute('data-label-mute') || 'Mute video';
+
+    function videoOf(clip) {
+      return clip.querySelector('[data-video]');
+    }
+
+    function play(video) {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    }
+
+    function setSound(clip, on) {
+      var video = videoOf(clip);
+      var btn = clip.querySelector('[data-sound]');
+      if (video) video.muted = !on;
+      clip.classList.toggle('is-sound-on', on);
+      if (btn) {
+        var name = btn.getAttribute('data-name');
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.setAttribute('aria-label', (on ? labelMute : labelSound) + (name ? ': ' + name : ''));
+      }
+    }
+
+    clips.forEach(function (clip) {
+      var btn = clip.querySelector('[data-sound]');
+      var video = videoOf(clip);
+      if (!btn || !video) return;
+      btn.addEventListener('click', function () {
+        if (clip.classList.contains('is-sound-on')) {
+          setSound(clip, false);
+          if (reduceMotion) video.pause();
+          return;
+        }
+        clips.forEach(function (other) {
+          if (other === clip || !other.classList.contains('is-sound-on')) return;
+          setSound(other, false);
+          if (reduceMotion) videoOf(other).pause();
+        });
+        setSound(clip, true);
+        try {
+          video.currentTime = 0;
+        } catch (e) {}
+        play(video);
+      });
+    });
+
+    if (reduceMotion || !('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var video = videoOf(entry.target);
+        if (!video) return;
+        if (entry.isIntersecting) {
+          play(video);
+        } else {
+          video.pause();
+          if (entry.target.classList.contains('is-sound-on')) setSound(entry.target, false);
+        }
+      });
+    }, { threshold: 0.6 });
+    clips.forEach(function (clip) {
+      observer.observe(clip);
+    });
   })();
 </script>
 
@@ -175,6 +337,18 @@
       "default": "Next reviews"
     },
     {
+      "type": "text",
+      "id": "sound_label",
+      "label": "Video sound button label (screen readers)",
+      "default": "Play with sound"
+    },
+    {
+      "type": "text",
+      "id": "mute_label",
+      "label": "Video mute button label (screen readers)",
+      "default": "Mute video"
+    },
+    {
       "type": "header",
       "content": "Spacing"
     },
@@ -202,8 +376,19 @@
   "blocks": [
     {
       "type": "card",
-      "name": "Photo review",
+      "name": "Review",
       "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "A video replaces the photo and plays muted while on screen; a tap plays it with sound. The photo becomes the video's cover. Stars show only when the card has a headline or quote."
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL (.mp4, used only when no video is picked)"
+        },
         {
           "type": "image_picker",
           "id": "image",

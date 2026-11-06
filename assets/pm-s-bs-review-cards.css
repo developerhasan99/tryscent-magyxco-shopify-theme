@@ -79,6 +79,84 @@
   object-fit: cover;
 }
 
+/* Video card: 9:16 clip instead of the 4:5 photo. The whole clip is the sound
+   button (tap = sound on), the round icon in the top-right corner shows the
+   state. Top, not bottom: creator clips put their captions in the lower third. */
+.pm-scope .pm-bsrc__media--video {
+  aspect-ratio: 9 / 16;
+  background: #000;
+}
+
+.pm-scope .pm-bsrc__video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pm-scope .pm-bsrc__sound {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--pm-white);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pm-scope .pm-bsrc__sound-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--pm-radius-pill);
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.pm-scope .pm-bsrc__sound-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.pm-scope .pm-bsrc__sound-on,
+.pm-scope .is-sound-on .pm-bsrc__sound-off {
+  display: none;
+}
+
+.pm-scope .is-sound-on .pm-bsrc__sound-on {
+  display: block;
+}
+
+.pm-scope .pm-bsrc__sound:focus-visible {
+  outline: none;
+}
+
+.pm-scope .pm-bsrc__sound:focus-visible .pm-bsrc__sound-icon {
+  outline: 2px solid var(--pm-white);
+  outline-offset: 2px;
+}
+
+.pm-scope .pm-bsrc__card--video .pm-bsrc__author {
+  margin-top: 0;
+  padding-top: 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 600;
+  color: var(--pm-ink);
+}
+
 .pm-scope .pm-bsrc__body {
   display: flex;
   flex: 1 1 auto;

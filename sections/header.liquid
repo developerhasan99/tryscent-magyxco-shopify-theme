@@ -186,6 +186,8 @@
       {%- endif -%}
     {%- endif -%}
 
+    {%- comment -%} No search bar on the Bundle & Save page (product template bundle-save); the offer-timebar skips it too. {%- endcomment -%}
+    {%- unless request.page_type == 'product' and template.suffix == 'bundle-save' -%}
     <div class="[grid-area:search] pr-2 pb-[10px] lg:pb-0 lg:px-20">
       {%- if settings.predictive_search_enabled -%}
         <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
@@ -246,6 +248,7 @@
         </search-form>
       {%- endif -%}
     </div>
+    {%- endunless -%}
 
     {%- liquid
       if section.settings.menu != blank
