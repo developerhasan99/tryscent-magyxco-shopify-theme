@@ -154,53 +154,29 @@
         "card_1": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/bottle_02_closeup_alt.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_02_closeup_alt.jpg",
-            "headline": "Smells Divinely Good",
-            "quote": "I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.",
-            "author": "Christine N.",
-            "rating": 4,
-            "tag_1": "Rich scent",
-            "tag_2": "Great value"
+            "video": "shopify://files/videos/magyx_co_english_only_OliwiaT_SmelLikeGood_6f9396e5.mp4",
+            "author": "Oliwia T."
           }
         },
         "card_2": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
-            "headline": "Arrived in Perfect Condition",
-            "quote": "The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.",
-            "author": "Roxanne S",
-            "rating": 5,
-            "tag_1": "Well packaged",
-            "tag_2": "High quality"
+            "video": "shopify://files/videos/magyx_co_english_only_SergioG_SmelLikeAven_dd25bb7b.mp4",
+            "author": "Sergio G."
           }
         },
         "card_3": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/bundle-save-ugc-boxes.webp",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-boxes.webp",
-            "headline": "Lasts and Lasts",
-            "quote": "I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!",
-            "author": "Clara P.",
-            "rating": 5,
-            "tag_1": "Lasts long",
-            "tag_2": "Great value"
+            "video": "shopify://files/videos/magyx_co_english_only_RiiaK_SmelLikeBorn_07b902ed.mp4",
+            "author": "Riia K."
           }
         },
         "card_4": {
           "type": "card",
           "settings": {
-            "image": "shopify://shop_images/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg",
-            "headline": "Rich Scent, Beautiful Bottle",
-            "quote": "The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.",
-            "author": "Eliannys Y",
-            "rating": 5,
-            "tag_1": "Rich scent",
-            "tag_2": "Bottle design"
+            "video": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeBlac_ce4e6748.mp4",
+            "author": "Allie K."
           }
         }
       },
