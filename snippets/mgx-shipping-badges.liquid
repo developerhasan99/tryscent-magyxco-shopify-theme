@@ -1,0 +1,88 @@
+{%- comment -%}
+  mgx-shipping-badges (magyx.co): three tiles with hairline dividers under the payment icons of the Bundle & Save
+  box, same layout as magicperfume.co / aaroma.co fmx-shipping-badges (28px media slot over a 12/13px semibold line).
+  - delivery: solid truck (assets/mgx-icon-truck.svg = magicperfume's) + where orders ship from;
+  - carrier: FedEx + UPS logos (assets/mgx-fedex-logo.svg = Wikimedia Commons "FedEx Corporation - 2016 Logo.svg"
+    cropped to the wordmark, assets/mgx-ups-logo.svg = "United Parcel Service logo 2014.svg");
+  - guarantee: magicperfume's green seal (assets/mgx-guarantee-badge.png).
+  Renders nothing for a product that ships nothing, or when all three texts are empty.
+
+  Accepts:
+  - product: {Object} the product being bought (optional)
+  - delivery_text, carrier_text, guarantee_text: {String} tile texts (an empty text drops its tile)
+
+  Usage:
+  {% render 'mgx-shipping-badges', product: product, delivery_text: '...', carrier_text: '...', guarantee_text: '...' %}
+{%- endcomment -%}
+{%- liquid
+  assign badge_ships = true
+  if product != blank and product.selected_or_first_available_variant.requires_shipping == false
+    assign badge_ships = false
+  endif
+  if delivery_text == blank and carrier_text == blank and guarantee_text == blank
+    assign badge_ships = false
+  endif
+-%}
+{%- if badge_ships -%}
+  <style>
+    .mgx-shipping-badges { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); margin: 24px 0; color: var(--pm-ink, #121212); }
+    .mgx-shipping-badges__item { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 4px 6px; text-align: center; }
+    .mgx-shipping-badges__item + .mgx-shipping-badges__item { border-left: 1px solid var(--pm-line, #e7e7e7); }
+    .mgx-shipping-badges__media { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 28px; }
+    .mgx-shipping-badges__icon { display: block; width: 28px; height: 28px; }
+    .mgx-shipping-badges__icon svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+    .mgx-shipping-badges__logo { display: block; width: auto; height: 28px; }
+    .mgx-shipping-badges__logo--fedex { height: 18px; }
+    .mgx-shipping-badges__logo--ups { height: 26px; }
+    .mgx-shipping-badges__text { font-size: 12px; line-height: 1.3; font-weight: 600; letter-spacing: 0; overflow-wrap: anywhere; }
+    @media (min-width: 750px) {
+      .mgx-shipping-badges__item { padding: 4px 10px; }
+      .mgx-shipping-badges__text { font-size: 13px; }
+    }
+  </style>
+  <div class="mgx-shipping-badges">
+    {%- if delivery_text != blank -%}
+      <div class="mgx-shipping-badges__item">
+        <span class="mgx-shipping-badges__media">
+          <span class="mgx-shipping-badges__icon" aria-hidden="true">{{ 'mgx-icon-truck.svg' | inline_asset_content }}</span>
+        </span>
+        <span class="mgx-shipping-badges__text">{{ delivery_text | escape }}</span>
+      </div>
+    {%- endif -%}
+    {%- if carrier_text != blank -%}
+      <div class="mgx-shipping-badges__item">
+        <span class="mgx-shipping-badges__media">
+          <img
+            class="mgx-shipping-badges__logo mgx-shipping-badges__logo--fedex"
+            src="{{ 'mgx-fedex-logo.svg' | asset_url }}"
+            alt="FedEx"
+            width="61"
+            height="18"
+            loading="lazy">
+          <img
+            class="mgx-shipping-badges__logo mgx-shipping-badges__logo--ups"
+            src="{{ 'mgx-ups-logo.svg' | asset_url }}"
+            alt="UPS"
+            width="22"
+            height="26"
+            loading="lazy">
+        </span>
+        <span class="mgx-shipping-badges__text">{{ carrier_text | escape }}</span>
+      </div>
+    {%- endif -%}
+    {%- if guarantee_text != blank -%}
+      <div class="mgx-shipping-badges__item">
+        <span class="mgx-shipping-badges__media">
+          <img
+            class="mgx-shipping-badges__logo"
+            src="{{ 'mgx-guarantee-badge.png' | asset_url }}"
+            alt=""
+            width="28"
+            height="28"
+            loading="lazy">
+        </span>
+        <span class="mgx-shipping-badges__text">{{ guarantee_text | escape }}</span>
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

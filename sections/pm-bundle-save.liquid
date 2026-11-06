@@ -742,6 +742,16 @@
         </ul>
       {%- endif -%}
 
+      {%- comment -%} 8b. Shipping badges: ships from / carriers / guarantee (snippets/mgx-shipping-badges) {%- endcomment -%}
+      {%- if st.show_shipping_badges -%}
+        {% render 'mgx-shipping-badges',
+          product: pm_bp,
+          delivery_text: st.badge_delivery_text,
+          carrier_text: st.badge_carrier_text,
+          guarantee_text: st.badge_guarantee_text
+        %}
+      {%- endif -%}
+
       {%- comment -%} 9. Mini review slider {%- endcomment -%}
       {%- assign pm_rev_count = 0 -%}
       {%- for block in section.blocks -%}
@@ -1462,6 +1472,31 @@
       "id": "show_payment_icons",
       "label": "Show payment icons",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping_badges",
+      "label": "Show shipping badges",
+      "info": "Truck / FedEx + UPS / guarantee seal row under the payment icons. An empty text drops its tile.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_delivery_text",
+      "label": "Shipping badge: ships from",
+      "default": "Ships in 48 hours from Savannah, USA"
+    },
+    {
+      "type": "text",
+      "id": "badge_carrier_text",
+      "label": "Shipping badge: carriers",
+      "default": "Secure shipping with FedEx & UPS"
+    },
+    {
+      "type": "text",
+      "id": "badge_guarantee_text",
+      "label": "Shipping badge: guarantee",
+      "default": "60-day money-back guarantee"
     },
     {
       "type": "header",
