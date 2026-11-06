@@ -1,24 +1,83 @@
 {%- comment -%}
-  Payment methods row under the buy button: quantity-breaker, bundle-builder
-  and reactive-variant-selector. Shopify's own full-colour icons, in the order
-  of the old greyscale image (assets/payment-badge.svg) with Klarna in Amazon
-  Pay's place. A fixed list, not shop.enabled_payment_types: that one changes
-  with the shopper's market (Bancontact, EPS and the like). Shoppers in the
-  US get no PayPal and no Klarna: the US checkout doesn't offer them.
-  Styles: .mgx-pay-icons in magyx-brand.css.
+  Payment methods row, one source for every surface: Bundle & Save, cart drawer, footer, quantity-breaker,
+  bundle-builder and reactive-variant-selector. Shopify's own full-colour icons.
+
+  Rule: a curated list per region of the methods people there use, in this order, and each icon only when
+  shop.enabled_payment_types contains its type. That list follows the visitor's market, so the row never shows
+  a method the checkout doesn't offer. Compared by payment TYPE, not by icon: iDEAL | Wero is type "ideal",
+  its svg id is "pi-spidealwero".
+  - US, and every country not listed below: visa, master, american_express, discover, paypal, apple_pay,
+    google_pay, shopify_pay, venmo, afterpay, klarna
+  - GB: visa, master, american_express, paypal, apple_pay, google_pay, shopify_pay, klarna, maestro
+  - CA: visa, master, american_express, paypal, apple_pay, google_pay, shopify_pay, interac
+  - AU, NZ: visa, master, american_express, paypal, apple_pay, google_pay, shopify_pay, afterpay
+  - EU countries of the store (AT, BE, IE, NL, HU): visa, master, american_express, paypal, apple_pay, google_pay,
+    shopify_pay, klarna, plus ideal (NL), bancontact (BE), eps (AT)
+  - PL: blik, visa, master, paypal, apple_pay, google_pay, shopify_pay
+  - SG: visa, master, american_express, paypal, apple_pay, google_pay, shopify_pay
+  Enabled types measured 06.11.2026: US and GB = achdirectdebit, american_express, apple_pay, bancontact,
+  diners_club, discover, google_pay, master, paypal, shopify_pay, visa; the other markets = amazon_pay,
+  american_express, apple_pay, bancontact, diners_club, discover, google_pay, master, shopify_pay, visa.
+  So today US shows Visa, Mastercard, Amex, Discover, PayPal, Apple Pay, Google Pay, Shop Pay; the rest of the
+  list appears by itself once the method is switched on in Settings > Payments.
+
+  Styles: .mgx-pay-icons in magyx-brand.css (one row, wraps on narrow screens). Surfaces with their own look pass
+  their classes instead.
+
+  Accepts (all optional):
+  - class {String} list class (default 'mgx-pay-icons')
+  - item_class {String} class on each <li>
+  - icon_class {String} class on each icon (default 'mgx-pay-icons__icon')
+  - label {String} list aria-label (default: premium.pdp.payment_methods)
 
   Usage:
   {% render 'mgx-payment-icons' %}
+  {% render 'mgx-payment-icons', class: 'list list-payment', item_class: 'list-payment__item', icon_class: 'icon icon--full-color' %}
 {%- endcomment -%}
 {%- liquid
-  if localization.country.iso_code == 'US'
-    assign mgx_pay_types = 'visa,master,american_express,diners_club,discover,google_pay,apple_pay' | split: ','
-  else
-    assign mgx_pay_types = 'visa,master,american_express,paypal,diners_club,discover,google_pay,apple_pay,klarna' | split: ','
+  case localization.country.iso_code
+    when 'GB'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,klarna,maestro'
+    when 'CA'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,interac'
+    when 'AU', 'NZ'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,afterpay'
+    when 'NL'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,klarna,ideal'
+    when 'BE'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,klarna,bancontact'
+    when 'AT'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,klarna,eps'
+    when 'IE', 'HU'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay,klarna'
+    when 'PL'
+      assign mgx_pay_list = 'blik,visa,master,paypal,apple_pay,google_pay,shopify_pay'
+    when 'SG'
+      assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay'
+    else
+      assign mgx_pay_list = 'visa,master,american_express,discover,paypal,apple_pay,google_pay,shopify_pay,venmo,afterpay,klarna'
+  endcase
+
+  assign mgx_pay_shown = ''
+  assign mgx_pay_wanted = mgx_pay_list | split: ','
+  for mgx_pay_type in mgx_pay_wanted
+    if shop.enabled_payment_types contains mgx_pay_type
+      assign mgx_pay_shown = mgx_pay_shown | append: mgx_pay_type | append: ','
+    endif
+  endfor
+  assign mgx_pay_shown = mgx_pay_shown | split: ','
+
+  assign mgx_pay_class = class | default: 'mgx-pay-icons'
+  assign mgx_pay_icon_class = icon_class | default: 'mgx-pay-icons__icon'
+  assign mgx_pay_label = 'premium.pdp.payment_methods' | t
+  if label != blank
+    assign mgx_pay_label = label
   endif
 -%}
-<ul class="mgx-pay-icons" role="list" aria-label="Payment methods">
-  {%- for type in mgx_pay_types -%}
-    <li>{{ type | payment_type_svg_tag: class: 'mgx-pay-icons__icon' }}</li>
-  {%- endfor -%}
-</ul>
+{%- if mgx_pay_shown.size > 0 -%}
+  <ul class="{{ mgx_pay_class }}" role="list" aria-label="{{ mgx_pay_label | escape }}">
+    {%- for mgx_pay_type in mgx_pay_shown -%}
+      <li{% if item_class != blank %} class="{{ item_class }}"{% endif %}>{{ mgx_pay_type | payment_type_svg_tag: class: mgx_pay_icon_class }}</li>
+    {%- endfor -%}
+  </ul>
+{%- endif -%}

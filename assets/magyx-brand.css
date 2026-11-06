@@ -260,9 +260,12 @@
    Shopify's full-colour 38x24 icons on one line under the buy button, same
    400px width and top margin as the greyscale image it replaces (its mt-8 is
    32px in tailwind-compiled.css; 2rem here would be 20px, root is 10px). On a
-   narrow column the icons shrink together instead of wrapping. */
+   narrow column the icons shrink together down to 30px, then the row wraps
+   (basis 0 + min/max width: a wrapping flex row breaks lines at the basis,
+   before shrinking). The cart drawer keeps the old image's 20px top margin. */
 .mgx-pay-icons {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   gap: 6px;
   max-width: 400px;
@@ -271,9 +274,13 @@
   list-style: none;
 }
 .mgx-pay-icons > li {
-  flex: 0 1 38px;
-  min-width: 0;
+  flex: 1 1 0;
+  min-width: 30px;
+  max-width: 38px;
   margin: 0;
+}
+.mgx-pay-icons--drawer {
+  margin-top: 20px;
 }
 .mgx-pay-icons__icon {
   display: block;

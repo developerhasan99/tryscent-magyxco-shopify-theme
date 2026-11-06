@@ -1,0 +1,28 @@
+{%- comment -%}
+  Designer price display, port of the FM theme's snippet of the same name (federicomahora.co).
+  Amount in the VISITOR's currency cents: product metafield custom.original_retail_price is a money field and
+  Shopify Markets already converts it in Liquid (`.value | times: 1` = cart-currency cents, see the note in
+  sections/pm-bundle-save.liquid), so Liquid prints the final text and no script is needed. FM stores USD cents
+  and converts in its assets/pm-designer-price.js; that file is not needed on this store.
+  Whole amounts drop ".00" like FM ("$245", "€220"). Nothing renders when the amount is blank or 0.
+
+  Accepts:
+  - cents {Number} designer amount in cart-currency cents (required)
+  - strike {Boolean} wrap in <s> (struck-through designer price)
+  - class {String} optional extra class
+
+  Usage:
+  {% render 'pm-designer-price', cents: 24952, strike: true %}
+{%- endcomment -%}
+{%- liquid
+  assign dp_cents = cents | default: 0 | round
+  assign dp_text = ''
+  if dp_cents > 0
+    assign dp_text = dp_cents | money_without_trailing_zeros
+  endif
+-%}
+{%- if dp_text != blank -%}
+  <span class="pm-designer-price{% if class %} {{ class }}{% endif %}">
+    {%- if strike -%}<s>{{ dp_text }}</s>{%- else -%}{{ dp_text }}{%- endif -%}
+  </span>
+{%- endif -%}

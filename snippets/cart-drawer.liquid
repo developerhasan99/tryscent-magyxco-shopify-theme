@@ -501,13 +501,8 @@
               {{ 'sections.cart.checkout' | t }}
             </button>
           </div>
-          <img
-            style="margin-top: 20px; filter:grayscale(1)"
-            src="{{ 'payment-badge.png' | asset_url }}"
-            alt="Payment methods"
-            width="100%"
-            height="auto"
-            loading="lazy">
+          {%- comment -%} Per-region payment icons (snippets/mgx-payment-icons), was the greyscale payment-badge.png {%- endcomment -%}
+          {%- render 'mgx-payment-icons', class: 'mgx-pay-icons mgx-pay-icons--drawer' -%}
         </div>
       {% endif %}
     </div>

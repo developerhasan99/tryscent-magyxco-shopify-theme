@@ -314,6 +314,17 @@
             endif
           endif
 
+          # Designer price of the 50 ml original (custom.original_retail_price, a money field) in the VISITOR's currency
+          # cents; 0 = none. Measured 06.11.2026 on a QA theme with No. 113 Angel (value stored as EUR 220.00, shop
+          # currency USD): Markets converts a money metafield in Liquid, and `.value`, `| times: 1` and
+          # `| append: '' | plus: 0` all give the same cart-currency cents: US 24952 ($249.52), GB 18700 (£187.00),
+          # EU 22000 (€220,00), CA 35100, AU 36300, PL 98200; `.value.amount` is empty. So no conversion here
+          # (FM keeps USD and converts with Shopify.currency.rate in JS); `.value | money` is the PDP's "Designer price".
+          assign p_dcents = 0
+          if p.metafields.custom.original_retail_price != blank
+            assign p_dcents = p.metafields.custom.original_retail_price.value | times: 1 | round
+          endif
+
           # Cart property value: "No. 247 (Le Male) · 50ml"
           assign p_cart = p_name
           if p_insp != blank
@@ -348,6 +359,7 @@
           data-tags="{{ p.tags | join: '|' | escape }}"
           data-occ-field="{{ p_occ_field | escape }}"
           data-fam-field="{{ p_fam_field | escape }}"
+          data-designer="{{ p_dcents }}"
           x-show="rowOk('{{ v.id }}')"
           :class="{ 'is-picked': qty({{ v.id }}) > 0 }"
         >
@@ -366,13 +378,23 @@
           </div>
           <div class="pm-bs-row__body">
             <p class="pm-bs-row__title">{{ p_display | escape }}</p>
+            {%- capture p_dprice -%}
+              {%- if p_dcents > 0 -%}
+                <span class="pm-bs-row__dprice">
+                  <span class="visually-hidden">{{ 'premium.designer.label' | t | escape }}</span>
+                  {%- render 'pm-designer-price', cents: p_dcents, strike: true -%}
+                </span>
+              {%- endif -%}
+            {%- endcapture -%}
             {%- if p_insp != blank -%}
               <p class="pm-bs-row__insp">
                 {%- if p_insp_img != blank -%}
                   <span class="pm-bs-row__insp-img"><img src="{{ p_insp_img | image_url: width: 90, height: 90 }}" alt="" width="28" height="28" loading="lazy" decoding="async"></span>
                 {%- endif -%}
-                <span>{{ st.inspired_prefix | escape }} <strong>{{ p_insp | escape }}</strong></span>
+                <span>{{ st.inspired_prefix | escape }} <strong>{{ p_insp | escape }}</strong>{% if p_dprice != blank %} {{ p_dprice }}{% endif %}</span>
               </p>
+            {%- elsif p_dprice != blank -%}
+              <p class="pm-bs-row__insp">{{ p_dprice }}</p>
             {%- endif -%}
             <ul class="pm-bs-row__tags" role="list" data-pm-bs-chips hidden></ul>
           </div>
@@ -915,6 +937,29 @@
 
       {%- comment -%} 7. CTA {%- endcomment -%}
       <div class="pm-bs-cta">
+        {%- comment -%} Price breakdown of the picks (port of the FM theme): designer value (each pick's custom.original_retail_price, already in the visitor's currency), saving vs MAGYX value, MAGYX value (bundle variant compare-at), bundle saving, total = bundle price {%- endcomment -%}
+        <dl class="pm-bs-sum" aria-live="polite" x-show="showSummary" x-cloak>
+          <div class="pm-bs-sum__row" x-show="showDesigner">
+            <dt>{{ 'premium.designer.sum_designer' | t | escape }}</dt>
+            <dd class="pm-bs-sum__was"><s x-text="money(designerTotal)"></s></dd>
+          </div>
+          <div class="pm-bs-sum__row pm-bs-sum__row--save" x-show="saveFmText">
+            <dt>{{ 'premium.designer.sum_save_fm' | t | escape }}</dt>
+            <dd x-text="saveFmText"></dd>
+          </div>
+          <div class="pm-bs-sum__row" x-show="ourValue > 0">
+            <dt>{{ 'premium.designer.sum_fm_value' | t | escape }}</dt>
+            <dd class="pm-bs-sum__was"><s x-text="money(ourValue)"></s></dd>
+          </div>
+          <div class="pm-bs-sum__row pm-bs-sum__row--save" x-show="saveBundleText">
+            <dt>{{ 'premium.designer.sum_save_bundle' | t | escape }}</dt>
+            <dd x-text="saveBundleText"></dd>
+          </div>
+          <div class="pm-bs-sum__row pm-bs-sum__row--total">
+            <dt>{{ 'premium.designer.total_label' | t | escape }}</dt>
+            <dd x-text="bundleVariant ? money(totalPrice) : ''"></dd>
+          </div>
+        </dl>
         <button
           type="button"
           class="pm-btn pm-btn--primary pm-bs-cta__btn"
@@ -932,13 +977,9 @@
         {%- endif -%}
       </div>
 
-      {%- comment -%} 8. Payment icons {%- endcomment -%}
-      {%- if st.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-        <ul class="pm-bs-pay" aria-label="{{ 'premium.pdp.payment_methods' | t | escape }}">
-          {%- for type in shop.enabled_payment_types -%}
-            <li class="pm-bs-pay__item">{{ type | payment_type_svg_tag: class: 'pm-bs-pay__icon' }}</li>
-          {%- endfor -%}
-        </ul>
+      {%- comment -%} 8. Payment icons: the store-wide per-region list (snippets/mgx-payment-icons), this box's own size and spacing {%- endcomment -%}
+      {%- if st.show_payment_icons -%}
+        {%- render 'mgx-payment-icons', class: 'pm-bs-pay', item_class: 'pm-bs-pay__item', icon_class: 'pm-bs-pay__icon' -%}
       {%- endif -%}
 
       {%- comment -%} 8b. Shipping badges: ships from / carriers / guarantee (snippets/mgx-shipping-badges) {%- endcomment -%}
@@ -1194,6 +1235,7 @@
           picks: [],
           names: {},
           rowLines: {},
+          designers: {},
           rowIds: [],
           sex: '',
           findText: '',
@@ -1230,6 +1272,7 @@
               var vid = row.dataset.vid;
               self.names[vid] = row.dataset.title;
               self.rowLines[vid] = row.dataset.line || '';
+              self.designers[vid] = Math.max(0, Math.round(Number(row.dataset.designer) || 0));
               rowMeta[vid] = { sex: String(row.dataset.sex || '').split(' ').filter(Boolean), entry: findEntry(row) };
               ids.push(vid);
             });
@@ -1452,6 +1495,48 @@
 
           /* Price + CTA */
           get bundleVariant() { return this.cfg.variants[String(this.picks.length)] || null; },
+          /* Bundle variant price and regular value (cart-currency cents); compare = the bottles' regular prices */
+          get totalPrice() {
+            var v = this.bundleVariant;
+            return v ? v.price : 0;
+          },
+          get totalCompare() {
+            var v = this.bundleVariant;
+            return v ? Math.max(v.compare, v.price) : 0;
+          },
+          /* Designer prices (port of the FM theme): cart-currency cents per pick (duplicates count twice). Picks without
+             a designer price add 0, so the sum can only understate the designer value; shown while it beats the bundle price */
+          get designerTotal() {
+            var map = this.designers;
+            return this.picks.reduce(function (sum, vid) { return sum + (map[vid] || 0); }, 0);
+          },
+          get showDesigner() {
+            var total = this.designerTotal;
+            if (!(total > 0)) return false;
+            var v = this.bundleVariant;
+            if (!v) return true;
+            return total > this.totalPrice;
+          },
+          get showSummary() {
+            return this.cfg.mode !== 'per_line' && !!this.bundleVariant && this.picks.length > 0;
+          },
+          /* Our regular value of the picks: bundle variant compare-at (cart-currency cents); 0 when it is not above the price */
+          get ourValue() {
+            var v = this.bundleVariant;
+            return v && this.totalCompare > this.totalPrice ? this.totalCompare : 0;
+          },
+          /* Designer value minus MAGYX value, floored to whole units like FM; '' when the designer row is hidden or not above it */
+          get saveFmText() {
+            var v = this.bundleVariant;
+            if (!v || !this.showDesigner) return '';
+            var cents = Math.floor((this.designerTotal - (this.ourValue || this.totalPrice)) / 100) * 100;
+            return cents > 0 ? this.money(cents) : '';
+          },
+          /* MAGYX value minus the bundle price */
+          get saveBundleText() {
+            var v = this.bundleVariant;
+            return v && this.ourValue > this.totalPrice ? this.money(this.ourValue - this.totalPrice) : '';
+          },
           get canAdd() {
             if (this.adding || this.picks.length === 0) return false;
             if (this.cfg.mode === 'per_line') return true;
@@ -1484,6 +1569,12 @@
               var label = this.cfg.text.bottle || 'Bottle';
               this.picks.forEach(function (vid, i) { props[label + ' ' + (i + 1)] = self.names[vid] || vid; });
               props._bundle_items = this.picks.join(',');
+              /* FM's hidden property: the bundle line's designer value in USD cents (shop currency), converted back
+                 from the visitor's currency with the store's rate. Nothing on this theme reads it yet. */
+              if (this.showDesigner) {
+                var usdRate = parseFloat(window.Shopify && window.Shopify.currency && window.Shopify.currency.rate) || 1;
+                props._designer_usd = String(Math.round(this.designerTotal / usdRate));
+              }
               items = [{ id: this.bundleVariant.id, quantity: 1, properties: props }];
             }
 

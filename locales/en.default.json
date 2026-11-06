@@ -602,6 +602,14 @@
     "card": {
       "inspired_by": "Inspired by {{ name }}"
     },
+    "designer": {
+      "label": "Designer price",
+      "sum_designer": "Designer Value",
+      "sum_save_fm": "Save with MAGYX",
+      "sum_fm_value": "MAGYX Value",
+      "sum_save_bundle": "You Save with Bundle",
+      "total_label": "Total"
+    },
     "general": {
       "next": "Next",
       "previous": "Previous",
