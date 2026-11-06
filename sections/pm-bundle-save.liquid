@@ -217,8 +217,23 @@
             assign p_gender = 'Women'
           endif
 
-          # Badge: "badge:<text>" tag wins, then the bestseller tag
+          # Gender pills (Men / Women / Unisex): the store's for-men / for-women collections (tag men / women)
+          # and the unisex collection or tag. A unisex scent can sit under all three.
+          assign p_sex = ''
+          if g_men
+            assign p_sex = p_sex | append: ' men'
+          endif
+          if g_women
+            assign p_sex = p_sex | append: ' women'
+          endif
+          assign p_coll_handles = p.collections | map: 'handle'
+          if p_tags_low contains '|unisex|' or p_coll_handles contains 'unisex'
+            assign p_sex = p_sex | append: ' unisex'
+          endif
+
+          # Badge: "badge:<text>" tag wins, then the bestseller tag (red), then new / new-arrival (green)
           assign p_badge = ''
+          assign p_badge_kind = ''
           assign p_best = false
           for t in p.tags
             assign t_low = t | downcase | strip
@@ -229,24 +244,64 @@
               assign p_best = true
             endif
           endfor
+          assign p_new = false
+          if p_tags_low contains '|new|' or p_tags_low contains '|new-arrival|'
+            assign p_new = true
+          endif
           if p_badge == blank and p_best
-            assign p_badge = 'Bestseller'
+            assign p_badge = st.bestseller_label | default: 'Bestseller'
+            assign p_badge_kind = 'best'
+          elsif p_badge == blank and p_new
+            assign p_badge = st.new_label | default: 'New arrival'
+            assign p_badge_kind = 'new'
           endif
 
           # Row name: "No. 247" from "Smells like... Le Male - No. 247", else the full title
           assign p_title = p.title | strip
+          assign p_title_low = p_title | downcase
           assign p_name = p_title
+          assign p_num = ''
           if p_title contains 'No.'
             assign p_num = p_title | split: 'No.' | last | strip
             if p_num != blank
               assign p_name = 'No. ' | append: p_num
             endif
           endif
+          # Shown title (caps via CSS): a title that already is "<Name> - No. X" prints as is; a "Smells like..." title
+          # gets the scent's own name from snippets/mgx-scent-name.liquid ("Toffee Embrace - No. 318"), else "No. X"
+          assign p_scent_name = ''
+          if p_num != blank
+            capture p_scent_name
+              render 'mgx-scent-name', number: p_num
+            endcapture
+            assign p_scent_name = p_scent_name | strip
+          endif
+          assign p_display = p_name
+          if p_title_low contains 'smells like'
+            if p_scent_name != blank
+              assign p_display = p_scent_name | append: ' - ' | append: p_name
+            endif
+          else
+            assign p_display = p_title
+          endif
 
           # Designer twin: custom.inspiration metaobject name, else the title without "Smells like..." and the "- No. x" tail
+          assign p_insp_img = p.metafields.custom.inspiration.value.image
           assign p_insp = p.metafields.custom.inspiration.value.name | strip
           if p_insp == blank
-            assign p_insp = p_title | remove_first: 'Smells like...' | remove_first: 'Smells like…' | strip
+            assign p_insp = p_title
+            assign p_head = p_title_low | slice: 0, 11
+            if p_head == 'smells like'
+              assign p_insp = p_title | slice: 11, 300 | strip
+              assign p_head = p_insp | slice: 0, 3
+              if p_head == '...'
+                assign p_insp = p_insp | slice: 3, 300 | strip
+              endif
+              assign p_head = p_insp | slice: 0, 1
+              if p_head == '…'
+                assign p_insp = p_insp | slice: 1, 300 | strip
+              endif
+            endif
             if p_insp contains 'No.'
               assign p_insp_last = p_insp | split: 'No.' | last
               assign p_insp_tail = 'No.' | append: p_insp_last
@@ -268,7 +323,11 @@
             assign p_cart = p_cart | append: ' · ' | append: pm_size_label
           endif
 
-          assign p_occasions = p.metafields.custom.occasion.value | split: ','
+          # Chip / search sources (the row script builds the chips): the reviewed facet map (assets/mgx-scent-facets.js),
+          # else the occasion: / scent: tags, else the occasion and fragrance family fields
+          assign p_occ_field = p.metafields.custom.occasion.value | strip
+          assign p_fam_field = p.metafields.custom.fragrance_family.value | strip
+          assign p_search = p_title | append: ' | ' | append: p_insp | append: ' ' | append: p_scent_name
 
           assign oil_token = '#' | append: line_key | append: '=|'
           assign p_oil = ''
@@ -283,7 +342,13 @@
           data-vid="{{ v.id }}"
           data-title="{{ p_cart | escape }}"
           data-line="{{ p_line | escape }}"
-          x-show="lineOk({{ p_line | json | escape }})"
+          data-handle="{{ p.handle | escape }}"
+          data-sex="{{ p_sex | strip }}"
+          data-search="{{ p_search | escape }}"
+          data-tags="{{ p.tags | join: '|' | escape }}"
+          data-occ-field="{{ p_occ_field | escape }}"
+          data-fam-field="{{ p_fam_field | escape }}"
+          x-show="rowOk('{{ v.id }}')"
           :class="{ 'is-picked': qty({{ v.id }}) > 0 }"
         >
           <div class="pm-bs-row__side">
@@ -300,22 +365,20 @@
             <span class="pm-bs-row__for">{{ p_gender }}</span>
           </div>
           <div class="pm-bs-row__body">
-            <p class="pm-bs-row__title">{{ p_name | escape }}</p>
+            <p class="pm-bs-row__title">{{ p_display | escape }}</p>
             {%- if p_insp != blank -%}
-              <p class="pm-bs-row__insp">{{ st.inspired_prefix | escape }} <strong>{{ p_insp | escape }}</strong></p>
+              <p class="pm-bs-row__insp">
+                {%- if p_insp_img != blank -%}
+                  <span class="pm-bs-row__insp-img"><img src="{{ p_insp_img | image_url: width: 90, height: 90 }}" alt="" width="28" height="28" loading="lazy" decoding="async"></span>
+                {%- endif -%}
+                <span>{{ st.inspired_prefix | escape }} <strong>{{ p_insp | escape }}</strong></span>
+              </p>
             {%- endif -%}
-            {%- if p_occasions.size > 0 -%}
-              <ul class="pm-bs-row__tags" role="list">
-                {%- for o in p_occasions -%}
-                  {%- assign o_text = o | strip -%}
-                  {%- if o_text != blank -%}<li class="pm-bs-row__tag">{{ o_text | escape }}</li>{%- endif -%}
-                {%- endfor -%}
-              </ul>
-            {%- endif -%}
+            <ul class="pm-bs-row__tags" role="list" data-pm-bs-chips hidden></ul>
           </div>
           <div class="pm-bs-row__actions">
             {%- if p_badge != blank -%}
-              <span class="pm-bs-row__badge">{{ p_badge | escape }}</span>
+              <span class="pm-bs-row__badge{% if p_badge_kind != blank %} pm-bs-row__badge--{{ p_badge_kind }}{% endif %}">{{ p_badge | escape }}</span>
             {%- endif -%}
             <button
               type="button"
@@ -404,7 +467,15 @@
       "timerOn": {{ st.show_timer }},
       "timerHours": {{ st.timer_hours | default: 24 }},
       "reviewMs": {{ st.review_interval | default: 5 | times: 1000 }},
+      "rewardsOn": {{ st.show_rewards }},
       "text": {
+        "rwShippingAway": {{ st.rewards_shipping_away | json }},
+        "rwGiftAway": {{ st.rewards_gift_away | json }},
+        "rwDonePreview": {{ st.rewards_done_preview | json }},
+        "rwDone": {{ st.rewards_done | json }},
+        "rwDoneShipping": {{ st.rewards_done_shipping | json }},
+        "rwShippingLabel": {{ st.rewards_shipping_label | json }},
+        "rwGiftLabel": {{ st.rewards_gift_label | json }},
         "scentsHeading": {{ st.scents_heading | json }},
         "counter": {{ st.counter_text | json }},
         "remaining": {{ st.remaining_text | json }},
@@ -698,14 +769,142 @@
           <h2 class="pm-bs-h" x-text="scentsHeading">{{ st.scents_heading | replace: '[n]', pm_start_target | escape }}</h2>
           <span class="pm-bs-scents__count" aria-live="polite" x-text="counterText">{{ st.counter_text | replace: '[x]', '0' | replace: '[n]', pm_start_target | escape }}</span>
         </div>
-        <div class="pm-bs-progress" aria-hidden="true">
+        <div class="pm-bs-progress" aria-hidden="true" x-show="!rewards">
           <span class="pm-bs-progress__bar" :style="{ width: percent + '%' }"></span>
         </div>
+        {%- if st.show_rewards -%}
+          {%- comment -%}
+            Cart rewards bar: the thresholds of the store's Kite "Goal Based" progress bar (the cart drawer's bar) for the
+            visitor's market and currency, read from the Kite app embed at runtime. Counts the cart plus the bundle being
+            built until exactly these picks are in the cart. Without an active Kite goal the plain progress bar stays.
+          {%- endcomment -%}
+          <div class="pm-bs-rw" x-show="rewards" x-cloak>
+            <template x-if="rewards">
+              <div>
+                <p class="pm-bs-rw__msg" :class="{ 'is-done': rewards.done }" x-html="rewards.msg" aria-live="polite"></p>
+                <div class="pm-bs-rw__bar" :style="'--pm-bs-rw-n: ' + rewards.steps.length">
+                  <div class="pm-bs-rw__track" aria-hidden="true"><span class="pm-bs-rw__fill" :style="'width: ' + rewards.pct + '%'"></span></div>
+                  <ol class="pm-bs-rw__steps" role="list">
+                    <template x-for="(s, i) in rewards.steps" :key="i">
+                      <li class="pm-bs-rw__step" :class="{ 'is-on': s.on }">
+                        <span class="pm-bs-rw__dot" aria-hidden="true">
+                          <svg x-show="s.on" viewBox="0 0 12 10" width="12" height="10" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M1 5l3.5 3.5L11 1"/></svg>
+                          <svg x-show="!s.on && s.kind === 'shipping'" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" focusable="false"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>
+                          <svg x-show="!s.on && s.kind !== 'shipping'" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" focusable="false"><path d="M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7C10.5 4 7 3.5 7 6s3 1 5 1zm0 0c1.5-3 5-3.5 5-1s-3 1-5 1z"/></svg>
+                        </span>
+                        <b x-text="s.amount"></b>
+                        <span x-text="s.label"></span>
+                      </li>
+                    </template>
+                  </ol>
+                </div>
+              </div>
+            </template>
+          </div>
+        {%- endif -%}
         <p class="pm-bs-hint" x-show="hintText" x-text="hintText" x-cloak></p>
-        <div class="pm-bs-list" x-ref="list" @scroll.passive="checkScroll()" role="list">
+        {%- if st.show_filters -%}
+          <div class="pm-bs-find" role="search">
+            <div class="pm-bs-find__field">
+              <svg class="pm-bs-find__ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.6-3.6"/></svg>
+              <input
+                class="pm-bs-find__input"
+                type="search"
+                x-ref="find"
+                placeholder="{{ st.search_placeholder | escape }}"
+                aria-label="{{ st.search_placeholder | escape }}"
+                autocomplete="off"
+                autocapitalize="off"
+                autocorrect="off"
+                spellcheck="false"
+                enterkeyhint="search"
+                @input="onFindInput($event.target.value)"
+                @keydown.escape="onFindEscape($event)"
+                @keydown.enter.prevent="onFindEnter($event)"
+              >
+              <button type="button" class="pm-bs-find__clear" aria-label="{{ st.search_clear_label | escape }}" x-show="findText" x-cloak @click="setFind(''); $refs.find.focus()">&times;</button>
+            </div>
+            <div class="pm-bs-find__pills" role="group" aria-label="{{ st.filter_group_label | escape }}">
+              <button type="button" class="pm-bs-find__pill" aria-pressed="true" :aria-pressed="sex === '' ? 'true' : 'false'" @click="sex = ''">{{ st.filter_all_label | escape }}</button>
+              <button type="button" class="pm-bs-find__pill" aria-pressed="false" :aria-pressed="sex === 'men' ? 'true' : 'false'" @click="sex = 'men'">{{ st.filter_men_label | escape }}</button>
+              <button type="button" class="pm-bs-find__pill" aria-pressed="false" :aria-pressed="sex === 'women' ? 'true' : 'false'" @click="sex = 'women'">{{ st.filter_women_label | escape }}</button>
+              <button type="button" class="pm-bs-find__pill" aria-pressed="false" :aria-pressed="sex === 'unisex' ? 'true' : 'false'" @click="sex = 'unisex'">{{ st.filter_unisex_label | escape }}</button>
+            </div>
+          </div>
+        {%- endif -%}
+        <script src="{{ 'mgx-scent-facets.js' | asset_url }}"></script>
+        <div class="pm-bs-list" x-ref="list" @scroll.passive="checkScroll()" role="list" :class="{ 'is-empty': visibleRows === 0 }" data-pm-bs-list>
           {{ pm_rows }}
         </div>
-        <p class="pm-bs-empty" x-show="visibleRows === 0" x-cloak>{{ st.empty_text | escape }}</p>
+        <script>
+          (function () {
+            /* Row chips, built before first paint (the component runs this again after a theme editor re-render):
+               the most specific occasion + the scent family, two chips at most (two families when there is no
+               occasion). Source per scent: the reviewed facet map (assets/mgx-scent-facets.js, same values as the Whop
+               store), else the occasion: / scent: tags, else the Occasion / Fragrance Family fields. Missing = no chip.
+               Every occasion and family label also goes to data-chip-words for the search. */
+            if (!window.pmBsChips) {
+              var OCC = [['date-night', 'Date Night'], ['night-out', 'Night Out'], ['weddings-events', 'Weddings & Events'], ['special-occasion', 'Special occasion'], ['sport-fresh', 'Sport & Fresh'], ['work-office', 'Work & Office'], ['vacations-summer', 'Vacations & Summer'], ['weekend-chill', 'Weekend & Chill'], ['everyday', 'Everyday'], ['daily-signature', 'Daily Signature']];
+              var FAM = { 'aquatic-marine': 'Aquatic & Marine', 'aromatic-green': 'Aromatic & Green', 'floral': 'Floral', 'fresh-citrus': 'Fresh & Citrus', 'fruity': 'Fruity', 'gourmand': 'Gourmand', 'warm-spicy': 'Warm & Spicy', 'woody-earthy': 'Woody & Earthy' };
+              var TAG_OCC = { 'date-night': 'date-night', 'date': 'date-night', 'evening': 'night-out', 'special': 'special-occasion', 'formal': 'special-occasion', 'sport': 'sport-fresh', 'office': 'work-office', 'everyday': 'everyday' };
+              var TAG_FAM = { 'aquatic': 'aquatic-marine', 'aromatic': 'aromatic-green', 'fougere': 'aromatic-green', 'floral': 'floral', 'fresh': 'fresh-citrus', 'citrus': 'fresh-citrus', 'fruity': 'fruity', 'gourmand': 'gourmand', 'oriental': 'warm-spicy', 'spicy': 'warm-spicy', 'woody': 'woody-earthy', 'leather': 'woody-earthy' };
+              var FIELD_OCC = { 'evening': 'night-out', 'date': 'date-night', 'date night': 'date-night', 'daytime': 'everyday', 'everyday': 'everyday', 'formal': 'special-occasion', 'special': 'special-occasion', 'office/work': 'work-office', 'office': 'work-office', 'sport': 'sport-fresh' };
+              var FIELD_FAM = { 'oriental': 'warm-spicy', 'spicy': 'warm-spicy', 'amber': 'warm-spicy', 'woody': 'woody-earthy', 'leather': 'woody-earthy', 'gourmand': 'gourmand', 'floral': 'floral', 'fresh': 'fresh-citrus', 'citrus': 'fresh-citrus', 'aquatic/marine': 'aquatic-marine', 'aquatic': 'aquatic-marine', 'fruity': 'fruity', 'aromatic': 'aromatic-green', 'fougere': 'aromatic-green' };
+              var occLabel = function (k) { for (var i = 0; i < OCC.length; i++) if (OCC[i][0] === k) return OCC[i][1]; return ''; };
+              var uniq = function (list) { return list.filter(function (x, i) { return x && list.indexOf(x) === i; }); };
+              var fromTags = function (tags, prefix, map) {
+                return uniq(tags.filter(function (t) { return t.indexOf(prefix) === 0; }).map(function (t) { return map[t.slice(prefix.length)]; }));
+              };
+              var fromField = function (value, map) {
+                var whole = map[String(value || '').trim().toLowerCase()];
+                if (whole) return [whole];
+                return uniq(String(value || '').split(',').map(function (x) { return map[x.trim().toLowerCase()]; }));
+              };
+              window.pmBsChips = function (root) {
+                if (!root) return;
+                var facets = window.MGX_SCENT_FACETS || {};
+                root.querySelectorAll('[data-pm-bs-row]').forEach(function (row) {
+                  var ul = row.querySelector('[data-pm-bs-chips]');
+                  if (!ul || ul.hasAttribute('data-built')) return;
+                  var f = facets[row.dataset.handle];
+                  var occ;
+                  var fam;
+                  if (f) {
+                    occ = f[0] || [];
+                    fam = f[1] || [];
+                  } else {
+                    var tags = String(row.dataset.tags || '').split('|').map(function (t) { return t.trim().toLowerCase(); });
+                    occ = fromTags(tags, 'occasion:', TAG_OCC);
+                    fam = fromTags(tags, 'scent:', TAG_FAM);
+                    if (!occ.length) occ = fromField(row.dataset.occField, FIELD_OCC);
+                    if (!fam.length) fam = fromField(row.dataset.famField, FIELD_FAM);
+                  }
+                  var first = '';
+                  for (var i = 0; i < OCC.length && !first; i++) if (occ.indexOf(OCC[i][0]) > -1) first = OCC[i][1];
+                  var chips = [first].concat(fam.map(function (k) { return FAM[k]; })).filter(Boolean).slice(0, 2);
+                  ul.textContent = '';
+                  chips.forEach(function (label) {
+                    var li = document.createElement('li');
+                    li.className = 'pm-bs-row__tag';
+                    li.textContent = label;
+                    ul.appendChild(li);
+                  });
+                  ul.hidden = !chips.length;
+                  ul.setAttribute('data-built', '');
+                  row.dataset.chipWords = occ.map(occLabel).concat(fam.map(function (k) { return FAM[k]; })).filter(Boolean).join(' ');
+                });
+              };
+            }
+            window.pmBsChips(document.getElementById('PmBundleSave-{{ section.id }}'));
+          })();
+        </script>
+        <p class="pm-bs-empty" x-show="visibleRows === 0 && !findActive" x-cloak>{{ st.empty_text | escape }}</p>
+        {%- if st.show_filters -%}
+          <p class="pm-bs-find__empty" x-show="visibleRows === 0 && findActive" x-cloak>
+            {{ st.search_empty_text | escape }}
+            <button type="button" class="pm-bs-find__reset" @click="resetFind()">{{ st.search_clear_label | escape }}</button>
+          </p>
+        {%- endif -%}
         {%- if st.scroll_hint != blank -%}
           <p class="pm-bs-scroll" x-show="!scrollEnd" aria-hidden="true">
             {{ st.scroll_hint | escape }}
@@ -864,10 +1063,120 @@
       return negative ? '-' + result : result;
     }
 
+    /* Picker search (same rules as assets/collection-search.js and the Whop picker): scent name, number, brand and
+       note tags, the "Inspired by" perfume, every occasion and scent family label, house synonyms. */
+    var FIND_SKIP_PREFIX = ['season', 'character', 'occasion', 'gender'];
+    var FIND_SKIP_TAG = ['men', 'women', 'unisex', 'for men', 'for women', 'fuer maenner', 'fuer frauen', 'dfw active', 'new', 'new arrival', 'bundle', 'bundle price show', 'bundle test', 'giftbox ghost product', 'hide bundle', 'usa test', 'mystery box', 'hidden', 'onsale', '25 edp', 'local image', 'price test', 'bestseller', 'all seasons', 'all season', 'fall', 'winter', 'spring', 'summer'];
+    var FIND_SKIP_RE = /^test [a-z] \d+$/;
+    var FIND_SYNONYMS = [['jean paul gaultier', 'jpgaultier', 'jp gaultier', 'jpg', 'gaultier'], ['yves saint laurent', 'ysl', 'saint laurent'], ['maison francis kurkdjian', 'mfk', 'kurkdjian'], ['dolce gabbana', 'dolce and gabbana', 'dg', 'd g'], ['louis vuitton', 'lv'], ['thierry mugler', 'mugler'], ['paco rabanne', 'rabanne'], ['giorgio armani', 'emporio armani', 'armani'], ['hugo boss', 'boss'], ['christian dior', 'dior'], ['bvlgari', 'bulgari'], ['calvin klein', 'ck'], ['viktor rolf', 'viktor and rolf', 'viktor'], ['by kilian', 'kilian'], ['escentric molecules', 'molecules'], ['carolina herrera', 'herrera'], ['tom ford', 'tomford'], ['vanilla', 'vanille', 'vainilla', 'vaniglia', 'wanilia']];
+    function findFold(value) {
+      var text = String(value == null ? '' : value).toLowerCase();
+      try { text = text.normalize('NFD').replace(/[̀-ͯ]/g, ''); } catch (e) {}
+      return text.replace(/ß/g, 'ss').replace(/æ/g, 'ae').replace(/œ/g, 'oe').replace(/ø/g, 'o').replace(/ł/g, 'l').replace(/['’`]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
+    }
+    function findTagWords(raw) {
+      return String(raw || '').split('|').map(function (tag) {
+        var colon = tag.indexOf(':');
+        if (colon > -1) return FIND_SKIP_PREFIX.indexOf(findFold(tag.slice(0, colon))) > -1 ? '' : tag.slice(colon + 1);
+        var folded = findFold(tag);
+        return FIND_SKIP_TAG.indexOf(folded) > -1 || FIND_SKIP_RE.test(folded) ? '' : tag;
+      }).join(' ');
+    }
+    /* Every number in the title, without and with leading zeros: "No. 034" -> 34, 034 */
+    function findNumbers(folded) {
+      return (folded.match(/\d+/g) || []).map(function (d) {
+        var bare = d.replace(/^0+(?=\d)/, '');
+        return bare + ' ' + ('000' + bare).slice(-Math.max(3, bare.length));
+      }).join(' ');
+    }
+    function findEntry(row) {
+      var parts = String(row.dataset.search || '').split(' | ');
+      var title = parts.shift() || '';
+      var hay = ' ' + findFold([title, parts.join(' '), findTagWords(row.dataset.tags), row.dataset.chipWords || ''].join(' ')) + ' ' + findNumbers(findFold(title)) + ' ';
+      FIND_SYNONYMS.forEach(function (group) {
+        if (group.some(function (phrase) { return hay.indexOf(' ' + phrase + ' ') > -1; })) hay += group.join(' ') + ' ';
+      });
+      return { hay: hay, compact: hay.replace(/ /g, '') };
+    }
+    function findParse(raw) {
+      var folded = findFold(raw);
+      var terms = folded ? folded.split(' ').map(function (t) { return /^\d+$/.test(t) ? t.replace(/^0+(?=\d)/, '') : t; }) : [];
+      return { terms: terms, compact: folded.replace(/ /g, '') };
+    }
+    /* Numbers match a whole word ("21" is not "219"); words up to 3 letters match the start of a word ("di" finds
+       "dior" while typing, "man" skips "gourmand"); longer terms match anywhere; words typed together from 4 letters. */
+    function findMatch(entry, query) {
+      var all = query.terms.every(function (term) {
+        if (/^\d+$/.test(term)) return entry.hay.indexOf(' ' + term + ' ') > -1;
+        if (term.length <= 3) return entry.hay.indexOf(' ' + term) > -1;
+        return entry.hay.indexOf(term) > -1;
+      });
+      return all || (query.compact.length >= 4 && entry.compact.indexOf(query.compact) > -1);
+    }
+
+    /* Kite "Goal Based" progress bar (app embed, the cart drawer's bar): amount goals in the visitor's currency, with
+       Kite's own market rule (market value, else the primary market's value, else the base value converted).
+       null = Kite not loaded yet, [] = no usable goal. */
+    function kiteGoals() {
+      var g = window.gfg;
+      var list = g && g.settings && g.settings.consolidatedCombinedDiscount;
+      if (!Array.isArray(list)) return null;
+      var rate = parseFloat(window.Shopify && window.Shopify.currency && window.Shopify.currency.rate) || 1;
+      var market = String((g.state && g.state.activeCustomerData && g.state.activeCustomerData.markets && g.state.activeCustomerData.markets.handle) || (window.shopifyLiquidValuesApp7Ext && window.shopifyLiquidValuesApp7Ext.markets && window.shopifyLiquidValuesApp7Ext.markets.handle) || '');
+      var pick = function (values, test) {
+        for (var i = 0; i < values.length; i++) {
+          var m = values[i];
+          var n = parseFloat(m && m.value);
+          if (test(m) && n && isFinite(n)) return m.multiCurrency === true ? n * rate : n;
+        }
+        return null;
+      };
+      var resolve = function (rv) {
+        var base = parseFloat(rv.qualifierValue || 0) || 0;
+        var values = Array.isArray(rv.marketValues) ? rv.marketValues : [];
+        if (!values.length) return base * rate;
+        var own = pick(values, function (m) { return m && m.handle === market; });
+        if (own != null) return own;
+        var primary = pick(values, function (m) { return m && m.primary === true; });
+        return primary != null ? primary : base * rate;
+      };
+      var camp = null;
+      for (var c = 0; c < list.length; c++) {
+        var x = list[c];
+        if (x && x.isEnabled !== false && !x.isDeleted && x.discountFunctionType === 'CONSOLIDATED_PROGRESS_BAR') { camp = x; break; }
+      }
+      if (!camp) return [];
+      /* Goals that only apply to some customers or markets: leave the bar out rather than promise them */
+      var elig = camp.customerEligibilityRules && camp.customerEligibilityRules.rulesList;
+      if (elig && elig.length) return [];
+      try {
+        if (g.utility && g.utility.getCampaignScheduleStatus && g.utility.getCampaignScheduleStatus(camp.campaignScheduleData).expired) return [];
+      } catch (e) {}
+      var out = [];
+      ((camp.segmentsData && camp.segmentsData.segmentsList) || []).forEach(function (seg) {
+        var rule = seg && seg.buyXRulesData && seg.buyXRulesData.rulesList && seg.buyXRulesData.rulesList[0];
+        if (!rule || (rule.ruleType !== 'discountedCartSubtotal' && rule.ruleType !== 'cartSubtotal')) return;
+        var rv = rule.ruleValue || {};
+        if (rv.qualifierOperatorType && rv.qualifierOperatorType !== 'greaterThanOrEqualTo') return;
+        var getY = (seg.getYRulesData && seg.getYRulesData.rulesList) || [];
+        var kind = seg.goalType === 'FREE_GIFT' ? 'gift' : getY.some(function (r) { return r && r.type === 'SHIPPING'; }) ? 'shipping' : '';
+        var amount = resolve(rv);
+        if (!kind || !(amount > 0)) return;
+        out.push({ kind: kind, threshold: Math.round(amount * 100), metric: rule.ruleType });
+      });
+      return out.sort(function (a, b) { return a.threshold - b.threshold; });
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; });
+    }
+
     function register() {
       if (window.__pmBundleSaveRegistered) return;
       window.__pmBundleSaveRegistered = true;
       window.Alpine.data('pmBundleSave', function () {
+        /* Per-row search entries and gender sets, kept out of the reactive state */
+        var rowMeta = {};
         return {
           cfg: null,
           tierIndex: 0,
@@ -875,6 +1184,12 @@
           picks: [],
           names: {},
           rowLines: {},
+          rowIds: [],
+          sex: '',
+          findText: '',
+          findQuery: { terms: [], compact: '' },
+          rwGoals: null,
+          rwCart: null,
           adding: false,
           error: '',
           scrollEnd: false,
@@ -899,19 +1214,31 @@
             this.tierIndex = Math.min(Math.max(this.cfg.tierStart || 0, 0), Math.max(this.cfg.tiers.length - 1, 0));
             this.lineIndex = typeof this.cfg.lineStart === 'number' && this.cfg.lineStart < this.cfg.lines.length ? this.cfg.lineStart : -1;
 
+            if (window.pmBsChips) window.pmBsChips(this.$el);
+            var ids = [];
             this.$el.querySelectorAll('[data-pm-bs-row]').forEach(function (row) {
-              self.names[row.dataset.vid] = row.dataset.title;
-              self.rowLines[row.dataset.vid] = row.dataset.line || '';
+              var vid = row.dataset.vid;
+              self.names[vid] = row.dataset.title;
+              self.rowLines[vid] = row.dataset.line || '';
+              rowMeta[vid] = { sex: String(row.dataset.sex || '').split(' ').filter(Boolean), entry: findEntry(row) };
+              ids.push(vid);
             });
+            this.rowIds = ids;
             this.revCount = this.$el.querySelectorAll('.pm-bs-review').length;
 
             if (this.cfg.timerOn) this.startTimer();
             if (this.revCount > 1) this.startReviews();
-            this.$watch('lineIndex', function () {
+            var toTop = function () {
               if (self.$refs.list) self.$refs.list.scrollTop = 0;
               self.$nextTick(function () { self.checkScroll(); });
-            });
+            };
+            this.$watch('lineIndex', toTop);
+            this.$watch('sex', toTop);
+            this.$watch('findQuery', toTop);
             this.$nextTick(function () { self.checkScroll(); });
+            /* Back/forward cache or browser autofill can leave text in the search box */
+            this.$nextTick(function () { if (self.$refs.find && self.$refs.find.value) self.setFind(self.$refs.find.value); });
+            if (this.cfg.rewardsOn) this.startRewards();
           },
 
           /* Tiers */
@@ -961,10 +1288,128 @@
           linePickedText: function (i) {
             return String(this.cfg.text.linePicked || '[n]').replace('[n]', this.lineCount(i));
           },
+          /* A row shows when it passes the line card, the gender pill and the search (hidden rows keep their picks) */
+          rowOk: function (vid) {
+            if (!this.lineOk(this.rowLines[vid] || '')) return false;
+            var meta = rowMeta[vid];
+            if (this.sex && !(meta && meta.sex.indexOf(this.sex) > -1)) return false;
+            if (this.findQuery.terms.length && !(meta && findMatch(meta.entry, this.findQuery))) return false;
+            return true;
+          },
           get visibleRows() {
-            if (this.lineIndex < 0) return this.cfg.rowCount || 0;
-            var l = this.cfg.lines[this.lineIndex];
-            return l ? l.count : 0;
+            var n = 0;
+            for (var i = 0; i < this.rowIds.length; i++) if (this.rowOk(this.rowIds[i])) n++;
+            return n;
+          },
+
+          /* Search + gender pills */
+          get findActive() { return this.findQuery.terms.length > 0 || this.sex !== ''; },
+          onFindInput: function (value) {
+            var self = this;
+            this.findText = value;
+            clearTimeout(this._findTimer);
+            this._findTimer = setTimeout(function () { self.setFind(value); }, 120);
+          },
+          setFind: function (value) {
+            clearTimeout(this._findTimer);
+            var input = this.$refs.find;
+            if (input && input.value !== value) input.value = value;
+            this.findText = value;
+            this.findQuery = findParse(value);
+          },
+          onFindEscape: function (e) {
+            if (!e.target.value) return;
+            e.preventDefault();
+            e.stopPropagation();
+            this.setFind('');
+          },
+          onFindEnter: function (e) {
+            this.setFind(e.target.value);
+            e.target.blur();
+          },
+          resetFind: function () {
+            this.sex = '';
+            this.setFind('');
+            if (this.$refs.find) this.$refs.find.focus();
+          },
+
+          /* Cart rewards bar: Kite goals + the cart (/cart.js) + the bundle being built until these picks are in the cart */
+          startRewards: function () {
+            var self = this;
+            var tries = 0;
+            var poll = function () {
+              var goals = kiteGoals();
+              if (goals) {
+                self.rwGoals = goals;
+                return;
+              }
+              if (++tries < 60) self._rwPoll = setTimeout(poll, 250);
+            };
+            poll();
+            this.loadCart();
+            if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined' && !this._rwUnsub) {
+              this._rwUnsub = subscribe(PUB_SUB_EVENTS.cartUpdate, function () { self.loadCart(); });
+            }
+          },
+          loadCart: function () {
+            var self = this;
+            var root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+            var v = (this._rwVersion = (this._rwVersion || 0) + 1);
+            fetch(root + 'cart.js', { headers: { Accept: 'application/json' } })
+              .then(function (res) { return res.ok ? res.json() : null; })
+              .then(function (cart) {
+                if (!cart || v !== self._rwVersion) return;
+                var lines = (cart.items || []).filter(function (l) { return !(l.properties && l.properties._free_product); });
+                var sum = function (key) { return lines.reduce(function (s, l) { return s + (Number(l[key]) || 0); }, 0); };
+                var cartOff = (cart.cart_level_discount_applications || []).reduce(function (s, d) { return s + (Number(d.total_allocated_amount) || 0); }, 0);
+                self.rwCart = {
+                  discountedCartSubtotal: sum('final_line_price') - cartOff,
+                  cartSubtotal: sum('original_line_price'),
+                  bundles: lines.map(function (l) { return String((l.properties && l.properties._bundle_items) || ''); })
+                };
+              })
+              .catch(function () {});
+          },
+          get rewards() {
+            var goals = this.rwGoals;
+            var cart = this.rwCart;
+            var text = (this.cfg && this.cfg.text) || {};
+            if (!this.cfg || !this.cfg.rewardsOn || !goals || !goals.length || !cart) return null;
+            var extra = 0;
+            var n = this.picks.length;
+            if (n > 0 && this.cfg.mode !== 'per_line' && cart.bundles.indexOf(this.picks.join(',')) === -1) {
+              var bv = this.bundleVariant || this.cfg.variants[String(this.target)];
+              if (bv) extra = Number(bv.price) || 0;
+            }
+            var paid = (cart[goals[0].metric] || 0) + extra;
+            var count = goals.length;
+            var pos = function (i) { return ((2 * i + 1) / (2 * count)) * 100; };
+            var pct = 100;
+            for (var i = 0; i < count; i++) {
+              if (paid < goals[i].threshold) {
+                var pt = i ? goals[i - 1].threshold : 0;
+                var pp = i ? pos(i - 1) : 0;
+                pct = pp + ((pos(i) - pp) * Math.max(0, paid - pt)) / Math.max(1, goals[i].threshold - pt);
+                break;
+              }
+            }
+            var self = this;
+            var next = null;
+            var gifts = false;
+            var steps = goals.map(function (g) {
+              var on = paid >= g.threshold;
+              if (!on && !next) next = g;
+              if (g.kind === 'gift') gifts = true;
+              return { kind: g.kind, on: on, amount: self.money(g.threshold), label: g.kind === 'shipping' ? text.rwShippingLabel : text.rwGiftLabel };
+            });
+            var msg;
+            if (next) {
+              var away = '<b>' + escapeHtml(this.money(next.threshold - paid)) + '</b>';
+              msg = escapeHtml(next.kind === 'shipping' ? text.rwShippingAway : text.rwGiftAway).replace('[amount]', away);
+            } else {
+              msg = escapeHtml(extra > 0 && gifts ? text.rwDonePreview : gifts ? text.rwDone : text.rwDoneShipping);
+            }
+            return { msg: msg, done: !next, pct: Math.round(pct * 10) / 10, steps: steps };
           },
 
           /* Picks */
@@ -1098,7 +1543,7 @@
           checkScroll: function () {
             var l = this.$refs.list;
             if (!l) return;
-            this.scrollEnd = l.scrollTop + l.clientHeight >= l.scrollHeight - 8;
+            this.scrollEnd = l.scrollTop + l.clientHeight >= l.scrollHeight - 8 || this.visibleRows === 0;
           },
 
           /* Countdown: evergreen per visitor, start stored in localStorage, restarts after each period */
@@ -1130,6 +1575,9 @@
           destroy: function () {
             clearInterval(this._timerId);
             clearInterval(this._revId);
+            clearTimeout(this._rwPoll);
+            clearTimeout(this._findTimer);
+            if (typeof this._rwUnsub === 'function') this._rwUnsub();
           },
 
           /* Reviews */
@@ -1407,14 +1855,28 @@
       "type": "text",
       "id": "add_label",
       "label": "Add button",
-      "default": "Add +"
+      "default": "Add"
     },
     {
       "type": "text",
       "id": "inspired_prefix",
       "label": "Designer line prefix",
       "default": "Inspired by",
-      "info": "Shown before the designer perfume on each scent (from the inspiration field, else from the product title). Occasion chips come from the occasion field. Tag \"bestseller\" shows a Bestseller badge; a \"badge:<text>\" tag takes priority."
+      "info": "Shown before the designer perfume on each scent, with the inspiration's picture when it has one (from the inspiration field, else from the product title). Chips: occasion + scent family from the scent facet list, else the occasion: / scent: tags, else the Occasion and Fragrance Family fields."
+    },
+    {
+      "type": "text",
+      "id": "bestseller_label",
+      "label": "Bestseller badge",
+      "default": "Bestseller",
+      "info": "Products tagged \"bestseller\". A \"badge:<text>\" tag takes priority."
+    },
+    {
+      "type": "text",
+      "id": "new_label",
+      "label": "New badge",
+      "default": "New arrival",
+      "info": "Products tagged \"new\" or \"new-arrival\" that are not bestsellers."
     },
     {
       "type": "text",
@@ -1427,6 +1889,120 @@
       "id": "empty_text",
       "label": "Empty line text",
       "default": "No scents in this line yet."
+    },
+    {
+      "type": "header",
+      "content": "Scent search and filters"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show search and gender filters",
+      "default": true,
+      "info": "Search finds brand, inspiration, scent name, number, occasion and scent family. Men / Women = the product tags men / women, Unisex = the Unisex collection or tag."
+    },
+    {
+      "type": "text",
+      "id": "search_placeholder",
+      "label": "Search placeholder",
+      "default": "Search by brand, occasion or scent family"
+    },
+    {
+      "type": "text",
+      "id": "filter_all_label",
+      "label": "All filter",
+      "default": "All"
+    },
+    {
+      "type": "text",
+      "id": "filter_men_label",
+      "label": "Men filter",
+      "default": "Men"
+    },
+    {
+      "type": "text",
+      "id": "filter_women_label",
+      "label": "Women filter",
+      "default": "Women"
+    },
+    {
+      "type": "text",
+      "id": "filter_unisex_label",
+      "label": "Unisex filter",
+      "default": "Unisex"
+    },
+    {
+      "type": "text",
+      "id": "filter_group_label",
+      "label": "Filter group name",
+      "default": "Gender",
+      "info": "Read out by screen readers, not shown on the page."
+    },
+    {
+      "type": "text",
+      "id": "search_empty_text",
+      "label": "No results text",
+      "default": "No fragrances match your search."
+    },
+    {
+      "type": "text",
+      "id": "search_clear_label",
+      "label": "Clear search",
+      "default": "Clear search"
+    },
+    {
+      "type": "header",
+      "content": "Cart rewards bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rewards",
+      "label": "Show cart rewards bar",
+      "default": true,
+      "info": "Replaces the progress bar above the scents. Amounts and goals come from the Kite \"Goal Based\" progress bar (the one in the cart drawer), in the visitor's market and currency. Without an active Kite goal the plain progress bar stays."
+    },
+    {
+      "type": "text",
+      "id": "rewards_shipping_away",
+      "label": "Next goal: free shipping",
+      "default": "You're [amount] away from free shipping",
+      "info": "[amount] = what is still missing, in bold."
+    },
+    {
+      "type": "text",
+      "id": "rewards_gift_away",
+      "label": "Next goal: free gift",
+      "default": "You're [amount] away from a free mystery gift"
+    },
+    {
+      "type": "text",
+      "id": "rewards_done_preview",
+      "label": "All goals reached with this bundle",
+      "default": "This bundle unlocks all your rewards."
+    },
+    {
+      "type": "text",
+      "id": "rewards_done",
+      "label": "All goals reached in the cart",
+      "default": "All rewards unlocked. Your gifts are in the cart."
+    },
+    {
+      "type": "text",
+      "id": "rewards_done_shipping",
+      "label": "Free shipping reached (no gift goal)",
+      "default": "You've unlocked free shipping."
+    },
+    {
+      "type": "text",
+      "id": "rewards_shipping_label",
+      "label": "Free shipping label",
+      "default": "Free shipping"
+    },
+    {
+      "type": "text",
+      "id": "rewards_gift_label",
+      "label": "Free gift label",
+      "default": "Free mystery gift"
     },
     {
       "type": "header",
