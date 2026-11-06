@@ -1713,5 +1713,32 @@
         "info": "Leave empty to hide this text on product cards."
       }
     ]
+  },
+  {
+    "name": "Sale countdown",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "One deadline for every sale countdown: the top bar and the Bundle & Save timer count down to the same moment."
+      },
+      {
+        "type": "range",
+        "id": "sale_countdown_reset_hour",
+        "label": "Daily reset time",
+        "min": 0,
+        "max": 23,
+        "step": 1,
+        "unit": "h",
+        "default": 0,
+        "info": "Visitor's local time. 0 = midnight: the timers count down to midnight and restart every day."
+      },
+      {
+        "type": "text",
+        "id": "sale_countdown_end",
+        "label": "Fixed end date (optional)",
+        "placeholder": "2026/11/30 23:59:59",
+        "info": "Format: YYYY/MM/DD HH:MM:SS, visitor's local time. Until then the timers count down to this date; once it passes they go back to the daily reset. Leave empty for the daily countdown."
+      }
+    ]
   }
 ]

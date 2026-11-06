@@ -358,6 +358,7 @@ body {
         document.documentElement.classList.add('shopify-design-mode');
       }
     </script>
+    {% render 'sale-countdown' %}
   </head>
 
   <body class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}">

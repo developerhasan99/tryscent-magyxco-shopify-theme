@@ -624,7 +624,7 @@
           </div>
           <div class="pm-bs-timer__clock" aria-live="off">
             <div class="pm-bs-timer__unit">
-              <span class="pm-bs-timer__num" x-text="clock.h">{{ st.timer_hours | default: 24 | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="pm-bs-timer__num" x-text="clock.h">00</span>
               <span class="pm-bs-timer__lbl">{{ st.timer_hrs_label | escape }}</span>
             </div>
             <div class="pm-bs-timer__unit">
@@ -1652,23 +1652,19 @@
             this.scrollEnd = l.scrollTop + l.clientHeight >= l.scrollHeight - 8 || this.visibleRows === 0;
           },
 
-          /* Countdown: evergreen per visitor, start stored in localStorage, restarts after each period */
+          /* Countdown: same deadline as the top bar, from Theme settings > Sale countdown
+             (snippets/sale-countdown.liquid; default = the visitor's next midnight, restarts every day) */
           startTimer: function () {
             var self = this;
-            var period = (Number(this.cfg.timerHours) || 24) * 3600000;
-            var key = 'pmBundleSaveTimerStart';
-            var start = Date.now();
-            try {
-              var saved = Number(window.localStorage.getItem(key));
-              if (saved && saved <= start) {
-                start = saved;
-              } else {
-                window.localStorage.setItem(key, String(start));
-              }
-            } catch (e) {}
+            var next = function () {
+              if (window.mgxSaleCountdown) return window.mgxSaleCountdown.deadline();
+              var d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime();
+            };
+            var end = next();
             var pad = function (n) { return (n < 10 ? '0' : '') + n; };
             var tick = function () {
-              var left = period - ((Date.now() - start) % period);
+              var left = end - Date.now();
+              if (left <= 0) { end = next(); left = Math.max(0, end - Date.now()); }
               var s = Math.floor(left / 1000);
               self.clock = { h: pad(Math.floor(s / 3600)), m: pad(Math.floor((s % 3600) / 60)), s: pad(s % 60) };
             };
@@ -1840,7 +1836,7 @@
       "id": "show_timer",
       "label": "Show countdown",
       "default": true,
-      "info": "Evergreen: each visitor gets their own countdown that restarts when it ends."
+      "info": "Counts down to the deadline in Theme settings > Sale countdown (midnight by default), the same moment as the top bar."
     },
     {
       "type": "text",
@@ -1865,7 +1861,8 @@
     {
       "type": "range",
       "id": "timer_hours",
-      "label": "Countdown length",
+      "label": "Countdown length (not used)",
+      "info": "Not used anymore: the deadline is set in Theme settings > Sale countdown.",
       "min": 1,
       "max": 48,
       "step": 1,

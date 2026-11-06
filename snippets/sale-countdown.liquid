@@ -1,0 +1,24 @@
+{%- comment -%}
+  One sale deadline for every countdown (top bar "offer-timebar", Bundle & Save "pm-bundle-save").
+  Set in Theme settings > Sale countdown:
+  - Daily reset hour (visitor's local time, 0 = midnight): every timer counts down to the next one.
+  - Fixed end date (optional): until then every timer counts down to that date; once it passes, back to daily.
+  Rendered once in the <head> of layout/theme.liquid and layout/theme.no-header-footer.liquid.
+  Timers call window.mgxSaleCountdown.deadline() (ms timestamp) and ask again when they reach 0.
+{%- endcomment -%}
+<script>
+  window.mgxSaleCountdown = (function () {
+    var resetHour = Number({{ settings.sale_countdown_reset_hour | json }}) || 0;
+    var fixedRaw = {{ settings.sale_countdown_end | strip | json }} || '';
+    var fixed = fixedRaw ? Date.parse(fixedRaw.replace(/-/g, '/').replace('T', ' ')) : NaN;
+    function hasFixedEnd() { return !isNaN(fixed) && fixed > Date.now(); }
+    function deadline() {
+      if (hasFixedEnd()) return fixed;
+      var d = new Date();
+      d.setHours(resetHour, 0, 0, 0);
+      if (d.getTime() <= Date.now()) d.setDate(d.getDate() + 1);
+      return d.getTime();
+    }
+    return { deadline: deadline, hasFixedEnd: hasFixedEnd };
+  })();
+</script>

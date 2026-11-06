@@ -2,7 +2,7 @@
   Port of the magyx.co top bar.
   Top bar in two halves: the offer on Primary colour, the countdown on Timer background.
   Phones stack them (offer above, timer below); from 768px they share one row with a slanted join.
-  The countdown is plain JS (no flip library): HH:MM:SS to midnight, or to "Countdown date" with days.
+  The countdown is plain JS (no flip library): HH:MM:SS to the deadline in Theme settings > Sale countdown (shared with Bundle & Save), with days for a fixed end date.
 
   FM parity with magicperfume.co (04.11.2026): Style = Minimal renders magicperfume's FM bar instead, one line on the
   section's colour scheme: {prepend} · ENDS IN hh:mm:ss + {append} as a solid button (assets/pm-s-offer-timebar.css).
@@ -278,8 +278,8 @@
       {%- if section.settings.enable_timer -%}
         <div class="mgx-tb__timer">
           <div class="mgx-tb__ends">{{ 'aaroma.timer.ends_in' | t }}</div>
-          <div class="mgx-tb__clock" data-mgx-countdown data-deadline="{{ section.settings.countdown_date | escape }}" role="timer" aria-live="off">
-            {%- if section.settings.countdown_date != blank -%}
+          <div class="mgx-tb__clock" data-mgx-countdown role="timer" aria-live="off">
+            {%- if settings.sale_countdown_end != blank -%}
               <div class="mgx-tb__unit"><div class="mgx-tb__num" data-unit="d">00</div><div class="mgx-tb__cap">{{ 'aaroma.timer.days' | t }}</div></div>
               <i class="mgx-tb__sep" aria-hidden="true">:</i>
             {%- endif -%}
@@ -378,14 +378,16 @@
     var root = document.getElementById({{ section.id | json }});
     var clock = root ? root.querySelector('[data-pm-countdown]') : null;
     if (!clock) return;
-    var configured = {{ section.settings.countdown_date | json }};
-    function nextMidnight() { var d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime(); }
-    var deadline = configured ? new Date(configured).getTime() : NaN;
-    if (isNaN(deadline) || deadline <= Date.now()) { configured = null; deadline = nextMidnight(); }
+    // Deadline from Theme settings > Sale countdown (snippets/sale-countdown.liquid), shared with Bundle & Save
+    function next() {
+      if (window.mgxSaleCountdown) return window.mgxSaleCountdown.deadline();
+      var d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime();
+    }
+    var deadline = next();
     function pad(n) { return (n < 10 ? '0' : '') + n; }
     function tick() {
       var left = Math.max(0, Math.floor((deadline - Date.now()) / 1000));
-      if (left === 0 && !configured) { deadline = nextMidnight(); left = Math.floor((deadline - Date.now()) / 1000); }
+      if (left === 0) { deadline = next(); left = Math.max(0, Math.floor((deadline - Date.now()) / 1000)); }
       clock.textContent = pad(Math.floor(left / 3600)) + ':' + pad(Math.floor((left % 3600) / 60)) + ':' + pad(left % 60);
     }
     tick();
@@ -401,10 +403,9 @@
       var cells = {};
       clock.querySelectorAll('[data-unit]').forEach(function (el) { cells[el.dataset.unit] = el; });
 
-      // "Countdown date" when it parses, else the next local midnight (rolls over every day)
+      // Deadline from Theme settings > Sale countdown (snippets/sale-countdown.liquid), shared with Bundle & Save
       function deadline() {
-        var set = Date.parse(clock.dataset.deadline || '');
-        if (!isNaN(set) && set > Date.now()) return set;
+        if (window.mgxSaleCountdown) return window.mgxSaleCountdown.deadline();
         var midnight = new Date();
         midnight.setHours(24, 0, 0, 0);
         return midnight.getTime();
@@ -517,8 +518,8 @@
       {
         "type": "text",
         "id": "countdown_date",
-        "label": "End Date and Time",
-        "info": "Format: YYYY/MM/DD HH:MM:SS (e.g., 2026/12/25 23:59:59). Empty (or once the date has passed): counts down to midnight, every day."
+        "label": "End Date and Time (not used)",
+        "info": "Not used anymore: set the deadline in Theme settings > Sale countdown, so the top bar and the Bundle & Save timer count down to the same moment."
       },
       {
         "type": "text",
