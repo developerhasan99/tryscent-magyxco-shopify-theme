@@ -829,7 +829,7 @@
           <p class="pm-bs-quiz">
             {{- st.quiz_text | escape -}}
             {%- if st.quiz_link_text != blank -%}
-              {%- if st.quiz_text != blank %} {% endif -%}
+              {%- if st.quiz_text != blank -%}{{ ' ' }}{%- endif -%}
               <a href="{{ st.quiz_link | default: '/pages/scent-quiz' }}">{{ st.quiz_link_text | escape }}</a>
             {%- endif -%}
           </p>
