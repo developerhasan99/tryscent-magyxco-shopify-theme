@@ -273,6 +273,15 @@
       "subtext": "404"
     }
   },
+  "aaroma": {
+    "timer": {
+      "ends_in": "Ends in",
+      "days": "Days",
+      "hours": "Hrs",
+      "minutes": "Min",
+      "seconds": "Sec"
+    }
+  },
   "sections": {
     "announcements": {
       "previous_announcement": "Previous announcement",

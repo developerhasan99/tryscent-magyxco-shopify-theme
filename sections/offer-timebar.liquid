@@ -1,17 +1,90 @@
 {%- comment -%}
+  Port of the magyx.co top bar.
   Top bar in two halves: the offer on Primary colour, the countdown on Timer background.
   Phones stack them (offer above, timer below); from 768px they share one row with a slanted join.
   The countdown is plain JS (no flip library): HH:MM:SS to midnight, or to "Countdown date" with days.
-  Not rendered on the Bundle & Save page (product template bundle-save), which has its own countdown;
-  the header skips its search bar there too.
+
+  FM parity with magicperfume.co (04.11.2026): Style = Minimal renders magicperfume's FM bar instead, one line on the
+  section's colour scheme: {prepend} · ENDS IN hh:mm:ss + {append} as a solid button (assets/pm-s-offer-timebar.css).
+  The timer follows "Enable Countdown Timer"; the colours, top bar and badges below are for Style = Classic only.
+
+  Market offers (04.11.2026): a "Market offer" block whose Markets field lists the visitor's market handle
+  (localization.market.handle, e.g. "france, switz") replaces the section's Top Banner / Prepend / Append texts in
+  that market; an empty field keeps the section's text; the first matching block wins. Badges work the same way:
+  badges with Markets filled replace the default badges (Markets empty) in those markets. These texts used to sit
+  in the market overlays (header-group.context.*.json), which Shopify can't translate; base blocks can.
 {%- endcomment -%}
-{%- unless request.page_type == 'product' and template.suffix == 'bundle-save' -%}
 {%- liquid
+  assign market_needle = localization.market.handle | downcase | prepend: ',' | append: ','
+  assign tb_top_text = section.settings.top_banner_text
+  assign tb_prepend = section.settings.prepend_text
+  assign tb_append = section.settings.append_text
+  assign tb_offer_block = nil
+  assign tb_offer_found = false
+  assign tb_market_badges = false
+  for block in section.blocks
+    if block.settings.markets == blank
+      continue
+    endif
+    assign block_markets = block.settings.markets | downcase | remove: ' ' | prepend: ',' | append: ','
+    unless block_markets contains market_needle
+      continue
+    endunless
+    if block.type == 'market_offer'
+      if tb_offer_found == false
+        assign tb_offer_block = block
+        assign tb_offer_found = true
+      endif
+    elsif block.type == 'payment_icon'
+      assign tb_market_badges = true
+    endif
+  endfor
+  if tb_offer_found
+    if tb_offer_block.settings.top_banner_text != blank
+      assign tb_top_text = tb_offer_block.settings.top_banner_text
+    endif
+    if tb_offer_block.settings.prepend_text != blank
+      assign tb_prepend = tb_offer_block.settings.prepend_text
+    endif
+    if tb_offer_block.settings.append_text != blank
+      assign tb_append = tb_offer_block.settings.append_text
+    endif
+  endif
+  # The badges this market shows: its own (Markets lists it), else the defaults (Markets empty), as ",id," list.
+  assign tb_badge_ids = ''
+  for block in section.blocks
+    if block.type != 'payment_icon'
+      continue
+    endif
+    if tb_market_badges
+      if block.settings.markets == blank
+        continue
+      endif
+      assign block_markets = block.settings.markets | downcase | remove: ' ' | prepend: ',' | append: ','
+      unless block_markets contains market_needle
+        continue
+      endunless
+    elsif block.settings.markets != blank
+      continue
+    endif
+    assign tb_badge_ids = tb_badge_ids | append: ',' | append: block.id | append: ','
+  endfor
+  assign tb_badge_count = tb_badge_ids | split: ',,' | size
+  if tb_badge_ids == blank
+    assign tb_badge_count = 0
+  endif
+  assign pm_minimal = false
+  if section.settings.style == 'minimal'
+    assign pm_minimal = true
+  endif
   assign tb_offer_bg = section.settings.primary_color
   assign tb_text = section.settings.secondary_color
   assign tb_timer_bg = section.settings.timer_box_color
   assign tb_label = section.settings.timer_label_color
 -%}
+{%- if pm_minimal -%}
+  {{ 'pm-s-offer-timebar.css' | asset_url | stylesheet_tag }}
+{%- else -%}
 <style>
   #shopify-section-{{ section.id }} .mgx-tb {
     display: flex;
@@ -126,6 +199,7 @@
     #shopify-section-{{ section.id }} .mgx-tb__offer {
       flex: 1 1 50%;
       justify-content: flex-end;
+      text-align: right;
       padding: 10px 44px 10px 24px;
       clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
     }
@@ -164,45 +238,63 @@
     }
   }
 </style>
+{%- endif -%}
 
-{% unless product.template_suffix == 'payday-60' or collection.template_suffix == 'bundle-save' %}
-
+{% unless product.template_suffix == 'payday-60' or product.template_suffix == 'bundle-save' or collection.template_suffix == 'bundle-save' %}
+  {%- if pm_minimal -%}
+  <div id="{{ section.id }}" class="pm-timebar color-{{ section.settings.color_scheme }}">
+    <a href="{{ section.settings.link }}" class="pm-timebar__link">
+      <span class="pm-timebar__info"{% if tb_offer_found %} {{ tb_offer_block.shopify_attributes }}{% endif %}>
+        <span class="pm-timebar__text">{{ tb_prepend }}</span>
+        {%- if section.settings.enable_timer -%}
+          <span class="pm-timebar__sep" aria-hidden="true">&middot;</span>
+          <span class="pm-timebar__ends">{{ 'aaroma.timer.ends_in' | t }} <span class="pm-timebar__clock" data-pm-countdown>00:00:00</span></span>
+        {%- endif -%}
+      </span>
+      {%- if tb_append != blank -%}
+        <span class="pm-timebar__cta">{{ tb_append }}{% render 'pm-icon', icon: 'arrow-right', size: 12, stroke: 2, class: 'pm-timebar__arrow' %}</span>
+      {%- endif -%}
+    </a>
+  </div>
+  {%- else -%}
   <div id="{{ section.id }}">
     <a href="{{ section.settings.link }}" class="mgx-tb">
 
-      <div class="mgx-tb__offer">
-        {%- if section.settings.enable_top_bar and section.settings.top_banner_text != blank -%}
-          <span class="mgx-tb__eyebrow">{{ section.settings.top_banner_text }}</span>
-          {%- if section.settings.prepend_text != blank or section.settings.append_text != blank -%}
+      <div class="mgx-tb__offer"{% if tb_offer_found %} {{ tb_offer_block.shopify_attributes }}{% endif %}>
+        {%- if section.settings.enable_top_bar and tb_top_text != blank -%}
+          <div class="mgx-tb__eyebrow">{{ tb_top_text }}</div>
+          {%- if tb_prepend != blank or tb_append != blank -%}
             <span class="mgx-tb__rule" aria-hidden="true"></span>
           {%- endif -%}
         {%- endif -%}
-        {%- if section.settings.prepend_text != blank -%}
-          <span class="mgx-tb__lead">{{ section.settings.prepend_text }}</span>
+        {%- if tb_prepend != blank -%}
+          <div class="mgx-tb__lead">{{ tb_prepend }}</div>
         {%- endif -%}
-        {%- if section.settings.append_text != blank -%}
-          <span class="mgx-tb__deal">{{ section.settings.append_text }}</span>
+        {%- if tb_append != blank -%}
+          <div class="mgx-tb__deal">{{ tb_append }}</div>
         {%- endif -%}
       </div>
 
       {%- if section.settings.enable_timer -%}
         <div class="mgx-tb__timer">
-          <span class="mgx-tb__ends">Ends in</span>
-          <span class="mgx-tb__clock" data-mgx-countdown data-deadline="{{ section.settings.countdown_date | escape }}" role="timer" aria-live="off">
+          <div class="mgx-tb__ends">{{ 'aaroma.timer.ends_in' | t }}</div>
+          <div class="mgx-tb__clock" data-mgx-countdown data-deadline="{{ section.settings.countdown_date | escape }}" role="timer" aria-live="off">
             {%- if section.settings.countdown_date != blank -%}
-              <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="d">00</span><span class="mgx-tb__cap">Days</span></span>
+              <div class="mgx-tb__unit"><div class="mgx-tb__num" data-unit="d">00</div><div class="mgx-tb__cap">{{ 'aaroma.timer.days' | t }}</div></div>
               <i class="mgx-tb__sep" aria-hidden="true">:</i>
             {%- endif -%}
-            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="h">00</span><span class="mgx-tb__cap">Hrs</span></span>
+            <div class="mgx-tb__unit"><div class="mgx-tb__num" data-unit="h">00</div><div class="mgx-tb__cap">{{ 'aaroma.timer.hours' | t }}</div></div>
             <i class="mgx-tb__sep" aria-hidden="true">:</i>
-            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="m">00</span><span class="mgx-tb__cap">Min</span></span>
+            <div class="mgx-tb__unit"><div class="mgx-tb__num" data-unit="m">00</div><div class="mgx-tb__cap">{{ 'aaroma.timer.minutes' | t }}</div></div>
             <i class="mgx-tb__sep" aria-hidden="true">:</i>
-            <span class="mgx-tb__unit"><span class="mgx-tb__num" data-unit="s">00</span><span class="mgx-tb__cap">Sec</span></span>
-          </span>
+            <div class="mgx-tb__unit"><div class="mgx-tb__num" data-unit="s">00</div><div class="mgx-tb__cap">{{ 'aaroma.timer.seconds' | t }}</div></div>
+          </div>
 
-          {%- if section.settings.enable_badges and section.blocks.size > 0 -%}
+          {%- if section.settings.enable_badges and tb_badge_count > 0 -%}
             <span class="mgx-tb__badges">
               {%- for block in section.blocks -%}
+                {%- assign badge_key = ',' | append: block.id | append: ',' -%}
+                {%- unless tb_badge_ids contains badge_key -%}{%- continue -%}{%- endunless -%}
                 <span class="flex flex-col items-center" {{ block.shopify_attributes }}>
                   {%- if block.settings.use_country_flag -%}
                     <img class="rounded" src="{{ localization.country | image_url: width: 72 }}" height="22" width="" alt="{{ localization.country.name | escape }}">
@@ -219,14 +311,12 @@
         </div>
       {%- endif -%}
 
-    </a>
+        </a>
   </div>
-
+  {%- endif -%}
 {% endunless %}
-
-
-{% if section.settings.enable_badges %}
-  {% if section.blocks.size > 0 %}
+{% if section.settings.enable_badges and pm_minimal == false %}
+  {% if tb_badge_count > 0 %}
 
     <div class="mgx-tb-badges md:hidden py-3 border-0 border-t border-solid" style="background-color: {{ section.settings.primary_color }}; border-color: {{ section.settings.secondary_color | color_modify: 'alpha', 0.15 }};">
 
@@ -234,7 +324,15 @@
 
         <div class="mgx-tb-badges__row flex gap-2 justify-between">
 
+          {%- assign badge_shown = 0 -%}
           {% for block in section.blocks %}
+            {%- assign badge_key = ',' | append: block.id | append: ',' -%}
+            {%- unless tb_badge_ids contains badge_key -%}{%- continue -%}{%- endunless -%}
+
+            {% if badge_shown > 0 %}
+              <div class="!block w-[1px] self-stretch" style="background-color: {{ section.settings.secondary_color | color_modify: 'alpha', 0.25 }};"></div>
+            {% endif %}
+            {%- assign badge_shown = badge_shown | plus: 1 -%}
 
             <div class="mgx-tb-badge flex flex-col items-center" {{ block.shopify_attributes }}>
 
@@ -262,10 +360,6 @@
 
             </div>
 
-            {% unless forloop.last %}
-              <div class="!block w-[1px] self-stretch" style="background-color: {{ section.settings.secondary_color | color_modify: 'alpha', 0.25 }};"></div>
-            {% endunless %}
-
           {% endfor %}
 
         </div>
@@ -278,8 +372,28 @@
 {% endif %}
 
 
-{% if section.settings.enable_timer %}
-
+{%- if pm_minimal and section.settings.enable_timer -%}
+<script>
+  (function () {
+    var root = document.getElementById({{ section.id | json }});
+    var clock = root ? root.querySelector('[data-pm-countdown]') : null;
+    if (!clock) return;
+    var configured = {{ section.settings.countdown_date | json }};
+    function nextMidnight() { var d = new Date(); d.setHours(24, 0, 0, 0); return d.getTime(); }
+    var deadline = configured ? new Date(configured).getTime() : NaN;
+    if (isNaN(deadline) || deadline <= Date.now()) { configured = null; deadline = nextMidnight(); }
+    function pad(n) { return (n < 10 ? '0' : '') + n; }
+    function tick() {
+      var left = Math.max(0, Math.floor((deadline - Date.now()) / 1000));
+      if (left === 0 && !configured) { deadline = nextMidnight(); left = Math.floor((deadline - Date.now()) / 1000); }
+      clock.textContent = pad(Math.floor(left / 3600)) + ':' + pad(Math.floor((left % 3600) / 60)) + ':' + pad(left % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+</script>
+{%- endif -%}
+{% if section.settings.enable_timer and pm_minimal == false %}
   <script>
     (function () {
       var clock = document.querySelector('#shopify-section-{{ section.id }} [data-mgx-countdown]');
@@ -299,7 +413,7 @@
       function pad(n) { return (n < 10 ? '0' : '') + n; }
       function tick() {
         var left = Math.max(0, Math.floor((end - Date.now()) / 1000));
-        if (left === 0 && !clock.dataset.deadline) { end = deadline(); left = Math.floor((end - Date.now()) / 1000); }
+        if (left === 0) { end = deadline(); left = Math.floor((end - Date.now()) / 1000); }
         var d = Math.floor(left / 86400);
         var h = Math.floor(left / 3600) - (cells.d ? d * 24 : 0);
         var values = { d: d, h: h, m: Math.floor(left / 60) % 60, s: left % 60 };
@@ -314,13 +428,36 @@
   </script>
 
 {% endif %}
-{%- endunless -%}
 
 
 {% schema %}
   {
-    "name": "Offer Timebar",
+        "name": "Offer Timebar",
     "settings": [
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Style",
+        "options": [
+          {
+            "value": "classic",
+            "label": "Classic (offer + countdown boxes, badges)"
+          },
+          {
+            "value": "minimal",
+            "label": "Minimal (one line, plain countdown)"
+          }
+        ],
+        "default": "classic",
+        "info": "Minimal uses the colour scheme below and ignores the colours, top bar and badges."
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-4",
+        "info": "Minimal style only."
+      },
       {
         "type": "checkbox",
         "id": "enable_top_bar",
@@ -343,8 +480,8 @@
         "type": "color",
         "id": "primary_color",
         "label": "Primary Color",
-        "info": "Background of the whole top bar.",
-        "default": "#100F0D"
+        "info": "Background of the offer half (left on desktop, top on phones).",
+        "default": "#C8202F"
       },
       {
         "type": "color",
@@ -363,7 +500,7 @@
         "type": "color",
         "id": "timer_label_color",
         "label": "Timer label color",
-        "default": "#C7C9CB"
+        "default": "#FFFFFF"
       },
       {
         "type": "text",
@@ -381,7 +518,7 @@
         "type": "text",
         "id": "countdown_date",
         "label": "End Date and Time",
-        "info": "Format: YYYY/MM/DD HH:MM:SS (e.g., 2026/12/25 23:59:59)"
+        "info": "Format: YYYY/MM/DD HH:MM:SS (e.g., 2026/12/25 23:59:59). Empty (or once the date has passed): counts down to midnight, every day."
       },
       {
         "type": "text",
@@ -397,9 +534,42 @@
     ],
     "blocks": [
       {
+        "type": "market_offer",
+        "name": "Market offer",
+        "settings": [
+          {
+            "type": "text",
+            "id": "markets",
+            "label": "Markets",
+            "info": "Market handles, comma separated (e.g. france, switz). In these markets the texts below replace the section's texts. Empty fields keep the section's text. Handles only: don't translate this field."
+          },
+          {
+            "type": "text",
+            "id": "top_banner_text",
+            "label": "Top Banner Text"
+          },
+          {
+            "type": "text",
+            "id": "prepend_text",
+            "label": "Prepend Text"
+          },
+          {
+            "type": "text",
+            "id": "append_text",
+            "label": "Append Text"
+          }
+        ]
+      },
+      {
         "type": "payment_icon",
         "name": "Badge",
         "settings": [
+          {
+            "type": "text",
+            "id": "markets",
+            "label": "Markets",
+            "info": "Empty = default badge. Badges with market handles (comma separated, e.g. germany) replace the default badges in those markets. Handles only: don't translate this field."
+          },
           {
             "type": "checkbox",
             "id": "use_country_flag",

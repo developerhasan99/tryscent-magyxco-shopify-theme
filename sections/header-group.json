@@ -104,7 +104,9 @@
       ],
       "name": "Offer Timebar",
       "settings": {
-        "enable_top_bar": true,
+        "style": "minimal",
+        "color_scheme": "scheme-4",
+        "enable_top_bar": false,
         "enable_timer": true,
         "enable_badges": false,
         "primary_color": "#B33206",
@@ -112,7 +114,7 @@
         "timer_box_color": "#0B0B0B",
         "timer_label_color": "#FFFFFF",
         "top_banner_text": "EARLY BLACK FRIDAY FLASH SALE",
-        "prepend_text": "",
+        "prepend_text": "BLACK MONTH FLASH SALE",
         "countdown_date": "",
         "append_text": "UP TO 60% OFF",
         "link": "shopify://products/bundle-and-save"
