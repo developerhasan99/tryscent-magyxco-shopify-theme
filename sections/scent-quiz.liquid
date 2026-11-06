@@ -16,6 +16,17 @@
   if sq_free_list contains sq_country
     assign sq_free = true
   endif
+  assign sq_gift = false
+  assign sq_gift_list = section.settings.gift_thresholds | remove: ' ' | split: ','
+  for sq_pair in sq_gift_list
+    assign sq_pair_cur = sq_pair | split: ':' | first | upcase
+    if sq_pair_cur == cart.currency.iso_code
+      assign sq_pair_min = sq_pair | split: ':' | last | times: 100
+      if sq_bundle_variant.price >= sq_pair_min
+        assign sq_gift = true
+      endif
+    endif
+  endfor
   assign sq_root = routes.root_url
   unless sq_root contains '/'
     assign sq_root = '/'
@@ -46,7 +57,9 @@
       variantId: {{ sq_bundle_variant.id | json }},
       price: {{ sq_bundle_variant.price | default: 0 | json }},
       compare: {{ sq_bundle_variant.compare_at_price | default: 0 | json }},
-      freeShipping: {{ sq_free | json }}
+      freeShipping: {{ sq_free | json }},
+      flat: {{ section.settings.flat_price | json }},
+      gift: {{ sq_gift | json }}
     },
     images: {% render 'scent-quiz-images' %},
     products: {
@@ -123,6 +136,20 @@
       "label": "Countries with free shipping on the bundle",
       "info": "Country codes, comma separated. Only these visitors see \"Free shipping\" on the offer.",
       "default": "US,GB,CA,AU,NZ"
+    },
+    {
+      "type": "checkbox",
+      "id": "flat_price",
+      "label": "Flat price offer",
+      "info": "One price without the crossed-out price and Save %, plus icon tiles: free shipping, 60-day money-back guarantee, free mystery gift.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "gift_thresholds",
+      "label": "Free mystery gift thresholds (cart gift app)",
+      "info": "Currency:amount, comma separated, same as the cart gift app's goal per market. The gift tile shows only when the bundle price reaches it in the visitor's currency.",
+      "default": "USD:75,EUR:55,GBP:60"
     }
   ]
 }

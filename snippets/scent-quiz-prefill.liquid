@@ -24,6 +24,19 @@
         return Object.keys(p.variants || {}).some(function (k) { return String(p.variants[k].id) === id; });
       });
     }
+    // The cart gift app (Kite) adds its free gift right after the bundle lands in the cart. Wait for that line
+    // (up to 4 s, markets below its goal never get one) so checkout opens with the gift in the order.
+    function giftThenCheckout() {
+      var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+      var t0 = Date.now();
+      (function poll() {
+        fetch(root + 'cart.js', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (c) {
+          var hasGift = (c.items || []).some(function (i) { return i.properties && i.properties._free_product; });
+          if (hasGift || Date.now() - t0 > 4000) location.href = root + 'checkout';
+          else setTimeout(poll, 300);
+        }).catch(function () { location.href = root + 'checkout'; });
+      })();
+    }
     function apply() {
       var st = store();
       if (done || !st || !Array.isArray(st.availableProducts) || !st.availableProducts.length || !Array.isArray(st.selectedProducts)) return false;
@@ -46,21 +59,33 @@
       if (goCheckout && st.selectedProducts.length === max && typeof st.doATCandCheckout === 'function') {
         // The builder adds the bundle, then opens checkout or (open_checkout off on this block) the cart drawer.
         // The quiz button promises checkout: once the add went through (picks cleared, no error), go there.
-        st.doATCandCheckout();
-        var tries = 0;
-        var wait = setInterval(function () {
-          tries++;
-          if (st.cartError || tries > 150) { clearInterval(wait); return; }
-          if (!st.addingToCart && st.selectedProducts.length === 0) {
-            clearInterval(wait);
-            location.href = ((window.Shopify && Shopify.routes && Shopify.routes.root) || '/') + 'checkout';
-          }
-        }, 100);
+        // Kite only sees adds made after it has hooked the page's fetch (~1 s after load); add before that and
+        // the order goes to checkout without the free gift. Wait for it (max 6 s), then add.
+        var since = Date.now();
+        (function whenKiteReady() {
+          var hooked = window.gfg && window.gfg.state && !/\[native code\]/.test(Function.prototype.toString.call(window.fetch));
+          if (hooked) setTimeout(addAndGo, 800);
+          else if (Date.now() - since > 6000) addAndGo();
+          else setTimeout(whenKiteReady, 150);
+        })();
       } else {
         var t = document.getElementById('atc_scroll_target') || document.querySelector('.atc-bundle-builder');
         t && t.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       return true;
+    }
+    function addAndGo() {
+      var st = store();
+      st.doATCandCheckout();
+      var tries = 0;
+      var wait = setInterval(function () {
+        tries++;
+        if (st.cartError || tries > 150) { clearInterval(wait); return; }
+        if (!st.addingToCart && st.selectedProducts.length === 0) {
+          clearInterval(wait);
+          giftThenCheckout();
+        }
+      }, 100);
     }
     document.addEventListener('alpine:initialized', function () { setTimeout(apply, 0); });
     var waited = 0;

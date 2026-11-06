@@ -396,7 +396,38 @@
   }
 
   // ---------- US: offer, countdown, swap picker ----------
+  // Shopify (section setting "Flat price"): one flat price, no strike-through, and what's included as icon
+  // tiles: free shipping (only where the bundle ships free), the store's 60-day money-back guarantee and the
+  // free mystery gift (only where the bundle price reaches the cart gift app's threshold, set by the section).
+  const ICON = {
+    ship: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3z"/><path d="M14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg>',
+    guarantee: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>',
+    gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16v10H4z"/><path d="M3 7h18v4H3z"/><path d="M12 7v14"/><path d="M12 7c-1.5-3-5-3.5-5-1.2C7 7 9.5 7 12 7zM12 7c1.5-3 5-3.5 5-1.2C17 7 14.5 7 12 7z"/></svg>',
+  };
+  function flatPack(cls, name, s, list) {
+    const gift = !!SHOP.bundle.gift;
+    const perk = (icon, title, note) => el('li', { class: 'qz-perk', html: ICON[icon] }, el('span', {}, title, note && el('small', {}, note)));
+    const perks = [FREE && perk('ship', 'Free shipping'), perk('guarantee', '60‑day money‑back', 'guarantee'), gift && perk('gift', 'Free mystery gift', 'in your order')].filter(Boolean);
+    const clock = el('strong', { class: 'qz-timer-clock', 'aria-hidden': 'true' }, String(OFFER_MIN).padStart(2, '0') + ':00.00');
+    const note = el('span', { class: 'qz-timer-note' }, gift ? 'Your set and your free mystery gift are reserved while the timer runs.' : 'Your set is reserved while the timer runs.');
+    const deal = el('div', { class: 'qz-timer qz-deal', role: 'timer' },
+      el('span', { class: 'qz-timer-label' }, 'Your scent wardrobe'),
+      el('p', { class: 'qz-cta-price' }, el('strong', {}, money(BUNDLE.price))),
+      el('p', { class: 'qz-value-note' }, '6 × 50 ml bottles picked for you'),
+      el('ul', { class: 'qz-perks', style: `--n:${perks.length}` }, perks),
+      el('span', { class: 'qz-deal-clock' }, el('span', { class: 'qz-deal-k' }, 'Reserved for'), clock),
+      el('a', { class: 'qz-btn qz-btn--primary qz-btn--wide qz-btn--cta', href: bundleUrl(), onclick: (e) => checkout(e) }, 'Check out now'),
+      note);
+    startCountdown(clock, note, 0, gift ? 'Check out now to lock in your set and your free mystery gift.' : 'Check out now to lock in your set.');
+    return el('section', { class: cls + ' qz-res--offer', 'data-section': name },
+      deal,
+      el('h2', { class: 'qz-h2' }, s.habit === 'spritzer' ? 'Your signature set' : 'Your 6 scents'),
+      el('p', { class: 'qz-sub' }, 'Tap Swap on any bottle to choose another scent.'),
+      list);
+  }
+
   function usPack(cls, name, s, list, save) {
+    if (SHOP && SHOP.bundle.flat) return flatPack(cls, name, s, list);
     // Price, countdown and checkout button are one tile above the wardrobe: the deal and the action sit together.
     const clock = el('strong', { class: 'qz-timer-clock', 'aria-hidden': 'true' }, String(OFFER_MIN).padStart(2, '0') + ':00.00');
     const note = el('span', { class: 'qz-timer-note' }, FREE ? `${save}% off + free shipping while the timer runs.` : `${save}% off while the timer runs.`);
@@ -417,7 +448,7 @@
   }
 
   // The deadline survives refreshes; a fresh countdown starts once the old one has been over for an hour.
-  function startCountdown(clock, note, save) {
+  function startCountdown(clock, note, save, doneText) {
     let end = 0;
     try { end = +localStorage.getItem(OFFER_KEY) || 0; } catch (e) {}
     if (!end || Date.now() - end > 3600e3) {
@@ -433,7 +464,7 @@
       else if (shown) return;
       const left = Math.max(0, end - Date.now());
       clock.textContent = `${pad(Math.floor(left / 60e3))}:${pad(Math.floor((left % 60e3) / 1000))}.${pad(Math.floor((left % 1000) / 10))}`;
-      if (!left) { note.textContent = `Check out now to lock in ${save}% off.`; return; }
+      if (!left) { note.textContent = doneText || `Check out now to lock in ${save}% off.`; return; }
       requestAnimationFrame(tick);
     };
     tick();

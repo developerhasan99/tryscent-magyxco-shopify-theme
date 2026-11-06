@@ -368,3 +368,20 @@ html [hidden][hidden] { display: none; }
 }
 .qz-deal-k { font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .qz-deal .qz-timer-clock { font-size: 30px; }
+/* Shopify flat-price offer: what's included, as three icon tiles under the price */
+.qz-perks {
+  list-style: none; margin: 10px 0 2px; padding: 0; width: 100%;
+  display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 8px;
+}
+.qz-perk {
+  display: grid; justify-items: center; gap: 6px; padding: 10px 6px;
+  background: var(--card); border: 1px solid rgba(154, 91, 30, .3); border-radius: 10px;
+  font-size: 12px; line-height: 1.25; font-weight: 700; color: var(--ink);
+}
+.qz-perk svg { width: 24px; height: 24px; color: var(--accent); }
+.qz-perk span { display: block; }
+.qz-perk small { display: block; font-size: 11px; font-weight: 500; color: var(--muted); margin-top: 1px; }
+@media (min-width: 760px) {
+  .qz-perks { gap: 10px; }
+  .qz-perk { font-size: 13px; padding: 12px 8px; }
+}
