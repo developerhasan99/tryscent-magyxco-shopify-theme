@@ -832,7 +832,7 @@
             </div>
           </div>
         {%- endif -%}
-        <script src="{{ 'mgx-scent-facets.js' | asset_url }}"></script>
+        <script>{{ 'mgx-scent-facets.js' | inline_asset_content }}</script>
         <div class="pm-bs-list" x-ref="list" @scroll.passive="checkScroll()" role="list" :class="{ 'is-empty': visibleRows === 0 }" data-pm-bs-list>
           {{ pm_rows }}
         </div>
