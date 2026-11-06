@@ -1382,6 +1382,14 @@
   min-height: 56px;
 }
 
+/* Designer value crossed out after the button price */
+.pm-scope .pm-bs-cta__was {
+  margin-left: 8px;
+  font-weight: 400;
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
 /* Price breakdown above the button (port of the FM theme): Designer Value / Save with MAGYX / MAGYX Value /
    You Save with Bundle / Total */
 .pm-scope .pm-bs-sum {

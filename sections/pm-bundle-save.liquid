@@ -970,6 +970,7 @@
           {% if pm_bp != blank %}data-bundle-product-id="{{ pm_bp.id }}"{% endif %}
         >
           <span x-text="ctaText">{{ st.cta_empty | escape }}</span>
+          <s class="pm-bs-cta__was" x-show="ctaWas" x-text="ctaWas" x-cloak></s>
         </button>
         <p class="pm-bs-error" role="alert" x-show="error" x-text="error" x-cloak></p>
         {%- if pm_bp == blank and request.design_mode -%}
@@ -1556,6 +1557,11 @@
             var v = this.bundleVariant;
             if (this.cfg.mode !== 'per_line' && v) return this.cfg.text.cta + ' · ' + this.money(v.price);
             return this.cfg.text.cta || '';
+          },
+          /* Designer value of the picks, crossed out after the button price (same rule as the Designer Value row) */
+          get ctaWas() {
+            if (this.adding || this.picks.length === 0 || this.cfg.mode === 'per_line' || !this.bundleVariant) return '';
+            return this.showDesigner ? this.money(this.designerTotal) : '';
           },
           money: function (cents) {
             return formatMoney(cents, this.cfg && this.cfg.moneyFormat).replace(/[.,]00(?=\D*$)/, '');
