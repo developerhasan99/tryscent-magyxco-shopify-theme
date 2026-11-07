@@ -12,7 +12,7 @@
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 
-<cart-drawer class="[visibility:hidden] drawer{% if cart == empty %} is-empty{% endif %}">
+<cart-drawer class="[visibility:hidden] drawer mgx-cart{% if cart == empty %} is-empty{% endif %}">
   <div id="CartDrawer" class="cart-drawer">
     <div id="CartDrawer-Overlay" class="cart-drawer__overlay"></div>
     <div
@@ -22,9 +22,10 @@
       aria-label="{{ 'sections.cart.title' | t }}"
       tabindex="-1">
       <div class="drawer__header">
-        <h2 class="drawer__heading">{{ 'sections.cart.title' | t }}
-          <span style="color: #6c6c6c; margin: 0 5px;">•</span>
-          {{ cart.item_count }}</h2>
+        <h2 class="drawer__heading mgx-cart__title">
+          {{- 'sections.cart.title' | t -}}
+          <span class="mgx-cart__count">{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }}</span>
+        </h2>
         <button
           class="drawer__close"
           type="button"
@@ -35,7 +36,7 @@
           </span>
         </button>
       </div>
-      <div class="flex-grow overflow-y-auto -mr-3 pr-3 bg-white">
+      <div class="flex-grow overflow-y-auto -mr-3 pr-3 bg-white mgx-cart__body">
         {%- if cart == empty -%}
           <div class="drawer__inner-empty">
             <div class="cart-drawer__warnings center{% if settings.cart_drawer_collection != blank %} cart-drawer__warnings--has-collection{% endif %}">
@@ -190,13 +191,19 @@
                             headers="CartDrawer-ColumnTotal">
                             {%- render 'loading-spinner' -%}
                             <div class="cart-item__price-wrapper">
-                              {%- if item.original_line_price != item.final_line_price -%}
+                              {%- comment -%} "Was" price (port of federicomahora.co): the compare-at value of the line (e.g. a bundle vs its bottles bought singly), else the pre-discount line price {%- endcomment -%}
+                              {%- assign mgx_line_was = item.original_line_price -%}
+                              {%- assign mgx_line_compare = item.variant.compare_at_price | times: item.quantity -%}
+                              {%- if mgx_line_compare > mgx_line_was -%}
+                                {%- assign mgx_line_was = mgx_line_compare -%}
+                              {%- endif -%}
+                              {%- if mgx_line_was > item.final_line_price -%}
                                 <div class="cart-item__discounted-prices">
                                   <span class="visually-hidden">
                                     {{ 'products.product.price.regular_price' | t }}
                                   </span>
                                   <s class="cart-item__old-price price price--end">
-                                    {{ item.original_line_price | money }}
+                                    {{ mgx_line_was | money }}
                                   </s>
                                   <span class="visually-hidden">
                                     {{ 'products.product.price.sale_price' | t }}
@@ -465,25 +472,35 @@
           <!-- CTAs -->
           <div class="nvd-mini"></div>
 
-          {% if cart.total_price != cart.original_total_price %}
-            <div class="totals flex-wrap gap-4 !mb-2" role="status">
-              <h2 class="original_text">Subtotal:</h2>
-              <p class="original__total-value text-sm font-semibold">
-                {{ cart.original_total_price | money_with_currency }}
+          {%- comment -%} Value of the cart at full prices (port of federicomahora.co): compare-at price where it is higher (gifts included), else the line price {%- endcomment -%}
+          {%- assign mgx_cart_value = 0 -%}
+          {%- for item in cart.items -%}
+            {%- assign mgx_unit_value = item.original_price -%}
+            {%- if item.variant.compare_at_price > mgx_unit_value -%}
+              {%- assign mgx_unit_value = item.variant.compare_at_price -%}
+            {%- endif -%}
+            {%- assign mgx_cart_value = mgx_unit_value | times: item.quantity | plus: mgx_cart_value -%}
+          {%- endfor -%}
+
+          {% if mgx_cart_value > cart.total_price %}
+            <div class="totals mgx-cart__row" role="status">
+              <h2 class="original_text mgx-cart__row-label">Subtotal</h2>
+              <p class="original__total-value mgx-cart__row-value">
+                <s>{{ mgx_cart_value | money_with_currency }}</s>
               </p>
             </div>
 
-            <div class="totals flex-wrap gap-4 !mb-2" role="status">
-              <h2 class="discount_text">Discount:</h2>
-              <p class="discount_value">
-                <span class="mgx-text-accent text-sm font-semibold">-{{ cart.original_total_price | minus: cart.total_price | money_with_currency }}</span>
+            <div class="totals mgx-cart__row mgx-cart__row--save" role="status">
+              <h2 class="discount_text mgx-cart__row-label">Discounts</h2>
+              <p class="discount_value mgx-cart__row-value">
+                <span>-{{ mgx_cart_value | minus: cart.total_price | money_with_currency }}</span>
               </p>
             </div>
           {% endif %}
 
-          <div class="totals flex-wrap gap-4 !mb-3" role="status">
-            <h2 class="totals__total">Total:</h2>
-            <p class="totals__total-value">
+          <div class="totals mgx-cart__row mgx-cart__row--total" role="status">
+            <h2 class="totals__total mgx-cart__row-label">Total</h2>
+            <p class="totals__total-value mgx-cart__row-value">
               <span>{{ cart.total_price | money_with_currency }}</span>
             </p>
           </div>

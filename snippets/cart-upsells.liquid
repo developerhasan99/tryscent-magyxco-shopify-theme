@@ -1,93 +1,184 @@
-{% assign upsell_collection = collections[settings.cart_drawer_collection] %}
+{% comment %}
+  Cart drawer upsells ("Pair it with"), port of the federicomahora.co carousel (trymagyx-shopify-theme 99dd988 + 5d39d62).
+  Renders only when the collection in settings.cart_drawer_collection exists and has products.
+  Products already in the cart and sold-out products are skipped; at most 8 cards render, as a swipe carousel with arrows.
+  30 ml variants stay out of the picker (hidden size on this store). Styling: assets/mgx-cart.css.
 
-{% if upsell_collection and upsell_collection.all_products.size > 0 %}
-  <h3 class="text-center text-lg tracking-wider mb-2 mt-8">You'll love these</h3>
-  <div class="flex flex-col gap-3 mb-3">
-    {% assign shown = 0 %}
-    {% for product in upsell_collection.all_products %}
-      {% assign in_cart = false %}
-      {% for item in cart.items %}
-        {% if item.product.id == product.id %}
-          {% assign in_cart = true %}
-          {% break %}
-        {% endif %}
-      {% endfor %}
-      {% unless in_cart %}
-        {% assign product_form_id = 'product-form-' | append: product.id %}
-        <product-form class="product-form">
-          {%- form 'product'
-            , product
-            , id: product_form_id
-            , class: 'form'
-            , novalidate: 'novalidate' -%}
+  Usage:
+  {% render 'cart-upsells' %}
+{% endcomment %}
 
-            {% if product.selected_or_first_available_variant.requires_selling_plan %}
+{%- liquid
+  assign upsell_collection = collections[settings.cart_drawer_collection]
+  assign upsell_limit = 8
+-%}
+
+{%- if upsell_collection and upsell_collection.all_products.size > 0 -%}
+  <div class="mgx-cart-upsells">
+    <div class="mgx-cart-upsells__head">
+      <h3 class="mgx-cart-upsells__heading">Pair it with</h3>
+      <div class="mgx-cart-upsells__nav">
+        <button type="button" class="mgx-cart-upsells__arrow" data-mgx-upsell-dir="-1" aria-label="Previous" disabled>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+        </button>
+        <button type="button" class="mgx-cart-upsells__arrow" data-mgx-upsell-dir="1" aria-label="Next">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mgx-cart-upsells__list" data-mgx-upsell-track>
+      {%- assign shown = 0 -%}
+      {%- for product in upsell_collection.all_products -%}
+        {%- assign in_cart = false -%}
+        {%- for item in cart.items -%}
+          {%- if item.product.id == product.id -%}
+            {%- assign in_cart = true -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if in_cart or product.available == false -%}
+          {%- continue -%}
+        {%- endif -%}
+
+        {%- comment -%} Default = first available variant that is not the hidden 30 ml size {%- endcomment -%}
+        {%- assign upsell_variant = nil -%}
+        {%- for variant in product.variants -%}
+          {%- assign upsell_title = variant.title | downcase -%}
+          {%- if product.variants.size > 1 and upsell_title contains '30' -%}{%- continue -%}{%- endif -%}
+          {%- if variant.available -%}
+            {%- assign upsell_variant = variant -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if upsell_variant == nil -%}
+          {%- continue -%}
+        {%- endif -%}
+        {%- assign product_form_id = 'cart-upsell-form-' | append: product.id -%}
+
+        <product-form class="product-form mgx-cart-upsell">
+          {%- form 'product',
+            product,
+            id: product_form_id,
+            class: 'form mgx-cart-upsell__form',
+            novalidate: 'novalidate'
+          -%}
+            {%- if upsell_variant.requires_selling_plan -%}
               <input
                 type="hidden"
                 name="selling_plan"
-                value="{{ product.selected_or_first_available_variant.selling_plan_allocations.first.selling_plan_id }}">
-            {% endif %}
+                value="{{ upsell_variant.selling_plan_allocations.first.selling_plan_id }}">
+            {%- endif -%}
 
-            <div style="display: none;">
-              {{ product.variants | json }}
+            <a href="{{ product.url }}" class="mgx-cart-upsell__media" tabindex="-1" aria-hidden="true">
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 112 }}"
+                  srcset="{{ product.featured_image | image_url: width: 56 }} 56w, {{ product.featured_image | image_url: width: 112 }} 112w, {{ product.featured_image | image_url: width: 168 }} 168w"
+                  sizes="56px"
+                  alt=""
+                  width="56"
+                  height="56"
+                  loading="lazy">
+              {%- endif -%}
+            </a>
+
+            <div class="mgx-cart-upsell__info">
+              <a href="{{ product.url }}" class="mgx-cart-upsell__title">{{ product.title | escape }}</a>
+              <span class="mgx-cart-upsell__price" data-mgx-upsell-price>{{ upsell_variant.price | money }}</span>
+              {%- if product.has_only_default_variant -%}
+                <input type="hidden" name="id" value="{{ upsell_variant.id }}">
+              {%- else -%}
+                <label class="visually-hidden" for="{{ product_form_id }}-id">Select variant</label>
+                <select
+                  id="{{ product_form_id }}-id"
+                  name="id"
+                  class="mgx-cart-upsell__select"
+                  data-mgx-upsell-select>
+                  {%- for variant in product.variants -%}
+                    {%- assign upsell_title = variant.title | downcase -%}
+                    {%- if product.variants.size > 1 and upsell_title contains '30' -%}{%- continue -%}{%- endif -%}
+                    <option
+                      value="{{ variant.id }}"
+                      data-price="{{ variant.price | money }}"
+                      {% if variant.id == upsell_variant.id %}selected{% endif %}
+                      {% unless variant.available %}disabled{% endunless %}>
+                      {{- variant.title | escape -}}
+                    </option>
+                  {%- endfor -%}
+                </select>
+              {%- endif -%}
             </div>
 
-            <div class="grid !mb-0 grid-cols-4 border gap-4 border-solid border-gray-100 rounded-lg p-3 items-center bg-white">
-              <img
-                src="{{ product.featured_image | image_url: width: 200 }}"
-                alt="{{ product.title }}"
-                class="w-full aspect-square object-cover object-center rounded-lg"
-                width=""
-                height="">
-              <div class="col-span-3">
-                <a href="{{ product.url }}" class="my-0 font-semibold leading-snug block text-black no-underline hover:underline mb-2">{{ product.title }}</a>
-                {% if product.has_only_default_variant %}
-                  <div>{{ product.price | money }}</div>
-                  <input
-                    type="hidden"
-                    name="id"
-                    value="{{ product.selected_or_first_available_variant.id }}">
-                {% else %}
-                  <div class="flex gap-3">
-                    <select
-                      class="flex-grow pl-1 pr-3 h-8 border border-gray-200 rounded border-solid"
-                      name="id"
-                      aria-label="Select variant">
-                      {% assign upsell_first = true %}
-                      {% for variant in product.variants %}
-                        {% assign upsell_title = variant.title | downcase %}
-                        {% if product.variants.size > 1 and upsell_title contains '30' %}{% continue %}{% endif %}
-                        {% assign variant_image = variant.image | default: product.featured_image %}
-                        <option
-                          value="{{ variant.id }}"
-                          data-price="{{ variant.price | money_without_currency }}"
-                          data-img="{{ variant_image | image_url: width: 200 }}"
-                          {% if upsell_first %}
-                          selected{% assign upsell_first = false %}{% endif %}>
-                          {{ variant.title }} - {{ variant.price | money }}
-                        </option>
-                      {% endfor %}
-                    </select>
-                    <button
-                      type="submit"
-                      name="add"
-                      class="product-form__submit button mgx-btn-primary tracking-wider text-xs leading-snug px-2 py-2 rounded-full w-full">
-                      <span>
-                        Add
-                      </span>
-                      {%- render 'loading-spinner' -%}
-                    </button>
-                  </div>
-                {% endif %}
-              </div>
+            <button
+              type="submit"
+              name="add"
+              class="product-form__submit button mgx-btn-primary mgx-cart-upsell__add">
+              <span>Add</span>
+              {%- render 'loading-spinner' -%}
+            </button>
+
+            <div class="product-form__error-message-wrapper mgx-cart-upsell__error" role="alert" hidden>
+              <span class="svg-wrapper">
+                {{- 'icon-error.svg' | inline_asset_content -}}
+              </span>
+              <span class="product-form__error-message"></span>
             </div>
           {%- endform -%}
         </product-form>
-        {% assign shown = shown | plus: 1 %}
-      {% endunless %}
-      {% if shown == 3 %}
-        {% break %}
-      {% endif %}
-    {% endfor %}
+
+        {%- assign shown = shown | plus: 1 -%}
+        {%- if shown == upsell_limit -%}
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
   </div>
-{% endif %}
+
+  <script>
+    /* Bound once on document, so it survives the innerHTML re-renders the cart drawer does after every add/change. */
+    (function () {
+      if (window.mgxCartUpsellsBound) return;
+      window.mgxCartUpsellsBound = true;
+      // Carousel arrows: scroll one card; arrows disable at the ends (also after swipes and re-renders).
+      function syncArrows(track) {
+        var wrap = track && track.closest('.mgx-cart-upsells');
+        if (!wrap) return;
+        var max = track.scrollWidth - track.clientWidth - 2;
+        wrap.querySelectorAll('[data-mgx-upsell-dir]').forEach(function (btn) {
+          btn.disabled = btn.getAttribute('data-mgx-upsell-dir') === '-1' ? track.scrollLeft <= 2 : track.scrollLeft >= max;
+        });
+      }
+      document.addEventListener('click', function (event) {
+        var btn = event.target.closest && event.target.closest('[data-mgx-upsell-dir]');
+        if (!btn) return;
+        var track = btn.closest('.mgx-cart-upsells').querySelector('[data-mgx-upsell-track]');
+        var card = track && track.firstElementChild;
+        if (!card) return;
+        track.scrollBy({ left: (card.offsetWidth + 8) * Number(btn.getAttribute('data-mgx-upsell-dir')), behavior: 'smooth' });
+      });
+      document.addEventListener('scroll', function (event) {
+        if (event.target.matches && event.target.matches('[data-mgx-upsell-track]')) syncArrows(event.target);
+      }, true);
+      new MutationObserver(function () {
+        document.querySelectorAll('[data-mgx-upsell-track]').forEach(syncArrows);
+      }).observe(document.body, { childList: true, subtree: true });
+      document.querySelectorAll('[data-mgx-upsell-track]').forEach(syncArrows);
+      // Opening the drawer makes the track measurable; re-sync then too.
+      document.addEventListener('transitionend', function () {
+        document.querySelectorAll('[data-mgx-upsell-track]').forEach(syncArrows);
+      }, true);
+
+      // Keeps the visible price in step with the chosen variant.
+      document.addEventListener('change', function (event) {
+        var select = event.target;
+        if (!select || !select.matches || !select.matches('[data-mgx-upsell-select]')) return;
+        var card = select.closest('.mgx-cart-upsell');
+        var price = card && card.querySelector('[data-mgx-upsell-price]');
+        var option = select.options[select.selectedIndex];
+        if (price && option && option.getAttribute('data-price')) {
+          price.textContent = option.getAttribute('data-price');
+        }
+      });
+    })();
+  </script>
+{%- endif -%}

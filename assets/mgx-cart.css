@@ -1,0 +1,358 @@
+/* mgx-cart.css: cart drawer pieces ported from federicomahora.co (trymagyx-shopify-theme assets/pm-cart.css):
+   item count in the heading, line "was" price, totals rows (Subtotal struck / Discounts / Total) and the
+   "Pair it with" upsell carousel (snippets/cart-upsells.liquid). Loaded after magyx-brand.css; no !important.
+   Tokens = FM values; the saving keeps this store's accent (--mgx-accent). Drawer gutter here is 15px (Dawn 1.5rem). */
+.mgx-cart {
+  --mgx-cart-ink: #232323;
+  --mgx-cart-muted: #707070;
+  --mgx-cart-line: #e7e7e7;
+  --mgx-cart-surface: #f6f6f6;
+  --mgx-cart-white: #ffffff;
+  --mgx-cart-error: #b3261e;
+  --mgx-cart-radius-sm: 4px;
+  --mgx-cart-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --mgx-cart-gutter: 15px;
+}
+
+/* 1. Heading: "Cart · 3 items" */
+.mgx-cart .mgx-cart__count {
+  margin-left: 8px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--mgx-cart-muted);
+}
+
+.mgx-cart .mgx-cart__count::before {
+  content: "\00B7";
+  margin-right: 8px;
+}
+
+/* 2. Body is a column so the upsells sit at its bottom, right above the totals, whatever the number of lines */
+.mgx-cart .mgx-cart__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.mgx-cart .mgx-cart__body > * {
+  flex-shrink: 0;
+}
+
+.mgx-cart .mgx-cart__body > .mgx-cart-upsells {
+  margin-top: auto;
+}
+
+.mgx-cart.is-empty .mgx-cart__body > .mgx-cart-upsells {
+  margin-top: 0;
+}
+
+/* Short screens (Dawn's max-height 650px rule): the whole drawer scrolls instead of the body, so the body keeps
+   its full height (a shrunk body lets the cross-sell spill under the footer); the footer stays pinned at the bottom. */
+@media screen and (max-height: 650px) {
+  .mgx-cart .mgx-cart__body {
+    flex: none;
+  }
+
+  .mgx-cart .drawer__footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    background: var(--mgx-cart-white);
+  }
+}
+
+/* 3. Line price: "was" price muted line-through above the paid price */
+.mgx-cart .cart-item__totals .cart-item__discounted-prices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.mgx-cart .cart-item__totals .cart-item__old-price {
+  opacity: 1;
+  font-weight: 400;
+  color: var(--mgx-cart-muted);
+  text-decoration: line-through;
+}
+
+/* 4. Upsells "Pair it with": white cards, radius 6, shadow-md, padding 12, 56px thumb on surface, mini Add */
+.mgx-cart .mgx-cart-upsells {
+  padding: 20px 0;
+  border-top: 1px solid var(--mgx-cart-line);
+}
+
+.mgx-cart .mgx-cart-upsells__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 8px;
+}
+
+.mgx-cart .mgx-cart-upsells__heading {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mgx-cart-muted);
+}
+
+.mgx-cart .mgx-cart-upsells__nav {
+  display: flex;
+  gap: 4px;
+}
+
+.mgx-cart .mgx-cart-upsells__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--mgx-cart-line);
+  border-radius: 999px;
+  background: var(--mgx-cart-white);
+  color: var(--mgx-cart-ink);
+  cursor: pointer;
+}
+
+.mgx-cart .mgx-cart-upsells__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.mgx-cart .mgx-cart-upsells__arrow svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+/* Carousel: one card + a peek of the next, swipe / arrows; the track bleeds to the drawer edges so shadows are not
+   clipped (left = Dawn gutter, right = the body's pr-3 scrollbar gutter) */
+.mgx-cart .mgx-cart-upsells__list {
+  display: flex;
+  gap: 8px;
+  margin: 0 -12px 0 calc(-1 * var(--mgx-cart-gutter));
+  padding: 4px 12px 12px var(--mgx-cart-gutter);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--mgx-cart-gutter) 12px;
+  scrollbar-width: none;
+}
+
+.mgx-cart .mgx-cart-upsells__list::-webkit-scrollbar {
+  display: none;
+}
+
+.mgx-cart .mgx-cart-upsells__list > .mgx-cart-upsell {
+  flex: 0 0 84%;
+  scroll-snap-align: start;
+}
+
+.mgx-cart .mgx-cart-upsells__list > .mgx-cart-upsell:only-child {
+  flex-basis: 100%;
+}
+
+.mgx-cart .mgx-cart-upsell {
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--mgx-cart-white);
+  box-shadow: var(--mgx-cart-shadow-md);
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__form {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 12px;
+  margin: 0;
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__media {
+  display: block;
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--mgx-cart-radius-sm);
+  background: var(--mgx-cart-surface);
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--mgx-cart-ink);
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__title:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__price {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--mgx-cart-ink);
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__select {
+  box-sizing: border-box;
+  max-width: 100%;
+  height: 32px;
+  margin: 2px 0 0;
+  padding: 0 28px 0 10px;
+  border: 1px solid var(--mgx-cart-line);
+  border-radius: var(--mgx-cart-radius-sm);
+  background-color: var(--mgx-cart-white);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23232323' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px 12px;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--mgx-cart-ink);
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Mini button (FM pm-btn--mini): 32px control */
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__add {
+  align-self: center;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 12px;
+  border-radius: var(--mgx-cart-radius-sm);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__add::before,
+.mgx-cart .mgx-cart-upsell .mgx-cart-upsell__add::after {
+  display: none;
+}
+
+.mgx-cart .mgx-cart-upsell .product-form__error-message-wrapper {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--mgx-cart-error);
+}
+
+.mgx-cart .mgx-cart-upsell .product-form__error-message-wrapper[hidden] {
+  display: none;
+}
+
+.mgx-cart .mgx-cart-upsell .product-form__error-message-wrapper .svg-wrapper {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 2px;
+}
+
+/* 5. Totals: Subtotal (struck value) / Discounts / Total 13/20, Total 14/20 600 above a hairline */
+.mgx-cart .totals.mgx-cart__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin: 0;
+}
+
+.mgx-cart .totals.mgx-cart__row + .totals.mgx-cart__row {
+  margin-top: 6px;
+}
+
+.mgx-cart .totals.mgx-cart__row > *,
+.mgx-cart .totals.mgx-cart__row * {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--mgx-cart-ink);
+}
+
+.mgx-cart .totals.mgx-cart__row .mgx-cart__row-value,
+.mgx-cart .totals.mgx-cart__row .mgx-cart__row-value * {
+  font-weight: 500;
+}
+
+.mgx-cart .totals.mgx-cart__row--total > *,
+.mgx-cart .totals.mgx-cart__row--total *,
+.mgx-cart .totals.mgx-cart__row--total .mgx-cart__row-value,
+.mgx-cart .totals.mgx-cart__row--total .mgx-cart__row-value * {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.mgx-cart .totals.mgx-cart__row .original__total-value s {
+  color: var(--mgx-cart-muted);
+  text-decoration-thickness: 1px;
+}
+
+.mgx-cart .totals.mgx-cart__row--save .mgx-cart__row-value * {
+  color: var(--mgx-accent);
+  font-weight: 600;
+}
+
+.mgx-cart .totals.mgx-cart__row + .totals.mgx-cart__row--total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--mgx-cart-line);
+}
+
+.mgx-cart .totals.mgx-cart__row--total {
+  margin-bottom: 12px;
+}

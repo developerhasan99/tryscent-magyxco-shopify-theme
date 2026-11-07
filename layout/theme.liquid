@@ -363,6 +363,9 @@ body {
 
     {{ 'blocky.css' | asset_url | stylesheet_tag }}
     {{ 'magyx-brand.css' | asset_url | stylesheet_tag }}
+    {%- if settings.cart_type == 'drawer' -%}
+      {{ 'mgx-cart.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
 
     {% comment %} Load Swiper Assets {% endcomment %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
