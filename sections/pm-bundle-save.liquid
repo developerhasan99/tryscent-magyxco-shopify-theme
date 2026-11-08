@@ -685,6 +685,13 @@
                   assign t_pct = t_compare | minus: t_price | times: 100.0 | divided_by: t_compare | round
                   assign t_badge = t_pct | append: '% OFF'
                 endif
+                # Highlight badge on the card edge: own text, or the caption moved up (keeps its translations)
+                assign t_flag = block.settings.highlight | strip
+                assign t_tag = block.settings.tag
+                if t_flag == blank and block.settings.tag_as_badge
+                  assign t_flag = t_tag
+                  assign t_tag = ''
+                endif
               -%}
               <button
                 type="button"
@@ -695,34 +702,51 @@
                 @click="selectTier({{ ti }})"
                 {{ block.shopify_attributes }}
               >
-                {%- if t_badge != blank -%}
-                  <span class="pm-bs-tier__badge">{{ t_badge | escape }}</span>
+                {%- comment -%}
+                  Vertical list (port of tryscent.co 08.11): every card shows label, saving badge, per bottle, price and
+                  compare-at; only the selected card opens the rest (caption, extra-bottle price).
+                {%- endcomment -%}
+                {%- if t_flag != blank -%}
+                  <div class="pm-bs-tier__flag">{{ t_flag | escape }}</div>
                 {%- endif -%}
-                <span class="pm-bs-tier__check" aria-hidden="true">{%- render 'pm-icon', icon: 'check', size: 12, stroke: 2.5 -%}</span>
-                <span class="pm-bs-tier__label">{{ block.settings.label | escape }}</span>
-                {%- if block.settings.tag != blank -%}
-                  <span class="pm-bs-tier__tag">{{ block.settings.tag | escape }}</span>
-                {%- endif -%}
-                <span class="pm-bs-tier__prices">
-                  {%- if t_price > 0 -%}
-                    <span
-                      class="pm-bs-tier__price"
-                      {% if t_max_n > t_bottles %}x-text="liveTier({{ ti }}) ? money(liveTier({{ ti }}).price) : {{ t_price | money_without_trailing_zeros | json | escape }}"{% endif %}
-                    >{{ t_price | money_without_trailing_zeros }}</span>
-                  {%- endif -%}
-                  {%- if t_compare > t_price -%}
-                    <s
-                      class="pm-bs-tier__compare"
-                      {% if t_max_n > t_bottles %}x-text="liveTier({{ ti }}) ? money(liveTier({{ ti }}).compare) : {{ t_compare | money_without_trailing_zeros | json | escape }}"{% endif %}
-                    >{{ t_compare | money_without_trailing_zeros }}</s>
-                  {%- endif -%}
+                <span class="pm-bs-tier__row">
+                  <span class="pm-bs-tier__check" aria-hidden="true">{%- render 'pm-icon', icon: 'check', size: 12, stroke: 2.5 -%}</span>
+                  <span class="pm-bs-tier__name">
+                    <div class="pm-bs-tier__label">{{ block.settings.label | escape }}</div>
+                    {%- if t_badge != blank -%}
+                      <div class="pm-bs-tier__badge">{{ t_badge | escape }}</div>
+                    {%- endif -%}
+                    {%- if t_each != blank -%}
+                      <div class="pm-bs-tier__each">{{ t_each | escape }}</div>
+                    {%- endif -%}
+                  </span>
+                  <span class="pm-bs-tier__prices">
+                    {%- if t_price > 0 -%}
+                      <span
+                        class="pm-bs-tier__price"
+                        {% if t_max_n > t_bottles %}x-text="liveTier({{ ti }}) ? money(liveTier({{ ti }}).price) : {{ t_price | money_without_trailing_zeros | json | escape }}"{% endif %}
+                      >{{ t_price | money_without_trailing_zeros }}</span>
+                    {%- endif -%}
+                    {%- if t_compare > t_price -%}
+                      <s
+                        class="pm-bs-tier__compare"
+                        {% if t_max_n > t_bottles %}x-text="liveTier({{ ti }}) ? money(liveTier({{ ti }}).compare) : {{ t_compare | money_without_trailing_zeros | json | escape }}"{% endif %}
+                      >{{ t_compare | money_without_trailing_zeros }}</s>
+                    {%- endif -%}
+                  </span>
                 </span>
-                {%- if t_each != blank -%}
-                  <span class="pm-bs-tier__each">{{ t_each | escape }}</span>
-                {%- endif -%}
-                {%- if t_stack != blank -%}
-                  <span class="pm-bs-tier__stack">{{ t_stack | escape }}</span>
-                {%- endif -%}
+                <span class="pm-bs-tier__more">
+                  <span class="pm-bs-tier__more-in">
+                    {%- if t_tag != blank -%}
+                      <div class="pm-bs-tier__tag">{{ t_tag | escape }}</div>
+                    {%- endif -%}
+                    <span class="pm-bs-tier__chips">
+                      {%- if t_stack != blank -%}
+                        <div class="pm-bs-tier__stack">{{ t_stack | escape }}</div>
+                      {%- endif -%}
+                    </span>
+                  </span>
+                </span>
               </button>
               {%- assign ti = ti | plus: 1 -%}
             {%- endfor -%}
@@ -2316,6 +2340,19 @@
           "id": "badge_override",
           "label": "Badge",
           "info": "Empty = saving in % from the variant's compare-at price."
+        },
+        {
+          "type": "text",
+          "id": "highlight",
+          "label": "Highlight badge",
+          "info": "E.g. Most popular. Black badge on the card's top edge, always visible."
+        },
+        {
+          "type": "checkbox",
+          "id": "tag_as_badge",
+          "label": "Show caption as highlight badge",
+          "info": "Used when Highlight badge is empty. The caption (and its translations) moves to the badge.",
+          "default": false
         },
         {
           "type": "checkbox",

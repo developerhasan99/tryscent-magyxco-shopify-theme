@@ -74,6 +74,7 @@
             "max_bottles": 3,
             "label": "3 BOTTLES",
             "tag": "MOST POPULAR",
+            "tag_as_badge": true,
             "preselected": false
           }
         },

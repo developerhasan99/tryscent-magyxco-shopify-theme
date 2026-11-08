@@ -443,12 +443,6 @@
 
 /* 4. Tier cards + 5. line cards (shared card look) --------------------------------------- */
 /* Tiers sit in one row at every width (as HOK); phones get compact type */
-.pm-scope .pm-bs-tiers {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 6px;
-  padding-top: 10px;
-}
 
 .pm-scope .pm-bs-lines {
   display: grid;
@@ -478,9 +472,205 @@
   transition: border-color var(--pm-bs-dur) var(--pm-bs-ease), box-shadow var(--pm-bs-dur) var(--pm-bs-ease);
 }
 
+/* Size cards: vertical list, one card per row; only the selected card opens (port of tryscent.co 08.11) */
+.pm-scope .pm-bs-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 8px;
+}
+
 .pm-scope .pm-bs-tier {
-  justify-content: flex-start;
-  padding: 18px 3px 10px;
+  display: block;
+  padding: 14px 12px;
+  text-align: left;
+}
+
+.pm-scope .pm-bs-tier__row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pm-scope .pm-bs-tier__check {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--pm-bs-muted);
+  border-radius: 999px;
+  background: var(--pm-bs-white);
+  color: transparent;
+  transition: background-color var(--pm-bs-dur) var(--pm-bs-ease), border-color var(--pm-bs-dur) var(--pm-bs-ease);
+}
+
+.pm-scope .pm-bs-tier.is-selected .pm-bs-tier__check {
+  border-color: transparent;
+  background: var(--pm-bs-ink);
+  color: var(--pm-bs-white);
+}
+
+.pm-scope .pm-bs-tier__check svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* Label, saving badge and per bottle on one line (wraps only when the card is too narrow) */
+.pm-scope .pm-bs-tier__name {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  min-width: 0;
+}
+
+.pm-scope .pm-bs-tier__label {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.pm-scope .pm-bs-tier__badge {
+  padding: 1px 6px;
+  border-radius: var(--pm-bs-radius-sm);
+  background: var(--pm-bs-sale);
+  color: var(--pm-bs-white);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+.pm-scope .pm-bs-tier__each {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--pm-bs-ink);
+  white-space: nowrap;
+}
+
+/* Highlight badge (most popular) on the card's top edge */
+.pm-scope .pm-bs-tier__flag {
+  position: absolute;
+  top: -9px;
+  right: 12px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--pm-bs-ink);
+  color: var(--pm-bs-white);
+  font-size: 10px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.pm-scope .pm-bs-tier__prices {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  margin: 0;
+  text-align: right;
+}
+
+.pm-scope .pm-bs-tier__price {
+  font-size: 17px;
+  line-height: 22px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.pm-scope .pm-bs-tier__compare {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--pm-bs-muted);
+  white-space: nowrap;
+}
+
+/* Details: closed on every card except the selected one */
+.pm-scope .pm-bs-tier__more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--pm-bs-dur) var(--pm-bs-ease);
+}
+
+.pm-scope .pm-bs-tier.is-selected .pm-bs-tier__more {
+  grid-template-rows: 1fr;
+}
+
+.pm-scope .pm-bs-tier__more-in {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-height: 0;
+  overflow: hidden;
+  padding-left: 30px;
+  visibility: hidden;
+  transition: visibility var(--pm-bs-dur) var(--pm-bs-ease);
+}
+
+.pm-scope .pm-bs-tier.is-selected .pm-bs-tier__more-in {
+  visibility: visible;
+}
+
+.pm-scope .pm-bs-tier__more-in > :first-child {
+  margin-top: 10px;
+}
+
+.pm-scope .pm-bs-tier__tag {
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-bs-muted);
+}
+
+.pm-scope .pm-bs-tier__chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.pm-scope .pm-bs-tier__stack {
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: var(--pm-bs-radius-sm);
+  background: var(--pm-bs-surface);
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+  color: var(--pm-bs-ink);
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-bs-tier {
+    padding: 16px;
+  }
+
+  .pm-scope .pm-bs-tier__flag {
+    right: 16px;
+  }
+
+  .pm-scope .pm-bs-tier__label {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .pm-scope .pm-bs-tier__price {
+    font-size: 18px;
+  }
 }
 
 .pm-scope .pm-bs-line {
@@ -505,108 +695,12 @@
   outline-offset: 2px;
 }
 
-.pm-scope .pm-bs-tier__badge {
-  position: absolute;
-  top: -9px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 2px 5px;
-  border-radius: var(--pm-bs-radius-sm);
-  background: var(--pm-bs-sale);
-  color: var(--pm-bs-white);
-  font-size: 9px;
-  line-height: 13px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.pm-scope .pm-bs-tier__check {
-  position: absolute;
-  top: -7px;
-  right: -5px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 999px;
-  background: var(--pm-bs-ink);
-  color: var(--pm-bs-white);
-}
-
-.pm-scope .pm-bs-tier.is-selected .pm-bs-tier__check {
-  display: inline-flex;
-}
-
-.pm-scope .pm-bs-tier__check svg {
-  width: 10px;
-  height: 10px;
-}
-
-.pm-scope .pm-bs-tier__label,
 .pm-scope .pm-bs-line__label {
   font-size: 13px;
   line-height: 18px;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.pm-scope .pm-bs-tier__label {
-  font-size: 11px;
-  line-height: 14px;
-  letter-spacing: 0.01em;
-}
-
-.pm-scope .pm-bs-tier__tag {
-  font-size: 8px;
-  line-height: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--pm-bs-muted);
-}
-
-.pm-scope .pm-bs-tier__prices {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0 6px;
-  margin-top: 4px;
-}
-
-.pm-scope .pm-bs-tier__price {
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 800;
-}
-
-.pm-scope .pm-bs-tier__compare {
-  font-size: 11px;
-  line-height: 14px;
-  color: var(--pm-bs-muted);
-}
-
-.pm-scope .pm-bs-tier__each {
-  margin-top: 4px;
-  font-size: 10px;
-  line-height: 13px;
-  font-weight: 700;
-  color: var(--pm-bs-ink);
-}
-
-.pm-scope .pm-bs-tier__stack {
-  margin-top: 4px;
-  padding: 2px 5px;
-  border-radius: var(--pm-bs-radius-sm);
-  background: var(--pm-bs-surface);
-  font-size: 9px;
-  line-height: 12px;
-  font-weight: 700;
-  color: var(--pm-bs-ink);
 }
 
 /* Line badge: amber, with a soft light sweep every few seconds */
@@ -702,20 +796,15 @@
 }
 
 @media (min-width: 750px) {
-  .pm-scope .pm-bs-tiers {
-    gap: 10px;
-  }
+  
 
   .pm-scope .pm-bs-line__spec {
     font-size: 13px;
     line-height: 18px;
   }
 
-  .pm-scope .pm-bs-tier {
-    padding: 20px 6px 12px;
-  }
+  
 
-  .pm-scope .pm-bs-tier__badge,
   .pm-scope .pm-bs-line__badge {
     top: -10px;
     padding: 3px 8px;
@@ -724,62 +813,21 @@
     letter-spacing: 0.08em;
   }
 
-  .pm-scope .pm-bs-tier__check {
-    top: 6px;
-    right: 6px;
-    width: 18px;
-    height: 18px;
-  }
+  
 
-  .pm-scope .pm-bs-tier__check svg {
-    width: 12px;
-    height: 12px;
-  }
+  
 
-  .pm-scope .pm-bs-tier__label {
-    font-size: 12px;
-    line-height: 16px;
-    letter-spacing: 0.04em;
-  }
+  
 
-  .pm-scope .pm-bs-tier__tag {
-    font-size: 10px;
-    line-height: 14px;
-    letter-spacing: 0.08em;
-  }
+  
 
-  .pm-scope .pm-bs-tier__price {
-    font-size: 18px;
-    line-height: 22px;
-  }
+  
 
-  .pm-scope .pm-bs-tier__compare {
-    font-size: 12px;
-    line-height: 16px;
-  }
+  
 
-  .pm-scope .pm-bs-tier__each {
-    font-size: 12px;
-    line-height: 16px;
-  }
+  
 
-  .pm-scope .pm-bs-tier__stack {
-    padding: 2px 8px;
-    font-size: 11px;
-    line-height: 15px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .pm-scope .pm-bs-tier__label {
-    font-size: 13px;
-    line-height: 18px;
-  }
-
-  .pm-scope .pm-bs-tier__prices {
-    flex-direction: row;
-    align-items: baseline;
-  }
+  
 }
 
 /* 6. Scent picker ------------------------------------------------------------------------ */
