@@ -673,6 +673,37 @@
   }
 }
 
+/* Phones: label, saving badge and per bottle stay on one line next to each other (Adrian 08.11) */
+@media (max-width: 749px) {
+  .pm-scope .pm-bs-tier__row {
+    gap: 8px;
+  }
+
+  .pm-scope .pm-bs-tier__name {
+    gap: 4px;
+  }
+
+  .pm-scope .pm-bs-tier__label {
+    font-size: 13px;
+  }
+
+  .pm-scope .pm-bs-tier__badge {
+    padding: 1px 4px;
+  }
+
+  .pm-scope .pm-bs-tier__each {
+    font-size: 11px;
+  }
+
+  .pm-scope .pm-bs-tier__price {
+    font-size: 16px;
+  }
+
+  .pm-scope .pm-bs-tier__more-in {
+    padding-left: 28px;
+  }
+}
+
 .pm-scope .pm-bs-line {
   min-height: 64px;
   padding: 12px 6px;
