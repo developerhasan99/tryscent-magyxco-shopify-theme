@@ -1182,6 +1182,7 @@
 }
 
 .pm-scope .pm-bs-list {
+  position: relative; /* contain absolute children (visually-hidden) so they don't stretch the page */
   max-height: 412px;
   overflow-y: auto;
   overscroll-behavior: contain;
