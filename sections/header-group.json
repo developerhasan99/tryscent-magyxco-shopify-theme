@@ -117,7 +117,19 @@
         "prepend_text": "BLACK MONTH FLASH SALE",
         "countdown_date": "",
         "append_text": "UP TO 60% OFF",
-        "link": "shopify://products/bundle-and-save"
+        "link": "shopify://products/bundle-and-save",
+        "goal_line_enable": true,
+        "goal_line_markets": "",
+        "goal_line_lang": "",
+        "goal_steps": "2:25, 4:30, 6:35, 8:40",
+        "goal_bs_handle": "bundle-and-save",
+        "goal_text_empty": "Add [n] and get [pct] OFF",
+        "goal_text_step": "Add [n] more and get [pct] OFF",
+        "goal_text_unlocked": "[rewards] unlocked",
+        "goal_text_done": "You get [pct] OFF",
+        "goal_label_pct": "[pct] OFF",
+        "goal_word_one": "bottle",
+        "goal_word_many": "bottles"
       }
     },
     "header": {
