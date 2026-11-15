@@ -124,7 +124,7 @@
         "goal_steps": "2:25, 4:30, 6:35, 8:40",
         "goal_bs_handle": "bundle-and-save",
         "goal_text_empty": "Add [n] and get [pct] OFF",
-        "goal_text_step": "Add [n] more and get [pct] OFF",
+        "goal_text_step": "Add [n] and get [pct] OFF",
         "goal_text_unlocked": "[rewards] unlocked",
         "goal_text_done": "You get [pct] OFF",
         "goal_label_pct": "[pct] OFF",
