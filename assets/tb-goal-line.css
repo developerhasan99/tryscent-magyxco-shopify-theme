@@ -1,0 +1,380 @@
+/* Goal line in the top bar (classic, or the minimal bar's own row) (snippets/tb-goal-line.liquid, assets/tb-goal-line.js). The bar's offer, button
+   and countdown stay as they are; the line sits inside the bar after the countdown:
+   - under 1360px: on its own line under the countdown (from 1100 to 1359 the bar has no badge strip, so there it
+     adds one line);
+   - 1360-1939: beside the countdown, where the badges are (they step aside, there is no room for both);
+   - from 1940: countdown, goal line, badges.
+   One sentence above one track with a plain marker per goal (no values on the track). Colours follow the bar: its
+   Secondary colour for text, track and marker rings, the background behind the line inside the markers; reached =
+   the theme's sale red (#e0201b, as in the pm-/fmx- styles). */
+
+/* (The Weglot language gate comes from snippets/tb-goal-line.liquid, setting "Language of the texts".) */
+
+.tb-goal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tg-fg, #fff);
+  font-family: var(--font-body-family, Figtree, sans-serif);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Until the cart and the gift app's goals are known the line keeps its room, so nothing moves when it fills in. */
+.tb-goal:not(.is-ready) {
+  visibility: hidden;
+}
+
+.tb-goal:focus-visible {
+  outline: 2px solid var(--tg-fg, #fff);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.tb-goal__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.tb-goal__lock {
+  width: 17px;
+  height: 22px;
+}
+
+.tb-goal__check,
+.tb-goal.is-done .tb-goal__lock {
+  display: none;
+}
+
+.tb-goal.is-done .tb-goal__check {
+  display: block;
+}
+
+.tb-goal__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 0 1 320px;
+  min-width: 270px;
+}
+
+.tb-goal__text {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: 0;
+  text-transform: none;
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+
+/* The numbers stand out: the discount in bold red, the bottle count in bold. */
+.tb-goal__hot {
+  color: #ff4a3f;
+  font-weight: 800;
+}
+
+.tb-goal__num {
+  font-weight: 700;
+}
+
+/* "30% OFF unlocked" for ~3 s after a cart update reaches a discount step: red, with a short pop. */
+.tb-goal.is-flash .tb-goal__text {
+  color: #ff4a3f;
+  animation: tg-text-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: left center;
+}
+
+.tb-goal.is-done .tb-goal__text {
+  color: #ff4a3f;
+}
+
+/* Rail = the track with the markers standing on it. Marker centres sit at --p of the track minus 12px (+6px), so
+   the last marker ends inside the track. */
+.tb-goal__rail {
+  display: block;
+  position: relative;
+  height: 14px;
+}
+
+.tb-goal__track {
+  display: block;
+  position: absolute;
+  top: 3px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  border-radius: 8px;
+  background: var(--tg-track, rgba(255, 255, 255, 0.2));
+}
+
+/* Red fill with moving stripes and a soft glow; it sweeps in from empty and springs a little past each move. */
+.tb-goal__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: 8px;
+  background-color: #e0201b;
+  background-image:
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.22) 0 6px, rgba(255, 255, 255, 0) 6px 12px),
+    linear-gradient(90deg, #b3261e 0%, #ff3b2f 100%);
+  background-size: 17px 17px, 100% 100%;
+  box-shadow: 0 0 10px rgba(255, 59, 47, 0.55);
+  animation: tg-stripes 900ms linear infinite;
+  transition: width 700ms cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+.tb-goal__marks {
+  display: block;
+  position: absolute;
+  inset: 0;
+}
+
+.tb-goal__mark {
+  position: absolute;
+  top: 0;
+  left: calc(var(--p, 1) * (100% - 12px) + 6px);
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  border: 2px solid var(--tg-edge, rgba(255, 255, 255, 0.55));
+  border-radius: 50%;
+  background: var(--tg-bg, #0b0b0b);
+  transition: background-color 300ms ease, border-color 300ms ease;
+}
+
+/* The next discount step's marker pulses: the goal the sentence talks about. */
+.tb-goal__mark.is-next {
+  border-color: #ff4a3f;
+  animation: tg-pulse 1600ms ease-out infinite;
+}
+
+.tb-goal__mark.is-reached {
+  border-color: #ff3b2f;
+  background: #e0201b;
+  box-shadow: 0 0 8px rgba(255, 59, 47, 0.6);
+}
+
+/* Reached = a white check inside. */
+.tb-goal__mark.is-reached::after {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 3px;
+  height: 6px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+}
+
+/* Reached by this cart update: the marker pops and a ring bursts out of it. */
+.tb-goal__mark.is-pop {
+  animation: tg-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tb-goal__mark.is-pop::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 2px solid #ff4a3f;
+  border-radius: 50%;
+  animation: tg-burst 700ms ease-out forwards;
+}
+
+@keyframes tg-stripes {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 17px 0, 0 0; }
+}
+
+@keyframes tg-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 74, 63, 0.75); }
+  70% { box-shadow: 0 0 0 7px rgba(255, 74, 63, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 74, 63, 0); }
+}
+
+@keyframes tg-pop {
+  0% { transform: translateX(-50%) scale(1); }
+  40% { transform: translateX(-50%) scale(1.6); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+@keyframes tg-burst {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(2.8); opacity: 0; }
+}
+
+@keyframes tg-text-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-goal__fill,
+  .tb-goal__mark,
+  .tb-goal__text,
+  .tb-goal__mark.is-next,
+  .tb-goal__mark.is-pop,
+  .tb-goal__mark.is-pop::before,
+  .tb-goal.is-flash .tb-goal__text {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Where the line shows, the badge strip under the bar gives it its place. */
+.shopify-section:has(.tb-goal) .mgx-tb-badges {
+  display: none;
+}
+
+/* Under 1360px: the line goes on its own line under the countdown, inside the bar. */
+@media screen and (max-width: 1359px) {
+  .mgx-tb__timer:has(.tb-goal) {
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .mgx-tb__timer .tb-goal {
+    flex-basis: 100%;
+    justify-content: center;
+  }
+}
+
+/* Phones: the line takes the bar's width (up to 360px of text and track). */
+@media screen and (max-width: 767px) {
+  .tb-goal__body {
+    flex: 0 1 360px;
+    min-width: 0;
+  }
+
+  .tb-goal__text {
+    font-size: 13px;
+  }
+}
+
+/* 768-1359: the countdown half is left-aligned, so the line is too. */
+@media screen and (min-width: 768px) and (max-width: 1359px) {
+  .mgx-tb__timer .tb-goal {
+    justify-content: flex-start;
+  }
+}
+
+/* From 1360px: beside the countdown, with the same divider and spacing the bar uses before its badges. */
+@media screen and (min-width: 1360px) {
+  .mgx-tb__timer:has(.tb-goal) {
+    flex-wrap: wrap;
+  }
+
+  .mgx-tb__timer .tb-goal {
+    flex: none;
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 1px solid var(--tg-rule, rgba(255, 255, 255, 0.15));
+  }
+
+  .mgx-tb__timer .tb-goal__body {
+    flex: none;
+    width: 300px;
+  }
+}
+
+/* Scrolling back up: the header comes back but the top bar does not, so a copy of the line hangs under the header
+   (assets/tb-goal-line.js makeStrip). Absolute, so it takes no room and nothing on the page moves; z-index -1 keeps
+   the header's own menus and dropdowns over it. Shown only while the sticky header is shown; at the top of the
+   page the top bar's own line is there. */
+.tb-goal-strip {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  padding: 6px 16px 7px;
+  border-top: 1px solid var(--tg-rule, rgba(255, 255, 255, 0.15));
+  background: var(--tg-bg, #0b0b0b);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 150ms ease, visibility 0s linear 150ms;
+}
+
+.section-header.shopify-section-header-sticky.scrolled-past-header:not(.shopify-section-header-hidden):not(.menu-open) .tb-goal-strip {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 150ms ease;
+}
+
+.tb-goal-strip .tb-goal {
+  justify-content: center;
+}
+
+.tb-goal-strip .tb-goal__body {
+  gap: 4px;
+}
+
+/* Tablets and desktops: sentence and track side by side, one row. */
+@media screen and (min-width: 768px) {
+  .tb-goal-strip .tb-goal__body {
+    flex: 0 1 auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .tb-goal-strip .tb-goal__rail {
+    flex: 0 0 280px;
+  }
+}
+
+/* The collection filter bar sticks right under the shown header plus the strip. :has() because the header section
+   sits in a wrapper here, so mgx-filters.css's "header ~ main" rule never matches. */
+html.tg-has-strip:has(.section-header.shopify-section-header-sticky.scrolled-past-header:not(.shopify-section-header-hidden)) .mgx-fc {
+  top: calc(var(--header-height, 0px) + var(--tg-strip-h, 0px));
+}
+
+/* Countdown switched off: the line takes the countdown's place after the offer. */
+.tb-goal-slot:has(.tb-goal) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .tb-goal-slot:has(.tb-goal) {
+    flex: 0 0 auto;
+    padding: 8px 24px 8px 22px;
+  }
+}
+
+/* Minimal bar (pm-timebar): the line has its own centred row under the bar's link. */
+.pm-timebar .tb-goal-slot:has(.tb-goal) {
+  justify-content: center;
+  padding: 0 16px 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .pm-timebar .tb-goal-slot:has(.tb-goal) {
+    padding: 0 24px 9px;
+  }
+
+  .pm-timebar .tb-goal-slot .tb-goal__body {
+    flex: 0 1 auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .pm-timebar .tb-goal-slot .tb-goal__rail {
+    flex: 0 0 280px;
+  }
+}

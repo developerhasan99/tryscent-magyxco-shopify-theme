@@ -1,0 +1,164 @@
+{% comment %}
+  Goal line in the classic top bar (sections/offer-timebar.liquid): after the countdown, or in its own slot after
+  the offer when the countdown is off. Shown on the markets listed in the section's "Goal line" settings (empty list = every market).
+
+  One sentence about the next discount step (e.g. "Add 1 more and get 30% OFF") above one
+  track with a plain marker for every goal, no values on the track:
+  - the discount steps from the "Discount steps" setting (bottles:percent). Display only: the discount comes from
+    the discount codes, so the setting must say what the codes give;
+  - the gift app's goals (Kite "TryScent Days": free gifts and free shipping by cart value, per market): marker
+    only, never in the sentence. Read in JS from Kite's page data, each placed on the step where a cart of 50 ml
+    bottles reaches it (a goal landing on a discount step shares its marker). The per-bottle price for that is
+    the SELLING price of the Choose & Save product's smallest bottle count (singles sell at it).
+  Bottles = every bottle in the cart, any size, 1 each; lines with _bundle_items count the bottles they carry;
+  the gift app's own lines (_free_product) never count. Kite goals follow the cart total (what Kite counts).
+  Logic in assets/tb-goal-line.js. Tapping the line opens the cart drawer. Colours follow the bar: text and track
+  from its Secondary colour, the marker fill from the background behind the line.
+
+  Texts come from the section settings. Weglot does not translate text written by JS: with "Language of the texts"
+  filled in, the line stays off pages Weglot translated into another language (blank = no check).
+
+  Accepts:
+  - section: {Object} the hosting offer-timebar section (required)
+  - minimal: {Boolean} the Minimal bar (colours from its colour scheme instead of Primary / Secondary)
+{% endcomment %}
+{%- liquid
+  assign st = section.settings
+  assign tg_markets = st.goal_line_markets | default: '' | downcase | remove: ' ' | split: ','
+  assign tg_lang = st.goal_line_lang | default: '' | strip | downcase
+  assign tg_on = false
+  if st.goal_line_enable
+    if tg_markets.size == 0
+      assign tg_on = true
+    elsif tg_markets contains localization.market.handle
+      assign tg_on = true
+    endif
+  endif
+  if st.goal_steps == blank or st.goal_text_empty == blank
+    assign tg_on = false
+  endif
+
+  # Per-bottle price (shopper's currency) from the Choose & Save product: SELLING price of its smallest bottle
+  # count, divided by that count ("1 Bottle" $24.00 -> $24.00). Not compare-at: bottles sell at this price.
+  assign tg_ref = 0
+  assign tg_handle = st.goal_bs_handle | strip
+  if tg_on and tg_handle != blank
+    assign tg_bs = all_products[tg_handle]
+    assign tg_best = 999
+    for v in tg_bs.variants
+      assign vn = v.option1 | default: v.title | split: ' ' | first | plus: 0
+      if vn > 0 and vn < tg_best
+        assign tg_best = vn
+        assign tg_ref = v.price | divided_by: vn
+      endif
+    endfor
+  endif
+
+  # Text/track colour and the background behind the line. Classic: the bar's Secondary colour, on the countdown box
+  # (or the offer colour when the line has its own slot). Minimal: the bar's colour scheme text/background.
+  assign tg_fg = st.secondary_color
+  assign tg_bg = st.primary_color
+  if st.enable_timer
+    assign tg_bg = st.timer_box_color
+  endif
+  if minimal
+    assign tg_scheme = settings.color_schemes[st.color_scheme].settings
+    assign tg_fg = tg_scheme.text
+    assign tg_bg = tg_scheme.background
+  endif
+  if tg_fg == blank
+    assign tg_fg = '#ffffff'
+  endif
+  if tg_bg == blank
+    assign tg_bg = '#0b0b0b'
+  endif
+-%}
+{%- if tg_on -%}
+  {{ 'tb-goal-line.css' | asset_url | stylesheet_tag }}
+  {%- comment -%}
+    Rules that change the bar's own parts. The bar scopes its styles to #shopify-section-[id], so these do too.
+  {%- endcomment -%}
+  {%- capture tg_sel -%}
+    {%- if tg_lang != blank -%}html:is(:not([data-wg-translated]), [data-wg-translated^='{{ tg_lang }}' i]) {% endif -%}
+    #shopify-section-{{ section.id }}
+  {%- endcapture -%}
+  <style>
+    {%- if tg_lang != blank %}
+    /* Weglot translated the page into another language: the texts of this line are not. */
+    html[data-wg-translated]:not([data-wg-translated^='{{ tg_lang }}' i]) .tb-goal,
+    html[data-wg-translated]:not([data-wg-translated^='{{ tg_lang }}' i]) .tb-goal-slot,
+    html[data-wg-translated]:not([data-wg-translated^='{{ tg_lang }}' i]) .tb-goal-strip {
+      display: none;
+    }
+    {%- endif %}
+    /* Under 1940px the countdown half has no room for countdown, goal line and badges: the badges step aside. */
+    @media screen and (max-width: 1939px) {
+      {{ tg_sel }} .mgx-tb__timer:has(.tb-goal) .mgx-tb__badges {
+        display: none;
+      }
+    }
+    /* 768-1359 the line makes the bar taller: the offer's lines stay together in the middle. */
+    @media screen and (min-width: 768px) and (max-width: 1359px) {
+      {{ tg_sel }} .mgx-tb:has(.tb-goal) .mgx-tb__offer {
+        align-content: center;
+      }
+    }
+    /* Countdown switched off: the offer keeps its slanted half and the line takes the countdown's place. */
+    @media screen and (min-width: 768px) {
+      {{ tg_sel }} .mgx-tb--no-timer:has(.tb-goal-slot .tb-goal) .mgx-tb__offer {
+        justify-content: flex-end;
+        padding: 10px 44px 10px 24px;
+        clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
+      }
+    }
+  </style>
+  <script src="{{ 'tb-goal-line.js' | asset_url }}" defer="defer"></script>
+  <div
+    class="tb-goal"
+    data-tb-goal
+    data-market="{{ localization.market.handle | escape }}"
+    data-money="{{ 0 | money_without_trailing_zeros | escape }}"
+    data-total="{{ cart.total_price }}"
+    data-steps="{{ st.goal_steps | escape }}"
+    data-ref="{{ tg_ref }}"
+    data-cart-url="{{ routes.cart_url }}"
+    style="--tg-fg: {{ tg_fg }}; --tg-bg: {{ tg_bg }}; --tg-rule: {{ tg_fg | color_modify: 'alpha', 0.15 }}; --tg-track: {{ tg_fg | color_modify: 'alpha', 0.2 }}; --tg-edge: {{ tg_fg | color_modify: 'alpha', 0.55 }};"
+    role="button"
+    tabindex="0"
+    aria-haspopup="dialog">
+    <script type="application/json" data-tg-items>
+      [
+        {%- for item in cart.items -%}
+          {"quantity":{{ item.quantity }},"title":{{ item.title | json }},"variant_title":{{ item.variant.title | json }},"product_title":{{ item.product.title | json }},"properties":{"_free_product":{{ item.properties['_free_product'] | json }},"_bundle_items":{{ item.properties['_bundle_items'] | json }}}}
+          {%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]
+    </script>
+    <span class="tb-goal__icon" aria-hidden="true">
+      <svg class="tb-goal__lock" width="20.7188" height="26" viewBox="0 0 20.7188 26" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+        <path d="M17.6719 9.54688H15.8419V5.37113C15.8419 2.40947 13.3816 0 10.3575 0C7.33342 0 4.87312 2.40947 4.87312 5.37113V9.54688H3.04688C1.36683 9.54688 0 10.9137 0 12.5938V22.9531C0 24.6332 1.36683 26 3.04688 26H17.6719C19.3519 26 20.7188 24.6332 20.7188 22.9531V12.5938C20.7188 10.9137 19.3519 9.54688 17.6719 9.54688ZM6.90437 5.37113C6.90437 3.5295 8.45345 2.03125 10.3575 2.03125C12.2615 2.03125 13.8106 3.5295 13.8106 5.37113V9.54688H6.90437V5.37113ZM18.6875 22.9531C18.6875 23.5131 18.2319 23.9688 17.6719 23.9688H3.04688C2.48686 23.9688 2.03125 23.5131 2.03125 22.9531V12.5938C2.03125 12.0337 2.48686 11.5781 3.04688 11.5781H17.6719C18.2319 11.5781 18.6875 12.0337 18.6875 12.5938V22.9531Z" fill="currentColor"/>
+        <path d="M10.3594 14.5234C9.32166 14.5234 8.48047 15.3646 8.48047 16.4023C8.48047 17.0649 8.82375 17.647 9.34187 17.9815V20.2109C9.34187 20.7718 9.79657 21.2266 10.3575 21.2266C10.9184 21.2266 11.3731 20.7718 11.3731 20.2109V17.9839C11.8933 17.6498 12.2383 17.0666 12.2383 16.4023C12.2383 15.3646 11.3971 14.5234 10.3594 14.5234Z" fill="currentColor"/>
+      </svg>
+      <svg class="tb-goal__check" width="20.25" height="20.25" viewBox="0 0 20.25 20.25" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+        <circle cx="10.125" cy="10.125" r="10.125" fill="#E0201B"/>
+        <path d="M5.78915 10.8529L8.76709 12.8382L13.7303 6.55147" stroke-width="1.98529" stroke-linecap="round" stroke="white"/>
+      </svg>
+    </span>
+    <span class="tb-goal__body">
+      <span class="tb-goal__text" data-tg-text aria-live="polite"></span>
+      <span class="tb-goal__rail" aria-hidden="true">
+        <span class="tb-goal__track"><span class="tb-goal__fill" data-tg-fill></span></span>
+        <span class="tb-goal__marks" data-tg-marks></span>
+      </span>
+    </span>
+    <span class="tb-goal__src" hidden>
+      <span data-tg-msg="empty">{{ st.goal_text_empty | escape }}</span>
+      <span data-tg-msg="step">{{ st.goal_text_step | escape }}</span>
+      <span data-tg-msg="unlocked">{{ st.goal_text_unlocked | escape }}</span>
+      <span data-tg-msg="done">{{ st.goal_text_done | escape }}</span>
+      <span data-tg-label="pct">{{ st.goal_label_pct | escape }}</span>
+      <span data-tg-word="one">{{ st.goal_word_one | escape }}</span>
+      <span data-tg-word="many">{{ st.goal_word_many | escape }}</span>
+    </span>
+  </div>
+{%- endif -%}

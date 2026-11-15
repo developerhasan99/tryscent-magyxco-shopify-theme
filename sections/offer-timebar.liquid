@@ -6,6 +6,9 @@
 
   FM parity with magicperfume.co (04.11.2026): Style = Minimal renders magicperfume's FM bar instead, one line on the
   section's colour scheme: {prepend} · ENDS IN hh:mm:ss + {append} as a solid button (assets/pm-s-offer-timebar.css).
+  Goal line (snippets/tb-goal-line.liquid, "Goal line" settings): next goal in words + one marker per goal (discount steps,
+  gift app goals). Classic: after the countdown, or its own slot when the countdown is off. Minimal: own row under the bar.
+  Not on the Bundle & Save pages (this section is skipped there).
   The timer follows "Enable Countdown Timer"; the colours, top bar and badges below are for Style = Classic only.
 
   Market offers (04.11.2026): a "Market offer" block whose Markets field lists the visitor's market handle
@@ -255,10 +258,11 @@
         <span class="pm-timebar__cta">{{ tb_append }}{% render 'pm-icon', icon: 'arrow-right', size: 12, stroke: 2, class: 'pm-timebar__arrow' %}</span>
       {%- endif -%}
     </a>
+    <div class="tb-goal-slot">{% render 'tb-goal-line', section: section, minimal: true %}</div>
   </div>
   {%- else -%}
   <div id="{{ section.id }}">
-    <a href="{{ section.settings.link }}" class="mgx-tb">
+    <a href="{{ section.settings.link }}" class="mgx-tb{% unless section.settings.enable_timer %} mgx-tb--no-timer{% endunless %}">
 
       <div class="mgx-tb__offer"{% if tb_offer_found %} {{ tb_offer_block.shopify_attributes }}{% endif %}>
         {%- if section.settings.enable_top_bar and tb_top_text != blank -%}
@@ -290,6 +294,8 @@
             <div class="mgx-tb__unit"><div class="mgx-tb__num" data-unit="s">00</div><div class="mgx-tb__cap">{{ 'aaroma.timer.seconds' | t }}</div></div>
           </div>
 
+          {% render 'tb-goal-line', section: section %}
+
           {%- if section.settings.enable_badges and tb_badge_count > 0 -%}
             <span class="mgx-tb__badges">
               {%- for block in section.blocks -%}
@@ -309,6 +315,8 @@
             </span>
           {%- endif -%}
         </div>
+      {%- else -%}
+        <div class="tb-goal-slot">{% render 'tb-goal-line', section: section %}</div>
       {%- endif -%}
 
         </a>
@@ -531,6 +539,92 @@
         "type": "url",
         "id": "link",
         "label": "Link"
+      },
+      {
+        "type": "header",
+        "content": "Goal line"
+      },
+      {
+        "type": "paragraph",
+        "content": "One sentence about the next discount step above a track with one marker per goal: the discount steps below plus the gift app's goals (free gifts, free shipping; marker only, never in the sentence). Display only: the discount comes from the discount codes, the gifts from the gift app."
+      },
+      {
+        "type": "checkbox",
+        "id": "goal_line_enable",
+        "label": "Show the goal line",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "goal_line_markets",
+        "label": "Markets",
+        "info": "Market handles, comma separated. Empty = every market."
+      },
+      {
+        "type": "text",
+        "id": "goal_line_lang",
+        "label": "Language of the texts",
+        "info": "Weglot language code (e.g. en). When Weglot translates the page into another language the line is hidden. Empty = no check."
+      },
+      {
+        "type": "text",
+        "id": "goal_steps",
+        "label": "Discount steps",
+        "info": "bottles:percent, comma separated. Must match the discount codes. Every bottle size counts as 1.",
+        "default": "2:25, 4:30, 6:35, 8:40"
+      },
+      {
+        "type": "text",
+        "id": "goal_bs_handle",
+        "label": "Choose & Save product handle",
+        "info": "The selling price per bottle of its smallest bottle count places the gift app's markers on the track.",
+        "default": "bundle-and-save"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_empty",
+        "label": "Text, empty cart",
+        "info": "[n] = bottles of the first step, [pct] = its discount",
+        "default": "Add [n] and get [pct] OFF"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_step",
+        "label": "Text, next discount step",
+        "info": "[n] = bottles still needed, [pct] = that step's discount",
+        "default": "Add [n] more and get [pct] OFF"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_unlocked",
+        "label": "Text, step reached",
+        "info": "Shown for 3 seconds after the cart reaches a discount step. [rewards] = the label below",
+        "default": "[rewards] unlocked"
+      },
+      {
+        "type": "text",
+        "id": "goal_text_done",
+        "label": "Text, every step reached",
+        "info": "[pct] = the top discount",
+        "default": "You get [pct] OFF"
+      },
+      {
+        "type": "text",
+        "id": "goal_label_pct",
+        "label": "Label, discount",
+        "default": "[pct] OFF"
+      },
+      {
+        "type": "text",
+        "id": "goal_word_one",
+        "label": "Word, 1 bottle",
+        "default": "bottle"
+      },
+      {
+        "type": "text",
+        "id": "goal_word_many",
+        "label": "Word, bottles",
+        "default": "bottles"
       }
     ],
     "blocks": [
