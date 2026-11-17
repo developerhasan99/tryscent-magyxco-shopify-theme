@@ -33,45 +33,45 @@
             "text": "No harsh chemicals"
           }
         },
-        "tier_mx_1": {
-          "type": "tier",
-          "settings": {
-            "bottles": 1,
-            "max_bottles": 1,
-            "label": "1 bottle",
-            "tag": "Starter",
-            "preselected": false
-          }
-        },
-        "tier_mx_2": {
+        "t2": {
           "type": "tier",
           "settings": {
             "bottles": 2,
             "max_bottles": 2,
             "label": "2 bottles",
-            "tag": "Bestseller",
+            "tag": "Day and night",
             "preselected": false
           }
         },
-        "tier_mx_3": {
-          "type": "tier",
-          "settings": {
-            "bottles": 3,
-            "max_bottles": 3,
-            "label": "3 bottles",
-            "tag": "",
-            "highlight": "Most popular",
-            "preselected": false
-          }
-        },
-        "tier_mx_4": {
+        "t4": {
           "type": "tier",
           "settings": {
             "bottles": 4,
-            "max_bottles": 20,
-            "label": "4+ bottles",
-            "tag": "Best value",
+            "max_bottles": 4,
+            "label": "4 bottles",
+            "tag": "One for every occasion",
+            "preselected": false
+          }
+        },
+        "t6": {
+          "type": "tier",
+          "settings": {
+            "bottles": 6,
+            "max_bottles": 6,
+            "label": "6 bottles",
+            "tag": "",
+            "highlight": "Most popular",
             "preselected": true
+          }
+        },
+        "t8": {
+          "type": "tier",
+          "settings": {
+            "bottles": 8,
+            "max_bottles": 20,
+            "label": "8+ bottles",
+            "tag": "For the collector",
+            "preselected": false
           }
         },
         "l_men": {
@@ -148,10 +148,10 @@
         "b1",
         "b2",
         "b3",
-        "tier_mx_1",
-        "tier_mx_2",
-        "tier_mx_3",
-        "tier_mx_4",
+        "t2",
+        "t4",
+        "t6",
+        "t8",
         "l_men",
         "l_women",
         "l_unisex",
