@@ -90,7 +90,7 @@
 
     <div class="pm-bs-ct__footer">
       {%- if section.settings.btn_text != blank -%}
-        <a href="{{ section.settings.btn_url | default: routes.all_products_collection_url }}" class="pm-btn pm-btn--primary pm-bs-ct__cta">{{ section.settings.btn_text }}</a>
+        <a href="{{ section.settings.btn_url | default: '#pm-bs-box' }}" class="pm-btn pm-btn--primary pm-bs-ct__cta">{{ section.settings.btn_text }}</a>
       {%- endif -%}
       {%- if section.settings.guarantee != blank -%}
         <p class="pm-bs-ct__guarantee">{% render 'pm-icon', icon: 'shield', size: 16, stroke: 1.75 %}<span>{{ section.settings.guarantee }}</span></p>
@@ -101,7 +101,7 @@
 
 {% schema %}
 {
-  "name": "BS Compare table",
+  "name": "Bundle: comparison table",
   "tag": "section",
   "class": "pm-scope",
   "settings": [
@@ -114,15 +114,15 @@
     {
       "type": "text",
       "id": "kicker",
-      "label": "Kicker",
-      "default": "The difference"
+      "label": "Eyebrow",
+      "default": "Comparison"
     },
     {
       "type": "inline_richtext",
       "id": "title",
       "label": "Heading",
-      "default": "Why people switch to <em>us</em>",
-      "info": "Italic text renders in the accent colour."
+      "default": "Why you should choose <em>MagyX</em>",
+      "info": "Italic text renders in gold."
     },
     {
       "type": "header",
@@ -138,13 +138,12 @@
       "type": "text",
       "id": "ours_sub",
       "label": "Brand name",
-      "default": "Your brand"
+      "default": "MagyX"
     },
     {
       "type": "text",
       "id": "ours_label",
-      "label": "Note under the name",
-      "default": "Bundle price"
+      "label": "Note under the name"
     },
     {
       "type": "header",
@@ -160,13 +159,12 @@
       "type": "text",
       "id": "theirs_label",
       "label": "Name",
-      "default": "Designer perfume"
+      "default": "Other inspired perfume brands"
     },
     {
       "type": "text",
       "id": "theirs_sub",
-      "label": "Price (shown crossed out)",
-      "default": "Retail price"
+      "label": "Price (shown crossed out)"
     },
     {
       "type": "header",
@@ -175,25 +173,25 @@
     {
       "type": "text",
       "id": "save_text",
-      "label": "Savings band (leave empty to hide)",
-      "default": "You save with the bundle"
+      "label": "Savings band (leave empty to hide)"
     },
     {
       "type": "text",
       "id": "btn_text",
       "label": "Button label",
-      "default": "Get the bundle"
+      "default": "Build your bundle"
     },
     {
       "type": "text",
       "id": "btn_url",
-      "label": "Button link"
+      "label": "Button link",
+      "info": "Empty = scrolls to the scent picker on this page."
     },
     {
       "type": "text",
       "id": "guarantee",
       "label": "Guarantee line",
-      "default": "Money-back guarantee"
+      "default": "60-day money-back guarantee"
     },
     {
       "type": "header",
@@ -235,27 +233,53 @@
           "type": "text",
           "id": "ours",
           "label": "Ours",
-          "default": "Up to 16 hours on skin"
+          "default": "Over 12 hours on the skin"
         },
         {
           "type": "text",
           "id": "theirs",
           "label": "Theirs",
-          "default": "4 to 6 hours"
+          "default": "Noticeable for 3-4 hours at most"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "BS Compare table",
+      "name": "Bundle: comparison table",
       "blocks": [
-        { "type": "row", "settings": { "label": "Scent quality", "ours": "Close scent match", "theirs": "Premium, but you pay for the name" } },
-        { "type": "row", "settings": { "label": "Longevity", "ours": "Up to 16 hours on skin", "theirs": "4 to 6 hours" } },
-        { "type": "row", "settings": { "label": "Fragrance oil", "ours": "Our value", "theirs": "Their value" } },
-        { "type": "row", "settings": { "label": "Choice", "ours": "Mix and match scents", "theirs": "One scent per bottle" } },
-        { "type": "row", "settings": { "label": "Guarantee", "ours": "Money-back guarantee", "theirs": "Final sale once opened" } },
-        { "type": "row", "settings": { "label": "Price", "ours": "Bundle price", "theirs": "Retail price" } }
+        {
+          "type": "row",
+          "settings": {
+            "label": "Parfymolja",
+            "ours": "20% parfymolja",
+            "theirs": "Often Eau de Toilette, around 15% or less"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Longevity",
+            "ours": "Over 12 hours on the skin",
+            "theirs": "Noticeable for 3-4 hours at most"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Ingredients",
+            "ours": "No harsh chemicals",
+            "theirs": "Ingredienslistan ofta oredovisad"
+          }
+        },
+        {
+          "type": "row",
+          "settings": {
+            "label": "Shipping",
+            "ours": "Insured shipping, ships within 1-2 days",
+            "theirs": "Long delivery times, no insurance"
+          }
+        }
       ]
     }
   ]

@@ -1,7 +1,7 @@
 /* pm-s-bs-compare-table.css (Bundle & Save): "ours vs designer" table, built after HOK's "The difference".
    Three columns at every width (label | ours | theirs). Our column is one tinted pillar: rounded top with the photo,
-   rows with a green tick above each value, rounded bottom closed by the red savings band. Their column: bottles under a
-   big red X, crossed-out price, red cross above each value. Empty cells are hidden by Dawn (div:empty), so every
+   rows with an ink tick above each value, rounded bottom closed by the ink savings band (or a plain close). Their column:
+   bottles under a thin grey X, muted crossed-out price, outline cross above each value (tryscent.eu: no red, no gold). Empty cells are hidden by Dawn (div:empty), so every
    value cell is pinned to its column. 375: 0.8 / 1.1 / 1.1, 13px. 750: max 860 centred, 15px, larger photos. */
 .pm-scope .pm-bs-ct {
   box-sizing: border-box;
@@ -20,7 +20,7 @@
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--pm-gold);
+  color: var(--pm-muted);
 }
 
 .pm-scope .pm-bs-ct__title {
@@ -28,8 +28,6 @@
   font-size: var(--pm-fs-title);
   line-height: var(--pm-lh-title);
   font-weight: 800;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
   text-wrap: balance;
   color: var(--pm-ink);
 }
@@ -37,7 +35,7 @@
 .pm-scope .pm-bs-ct__title em {
   display: block;
   font-style: italic;
-  color: var(--pm-gold);
+  color: var(--pm-bs-gold, #e5a00d);
 }
 
 .pm-scope .pm-bs-ct__table {
@@ -89,8 +87,8 @@
 
 .pm-scope .pm-bs-ct__cell--ours {
   grid-column: 2;
-  border-left: 1px solid var(--pm-gold-soft);
-  border-right: 1px solid var(--pm-gold-soft);
+  border-left: 1px solid var(--pm-line);
+  border-right: 1px solid var(--pm-line);
   background: var(--pm-tint);
   font-weight: 700;
 }
@@ -118,11 +116,14 @@
 }
 
 .pm-scope .pm-bs-ct__mark--yes {
-  background: var(--pm-good);
+  background: var(--pm-ink);
 }
 
 .pm-scope .pm-bs-ct__mark--no {
-  background: var(--pm-sale);
+  background: var(--pm-white);
+  color: var(--pm-muted);
+  border: 1px solid var(--pm-line);
+  box-sizing: border-box;
 }
 
 /* Column heads */
@@ -133,7 +134,7 @@
 }
 
 .pm-scope .pm-bs-ct__cell--ours.pm-bs-ct__cell--head {
-  border-top: 1px solid var(--pm-gold-soft);
+  border-top: 1px solid var(--pm-line);
   border-radius: 16px 16px 0 0;
 }
 
@@ -165,7 +166,7 @@
   fill: var(--pm-line);
 }
 
-/* Big red X over the designer bottles */
+/* Thin grey X over the designer bottles */
 .pm-scope .pm-bs-ct__x::before,
 .pm-scope .pm-bs-ct__x::after {
   content: "";
@@ -173,11 +174,11 @@
   top: 50%;
   left: 50%;
   width: 118%;
-  height: 10px;
-  margin: -5px 0 0 -59%;
-  border-radius: 4px;
-  background: var(--pm-sale);
-  opacity: 0.8;
+  height: 2px;
+  margin: -1px 0 0 -59%;
+  border-radius: 1px;
+  background: var(--pm-muted);
+  opacity: 0.6;
   transform: rotate(45deg);
 }
 
@@ -188,9 +189,7 @@
 .pm-scope .pm-bs-ct__head-brand {
   font-size: 15px;
   line-height: 19px;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+  font-weight: 700;
   color: var(--pm-ink);
 }
 
@@ -211,8 +210,8 @@
 .pm-scope .pm-bs-ct__head-price {
   font-size: 13px;
   line-height: 18px;
-  font-weight: 600;
-  color: var(--pm-sale);
+  font-weight: 500;
+  color: var(--pm-muted);
 }
 
 /* Savings band: closes our column */
@@ -220,21 +219,19 @@
   grid-column: 2;
   padding: 12px 8px;
   border-radius: 0 0 16px 16px;
-  background: var(--pm-sale);
+  background: var(--pm-ink);
   color: var(--pm-white);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 15px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 600;
   text-align: center;
-  text-transform: uppercase;
 }
 
 .pm-scope .pm-bs-ct__cell--save.pm-bs-ct__cell--close {
   display: block;
   height: 16px;
   padding: 0;
-  border: 1px solid var(--pm-gold-soft);
+  border: 1px solid var(--pm-line);
   border-top: 0;
   background: var(--pm-tint);
 }
@@ -265,7 +262,7 @@
 }
 
 .pm-scope .pm-bs-ct__guarantee .pm-icon {
-  color: var(--pm-gold);
+  color: var(--pm-ink);
 }
 
 @media (min-width: 750px) {
@@ -297,8 +294,8 @@
 
   .pm-scope .pm-bs-ct__x::before,
   .pm-scope .pm-bs-ct__x::after {
-    height: 14px;
-    margin-top: -7px;
+    height: 2px;
+    margin-top: -1px;
   }
 
   .pm-scope .pm-bs-ct__head-brand {
@@ -328,4 +325,33 @@
   .pm-scope .pm-bs-ct__footer {
     margin-top: 40px;
   }
+}
+
+/* Black "ours" pillar (Adrian 07.11): black column, white text, white ticks, faint white row lines. */
+.pm-scope .pm-bs-ct__cell--ours,
+.pm-scope .pm-bs-ct__cell--save.pm-bs-ct__cell--close {
+  border-color: #000000;
+  background: #000000;
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-bs-ct__row .pm-bs-ct__cell--ours {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.pm-scope .pm-bs-ct__row--head .pm-bs-ct__cell--ours {
+  box-shadow: none;
+}
+
+.pm-scope .pm-bs-ct__cell--ours .pm-bs-ct__mark--yes {
+  background: var(--pm-white);
+  color: #000000;
+}
+
+.pm-scope .pm-bs-ct__cell--ours .pm-bs-ct__head-brand {
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-bs-ct__cell--ours .pm-bs-ct__head-note {
+  color: rgba(255, 255, 255, 0.7);
 }

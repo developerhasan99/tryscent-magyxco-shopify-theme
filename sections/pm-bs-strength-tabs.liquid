@@ -203,7 +203,7 @@
 
 {% schema %}
 {
-  "name": "BS Strength tabs",
+  "name": "Bundle: concentration",
   "tag": "section",
   "class": "pm-scope",
   "settings": [
@@ -216,20 +216,20 @@
     {
       "type": "text",
       "id": "kicker",
-      "label": "Kicker",
-      "default": "Strength"
+      "label": "Eyebrow",
+      "default": "Concentration"
     },
     {
       "type": "text",
       "id": "title",
       "label": "Heading",
-      "default": "Why we use more oil"
+      "default": "Why concentration matters"
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Subheading",
-      "default": "Compare how our product stacks up against typical alternatives."
+      "default": "Eau de Toilette contains much less perfume oil than Eau de Parfum. Our blends have 20%."
     },
     {
       "type": "range",
@@ -238,7 +238,7 @@
       "max": 3,
       "step": 1,
       "label": "Tab open on load",
-      "default": 1
+      "default": 2
     },
     {
       "type": "header",
@@ -247,32 +247,32 @@
     {
       "type": "text",
       "id": "row_strength_label",
-      "label": "Row 1 label",
-      "default": "Scent strength"
+      "label": "Row 1",
+      "default": "Intensitet"
     },
     {
       "type": "text",
       "id": "row_longevity_label",
-      "label": "Row 2 label",
+      "label": "Row 2",
       "default": "Longevity"
     },
     {
       "type": "text",
       "id": "row_oil_label",
-      "label": "Row 3 label",
-      "default": "Fragrance oil"
+      "label": "Row 3",
+      "default": "Parfymolja"
     },
     {
       "type": "text",
       "id": "row_summary_label",
-      "label": "Row 4 label",
-      "default": "What you are really getting"
+      "label": "Row 4",
+      "default": "What you get"
     },
     {
       "type": "text",
       "id": "footnote",
       "label": "Footnote",
-      "default": "Typical ranges. Individual products vary."
+      "default": "Typical concentrations for each type of perfume. Longevity varies with your skin."
     },
     {
       "type": "header",
@@ -308,76 +308,74 @@
         {
           "type": "text",
           "id": "label",
-          "label": "Tab label",
+          "label": "Tab name",
           "default": "Eau de Toilette"
         },
         {
           "type": "text",
           "id": "sublabel",
-          "label": "Tab sub-label",
-          "default": "Most brands"
+          "label": "Tab caption",
+          "default": "EDT"
         },
         {
           "type": "checkbox",
           "id": "is_ours",
-          "label": "This is our product (checks instead of crosses)",
+          "label": "This is our product (ticks instead of crosses)",
           "default": false
         },
         {
           "type": "text",
           "id": "strength",
-          "label": "Scent strength",
-          "default": "Light"
+          "label": "Intensity",
+          "info": "Empty hides the row."
         },
         {
           "type": "text",
           "id": "longevity",
           "label": "Longevity",
-          "default": "4 to 6 hours"
+          "info": "Empty hides the row."
         },
         {
           "type": "text",
           "id": "oil",
           "label": "Fragrance oil",
-          "default": "Typical range"
+          "default": "5 to 8% perfume oil",
+          "info": "Empty hides the row."
         },
         {
           "type": "textarea",
           "id": "summary",
-          "label": "What you are really getting",
-          "default": "Mostly alcohol with a light layer of fragrance."
+          "label": "What you get",
+          "default": "Much less perfume oil than an Eau de Parfum.",
+          "info": "Empty hides the row."
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "BS Strength tabs",
+      "name": "Bundle: concentration",
       "blocks": [
-        {
-          "type": "tab"
-        },
         {
           "type": "tab",
           "settings": {
-            "label": "Eau de Parfum",
-            "sublabel": "Most brands",
-            "strength": "Moderate",
-            "longevity": "6 to 8 hours",
-            "oil": "Typical range",
-            "summary": "More oil than a toilette, but you still pay for the name on the box."
+            "label": "Eau de Toilette",
+            "sublabel": "EDT",
+            "is_ours": false,
+            "oil": "5 to 8% perfume oil",
+            "summary": "Much less perfume oil than an Eau de Parfum."
           }
         },
         {
           "type": "tab",
           "settings": {
-            "label": "Our product",
-            "sublabel": "Ours",
+            "label": "MagyX",
+            "sublabel": "Our perfumes",
             "is_ours": true,
-            "strength": "Strong",
-            "longevity": "Long-lasting",
-            "oil": "High perfume oil concentration",
-            "summary": "Short summary of what you really get."
+            "strength": "Noticeable, but not overpowering",
+            "longevity": "From 8 to over 12 hours",
+            "oil": "20% parfymolja",
+            "summary": "Eau de Parfum concentration. Made in the EU."
           }
         }
       ]

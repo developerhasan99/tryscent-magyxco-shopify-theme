@@ -139,7 +139,7 @@
 
 {% schema %}
 {
-  "name": "BS FAQ",
+  "name": "Bundle: FAQ",
   "tag": "section",
   "class": "pm-scope",
   "settings": [
@@ -158,7 +158,8 @@
     {
       "type": "richtext",
       "id": "closing_text",
-      "label": "Text under the questions"
+      "label": "Text below the questions",
+      "default": "<p>Have another question? <a href=\"/pages/contact\">Write to us</a>.</p>"
     },
     {
       "type": "header",
@@ -194,29 +195,40 @@
           "type": "text",
           "id": "question",
           "label": "Question",
-          "default": "How long will the scent last?"
+          "default": "How long does the scent last?"
         },
         {
           "type": "richtext",
           "id": "answer",
           "label": "Answer",
-          "default": "<p>Answer text.</p>"
+          "default": "<p>Over 12 hours. Longevity varies with your skin. Apply the perfume to your skin, not your clothes.</p>"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "BS FAQ",
+      "name": "Bundle: FAQ",
       "blocks": [
         {
-          "type": "question"
+          "type": "question",
+          "settings": {
+            "question": "How long does the scent last?",
+            "answer": "<p>Over 12 hours. Longevity varies with your skin. Apply the perfume to your skin, not your clothes.</p>"
+          }
         },
         {
           "type": "question",
           "settings": {
-            "question": "Can I mix and match scents?",
-            "answer": "<p>Yes. Pick any scents you like, in any combination.</p>"
+            "question": "Can I combine different scents?",
+            "answer": "<p>Yes. Pick any scents from the list, in any combination. You can add the same scent more than once.</p>"
+          }
+        },
+        {
+          "type": "question",
+          "settings": {
+            "question": "What if the scent isn't right for me?",
+            "answer": "<p>You have a 60-day money-back guarantee. If the scent isn't right for you, you can return your order.</p>"
           }
         }
       ]

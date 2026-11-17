@@ -38,7 +38,7 @@
       {%- endif -%}
     </div>
 
-    {%- comment -%} Cards sit side by side at every width (as HOK): ours (dark, icon rows, photo at the bottom) next to each rival {%- endcomment -%}
+    {%- comment -%} Cards sit side by side at every width (as HOK): ours (ink card, icon rows, photo at the bottom) next to each rival {%- endcomment -%}
     <div class="pm-bs-vs__grid" style="--pm-bs-vs-cols: {{ cols }};">
       <div class="pm-bs-vs__card pm-bs-vs__card--ours">
         {%- if section.settings.logo != blank -%}
@@ -104,7 +104,7 @@
 
     {%- if section.settings.btn_text != blank -%}
       <div class="pm-bs-vs__cta">
-        <a href="{{ section.settings.btn_url | default: routes.all_products_collection_url }}" class="pm-btn pm-btn--primary pm-bs-vs__btn">{{ section.settings.btn_text }}</a>
+        <a href="{{ section.settings.btn_url | default: '#pm-bs-box' }}" class="pm-btn pm-btn--primary pm-bs-vs__btn">{{ section.settings.btn_text }}</a>
       </div>
     {%- endif -%}
   </div>
@@ -112,7 +112,7 @@
 
 {% schema %}
 {
-  "name": "BS Us vs dupes",
+  "name": "Bundle: us vs others",
   "tag": "section",
   "class": "pm-scope",
   "settings": [
@@ -126,14 +126,14 @@
       "type": "inline_richtext",
       "id": "title",
       "label": "Heading",
-      "default": "Not your average <em>dupe</em>",
-      "info": "Italic text renders in the accent colour."
+      "default": "More than <em>your average dupe</em>",
+      "info": "Italic text renders in gold."
     },
     {
       "type": "textarea",
       "id": "subtitle",
       "label": "Subheading",
-      "default": "Short supporting line comparing us with the alternatives."
+      "default": "Compared with other inspired perfume brands on the market."
     },
     {
       "type": "header",
@@ -143,7 +143,7 @@
       "type": "text",
       "id": "brand",
       "label": "Brand name",
-      "default": "Your brand"
+      "default": "MagyX"
     },
     {
       "type": "image_picker",
@@ -164,14 +164,14 @@
       "type": "text",
       "id": "dupe_title",
       "label": "Dupes card title",
-      "default": "Other dupes",
+      "default": "Other brands",
       "info": "Shown when the section has Dupe point blocks."
     },
     {
       "type": "text",
       "id": "their_title",
       "label": "Designer card title",
-      "default": "Designer scents",
+      "default": "Designer perfumes",
       "info": "Shown when the section has Designer point blocks."
     },
     {
@@ -182,12 +182,13 @@
       "type": "text",
       "id": "btn_text",
       "label": "Button label",
-      "default": "Get the bundle"
+      "default": "Build your bundle"
     },
     {
       "type": "text",
       "id": "btn_url",
-      "label": "Button link"
+      "label": "Button link",
+      "info": "Empty = scrolls to the scent picker on this page."
     },
     {
       "type": "header",
@@ -224,16 +225,46 @@
           "id": "icon",
           "label": "Icon",
           "options": [
-            { "value": "drop", "label": "Drop" },
-            { "value": "clock", "label": "Clock" },
-            { "value": "sparkle", "label": "Sparkle" },
-            { "value": "layers", "label": "Layers" },
-            { "value": "shuffle", "label": "Shuffle" },
-            { "value": "shield", "label": "Shield" },
-            { "value": "heart", "label": "Heart" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "truck", "label": "Truck" },
-            { "value": "star", "label": "Star" }
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "layers",
+              "label": "Layers"
+            },
+            {
+              "value": "shuffle",
+              "label": "Shuffle"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
           ],
           "default": "drop"
         },
@@ -241,7 +272,7 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "High perfume oil concentration"
+          "default": "20% parfymolja"
         }
       ]
     },
@@ -253,7 +284,7 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "Smells close, not the same"
+          "default": "Noticeable for 3-4 hours at most"
         }
       ]
     },
@@ -265,26 +296,67 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "You pay for the name"
+          "default": "You pay for the brand"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "BS Us vs dupes",
+      "name": "Bundle: us vs others",
       "blocks": [
-        { "type": "our_point", "settings": { "icon": "drop", "text": "High perfume oil concentration" } },
-        { "type": "our_point", "settings": { "icon": "clock", "text": "Long-lasting" } },
-        { "type": "our_point", "settings": { "icon": "sparkle", "text": "Close scent match" } },
-        { "type": "our_point", "settings": { "icon": "layers", "text": "Several strengths to choose from" } },
-        { "type": "our_point", "settings": { "icon": "shuffle", "text": "Mix and match scents" } },
-        { "type": "our_point", "settings": { "icon": "shield", "text": "Money-back guarantee" } },
-        { "type": "dupe_point", "settings": { "text": "Smells close, not the same" } },
-        { "type": "dupe_point", "settings": { "text": "Fades within a few hours" } },
-        { "type": "dupe_point", "settings": { "text": "One strength for every scent" } },
-        { "type": "dupe_point", "settings": { "text": "Thin, alcohol-heavy formulas" } },
-        { "type": "dupe_point", "settings": { "text": "Short or no return window" } }
+        {
+          "type": "our_point",
+          "settings": {
+            "icon": "drop",
+            "text": "20% parfymolja"
+          }
+        },
+        {
+          "type": "our_point",
+          "settings": {
+            "icon": "clock",
+            "text": "Over 12 hours on the skin"
+          }
+        },
+        {
+          "type": "our_point",
+          "settings": {
+            "icon": "leaf",
+            "text": "No harsh chemicals"
+          }
+        },
+        {
+          "type": "our_point",
+          "settings": {
+            "icon": "shield",
+            "text": "60-day money-back guarantee"
+          }
+        },
+        {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Often Eau de Toilette, around 15% or less"
+          }
+        },
+        {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Noticeable for 3-4 hours at most"
+          }
+        },
+        {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Ingredienslistan ofta oredovisad"
+          }
+        },
+        {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Long delivery times, no insurance"
+          }
+        }
       ]
     }
   ]

@@ -1,0 +1,166 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Bundle & Save page: customer video carousel (replaces the photo review cards, Adrian 01.11).
+  Tiles are the site's own UGC tiles (snippets/fuel05-ugc-tile.liquid + assets/fuel05-ugc.js), so play on
+  tap, mute handling and warm-up behave the same as the homepage row. The script arms every
+  .fuel05-ugc[data-fuel05-row] root and starts Swiper on .fuel05-ugc__slider (slidesPerView auto,
+  gaps from data-gap-*, arrows = .fuel05-ugc__arrow--prev / --next). Tile widths as the homepage row:
+  175px on phones (swipe, no arrows), 220px from 750, 265px from 990 with round arrows on the sides.
+  The product pill shows from 750 (the tile snippet hides it on phones), compact on tiles under 260px.
+{%- endcomment -%}
+{{ 'fm-ugc.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-bs-ugc-grid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fm-ugc.js' | asset_url }}" defer="defer"></script>
+{%- style -%}
+  .pm-scope .pm-bsug--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 990px) {
+    .pm-scope .pm-bsug--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- if section.blocks.size > 0 -%}
+  <div
+    id="{{ section.id }}"
+    class="pm-bsug pm-bsug--{{ section.id }} fuel05-ugc color-{{ section.settings.color_scheme }} gradient"
+    data-fuel05-row
+    data-gap-mobile="8"
+    data-gap-desktop="12">
+    <div class="page-width">
+      <div class="pm-bsug__head">
+        {%- if section.settings.rating_text != blank -%}
+          <p class="pm-bsug__rating">
+            {% render 'pm-stars', size: 12 %}
+            <span class="pm-small">{{ section.settings.rating_text }}</span>
+          </p>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="pm-h2 pm-bsug__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="pm-body-lg pm-muted pm-bsug__sub">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="pm-bsug__stage">
+        <button type="button" class="fuel05-ugc__arrow fuel05-ugc__arrow--prev pm-bsug__arrow pm-bsug__arrow--prev" aria-label="Previous video">
+          {% render 'pm-icon', icon: 'chevron-right', size: 18, stroke: 1.5 %}
+        </button>
+        <div class="fuel05-ugc__slider swiper">
+          <div class="swiper-wrapper">
+            {%- for block in section.blocks -%}
+              {% render 'pm-bs-ugc-tile',
+                video: block.settings.video,
+                video_url: block.settings.video_url,
+                poster_url: block.settings.poster_url,
+                product_item: block.settings.product,
+                shopify_attributes: block.shopify_attributes
+              %}
+            {%- endfor -%}
+          </div>
+        </div>
+        <button type="button" class="fuel05-ugc__arrow fuel05-ugc__arrow--next pm-bsug__arrow pm-bsug__arrow--next" aria-label="Next video">
+          {% render 'pm-icon', icon: 'chevron-right', size: 18, stroke: 1.5 %}
+        </button>
+      </div>
+    </div>
+  </div>
+{%- elsif request.design_mode -%}
+  <div class="page-width pm-bsug__empty">Add video blocks to show the customer video grid.</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BS customer videos",
+  "tag": "section",
+  "class": "section pm-scope",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating line",
+      "default": "Over 10,000 verified fragrance lovers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The scent that turns heads"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From subtle glances to bold compliments"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Pick from Files. When empty, the video URL below is used."
+        },
+        {
+          "type": "text",
+          "id": "video_url",
+          "label": "Video URL (mp4)"
+        },
+        {
+          "type": "text",
+          "id": "poster_url",
+          "label": "Poster image URL",
+          "info": "Only used with the video URL."
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product pill",
+          "info": "Shown on the video from tablet width up."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BS customer videos"
+    }
+  ]
+}
+{% endschema %}

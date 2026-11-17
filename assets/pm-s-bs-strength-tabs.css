@@ -1,6 +1,6 @@
 /* pm-s-bs-strength-tabs.css (Bundle & Save): three-tab strength comparison.
-   375: card = full gutter width (335), tabs 3 equal columns, rows 2 columns (label | value), 13px text.
-   1440: card max 608 centred, rows 64px, 14px text. Shaded section, gold row icons, ours = green tick, theirs = red cross. */
+   375: card = full gutter width (335), tabs share the width equally (any count), rows 2 columns (label | value), 13px text.
+   1440: card max 608 centred, rows 64px, 14px text. Shaded section, ink row icons, ours = ink tick, theirs = muted cross (tryscent.eu monochrome). */
 .pm-scope .pm-bs-st {
   box-sizing: border-box;
   background: var(--pm-tint);
@@ -33,14 +33,13 @@
   border-radius: var(--pm-radius-md);
   overflow: hidden;
   background: var(--pm-white);
-  box-shadow: var(--pm-shadow-sm);
 }
 
 /* Tabs */
 .pm-scope .pm-bs-st__tabs {
   display: grid;
-  grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
   border-bottom: 1px solid var(--pm-line);
 }
 
@@ -75,7 +74,7 @@
 }
 
 .pm-scope .pm-bs-st__tab.is-active {
-  border-bottom-color: var(--pm-gold);
+  border-bottom-color: var(--pm-ink);
   background: var(--pm-white);
   color: var(--pm-ink);
 }
@@ -136,7 +135,7 @@
 
 .pm-scope .pm-bs-st__label .pm-icon {
   flex: 0 0 auto;
-  color: var(--pm-gold);
+  color: var(--pm-ink);
 }
 
 .pm-scope .pm-bs-st__value {
@@ -160,7 +159,7 @@
 }
 
 .pm-scope .pm-bs-st__value--ours .pm-icon {
-  color: var(--pm-good);
+  color: var(--pm-ink);
 }
 
 .pm-scope .pm-bs-st__value--theirs {
@@ -168,13 +167,13 @@
 }
 
 .pm-scope .pm-bs-st__value--theirs .pm-icon {
-  color: var(--pm-sale);
+  color: var(--pm-muted);
 }
 
-/* No tick on the summary row: indent the text so it lines up with the ticked values above */
 .pm-scope .pm-bs-st__value--plain {
-  padding-left: 24px;
   color: var(--pm-ink);
+  /* No tick here: indent by tick (16) + gap (8) so the text lines up with the rows above */
+  padding-left: 24px;
 }
 
 .pm-scope .pm-bs-st__note {

@@ -1,0 +1,33 @@
+{% comment %}
+  Setting text with up to two number tokens, for live text in an Alpine component that Weglot must still translate.
+  Weglot only translates text that is in the page HTML and joins neighbouring inline tags (span, strong...) into one
+  sentence, so a sentence whose number changes would be a new, untranslated string. Here every text part is its own
+  block element (div, shown inline by .pm-bs-t) and each number is its own element, updated by x-text.
+
+  Accepts:
+  - text: {String} the setting text, e.g. "[x] av [n] valda"
+  - t1 / x1 / v1: {String} first token ("[x]"), its Alpine expression ("picks.length") and its server-rendered value
+  - t2 / x2 / v2: {String} optional second token, expression and value
+
+  Usage:
+  {% render 'pm-bs-text', text: st.counter_text, t1: '[x]', x1: 'picks.length', v1: 0, t2: '[n]', x2: 'shownTotal', v2: 6 %}
+{% endcomment %}
+{%- liquid
+  assign pm_bt = text | default: ''
+  if t1 != blank
+    assign pm_bt = pm_bt | replace: t1, '|~1|'
+  endif
+  if t2 != blank
+    assign pm_bt = pm_bt | replace: t2, '|~2|'
+  endif
+  assign pm_bt_parts = pm_bt | split: '|'
+-%}
+{%- for part in pm_bt_parts -%}
+  {%- if part == '~1' -%}
+    <div class="pm-bs-t pm-bs-t--num" x-text="{{ x1 }}">{{ v1 }}</div>
+  {%- elsif part == '~2' -%}
+    <div class="pm-bs-t pm-bs-t--num" x-text="{{ x2 }}">{{ v2 }}</div>
+  {%- elsif part != '' -%}
+    <div class="pm-bs-t">{{ part | escape }}</div>
+  {%- endif -%}
+{%- endfor -%}

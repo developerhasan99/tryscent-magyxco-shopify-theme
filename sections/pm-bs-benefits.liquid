@@ -1,7 +1,7 @@
 {{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
 {{ 'pm-s-bs-benefits.css' | asset_url | stylesheet_tag }}
 {%- liquid
-  assign cta_link = section.settings.cta_link | default: routes.all_products_collection_url
+  assign cta_link = section.settings.cta_link | default: '#pm-bs-box'
   assign ticker_speed = section.settings.ticker_speed | default: 30
   assign ticker_sep = section.settings.ticker_separator
   assign photo_count = 0
@@ -114,7 +114,7 @@
 
 {% schema %}
 {
-  "name": "BS Benefits grid",
+  "name": "Bundle: benefits",
   "tag": "section",
   "class": "pm-scope",
   "settings": [
@@ -128,20 +128,20 @@
       "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "Built to get you <em>noticed</em> & <em>last all day</em>",
-      "info": "Italic text renders in the accent colour as the accent."
+      "default": "A scent that <em>stays</em> all day",
+      "info": "Italic text renders in grey."
     },
     {
       "type": "text",
       "id": "cta_label",
       "label": "Button label",
-      "default": "Get the bundle"
+      "default": "Build your bundle"
     },
     {
       "type": "url",
       "id": "cta_link",
       "label": "Button link",
-      "info": "Empty = all products collection"
+      "info": "Empty = scrolls to the scent picker on this page."
     },
     {
       "type": "header",
@@ -210,16 +210,46 @@
           "id": "icon",
           "label": "Icon",
           "options": [
-            { "value": "drop", "label": "Drop" },
-            { "value": "sparkle", "label": "Sparkle" },
-            { "value": "heart", "label": "Heart" },
-            { "value": "clock", "label": "Clock" },
-            { "value": "shield", "label": "Shield" },
-            { "value": "truck", "label": "Truck" },
-            { "value": "leaf", "label": "Leaf" },
-            { "value": "star", "label": "Star" },
-            { "value": "globe", "label": "Globe" },
-            { "value": "return", "label": "Return" }
+            {
+              "value": "drop",
+              "label": "Drop"
+            },
+            {
+              "value": "sparkle",
+              "label": "Sparkle"
+            },
+            {
+              "value": "heart",
+              "label": "Heart"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            },
+            {
+              "value": "globe",
+              "label": "Globe"
+            },
+            {
+              "value": "return",
+              "label": "Return"
+            }
           ],
           "default": "drop"
         },
@@ -227,7 +257,7 @@
           "type": "text",
           "id": "title",
           "label": "Title",
-          "default": "Benefit title"
+          "default": "20% parfymolja"
         },
         {
           "type": "textarea",
@@ -260,7 +290,7 @@
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "Long-lasting"
+          "default": "Lasts over 12 hours"
         }
       ]
     }
@@ -268,18 +298,52 @@
   "max_blocks": 24,
   "presets": [
     {
-      "name": "BS Benefits grid",
+      "name": "Bundle: benefits",
       "blocks": [
-        { "type": "benefit", "settings": { "icon": "drop", "title": "High perfume oil concentration" } },
-        { "type": "benefit", "settings": { "icon": "sparkle", "title": "Designer-inspired" } },
-        { "type": "benefit", "settings": { "icon": "heart", "title": "Compliments on repeat" } },
-        { "type": "benefit", "settings": { "icon": "clock", "title": "Long-lasting" } },
-        { "type": "photo" },
-        { "type": "photo" },
-        { "type": "photo" },
-        { "type": "photo" },
-        { "type": "ticker_item", "settings": { "text": "Long-lasting" } },
-        { "type": "ticker_item", "settings": { "text": "Money-back guarantee" } }
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "drop",
+            "title": "20% parfymolja",
+            "text": "Eau de Parfum concentration, for a scent people really notice."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "clock",
+            "title": "Over 12 hours",
+            "text": "Longevity varies with your skin."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "title": "No harsh chemicals",
+            "text": "No sharp alcohol smell, just clean scent."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "title": "60-day guarantee",
+            "text": "Not your scent? Money back within 60 days."
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text": "Lasts over 12 hours"
+          }
+        },
+        {
+          "type": "ticker_item",
+          "settings": {
+            "text": "60-day money-back guarantee"
+          }
+        }
       ]
     }
   ]

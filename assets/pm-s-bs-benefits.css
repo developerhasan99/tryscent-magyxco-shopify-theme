@@ -1,6 +1,7 @@
 /* pm-s-bs-benefits.css: benefits block + UGC photos + USP ticker for the Bundle & Save page (sections/pm-bs-benefits.liquid).
-   Built after the HOK "vibe grid": warm tinted band, photos as rounded tiles, centred benefits with gold icons, pill button.
-   375: row of 4 square photos on top, centred heading (italic words in gold), 2x2 centred benefits, full-width pill (max 360), ticker.
+   Built after the HOK "vibe grid": light surface band, photos as rounded tiles, centred benefits with ink icons on white, pill button.
+   tryscent.eu: monochrome, sentence-case heading, no gold.
+   375: row of 4 square photos on top, centred heading (italic words in grey), 2x2 centred benefits, full-width pill (max 360), ticker.
    990: two columns, copy left (heading left-aligned, benefits centred in their cells, pill left), 2x2 photos right. */
 .pm-scope .pm-bsb {
   box-sizing: border-box;
@@ -56,15 +57,13 @@
   font-size: var(--pm-fs-title);
   line-height: var(--pm-lh-title);
   font-weight: 800;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
   text-wrap: balance;
   color: var(--pm-ink);
 }
 
 .pm-scope .pm-bsb__heading em {
   font-style: italic;
-  color: var(--pm-gold);
+  color: var(--pm-bs-gold, #e5a00d);
 }
 
 .pm-scope .pm-bsb__list {
@@ -95,17 +94,16 @@
   height: 44px;
   margin: 0 0 10px;
   border-radius: var(--pm-radius-pill);
-  background: var(--pm-gold-soft);
-  color: var(--pm-gold);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  border: 1px solid var(--pm-line);
 }
 
 .pm-scope .pm-bsb__title {
   margin: 0 0 4px;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 18px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-weight: 700;
   color: var(--pm-ink);
 }
 
@@ -122,13 +120,14 @@
   border-radius: var(--pm-radius-pill);
 }
 
-/* Ticker: gold dots between items */
+/* Ticker: muted dots between items */
 .pm-scope .pm-bsb__ticker {
   margin: 0;
 }
 
 .pm-scope .pm-bsb__ticker .pm-ticker__sep {
-  color: var(--pm-gold);
+  color: currentColor;
+  opacity: 0.5;
 }
 
 @media (min-width: 750px) {

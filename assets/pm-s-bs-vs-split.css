@@ -1,7 +1,7 @@
 /* pm-s-bs-vs-split.css (Bundle & Save): "Not your average dupe", built after HOK's "Not your average scent".
-   Cards stay side by side at every width (2 columns at 375, gap 8). Ours: dark warm gradient, centred brand, rows with a
+   Cards stay side by side at every width (2 columns at 375, gap 8). Ours: flat ink card (tryscent.eu, no warm gradient), centred brand, rows with a
    gold icon and a thin divider, product photo filling the bottom and fading into the card. Rival: white, 1px ink outline,
-   radius 16, centred title, rows with a red cross and a divider, grey bottle silhouette at the bottom.
+   radius 16, centred title, rows with a grey outline cross and a divider, grey bottle silhouette at the bottom.
    750: gap 16, larger type. 990: grid max 1000 centred. */
 .pm-scope .pm-bs-vs {
   box-sizing: border-box;
@@ -18,14 +18,12 @@
   font-size: var(--pm-fs-title);
   line-height: var(--pm-lh-title);
   font-weight: 800;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
   color: var(--pm-ink);
 }
 
 .pm-scope .pm-bs-vs__title em {
   font-style: italic;
-  color: var(--pm-gold);
+  color: var(--pm-bs-gold, #e5a00d);
 }
 
 .pm-scope .pm-bs-vs__sub {
@@ -54,7 +52,7 @@
 }
 
 .pm-scope .pm-bs-vs__card--ours {
-  background: linear-gradient(165deg, var(--pm-charcoal) 0%, var(--pm-ink) 70%);
+  background: #000000;
   color: var(--pm-white);
 }
 
@@ -75,8 +73,7 @@
   font-size: 16px;
   line-height: 22px;
   font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .pm-scope .pm-bs-vs__rival {
@@ -127,7 +124,7 @@
 
 .pm-scope .pm-bs-vs__icon {
   flex: 0 0 auto;
-  color: var(--pm-gold);
+  color: currentColor;
 }
 
 .pm-scope .pm-bs-vs__mark {
@@ -138,8 +135,10 @@
   width: 20px;
   height: 20px;
   border-radius: var(--pm-radius-pill);
-  background: var(--pm-sale-soft);
-  color: var(--pm-sale);
+  background: var(--pm-white);
+  color: var(--pm-muted);
+  border: 1px solid var(--pm-line);
+  box-sizing: border-box;
 }
 
 /* Bottom visuals: our photo fades into the card, rival gets a grey bottle */

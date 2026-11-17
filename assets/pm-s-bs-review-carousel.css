@@ -35,11 +35,11 @@
 
 .pm-scope .pm-bsrv__track {
   display: flex;
-  align-items: flex-start;
   gap: 12px;
   margin: 0;
   padding: 0;
   list-style: none;
+  /* Cards stretch to the tallest one; the name follows the quote directly and any spare height stays below it. */
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -87,13 +87,13 @@
 }
 
 .pm-scope .pm-bsrv__rating .pm-stars {
-  color: var(--pm-gold);
+  color: var(--pm-ink);
 }
 
 .pm-scope .pm-bsrv__stars {
   display: inline-flex;
   gap: 2px;
-  color: var(--pm-gold);
+  color: var(--pm-ink);
   line-height: 0;
 }
 
@@ -143,7 +143,7 @@
 .pm-scope .pm-bsrv__verified .pm-icon {
   width: 12px;
   height: 12px;
-  color: var(--pm-gold);
+  color: var(--pm-ink);
 }
 
 .pm-scope .pm-bsrv__arrow {
@@ -187,7 +187,6 @@
     border-radius: var(--pm-radius-pill);
     background: var(--pm-white);
     color: var(--pm-ink);
-    box-shadow: var(--pm-shadow-sm);
     cursor: pointer;
     transition: opacity var(--pm-dur) var(--pm-ease), background-color var(--pm-dur) var(--pm-ease);
   }

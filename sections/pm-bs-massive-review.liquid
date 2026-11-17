@@ -79,7 +79,7 @@
                 </div>
               </div>
               <div class="pm-review__rating">
-                <span class="pm-review__stars" role="img" aria-label="Betyg {{ rating }} av 5">
+                <span class="pm-review__stars" role="img" aria-label="Rated {{ rating }} out of 5">
                   {%- for i in (1..5) -%}
                     <svg{% if i > rating %} class="is-empty"{% endif %} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><use href="#pm-star-{{ section.id }}"/></svg>
                   {%- endfor -%}
