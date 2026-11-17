@@ -39,7 +39,7 @@
     card out twice, so it stays out of the tree.
   {%- endcomment -%}
   {%- liquid
-    assign tile_label = 'Spela video'
+    assign tile_label = 'Play video'
     if product_item != blank
       assign tile_label = tile_label | append: ', ' | append: product_item.title
     endif
