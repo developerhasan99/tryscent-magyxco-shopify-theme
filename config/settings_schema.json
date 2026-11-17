@@ -2026,6 +2026,18 @@
     ]
   },
   {
+    "name": "Buying",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "pm_qb_tiers",
+        "label": "Quantity breaker on product pages",
+        "info": "The Buy More Save More cards on product pages (single bottle / Buy 2 Get 1 Free / Buy 3 Get 2 Free). Off: product pages show the price and a plain Add to cart button; the automatic 25 / 30 / 35 / 40% discounts still apply in the cart.",
+        "default": false
+      }
+    ]
+  },
+  {
     "name": "Designer names (homepage cards)",
     "settings": [
       {
