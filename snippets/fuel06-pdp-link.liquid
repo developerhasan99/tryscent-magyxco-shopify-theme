@@ -1,0 +1,20 @@
+{%- comment -%}
+  FUEL_06 product page entry (2026-09-30). A decorated link under the buy
+  button that opens the finder dialog which layout/theme.liquid renders on
+  product pages (mode 'dialog' of snippets/fuel06-finder.liquid). The wording
+  is in theme settings, next to the rest of the finder copy.
+
+  Ships with the hidden attribute: assets/fuel06-finder.js drops it once the
+  dialog is on the page, so a template without the dialog never shows it.
+
+  Rendered from snippets/reactive-variant-selector.liquid, right after the add to
+  cart form and before the payment badge (the perfume templates disable the
+  theme's own buy_buttons block and draw the button there).
+{%- endcomment -%}
+<button type="button" class="fuel06-pdp-link" data-f06-open-external hidden>
+  <span class="fuel06-pdp-link__icon" aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" focusable="false"><path transform="translate(1.668 1.672)" d="M5 10.833C9.063 10.833 10.833 9.124 10.833 5C10.833 9.124 12.592 10.833 16.667 10.833C12.592 10.833 10.833 12.592 10.833 16.667C10.833 12.592 9.063 10.833 5 10.833ZM0 3.75C2.612 3.75 3.75 2.652 3.75 0C3.75 2.652 4.881 3.75 7.5 3.75C4.881 3.75 3.75 4.881 3.75 7.5C3.75 4.881 2.612 3.75 0 3.75Z"/></svg>
+  </span>
+  {%- comment -%} The arrow sits inside the text, glued to the last word, so it follows it when the line wraps on phones. {%- endcomment -%}
+  <span class="fuel06-pdp-link__text">{{ settings.fuel06_pdp_lead | escape }} <em>{{ settings.fuel06_pdp_link | escape }}</em>&nbsp;<span class="fuel06-pdp-link__arrow" aria-hidden="true">&rarr;</span></span>
+</button>

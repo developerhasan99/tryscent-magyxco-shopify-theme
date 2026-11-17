@@ -115,6 +115,18 @@
                       <div>
                         <p class="text-sm my-0">Inspired by:</p>
                         <h4 class="font-semibold my-0 line-clamp-1 inspiration_heading">{{ product.metafields.custom.inspiration.value.name }}</h4>
+                        {%- comment -%} Designer price struck through (custom.original_retail_price, money = cents in the shopper's
+                          currency), as tryscent.co. Only when the template has no designer_price block, so it never prints twice. {%- endcomment -%}
+                        {%- liquid
+                          assign mgx_dp_blocks = section.blocks | where: 'type', 'designer_price'
+                          assign mgx_dp_cents = 0
+                          if mgx_dp_blocks.size == 0 and product.metafields.custom.original_retail_price != blank
+                            assign mgx_dp_cents = product.metafields.custom.original_retail_price.value | append: '' | plus: 0
+                          endif
+                        -%}
+                        {%- if mgx_dp_cents > 0 -%}
+                          <p class="text-sm my-0 text-gray-500">Designer price {% render 'pm-designer-price', cents: mgx_dp_cents, strike: true, class: 'font-semibold text-black' %}</p>
+                        {%- endif -%}
                       </div>
                     </div>
                   {% endif %}

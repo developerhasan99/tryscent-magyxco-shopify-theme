@@ -1,0 +1,32 @@
+{%- comment -%}
+  mgx-pdp-trust (magyx.co): the row under the buy button on single-scent product pages, port of tryscent.co's
+  (its snippets/quantity-breaker.liquid with fmx_trust): the "Not your scent?" finder link (fuel06-pdp-link; the
+  dialog it opens is rendered by layout/theme.liquid on product pages, wording in Theme settings > FUEL_06),
+  payment icons per market (mgx-payment-icons) and three tiles (mgx-shipping-badges): ships next day from the
+  visitor's warehouse (ships-from-location) / FedEx + UPS / 60-day guarantee. Same tiles as the Bundle & Save box.
+  Rendered from snippets/quantity-breaker.liquid and snippets/reactive-variant-selector.liquid.
+
+  Accepts:
+  - product: {Object} the product being bought
+
+  Usage:
+  {% render 'mgx-pdp-trust', product: product %}
+{%- endcomment -%}
+{%- capture mgx_pdp_ships -%}Ships Next Day from {% render 'ships-from-location' %}{%- endcapture -%}
+<style>
+  .mgx-pdp-trust .fuel06-pdp-link { margin-top: 16px; color: var(--pm-ink, #121212); font-size: 13px; line-height: 20px; font-weight: 500; }
+  .mgx-pdp-trust .fuel06-pdp-link em { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  .mgx-pdp-trust .fuel06-pdp-link:focus-visible { outline-color: var(--pm-ink, #121212); }
+  .mgx-pdp-trust .mgx-pay-icons { margin: 20px auto 0; }
+  .mgx-pdp-trust .mgx-shipping-badges { margin: 24px 0; }
+</style>
+<div class="mgx-pdp-trust">
+  {%- render 'fuel06-pdp-link' -%}
+  {% render 'mgx-payment-icons' %}
+  {% render 'mgx-shipping-badges',
+    product: product,
+    delivery_text: mgx_pdp_ships,
+    carrier_text: 'Secure shipping with FedEx & UPS',
+    guarantee_text: '60-day money-back guarantee'
+  %}
+</div>

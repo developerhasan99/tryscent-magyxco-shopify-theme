@@ -32,6 +32,9 @@
   .atc-button.loading > *:not(.loading__spinner) {
     visibility: hidden;
   }
+
+  .qb-atc-price { display: inline-flex; align-items: baseline; gap: 8px; font-weight: 700; }
+  .qb-atc-price__compare { font-size: 0.7em; font-weight: 500; opacity: 0.7; }
 </style>
 
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -210,16 +213,6 @@
       </div>
     </template>
   </div>
-  {%- else -%}
-  {% comment %} Tiers off: the single-bottle price stands alone above Add to cart (the tier cards were the only price on the page) {% endcomment %}
-  <div class="!mt-[22px] mb-[11px] flex items-center gap-2 flex-wrap">
-    <span
-      class="block text-base text-gray-700 font-semibold line-through"
-      x-show="$store.qb.currentCompare > $store.qb.currentPrice"
-      x-cloak
-      x-text="$store.qb.money($store.qb.currentCompare)"></span>
-    <span class="block text-[19px] font-extrabold text-black" x-text="$store.qb.money($store.qb.currentPrice)">{{ selected_variant.price | money }}</span>
-  </div>
   {%- endif -%}
 
   {% comment %} Add to cart form — real product-form component; bundle items are
@@ -276,7 +269,17 @@
           x-cloak
           x-text="'Choose ' + $store.qb.remaining + ' more ' + ($store.qb.remaining === 1 ? 'scent' : 'scents')"></span>
 
+        {% comment %} Price inside the button: the selected tier's total (single bottle when the tier cards are off) {% endcomment %}
         <span x-show="$store.qb.isComplete">{{ 'products.product.add_to_cart' | t }}</span>
+        <span x-show="$store.qb.isComplete" class="qb-atc-price">
+          <span aria-hidden="true">&middot;</span>
+          <s
+            class="qb-atc-price__compare"
+            x-show="$store.qb.currentCompare > $store.qb.currentPrice"
+            x-cloak
+            x-text="$store.qb.money($store.qb.currentCompare)"></s>
+          <span class="qb-atc-price__value" x-text="$store.qb.money($store.qb.currentPrice)">{{ selected_variant.price | money }}</span>
+        </span>
         {% comment %} <div class="flex items-center" x-show="$store.qb.isComplete">
           <div
             class="inline-block text-lg bg-[#0c5224] px-3 rounded"
@@ -581,38 +584,5 @@
     });
   });
 </script>
-<div>
-  {% render 'mgx-payment-icons' %}
-</div>
-
-<div class="!my-6 flex items-center gap-3 rounded-lg border border-solid border-gray-200 bg-gray-50 p-3">
-  <svg
-    class="size-6"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="#1a1a1a"
-    stroke-width="1.5"
-    xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M5 12H19M12 5V19"
-      stroke="#1a1a1a"
-      stroke-width="2"
-      stroke-linecap="round"></path>
-    <path
-      d="M12 22C12 22 20 16 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 16 12 22 12 22Z"
-      fill="white"
-      stroke="#1a1a1a"
-      stroke-width="2"></path>
-    <circle
-      cx="12"
-      cy="10"
-      r="3"
-      fill="#1a1a1a"></circle>
-  </svg>
-  <div>
-    <p class="m-0 font-semibold tracking-normal text-black leading-snug">Ships Next Day from {% render 'ships-from-location' %}</p>
-  {% comment %} {% unless localization.country.iso_code == 'US' %}
-                              <p class="m-0 text-gray-500 tracking-normal text-sm">Delivered in 3-7 business days.</p>
-                {% endunless %} {% endcomment %}
-  </div>
-</div>
+{% comment %} Under the buy button: finder link, payment icons, three tiles (port of tryscent.co's row) {% endcomment %}
+{% render 'mgx-pdp-trust', product: product %}
