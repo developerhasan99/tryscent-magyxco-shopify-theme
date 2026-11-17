@@ -11,126 +11,136 @@
   "sections": {
     "pm_bundle_save": {
       "type": "pm-bundle-save",
-      "settings": {
-        "pricing_mode": "bundle_product",
-        "show_timer": true,
-        "timer_eyebrow": "Bundle deal · Up to 62% off · Limited time",
-        "timer_title": "24 Hours Flash Sale",
-        "timer_label": "Bundle deal countdown",
-        "rating_label": "Excellent",
-        "rating_score": "4.68/5",
-        "rating_text": "based on over 10,000 reviews",
-        "headline": "WEAR MORE. <em>SAVE MORE.</em>",
-        "subheading": "Bundle up and buy your favourite, designer inspired scents for 90% LESS. Feel luxurious without overpaying for the logo. <strong>Save more with every bottle you add!</strong>",
-        "guarantee_heading": "Try it for 60 days, risk-free",
-        "guarantee_text": "<p>Not convinced? Send your order back within 60 days and get your money back. Fewer than 0.5% of buyers use our money-back guarantee.</p>"
-      },
       "blocks": {
         "b1": {
           "type": "benefit",
           "settings": {
             "icon": "drop",
-            "text": "20% perfume oil, lasts 12+ hours"
+            "text": "20% perfume oil (Eau de Parfum)"
           }
         },
         "b2": {
           "type": "benefit",
           "settings": {
-            "icon": "sparkle",
-            "text": "95% scent similarity to the designer original"
+            "icon": "clock",
+            "text": "Lasts 12+ hours on the skin"
           }
         },
         "b3": {
           "type": "benefit",
           "settings": {
             "icon": "leaf",
-            "text": "No harmful chemicals"
+            "text": "No harsh chemicals"
           }
         },
-        "t1": {
+        "tier_mx_1": {
           "type": "tier",
           "settings": {
             "bottles": 1,
             "max_bottles": 1,
-            "label": "1 BOTTLE",
-            "tag": "STARTER",
+            "label": "1 bottle",
+            "tag": "Starter",
             "preselected": false
           }
         },
-        "t2": {
+        "tier_mx_2": {
           "type": "tier",
           "settings": {
             "bottles": 2,
             "max_bottles": 2,
-            "label": "2 BOTTLES",
-            "tag": "BEST SELLER",
+            "label": "2 bottles",
+            "tag": "Bestseller",
             "preselected": false
           }
         },
-        "t3": {
+        "tier_mx_3": {
           "type": "tier",
           "settings": {
             "bottles": 3,
             "max_bottles": 3,
-            "label": "3 BOTTLES",
-            "tag": "MOST POPULAR",
-            "tag_as_badge": true,
+            "label": "3 bottles",
+            "tag": "",
+            "highlight": "Most popular",
             "preselected": false
           }
         },
-        "t4": {
+        "tier_mx_4": {
           "type": "tier",
           "settings": {
             "bottles": 4,
             "max_bottles": 20,
-            "label": "4 BOTTLES+",
-            "tag": "BEST VALUE",
+            "label": "4+ bottles",
+            "tag": "Best value",
             "preselected": true
           }
         },
-        "r1": {
+        "l_men": {
+          "type": "line",
+          "settings": {
+            "group": "men",
+            "label": "Men",
+            "preselected": false
+          }
+        },
+        "l_women": {
+          "type": "line",
+          "settings": {
+            "group": "women",
+            "label": "Women",
+            "preselected": false
+          }
+        },
+        "l_unisex": {
+          "type": "line",
+          "settings": {
+            "group": "unisex",
+            "label": "Unisex",
+            "preselected": false
+          }
+        },
+        "mr1": {
           "type": "mini_review",
           "settings": {
-            "quote": "Oh my God, I loved it. Wow! Exactly like the original and it lasts all day! ❤️‍🔥❤️‍🔥",
-            "name": "Marianne",
+            "quote": "I'm sooooo happy with everything, the scents are amazing and very close to the originals. They last a really long time!",
+            "name": "Lena A.",
             "verified": true
           }
         },
-        "r2": {
+        "mr2": {
           "type": "mini_review",
           "settings": {
-            "quote": "Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.",
-            "name": "Damario R",
+            "quote": "I've bought perfume for both myself and my wife and they smell really good. Just like the scents they're inspired by. Recommended.",
+            "name": "Mattias E.",
             "verified": true
           }
         },
-        "r3": {
+        "mr3": {
           "type": "mini_review",
           "settings": {
-            "quote": "I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!",
-            "name": "Clara P.",
+            "quote": "The scent really surprised me, it's absolutely outstanding! I love it, and the packaging is very elegant too.",
+            "name": "Silvana R.",
             "verified": true
           }
         },
-        "f1": {
+        "mf1": {
           "type": "mini_faq",
           "settings": {
-            "question": "How long will the scent last?",
-            "answer": "<p>Every MAGYX scent is an Eau de Parfum made with 20% perfume oil, so it lasts 12+ hours on the skin. Longevity varies with skin type and how you apply it.</p>"
+            "question": "How long does the scent last?",
+            "answer": "<p>Over 12 hours for most people. How long it lasts depends on your skin, so spray it on your skin, not your clothes.</p>"
           }
         },
-        "f2": {
+        "mf2": {
           "type": "mini_faq",
           "settings": {
-            "question": "Are your fragrances safe for sensitive skin?",
-            "answer": "<p>Our fragrances are formulated to high safety standards, but like all fragrances, they may contain allergens. We recommend patch testing before full use, especially if you have sensitive skin. All ingredients comply with international safety regulations for cosmetic products.</p>"
+            "question": "Can I mix different scents?",
+            "answer": "<p>Yes. Pick any scents you like, in any combination. You can add the same scent more than once.</p>"
           }
         },
-        "f3": {
+        "mf3": {
           "type": "mini_faq",
           "settings": {
-            "question": "Can I return or exchange if I don't like the scent?",
-            "answer": "<p>Yes. We offer a 60-day money-back guarantee. If you're not completely satisfied with your fragrance, simply return it within 60 days for a full refund. No questions asked, no hassle.</p>"
+            "question": "What if the scent isn't right for me?",
+            "answer": "<p>You have a 60-day money-back guarantee. If the scent isn't right for you, send your order back.</p>"
           }
         }
       },
@@ -138,17 +148,1065 @@
         "b1",
         "b2",
         "b3",
+        "tier_mx_1",
+        "tier_mx_2",
+        "tier_mx_3",
+        "tier_mx_4",
+        "l_men",
+        "l_women",
+        "l_unisex",
+        "mr1",
+        "mr2",
+        "mr3",
+        "mf1",
+        "mf2",
+        "mf3"
+      ],
+      "settings": {
+        "bundle_handle": "bundle-and-save",
+        "bottle_size": "50ml",
+        "pricing_mode": "bundle_product",
+        "bottle_property": "Bottle",
+        "color_scheme": "scheme-1",
+        "show_rating": true,
+        "rating_text": "Over 10,000 verified fragrance lovers",
+        "headline": "Buy more, <em>save more</em>",
+        "subheading": "Bundle up and buy your favorite designer-inspired scents for 90% LESS. Feel luxurious without overpaying for the logo. Save more with every bottle you add!",
+        "show_timer": true,
+        "timer_label": "Offer ends in",
+        "timer_eyebrow": "Black Month · up to [max]% off · today only",
+        "timer_title": "24-hour sale",
+        "timer_hrs_label": "hrs",
+        "timer_mins_label": "min",
+        "timer_secs_label": "sec",
+        "tiers_heading": "Choose your bundle size",
+        "saving_badge": "-[pct]%",
+        "per_bottle_text": "[price] / bottle",
+        "stack_text": "Only [price] per extra bottle",
+        "goal_tier_gift_one": "+1 free mystery scent",
+        "goal_tier_gifts": "+[n] free mystery scents",
+        "goal_gift_product": "mystery-perfume-50ml",
+        "scents_heading": "Choose your [n] scents",
+        "counter_text": "[x] of [n] selected",
+        "max_text": "Your bundle is full: [max] bottles",
+        "search_placeholder": "Search by brand, occasion or scent family",
+        "lines_heading": "Filter scents",
+        "all_label": "All",
+        "search_empty": "No scents match your search",
+        "search_clear": "Clear search",
+        "empty_text": "No scents in this group.",
+        "add_label": "Add",
+        "inspired_prefix": "Inspired by",
+        "badge_bestseller": "Bestseller",
+        "badge_new": "New",
+        "scroll_hint": "Scroll to see more scents",
+        "cta_empty": "Choose your scents",
+        "cta_more": "Pick [n] more to fill your bundle",
+        "cta_label": "Add to cart",
+        "cta_adding": "Adding to cart...",
+        "error_text": "Something went wrong. Please try again.",
+        "show_payment_icons": true,
+        "review_interval": 5,
+        "verified_label": "Verified purchase",
+        "guarantee_heading": "Try it for 60 days, risk-free",
+        "guarantee_text": "<p>Not convinced? Send your order back within 60 days and get your money back. Fewer than 0.5% of buyers use our money-back guarantee.</p>",
+        "collection": "best-sellers"
+      }
+    },
+    "pm_bs_ugc_grid": {
+      "type": "pm-bs-ugc-grid",
+      "blocks": {
+        "video_mx_1": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/magyx_co_english_only_OliwiaT_SmelLikeGood_6f9396e5.mp4",
+            "product": "no-461"
+          }
+        },
+        "video_mx_2": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/magyx_co_english_only_SergioG_SmelLikeAven_dd25bb7b.mp4",
+            "product": "no-288"
+          }
+        },
+        "video_mx_3": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/magyx_co_english_only_CecilieT_SmelLikeGood_e40e48e7.mov"
+          }
+        },
+        "video_mx_4": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/magyx_co_english_only_RiiaK_SmelLikeBorn_07b902ed.mp4",
+            "product": "no-469"
+          }
+        },
+        "video_mx_5": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/magyx_co_english_only_AllieK_SmelLikeBlac_ce4e6748.mp4"
+          }
+        }
+      },
+      "block_order": [
+        "video_mx_1",
+        "video_mx_2",
+        "video_mx_3",
+        "video_mx_4",
+        "video_mx_5"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "rating_text": "Over 10,000 verified fragrance lovers",
+        "heading": "The scent that turns heads",
+        "subheading": "From subtle glances to bold compliments",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "pm_bs_benefits": {
+      "type": "pm-bs-benefits",
+      "blocks": {
+        "g1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "drop",
+            "title": "20% perfume oil",
+            "text": "Eau de Parfum concentration, for a scent people notice."
+          }
+        },
+        "g2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "clock",
+            "title": "Lasts 12+ hours",
+            "text": "How long it lasts depends on your skin."
+          }
+        },
+        "g3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "title": "No harsh chemicals",
+            "text": "No sharp alcohol smell."
+          }
+        },
+        "g4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "title": "60-day guarantee",
+            "text": "Not your scent? Money back within 60 days."
+          }
+        },
+        "g5": {
+          "type": "ticker_item",
+          "settings": {
+            "text": "Lasts 12+ hours"
+          }
+        },
+        "g6": {
+          "type": "ticker_item",
+          "settings": {
+            "text": "20% perfume oil"
+          }
+        },
+        "g7": {
+          "type": "ticker_item",
+          "settings": {
+            "text": "Eau de Parfum"
+          }
+        },
+        "g8": {
+          "type": "ticker_item",
+          "settings": {
+            "text": "60-day money-back guarantee"
+          }
+        },
+        "g9": {
+          "type": "ticker_item",
+          "settings": {
+            "text": "Ships within 1-2 days"
+          }
+        },
+        "p1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/face_bottle_04_smile_9x16_84246a8f-8a64-449f-b261-606459783b39.jpg"
+          }
+        },
+        "p2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/bottle_06_desk_closeup.jpg"
+          }
+        },
+        "p3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/bundle-save-ugc-molly.webp"
+          }
+        },
+        "p4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/bottle_04_front.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "g5",
+        "g6",
+        "g7",
+        "g8",
+        "g9"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "heading": "A scent that <em>stays with you</em> all day",
+        "cta_label": "Build your bundle",
+        "ticker_color_scheme": "scheme-3",
+        "ticker_separator": "•",
+        "ticker_speed": 30,
+        "ticker_label": "Why customers choose us",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "pm_bs_strength_tabs": {
+      "type": "pm-bs-strength-tabs",
+      "blocks": {
+        "t1": {
+          "type": "tab",
+          "settings": {
+            "label": "Eau de Toilette",
+            "sublabel": "Most brands",
+            "is_ours": false,
+            "strength": "Light",
+            "longevity": "Usually 4-6 hours",
+            "oil": "5-15% perfume oil",
+            "summary": "Much less perfume oil than an Eau de Parfum."
+          }
+        },
+        "t2": {
+          "type": "tab",
+          "settings": {
+            "label": "MagyX",
+            "sublabel": "Our perfumes, Eau de Parfum",
+            "is_ours": true,
+            "strength": "Noticeable without taking over",
+            "longevity": "Over 12 hours",
+            "oil": "20% perfume oil",
+            "summary": "20% perfume oil in every bottle. You pay for the scent, not the name."
+          }
+        }
+      },
+      "block_order": [
         "t1",
-        "t2",
-        "t3",
-        "t4",
-        "r1",
-        "r2",
-        "r3",
-        "f1",
-        "f2",
-        "f3"
-      ]
+        "t2"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "kicker": "Concentration",
+        "title": "Why concentration matters",
+        "subtitle": "Eau de Toilette contains much less perfume oil than Eau de Parfum. Ours have 20%.",
+        "default_tab": 2,
+        "row_strength_label": "Strength",
+        "row_longevity_label": "Longevity",
+        "row_oil_label": "Fragrance oil",
+        "row_summary_label": "What you get",
+        "footnote": "Typical concentrations by perfume type. How long a scent lasts depends on your skin.",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "pm_bs_vs_split": {
+      "type": "pm-bs-vs-split",
+      "blocks": {
+        "v1": {
+          "type": "our_point",
+          "settings": {
+            "icon": "drop",
+            "text": "20% perfume oil"
+          }
+        },
+        "v2": {
+          "type": "our_point",
+          "settings": {
+            "icon": "clock",
+            "text": "Over 12 hours on the skin"
+          }
+        },
+        "v3": {
+          "type": "our_point",
+          "settings": {
+            "icon": "leaf",
+            "text": "No harsh chemicals"
+          }
+        },
+        "v4": {
+          "type": "our_point",
+          "settings": {
+            "icon": "truck",
+            "text": "Ships within 1-2 days"
+          }
+        },
+        "v5": {
+          "type": "our_point",
+          "settings": {
+            "icon": "shuffle",
+            "text": "Mix freely in one bundle"
+          }
+        },
+        "v6": {
+          "type": "our_point",
+          "settings": {
+            "icon": "shield",
+            "text": "60-day money-back guarantee"
+          }
+        },
+        "v7": {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Often Eau de Toilette with 15% fragrance oil or less"
+          }
+        },
+        "v8": {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Noticeable for 3-4 hours"
+          }
+        },
+        "v9": {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Ingredients rarely disclosed"
+          }
+        },
+        "v10": {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Long delivery times"
+          }
+        },
+        "v11": {
+          "type": "dupe_point",
+          "settings": {
+            "text": "Short or no return window"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4",
+        "v5",
+        "v6",
+        "v7",
+        "v8",
+        "v9",
+        "v10",
+        "v11"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "title": "More than <em>your average dupe</em>",
+        "subtitle": "Compared with other brands that sell inspired scents.",
+        "brand": "MagyX",
+        "image": "shopify://shop_images/Magyx_Website_01.jpg",
+        "dupe_title": "Other brands",
+        "their_title": "Designer perfumes",
+        "btn_text": "Build your bundle",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "pm_bs_review_carousel": {
+      "type": "pm-bs-review-carousel",
+      "blocks": {
+        "r_1": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg",
+            "quote": "Really good quality perfumes at a low price!! I'm definitely ordering more. I sprayed once on my arm just to test it and could smell it for hours!!!! Really good service. Recommend!!",
+            "author": "Julia P.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r_2": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/bottle_02_flatlay_closeup.jpg",
+            "quote": "Honestly, I was surprised by how good this one is. The quality is impressive, the scent lasts for hours and it's incredibly close to the original. If no one had told me, I never would have noticed a difference. What makes it even better is the price. Getting perfume this good without paying for the luxury brand feels completely fair. Totally worth it, and I'll be ordering again.",
+            "author": "Luciana R.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r_3": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/bottle_05_pair_alt.jpg",
+            "quote": "I ordered two perfumes and I'm really impressed. The scents are very close to the originals and the quality exceeded my expectations. The service was fast and professional too. I'm very happy with my purchase and I'd happily recommend you to others. Thank you for a fantastic experience.",
+            "author": "Amran T.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r_4": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/bottle_05_labeled_tilted.jpg",
+            "quote": "My date genuinely thought it was Tom Ford. It even lasts maybe an hour or two longer, which is incredible, especially at this price.",
+            "author": "Nick D.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r_5": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/bottle_06_desk_closeup.jpg",
+            "quote": "I've worn Acqua di Giò for years and this one captures exactly the same fresh ocean feel. Crisp citrus, salty marine notes and a woody base. Honestly, I can't tell the difference. Best part? The price. Now I can finally spray as much as I want without worrying.",
+            "author": "Michael D.",
+            "rating": 5,
+            "verified": true
+          }
+        },
+        "r_6": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
+            "quote": "This is my second order! Great perfumes that smell good and last long. My favorite is the cherry one, it smells amazing!",
+            "author": "Tina H.",
+            "rating": 5,
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "r_1",
+        "r_2",
+        "r_3",
+        "r_4",
+        "r_5",
+        "r_6"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "heading": "The scent that gets you noticed",
+        "subheading": "Real customers on what happened after the first spray",
+        "rating_text": "Over 10,000 verified fragrance lovers",
+        "verified_text": "Verified purchase",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "pm_bs_compare_table": {
+      "type": "pm-bs-compare-table",
+      "blocks": {
+        "c1": {
+          "type": "row",
+          "settings": {
+            "label": "Price",
+            "ours": "You pay for the scent, not the advertising",
+            "theirs": "You pay for the brand name"
+          }
+        },
+        "c2": {
+          "type": "row",
+          "settings": {
+            "label": "Fragrance oil",
+            "ours": "20% perfume oil",
+            "theirs": "Depends on the brand and perfume type"
+          }
+        },
+        "c5": {
+          "type": "row",
+          "settings": {
+            "label": "Longevity",
+            "ours": "Over 12 hours on the skin",
+            "theirs": "Usually 4-6 hours"
+          }
+        },
+        "c6": {
+          "type": "row",
+          "settings": {
+            "label": "Guarantee",
+            "ours": "60-day money-back guarantee",
+            "theirs": "Rarely returnable once opened"
+          }
+        }
+      },
+      "block_order": [
+        "c2",
+        "c5",
+        "c6",
+        "c1"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "kicker": "Comparison",
+        "title": "Why people choose <em>MagyX</em>",
+        "ours_image": "shopify://shop_images/Magyx_Website_07.jpg",
+        "ours_sub": "MagyX",
+        "theirs_label": "Designer perfumes",
+        "btn_text": "Build your bundle",
+        "guarantee": "60-day money-back guarantee",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "pm_bs_faq": {
+      "type": "pm-bs-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "What is an inspired scent?",
+            "answer": "<p>A scent with the same notes and the same scent family as a well-known perfume. It isn't the original.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "How much perfume oil do the perfumes contain?",
+            "answer": "<p>20% perfume oil, the same level as an Eau de Parfum. The scent is clearly noticeable and lasts a long time without taking over.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How long does the scent last?",
+            "answer": "<p>Over 12 hours for most people. How long it lasts depends on your skin, so spray it on your skin, not your clothes.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "Can I mix different scents in a bundle?",
+            "answer": "<p>Yes. Pick any scents you like, in any combination, and the same scent more than once. The price only depends on how many bottles are in the bundle.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "Where are the perfumes made?",
+            "answer": "<p>In the EU.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "Why are your scents so affordable?",
+            "answer": "<p>We put the money into the scent. No luxury bottles, no expensive packaging, no store rents and no pricey influencer deals. So you can smell like luxury without paying a fortune.</p>"
+          }
+        },
+        "q7": {
+          "type": "question",
+          "settings": {
+            "question": "When will I get my order?",
+            "answer": "<p>We ship within 1-2 days. You'll see delivery times and shipping options at checkout.</p>"
+          }
+        },
+        "q8": {
+          "type": "question",
+          "settings": {
+            "question": "What if the scent isn't right for me?",
+            "answer": "<p>You have a 60-day money-back guarantee. If the scent isn't right for you, send your order back.</p>"
+          }
+        },
+        "q9": {
+          "type": "question",
+          "settings": {
+            "question": "Are these original perfumes from well-known brands?",
+            "answer": "<p>No. These are scents inspired by well-known compositions. MagyX has no connection to the brands mentioned and is not endorsed by them.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7",
+        "q8",
+        "q9"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "title": "Common questions",
+        "closing_text": "<p>Have another question? <a href=\"/pages/contact\">Write to us</a>.</p>",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "massive_review_section": {
+      "type": "pm-bs-massive-review",
+      "blocks": {
+        "review_en_01": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Honestly, I was surprised by how good this one is. The quality is impressive, the scent lasts for hours and it's incredibly close to the original. If no one had told me, I never would have noticed a difference. What makes it even better is the price. Getting perfume this good without paying for the luxury brand feels completely fair. Totally worth it, and I'll be ordering again.\"</p>",
+            "author": "Luciana R.",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_02": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I was pleasantly surprised by the quality of the scents. They last much longer than I expected and the bottles look great too. I've already gotten several compliments while wearing them. Ordering was easy and I'm really happy with my purchase. I'm definitely going to try more scents!\"</p>",
+            "author": "Alina M.",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_03": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I bought and tried the Jean Paul Gaultier scent. I'm seriously impressed!! The scent is spot on and it lasts all day. I have 55 different original fragrances in my collection, but none of them can compete with this one. Wow.\"</p>",
+            "author": "Steen J.",
+            "date": "6 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_04": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I was surprised by how long the perfumes last, I didn't expect that at this price. I put it on in the morning, and when I take my shirt off in the evening I can still smell it. Recommended if you're looking for alternatives to luxury perfumes.\"</p>",
+            "author": "Maria F.",
+            "date": "5 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_05": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I was really surprised by how good the perfume is, and it lasts well. I've ordered twice so far and I'll be back when I run out 😀\"</p>",
+            "author": "Pernille O.",
+            "date": "5 months ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_06": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The quality of the scent pleasantly surprised me. It smells very similar to luxury perfumes but costs much less. It lasts a long time and feels elegant, I really enjoy wearing it every day. A great alternative if you love high-end fragrances but don't want to pay the high prices.\"</p>",
+            "author": "Tetiana H.",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_07": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I've worn Acqua di Giò for years and this one captures exactly the same fresh ocean feel. Crisp citrus, salty marine notes and a woody base. Honestly, I can't tell the difference. Best part? The price. Now I can finally spray as much as I want without worrying.\"</p>",
+            "author": "Michael D.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_08": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I was honestly really surprised by how good this perfume is. The scent is well balanced, soft and long-lasting without being too strong. It has a clean, elegant feel that works for everyday and for dressier occasions. I also noticed it develops nicely after a while, which makes it even more fun to wear. All in all I'm really happy, and I'd gladly recommend it to anyone looking for something unique and high quality.\"</p>",
+            "author": "Zein H.",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_09": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"My date genuinely thought it was Tom Ford. It even lasts maybe an hour or two longer, which is incredible, especially at this price.\"</p>",
+            "author": "Nick D.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_10": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Lasts longer than I expected. It holds a steady 6 to 7 hours on me, which is better than the original in my case. Just the right projection, neither too strong nor too weak.\"</p>",
+            "author": "Peter S.",
+            "date": "1 year ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_11": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I absolutely loved my scent! I tried the one inspired by YSL Libre, and I actually liked it a lot more than the original from YSL!\"</p>",
+            "author": "A'Miracle F.",
+            "date": "9 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_12": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"A real find! Side by side with Imagination there's barely any difference, and everyone else just says “damn, you smell good.” Wish I'd found this sooner!!!\"</p>",
+            "author": "Eric M.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_13": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I'm sooooo happy with everything, the scents are amazing and very close to the originals. They last a really long time!\"</p>",
+            "author": "Lena A.",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_14": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I was looking for a specific perfume and got help finding it. It was exactly what I wanted and it lasts over 12 hours! I get nothing but compliments. Thank you!\"</p>",
+            "author": "Rozhin D.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_15": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"A little goes a long way. The first time I sprayed way too much, this one is strong! Now I stick to two sprays max and it lasts all day. The cinnamon and amber make it cozy but still grown-up.\"</p>",
+            "author": "Kevin O.",
+            "date": "1 year ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_16": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I've loved Black Opium for years and this one is honestly almost identical. Love the warm notes of vanilla and coffee. It's cozy but still feels sophisticated.\"</p>",
+            "author": "Emily C.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_17": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I've bought perfume for both myself and my wife and they smell really good. Just like the scents they're inspired by. Recommended.\"</p>",
+            "author": "Mattias E.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_18": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"It smells exactly like the original. The rose feels fresh and natural, and the longevity is amazing, easily over 12 hours.\"</p>",
+            "author": "Kiara B.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_19": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Wonderful, honest company. RECOMMENDED 10/10, really nice perfumes that smell just like the original, and genuinely fair prices. I've ordered twice.\"</p>",
+            "author": "Ayham A.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_20": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"A great pick for oud lovers. If you like deep, woody scents with spice and warmth, this one hits the mark. Not exactly like Alexandria II, but a really good alternative.\"</p>",
+            "author": "Jason C.",
+            "date": "1 year ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_21": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Really good quality perfumes at a low price!! I'm definitely ordering more. I sprayed once on my arm just to test it and could smell it for hours!!!! Really good service. Recommend!!\"</p>",
+            "author": "Julia P.",
+            "date": "3 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_22": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Smells incredibly close to the original, L'Immensité by Louis Vuitton. Fresh citrus and ginger blend perfectly with subtle herbal notes. Highly recommended.\"</p>",
+            "author": "John M.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_23": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Not just for men. I'm a girl and I was worried it would be too masculine, but it's actually perfect. The amber softens the leather and the cinnamon makes it interesting.\"</p>",
+            "author": "Priya S.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_24": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I've ordered several times and I'm super happy! Good quality, made so you know what's in it, and the scent lasts for hours!\"</p>",
+            "author": "René V.",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_25": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"It's my go-to on nights when I stay in and just want to treat myself. The warmth and sweetness make it so cozy.\"</p>",
+            "author": "Emily S.",
+            "date": "1 year ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_26": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I ordered two perfumes and I'm really impressed. The scents are very close to the originals and the quality exceeded my expectations. The service was fast and professional too. I'm very happy with my purchase and I'd happily recommend you to others. Thank you for a fantastic experience.\"</p>",
+            "author": "Amran T.",
+            "date": "3 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_27": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I've worn L'Eau d'Issey before and this one nails it. The woody notes and the citrus are spot on, and it lasts just as long.\"</p>",
+            "author": "Brian O.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_28": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"This is my second order! Great perfumes that smell good and last long. My favorite is the cherry one, it smells amazing!\"</p>",
+            "author": "Tina H.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_29": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Spot on. Is this even legal? As close to the original as you can get. The scent lasts long and ordering barely hurts the wallet. Highly recommended! 👍🏻\"</p>",
+            "author": "Håcan A.",
+            "date": "6 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_30": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I work late nights and needed something to freshen up with before heading out. This one does the trick: clean, not overpowering, and it lasts.\"</p>",
+            "author": "Malik J.",
+            "date": "1 year ago",
+            "rating": 4,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_31": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Love the perfumes, they smell like the originals and last long 😍 I've ordered 10 perfumes and I love them all.\"</p>",
+            "author": "Christina T.",
+            "date": "4 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_32": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I was honestly surprised by how luxurious this smells. It lasts longer than most designer fragrances I've tried, and I've saved a ton of money.\"</p>",
+            "author": "Adam G.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_33": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The perfumes are really good! There's almost no difference from the originals and I'm honestly really happy with my purchase. Great price.\"</p>",
+            "author": "Rimuska B.",
+            "date": "2 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_34": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"Unlike some other alternatives, this one doesn't smell cheap or chemical. I like the blend and it stays on my clothes for a long time.\"</p>",
+            "author": "Claire H.",
+            "date": "1 year ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_35": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"The scent really surprised me, it's absolutely outstanding! I love it, and the packaging is very elegant too.\"</p>",
+            "author": "Silvana R.",
+            "date": "6 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        },
+        "review_en_36": {
+          "type": "review",
+          "settings": {
+            "content": "<p>\"I loved this perfume, the scent is incredible and it lasts a long time. Honestly, it's a smart choice at a low price and I'll definitely buy it again. I'm completely in love 😍❤️\"</p>",
+            "author": "Daniela B.",
+            "date": "7 months ago",
+            "rating": 5,
+            "show_verified_badge": true,
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_en_01",
+        "review_en_02",
+        "review_en_03",
+        "review_en_04",
+        "review_en_05",
+        "review_en_06",
+        "review_en_07",
+        "review_en_08",
+        "review_en_09",
+        "review_en_10",
+        "review_en_11",
+        "review_en_12",
+        "review_en_13",
+        "review_en_14",
+        "review_en_15",
+        "review_en_16",
+        "review_en_17",
+        "review_en_18",
+        "review_en_19",
+        "review_en_20",
+        "review_en_21",
+        "review_en_22",
+        "review_en_23",
+        "review_en_24",
+        "review_en_25",
+        "review_en_26",
+        "review_en_27",
+        "review_en_28",
+        "review_en_29",
+        "review_en_30",
+        "review_en_31",
+        "review_en_32",
+        "review_en_33",
+        "review_en_34",
+        "review_en_35",
+        "review_en_36"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "background_color": "#ffffff",
+        "heading": "Loved by over 10,000 fragrance lovers",
+        "review_text": "Over 10,000 verified fragrance lovers",
+        "verified_text": "Verified buyer",
+        "initial_count": 26,
+        "columns_desktop": "3",
+        "columns_mobile": "1",
+        "button_text": "Show more reviews",
+        "loading_text": "Loading reviews...",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
     },
     "pm_bs_review_cards": {
       "type": "pm-bs-review-cards",
@@ -214,521 +1272,8 @@
         "card_2",
         "card_3",
         "card_4"
-      ]
-    },
-    "pm_bs_benefits": {
-      "type": "pm-bs-benefits",
-      "settings": {
-        "color_scheme": "scheme-6",
-        "heading": "Built to get you <em>noticed</em> & <em>last all day</em>",
-        "cta_label": "Get 4 bottles for $60",
-        "cta_link": "/products/bundle-and-save",
-        "ticker_color_scheme": "scheme-3",
-        "ticker_separator": "•",
-        "ticker_speed": 30,
-        "padding_top": 80,
-        "padding_bottom": 80
-      },
-      "blocks": {
-        "b_1": {
-          "type": "benefit",
-          "settings": {
-            "icon": "drop",
-            "title": "20% perfume oil",
-            "text": "A concentrated Eau de Parfum that carries from morning to night."
-          }
-        },
-        "b_2": {
-          "type": "benefit",
-          "settings": {
-            "icon": "sparkle",
-            "title": "Designer-inspired",
-            "text": "95% scent similarity. Perfume oil from Grasse, France."
-          }
-        },
-        "b_3": {
-          "type": "benefit",
-          "settings": {
-            "icon": "heart",
-            "title": "Compliments on repeat",
-            "text": "The scent people stop you to ask about."
-          }
-        },
-        "b_4": {
-          "type": "benefit",
-          "settings": {
-            "icon": "clock",
-            "title": "Lasts 12+ hours",
-            "text": "Thanks to the 20% perfume oil."
-          }
-        },
-        "b_5": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_01_raised_4x5_a789fe32-f9b1-4925-88e5-2f905eaa59c8.jpg"
-          }
-        },
-        "b_6": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/bundle-save-ugc-molly.webp",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-molly.webp"
-          }
-        },
-        "b_7": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/bundle-save-ugc-allie-2.webp",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-allie-2.webp"
-          }
-        },
-        "b_8": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/bundle-save-ugc-marie-2.webp",
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-marie-2.webp"
-          }
-        },
-        "b_9": {
-          "type": "ticker_item",
-          "settings": {
-            "text": "Lasts 12+ hours"
-          }
-        },
-        "b_10": {
-          "type": "ticker_item",
-          "settings": {
-            "text": "20% perfume oil"
-          }
-        },
-        "b_11": {
-          "type": "ticker_item",
-          "settings": {
-            "text": "Designer-inspired scents"
-          }
-        },
-        "b_12": {
-          "type": "ticker_item",
-          "settings": {
-            "text": "60-day money-back guarantee"
-          }
-        },
-        "b_13": {
-          "type": "ticker_item",
-          "settings": {
-            "text": "Ships within 1-2 days"
-          }
-        },
-        "b_14": {
-          "type": "ticker_item",
-          "settings": {
-            "text": "No harmful chemicals"
-          }
-        }
-      },
-      "block_order": [
-        "b_1",
-        "b_2",
-        "b_3",
-        "b_4",
-        "b_5",
-        "b_6",
-        "b_7",
-        "b_8",
-        "b_9",
-        "b_10",
-        "b_11",
-        "b_12",
-        "b_13",
-        "b_14"
-      ]
-    },
-    "pm_bs_strength_tabs": {
-      "type": "pm-bs-strength-tabs",
-      "blocks": {
-        "tab_edt": {
-          "type": "tab",
-          "settings": {
-            "label": "Eau de Toilette",
-            "sublabel": "Most brands",
-            "is_ours": false,
-            "strength": "Light",
-            "longevity": "4 to 6 hours",
-            "oil": "5 to 12% (typical)",
-            "summary": "Mostly alcohol with a light layer of fragrance."
-          }
-        },
-        "tab_fm": {
-          "type": "tab",
-          "settings": {
-            "label": "MAGYX Parfum",
-            "sublabel": "Ours",
-            "is_ours": true,
-            "strength": "Strong",
-            "longevity": "12+ hours",
-            "oil": "20% perfume oil",
-            "summary": "Eau de Parfum with perfume oil sourced from Grasse, France. No harmful chemicals."
-          }
-        }
-      },
-      "block_order": [
-        "tab_edt",
-        "tab_fm"
       ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "kicker": "Strength",
-        "title": "Why we use more oil",
-        "subtitle": "Most designer bottles on the shelf are Eau de Toilette, mostly alcohol with a little perfume oil. Ours is Eau de Parfum with 20%.",
-        "default_tab": 2,
-        "row_strength_label": "Scent strength",
-        "row_longevity_label": "Longevity",
-        "row_oil_label": "Fragrance oil",
-        "row_summary_label": "What you are really getting",
-        "footnote": "Typical ranges for designer fragrances. Individual products vary.",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
-    },
-    "pm_bs_vs_split": {
-      "type": "pm-bs-vs-split",
-      "blocks": {
-        "our_1": {
-          "type": "our_point",
-          "settings": {
-            "text": "20% perfume oil",
-            "icon": "drop"
-          }
-        },
-        "our_2": {
-          "type": "our_point",
-          "settings": {
-            "text": "Lasts 12+ hours",
-            "icon": "clock"
-          }
-        },
-        "our_3": {
-          "type": "our_point",
-          "settings": {
-            "text": "95% scent similarity",
-            "icon": "sparkle"
-          }
-        },
-        "our_4": {
-          "type": "our_point",
-          "settings": {
-            "text": "Mix and match any scents",
-            "icon": "shuffle"
-          }
-        },
-        "our_5": {
-          "type": "our_point",
-          "settings": {
-            "text": "60-day money-back guarantee",
-            "icon": "shield"
-          }
-        },
-        "our_6": {
-          "type": "our_point",
-          "settings": {
-            "text": "No harmful chemicals",
-            "icon": "leaf"
-          }
-        },
-        "dupe_1": {
-          "type": "dupe_point",
-          "settings": {
-            "text": "Smells close, not the same"
-          }
-        },
-        "dupe_2": {
-          "type": "dupe_point",
-          "settings": {
-            "text": "Fades within a few hours"
-          }
-        },
-        "dupe_4": {
-          "type": "dupe_point",
-          "settings": {
-            "text": "Thin, alcohol-heavy formulas"
-          }
-        },
-        "dupe_5": {
-          "type": "dupe_point",
-          "settings": {
-            "text": "Short or no return window"
-          }
-        }
-      },
-      "block_order": [
-        "our_1",
-        "our_2",
-        "our_3",
-        "our_6",
-        "our_4",
-        "our_5",
-        "dupe_1",
-        "dupe_2",
-        "dupe_4",
-        "dupe_5"
-      ],
-      "settings": {
-        "color_scheme": "scheme-6",
-        "title": "Not your average <em>dupe</em>",
-        "subtitle": "Most dupes stop at close enough. Ours carry 20% perfume oil and 95% scent similarity.",
-        "brand": "MAGYX",
-        "image": "shopify://shop_images/bundle-save-vs-ours.webp",
-        "their_title": "Designer scents",
-        "btn_text": "Get 4 bottles for $60",
-        "btn_url": "/products/bundle-and-save",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "dupe_title": "Other dupes"
-      }
-    },
-    "pm_bs_review_carousel": {
-      "type": "pm-bs-review-carousel",
-      "settings": {
-        "color_scheme": "scheme-1",
-        "heading": "The scent that gets you noticed",
-        "subheading": "Real customers on what happened after the first spray",
-        "rating_text": "Excellent 4.68/5",
-        "verified_text": "Verified buyer",
-        "padding_top": 80,
-        "padding_bottom": 80
-      },
-      "blocks": {
-        "r_1": {
-          "type": "review",
-          "settings": {
-            "quote": "I loooove these perfumes! Each one I received smells divinely good. Some, I would say, are better than the original.",
-            "author": "Christine N.",
-            "rating": 4,
-            "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bundle-save-ugc-cecilie.webp",
-            "image": "shopify://shop_images/bundle-save-ugc-cecilie.webp"
-          }
-        },
-        "r_2": {
-          "type": "review",
-          "settings": {
-            "quote": "The product arrived well packaged. The perfume wasn't broken, hadn't leaked and was in good condition. The perfume is perfect and didn't smell bad. I love it, high quality.",
-            "author": "Roxanne S",
-            "rating": 5,
-            "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_08_boxed_pick.jpg",
-            "image": "shopify://shop_images/bottle_08_boxed_pick.jpg"
-          }
-        },
-        "r_3": {
-          "type": "review",
-          "settings": {
-            "quote": "I had the opportunity to try their perfumes, they have a great price, a wide range of fragrances but above all their perfumes are persistent and long-lasting highly recommended!",
-            "author": "Clara P.",
-            "rating": 5,
-            "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_06_desk_closeup.jpg",
-            "image": "shopify://shop_images/bottle_06_desk_closeup.jpg"
-          }
-        },
-        "r_4": {
-          "type": "review",
-          "settings": {
-            "quote": "Excellent product! Super affordable alternative to brand name perfumes. The fragrance lasts a long time and you get your money's worth.",
-            "author": "EM",
-            "rating": 5,
-            "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_05_pair_alt.jpg",
-            "image": "shopify://shop_images/bottle_05_pair_alt.jpg"
-          }
-        },
-        "r_5": {
-          "type": "review",
-          "settings": {
-            "quote": "Excellent product, smells fantastically good. I always have people asking me about my fragrance and what I use.",
-            "author": "Damario R",
-            "rating": 5,
-            "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/bottle_02_flatlay_closeup.jpg",
-            "image": "shopify://shop_images/bottle_02_flatlay_closeup.jpg"
-          }
-        },
-        "r_6": {
-          "type": "review",
-          "settings": {
-            "quote": "The fragrance of this product is super rich and I love how beautiful the bottle and its design are. I would really use it again.",
-            "author": "Eliannys Y",
-            "rating": 5,
-            "verified": true,
-            "image_url": "https://cdn.shopify.com/s/files/1/0739/7048/3352/files/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg",
-            "image": "shopify://shop_images/face_bottle_02_presenting_4x5_e9902d07-4935-46f6-bed4-fe50f10737fb.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "r_1",
-        "r_2",
-        "r_3",
-        "r_4",
-        "r_5",
-        "r_6"
-      ]
-    },
-    "pm_bs_compare_table": {
-      "type": "pm-bs-compare-table",
-      "blocks": {
-        "row_quality": {
-          "type": "row",
-          "settings": {
-            "label": "Scent quality",
-            "ours": "95% scent similarity",
-            "theirs": "Premium, but you pay for the name"
-          }
-        },
-        "row_longevity": {
-          "type": "row",
-          "settings": {
-            "label": "Longevity",
-            "ours": "12+ hours on skin",
-            "theirs": "4 to 6 hours (Eau de Toilette)"
-          }
-        },
-        "row_oil": {
-          "type": "row",
-          "settings": {
-            "label": "Fragrance oil",
-            "ours": "20%",
-            "theirs": "5 to 12% (Eau de Toilette)"
-          }
-        },
-        "row_choice": {
-          "type": "row",
-          "settings": {
-            "label": "Choice",
-            "ours": "Mix and match any scents",
-            "theirs": "One scent per bottle"
-          }
-        },
-        "row_guarantee": {
-          "type": "row",
-          "settings": {
-            "label": "Guarantee",
-            "ours": "60-day money-back",
-            "theirs": "Final sale"
-          }
-        },
-        "row_price": {
-          "type": "row",
-          "settings": {
-            "label": "Price",
-            "ours": "$15 to $24 a bottle",
-            "theirs": "$150 to $400"
-          }
-        }
-      },
-      "block_order": [
-        "row_quality",
-        "row_longevity",
-        "row_oil",
-        "row_choice",
-        "row_guarantee",
-        "row_price"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "kicker": "The difference",
-        "title": "Why people switched to <em>MAGYX</em>",
-        "ours_label": "4 bottles · $60",
-        "ours_sub": "MAGYX",
-        "theirs_label": "Designer perfume",
-        "theirs_sub": "$150+",
-        "save_text": "Save up to 90% per bottle",
-        "btn_text": "Get 4 bottles for $60",
-        "btn_url": "/products/bundle-and-save",
-        "guarantee": "60-day money-back guarantee",
-        "padding_top": 80,
-        "padding_bottom": 80,
-        "ours_image": "shopify://shop_images/bundle-save-compare-ours.webp"
-      }
-    },
-    "pm_bs_faq": {
-      "type": "pm-bs-faq",
-      "blocks": {
-        "q_same": {
-          "type": "question",
-          "settings": {
-            "question": "Do your fragrances smell the same as the designer inspiration?",
-            "answer": "<p>Our fragrances are expertly crafted to capture the essence and character of popular designer scents. They are inspired interpretations rather than exact copies, with 95% scent similarity to the original, at a fraction of the cost.</p>"
-          }
-        },
-        "q_last": {
-          "type": "question",
-          "settings": {
-            "question": "How long will the scent last?",
-            "answer": "<p>Every MAGYX scent is an Eau de Parfum made with 20% perfume oil, so it lasts 12+ hours on the skin. Longevity varies with skin type and how you apply it. For best results, spray on pulse points on clean, moisturized skin.</p>"
-          }
-        },
-        "q_mix": {
-          "type": "question",
-          "settings": {
-            "question": "Can I mix and match scents in a bundle?",
-            "answer": "<p>Yes. Pick any 50ml scents you like, in any combination, and add the same scent more than once if you want. The price per bottle drops as you add more: 1 bottle $24, 2 bottles $38, 3 bottles $51, 4 bottles $60, and every bottle after that $15.</p>"
-          }
-        },
-        "q_return": {
-          "type": "question",
-          "settings": {
-            "question": "What if I pick a scent I don't love?",
-            "answer": "<p>We offer a 60-day money-back guarantee. If you're not completely satisfied with your fragrance, simply return it within 60 days for a full refund. No questions asked, no hassle.</p>"
-          }
-        },
-        "q_ship": {
-          "type": "question",
-          "settings": {
-            "question": "How long does it take to process orders and ship?",
-            "answer": "<p>Orders ship within 1-2 days.</p>"
-          }
-        },
-        "q_quality": {
-          "type": "question",
-          "settings": {
-            "question": "How can I trust the quality at this price?",
-            "answer": "<p>We cut out the middleman and brand markup, not the quality. Our fragrances are made without harmful chemicals, using 20% perfume oil sourced from Grasse, France. We're so confident in our products that we offer a 60-day money-back guarantee.</p>"
-          }
-        },
-        "q_vegan": {
-          "type": "question",
-          "settings": {
-            "question": "Are your products vegan friendly and cruelty free?",
-            "answer": "<p>We only use <strong>vegan-friendly</strong> fragrance oils, and of course they are <strong>cruelty-free</strong>! We wouldn't have it any other way.</p>"
-          }
-        },
-        "q_skin": {
-          "type": "question",
-          "settings": {
-            "question": "Are your fragrances safe for sensitive skin?",
-            "answer": "<p>Our fragrances are formulated to high safety standards, but like all fragrances, they may contain allergens. We recommend patch testing before full use, especially if you have sensitive skin. All ingredients comply with international safety regulations for cosmetic products.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q_same",
-        "q_last",
-        "q_mix",
-        "q_return",
-        "q_ship",
-        "q_quality",
-        "q_vegan",
-        "q_skin"
-      ],
-      "settings": {
-        "color_scheme": "scheme-6",
-        "title": "Common questions",
-        "closing_text": "<p>More questions? <a href=\"/pages/contact\">Contact us</a>.</p>",
-        "padding_top": 80,
-        "padding_bottom": 80
-      }
+      "disabled": true
     },
     "pm_bs_reviews": {
       "type": "pm-bs-reviews",
@@ -1160,18 +1705,21 @@
         "loading_text": "Loading reviews...",
         "padding_top": 80,
         "padding_bottom": 80
-      }
+      },
+      "disabled": true
     }
   },
   "order": [
     "pm_bundle_save",
-    "pm_bs_review_cards",
+    "pm_bs_ugc_grid",
     "pm_bs_benefits",
     "pm_bs_strength_tabs",
     "pm_bs_vs_split",
     "pm_bs_review_carousel",
     "pm_bs_compare_table",
     "pm_bs_faq",
+    "massive_review_section",
+    "pm_bs_review_cards",
     "pm_bs_reviews"
   ]
 }
