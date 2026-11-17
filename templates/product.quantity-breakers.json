@@ -124,6 +124,7 @@
           "type": "ugc_videos",
           "settings": {
             "autoplay_preview": true,
+            "show_product_cards": false,
             "video_1": "shopify://files/videos/magyx_co_english_only_CecilieT_SmelLikeGood_e40e48e7.mov",
             "video_url_1": "",
             "caption_1": "Smells like the designer",
