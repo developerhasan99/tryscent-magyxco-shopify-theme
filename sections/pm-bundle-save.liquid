@@ -971,11 +971,11 @@
           </div>
           <div class="pm-bs-sum__row" x-show="ourValue > totalPrice">
             <dt>{{ st.sum_regular_label | escape }}</dt>
-            <dd class="pm-bs-sum__was"><s x-text="money(kr(ourValue))"></s></dd>
+            <dd class="pm-bs-sum__was"><s x-text="money(ourValue)"></s></dd>
           </div>
           <div class="pm-bs-sum__row pm-bs-sum__row--save" x-show="ourValue > totalPrice">
             <dt>{{ st.sum_save_bundle_label | escape }}</dt>
-            <dd x-text="money(kr(ourValue) - totalPrice)"></dd>
+            <dd x-text="money(ourValue - totalPrice)"></dd>
           </div>
           <div class="pm-bs-sum__row pm-bs-sum__row--total">
             <dt>{{ st.sum_total_label | escape }}</dt>
@@ -1277,7 +1277,8 @@
             return this.picks.reduce(function (sum, vid) { return sum + (map[vid] || 0); }, 0);
           },
           get showDesigner() { return this.designerTotal > this.totalPrice; },
-          /* Whole currency units for the breakdown (designer and regular values carry öre) */
+          /* Whole currency units for the designer rows only (designer values are estimates). magyx.co: regular price and
+             bundle saving stay exact, prices carry cents ("Our regular price $168" vs a $109.16 total read as wrong). */
           kr: function (cents) { return Math.round((Number(cents) || 0) / 100) * 100; },
           get showSummary() { return this.cfg.mode !== 'per_line' && this.picks.length > 0 && !!this.bundleVariant; },
           get reachedCount() {
