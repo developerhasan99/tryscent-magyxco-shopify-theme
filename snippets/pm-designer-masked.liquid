@@ -1,0 +1,23 @@
+{%- comment -%}
+  Prints 1 when this product's designer must not be named in a search box (theme settings > Designer names in
+  search > pm_masked_brands), nothing otherwise. Matches the downcased custom.brand + inspiration name against each
+  listed brand, so a product without custom.brand (e.g. No. 144, only "Viktor & Rolf Flowerbomb") is caught too.
+  Usage: {% capture is_masked %}{% render 'pm-designer-masked', product: product %}{% endcapture %}
+         {% if is_masked == '1' %} ... {% endif %}
+{%- endcomment -%}
+{%- liquid
+  assign pm_dm_name = ''
+  if product.metafields.custom.inspiration.value
+    assign pm_dm_name = product.metafields.custom.inspiration.value.name | default: ''
+  endif
+  assign pm_dm_brand = product.metafields.custom.brand.value | default: ''
+  assign pm_dm_hay = pm_dm_brand | append: ' ' | append: pm_dm_name | downcase
+  assign pm_dm_list = settings.pm_masked_brands | newline_to_br | split: '<br />'
+  for pm_dm_term in pm_dm_list
+    assign pm_dm_t = pm_dm_term | strip | downcase
+    if pm_dm_t != blank and pm_dm_hay contains pm_dm_t
+      echo '1'
+      break
+    endif
+  endfor
+-%}

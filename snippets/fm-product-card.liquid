@@ -1,0 +1,153 @@
+{% comment %}
+  Product card (premium): used by main-collection-product-grid and popular-products.
+  Copy theme: 1:1 copy of FM snippets/product-card.liquid (premium-redesign), rendered by home-product-tabs only.
+  snippets/product-card.liquid stays live's card for the rest of the theme.
+
+  Accepts:
+  - product: {Object} product
+  - lazy: {Boolean} true adds loading="lazy" to the image (optional; default eager, as before)
+  - show_rating: {Boolean} Judge.me stars + "(count)" under the title, from the metafields Judge.me syncs
+    (reviews.rating / reviews.rating_count). Off unless the caller passes true; products without reviews show
+    nothing. Rendered in Liquid (no Judge.me JS), so pages the infinite scroll appends carry them too.
+    Port of the tryscent.eu card (mgx-card-rating). Styles: assets/pm-card.css section 10.
+
+  Contract kept for the price-test app: the outer element stays an <a>, the price span keeps .ab-current-price,
+  and no .product-card-wrapper[data-variant-id] is added here.
+  Price = the first available variant (sold-out products fall back to the first variant; the card still links).
+  Badges (top-left): Sold out as a white pm-badge, then New (tag "new") and Bestseller (tag "bestseller") as ink
+  pm-badges; tags match in any letter case. The green "Shop now" bar is now the .pm-card__quick square.
+{% endcomment %}
+
+{%- liquid
+  assign pm_variant = nil
+  for pm_v in product.variants
+    if pm_v.available
+      assign pm_variant = pm_v
+      break
+    endif
+  endfor
+  if pm_variant == nil
+    assign pm_variant = product.selected_or_first_available_variant | default: product.variants.first
+  endif
+  assign pm_price = pm_variant.price | default: product.price
+  assign pm_compare = pm_variant.compare_at_price | default: 0
+
+  assign pm_image = product.featured_image | default: product.images.first
+  # New theme photo (custom.fm_images, first file) when set; the live theme never reads this field
+  assign pm_fm = product.metafields.custom.fm_images.value | first
+  if pm_fm != blank
+    assign pm_image = pm_fm.preview_image
+  endif
+
+  assign pm_tags = product.tags | join: ',' | downcase | prepend: ',' | append: ','
+  assign pm_is_new = false
+  if pm_tags contains ',new,'
+    assign pm_is_new = true
+  endif
+  assign pm_is_best = false
+  if pm_tags contains ',bestseller,'
+    assign pm_is_best = true
+  endif
+
+  assign pm_badge_count = 0
+  if product.available == false
+    assign pm_badge_count = pm_badge_count | plus: 1
+  endif
+  if pm_is_new
+    assign pm_badge_count = pm_badge_count | plus: 1
+  endif
+  if pm_is_best
+    assign pm_badge_count = pm_badge_count | plus: 1
+  endif
+
+  assign pm_insp = product.metafields.custom.inspiration.value
+-%}
+{%- capture pm_masked -%}{%- render 'pm-designer-masked', product: product -%}{%- endcapture -%}
+{%- capture pm_short -%}{%- render 'pm-designer-short', product: product -%}{%- endcapture -%}
+{%- assign pm_short = pm_short | strip -%}
+{%- assign pm_show_insp = false -%}
+{%- if pm_short != blank -%}{%- assign pm_show_insp = true -%}{%- endif -%}
+{%- comment -%} Brand-free name for every product (masked ones also lose the bottle image), alt with brands removed (NO-DESIGNERS.md). {%- endcomment -%}
+{%- capture pm_alt -%}{%- render 'pm-designer-short', product: product, text: pm_image.alt -%}{%- endcapture -%}
+
+<a href="{{ product.url }}" class="pm-card pm-card--product">
+  <div class="pm-card__media">
+    {%- if pm_image -%}
+      <img
+        src="{{ pm_image | image_url: width: 540 }}"
+        srcset="{{ pm_image | image_url: width: 360 }} 360w, {{ pm_image | image_url: width: 540 }} 540w, {{ pm_image | image_url: width: 720 }} 720w"
+        sizes="{{ sizes | default: '(min-width: 990px) 25vw, 50vw' }}"
+        alt="{{ pm_alt | strip | default: product.title | escape }}"
+        width="{{ pm_image.width }}"
+        height="{{ pm_image.height }}"
+        {% if lazy %}loading="lazy"{% endif %}
+      >
+    {%- endif -%}
+
+    {%- if pm_badge_count > 0 -%}
+      <div class="pm-card__badges">
+        {%- if product.available == false -%}
+          <span class="pm-badge pm-badge--ink">{{ 'products.product.sold_out' | t }}</span>
+        {%- endif -%}
+        {%- if pm_is_new -%}
+          <span class="pm-badge pm-badge--ink">{{ 'premium.card.new' | t }}</span>
+        {%- endif -%}
+        {%- if pm_is_best -%}
+          <span class="pm-badge pm-badge--ink">Bestseller</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <span class="pm-card__quick" aria-hidden="true">
+      <span class="pm-card__quick-label">Se doften</span>
+      {%- render 'pm-icon', icon: 'arrow-right', size: 16 -%}
+    </span>
+  </div>
+
+  <div class="pm-card__body">
+    <h3 class="pm-card__title">{{ product.title | escape }}</h3>
+    {%- if show_rating and product.metafields.reviews.rating.value != blank -%}
+      {%- liquid
+        assign pm_rating_count = product.metafields.reviews.rating_count | append: '' | plus: 0
+        assign pm_rating_val = product.metafields.reviews.rating.value.rating | append: '' | plus: 0
+        assign pm_rating_max = product.metafields.reviews.rating.value.scale_max | append: '' | plus: 0
+        if pm_rating_max <= 0
+          assign pm_rating_max = 5
+        endif
+        assign pm_rating_max_label = pm_rating_max | round
+        assign pm_rating_pct = pm_rating_val | times: 100.0 | divided_by: pm_rating_max | round: 1 | at_least: 0 | at_most: 100
+      -%}
+      {%- if pm_rating_count > 0 and pm_rating_val > 0 -%}
+        <div class="pm-card__rating">
+          <span
+            class="pm-card__stars"
+            role="img"
+            aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: pm_rating_val, rating_max: pm_rating_max_label }}"
+            style="--pm-rating-pct: {{ pm_rating_pct }}%;"
+          ></span>
+          <span class="pm-card__rating-count">
+            <span aria-hidden="true">({{ pm_rating_count }})</span>
+            <span class="visually-hidden">{{ pm_rating_count }} {{ 'accessibility.total_reviews' | t }}</span>
+          </span>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+    <span class="pm-card__rule" aria-hidden="true"></span>
+    {%- if pm_show_insp -%}
+      <p class="pm-card__meta pm-dmeta">
+        {%- if pm_insp.image != blank and pm_masked != '1' -%}
+          <span class="pm-dthumb" aria-hidden="true">
+            {{- pm_insp.image | image_url: width: 144 | image_tag: width: 48, height: 48, widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '', class: 'pm-dthumb__img' -}}
+          </span>
+        {%- endif -%}
+        <span class="pm-dmeta__text">Inspirerad av: <span class="inspiration_heading">{{ pm_short }}</span></span>
+      </p>
+    {%- endif -%}
+    <div class="pm-card__price">
+      <span class="ab-current-price">{{ pm_price | money }}</span>
+      {%- if pm_compare > pm_price -%}
+        <s class="pm-card__compare">{{ pm_compare | money }}</s>
+      {%- endif -%}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,145 @@
+/* fm-home-tabs.css: sections/fm-home-tabs.liquid + snippets/fm-grid-card.liquid.
+   Layout = magicperfume.co homepage "home-tabs" (centred heading, tab pills, 2 / 4 column grid, card tiles on a
+   light band, "show all" button); look = FM tokens from pm-base.css (ink, line, surface, radii, pm-btn) and the
+   pm-card from pm-card.css. Every rule sits under .pm-scope (the section class), no importance overrides.
+   Mobile-first: base = 375, then 750 / 990. */
+
+.pm-scope .fm-tabs {
+  background: var(--fm-tabs-bg, var(--pm-surface));
+  color: var(--pm-ink);
+}
+
+/* 1. Heading + subline */
+.pm-scope .fm-tabs__heading {
+  margin: 0 0 8px;
+  color: var(--pm-ink);
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.pm-scope .fm-tabs__sub {
+  margin: 0 auto 20px;
+  max-width: 520px;
+  color: var(--pm-muted);
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* 2. Tab row: the FM Product tabs row (pm-s-home-product-tabs.css: uppercase muted tabs on a hairline, the open tab
+   in ink with a 2px underline). Here the tabs sit centred under the centred heading; the list is at least 100% wide
+   and grows to its content, so when the tabs outgrow a phone the row scrolls from the first tab, nothing is cut. */
+.pm-scope .fm-tabs .fm-tabs__list {
+  justify-content: center;
+}
+
+/* 3. Grid: 2 columns on phones, 4 from 750 (magicperfume.co breakpoint) */
+.pm-scope .fm-tabs__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .fm-tabs__item {
+  display: flex;
+  min-width: 0;
+  margin: 0;
+  padding: 8px;
+  border-radius: var(--pm-radius-md);
+  background: var(--pm-white);
+}
+
+/* 4. Card inside a tile: FM card + full-width button pinned to the bottom */
+.pm-scope .fm-grid-card .pm-card__body {
+  padding-top: 10px;
+}
+
+.pm-scope .fm-grid-card .pm-card__price {
+  margin-bottom: 12px;
+}
+
+/* Designer row as on magicperfume.co: grey "Inspirerad av:" over the designer name in ink, the name may take two
+   lines (pm-card.css clamps the whole row to one line, which cut the name off on phones) */
+.pm-scope .fm-grid-card .pm-card__meta .pm-dmeta__text {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+  color: var(--pm-muted);
+  line-height: 1.35;
+}
+
+.pm-scope .fm-grid-card .pm-dmeta__text .inspiration_heading {
+  display: block;
+  color: var(--pm-ink);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.pm-scope .fm-grid-card__btn {
+  width: 100%;
+  min-height: 40px;
+  margin-top: auto;
+  padding: 10px 8px;
+  letter-spacing: 0.08em;
+}
+
+/* the whole card is the link: hovering anywhere on it runs the button's wipe */
+.pm-scope .fm-grid-card:hover .fm-grid-card__btn::before {
+  transform: scaleX(1);
+}
+
+/* 5. Show all */
+.pm-scope .fm-tabs__more {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.pm-scope .fm-tabs__more .pm-btn {
+  min-width: 180px;
+}
+
+@media screen and (min-width: 750px) {
+  .pm-scope .fm-tabs__sub {
+    margin-bottom: 28px;
+  }
+
+  .pm-scope .fm-tabs__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  /* 6 products per tab: two rows of 3 instead of a row of 4 plus 2 leftovers */
+  .pm-scope .fm-tabs__grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .pm-scope .fm-tabs__item {
+    padding: 12px;
+  }
+
+  .pm-scope .fm-grid-card__btn {
+    min-height: 44px;
+  }
+
+  .pm-scope .fm-tabs__more {
+    margin-top: 40px;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .pm-scope .fm-tabs__grid {
+    gap: 24px;
+  }
+
+  .pm-scope .fm-tabs__item {
+    padding: 16px;
+  }
+}

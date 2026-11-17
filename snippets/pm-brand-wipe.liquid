@@ -1,0 +1,62 @@
+{%- comment -%}
+  NO-DESIGNERS.md: removes every brand name from a text, the perfume name stays ("Tom Ford Oud Wood" -> "Oud Wood").
+  Brands = Theme settings > Designer names in search > "Brands never named or shown" + "Brand names removed from
+  every name"; "Perfume names never shown" (Aventus) goes the same way. A brand goes only before a space or punctuation, never from inside another word ("MYSLF" keeps its
+  letters); "från <brand>" and "<brand>, " go with it. A dangling "de" / "di" / "d'" / "by" at the end goes too
+  ("Terre d'Hermès" -> "Terre").
+  {% render 'pm-brand-wipe', text: t %}
+  {% render 'pm-brand-wipe', text: t, keep: k %}  k (a short name) is never cut, even when it contains a brand word.
+{%- endcomment -%}
+{%- liquid
+  assign pbw_out = text | append: ''
+  if pbw_out != ''
+    assign pbw_list = settings.pm_masked_brands | newline_to_br | append: '<br />'
+    assign pbw_list2 = settings.pm_brand_words | newline_to_br | append: '<br />'
+    assign pbw_list3 = settings.pm_hidden_names | newline_to_br
+    assign pbw_terms = pbw_list | append: pbw_list2 | append: pbw_list3 | split: '<br />'
+    assign pbw_keep = keep | append: '' | strip
+    if pbw_keep != ''
+      assign pbw_out = pbw_out | replace: pbw_keep, '~PBWK~'
+    endif
+    assign pbw_out = pbw_out | append: ' '
+    assign pbw_ends = ' |.|,|;|:|)|<|"|!|?|-|®' | split: '|'
+    for pbw_t in pbw_terms
+      assign pbw_tc = pbw_t | strip
+      if pbw_tc != blank
+        assign pbw_amp = pbw_tc | replace: '&', '&amp;'
+        assign pbw_forms = pbw_tc | append: '|' | append: pbw_amp | split: '|' | uniq
+        for pbw_f in pbw_forms
+          if pbw_out contains pbw_f
+            assign pbw_from = ' från ' | append: pbw_f
+            assign pbw_out = pbw_out | replace: pbw_from, ''
+            assign pbw_comma = pbw_f | append: ', '
+            assign pbw_out = pbw_out | replace: pbw_comma, ''
+            for pbw_e in pbw_ends
+              assign pbw_fe = pbw_f | append: pbw_e
+              if pbw_e == ' '
+                assign pbw_out = pbw_out | replace: pbw_fe, ''
+              else
+                assign pbw_out = pbw_out | replace: pbw_fe, pbw_e
+              endif
+            endfor
+          endif
+        endfor
+      endif
+    endfor
+    assign pbw_out = pbw_out | replace: '~PBWK~', pbw_keep | replace: '  ', ' ' | replace: '  ', ' ' | replace: ' .', '.' | replace: ' ,', ',' | strip
+    comment
+      A hidden perfume name (Aventus) leaves "Inspirerad av" with nothing after it: that phrase goes too.
+    endcomment
+    assign pbw_out = pbw_out | replace: ' de och ', ' och ' | replace: ' de, ', ', ' | replace: ' de.', '.' | replace: ' di och ', ' och ' | replace: ' di, ', ', ' | replace: ' di.', '.' | replace: ', och ', ' och ' | replace: 'som, ', 'som '
+    assign pbw_out = pbw_out | replace: 'Parfym inspirerad av. ', '' | replace: 'Parfym inspirerad av.', '' | replace: 'Inspirerad av | ', '' | replace: 'inspirerad av | ', '' | replace: 'Inspirerad av: | ', '' | strip
+    if pbw_out == 'Inspirerad av' or pbw_out == 'Inspirerad av:' or pbw_out == 'inspirerad av'
+      assign pbw_out = ''
+    endif
+    assign pbw_tail = pbw_out | split: ' ' | last
+    if pbw_tail == 'de' or pbw_tail == 'di' or pbw_tail == 'by' or pbw_tail == "d'" or pbw_tail == 'd’'
+      assign pbw_cut = ' ' | append: pbw_tail
+      assign pbw_out = pbw_out | remove_last: pbw_cut | strip
+    endif
+  endif
+  echo pbw_out
+-%}

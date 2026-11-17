@@ -1,0 +1,317 @@
+/* pm-s-homepage-hero.css (WP-E): sections/homepage-hero.liquid. Loaded by the section itself.
+   Layout "overlay": full-bleed cover image (separate mobile source), optional black overlay, copy on the left.
+   Layout "split": copy + side image inside page-width (the pre-redesign structure, retokened).
+   Values per section come in as custom properties from the section's style block:
+   --pm-hero-min (min-height) and --pm-hero-overlay (0..1). Mobile-first: base = 375. */
+
+.pm-scope .pm-hero {
+  position: relative;
+}
+
+/* 1. Overlay frame: the image, the overlay and the copy share one box that is at least --pm-hero-min tall */
+.pm-scope .pm-hero__frame {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: var(--pm-hero-min, 560px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.pm-scope .pm-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  margin: 0;
+}
+
+.pm-scope .pm-hero__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;
+  border-radius: var(--pm-radius-0);
+}
+
+/* display: block beats base.css `div:empty { display: none }` (the overlay div has no children) */
+.pm-scope .pm-hero__overlay {
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--pm-black);
+  opacity: var(--pm-hero-overlay, 0);
+  pointer-events: none;
+}
+
+.pm-scope .pm-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+}
+
+/* 2. Copy block: 375 = top of the frame, 20px padding, buttons stacked full width */
+.pm-scope .pm-hero__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  padding: 20px;
+  text-align: left;
+}
+
+.pm-scope .pm-hero--dark .pm-hero__content {
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-hero--light .pm-hero__content,
+.pm-scope .pm-hero--light .pm-hero__title {
+  color: var(--pm-white);
+}
+
+.pm-scope .pm-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.pm-scope .pm-hero__title {
+  margin: 0;
+  max-width: 480px;
+}
+
+.pm-scope .pm-hero__subtitle {
+  margin: 12px 0 0;
+  max-width: 440px;
+}
+
+.pm-scope .pm-hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* mobile_buttons = bottom: the actions sit on the bottom edge of the frame (reference layout) */
+.pm-scope .pm-hero--m-bottom .pm-hero__actions {
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+.pm-scope .pm-hero__btn {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 24px;
+}
+
+/* Below 750 with bottom buttons: the two buttons share one row so the frame can stay short */
+@media (max-width: 749px) {
+  /* Overlay copy centred on phones: stars on their own line, claim + title + subtitle in balanced lines */
+  .pm-scope .pm-hero--overlay .pm-hero__content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .pm-scope .pm-hero--overlay .pm-hero__eyebrow {
+    flex-direction: column;
+    gap: 8px;
+    max-width: 300px;
+    text-wrap: balance;
+  }
+
+  .pm-scope .pm-hero--overlay .pm-hero__stars svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .pm-scope .pm-hero--overlay .pm-hero__title,
+  .pm-scope .pm-hero--overlay .pm-hero__subtitle {
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: balance;
+  }
+
+  .pm-scope .pm-hero--m-bottom .pm-hero__actions {
+    flex-direction: row;
+  }
+
+  .pm-scope .pm-hero--m-bottom .pm-hero__btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* 3. Split layout (default): copy and side image inside page-width, centred */
+.pm-scope .pm-hero__split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+}
+
+.pm-scope .pm-hero--split .pm-hero__content {
+  align-items: center;
+  padding: 0;
+  text-align: center;
+}
+
+.pm-scope .pm-hero--split .pm-hero__title,
+.pm-scope .pm-hero--split .pm-hero__subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pm-scope .pm-hero--split .pm-hero__actions {
+  justify-content: center;
+}
+
+.pm-scope .pm-hero__aside {
+  text-align: center;
+}
+
+.pm-scope .pm-hero__aside-img {
+  display: block;
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* 4. From 750: copy vertically centred in a 600px column, buttons side by side */
+@media (min-width: 750px) {
+  /* Wide screens grow the frame with the viewport (30vw) so a ~21:9 image is never cut top and bottom;
+     the image anchors right so the product at the right of the photo stays whole on narrower screens. */
+  .pm-scope .pm-hero__frame {
+    min-height: max(var(--pm-hero-min, 480px), 30vw);
+  }
+
+  .pm-scope .pm-hero__img {
+    object-position: 100% 45%;
+  }
+
+  /* image_position = top: centred, top edge kept (people's heads stay in frame) */
+  .pm-scope .pm-hero--dpos-top .pm-hero__img {
+    object-position: 50% 0;
+  }
+
+  .pm-scope .pm-hero--dpos-center .pm-hero__img {
+    object-position: 50% 50%;
+  }
+
+  .pm-scope .pm-hero__content {
+    justify-content: center;
+    max-width: 600px;
+    padding: 60px var(--pm-gutter);
+  }
+
+  .pm-scope .pm-hero__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: auto;
+    margin-top: 28px;
+  }
+
+  .pm-scope .pm-hero--m-bottom .pm-hero__actions {
+    margin-top: 28px;
+    padding-top: 0;
+  }
+
+  .pm-scope .pm-hero__btn {
+    width: auto;
+    min-width: 150px;
+  }
+
+  .pm-scope .pm-hero__split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .pm-scope .pm-hero--split .pm-hero__content {
+    padding: 0 40px;
+  }
+}
+
+/* 4a. Tablets (750-989): the cover image is cropped from the left, so a product on the right of the photo moves
+   toward the middle; the copy column stays in the left half so it never runs over it. */
+@media (min-width: 750px) and (max-width: 989px) {
+  .pm-scope .pm-hero--overlay .pm-hero__content {
+    max-width: 50%;
+  }
+}
+
+/* 5. From 1200: 60px padding on every side of the copy column; the overlay headline gets a 620px measure (two lines) */
+@media (min-width: 1200px) {
+  .pm-scope .pm-hero__content {
+    padding: 60px;
+  }
+
+  .pm-scope .pm-hero--overlay .pm-hero__content {
+    max-width: 740px;
+  }
+
+  .pm-scope .pm-hero--overlay .pm-hero__title {
+    max-width: 620px;
+  }
+}
+
+/* 6. overlay_style = fade: a wash behind the copy only, in the opposite colour of the text tone
+   (white under dark copy, black under light copy). --pm-hero-overlay sets its strength.
+   Phones: the wash rises from the bottom and the copy sits there; desktop: it runs in from the left. */
+.pm-scope .pm-hero--overlay-fade .pm-hero__overlay {
+  --pm-hero-wash: 255 255 255;
+  opacity: 1;
+  /* x1.2: the copy sits on this band, so the slider's 80% gives a near-solid wash under it */
+  background: linear-gradient(
+    0deg,
+    rgb(var(--pm-hero-wash) / calc(var(--pm-hero-overlay, 0) * 1.2)) 0%,
+    rgb(var(--pm-hero-wash) / calc(var(--pm-hero-overlay, 0) * 1.2)) 30%,
+    rgb(var(--pm-hero-wash) / calc(var(--pm-hero-overlay, 0) * 0.7)) 44%,
+    rgb(var(--pm-hero-wash) / 0) 60%
+  );
+}
+
+.pm-scope .pm-hero--overlay-fade.pm-hero--light .pm-hero__overlay {
+  --pm-hero-wash: 0 0 0;
+}
+
+@media (max-width: 749px) {
+  .pm-scope .pm-hero--overlay-fade .pm-hero__content {
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-hero--overlay-fade .pm-hero__overlay {
+    background: linear-gradient(
+      90deg,
+      rgb(var(--pm-hero-wash) / var(--pm-hero-overlay, 0)) 0%,
+      rgb(var(--pm-hero-wash) / calc(var(--pm-hero-overlay, 0) * 0.9)) 32%,
+      rgb(var(--pm-hero-wash) / calc(var(--pm-hero-overlay, 0) * 0.5)) 48%,
+      rgb(var(--pm-hero-wash) / 0) 66%
+    );
+  }
+}
+
+/* 7. mobile_image_position: which part of the phone image stays in the frame (default top = 50% 0 above) */
+@media (max-width: 749px) {
+  .pm-scope .pm-hero--mpos-center .pm-hero__img {
+    object-position: 50% 50%;
+  }
+
+  .pm-scope .pm-hero--mpos-bottom .pm-hero__img {
+    object-position: 50% 100%;
+  }
+}

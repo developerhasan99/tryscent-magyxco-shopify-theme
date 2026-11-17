@@ -1,0 +1,232 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-card.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Homepage product grid with tabs: magicperfume.co "home-tabs" layout (centred heading + subline, tab pills,
+  4 products per tab, 2 columns on phones, "Visa alla" under the grid) in the FM look (pm-card, pm-btn, FM tokens).
+  Tab row = the FM Product tabs row (pm-ptabs__* classes + assets/pm-s-home-product-tabs.css: uppercase tabs on a
+  hairline, the open tab underlined), centred here under the centred heading.
+  Section class carries "premium" so pm-base / pm-card rules apply (on this theme only the header group is .pm-scope).
+  Styles: assets/fm-home-tabs.css. Cards: snippets/fm-grid-card.liquid.
+  "Show the UGC video row" renders the FUEL_05 row (snippet fuel05-ugc-home-row) under the grid; it used to ride
+  inside the "Senaste dofterna" carousel this section replaces. The row ships hidden; the FUEL_05 test reveals it.
+{%- endcomment -%}
+{{ 'pm-s-home-product-tabs.css' | asset_url | stylesheet_tag }}
+{{ 'fm-home-tabs.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+{%- liquid
+  # 4 / 8 / 12 products fill rows of 4; 6 fills two rows of 3 instead of a row of 4 plus 2 leftovers
+  assign fm_per_tab = section.settings.products_per_tab
+  assign fm_mod4 = fm_per_tab | modulo: 4
+  assign fm_mod3 = fm_per_tab | modulo: 3
+  assign fm_grid_mod = ''
+  if fm_mod4 != 0 and fm_mod3 == 0
+    assign fm_grid_mod = ' fm-tabs__grid--3'
+  endif
+-%}
+
+<div
+  id="FmHomeTabs-{{ section.id }}"
+  class="fm-tabs section-{{ section.id }}-padding"
+  style="--fm-tabs-bg: {{ section.settings.background_color }};"
+>
+  <div class="page-width">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="fm-tabs__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="fm-tabs__sub">{{ section.settings.subheading | escape }}</p>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="pm-ptabs__bar fm-tabs__bar">
+        <div class="pm-ptabs__scroll">
+          <div class="pm-ptabs__list fm-tabs__list" role="tablist">
+        {%- for block in section.blocks -%}
+          <button
+            type="button"
+            role="tab"
+            class="pm-ptabs__tab fm-tabs__tab"
+            id="FmHomeTabs-{{ section.id }}-tab-{{ forloop.index }}"
+            aria-controls="FmHomeTabs-{{ section.id }}-panel-{{ forloop.index }}"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {{- block.settings.tab_title | escape -}}
+          </button>
+        {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- assign tab_collection = block.settings.collection -%}
+      <div
+        class="fm-tabs__panel"
+        role="tabpanel"
+        id="FmHomeTabs-{{ section.id }}-panel-{{ forloop.index }}"
+        aria-labelledby="FmHomeTabs-{{ section.id }}-tab-{{ forloop.index }}"
+        {% unless forloop.first %}hidden{% endunless %}
+      >
+        {%- if tab_collection != blank and tab_collection.products_count > 0 -%}
+          <ul class="fm-tabs__grid{{ fm_grid_mod }}" role="list">
+            {%- for product in tab_collection.products limit: section.settings.products_per_tab -%}
+              <li class="fm-tabs__item">
+                {%- render 'fm-grid-card', product: product, lazy: true, button_label: section.settings.card_button -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if block.settings.button_text != blank -%}
+            <div class="fm-tabs__more">
+              <a href="{{ tab_collection.url }}" class="pm-btn pm-btn--secondary">{{ block.settings.button_text | escape }}</a>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{%- if section.settings.show_ugc_row -%}
+  {% render 'fm-ugc-home-row' %}
+{%- endif -%}
+
+<script>
+  (function () {
+    function initFmTabs(root) {
+      if (!root || root.dataset.fmTabsReady) return;
+      root.dataset.fmTabsReady = '1';
+      var tabs = root.querySelectorAll('.fm-tabs__tab');
+      var panels = root.querySelectorAll('.fm-tabs__panel');
+      tabs.forEach(function (tab, i) {
+        tab.addEventListener('click', function () {
+          tabs.forEach(function (other, j) {
+            other.setAttribute('aria-selected', j === i ? 'true' : 'false');
+            if (panels[j]) panels[j].hidden = j !== i;
+          });
+        });
+      });
+    }
+    initFmTabs(document.getElementById('FmHomeTabs-{{ section.id }}'));
+    document.addEventListener('shopify:section:load', function (event) {
+      initFmTabs(event.target.querySelector('.fm-tabs'));
+    });
+  })();
+</script>
+
+{% schema %}
+  {
+    "name": "FM product tabs",
+    "class": "pm-scope fm-tabs-section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading",
+        "default": "A scent for every side of you"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Pick a direction and discover the scents that suit you."
+      },
+      {
+        "type": "range",
+        "id": "products_per_tab",
+        "label": "Products per tab",
+        "info": "4, 8 and 12 show in rows of 4 on desktop; 6 shows as 2 rows of 3. Phones always show 2 per row.",
+        "min": 4,
+        "max": 12,
+        "step": 2,
+        "default": 4
+      },
+      {
+        "type": "text",
+        "id": "card_button",
+        "label": "Card button text",
+        "default": "Se doften"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#f6f6f6"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_ugc_row",
+        "label": "Show the UGC video row under the grid",
+        "info": "FUEL_05 row. It stays hidden until the FUEL_05 test turns it on.",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "label": "Padding top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "label": "Padding bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "default": 64
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collection",
+        "name": "Tab",
+        "settings": [
+          {
+            "type": "text",
+            "id": "tab_title",
+            "label": "Tab title",
+            "default": "Best sellers"
+          },
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          },
+          {
+            "type": "text",
+            "id": "button_text",
+            "label": "Button text",
+            "default": "View all"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "FM product tabs",
+        "blocks": [
+          { "type": "collection", "settings": { "tab_title": "Best sellers" } },
+          { "type": "collection", "settings": { "tab_title": "New scents" } }
+        ]
+      }
+    ]
+  }
+{% endschema %}

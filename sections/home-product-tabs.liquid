@@ -1,0 +1,428 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-card.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  Product tabs (premium): heading + subheading, a row of uppercase tabs with an active underline, a Discover button
+  at the right of the tab row (>= 990) or under the carousel (< 990), and one product carousel per tab.
+  Tabs are blocks: title + collection + optional filter word. With a filter the tab walks the collection
+  (paginate by 250) and keeps products whose tag or custom.fragrance_family (string or list) equals the word.
+  Tab mechanics mirror tryscent-magyxco home-tabs; the carousel, arrow rail and 375 bleed mirror popular-products.
+  Cards: snippets/fm-product-card.liquid (copy theme: FM card copy; live's product-card stays). Section class carries
+  "premium" (copy theme: only the header group is .pm-scope). Styles: assets/pm-s-home-product-tabs.css. JS: assets/pm-product-tabs.js.
+  A tab without a collection or without matching products is skipped on the storefront (shown with a note in the
+  theme editor); when no tab renders the section outputs nothing.
+{%- endcomment -%}
+{%- liquid
+  assign per_tab = section.settings.products_per_tab | default: 12
+  assign heading = section.settings.heading | strip
+  assign subheading = section.settings.subheading | strip
+  assign cta_text = section.settings.button_text | strip
+  assign fixed_link = section.settings.button_link
+  assign prev_label = 'premium.general.previous' | t
+  assign next_label = 'premium.general.next' | t
+  assign rendered = 0
+  assign first_url = ''
+  assign tabs_html = ''
+  assign panels_html = ''
+
+  # Only the first tab's products are rendered with the page: every filtered tab walks the whole collection, and
+  # the others are hidden until clicked. Their panels ship empty (data-pm-lazy) and pm-product-tabs.js fills them
+  # from one Section Rendering API request (section.index is nil there, so that request renders every tab).
+  # The theme editor always renders every tab.
+  # Card image sizes, mirroring the Swiper breakpoints in assets/pm-product-tabs.js (cards per view at each width)
+  # inside the 1200px page width: the 25vw default asked for ~2x the pixels a 6-per-view card shows.
+  assign pv_mobile = section.settings.cards_mobile | default: '1.25' | plus: 0
+  assign pv_desktop = section.settings.cards_desktop | default: '4' | plus: 0
+  assign pv_tablet = pv_mobile | plus: 1 | at_least: 2.2
+  assign pv_laptop = 3
+  if pv_desktop > 4
+    assign pv_laptop = 4
+  endif
+  assign desktop_gaps = pv_desktop | minus: 1 | times: 20
+  assign desktop_px = 1100 | minus: desktop_gaps | divided_by: pv_desktop | ceil
+  capture card_sizes
+    echo '(min-width: 1200px) ' | append: desktop_px | append: 'px, (min-width: 990px) calc((100vw - 160px) / ' | append: pv_laptop | append: '), (min-width: 750px) calc((100vw - 100px) / ' | append: pv_tablet | append: '), calc((100vw - 20px) / ' | append: pv_mobile | append: ')'
+  endcapture
+  assign lazy_tabs = false
+  if section.index != nil and request.design_mode == false
+    assign lazy_tabs = true
+  endif
+-%}
+
+{%- for block in section.blocks -%}
+  {%- liquid
+    assign tab_collection = block.settings.collection
+    assign filter_word = block.settings.filter | strip | downcase
+    assign slides_html = ''
+    assign count = 0
+    assign note = ''
+    if tab_collection == blank
+      if request.design_mode
+        assign note = 'premium.tabs.pick_collection' | t
+      else
+        continue
+      endif
+    endif
+    assign deferred = false
+    if lazy_tabs and rendered > 0
+      if tab_collection.products_count == 0
+        continue
+      endif
+      assign deferred = true
+    endif
+  -%}
+
+  {%- if deferred -%}
+  {%- elsif tab_collection != blank and filter_word == blank -%}
+    {%- capture slides_html -%}
+      {%- for product in tab_collection.products limit: per_tab -%}
+        {%- liquid
+          assign count = count | plus: 1
+          assign lazy = true
+          if rendered == 0 and count <= 4
+            assign lazy = false
+          endif
+        -%}
+        <div class="swiper-slide pm-ptabs__slide">
+          {%- render 'fm-product-card', product: product, lazy: lazy, sizes: card_sizes -%}
+        </div>
+      {%- endfor -%}
+    {%- endcapture -%}
+  {%- elsif tab_collection != blank -%}
+    {%- capture slides_html -%}
+      {%- paginate tab_collection.products by 250 -%}
+        {%- for product in tab_collection.products -%}
+          {%- liquid
+            assign hit = false
+            assign tags_dc = product.tags | join: '|' | downcase | split: '|'
+            if tags_dc contains filter_word
+              assign hit = true
+            else
+              assign mf = product.metafields.custom.fragrance_family
+              if mf != blank
+                if mf.type contains 'list.'
+                  assign fams = mf.value | join: '|' | downcase | split: '|'
+                else
+                  assign fams = mf.value | downcase | strip | replace: ', ', ',' | split: ','
+                endif
+                if fams contains filter_word
+                  assign hit = true
+                endif
+              endif
+            endif
+            unless hit
+              continue
+            endunless
+            assign count = count | plus: 1
+            assign lazy = true
+            if rendered == 0 and count <= 4
+              assign lazy = false
+            endif
+          -%}
+          <div class="swiper-slide pm-ptabs__slide">
+            {%- render 'fm-product-card', product: product, lazy: lazy, sizes: card_sizes -%}
+          </div>
+          {%- if count >= per_tab -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endpaginate -%}
+    {%- endcapture -%}
+  {%- endif -%}
+
+  {%- liquid
+    if count == 0 and note == blank and deferred == false
+      if request.design_mode
+        assign note = 'premium.tabs.empty' | t
+      else
+        continue
+      endif
+    endif
+    assign rendered = rendered | plus: 1
+    assign tab_url = ''
+    if tab_collection != blank
+      assign tab_url = tab_collection.url
+    endif
+    if rendered == 1
+      assign first_url = tab_url
+    endif
+  -%}
+
+  {%- capture tab_html -%}
+    <button
+      type="button"
+      class="pm-ptabs__tab"
+      role="tab"
+      id="PmTab-{{ section.id }}-{{ forloop.index }}"
+      aria-controls="PmPanel-{{ section.id }}-{{ forloop.index }}"
+      aria-selected="{% if rendered == 1 %}true{% else %}false{% endif %}"
+      tabindex="{% if rendered == 1 %}0{% else %}-1{% endif %}"
+      data-block-id="{{ block.id }}"
+      data-url="{{ tab_url }}"
+      {{ block.shopify_attributes }}
+    >{{ block.settings.title | escape }}</button>
+  {%- endcapture -%}
+  {%- assign tabs_html = tabs_html | append: tab_html -%}
+
+  {%- capture panel_html -%}
+    <div
+      class="pm-ptabs__panel"
+      role="tabpanel"
+      id="PmPanel-{{ section.id }}-{{ forloop.index }}"
+      aria-labelledby="PmTab-{{ section.id }}-{{ forloop.index }}"
+      tabindex="0"
+      {% unless rendered == 1 %}hidden{% endunless %}
+      {% if deferred %}data-pm-lazy{% endif %}
+    >
+      {%- if deferred -%}
+      {%- elsif count > 0 -%}
+        <div class="pm-ptabs__slider swiper">
+          <div class="swiper-wrapper">
+            {{- slides_html -}}
+          </div>
+          <div class="pm-ptabs__nav">
+            <button type="button" class="swiper-button-prev pm-ptabs__arrow" aria-label="{{ prev_label | escape }}"></button>
+            <button type="button" class="swiper-button-next pm-ptabs__arrow" aria-label="{{ next_label | escape }}"></button>
+          </div>
+        </div>
+      {%- else -%}
+        <p class="pm-ptabs__note pm-body pm-muted">{{ note }}</p>
+      {%- endif -%}
+    </div>
+  {%- endcapture -%}
+  {%- assign panels_html = panels_html | append: panel_html -%}
+{%- endfor -%}
+
+{%- if rendered > 0 -%}
+  {%- liquid
+    assign cta_href = fixed_link
+    if cta_href == blank
+      assign cta_href = first_url
+    endif
+    if cta_href == blank
+      assign cta_href = routes.all_products_collection_url
+    endif
+    assign list_label = heading
+    if list_label == blank
+      assign list_label = 'Product tabs'
+    endif
+  -%}
+  {{ 'pm-s-home-product-tabs.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'pm-product-tabs.js' | asset_url }}" defer="defer"></script>
+  {%- style -%}
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+
+  <div id="{{ section.id }}" class="pm-ptabs color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
+    <div class="page-width">
+      {%- if heading != blank or subheading != blank -%}
+        <div class="pm-ptabs__head">
+          {%- if heading != blank -%}
+            <h2 class="pm-ptabs__title pm-title">{{ heading | escape }}</h2>
+          {%- endif -%}
+          {%- if subheading != blank -%}
+            <p class="pm-ptabs__sub pm-body-lg pm-muted">{{ subheading | escape }}</p>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <pm-product-tabs
+        class="pm-ptabs__tabs"
+        data-per-view-mobile="{{ section.settings.cards_mobile | default: '1.25' }}"
+        data-per-view-desktop="{{ section.settings.cards_desktop | default: '4' }}"
+        style="--pm-ptabs-mobile: {{ section.settings.cards_mobile | default: '1.25' }}; --pm-ptabs-desktop: {{ section.settings.cards_desktop | default: '4' }};"
+        {% if fixed_link != blank %}
+          data-fixed-link="true"
+        {% endif %}
+      >
+        <div class="pm-ptabs__bar">
+          <div class="pm-ptabs__scroll">
+            <div class="pm-ptabs__list" role="tablist" aria-label="{{ list_label | escape }}">
+              {{- tabs_html -}}
+            </div>
+          </div>
+          {%- if cta_text != blank -%}
+            <a class="pm-ptabs__cta pm-btn pm-btn--primary" href="{{ cta_href }}" data-cta>{{ cta_text | escape }}</a>
+          {%- endif -%}
+        </div>
+
+        {{- panels_html -}}
+
+        {%- if cta_text != blank -%}
+          <div class="pm-ptabs__foot">
+            <a class="pm-ptabs__cta--mobile pm-btn pm-btn--secondary" href="{{ cta_href }}" data-cta>{{ cta_text | escape }}</a>
+          </div>
+        {%- endif -%}
+      </pm-product-tabs>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "tag": "section",
+  "class": "pm-ptabs-section pm-scope",
+  "max_blocks": 10,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best sellers"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Our curated picks for the season"
+    },
+    {
+      "type": "range",
+      "id": "products_per_tab",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "label": "Products per tab",
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "cards_desktop",
+      "label": "Cards visible on desktop",
+      "options": [
+        { "value": "4", "label": "4" },
+        { "value": "5", "label": "5" },
+        { "value": "6", "label": "6" }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "select",
+      "id": "cards_mobile",
+      "label": "Cards visible on phones",
+      "options": [
+        { "value": "1.25", "label": "1 + peek" },
+        { "value": "2.2", "label": "2 + peek" }
+      ],
+      "default": "1.25"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Discover"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Leave empty to link to the active tab's collection"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "info": "Mobile uses half of this value",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "info": "Mobile uses half of this value",
+      "default": 80
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Tab"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "filter",
+          "label": "Filter",
+          "info": "Optional. Only products whose scent family or tag matches this word, e.g. Floral"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Masculine"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Feminine"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "Unisex"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "New"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

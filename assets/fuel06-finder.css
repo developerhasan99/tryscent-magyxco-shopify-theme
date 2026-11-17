@@ -1,0 +1,1762 @@
+/* FUEL_06 Search & Compare designer fragrance finder. Won its A/B test on
+   2026-10-16 and is now shown to every visitor: the homepage band, the dialog
+   it opens and the product page link.
+
+   Every number below comes from the Figma frames: entry band 1440x288 with a
+   596 wide centred column, desktop dialog 640 wide with a 616 content column,
+   mobile bottom sheet 390 wide with a 366 column, 74px below the device top,
+   radius 24 24 0 0. The design draws exactly two widths, 1440 and 390.
+   Anything between them is interpolation: the modal flips to the desktop
+   layout at the theme's own 750px breakpoint, and the band's art scales with
+   the viewport because no mobile band is drawn anywhere. */
+
+/* The design sets everything except the buttons in Plus Jakarta Sans, which
+   this theme does not serve. Latin subset of the variable file, 200-800. The
+   URL is relative because Shopify serves this stylesheet out of the same
+   assets folder the font is in and a stylesheet may not carry Liquid, which
+   is how assets/fuel01-global.css already loads the same face. There is no
+   italic instance in the file: the green "less" run in the band heading is
+   drawn italic and the browser slants the upright face for it. */
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('fuel06-plus-jakarta-sans.woff2') format('woff2');
+}
+
+/* The dialog stays out of the page until the finder script opens it. */
+.fuel06-finder--modal:not(.is-open) {
+  display: none !important;
+}
+
+.fuel06-finder {
+  /* Figma tokens. Ink and body copy are two different blacks in the frames:
+     #111827 on titles, labels and table cells, plain #000000 on the match and
+     card copy and on the search field. */
+  --f06-ink: #111827;
+  --f06-body: #000000;
+  --f06-green: #146b32;
+  --f06-btn: #226139;
+  --f06-check: #08512c;
+  --f06-plus: #137c44;
+  --f06-flask: #124427;
+  --f06-ghost: #1c1c1c;
+  --f06-how: #f4f5ef;
+  --f06-note: #f4f4ef;
+  --f06-chip: #ede9e6;
+  --f06-save-cell: #edf0eb;
+  --f06-card: #fefdfe;
+  --f06-notes-col: #fbfbfb;
+  --f06-chip-line: #cecece;
+  --f06-line: #cccccc;
+  --f06-line-soft: rgba(204, 204, 204, 0.25);
+  --f06-field-line: rgba(30, 30, 30, 0.24);
+  --f06-field-line-on: rgba(30, 30, 30, 0.5);
+  --f06-handle: #7e7e7f;
+  --f06-band-line: #e1e1e1;
+  --f06-radius: 8px;
+
+  --f06-font: 'Plus Jakarta Sans', var(--font-body-family, Figtree, sans-serif);
+  --f06-font-btn: var(--font-body-family, Figtree, sans-serif);
+
+  box-sizing: border-box;
+  color: var(--f06-ink);
+  font-family: var(--f06-font);
+}
+
+.fuel06-finder *,
+.fuel06-finder *::before,
+.fuel06-finder *::after {
+  box-sizing: border-box;
+}
+
+/* The theme styles h2, p, button, input and a directly, and a declaration on
+   the element always beats a family inherited from an ancestor, so the dialog
+   came out in the theme's Figtree at the theme's 1.8 leading. One rule of our
+   own on every descendant puts the design's face and its auto leading back;
+   the button faces and the three line heights the frames name are re-declared
+   further down, where a later rule of the same weight wins.
+
+   The search comparator's hero card, price list and list heading (assets/
+   pm-frag.css, PRICE-COMPARE.md) keep the dialog's face but are left out of the
+   leading reset: this file loads after pm-frag.css, so the reset would flatten
+   their own line heights. :where() keeps that rule at one class, so every rule
+   below still wins over it as before. */
+
+.fuel06-finder * {
+  font-family: var(--f06-font);
+}
+
+.fuel06-finder *:where(:not(.pm-ours *, .pm-price *, .pm-frag__heading)) {
+  line-height: normal;
+}
+
+/* ---------------------------------------------------------------- entry band */
+
+/* Two image fills, listed here in CSS order, which is the reverse of Figma's:
+   the small orange-blossom cut-out sits on top of the wide flat-lay. Both are
+   placed by the exact crop the frame gives, expressed in vw so 1440 lands on
+   the drawn pixel and every other width scales with it. The band is rendered
+   outside .page-width, so it spans the viewport and vw is its own width. */
+
+.fuel06-finder__band {
+  background-color: #ffffff;
+  background-image: url('fuel06-band-bg-2.png'), url('fuel06-band-bg-magyx.jpg');
+  background-position: -5.0208vw -13.3889vw, 0.0278vw -7.7917vw;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 21.965vw 25.4375vw, 105.3472vw 35.5556vw;
+  border: 1px solid var(--f06-band-line);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 32px 20px;
+}
+
+.fuel06-finder__column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 0 auto;
+  max-width: 596px;
+  width: 100%;
+}
+
+.fuel06-finder__band-heading {
+  color: var(--f06-ink);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.66px;
+  line-height: 1.15;
+  margin: 0;
+  text-align: center;
+}
+
+/* The one word the merchant marks in the heading. Drawn Bold Italic #146b32. */
+
+.fuel06-finder__accent {
+  color: var(--f06-green);
+  font-style: italic;
+  line-height: inherit;
+}
+
+.fuel06-finder__band-field {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--f06-field-line);
+  border-radius: var(--f06-radius);
+  box-shadow:
+    0 1px 1px rgba(6, 30, 14, 0.102),
+    0 3px 3px rgba(6, 30, 14, 0.09),
+    0 6px 3px rgba(6, 30, 14, 0.051),
+    0 10px 4px rgba(6, 30, 14, 0.012),
+    0 16px 5px rgba(6, 30, 14, 0);
+  cursor: text;
+  display: flex;
+  gap: 4px;
+  height: 48px;
+  padding: 0 8px;
+  width: 100%;
+}
+
+.fuel06-finder__band-field > svg {
+  color: var(--f06-body);
+  flex: 0 0 auto;
+  height: 12px;
+  opacity: 0.4;
+  width: 12px;
+}
+
+.fuel06-finder__band-input {
+  background: none;
+  border: 0;
+  color: var(--f06-body);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  height: 100%;
+  letter-spacing: 0.66px;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.fuel06-finder__band-input::placeholder {
+  color: var(--f06-body);
+  opacity: 0.4;
+}
+
+.fuel06-finder__cta {
+  align-items: center;
+  background: var(--f06-green);
+  border: 0;
+  border-radius: var(--f06-radius);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  gap: 8px;
+  height: 44px;
+  justify-content: center;
+  padding: 0 4px;
+  width: 100%;
+}
+
+.fuel06-finder__cta svg {
+  flex: 0 0 auto;
+  height: 20px;
+  width: 20px;
+}
+
+.fuel06-finder__cta span {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 20px;
+  text-transform: uppercase;
+}
+
+/* Below 1440 the crop keeps its proportions, but the 596 content column stops
+   clearing the art: the bottle sits at 80% across the flat-lay and the column
+   reaches the middle plus 298, so the two meet at about 993px. Under 1100 the
+   flat-lay therefore steps out and the corner cut-out carries on alone. No
+   band is drawn under 1440 anywhere in the design, so this is a call and not a
+   frame, and it needs Omar's sign-off. */
+
+@media screen and (max-width: 1099px) {
+  .fuel06-finder__band {
+    background-image: url('fuel06-band-bg-2.png');
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__band {
+    padding: 66px 20px;
+  }
+
+  .fuel06-finder__band-heading {
+    font-size: 34px;
+    line-height: 1;
+  }
+}
+
+/* -------------------------------------------------------------------- modal */
+
+/* The scrim and the grab handle are both empty divs, and assets/base.css
+   carries a theme-wide `div:empty { display: none }`. A type selector plus a
+   pseudo-class outranks a single class of ours, so it hid them: no backdrop to
+   tap and no handle. Each one therefore declares its display from a two-class
+   selector rooted on the modal, which beats `div:empty` outright and does not
+   depend on which stylesheet loads last. base.css itself is untouched. */
+
+.fuel06-finder--modal .fuel06-finder__scrim {
+  background: rgba(79, 79, 79, 0.5);
+  display: block;
+  inset: 0;
+  position: fixed;
+  z-index: 1000;
+}
+
+/* Mobile: the sheet hangs 74px below the device top and runs to the bottom,
+   which is the 390x770 the frames draw inside a 390x844 device. State 4 is
+   taller than that and scrolls inside itself, and its buttons ride at the end
+   of the scroll rather than sticking, exactly as frame 124:2800 shows. */
+
+.fuel06-finder__dialog {
+  --f06-surface: #fcfbf9;
+  --f06-close-inset: 20px;
+
+  background: var(--f06-surface);
+  border-radius: 24px 24px 0 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  inset-inline: 0;
+  margin: 0 auto;
+  overflow: hidden;
+  position: fixed;
+  top: 74px;
+  width: 100%;
+  z-index: 1001;
+}
+
+/* S3 is the only sheet the design paints a different colour. */
+
+.fuel06-finder__dialog[data-f06-active='loading'] {
+  --f06-surface: #fafafa;
+}
+
+/* The shop's own floating "Hitta din doft" quiz pill sits at z-index 9998 and
+   Klaviyo's gift teaser sits at 90000. Both are fixed above ordinary page
+   content and otherwise cover the open sheet. The finder clears them only
+   while it is open, so the closed page does not change. */
+
+.fuel06-finder--modal.is-open .fuel06-finder__scrim {
+  z-index: 99999;
+}
+
+.fuel06-finder--modal.is-open .fuel06-finder__dialog {
+  z-index: 100000;
+}
+
+.fuel06-finder--modal .fuel06-finder__handle {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  height: 52px;
+  justify-content: center;
+}
+
+.fuel06-finder__handle::after {
+  background: var(--f06-handle);
+  border-radius: 99px;
+  content: '';
+  display: block;
+  height: 4px;
+  width: 50px;
+}
+
+/* Shown at every width. No mobile frame draws one, but the sheet needs a
+   control a keyboard and a screen reader can reach, and the grab handle is
+   neither. On mobile it sits in the handle strip.
+
+   The cross is positioned off the dialog, while the scroll lives on
+   .fuel06-finder__body inside it, so a right edge of 4px put the button on top
+   of the body's scrollbar lane wherever the platform draws a classic
+   (non-overlay) bar: at 640 the lane is the last 15 to 17px of the dialog and
+   the button ran 11 to 13px into it. --f06-close-inset holds the whole button
+   clear of the widest of those lanes. The box also goes to 40x40 so the target
+   is reachable by touch; the glyph stays 16px, the padding carries the rest. */
+
+.fuel06-finder__close {
+  background: none;
+  border: 0;
+  color: var(--f06-body);
+  cursor: pointer;
+  display: block;
+  height: 40px;
+  padding: 12px;
+  position: absolute;
+  right: var(--f06-close-inset);
+  top: 6px;
+  width: 40px;
+  z-index: 3;
+}
+
+.fuel06-finder__close svg {
+  display: block;
+  height: 16px;
+  width: 16px;
+}
+
+.fuel06-finder__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media screen and (min-width: 750px) {
+  /* inset-inline has to go back to auto here. Left at 0 it fights left: 50%,
+     the two auto margins then split the leftover 80px, and the modal sat 40px
+     right of the middle of the window. */
+
+  .fuel06-finder__dialog {
+    border-radius: 12px;
+    bottom: auto;
+    inset-inline: auto;
+    left: 50%;
+    max-height: 90vh;
+    max-height: 90dvh;
+    max-width: 640px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .fuel06-finder__dialog[data-f06-active='loading'],
+  .fuel06-finder__dialog[data-f06-active='result'],
+  .fuel06-finder__dialog[data-f06-active='added'],
+  .fuel06-finder__dialog[data-f06-active='noresult'] {
+    --f06-surface: #fcfcfb;
+  }
+
+  /* No handle is drawn up here and no top spacing is needed either: the
+     header carries its own 24px, which is what puts the close cross 36.5px
+     below the dialog top the way the frame does. The offset carries the taller
+     box: 16.5 + 40/2 is the same 36.5 centre the 20.5 + 32/2 gave. */
+
+  .fuel06-finder--modal .fuel06-finder__handle {
+    display: none;
+  }
+
+  .fuel06-finder__close {
+    top: 16.5px;
+  }
+}
+
+/* --------------------------------------------------------------- modal parts */
+
+.fuel06-finder__state[hidden] {
+  display: none;
+}
+
+/* Blocks inside the dialog are shown and hidden with the hidden attribute, and
+   several of them set a display of their own from a single class, which the
+   user agent's own [hidden] rule loses to. Two classes here, so it wins. */
+
+.fuel06-finder [hidden] {
+  display: none;
+}
+
+.fuel06-finder__state {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fuel06-finder__hd {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 26px;
+  text-align: center;
+}
+
+.fuel06-finder__hd--row {
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: center;
+}
+
+.fuel06-finder__hd--row svg {
+  color: var(--f06-check);
+  flex: 0 0 auto;
+  height: 28px;
+  width: 28px;
+}
+
+/* The frames draw this box 25 tall on one line and 50 on two, so the leading
+   is the type size. The loading state is the one that sets its own. */
+
+.fuel06-finder__title {
+  color: var(--f06-ink);
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 0.66px;
+  line-height: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.fuel06-finder__state--loading .fuel06-finder__title {
+  line-height: 1.2;
+}
+
+.fuel06-finder__sub {
+  color: var(--f06-ink);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  margin: 0;
+  text-align: center;
+}
+
+/* Every block label in the dialog: Popular searchs, How it work, Scent
+   profile, Key notes, Similar Perfumes, You may also like. */
+
+.fuel06-finder__label {
+  color: var(--f06-ink);
+  display: block;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  margin: 0 0 12px;
+}
+
+.fuel06-finder__label--field {
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+/* Desktop draws no label over the chips; only the 390 sheet does, so this one
+   is on below 750 and off above it. */
+
+.fuel06-finder__label--popular {
+  display: block;
+}
+
+.fuel06-finder__search {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.fuel06-finder__field {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--f06-field-line);
+  border-radius: var(--f06-radius);
+  box-shadow:
+    0 0 1px rgba(6, 30, 14, 0.102),
+    0 0 1px rgba(6, 30, 14, 0.09),
+    0 0 2px rgba(6, 30, 14, 0.051),
+    0 0 2px rgba(6, 30, 14, 0.012),
+    0 0 2px rgba(6, 30, 14, 0);
+  display: flex;
+  gap: 4px;
+  height: 42px;
+  overflow: hidden;
+  padding: 0 8px;
+}
+
+/* Filled and focused is a heavier border, wider padding and a wider gap. */
+
+.fuel06-finder--has-query .fuel06-finder__field {
+  border-color: var(--f06-field-line-on);
+  box-shadow:
+    0 0 1px rgba(6, 30, 14, 0.02),
+    0 1px 1px rgba(6, 30, 14, 0.02),
+    0 2px 1px rgba(6, 30, 14, 0.012),
+    0 4px 2px rgba(6, 30, 14, 0),
+    0 7px 2px rgba(6, 30, 14, 0);
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.fuel06-finder__field > svg {
+  color: var(--f06-body);
+  flex: 0 0 auto;
+  height: 16px;
+  opacity: 0.4;
+  width: 16px;
+}
+
+.fuel06-finder--has-query .fuel06-finder__field > svg {
+  opacity: 1;
+}
+
+.fuel06-finder__input {
+  background: none;
+  border: 0;
+  color: var(--f06-body);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  height: 100%;
+  letter-spacing: 0.66px;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.fuel06-finder__input::placeholder {
+  color: var(--f06-body);
+  opacity: 0.4;
+}
+
+/* type="search" brings its own clear button in WebKit, which put a second
+   cross in the field beside the 10x10 one the frame draws. */
+
+.fuel06-finder__input::-webkit-search-cancel-button,
+.fuel06-finder__band-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.fuel06-finder__clear {
+  background: none;
+  border: 0;
+  color: var(--f06-body);
+  cursor: pointer;
+  display: none;
+  flex: 0 0 auto;
+  height: 10px;
+  padding: 0;
+  width: 10px;
+}
+
+.fuel06-finder__clear svg {
+  display: block;
+  height: 10px;
+  width: 10px;
+}
+
+.fuel06-finder--has-query .fuel06-finder__clear {
+  display: block;
+}
+
+/* chips */
+
+.fuel06-finder__popular {
+  padding: 0;
+}
+
+.fuel06-finder__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fuel06-finder__chip {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--f06-chip-line);
+  border-radius: 6px;
+  color: var(--f06-ink);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  height: 44px;
+  letter-spacing: 0;
+  padding: 0 14px;
+}
+
+/* Scent chips: filled, no border, no letter-spacing. */
+
+.fuel06-finder__chip--static {
+  background: var(--f06-chip);
+  border: 0;
+  cursor: default;
+  font-size: 14px;
+  height: 30px;
+  padding: 0 8px;
+}
+
+/* how it works */
+
+.fuel06-finder__how-wrap {
+  padding: 32px 0;
+}
+
+.fuel06-finder__how {
+  background: var(--f06-how);
+  border-radius: var(--f06-radius);
+  isolation: isolate;
+  overflow: hidden;
+  padding: 24px;
+  position: relative;
+}
+
+/* The decorative botanical. The frame hangs it off the card's right edge and
+   lets the card clip it: 130.25x193.68 at x 276.45 / y 8.39 inside the 366
+   wide sheet card (124:3055), 143.46x227.26 at x 558.43 / y -5.05 inside the
+   616 wide desktop card (124:2228). Both are anchored from the right here
+   because the card is fluid between the two drawn widths. The exported file
+   carries the fill and the 40% opacity, and it is preserveAspectRatio="none",
+   which is what lets one asset take both frames' aspect ratios.
+
+   Figma stacks it over the steps. The frame's step block is 201 wide and the
+   Swedish copy runs wider than the English the frame was drawn with, so over
+   the top it would cross the step copy. It goes behind instead: same picture,
+   nothing to read through. The card isolates so the negative index cannot fall
+   past its own fill. */
+
+.fuel06-finder__how-leaf {
+  height: 193.68px;
+  pointer-events: none;
+  position: absolute;
+  right: -40.71px;
+  top: 8.39px;
+  width: 130.25px;
+  z-index: -1;
+}
+
+/* The mobile frame stacks the three rows flush to the left edge of the step
+   block, each row 34 tall and butted against the next: 124:3043 at y 0,
+   124:3047 at y 34, 124:3051 at y 68 inside the 201 wide 124:3042. Centring
+   them instead gave every row its own left edge, which is the ragged block QA
+   flagged. Left aligned with no gap is what the frame draws. Desktop overrides
+   both below, where the rows become three centred columns. */
+
+.fuel06-finder__steps {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fuel06-finder__step {
+  align-items: center;
+  display: flex;
+  gap: 4px;
+  min-height: 34px;
+}
+
+.fuel06-finder__step-n {
+  align-items: center;
+  background: var(--f06-green);
+  border-radius: 499.5px;
+  color: #ffffff;
+  display: flex;
+  flex: 0 0 auto;
+  font-family: var(--f06-font-btn);
+  font-size: 10px;
+  font-weight: 600;
+  height: 18px;
+  justify-content: center;
+  letter-spacing: 0.25px;
+  width: 18px;
+}
+
+.fuel06-finder__step-t {
+  color: var(--f06-ink);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__how-wrap {
+    padding: 24px 0;
+  }
+
+  /* The frame's 328px state-2 card assumes stacked rows; forcing the
+     three-column card into that width crushes the columns, so under the
+     floating panel the card keeps its resting width. */
+
+  .fuel06-finder__steps {
+    align-items: stretch;
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .fuel06-finder__step {
+    /* The frame stacks the badge over the label with both on the column's
+       left edge, not centred. */
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 0;
+    text-align: left;
+  }
+
+  .fuel06-finder__step-n {
+    border-radius: 888px;
+    font-size: 17.778px;
+    height: 32px;
+    letter-spacing: 0.444px;
+    line-height: 17.778px;
+    width: 32px;
+  }
+
+  .fuel06-finder__step-t {
+    font-size: 14px;
+    /* The frame's three labels each break over two balanced lines; the first
+       Swedish label is 180px and the 189px column let it sit on one. */
+    max-width: 174px;
+    text-wrap: balance;
+  }
+
+  .fuel06-finder__how-leaf {
+    height: 227.26px;
+    right: -85.88px;
+    top: -5.05px;
+    width: 143.46px;
+  }
+
+  .fuel06-finder__popular {
+    padding: 24px 0;
+  }
+
+  .fuel06-finder__label--popular {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- typeahead */
+
+/* Mobile puts the suggestions and the recent list inline in the sheet flow and
+   drops the chips and the how-it-works card while the shopper is typing, which
+   is what frame 124:2938 draws. Desktop floats them over both in a panel that
+   butts the field's bottom edge; it runs flush with the field, because any
+   inset lets the chip borders underneath peek out at its edges. The frame
+   declares neither a border nor a shadow on that panel. */
+
+.fuel06-finder__dropdown {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fuel06-finder--has-query .fuel06-finder__dropdown {
+  display: flex;
+}
+
+.fuel06-finder--has-query .fuel06-finder__popular,
+.fuel06-finder--has-query .fuel06-finder__how-wrap {
+  display: none;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__dropdown {
+    background: #ffffff;
+    border-radius: var(--f06-radius);
+    left: 0;
+    max-height: 415px;
+    overflow-y: auto;
+    padding: 16px;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 2;
+  }
+
+  /* Up here the panel floats over both, so they stay on screen. */
+
+  .fuel06-finder--has-query .fuel06-finder__popular,
+  .fuel06-finder--has-query .fuel06-finder__how-wrap {
+    display: block;
+  }
+}
+
+.fuel06-finder__sugg-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fuel06-finder__recent-block {
+  border-top: 1px solid var(--f06-line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.fuel06-finder__head {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.fuel06-finder__head .fuel06-finder__label {
+  margin: 0;
+}
+
+.fuel06-finder__link {
+  background: none;
+  border: 0;
+  color: var(--f06-green);
+  cursor: pointer;
+  flex: 0 0 auto;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  padding: 0;
+  text-decoration: none;
+}
+
+.fuel06-finder__list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* The frame sets every typeahead row, suggestion and recent alike, in 14px at
+   both drawn widths (124:2246, 124:2954) with line-height auto. The row itself
+   carries it rather than only the button inside it, so the row's own glyphs
+   inherit the same metrics. The row height stays the drawn 52 on the sheet and
+   48 on desktop; it is fixed, so the type size cannot move it. The weight,
+   tracking and colour sit on the row for the same reason: the button
+   inherits them, and so do the glyphs that stand outside the button, which
+   used to take the sheet's ink instead of the frame's black. */
+
+.fuel06-finder__row {
+  align-items: center;
+  color: var(--f06-body);
+  display: flex;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 4px;
+  height: 52px;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  padding: 0 12px;
+  width: 100%;
+}
+
+.fuel06-finder__row-btn {
+  align-items: center;
+  background: none;
+  border: 0;
+  color: var(--f06-body);
+  cursor: pointer;
+  display: flex;
+  flex: 1 1 auto;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  gap: 4px;
+  height: 100%;
+  letter-spacing: 0.66px;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.fuel06-finder__row-btn > svg:first-child {
+  color: var(--f06-body);
+  flex: 0 0 auto;
+  height: 16px;
+  width: 16px;
+}
+
+.fuel06-finder__row-t {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The 12x12 stroked glyph the frame puts at the end of every suggestion row,
+   and the 10x10 cross that removes one remembered search. */
+
+.fuel06-finder__row-go {
+  color: var(--f06-body);
+  flex: 0 0 auto;
+  height: 12px;
+  width: 12px;
+}
+
+.fuel06-finder__forget {
+  background: none;
+  border: 0;
+  color: var(--f06-body);
+  cursor: pointer;
+  flex: 0 0 auto;
+  height: 10px;
+  padding: 0;
+  width: 10px;
+}
+
+.fuel06-finder__forget svg {
+  display: block;
+  height: 10px;
+  width: 10px;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__row {
+    height: 48px;
+  }
+
+  .fuel06-finder__label--sugg,
+  .fuel06-finder__label--recent,
+  .fuel06-finder__link {
+    font-size: 14px;
+  }
+}
+
+/* ------------------------------------------------------------------ loading */
+
+.fuel06-finder__state--loading {
+  align-items: center;
+  flex: 1 1 auto;
+  justify-content: space-evenly;
+}
+
+/* Not a spinner: Figma exposes the looping asset as a 340x341 GIF on desktop
+   and a 366x366 GIF on the sheet. The picture source swaps its existing static
+   frame back in when the shopper asks for reduced motion. */
+
+.fuel06-finder__loading-media {
+  display: block;
+  max-width: 100%;
+}
+
+.fuel06-finder__loading-img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  width: 366px;
+}
+
+.fuel06-finder__note-wrap {
+  padding: 48px 0;
+  width: 100%;
+}
+
+.fuel06-finder__note {
+  align-items: center;
+  background: var(--f06-note);
+  border-radius: var(--f06-radius);
+  color: var(--f06-body);
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  padding: 24px;
+}
+
+.fuel06-finder__note svg {
+  color: var(--f06-flask);
+  flex: 0 0 auto;
+  height: 32px;
+  width: 27.2px;
+}
+
+.fuel06-finder__note span {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  line-height: 1.2;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__state--loading {
+    justify-content: flex-start;
+  }
+
+  .fuel06-finder__loading-img {
+    height: 341px;
+    width: 340px;
+  }
+
+  .fuel06-finder__note-wrap {
+    margin: 0 auto;
+    max-width: 328px;
+    /* The desktop loading frame (124:2337, 640 x 561) closes 31px under the
+       note box; the sheet keeps its own 48px above and below. */
+    padding: 0 0 31px;
+  }
+}
+
+/* ------------------------------------------------------------- result: match */
+
+.fuel06-finder__match-wrap {
+  display: block;
+}
+
+.fuel06-finder__match {
+  /* The frame tops the photo with the title; centring it against the taller
+     text block opened a hole above the image on the sheet. */
+  align-items: flex-start;
+  display: flex;
+  gap: 12px;
+  padding: 6px 0;
+}
+
+/* The result frame keeps its header tight above the match card; the shared
+   24px header padding read as a hole on the phone sheet. */
+[data-f06-state='result'] .fuel06-finder__hd {
+  padding-bottom: 8px;
+}
+
+@media screen and (min-width: 750px) {
+  [data-f06-state='result'] .fuel06-finder__hd {
+    padding-bottom: 24px;
+  }
+}
+
+.fuel06-finder__match img {
+  flex: 0 0 auto;
+  height: 108px;
+  object-fit: cover;
+  width: 108px;
+}
+
+.fuel06-finder__match-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.fuel06-finder__match-t {
+  color: var(--f06-body);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  margin: 0;
+}
+
+.fuel06-finder__match-i {
+  color: var(--f06-body);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  margin: 0;
+}
+
+.fuel06-finder__blurb {
+  color: var(--f06-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Scent profile is a block of its own under the card on the sheet, and part of
+   the card's right hand column on desktop. */
+
+.fuel06-finder__scent {
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__match-wrap {
+    align-items: center;
+    column-gap: 12px;
+    display: grid;
+    grid-template-columns: 164px minmax(0, 1fr);
+    padding: 6px 0;
+  }
+
+  .fuel06-finder__match {
+    display: contents;
+  }
+
+  .fuel06-finder__match img {
+    grid-row: 1 / 3;
+    height: 164px;
+    width: 164px;
+  }
+
+  .fuel06-finder__match-body {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .fuel06-finder__scent {
+    grid-column: 2;
+    grid-row: 2;
+    padding-top: 12px;
+  }
+}
+
+/* ------------------------------------ result: search comparator (pm-frag) */
+
+/* A designer perfume or house search (assets/pm-frag.js, PRICE-COMPARE.md).
+   The title sits right on top of the hero card (or the related list), so the
+   header gives up its bottom padding and the state's own 16px gap spaces the
+   blocks at both widths. Hero, list heading and price list look as in every
+   search box (assets/pm-frag.css); only their outer spacing is set here. */
+
+[data-f06-state='result'].fuel06-finder__state--frag .fuel06-finder__hd {
+  padding-bottom: 0;
+}
+
+.fuel06-finder__hero .pm-ours,
+.fuel06-finder__prices .pm-price {
+  margin: 0;
+}
+
+/* Same distance to the rows as the finder's own label above them. */
+
+.fuel06-finder__frag-heading .pm-frag__heading {
+  margin: 0 0 12px;
+}
+
+/* --------------------------------------------------------- result: key notes */
+
+.fuel06-finder__notes-block {
+  padding: 16px 0;
+}
+
+.fuel06-finder__notes {
+  border: 1px solid var(--f06-line-soft);
+  border-radius: var(--f06-radius);
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  margin: 0;
+  overflow: hidden;
+}
+
+.fuel06-finder__notes dt,
+.fuel06-finder__notes dd {
+  align-items: center;
+  border-bottom: 1px solid var(--f06-line-soft);
+  color: var(--f06-ink);
+  display: flex;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: normal;
+  margin: 0;
+  min-height: 38px;
+  padding: 8px 12px;
+}
+
+.fuel06-finder__notes dt {
+  background: var(--f06-notes-col);
+  border-right: 1px solid var(--f06-line-soft);
+  font-weight: 600;
+}
+
+.fuel06-finder__notes dd {
+  font-weight: 500;
+}
+
+.fuel06-finder__notes dt:last-of-type,
+.fuel06-finder__notes dd:last-of-type {
+  border-bottom: 0;
+}
+
+/* ----------------------------------------------------------- result: compare */
+
+/* The frame draws 130 / 130 / 104 inside the 366 wide sheet, which is what
+   these tracks still resolve to at 390. Below that, fixed 130s made the
+   savings column pay for the whole shortfall on its own: at 360 it fell to 74
+   and neither the amount nor the percentage pill fitted inside it. The two
+   left columns are capped rather than fixed and the savings column carries a
+   104 floor, so a narrower phone takes the width off the two cells that can
+   spare it and the frame's numbers are untouched from 390 up. */
+
+.fuel06-finder__compare {
+  border: 1px solid var(--f06-line-soft);
+  border-radius: var(--f06-radius);
+  display: grid;
+  grid-template-columns: minmax(0, 130px) minmax(0, 130px) minmax(104px, 1fr);
+  overflow: hidden;
+}
+
+.fuel06-finder__cell {
+  align-items: center;
+  color: var(--f06-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  min-height: 99px;
+  padding: 12px 6px;
+  text-align: center;
+}
+
+.fuel06-finder__cell:first-child {
+  border-right: 1px solid var(--f06-line-soft);
+}
+
+.fuel06-finder__cell--save {
+  background: var(--f06-save-cell);
+}
+
+.fuel06-finder__cell-l {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: normal;
+  overflow-wrap: anywhere;
+}
+
+/* The three amounts are the one thing in this table that may never wrap or be
+   cut off. The frame set them at 24 against a six character "337 kr"; the
+   Swedish feed prints eleven ("3.340,86 kr" is its widest), which needs 132 px
+   at that size and has 92 px to live in once the savings cell is at its floor.
+   So below the desktop breakpoint the size follows the sheet width up to a
+   15 px ceiling, which is the largest that holds the widest amount the feed
+   can print inside the frame's own mobile cells, and floors at 13 px for
+   phones narrower than the design covers. Desktop keeps the frame's 24. */
+
+.fuel06-finder__cell-v {
+  font-size: clamp(13px, 4.1vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.fuel06-finder__cell-n {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+/* Only the percentage is green, and it sits in a half pixel outlined pill. */
+
+.fuel06-finder__pill {
+  border: 0.5px solid var(--f06-green);
+  border-radius: 6px;
+  color: var(--f06-green);
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: normal;
+  padding: 6px;
+  white-space: nowrap;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__compare {
+    grid-template-columns: 214px 214px minmax(0, 1fr);
+  }
+
+  .fuel06-finder__cell-v {
+    font-size: 24px;
+  }
+}
+
+/* ----------------------------------------------------------- similar / added */
+
+.fuel06-finder__similar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fuel06-finder__sim {
+  align-items: center;
+  background: var(--f06-card);
+  border: 1px solid var(--f06-line);
+  border-radius: var(--f06-radius);
+  display: flex;
+  gap: 12px;
+  min-height: 118px;
+  padding: 12px;
+}
+
+.fuel06-finder__sim img {
+  flex: 0 0 auto;
+  height: 90px;
+  object-fit: cover;
+  width: 90px;
+}
+
+.fuel06-finder__sim-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fuel06-finder__sim-t {
+  color: var(--f06-body);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fuel06-finder__sim-i {
+  color: var(--f06-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  line-height: normal;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fuel06-finder__sim-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fuel06-finder__sim-chip {
+  align-items: center;
+  background: var(--f06-chip);
+  border-radius: 6px;
+  color: var(--f06-ink);
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 500;
+  height: 30px;
+  letter-spacing: 0;
+  padding: 0 8px;
+}
+
+.fuel06-finder__add {
+  align-items: center;
+  background: none;
+  border: 1px solid var(--f06-green);
+  border-radius: var(--f06-radius);
+  color: var(--f06-plus);
+  cursor: pointer;
+  display: flex;
+  flex: 0 0 auto;
+  height: 32px;
+  justify-content: center;
+  padding: 0;
+  width: 32px;
+}
+
+.fuel06-finder__add svg {
+  height: 11.3px;
+  width: 11.3px;
+}
+
+/* Sold out. Only a perfume or house search lists those rows. */
+
+.fuel06-finder__add:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+/* The added row is its own card in the frame: no rating, no chips, no add
+   button, and the price stacked under the inspired-by line. */
+
+.fuel06-finder__added-row {
+  align-items: center;
+  border: 1px solid var(--f06-line);
+  border-radius: var(--f06-radius);
+  display: flex;
+  gap: 12px;
+  min-height: 118px;
+  padding: 12px;
+}
+
+.fuel06-finder__added-row img {
+  flex: 0 0 auto;
+  height: 92px;
+  object-fit: cover;
+  width: 92px;
+}
+
+.fuel06-finder__added-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  min-width: 0;
+}
+
+.fuel06-finder__added-t {
+  color: var(--f06-body);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.66px;
+  margin: 0;
+}
+
+.fuel06-finder__added-i {
+  color: var(--f06-body);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  margin: 0;
+}
+
+.fuel06-finder__added-p {
+  color: var(--f06-body);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.66px;
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------ buttons */
+
+.fuel06-finder__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.fuel06-finder__buttons {
+  display: grid;
+  gap: 12px;
+}
+
+/* 56 tall is a frame number and a second line breaks it. The design was drawn
+   against "Add to cart - 337 kr"; the Swedish label carries the price too and
+   runs to "Lägg i varukorgen - 224,99 kr", 269 px at the frame's 18, which the
+   stacked phone button holds and the 302 wide desktop pair does not. Hence
+   nowrap plus a size that answers to the width available: 18 from 360 up,
+   floored at 15 for anything narrower, and the desktop pair handled below. */
+
+.fuel06-finder__btn {
+  align-items: center;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  font-family: var(--f06-font-btn);
+  font-size: clamp(15px, 5vw, 18px);
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: 0.9px;
+  line-height: 28px;
+  min-height: 56px;
+  padding: 14px 30px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.fuel06-finder__btn--primary {
+  background: var(--f06-btn);
+  box-shadow:
+    0 1px 2px -1px rgba(0, 0, 0, 0.102),
+    0 1px 3px 0 rgba(0, 0, 0, 0.102);
+  color: #ffffff;
+}
+
+/* The frame's 1px stroke is INSIDE the 56 tall box, so it is an inset shadow
+   here rather than a border, which would add to the height. */
+
+.fuel06-finder__btn--ghost {
+  background: none;
+  box-shadow: inset 0 0 0 1px var(--f06-ghost);
+  color: var(--f06-ghost);
+}
+
+.fuel06-finder__btn[aria-disabled='true'],
+.fuel06-finder__btn:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.fuel06-finder__again {
+  background: none;
+  border: 0;
+  color: var(--f06-ghost);
+  cursor: pointer;
+  display: block;
+  font-family: var(--f06-font-btn);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.9px;
+  line-height: 28px;
+  padding: 0;
+  text-align: center;
+  text-decoration: underline;
+  width: 100%;
+}
+
+@media screen and (min-width: 750px) {
+  .fuel06-finder__buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Side by side the two buttons are 302 wide whatever the window is, because
+     the dialog is a fixed 640. The label needs 27 px more than the frame's
+     padding leaves it there, so the type comes down a step and the padding
+     with it, which the eye cannot see on a centred label and which keeps both
+     buttons on the one 56 tall line the frame draws. */
+
+  .fuel06-finder__btn {
+    font-size: 16px;
+    padding-inline: 20px;
+  }
+}
+
+/* empty result: not drawn in the design, wording comes from a setting */
+
+.fuel06-finder__empty {
+  color: var(--f06-body);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.fuel06-finder__error {
+  color: #b42318;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.66px;
+  line-height: 20px;
+  margin: 0;
+}
+
+.fuel06-finder__error:empty {
+  display: none;
+}
+
+/* Focus is never removed, only replaced, so the modal stays keyboard usable.
+   The frames draw no focus state at all, so this is our own: on the search
+   fields it goes on the field rather than the input, because the field clips
+   its children and was slicing the input's ring into two bars, and it sits
+   inside the border so the dialog's own scroll container cannot clip it.
+
+   It is the ring only. The border darkens on content, not on focus: the frame
+   draws the empty field at #1e1e1e @24% (124:3021, 124:2196) and the field
+   with a query in it at @50% (124:2293, 124:2947), and the modal focuses its
+   input the moment it opens, so darkening on focus turned every S1 field into
+   the filled treatment. --has-query owns that swap. */
+
+.fuel06-finder :focus-visible {
+  outline: 2px solid var(--f06-green);
+  outline-offset: 2px;
+}
+
+.fuel06-finder__field:focus-within,
+.fuel06-finder__band-field:focus-within {
+  outline: 2px solid var(--f06-green);
+  outline-offset: -2px;
+}
+
+.fuel06-finder__field :focus-visible,
+.fuel06-finder__band-field :focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+
+/* The dialog itself is only focused so the reader lands in the new state; it
+   is not a keyboard stop and must not draw a ring around the whole sheet. */
+
+.fuel06-finder__dialog:focus,
+.fuel06-finder__dialog:focus-visible {
+  outline: none;
+}
+
+/* Add to bag in flight. The script sets data-f06-busy on the button for the
+   length of the request; the label goes transparent so the button keeps its
+   size, and a ring spins in its place in the button's own ink. */
+.fuel06-finder [data-f06-busy='true'] {
+  color: transparent !important;
+  cursor: progress;
+  pointer-events: none;
+  position: relative;
+}
+
+.fuel06-finder [data-f06-busy='true'] svg {
+  visibility: hidden;
+}
+
+.fuel06-finder [data-f06-busy='true']::after {
+  animation: f06-spin 0.7s linear infinite;
+  border: 2px solid var(--f06-spin, #ffffff);
+  border-radius: 50%;
+  border-right-color: transparent;
+  content: '';
+  height: 20px;
+  inset: 0;
+  margin: auto;
+  position: absolute;
+  width: 20px;
+}
+
+.fuel06-finder__add[data-f06-busy='true'] {
+  --f06-spin: var(--f06-plus);
+}
+
+.fuel06-finder__add[data-f06-busy='true']::after {
+  height: 14px;
+  width: 14px;
+}
+
+@keyframes f06-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fuel06-finder * {
+    transition: none !important;
+  }
+
+  /* Still shows that something is happening, just slower. */
+  .fuel06-finder [data-f06-busy='true']::after {
+    animation-duration: 2s;
+  }
+}
+
+/* Product page entry, snippets/fuel06-pdp-link.liquid (2026-09-30). The link
+   itself is a button so it never navigates, it only opens the dialog. Colours
+   are the band's green. */
+.fuel06-pdp-link {
+  display: inline-flex;
+}
+
+/* The server ships the link with the hidden attribute and only the finder
+   script clears it, so a page that gets this stylesheet without the dialog
+   keeps the link hidden. */
+.fuel06-pdp-link[hidden] {
+  display: none;
+}
+
+.fuel06-pdp-link {
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #146b32;
+  text-align: left;
+}
+
+.fuel06-pdp-link__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #146b32;
+  color: #fff;
+}
+
+.fuel06-pdp-link__icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.fuel06-pdp-link__text em {
+  font-style: normal;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.fuel06-pdp-link:hover .fuel06-pdp-link__text em {
+  text-decoration-thickness: 2px;
+}
+
+.fuel06-pdp-link__arrow {
+  margin-left: 5px;
+}
+
+.fuel06-pdp-link:focus-visible {
+  outline: 2px solid #146b32;
+  outline-offset: 3px;
+}
+
+@media screen and (max-width: 749px) {
+  .fuel06-pdp-link {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+}

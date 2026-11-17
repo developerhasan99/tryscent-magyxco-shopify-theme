@@ -1,0 +1,156 @@
+{% comment %}
+  Homepage UGC video row ("Loved by thousands"), rendered by sections/fm-home-tabs.liquid (setting "Show the UGC
+  video row"). Port of tryscent.co's fuel05-ugc-home-row (renamed fm-ugc-home-row so magyx.co's own
+  fuel05-ugc-home-row, used by the collection grid build, stays untouched).
+
+  magyx.co clips (Files, "magyx_co_english_only_*"), same seven in the desktop and the phone build:
+  CecilieT, MollyS, AllieK, BeaK link to the bundles they link to in the collection grid (templates/collection.json);
+  OliwiaT, SergioG, RiiaK link to Bundle & Save, as the clips on the product pages do.
+  A snippet has no settings to hold a video pick, so the URLs are hard-coded (480p renditions, Files previews).
+
+  Usage:
+  {% render 'fm-ugc-home-row' %}
+{% endcomment %}
+
+{{ 'fm-ugc.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'fm-ugc.js' | asset_url }}" defer="defer"></script>
+
+{%- capture fuel05_home_header -%}
+    <div class="fuel05-ugc__header">
+      <h2 class="fuel05-ugc__heading">Loved by thousands</h2>
+      <div class="fuel05-ugc__nav">
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--prev" type="button" aria-label="Previous">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="fuel05-ugc__arrow fuel05-ugc__arrow--next" type="button" aria-label="Next">
+          <svg preserveAspectRatio="none" overflow="visible" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 4L17 12L9 20" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+{%- endcapture -%}
+
+<div
+  class="fuel05-ugc fuel05-ugc--home fuel05-ugc--home-desktop"
+  data-fuel05-row
+  data-gap-mobile="10"
+  data-gap-desktop="32">
+  <div class="fuel05-ugc__inner">
+    {{ fuel05_home_header }}
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {%- comment -%} 1. CecilieT {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/69efa0f535d44e2893dc0ca6b1cac44b/69efa0f535d44e2893dc0ca6b1cac44b.SD-480p-1.5Mbps-97909046.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/69efa0f535d44e2893dc0ca6b1cac44b.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['6-x-50ml-perfume-wardrobe-55']
+        %}
+        {%- comment -%} 2. MollyS {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/b68849a1f15e468c91129c1dfa5dca67/b68849a1f15e468c91129c1dfa5dca67.SD-480p-1.5Mbps-97909068.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/b68849a1f15e468c91129c1dfa5dca67.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-8x50-79']
+        %}
+        {%- comment -%} 3. AllieK {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/e32f92205cb94086abcff5242c9fcd84/e32f92205cb94086abcff5242c9fcd84.SD-480p-1.5Mbps-97909065.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/e32f92205cb94086abcff5242c9fcd84.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-10x50-84']
+        %}
+        {%- comment -%} 4. BeaK {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/6150cfbafd1248fab291313ab06be78d/6150cfbafd1248fab291313ab06be78d.SD-480p-1.5Mbps-97909066.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/6150cfbafd1248fab291313ab06be78d.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['3-x-50ml-perfume-starter-pack-50']
+        %}
+        {%- comment -%} 5. OliwiaT {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/5d77e4b73ea346f7b919dcce9cfac578/5d77e4b73ea346f7b919dcce9cfac578.SD-480p-1.2Mbps-100206489.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/5d77e4b73ea346f7b919dcce9cfac578.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-and-save']
+        %}
+        {%- comment -%} 6. SergioG {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/53aadbabaf0d41e1b95e4780a7bf94af/53aadbabaf0d41e1b95e4780a7bf94af.SD-480p-1.0Mbps-100206517.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/53aadbabaf0d41e1b95e4780a7bf94af.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-and-save']
+        %}
+        {%- comment -%} 7. RiiaK {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'desktop',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/d2690a1d89a443989278411774d9faea/d2690a1d89a443989278411774d9faea.SD-480p-1.5Mbps-100206535.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/d2690a1d89a443989278411774d9faea.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-and-save']
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="fuel05-ugc fuel05-ugc--home fuel05-ugc--home-mobile"
+  data-fuel05-row
+  data-gap-mobile="10"
+  data-gap-desktop="32">
+  <div class="fuel05-ugc__inner">
+    {{ fuel05_home_header }}
+    <div class="fuel05-ugc__slider swiper">
+      <div class="swiper-wrapper">
+        {%- comment -%} 1. CecilieT {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/69efa0f535d44e2893dc0ca6b1cac44b/69efa0f535d44e2893dc0ca6b1cac44b.SD-480p-1.5Mbps-97909046.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/69efa0f535d44e2893dc0ca6b1cac44b.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['6-x-50ml-perfume-wardrobe-55']
+        %}
+        {%- comment -%} 2. MollyS {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/b68849a1f15e468c91129c1dfa5dca67/b68849a1f15e468c91129c1dfa5dca67.SD-480p-1.5Mbps-97909068.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/b68849a1f15e468c91129c1dfa5dca67.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-8x50-79']
+        %}
+        {%- comment -%} 3. AllieK {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/e32f92205cb94086abcff5242c9fcd84/e32f92205cb94086abcff5242c9fcd84.SD-480p-1.5Mbps-97909065.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/e32f92205cb94086abcff5242c9fcd84.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-10x50-84']
+        %}
+        {%- comment -%} 4. BeaK {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/6150cfbafd1248fab291313ab06be78d/6150cfbafd1248fab291313ab06be78d.SD-480p-1.5Mbps-97909066.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/6150cfbafd1248fab291313ab06be78d.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['3-x-50ml-perfume-starter-pack-50']
+        %}
+        {%- comment -%} 5. OliwiaT {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/5d77e4b73ea346f7b919dcce9cfac578/5d77e4b73ea346f7b919dcce9cfac578.SD-480p-1.2Mbps-100206489.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/5d77e4b73ea346f7b919dcce9cfac578.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-and-save']
+        %}
+        {%- comment -%} 6. SergioG {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/53aadbabaf0d41e1b95e4780a7bf94af/53aadbabaf0d41e1b95e4780a7bf94af.SD-480p-1.0Mbps-100206517.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/53aadbabaf0d41e1b95e4780a7bf94af.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-and-save']
+        %}
+        {%- comment -%} 7. RiiaK {%- endcomment -%}
+        {% render 'fm-ugc-tile',
+          build: 'mobile',
+          video_url: 'https://cdn.shopify.com/videos/c/vp/d2690a1d89a443989278411774d9faea/d2690a1d89a443989278411774d9faea.SD-480p-1.5Mbps-100206535.mp4',
+          poster_url: 'https://cdn.shopify.com/s/files/1/0739/7048/3352/files/preview_images/d2690a1d89a443989278411774d9faea.thumbnail.0000000000.jpg?width=600',
+          product_item: all_products['bundle-and-save']
+        %}
+      </div>
+    </div>
+  </div>
+</div>

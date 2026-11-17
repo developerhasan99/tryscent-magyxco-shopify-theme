@@ -1,0 +1,123 @@
+/* pm-s-home-category.css (WP-E): sections/home-category.liquid ("browse by" tiles). Loaded by the section.
+   375: horizontal scroll-snap row of 260px cards bleeding to the viewport edges (20px gutter as scroll padding).
+   990+: CSS grid whose column count follows the number of enabled blocks (--pm-cats-count from the section
+   style block), 20px gap; 3 blocks at 1320 = 427 x 533 tiles (image 4:5, cover, radius 0). */
+
+.pm-scope .pm-cats__title {
+  margin: 0 0 24px;
+}
+
+/* 1. Row (375): scroll-snap, hidden scrollbar, gutters as inner padding so the first card aligns with the title */
+.pm-scope .pm-cats__grid {
+  display: flex;
+  gap: 12px;
+  margin: 0 calc(-1 * var(--pm-gutter));
+  padding: 0 var(--pm-gutter);
+  list-style: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--pm-gutter);
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.pm-scope .pm-cats__grid::-webkit-scrollbar {
+  display: none;
+}
+
+.pm-scope .pm-cats__item {
+  flex: 0 0 260px;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.pm-scope .pm-cats__card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.pm-scope .pm-cats__card:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 2. Tile image: 4:5, cover, no radius, surface behind while loading */
+.pm-scope .pm-cats__media {
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--pm-surface);
+  border-radius: var(--pm-radius-0);
+}
+
+.pm-scope .pm-cats__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.pm-scope .pm-cats__img--left {
+  object-position: 0 50%;
+}
+
+.pm-scope .pm-cats__img--right {
+  object-position: 100% 50%;
+}
+
+/* 3. Text: title 14/20 700 uppercase, descriptor 13 muted, "Shop now" underline link */
+.pm-scope .pm-cats__name {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.pm-scope .pm-cats__desc {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-cats__link {
+  margin-top: 12px;
+}
+
+.pm-scope .pm-cats__card:hover .pm-cats__link::after {
+  animation: pm-link-wipe 0.6s var(--pm-ease) both;
+}
+
+/* 4. From 990: grid by enabled block count, 20px gap, gutters back on page-width */
+@media (min-width: 990px) {
+  .pm-scope .pm-cats__title {
+    margin-bottom: 32px;
+  }
+
+  .pm-scope .pm-cats__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--pm-cats-count, 3), minmax(0, 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .pm-scope .pm-cats__item {
+    flex: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .pm-cats__card:hover .pm-cats__link::after {
+    animation: none;
+  }
+}

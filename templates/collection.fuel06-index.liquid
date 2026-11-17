@@ -1,0 +1,218 @@
+{%- layout none -%}
+{%- comment -%}
+  FUEL_06 search index.
+
+  Names: "fn" / "fb" / "k" / "inspired" hold the full designer name and house for MATCHING; "d" is the brand-free
+  display name ("Tom Ford Oud Wood" -> "Oud Wood", snippets/pm-designer-short.liquid), the only designer name
+  assets/fuel06-finder.js prints (NO-DESIGNERS.md).
+
+  A JSON feed of every TryScent perfume that carries an "inspired by" designer
+  name, used by assets/fuel06-finder.js to match what a shopper types against
+  our catalogue. Reachable only at
+
+    /collections/all?view=fuel06-index
+
+  so it costs the homepage nothing until somebody actually opens the finder.
+  Fetched once per page, on first open, and kept in memory after that.
+
+  It is deliberately not Searchanise and not the native /search. Both of those
+  match on title text, and the whole point of this test is matching on the
+  designer fragrance a shopper already owns, which lives in one field
+  (custom.inspiration) and nowhere else. Going through our own index keeps that
+  a direct lookup instead of a fuzzy guess, and leaves both live search systems
+  completely untouched.
+
+  Skipped: anything without custom.inspiration (nothing to match on), and the
+  ghost, bundle and offer products, which are not real bottles a shopper can be
+  matched to.
+
+  Ceiling: paginate caps at 250 products and only page one is rendered here.
+  "total", "pages" and "page_size" below are paginate's own numbers, so the JS
+  can tell when the feed has been truncated and say so in the console rather
+  than quietly matching against half a catalogue. They are read off paginate
+  and not off collection.all_products_count, which reported 174 for a
+  collection holding 307 and so could never flag the very overflow the guard
+  exists for.
+
+  Money: every amount here is emitted through the theme's own money filter, so
+  it follows the market the request came in on. Nothing is hard coded and
+  nothing is computed in JavaScript.
+
+  Remove this file with the FUEL_06 cleanup.
+{%- endcomment -%}
+{%- liquid
+  assign skip_tags = 'giftbox_ghost_product,hide_bundle,ignore,special_offer,bundle,fixed_bundle' | split: ','
+  assign sep = ''
+  assign returned = 0
+-%}
+{"products":[
+{%- paginate collection.products by 250 -%}
+  {%- liquid
+    comment
+      Captured inside the paginate block, where paginate exists, and printed
+      after it. "returned" is what actually made it into the array, which is
+      always fewer than "total" because entries without an inspiration and the
+      ghost, bundle and offer products are skipped.
+    endcomment
+    assign feed_total = paginate.items
+    assign feed_pages = paginate.pages
+    assign feed_page_size = paginate.page_size
+  -%}
+  {%- for p in collection.products -%}
+    {%- liquid
+      assign skip = false
+      assign inspired = p.metafields.custom.inspiration.value.name | default: '' | strip
+
+      if inspired == blank
+        assign skip = true
+      endif
+
+      for t in p.tags
+        assign td = t | downcase | strip
+        if skip_tags contains td
+          assign skip = true
+          break
+        endif
+      endfor
+
+      comment
+        No variant, no entry: every field below hangs off one, and half an
+        entry would break the feed as JSON rather than just look wrong.
+      endcomment
+      assign v = p.selected_or_first_available_variant | default: p.variants.first
+      comment
+        The product page, the floating add to cart and the collection cards all
+        open on the 100 ml bottle when the product has one (the theme's own
+        rule, snippets/reactive-variant-selector-quick-add.liquid and
+        sections/floating-atc.liquid). The finder quotes the same bottle, so a
+        shopper never sees one price here and another on the product page.
+      endcomment
+      for candidate in p.variants
+        assign candidate_title = candidate.title | downcase
+        if candidate_title contains '100'
+          assign v = candidate
+          break
+        endif
+      endfor
+      if v == blank
+        assign skip = true
+      endif
+    -%}
+    {%- unless skip -%}
+      {%- liquid
+        comment
+          The reference price is the same field the product page already prints
+          as "Designerpris" (sections/main-product.liquid). Two shapes are
+          possible depending on how the definition was set up: a money type,
+          where .value is an object carrying .amount in major units, or a
+          number type, where .value is already the figure the money filter
+          wants. Both are handled, so the feed cannot silently emit a price a
+          hundred times too big or too small.
+        endcomment
+        assign ref_raw = p.metafields.custom.original_retail_price.value
+        assign ref_cents = 0
+        capture pm_masked
+          render 'pm-designer-masked', product: p
+        endcapture
+        assign is_masked = false
+        if pm_masked contains '1'
+          assign is_masked = true
+        endif
+        if is_masked == false and ref_raw != blank
+          if ref_raw.amount != blank
+            assign ref_cents = ref_raw.amount | times: 100 | round
+          else
+            assign ref_cents = ref_raw | times: 1 | round
+          endif
+        endif
+
+        assign save_cents = 0
+        assign save_pct = 0
+        if ref_cents > v.price
+          assign save_cents = ref_cents | minus: v.price
+          assign save_pct = save_cents | times: 100 | divided_by: ref_cents
+        endif
+
+        comment
+          scent_description is a rich text field on some products, so it comes
+          out as markup. strip_html, not metafield_text: the filter is applied
+          to a plain string here, not to a metafield drop.
+        endcomment
+        assign blurb = p.metafields.custom.scent_description | default: p.metafields.custom.scent_breakdown | strip_html | strip | truncate: 220
+
+        assign note_top = p.metafields.custom.top_notes.value.heading | default: '' | strip_html | strip
+        assign note_heart = p.metafields.custom.middle_notes.value.heading | default: '' | strip_html | strip
+        assign note_base = p.metafields.custom.base_notes.value.heading | default: '' | strip_html | strip
+
+        assign family = p.metafields.custom.fragrance_family | default: '' | strip_html | strip
+
+        comment
+          Search comparator (PRICE-COMPARE.md, assets/pm-frag.js): the designer perfume name (fn) and its house
+          (fb) go on every entry, masked ones included, with the product id ("id", the key of the price feed
+          templates/collection.pm-price-feed.liquid), the scent family and the scent tags. pmFrag.detect reads
+          them to pick the hero, the same-family list and the price list; the finder never prints fn / fb (a
+          masked entry already carries the same words in "k"). fu (Fragrantica link) is no longer read by the
+          finder.
+        endcomment
+        capture pm_display
+          render 'pm-designer-short', product: p
+        endcapture
+        assign pm_display = pm_display | strip
+        assign frag_brand = p.metafields.custom.brand.value | default: '' | strip
+        assign frag_url = p.metafields.custom.inspiration.value.fragrantica_url.value | default: '' | strip
+        comment
+          No Fragrantica picture (designer bottle) for masked houses: NO-DESIGNERS.md.
+        endcomment
+        if is_masked
+          assign frag_url = ''
+        endif
+      -%}
+      {{- sep -}}
+      {
+      "id":{{ p.id }},
+      "handle":{{ p.handle | json }},
+      "title":{{ p.title | json }},
+      "url":{{ p.url | json }},
+      "fn":{{ inspired | json }},
+      "fb":{{ frag_brand | json }},
+      "d":{{ pm_display | json }},
+      "fu":{{ frag_url | json }},
+      {%- if is_masked %}
+      "m":1,
+      "k":{{ p.metafields.custom.brand.value | default: '' | append: ' ' | append: inspired | strip | json }},
+      "inspired":"",
+      {%- else %}
+      "inspired":{{ inspired | json }},
+      {%- endif %}
+      "image":{% if p.featured_image %}{{ p.featured_image | image_url: width: 400 | json }}{% else %}null{% endif %},
+      "variant_id":{{ v.id | json }},
+      "available":{{ v.available | json }},
+      "size":{{ v.title | json }},
+      "price":{{ v.price }},
+      "price_f":{{ v.price | money | strip_html | json }},
+      {%- unless is_masked %}
+      "ref":{{ ref_cents }},
+      "ref_f":{{ ref_cents | money | strip_html | json }},
+      {%- endunless %}
+      "save":{{ save_cents }},
+      "save_f":{{ save_cents | money | strip_html | json }},
+      "save_pct":{{ save_pct }},
+      "family":{{ family | json }},
+      "blurb":{{ blurb | json }},
+      "notes":[{{ note_top | json }},{{ note_heart | json }},{{ note_base | json }}],
+      "scents":[
+        {%- assign tsep = '' -%}
+        {%- for t in p.tags -%}
+          {%- if t contains 'scent:' -%}
+            {{- tsep }}{{ t | remove_first: 'scent:' | strip | json -}}
+            {%- assign tsep = ',' -%}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+      }
+      {%- assign sep = ',' -%}
+      {%- assign returned = returned | plus: 1 -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endpaginate -%}
+],"total":{{ feed_total | default: 0 }},"pages":{{ feed_pages | default: 1 }},"page_size":{{ feed_page_size | default: 250 }},"returned":{{ returned }}}

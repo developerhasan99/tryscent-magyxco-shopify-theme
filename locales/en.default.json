@@ -597,7 +597,8 @@
     "tsr_offer_save": "Save {{ percent }}%",
     "tsr_offer_heading": "Our best deal: Build your own bundle!",
     "tsr_offer_price_prefix": "Only",
-    "tsr_offer_price_suffix": "per bottle"
+    "tsr_offer_price_suffix": "per bottle",
+    "tsr_offer_badge": "Black Friday −40%"
   },
   "timebar": {
     "countdown": {
@@ -609,7 +610,8 @@
   },
   "premium": {
     "card": {
-      "inspired_by": "Inspired by {{ name }}"
+      "inspired_by": "Inspired by {{ name }}",
+      "new": "New"
     },
     "designer": {
       "label": "Designer price",
@@ -622,12 +624,17 @@
     "general": {
       "next": "Next",
       "previous": "Previous",
-      "rating_aria": "Rated {{ rating }} out of 5"
+      "rating_aria": "Rated {{ rating }} out of 5",
+      "shop_now": "Shop now"
     },
     "pdp": {
       "add_product": "Add {{ name }}",
       "payment_methods": "Payment methods",
       "remove_product": "Remove {{ name }}"
+    },
+    "tabs": {
+      "empty": "No products match this tab yet.",
+      "pick_collection": "Pick a collection for this tab."
     }
   }
 }

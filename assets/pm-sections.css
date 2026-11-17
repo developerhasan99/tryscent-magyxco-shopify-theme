@@ -1,0 +1,518 @@
+/* pm-sections.css (WP-C2): shared section COMPONENTS used by more than one package.
+   Loaded globally from layout/theme.liquid after pm-base.css.
+   Contents: 1 ticker extras (pm-ticker lives in pm-base) · 2 FAQ rows (faq-section + Dawn collapsible-content)
+             · 3 review cards (.pm-review) · 4 USP icon row (.pm-usp) · 5 guarantee overlap card (Dawn image-with-text--overlap).
+   Section-specific layout lives in assets/pm-s-<section>.css, loaded by that section.
+   Rules: every selector starts with .premium; mobile-first (375), breakpoints 750 / 990 / 1200; no accent colours. */
+
+/* 1. Ticker extras: items are links or spans, optional separator, inverted bitmap icons on dark schemes */
+.pm-scope .pm-ticker__item {
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pm-scope a.pm-ticker__item:hover,
+.pm-scope a.pm-ticker__item:focus-visible {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+.pm-scope .pm-ticker__sep {
+  flex: none;
+  opacity: 0.7;
+}
+
+.pm-scope .color-scheme-3 .pm-ticker__item img,
+.pm-scope .color-scheme-4 .pm-ticker__item img,
+.pm-scope .pm-band--charcoal .pm-ticker__item img,
+.pm-scope .pm-band--black .pm-ticker__item img {
+  filter: invert(1);
+}
+
+/* 2. FAQ rows: white cards, radius 4, 16/20 padding, 13 -> 14px question, CSS plus/minus (Dawn caret hidden).
+   Doubled .accordion class = (0,4,0): beats every Dawn rule in collapsible-content.css / component-accordion.css,
+   which load later in the document (section-level stylesheet_tag) and would win a tie. */
+.pm-scope .collapsible-content .collapsible-content__heading {
+  margin: 0 0 var(--pm-heading-gap);
+}
+
+.pm-scope .collapsible-content .caption-with-letter-spacing {
+  margin: 0 0 12px;
+  font-size: var(--pm-fs-eyebrow);
+  line-height: var(--pm-lh-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pm-muted);
+}
+
+.pm-scope .collapsible-content .accordion.accordion {
+  margin: 0;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  transform: none;
+  overflow: hidden;
+}
+
+.pm-scope .collapsible-content .accordion.accordion + .accordion {
+  margin-top: 8px;
+  border-top: 1px solid var(--pm-line);
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 16px 20px;
+  line-height: 20px;
+  background: transparent;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary:hover {
+  background: transparent;
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary:hover .accordion__title {
+  text-decoration: none;
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: -2px;
+}
+
+.pm-scope .collapsible-content .accordion.accordion .accordion__title {
+  display: block;
+  flex: 1 1 auto;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-ink);
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary .icon-caret {
+  display: none;
+}
+
+.pm-scope .collapsible-content .accordion.accordion summary::after {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 16px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1px 16px no-repeat;
+  transition: transform var(--pm-dur) var(--pm-ease), background-size var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .collapsible-content .accordion.accordion details[open] > summary::after {
+  background-size: 16px 1px, 1px 0;
+  transform: rotate(180deg);
+}
+
+.pm-scope .collapsible-content .accordion.accordion .accordion__content {
+  margin: 0;
+  padding: 0 20px 16px;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--pm-muted);
+  overflow: visible;
+}
+
+.pm-scope .collapsible-content .accordion.accordion .accordion__content p {
+  margin: 0 0 8px;
+}
+
+.pm-scope .collapsible-content .accordion.accordion .accordion__content p:last-child {
+  margin-bottom: 0;
+}
+
+.pm-scope .collapsible-content .accordion.accordion .accordion__content a {
+  color: var(--pm-ink);
+  text-underline-offset: 2px;
+}
+
+.pm-scope .collapsible-content .accordion.accordion details[open] > .accordion__content {
+  animation: pm-accordion-open var(--pm-dur) var(--pm-ease);
+}
+
+@media (min-width: 990px) {
+  .pm-scope .collapsible-content .accordion.accordion + .accordion {
+    margin-top: 12px;
+  }
+
+  .pm-scope .collapsible-content .accordion.accordion .accordion__title {
+    font-size: 14px;
+  }
+}
+
+/* 3. Review card (.pm-review, keeps .review-item for the load-more script): white, 1px line, radius 4, padding 16 */
+.pm-scope .pm-review {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  overflow: hidden;
+}
+
+.pm-scope .pm-review__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--pm-radius-sm) var(--pm-radius-sm) 0 0;
+  background: var(--pm-surface);
+}
+
+.pm-scope .pm-review__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.pm-scope .pm-review__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.pm-scope .pm-review__who {
+  display: flex;
+  flex: 1 1 120px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.pm-scope .pm-review__avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pm-radius-pill);
+  object-fit: cover;
+}
+
+.pm-scope .pm-review__name {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-review__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-review__verified .pm-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.pm-scope .pm-review__rating {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.pm-scope .pm-review__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--pm-ink);
+  line-height: 0;
+}
+
+.pm-scope .pm-review__stars svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.pm-scope .pm-review__stars .is-empty {
+  opacity: 0.25;
+}
+
+.pm-scope .pm-review__date {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-review__text {
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-review__text p {
+  margin: 0 0 8px;
+}
+
+.pm-scope .pm-review__text p:last-child {
+  margin-bottom: 0;
+}
+
+.pm-scope .pm-review__product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--pm-line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.pm-scope .pm-review__product:hover {
+  text-decoration: none;
+}
+
+.pm-scope .pm-review__product img {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-surface);
+  object-fit: contain;
+}
+
+.pm-scope .pm-review__product-title {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-review__product-meta {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pm-muted);
+}
+
+/* 4. USP icon row (.pm-usp): 2x2 / 24px gap at 375, 4 columns / 60px gap and a 1px top line from 990 */
+.pm-scope .pm-usp__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .pm-usp__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  text-align: left;
+}
+
+.pm-scope .pm-usp__icon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-usp__icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: grayscale(1);
+}
+
+.pm-scope .pm-usp__title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-usp__text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--pm-muted);
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-usp {
+    border-top: 1px solid var(--pm-line);
+  }
+
+  .pm-scope .pm-usp__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 60px;
+  }
+}
+
+/* 5. Guarantee overlap card (Dawn image-with-text, content_layout: overlap, CSS only):
+   image radius 0 and full bleed at 375 (375x320), card radius 4 + shadow-md with its own padding
+   (40/24 at 375, 80/40 from 990). Stacked until 990; from 990 the image fills the row and the
+   card overlaps it by 80px (text item 33.3%, 438px from 1200 -> card 518 at 1440, image 440 tall).
+   Tailwind's `.grid { display: grid }` (tailwind-compiled.css) loads after Dawn's flex `.grid`,
+   so the Dawn flex layout is restored here instead of inline styles. */
+.pm-scope .image-with-text--overlap .image-with-text__grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__media-item {
+  width: calc(100% + 2 * var(--pm-gutter));
+  max-width: none;
+  margin: 0 calc(-1 * var(--pm-gutter));
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__media--medium {
+  height: 320px;
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__media,
+.pm-scope .image-with-text--overlap .image-with-text__media img,
+.pm-scope .image-with-text--overlap .image-with-text__media-item::after {
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__text-item {
+  display: block;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__text-item::after {
+  box-shadow: none;
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__content {
+  width: calc(100% - 40px);
+  min-width: 0;
+  height: auto;
+  margin: -48px auto 0;
+  padding: 40px 24px;
+  border-radius: var(--pm-radius-sm);
+  box-shadow: var(--pm-shadow-md);
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__content .image-with-text__text--caption {
+  font-size: var(--pm-fs-eyebrow);
+  line-height: var(--pm-lh-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pm-muted);
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__content h2 {
+  font-size: var(--pm-fs-h3);
+  line-height: var(--pm-lh-h3);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.pm-scope .image-with-text--overlap .image-with-text__content .image-with-text__text p {
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  letter-spacing: 0;
+  color: var(--pm-ink);
+}
+
+@media (min-width: 990px) {
+  .pm-scope .image-with-text--overlap .image-with-text__grid {
+    flex-wrap: nowrap;
+  }
+
+  .pm-scope .image-with-text--overlap .image-with-text__media-item {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .pm-scope .image-with-text--overlap .image-with-text__media--medium {
+    height: 440px;
+  }
+
+  .pm-scope .image-with-text--overlap .image-with-text__text-item {
+    display: flex;
+    flex: 0 0 auto;
+    width: 33.333%;
+  }
+
+  .pm-scope .image-with-text--overlap .image-with-text__content {
+    width: calc(100% + 80px);
+    min-width: calc(100% + 80px);
+    margin: 0 0 0 -80px;
+    padding: 80px 40px;
+  }
+
+  .pm-scope .image-with-text--overlap .image-with-text__grid--reverse .image-with-text__content {
+    margin-left: 0;
+    margin-right: -80px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pm-scope .image-with-text--overlap .image-with-text__text-item {
+    width: 438px;
+  }
+}
+
+/* 6. Reduced motion: FAQ reveal and plus/minus transition off */
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .collapsible-content .accordion.accordion details[open] > .accordion__content {
+    animation: none;
+  }
+
+  .pm-scope .collapsible-content .accordion.accordion summary::after {
+    transition: none;
+  }
+}

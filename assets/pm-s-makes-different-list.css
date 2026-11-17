@@ -1,0 +1,102 @@
+/* pm-s-makes-different-list.css (WP-E): sections/makes-different-list.liquid ("why us"). Loaded by the section.
+   375: stacked, image first, then title, 5 check-circle rows and a full-width primary CTA.
+   990+: mirrored split on white, text left / image right, 80px gap; 1200+: 120px gap (600 + 120 + 600 at 1320). */
+
+.pm-scope .pm-why__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+
+.pm-scope .pm-why__media {
+  order: -1;
+}
+
+.pm-scope .pm-why__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--pm-radius-md);
+}
+
+.pm-scope .pm-why__title {
+  margin: 0 0 24px;
+}
+
+.pm-scope .pm-why__list {
+  display: grid;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pm-scope .pm-why__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.pm-scope .pm-why__icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-why__row-title {
+  margin: 0;
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pm-scope .pm-why__row-desc {
+  margin: 2px 0 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.pm-scope .pm-why__cta {
+  width: 100%;
+  margin-top: 32px;
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-why__cta {
+    width: auto;
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-why__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 80px;
+  }
+
+  .pm-scope .pm-why__media {
+    order: 0;
+  }
+
+  .pm-scope .pm-why__title {
+    margin-bottom: 32px;
+  }
+
+  .pm-scope .pm-why__list {
+    gap: 24px;
+  }
+
+  .pm-scope .pm-why__cta {
+    margin-top: 40px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .pm-scope .pm-why__grid {
+    column-gap: 120px;
+  }
+}

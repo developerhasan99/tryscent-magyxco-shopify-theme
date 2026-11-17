@@ -1,0 +1,474 @@
+{% comment %}
+  FUEL_06 Search & Compare designer fragrance finder.
+
+  Renders the homepage entry band and the finder dialog it opens. Won its
+  A/B test on 2026-10-16 and shows for every visitor.
+
+  Rendered from two places:
+  - sections/fuel06-finder.liquid, the homepage band ('home').
+  - layout/theme.liquid on product pages ('dialog'). The product templates sit
+    at Shopify's 25 section cap, so the dialog cannot be a section there.
+
+  All the copy comes from theme settings (config/settings_schema.json, group
+  "FUEL_06 Fragrance finder"), so both placements read one set of strings and
+  a wording change is a theme editor edit, not a deploy.
+
+  Accepts:
+  - mode: {String} 'assets' | 'home' | 'dialog' (required). 'assets' emits the
+    stylesheet and the script once per page and no markup. 'home' renders the
+    entry band and the dialog. 'dialog' renders the dialog alone, for the
+    product page, where the entry is the link under the buy button
+    (snippets/fuel06-pdp-link.liquid, rendered from snippets/reactive-variant-selector.liquid).
+
+  Usage:
+  {% render 'fuel06-finder', mode: 'assets' %}
+  {% render 'fuel06-finder', mode: 'home' %}
+  {% render 'fuel06-finder', mode: 'dialog' %}
+
+  The product page placement (2026-09-30, Korana: "a link with some decoration,
+  somewhere below the CTA") is the 'dialog' mode plus the link snippet. Best
+  Sellers and collection placements are not drawn in Figma and not built.
+
+  Every amount shown by the finder comes from templates/collection.fuel06-index
+  .liquid, which builds it with the theme's money filter. Nothing in this file
+  or in the settings below carries a price, a discount or a saving.
+{% endcomment %}
+
+{%- if mode == 'assets' -%}
+  {{ 'fuel06-finder.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'fuel06-finder.js' | asset_url }}" defer="defer"></script>
+
+{%- elsif mode == 'home' or mode == 'dialog' -%}
+  {%- liquid
+    assign s = settings
+    assign terms = s.fuel06_popular_terms | split: ','
+    assign masked_brands = s.pm_masked_brands | newline_to_br | split: '<br />'
+    assign steps = s.fuel06_steps | strip | newline_to_br | split: '<br />'
+    assign title_id = 'fuel06-title-' | append: mode
+  -%}
+
+  {%- comment -%}
+    Icons are captured once and reused, so the markup below stays readable and
+    the glyphs cannot drift apart between the band and the dialog. The sparkle
+    is the frame's own iconoir sparks-solid glyph (124:2184, 20 x 20, fill and
+    a 1.25 stroke), traced from the design file on 2026-09-15; the FUEL_03
+    sparkle it borrowed before was the outline drawing QA flagged. The check circle is
+    bi:check-circle-fill and the cross fluent-mdl2:cancel, which are the two
+    the frames name.
+  {%- endcomment -%}
+  {%- capture icon_search -%}
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="7" cy="7" r="5.25" stroke="currentColor" stroke-width="1.5"/><path d="M11 11L14.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  {%- endcapture -%}
+  {%- capture icon_cancel -%}
+    <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  {%- endcapture -%}
+  {%- capture icon_check -%}
+    <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/></svg>
+  {%- endcapture -%}
+  {%- capture icon_sparks -%}
+    <svg viewBox="0 0 20 20" fill="currentColor" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path transform="translate(1.668 1.672)" d="M5 10.833C9.063 10.833 10.833 9.124 10.833 5C10.833 9.124 12.592 10.833 16.667 10.833C12.592 10.833 10.833 12.592 10.833 16.667C10.833 12.592 9.063 10.833 5 10.833ZM0 3.75C2.612 3.75 3.75 2.652 3.75 0C3.75 2.652 4.881 3.75 7.5 3.75C4.881 3.75 3.75 4.881 3.75 7.5C3.75 4.881 2.612 3.75 0 3.75Z"/></svg>
+  {%- endcapture -%}
+  {%- capture icon_flask -%}
+    <svg viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M12 1L22 5V13C22 19.8 17.7 25.1 12 27C6.3 25.1 2 19.8 2 13V5L12 1Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 13.6L10.7 16.8L16.5 10.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  {%- endcapture -%}
+
+  {%- comment -%}
+    The band heading carries one word in green italic, which is drawn on the
+    band and nowhere else. The word itself is a setting, so a translation can
+    move it or drop it: empty, or a word the heading does not contain, prints
+    the heading flat. Only the first occurrence is wrapped.
+  {%- endcomment -%}
+  {%- capture band_heading -%}
+    {%- assign accent = s.fuel06_heading_accent | strip -%}
+    {%- if accent != blank and s.fuel06_heading contains accent -%}
+      {%- assign head_parts = s.fuel06_heading | split: accent -%}
+      {%- assign head_before = head_parts[0] -%}
+      {%- capture head_cut -%}{{ head_before }}{{ accent }}{%- endcapture -%}
+      {%- assign head_after = s.fuel06_heading | remove_first: head_cut -%}
+      {{- head_before | escape -}}
+      <em class="fuel06-finder__accent">{{- accent | escape -}}</em>
+      {{- head_after | escape -}}
+    {%- else -%}
+      {{- s.fuel06_heading | escape -}}
+    {%- endif -%}
+  {%- endcapture -%}
+
+  <fuel06-finder
+    data-f06-index="{{ routes.collections_url }}/all?view=fuel06-index"
+    data-f06-cart-add="{{ routes.cart_add_url }}"
+    data-f06-based-on="{{ s.fuel06_based_on | escape }}"
+    data-f06-inspired-prefix="{{ s.fuel06_inspired_prefix | escape }}"
+    data-f06-brand-label="{{ s.fuel06_brand_label | escape }}"
+    data-f06-brand-note="{{ s.fuel06_brand_note | escape }}"
+    data-f06-save-label="{{ s.fuel06_save_label | escape }}"
+    data-f06-less-suffix="{{ s.fuel06_less_suffix | escape }}"
+    data-f06-add-label="{{ s.fuel06_add_label | escape }}"
+    data-f06-note-labels="{{ s.fuel06_note_labels | escape }}"
+    data-f06-ref-note="{{ s.fuel06_ref_note | escape }}"
+    data-f06-remove-label="{{ s.fuel06_remove_label | escape }}"
+    data-f06-empty="{{ s.fuel06_empty | escape }}"
+    data-f06-cart-error="{{ s.fuel06_cart_error | escape }}"
+    data-f06-masked-notice="{{ s.pm_masked_notice | escape }}">
+
+    {%- comment -%}
+      The same strings again as text. The store's translation app translates text on the
+      page but not data attributes, so on the Danish, Norwegian and Finnish sites the
+      script reads these and falls back to the attributes above.
+    {%- endcomment -%}
+    <div hidden data-f06-copy>
+      <span data-f06-copy-key="f06BasedOn">{{ s.fuel06_based_on | escape }}</span>
+      <span data-f06-copy-key="f06InspiredPrefix">{{ s.fuel06_inspired_prefix | escape }}</span>
+      <span data-f06-copy-key="f06SaveLabel">{{ s.fuel06_save_label | escape }}</span>
+      <span data-f06-copy-key="f06LessSuffix">{{ s.fuel06_less_suffix | escape }}</span>
+      <span data-f06-copy-key="f06AddLabel">{{ s.fuel06_add_label | escape }}</span>
+      {%- assign f06_note_labels = s.fuel06_note_labels | split: ',' -%}
+      {%- for f06_note_label in f06_note_labels -%}
+        <span data-f06-copy-note>{{ f06_note_label | strip | escape }}</span>
+      {%- endfor -%}
+      <span data-f06-copy-key="f06RefNote">{{ s.fuel06_ref_note | escape }}</span>
+      <span data-f06-copy-key="f06RemoveLabel">{{ s.fuel06_remove_label | escape }}</span>
+      <span data-f06-copy-key="f06Empty">{{ s.fuel06_empty | escape }}</span>
+      <span data-f06-copy-key="f06CartError">{{ s.fuel06_cart_error | escape }}</span>
+      <span data-f06-copy-key="f06MaskedNotice">{{ s.pm_masked_notice | escape }}</span>
+    </div>
+
+    {%- if mode == 'home' -%}
+    {%- comment -%} Entry band, Figma 124:2178. {%- endcomment -%}
+    <div class="fuel06-finder fuel06-finder--entry" data-f06-entry>
+      <div class="fuel06-finder__band">
+        <div class="fuel06-finder__column">
+          <h2 class="fuel06-finder__band-heading">{{ band_heading }}</h2>
+
+          <label class="fuel06-finder__band-field">
+            <span class="visually-hidden">{{ s.fuel06_search_label | escape }}</span>
+            {{ icon_search }}
+            <input
+              class="fuel06-finder__band-input"
+              type="search"
+              autocomplete="off"
+              placeholder="{{ s.fuel06_placeholder | escape }}"
+              data-f06-entry-input
+              data-f06-open>
+          </label>
+
+          <button type="button" class="fuel06-finder__cta" data-f06-open>
+            {{ icon_sparks }}
+            <span>{{ s.fuel06_cta | escape }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    {%- endif -%}
+
+    {%- comment -%}
+      The dialog. Desktop is a centred 640 wide modal with a close cross,
+      mobile is a bottom sheet 74px below the device top with a grab handle,
+      which is how both are drawn. The cross rides along on mobile too: the
+      sheet needs one control that a keyboard and a screen reader can reach,
+      and the design does not draw one.
+    {%- endcomment -%}
+    <div class="fuel06-finder fuel06-finder--modal" data-f06-modal aria-hidden="true">
+      <div class="fuel06-finder__scrim" data-f06-close></div>
+
+      <div
+        class="fuel06-finder__dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="{{ title_id }}"
+        tabindex="-1"
+        data-f06-active="search"
+        data-f06-dialog>
+        {%- comment -%}
+          Tapping the grab handle dismisses the sheet, which is what a bottom
+          sheet is expected to do. It stays decorative and aria-hidden, and is
+          not rendered above 750px where no bar is drawn and the header's own
+          24px padding carries the top spacing.
+        {%- endcomment -%}
+        <div class="fuel06-finder__handle" data-f06-close aria-hidden="true"></div>
+
+        <button type="button" class="fuel06-finder__close" data-f06-close aria-label="{{ s.fuel06_close_label | escape }}">
+          {{ icon_cancel }}
+        </button>
+
+        <div class="fuel06-finder__body">
+          {%- comment -%} State 1 and 2, Figma 154:49 and 154:50. {%- endcomment -%}
+          <div class="fuel06-finder__state" data-f06-state="search">
+            <div class="fuel06-finder__hd">
+              <h2 class="fuel06-finder__title" id="{{ title_id }}">{{ s.fuel06_modal_title | escape }}</h2>
+            </div>
+
+            <div class="fuel06-finder__search">
+              <span class="fuel06-finder__label fuel06-finder__label--field" id="{{ title_id }}-label">
+                {{- s.fuel06_search_label | escape -}}
+              </span>
+              <div class="fuel06-finder__field">
+                {{ icon_search }}
+                <input
+                  class="fuel06-finder__input"
+                  type="search"
+                  autocomplete="off"
+                  aria-labelledby="{{ title_id }}-label"
+                  placeholder="{{ s.fuel06_placeholder | escape }}"
+                  data-f06-input>
+                <button
+                  type="button"
+                  class="fuel06-finder__clear"
+                  data-f06-clear-input
+                  aria-label="{{ s.fuel06_clear_label | escape }}">
+                  {{ icon_cancel }}
+                </button>
+              </div>
+
+              {%- comment -%}
+                Desktop floats this over the chips and the how-it-works card,
+                which stay on screen under it. The 390 sheet has neither while
+                the shopper is typing, so the same markup runs inline in the
+                sheet flow instead; both are frames, not a compromise.
+              {%- endcomment -%}
+              <div class="fuel06-finder__dropdown" data-f06-dropdown>
+                <div class="fuel06-finder__sugg-block" data-f06-suggestions-block hidden>
+                  <span class="fuel06-finder__label fuel06-finder__label--sugg">
+                    {{- s.fuel06_suggestions_label | escape -}}
+                  </span>
+                  <ul class="fuel06-finder__list" data-f06-suggestions></ul>
+                </div>
+
+                <div class="fuel06-finder__recent-block" data-f06-recent-block hidden>
+                  <div class="fuel06-finder__head">
+                    <span class="fuel06-finder__label fuel06-finder__label--recent">
+                      {{- s.fuel06_recent_label | escape -}}
+                    </span>
+                    <button type="button" class="fuel06-finder__link" data-f06-clear-recent>
+                      {{- s.fuel06_clear_label | escape -}}
+                    </button>
+                  </div>
+                  <ul class="fuel06-finder__list" data-f06-recent></ul>
+                </div>
+              </div>
+            </div>
+
+            {%- if terms.size > 0 -%}
+              <div class="fuel06-finder__popular">
+                <span class="fuel06-finder__label fuel06-finder__label--popular">
+                  {{- s.fuel06_popular_label | escape -}}
+                </span>
+                <ul class="fuel06-finder__chips">
+                  {%- for term in terms -%}
+                    {%- assign chip = term | strip -%}
+                    {%- assign chip_down = chip | downcase -%}
+                    {%- assign chip_masked = false -%}
+                    {%- for masked_brand in masked_brands -%}
+                      {%- assign masked_down = masked_brand | strip | downcase -%}
+                      {%- if masked_down != blank and chip_down contains masked_down -%}
+                        {%- assign chip_masked = true -%}
+                        {%- break -%}
+                      {%- endif -%}
+                    {%- endfor -%}
+                    {%- comment -%} Brand-free chip: "Dior Sauvage" shows and searches as "Sauvage" (NO-DESIGNERS.md); a chip that is only a brand drops out. {%- endcomment -%}
+                    {%- capture chip_label -%}{%- render 'pm-brand-wipe', text: chip -%}{%- endcapture -%}
+                    {%- assign chip_label = chip_label | strip -%}
+                    {%- if chip_label != blank and chip_masked == false -%}
+                      <li>
+                        <button type="button" class="fuel06-finder__chip" data-f06-pick="{{ chip_label | escape }}">
+                          {{- chip_label | escape -}}
+                        </button>
+                      </li>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+
+            {%- if steps.size > 0 -%}
+              <div class="fuel06-finder__how-wrap">
+                <div class="fuel06-finder__how">
+                  <span class="fuel06-finder__label">{{ s.fuel06_how_label | escape }}</span>
+                  <ol class="fuel06-finder__steps">
+                    {%- for step in steps -%}
+                      {%- assign line = step | strip_html | strip -%}
+                      {%- if line != blank -%}
+                        <li class="fuel06-finder__step">
+                          <span class="fuel06-finder__step-n" aria-hidden="true">{{ forloop.index }}</span>
+                          <span class="fuel06-finder__step-t">{{ line | escape }}</span>
+                        </li>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </ol>
+                  {%- comment -%}
+                    The botanical the frames hang off the card's right edge
+                    (124:2228 desktop, 124:3055 mobile). Exported straight out
+                    of Figma: one path, #146b32, the 40% opacity baked in.
+                    Drawn over the steps the way the frame stacks it, and
+                    clipped by the card, so it is inert to the pointer.
+                  {%- endcomment -%}
+                  <img
+                    class="fuel06-finder__how-leaf"
+                    src="{{ 'fuel06-leaf.svg' | asset_url }}"
+                    alt=""
+                    aria-hidden="true"
+                    width="143"
+                    height="227">
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%}
+            State 3, Figma 154:144. Dev Mode exposes this as an animated GIF:
+            340x341 in the modal, 366x366 on the sheet.
+          {%- endcomment -%}
+          <div class="fuel06-finder__state fuel06-finder__state--loading" data-f06-state="loading" hidden>
+            <div class="fuel06-finder__hd">
+              <h2 class="fuel06-finder__title">{{ s.fuel06_loading_title | escape }}</h2>
+              <p class="fuel06-finder__sub">{{ s.fuel06_loading_sub | escape }}</p>
+            </div>
+            <picture class="fuel06-finder__loading-media">
+              <source
+                media="(prefers-reduced-motion: reduce)"
+                srcset="{{ 'fuel06-loading.png' | asset_url }}">
+              <img
+                class="fuel06-finder__loading-img"
+                src="{{ 'fuel06-loading.gif' | asset_url }}"
+                alt=""
+                width="366"
+                height="366"
+                loading="lazy">
+            </picture>
+            <span class="visually-hidden" role="status" aria-live="polite">{{ s.fuel06_loading_title | escape }}</span>
+            {%- if s.fuel06_loading_note != blank -%}
+              <div class="fuel06-finder__note-wrap">
+                <p class="fuel06-finder__note">
+                  {{ icon_flask }}
+                  <span>{{ s.fuel06_loading_note | escape }}</span>
+                </p>
+              </div>
+            {%- endif -%}
+          </div>
+
+          {%- comment -%} State 4, Figma 154:238. {%- endcomment -%}
+          <div class="fuel06-finder__state" data-f06-state="result" hidden>
+            <div class="fuel06-finder__hd">
+              <h2 class="fuel06-finder__title">{{ s.fuel06_result_title | escape }}</h2>
+              <p class="fuel06-finder__sub" data-f06-based-on></p>
+            </div>
+
+            {%- comment -%}
+              Search comparator hero (assets/pm-frag.js renderHero, PRICE-COMPARE.md):
+              for a designer perfume search our scent made after it (family tag,
+              notes, sizes that add to the cart) replaces the match card below.
+              Filled and shown by pmFrag; empty and hidden for every other search.
+            {%- endcomment -%}
+            <div class="fuel06-finder__hero" data-f06-hero hidden></div>
+
+            {%- comment -%}
+              The scent profile sits inside the card's right hand column on
+              desktop and as its own block under the card on the sheet, so both
+              share one wrapper and the grid moves it. A designer perfume or
+              house search hides it (the hero above stands in for it).
+            {%- endcomment -%}
+            <div class="fuel06-finder__match-wrap" data-f06-match-wrap>
+              <div class="fuel06-finder__match" data-f06-match></div>
+
+              <div class="fuel06-finder__scent" data-f06-scent-block hidden>
+                <span class="fuel06-finder__label">{{ s.fuel06_scent_label | escape }}</span>
+                <ul class="fuel06-finder__chips" data-f06-scent-chips></ul>
+              </div>
+            </div>
+
+            <div class="fuel06-finder__notes-block" data-f06-notes-block hidden>
+              <span class="fuel06-finder__label">{{ s.fuel06_notes_label | escape }}</span>
+              <dl class="fuel06-finder__notes" data-f06-notes></dl>
+            </div>
+
+            <div class="fuel06-finder__compare" data-f06-compare hidden></div>
+
+            {%- comment -%}
+              After a designer perfume or house search the list sits under
+              pmFrag's heading ("Fler i samma doftfamilj" / "Relaterade dofter",
+              data-f06-frag-heading) instead of the finder's own label.
+            {%- endcomment -%}
+            <div data-f06-similar-block hidden>
+              <div class="fuel06-finder__frag-heading" data-f06-frag-heading hidden></div>
+              <span class="fuel06-finder__label" data-f06-similar-label>{{ s.fuel06_similar_label | escape }}</span>
+              <ul class="fuel06-finder__similar" data-f06-similar></ul>
+            </div>
+
+            {%- comment -%}
+              Retailer price list for a designer perfume search (pmFrag.renderPrices,
+              SEK + Swedish page only). Filled and shown by pmFrag; empty and hidden
+              otherwise.
+            {%- endcomment -%}
+            <div class="fuel06-finder__prices" data-f06-prices hidden></div>
+
+            <p class="fuel06-finder__error" role="alert" data-f06-error></p>
+
+            <div class="fuel06-finder__actions">
+              <div class="fuel06-finder__buttons" data-f06-buttons>
+                <button type="button" class="fuel06-finder__btn fuel06-finder__btn--primary" data-f06-primary-add data-f06-add="">
+                  {{- s.fuel06_add_label | escape -}}
+                </button>
+                <a class="fuel06-finder__btn fuel06-finder__btn--ghost" href="{{ routes.root_url }}" data-f06-view>
+                  {{- s.fuel06_view_label | escape -}}
+                </a>
+              </div>
+
+              <button type="button" class="fuel06-finder__again" data-f06-again>
+                {{- s.fuel06_again_label | escape -}}
+              </button>
+            </div>
+          </div>
+
+          {%- comment -%} State 5, Figma 154:332. {%- endcomment -%}
+          <div class="fuel06-finder__state" data-f06-state="added" hidden>
+            <div class="fuel06-finder__hd fuel06-finder__hd--row">
+              {{ icon_check }}
+              <h2 class="fuel06-finder__title">{{ s.fuel06_added_title | escape }}</h2>
+            </div>
+
+            <div class="fuel06-finder__added-row" data-f06-added-row></div>
+
+            <div data-f06-also-block hidden>
+              <span class="fuel06-finder__label">{{ s.fuel06_also_label | escape }}</span>
+              <ul class="fuel06-finder__similar" data-f06-also></ul>
+            </div>
+
+            <p class="fuel06-finder__error" role="alert" data-f06-error></p>
+
+            <div class="fuel06-finder__actions">
+              <div class="fuel06-finder__buttons">
+                <a class="fuel06-finder__btn fuel06-finder__btn--primary" href="{{ routes.cart_url }}" data-f06-view-cart>
+                  {{- s.fuel06_bag_label | escape -}}
+                </a>
+                <button type="button" class="fuel06-finder__btn fuel06-finder__btn--ghost" data-f06-again>
+                  {{- s.fuel06_keep_label | escape -}}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {%- comment -%}
+            No result. The design draws no such state, so the wording is a
+            setting and the layout is the plainest thing that can work. Omar
+            still owes us this frame.
+          {%- endcomment -%}
+          <div class="fuel06-finder__state" data-f06-state="noresult" hidden>
+            <div class="fuel06-finder__hd">
+              <h2 class="fuel06-finder__title">{{ s.fuel06_noresult_title | escape }}</h2>
+            </div>
+            <p class="fuel06-finder__empty">
+              <span data-f06-empty-query></span>
+            </p>
+            <p class="fuel06-finder__empty">{{ s.fuel06_empty | escape }}</p>
+            <div class="fuel06-finder__actions">
+              <div class="fuel06-finder__buttons">
+                <button type="button" class="fuel06-finder__btn fuel06-finder__btn--ghost" data-f06-again>
+                  {{- s.fuel06_again_label | escape -}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </fuel06-finder>
+{%- endif -%}

@@ -1,0 +1,65 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{%- comment -%}
+  FUEL_06 fragrance finder, homepage band. Sits right after the benefits row, which is where the design puts it.
+
+  The copy is in theme settings (Theme settings > FUEL_06 Fragrance finder),
+  shared with the product page dialog that layout/theme.liquid renders, so one
+  edit changes both. This section only places the band.
+{%- endcomment -%}
+{%- comment -%}
+  MAGYX colours on the homepage band and its dialog (magicperfume.co design, 14.11): black buttons, step numbers,
+  add buttons and focus rings, Pine accent word / links / saving pill, silver tints instead of the greens and cream.
+  Scoped to this section (id selector beats the single-class rules in fuel06-finder.css); the product page dialog
+  rendered from layout/theme.liquid keeps the stylesheet's colours.
+{%- endcomment -%}
+{%- style -%}
+  #shopify-section-{{ section.id }} .fuel06-finder {
+    --f06-green: #184031;
+    --f06-btn: #100f0d;
+    --f06-check: #184031;
+    --f06-plus: #100f0d;
+    --f06-flask: #184031;
+    --f06-how: rgba(199, 201, 203, 0.3);
+    --f06-note: rgba(199, 201, 203, 0.3);
+    --f06-chip: rgba(199, 201, 203, 0.3);
+    --f06-save-cell: rgba(24, 64, 49, 0.08);
+  }
+  #shopify-section-{{ section.id }} .fuel06-finder__dialog {
+    --f06-surface: #ffffff;
+  }
+  #shopify-section-{{ section.id }} .fuel06-finder__cta,
+  #shopify-section-{{ section.id }} .fuel06-finder__step-n {
+    background: #100f0d;
+  }
+  #shopify-section-{{ section.id }} .fuel06-finder__add {
+    border-color: #100f0d;
+  }
+  #shopify-section-{{ section.id }} .fuel06-finder :focus-visible,
+  #shopify-section-{{ section.id }} .fuel06-finder__band-field:focus-within {
+    outline-color: #100f0d;
+  }
+{%- endstyle -%}
+{% render 'fuel06-finder'
+  , mode: 'assets' %}
+{% render 'fuel06-finder'
+  , mode: 'home' %}
+
+{% schema %}
+  {
+    "name": "FUEL_06 Fragrance finder",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "The wording is in Theme settings > FUEL_06 Fragrance finder."
+      }
+    ],
+    "enabled_on": {
+      "templates": ["index"]
+    },
+    "presets": [
+      {
+        "name": "FUEL_06 Fragrance finder"
+      }
+    ]
+  }
+{% endschema %}

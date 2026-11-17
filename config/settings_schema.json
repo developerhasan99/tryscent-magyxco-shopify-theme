@@ -1740,5 +1740,322 @@
         "info": "Format: YYYY/MM/DD HH:MM:SS, visitor's local time. Until then the timers count down to this date; once it passes they go back to the daily reset. Leave empty for the daily countdown."
       }
     ]
+  },
+  {
+    "name": "FUEL_06 Fragrance finder",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Copy for the designer fragrance finder. The homepage band is the \"FUEL_06 Fragrance finder\" section; on product pages the finder opens from the link under the buy button. On-site copy is Swedish; the translation app handles the other markets. No prices are set here: the finder reads them from each product."
+      },
+      {
+        "type": "checkbox",
+        "id": "fuel06_pdp_enabled",
+        "label": "Show on product pages",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "fuel06_pdp_lead",
+        "label": "Product page link: lead-in",
+        "default": "Not your scent?"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_pdp_link",
+        "label": "Product page link: link text",
+        "default": "Find your designer scent for less"
+      },
+      {
+        "type": "header",
+        "content": "Finder copy"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_heading",
+        "label": "Band heading",
+        "default": "Find your designer scent for less"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_heading_accent",
+        "label": "Heading word in green",
+        "info": "The first time this word appears in the band heading it is set in green italics. Leave it empty for a plain heading.",
+        "default": "less"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_placeholder",
+        "label": "Search placeholder",
+        "default": "e.g. Opium, Sauvage"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_cta",
+        "label": "Band button",
+        "default": "Find my match"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_modal_title",
+        "label": "Finder title",
+        "default": "Find your designer scent for less"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_search_label",
+        "label": "Search field label",
+        "default": "Search a perfume you already love"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_popular_label",
+        "label": "Popular searches label",
+        "default": "Popular searches"
+      },
+      {
+        "type": "textarea",
+        "id": "fuel06_popular_terms",
+        "label": "Popular searches",
+        "info": "Separated by commas. Replace with the real top search terms from the Searchanise report.",
+        "default": "Sauvage, Baccarat Rouge 540, Opium, Bleu, Le Male"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_how_label",
+        "label": "How it works label",
+        "default": "How it works"
+      },
+      {
+        "type": "textarea",
+        "id": "fuel06_steps",
+        "label": "How it works steps",
+        "info": "One step per line. They are numbered automatically.",
+        "default": "Search a scent you already love\nWe find the closest MagyX scent\nCompare the scent and what you save"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_suggestions_label",
+        "label": "Suggestions label",
+        "default": "Suggestions"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_recent_label",
+        "label": "Recent searches label",
+        "default": "Recent searches"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_clear_label",
+        "label": "Clear label",
+        "default": "Clear"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_close_label",
+        "label": "Close button label",
+        "info": "Read out by screen readers, not shown on screen.",
+        "default": "Close"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_loading_title",
+        "label": "Loading title",
+        "default": "Finding your closest match ..."
+      },
+      {
+        "type": "text",
+        "id": "fuel06_loading_sub",
+        "label": "Loading subtitle",
+        "default": "We compare scent profile, notes and customer favorites."
+      },
+      {
+        "type": "textarea",
+        "id": "fuel06_loading_note",
+        "label": "Loading footnote",
+        "default": "Our matching technology goes through thousands of reviews and fragrance data to find your perfect match."
+      },
+      {
+        "type": "text",
+        "id": "fuel06_result_title",
+        "label": "Result title",
+        "default": "Your best match"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_based_on",
+        "label": "Result subtitle prefix",
+        "info": "The fragrance the shopper searched for is added after this.",
+        "default": "Based on"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_inspired_prefix",
+        "label": "Inspired by prefix",
+        "info": "Never change this to a claim that our perfume is the same as the designer one.",
+        "default": "Inspired by"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_scent_label",
+        "label": "Scent profile label",
+        "default": "Scent profile"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_notes_label",
+        "label": "Key notes label",
+        "default": "Key notes"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_note_labels",
+        "label": "Note row labels",
+        "info": "Three labels separated by commas, in this order: top, heart, base. Kept short so they fit the 64px label column.",
+        "default": "Top, Middle, Base"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_brand_label",
+        "label": "Our column label",
+        "default": "MagyX"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_brand_note",
+        "label": "Our column note",
+        "info": "Concentration of our own bottle. It is printed after the size the variant carries, so \"100ML\" and \"Extrait de parfum\" read as \"100ML / Extrait de parfum\".",
+        "default": "Extrait de parfum"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_ref_note",
+        "label": "Designer column note",
+        "info": "Size and concentration of the designer bottle the price refers to. Change it as soon as one figure cannot stand for every fragrance.",
+        "default": "100 ml / Eau de parfum"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_save_label",
+        "label": "Savings column label",
+        "default": "You save"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_less_suffix",
+        "label": "Savings percentage suffix",
+        "info": "The percentage is worked out from the product's own prices and printed before this word.",
+        "default": "cheaper"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_remove_label",
+        "label": "Remove recent search label",
+        "info": "Read out by screen readers on the cross beside a remembered search, not shown on screen.",
+        "default": "Remove"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_similar_label",
+        "label": "Similar perfumes label",
+        "default": "Similar perfumes you might like"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_add_label",
+        "label": "Add to cart label",
+        "info": "The price is added after this, from the product itself.",
+        "default": "Add to cart"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_view_label",
+        "label": "View product label",
+        "default": "View full product page"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_again_label",
+        "label": "Search again label",
+        "default": "Not the right scent? Search again"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_added_title",
+        "label": "Added to bag title",
+        "default": "Added to cart"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_also_label",
+        "label": "You may also like label",
+        "default": "You might also like"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_bag_label",
+        "label": "View bag label",
+        "default": "View cart"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_keep_label",
+        "label": "Keep exploring label",
+        "default": "Continue shopping"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_noresult_title",
+        "label": "No result title",
+        "info": "The design has no no-result frame. This wording is a placeholder for Omar and Korana to replace.",
+        "default": "No match yet"
+      },
+      {
+        "type": "text",
+        "id": "fuel06_empty",
+        "label": "No result text",
+        "default": "We couldn't find that scent. Try another name, or pick one of the popular searches."
+      },
+      {
+        "type": "text",
+        "id": "fuel06_cart_error",
+        "label": "Add to cart error",
+        "default": "Something went wrong. Please try again."
+      }
+    ]
+  },
+  {
+    "name": "Designer names (homepage cards)",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Lists used by the homepage product cards, review lines and the fragrance finder (port of tryscent.co). Empty = every card shows the full designer name, as on the rest of magyx.co. A brand listed here is removed from those names (\"Tom Ford Oud Wood\" -> \"Oud Wood\")."
+      },
+      {
+        "type": "textarea",
+        "id": "pm_masked_brands",
+        "label": "Brands never named or shown",
+        "info": "One per line. Matched against the product's brand and its 'inspired by' name, case-insensitive. Add a brand here to strip it the same way."
+      },
+      {
+        "type": "textarea",
+        "id": "pm_brand_words",
+        "label": "Brand names removed from every name",
+        "info": "One per line. Removed from every perfume name in search, collections, cards, bundle builders, the product page line and the browser tab; the perfume name stays (\"Tom Ford Oud Wood\" -> \"Oud Wood\"). Put longer forms first (\"Paco Rabanne\" before \"Rabanne\"). Case-sensitive."
+      },
+      {
+        "type": "textarea",
+        "id": "pm_hidden_names",
+        "label": "Perfume names never shown",
+        "info": "One per line. These names appear nowhere on the site (no \"Inspirerad av\" line, tab, Google texts, builders); search still finds the scent when someone types the name."
+      },
+      {
+        "type": "textarea",
+        "id": "pm_short_names",
+        "label": "Short names",
+        "info": "One per line: MAGYX number = the name shown after \"Inspirerad av\". Listed-brand scents: one word, never the full perfume name (e.g. 221 = Aqua, 132 = Opium). Any other number listed here overrides its name; scents without a line show their perfume name without the brand. Page titles and Google texts swap the full name for this one."
+      }
+    ]
   }
 ]

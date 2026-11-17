@@ -1,0 +1,101 @@
+{% comment %}
+  Product card for sections/fm-home-tabs.liquid: the FM redesign card (premium-redesign snippets/product-card.liquid,
+  pm-card.css) with the magicperfume.co grid button ("Se doften", full width, pinned to the bottom of the card)
+  in place of FM's small arrow square. Whole card stays one link; the button is a span inside it.
+
+  Accepts:
+  - product: {Object} product
+  - lazy: {Boolean} true adds loading="lazy" to the image
+{% endcomment %}
+
+{%- liquid
+  assign pm_variant = nil
+  for pm_v in product.variants
+    if pm_v.available
+      assign pm_variant = pm_v
+      break
+    endif
+  endfor
+  if pm_variant == nil
+    assign pm_variant = product.selected_or_first_available_variant | default: product.variants.first
+  endif
+  assign pm_price = pm_variant.price | default: product.price
+  assign pm_compare = pm_variant.compare_at_price | default: 0
+
+  assign pm_image = product.featured_image | default: product.images.first
+  assign pm_fm = product.metafields.custom.fm_images.value | first
+  if pm_fm != blank
+    assign pm_image = pm_fm.preview_image
+  endif
+
+  assign pm_tags = product.tags | join: ',' | downcase | prepend: ',' | append: ','
+  assign pm_is_new = false
+  if pm_tags contains ',new,'
+    assign pm_is_new = true
+  endif
+  assign pm_is_best = false
+  if pm_tags contains ',bestseller,'
+    assign pm_is_best = true
+  endif
+
+  assign pm_insp = product.metafields.custom.inspiration.value
+-%}
+{%- capture pm_masked -%}{%- render 'pm-designer-masked', product: product -%}{%- endcapture -%}
+{%- capture pm_short -%}{%- render 'pm-designer-short', product: product -%}{%- endcapture -%}
+{%- assign pm_short = pm_short | strip -%}
+{%- assign pm_show_insp = false -%}
+{%- if pm_short != blank -%}{%- assign pm_show_insp = true -%}{%- endif -%}
+{%- comment -%} Brand-free name for every product (masked ones also lose the bottle image), alt with brands removed (NO-DESIGNERS.md). {%- endcomment -%}
+{%- capture pm_alt -%}{%- render 'pm-designer-short', product: product, text: pm_image.alt -%}{%- endcapture -%}
+
+<a href="{{ product.url }}" class="pm-card pm-card--product fm-grid-card">
+  <div class="pm-card__media">
+    {%- if pm_image -%}
+      <img
+        src="{{ pm_image | image_url: width: 540 }}"
+        srcset="{{ pm_image | image_url: width: 360 }} 360w, {{ pm_image | image_url: width: 540 }} 540w, {{ pm_image | image_url: width: 720 }} 720w"
+        sizes="(min-width: 750px) 25vw, 50vw"
+        alt="{{ pm_alt | strip | default: product.title | escape }}"
+        width="{{ pm_image.width }}"
+        height="{{ pm_image.height }}"
+        {% if lazy %}loading="lazy"{% endif %}
+      >
+    {%- endif -%}
+
+    {%- if product.available == false or pm_is_new or pm_is_best -%}
+      <div class="pm-card__badges">
+        {%- if product.available == false -%}
+          <span class="pm-badge pm-badge--ink">{{ 'products.product.sold_out' | t }}</span>
+        {%- endif -%}
+        {%- if pm_is_new -%}
+          <span class="pm-badge pm-badge--ink">{{ 'premium.card.new' | t }}</span>
+        {%- endif -%}
+        {%- if pm_is_best -%}
+          <span class="pm-badge pm-badge--ink">Bestseller</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="pm-card__body">
+    <h3 class="pm-card__title">{{ product.title | escape }}</h3>
+    <span class="pm-card__rule" aria-hidden="true"></span>
+    {%- if pm_show_insp -%}
+      <p class="pm-card__meta pm-dmeta">
+        {%- if pm_insp.image != blank and pm_masked != '1' -%}
+          <span class="pm-dthumb" aria-hidden="true">
+            {{- pm_insp.image | image_url: width: 144 | image_tag: width: 48, height: 48, widths: '48, 96, 144', sizes: '48px', loading: 'lazy', alt: '', class: 'pm-dthumb__img' -}}
+          </span>
+        {%- endif -%}
+        <span class="pm-dmeta__text">Inspirerad av: <span class="inspiration_heading">{{ pm_short }}</span></span>
+      </p>
+    {%- endif -%}
+    <div class="pm-card__price">
+      <span class="ab-current-price">{{ pm_price | money }}</span>
+      {%- if pm_compare > pm_price -%}
+        <s class="pm-card__compare">{{ pm_compare | money }}</s>
+      {%- endif -%}
+    </div>
+    <span class="pm-btn pm-btn--primary fm-grid-card__btn">{{ button_label | default: 'Se doften' }}</span>
+  </div>
+</a>

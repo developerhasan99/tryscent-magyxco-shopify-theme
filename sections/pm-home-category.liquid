@@ -1,0 +1,161 @@
+{{ 'pm-bs-base.css' | asset_url | stylesheet_tag }}
+{{ 'pm-s-home-category.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    --pm-cats-count: {{ section.blocks.size | at_least: 1 }};
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div id="{{ section.id }}" class="pm-cats color-{{ section.settings.color_scheme }} section-{{ section.id }}-padding">
+  <div class="page-width">
+    {%- if section.settings.title != blank -%}
+      <h2 class="pm-cats__title pm-title">{{ section.settings.title | escape }}</h2>
+    {%- endif -%}
+    <ul class="pm-cats__grid" role="list">
+      {%- comment -%} Tiles split the 1200px page width (~1100px content, 20px gaps) from 990; a 260px card below. {%- endcomment -%}
+      {%- liquid
+        assign cats_n = section.blocks.size | at_least: 1
+        assign cats_gaps = cats_n | minus: 1 | times: 20
+        assign cats_px = 1100 | minus: cats_gaps | divided_by: cats_n
+        assign cats_vw_gaps = cats_gaps | plus: 100
+        capture cats_sizes
+          echo '(min-width: 1200px) ' | append: cats_px | append: 'px, (min-width: 990px) calc((100vw - ' | append: cats_vw_gaps | append: 'px) / ' | append: cats_n | append: '), 260px'
+        endcapture
+      -%}
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign cat_img_class = 'pm-cats__img'
+          if block.settings.image_position == 'left' or block.settings.image_position == 'right'
+            assign cat_img_class = cat_img_class | append: ' pm-cats__img--' | append: block.settings.image_position
+          endif
+        -%}
+        <li class="pm-cats__item" {{ block.shopify_attributes }}>
+          <a href="{{ block.settings.link }}" class="pm-cats__card">
+            <div class="pm-cats__media">
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 1280 | image_tag: widths: '320, 520, 640, 860, 1040, 1280', sizes: cats_sizes, class: cat_img_class, loading: 'lazy', alt: block.settings.text }}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.text != blank -%}
+              <h3 class="pm-cats__name">{{ block.settings.text | escape }}</h3>
+            {%- endif -%}
+            {%- if block.settings.descriptor != blank -%}
+              <p class="pm-cats__desc pm-muted">{{ block.settings.descriptor | escape }}</p>
+            {%- endif -%}
+            <span class="pm-btn pm-btn--link pm-cats__link">{{ 'premium.general.shop_now' | t }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Home Categories",
+    "class": "home-categories pm-scope",
+    "settings": [
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background Color",
+        "info": "Unused since the premium redesign; the colour scheme sets the background.",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "info": "Optional. Shown above the tiles."
+      },
+      {
+        "type": "header",
+        "content": "Section Padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Top",
+        "info": "Mobile uses half of this value.",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "info": "Mobile uses half of this value.",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "category",
+        "name": "Category",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "Shown at 4:5 (cover). Square images lose 10% on each side."
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image focus",
+            "options": [
+              { "value": "left", "label": "Left" },
+              { "value": "center", "label": "Centre" },
+              { "value": "right", "label": "Right" }
+            ],
+            "default": "center"
+          },
+          {
+            "type": "text",
+            "id": "text",
+            "label": "Text",
+            "default": "Text"
+          },
+          {
+            "type": "text",
+            "id": "descriptor",
+            "label": "Descriptor",
+            "info": "One short line under the title."
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Home Categories"
+      }
+    ]
+  }
+{% endschema %}

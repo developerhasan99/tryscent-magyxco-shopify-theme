@@ -1,0 +1,588 @@
+/* pm-card.css (WP-D): the shared product card contract, loaded on every page from layout/theme.liquid.
+   Classes here are used by product-card (collection, home), card-product CSS (search, featured product),
+   you-may-like (C2), product-card-megamenu (B), cart-upsells (F) and the bonus-modal rows (C1, --row).
+   Contract:
+     .pm-card              root (works on <a>, <div>, <li>); flex column, no box, no border, no padding
+     .pm-card__media       1:1 frame, surface background, radius md (8), object-fit contain until the reshoot
+     .pm-card__media--cover  modifier for the reshoot: object-fit cover
+     .pm-card__badges      top-left stack, 8px inset, 4px gap, max 2 (third and later are hidden)
+     .pm-badge / --ink     badge styles come from pm-base.css
+     .pm-card__quick       36px (40px from 990) white square with the float shadow at the media's bottom right;
+                           always visible under 990, appears on card hover from 990 and widens on its own hover
+     .pm-card__quick-label text inside the quick square (button token), shown only while widened
+     .pm-card__body        info column: 12px top gap (16px from 990)
+     .pm-card__title       card token 13/18 700 .02em uppercase, 2-line clamp, 70% on card hover from 990
+     .pm-card__rule        20x1 rule in currentColor
+     .pm-card__meta        11/16 muted (12/16 from 990), 1 line
+     .pm-card__price       13/18 500 row; keep .ab-current-price on the price span
+     .pm-card__compare     12/18 400 muted line-through
+     .pm-card--row         horizontal variant: 56px thumb + text (+ optional quick square at the row end)
+   Rules: every selector starts with .pm-scope, zero importance overrides, no colour outside the palette. */
+
+/* 1. Root */
+.pm-scope .pm-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: rgb(var(--color-foreground));
+  text-align: left;
+  text-decoration: none;
+}
+
+.pm-scope .pm-card:hover,
+.pm-scope .pm-card:focus-visible {
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.pm-scope .pm-card:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: 2px;
+}
+
+/* 2. Media: square on surface, radius md, contain (the bottle shots carry their own backgrounds); no zoom, ever */
+.pm-scope .pm-card__media {
+  position: relative;
+  display: block;
+  flex: none;
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--pm-radius-md);
+  background: var(--pm-surface);
+}
+
+.pm-scope .pm-card__media > img,
+.pm-scope .pm-card__media > picture,
+.pm-scope .pm-card__media > picture > img,
+.pm-scope .pm-card__media > a > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  object-fit: contain;
+  object-position: center;
+  transform: none;
+  transition: none;
+}
+
+.pm-scope .pm-card__media--cover > img,
+.pm-scope .pm-card__media--cover > picture > img,
+.pm-scope .pm-card__media--cover > a > img {
+  object-fit: cover;
+}
+
+.pm-scope .pm-card:hover .pm-card__media img {
+  transform: none;
+}
+
+/* 3. Badges: top-left stack, two at most */
+.pm-scope .pm-card__badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.pm-scope .pm-card__badges > :nth-child(n + 3) {
+  display: none;
+}
+
+/* 4. Quick affordance: 36px white square, float shadow, icon only; from 990 it is 40px, hidden until card hover,
+      and widens to show its label while hovered or focused */
+.pm-scope .pm-card__quick {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 36px;
+  min-width: 36px;
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  box-shadow: var(--pm-shadow-float);
+  font-family: inherit;
+  font-size: var(--pm-fs-button);
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: opacity var(--pm-dur) var(--pm-ease), transform var(--pm-dur) var(--pm-ease), box-shadow var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-card__quick .pm-icon,
+.pm-scope .pm-card__quick > svg {
+  display: block;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+.pm-scope .pm-card__quick-label {
+  display: inline-block;
+  max-width: 0;
+  margin: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-width var(--pm-dur) var(--pm-ease), margin var(--pm-dur) var(--pm-ease), opacity var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-card__quick:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: 2px;
+}
+
+/* 5. Body */
+.pm-scope .pm-card__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 12px 0 0;
+}
+
+.pm-scope .pm-card__title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  font-size: var(--pm-fs-card);
+  line-height: var(--pm-lh-card);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: inherit;
+  transition: opacity var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-card__rule {
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 1px;
+  margin: 8px 0;
+  border: 0;
+  background: currentColor;
+}
+
+.pm-scope .pm-card__meta {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-card__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: inherit;
+}
+
+.pm-scope .pm-card__compare {
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 400;
+  color: var(--pm-muted);
+  text-decoration: line-through;
+}
+
+/* 6. Row variant (cart upsells, bonus-modal rows): 56px thumb, text, optional action square at the end */
+.pm-scope .pm-card--row {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  height: auto;
+}
+
+.pm-scope .pm-card--row .pm-card__media {
+  width: 56px;
+  height: 56px;
+  aspect-ratio: 1 / 1;
+}
+
+.pm-scope .pm-card--row .pm-card__badges {
+  display: none;
+}
+
+.pm-scope .pm-card--row .pm-card__body {
+  flex: 1 1 auto;
+  padding: 0;
+}
+
+.pm-scope .pm-card--row .pm-card__rule {
+  display: none;
+}
+
+.pm-scope .pm-card--row .pm-card__price {
+  margin-top: 2px;
+}
+
+.pm-scope .pm-card--row .pm-card__quick {
+  position: static;
+  flex: none;
+  margin-left: auto;
+  opacity: 1;
+  transform: none;
+}
+
+/* 7. From 990: 16px body gap, 12px meta, quick square 40px shown on card hover and widened on its own hover,
+      title to 70% on card hover (no image zoom) */
+@media (min-width: 990px) {
+  .pm-scope .pm-card__body {
+    padding-top: 16px;
+  }
+
+  .pm-scope .pm-card__meta {
+    font-size: 12px;
+  }
+
+  .pm-scope .pm-card__quick {
+    height: 40px;
+    min-width: 40px;
+    padding: 0 12px;
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .pm-scope .pm-card:hover .pm-card__quick,
+  .pm-scope .pm-card:focus-within .pm-card__quick,
+  .pm-scope .pm-card__quick:hover,
+  .pm-scope .pm-card__quick:focus-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .pm-scope .pm-card__quick:hover .pm-card__quick-label,
+  .pm-scope .pm-card__quick:focus-visible .pm-card__quick-label {
+    max-width: 160px;
+    margin-right: 8px;
+    opacity: 1;
+  }
+
+  .pm-scope .pm-card:hover .pm-card__title {
+    opacity: 0.7;
+  }
+}
+
+/* Touch screens at any width keep the square visible (no hover to reveal it) */
+@media (hover: none) {
+  .pm-scope .pm-card__quick {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 8. Dawn card-product.liquid (search results, featured product, featured_product block): matched through CSS only.
+      Strips the Tailwind box (border, radius, padding), squares the media on surface, maps the title and price to the
+      card tokens, turns Dawn badges white and hides the hardcoded red promo bits that the snippet still emits. */
+.pm-scope .product-card-wrapper {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.pm-scope .product-card-wrapper .card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.pm-scope .product-card-wrapper .card__inner {
+  border: 0;
+  border-radius: var(--pm-radius-md);
+  background: var(--pm-surface);
+  overflow: hidden;
+}
+
+.pm-scope .product-card-wrapper .card__inner::after {
+  content: none;
+}
+
+.pm-scope .product-card-wrapper .card .card__inner .card__media {
+  border-radius: var(--pm-radius-md);
+}
+
+.pm-scope .product-card-wrapper .card__media .media img {
+  object-fit: contain;
+  object-position: center;
+}
+
+.pm-scope .product-card-wrapper:hover .card .media--hover-effect > img,
+.pm-scope .product-card-wrapper .card .media--hover-effect > img {
+  transform: none;
+  transition: none;
+}
+
+.pm-scope .product-card-wrapper .card__inner .card__content {
+  padding: 0;
+}
+
+.pm-scope .product-card-wrapper .card > .card__content {
+  display: block;
+  padding: 12px 0 0;
+}
+
+.pm-scope .product-card-wrapper .card__information {
+  padding: 0;
+}
+
+.pm-scope .product-card-wrapper .card__heading {
+  margin: 0;
+}
+
+.pm-scope .product-card-wrapper .card__heading a {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin: 0;
+  font-size: var(--pm-fs-card);
+  line-height: var(--pm-lh-card);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+  transition: opacity var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .product-card-wrapper .card__heading a::after {
+  content: none;
+}
+
+.pm-scope .product-card-wrapper .card__heading a:hover {
+  opacity: 0.7;
+  text-decoration: none;
+}
+
+.pm-scope .product-card-wrapper .card-information {
+  margin: 0;
+  padding: 0;
+}
+
+.pm-scope .product-card-wrapper .card-information > .font-bold {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  margin: 12px 0 0;
+  padding-top: 9px;
+  border-top: 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgb(var(--color-foreground));
+  background: linear-gradient(currentColor, currentColor) 0 0 / 20px 1px no-repeat;
+}
+
+.pm-scope .product-card-wrapper .card-information .starts_at_text {
+  font-weight: 400;
+  color: var(--pm-muted);
+}
+
+.pm-scope .product-card-wrapper .card-information .line-through {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--pm-muted);
+}
+
+/* Hardcoded promo bits in card-product.liquid (red BOGO pill, red "Buy 1, Get 1" lines, red sale pill, broken
+   "Inspired by" block with a blurred image): hidden until the snippet owner removes them */
+.pm-scope .product-card-wrapper .card-information span.inline-flex,
+.pm-scope .product-card-wrapper .card-information .rounded-full,
+.pm-scope .product-card-wrapper .card-information > .mt-2,
+.pm-scope .product-card-wrapper .card-information > .mb-3 {
+  display: none;
+}
+
+/* Dawn badges (sold out / sale) and the inline "25% EDP" flag: white badge, 8px inset */
+.pm-scope .product-card-wrapper .card:not(.card--horizontal) > .card__content > .card__badge {
+  margin: 8px;
+}
+
+.pm-scope .product-card-wrapper .badge,
+.pm-scope .product-card-wrapper .card__inner > .absolute {
+  top: 8px;
+  left: 8px;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 5px 7px;
+  border: 1px solid transparent;
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  font-size: var(--pm-fs-badge);
+  line-height: var(--pm-lh-badge);
+  font-weight: 500;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (min-width: 990px) {
+  .pm-scope .product-card-wrapper .card > .card__content {
+    padding-top: 16px;
+  }
+}
+
+/* 9. Designer bottle next to "Inspired by" (snippets/pm-designer-thumb.liquid; also cards, picker, Bundle & Save) */
+.pm-scope .pm-dmeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.pm-scope .pm-dthumb {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+  border: 1px solid var(--pm-line, rgba(0, 0, 0, 0.1));
+  border-radius: 6px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.pm-scope .pm-dthumb__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pm-scope .pm-dmeta__text {
+  min-width: 0;
+}
+
+/* Card meta keeps its one-line clamp on the text; the row is as tall as the tile on every card so prices line up */
+.pm-scope .pm-card__meta.pm-dmeta {
+  min-height: 36px;
+}
+
+.pm-scope .pm-card__meta .pm-dthumb {
+  width: 36px;
+  height: 36px;
+}
+
+.pm-scope .pm-card__meta .pm-dmeta__text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-card__meta.pm-dmeta {
+    min-height: 44px;
+  }
+
+  .pm-scope .pm-card__meta .pm-dthumb {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* 10. Judge.me stars under the title (snippets/product-card.liquid, show_rating; port of the tryscent.eu
+       mgx-card-rating): five stars filled to the rating in ink on line, then the muted "(count)".
+       Scoped to --product so the megamenu card's own .pm-card__rating (pm-stars) is untouched. */
+.pm-scope .pm-card--product .pm-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--pm-muted);
+}
+
+.pm-scope .pm-card--product .pm-card__stars {
+  --pm-rating-pct: 0%;
+  display: inline-block;
+  font-family: Times, "Times New Roman", serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.pm-scope .pm-card--product .pm-card__stars::before {
+  content: "\2605\2605\2605\2605\2605";
+  background: linear-gradient(90deg, var(--pm-ink) var(--pm-rating-pct), var(--pm-line) var(--pm-rating-pct));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (forced-colors: active) {
+  .pm-scope .pm-card--product .pm-card__stars::before {
+    background: none;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-card--product .pm-card__rating {
+    font-size: 12px;
+  }
+
+  .pm-scope .pm-card--product .pm-card__stars {
+    font-size: 14px;
+  }
+}

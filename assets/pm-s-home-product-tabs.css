@@ -1,0 +1,263 @@
+/* pm-s-home-product-tabs.css: sections/home-product-tabs.liquid (Product tabs). Loaded by the section itself.
+   Tab row: uppercase 12/16 tabs (14/20 from 990) standing on a 1px hairline; the active tab draws a 2px ink line
+   that overlaps the hairline by 1px (margin-bottom -1px). The hairline sits on .pm-ptabs__list; the horizontal
+   scrolling lives on .pm-ptabs__scroll around it, because a scroll container clips its children to the padding box
+   and would cut that 1px overlap off. From 990 the bar is a flex row: list growing on the left, Discover button on
+   the right, bottoms aligned, so the hairline runs under the tabs only.
+   Carousel: same Swiper setup and arrow rail as pm-s-popular-products.css (1.25 / 2.2 (750) / 3 (990) / 4 (1200)
+   slides, spaceBetween 12 / 20, 20px offsets at 375 only). .pm-ptabs__nav has no height but a padding-top equal to
+   half a slide width (= half the 1:1 card image), so "bottom: -20px" puts the 40px arrow's centre on the image's
+   vertical centre. Slide width = (W - (spv - 1) * spaceBetween) / spv. */
+
+/* 1. Header: title + optional subheading */
+.pm-scope .pm-ptabs__head {
+  margin: 0 0 24px;
+}
+
+.pm-scope .pm-ptabs__title {
+  margin: 0;
+}
+
+.pm-scope .pm-ptabs__sub {
+  max-width: var(--pm-measure);
+  margin: 8px 0 0;
+}
+
+/* 2. Tab row: at 375 the bar is just the scrolling list; the Discover button moves under the carousel */
+.pm-scope .pm-ptabs__bar {
+  margin: 0 0 24px;
+}
+
+.pm-scope .pm-ptabs__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.pm-scope .pm-ptabs__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.pm-scope .pm-ptabs__list {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 100%;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--pm-line);
+  white-space: nowrap;
+}
+
+.pm-scope .pm-ptabs__tab {
+  flex: none;
+  box-sizing: border-box;
+  margin: 0 0 -1px;
+  padding: 0 0 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--pm-muted);
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  scroll-snap-align: start;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color var(--pm-dur) var(--pm-ease), border-color var(--pm-dur) var(--pm-ease);
+}
+
+.pm-scope .pm-ptabs__tab:hover {
+  color: var(--pm-ink);
+}
+
+.pm-scope .pm-ptabs__tab[aria-selected="true"] {
+  color: var(--pm-ink);
+  border-bottom-color: var(--pm-ink);
+}
+
+.pm-scope .pm-ptabs__tab:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: -2px;
+}
+
+.pm-scope .color-scheme-3 .pm-ptabs__tab:hover,
+.pm-scope .color-scheme-4 .pm-ptabs__tab:hover,
+.pm-scope .color-scheme-3 .pm-ptabs__tab[aria-selected="true"],
+.pm-scope .color-scheme-4 .pm-ptabs__tab[aria-selected="true"] {
+  color: var(--pm-white);
+  border-bottom-color: var(--pm-white);
+}
+
+.pm-scope .color-scheme-3 .pm-ptabs__tab:focus-visible,
+.pm-scope .color-scheme-4 .pm-ptabs__tab:focus-visible {
+  outline-color: var(--pm-white);
+}
+
+/* Discover button in the bar: desktop only (see 990) */
+.pm-scope .pm-ptabs__cta {
+  display: none;
+}
+
+/* 3. Panels */
+.pm-scope .pm-ptabs__panel[hidden] {
+  display: none;
+}
+
+.pm-scope .pm-ptabs__note {
+  margin: 0;
+}
+
+/* 4. Slider: full-bleed at 375 (negative gutter margins), inside page-width from 750 */
+.pm-scope .pm-ptabs__slider {
+  position: relative;
+  margin-left: calc(-1 * var(--pm-gutter));
+  margin-right: calc(-1 * var(--pm-gutter));
+  overflow: hidden;
+}
+
+.pm-scope .pm-ptabs__slide {
+  height: auto;
+  box-sizing: border-box;
+}
+
+/* 5. Arrow rail: top of the slider, padding-top = half the slide width (1:1 image) so the arrows centre on the image */
+.pm-scope .pm-ptabs__nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: 0;
+  padding-top: calc((100% - 3px) / (2 * var(--pm-ptabs-mobile, 1.25)));
+  pointer-events: none;
+}
+
+.pm-scope .pm-ptabs .swiper-button-prev,
+.pm-scope .pm-ptabs .swiper-button-next {
+  top: auto;
+  bottom: -20px;
+  margin-top: 0;
+  pointer-events: auto;
+}
+
+.pm-scope .pm-ptabs .swiper-button-prev {
+  left: 8px;
+  right: auto;
+}
+
+.pm-scope .pm-ptabs .swiper-button-next {
+  right: 8px;
+  left: auto;
+}
+
+.pm-scope .pm-ptabs .swiper-button-prev.swiper-button-disabled,
+.pm-scope .pm-ptabs .swiper-button-next.swiper-button-disabled {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pm-scope .pm-ptabs .swiper-button-prev::after,
+.pm-scope .pm-ptabs .swiper-button-next::after {
+  font-weight: 700;
+}
+
+/* 6. Mobile Discover button under the carousel: full width at 375, auto from 750, gone from 990 */
+.pm-scope .pm-ptabs__foot {
+  margin: 24px 0 0;
+}
+
+.pm-scope .pm-ptabs__cta--mobile {
+  width: 100%;
+}
+
+@media (min-width: 750px) {
+  .pm-scope .pm-ptabs__head {
+    margin-bottom: 32px;
+  }
+
+  .pm-scope .pm-ptabs__slider {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .pm-scope .pm-ptabs__nav {
+    padding-top: calc((100% - 24px) / (1.1 * var(--pm-ptabs-desktop, 4)));
+  }
+
+  .pm-scope .pm-ptabs .swiper-button-prev {
+    left: 12px;
+  }
+
+  .pm-scope .pm-ptabs .swiper-button-next {
+    right: 12px;
+  }
+
+  .pm-scope .pm-ptabs__cta--mobile {
+    width: auto;
+  }
+}
+
+@media (min-width: 990px) {
+  .pm-scope .pm-ptabs__bar {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 32px;
+  }
+
+  .pm-scope .pm-ptabs__scroll {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .pm-scope .pm-ptabs__list {
+    gap: 32px;
+  }
+
+  .pm-scope .pm-ptabs__tab {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .pm-scope .pm-ptabs__cta {
+    display: inline-flex;
+    flex: none;
+    min-height: 44px;
+    height: 44px;
+    min-width: 120px;
+    padding: 0 24px;
+  }
+
+  .pm-scope .pm-ptabs__foot {
+    display: none;
+  }
+
+  .pm-scope .pm-ptabs__nav {
+    padding-top: calc((100% - 40px) / 6);
+  }
+}
+
+@media (min-width: 1200px) {
+  .pm-scope .pm-ptabs__nav {
+    padding-top: calc((100% - 60px) / 8);
+  }
+}
+
+/* 7. Reduced motion: the underline and colour do not animate */
+@media (prefers-reduced-motion: reduce) {
+  .pm-scope .pm-ptabs__tab {
+    transition: none;
+  }
+}

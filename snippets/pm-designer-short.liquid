@@ -1,0 +1,63 @@
+{%- comment -%}
+  Names without brands (NO-DESIGNERS.md).
+  - Listed-brand (L'Oréal) scents: one word from Theme settings > Designer names in search > "Short names"
+    (MAGYX number = word, Adrian 15.11: "Aqua", "Opium", never the full perfume name).
+  - Every other scent: its inspiration name with the brand removed, the perfume name stays (Adrian 15.11: "Tom Ford
+    Oud Wood" -> "Oud Wood"). A line in "Short names" overrides it for that number.
+  1. {% render 'pm-designer-short', product: p %}
+     prints that name for any product with an inspiration (e.g. "Aqua", "Oud Wood"); nothing without one.
+  2. {% render 'pm-designer-short', product: p, text: t %}
+     prints t with this product's full designer name swapped for that name and every brand removed.
+  3. {% render 'pm-designer-short', text: t %} (no product)
+     prints t with every brand removed (FAQ, page descriptions).
+  Brand removal itself: snippets/pm-brand-wipe.liquid.
+{%- endcomment -%}
+{%- liquid
+  assign pds_short = ''
+  assign pds_name = ''
+  assign pds_famous = ''
+  if product
+    if product.metafields.custom.inspiration.value
+      assign pds_name = product.metafields.custom.inspiration.value.name | default: '' | strip
+    endif
+    assign pds_famous = product.metafields.custom.famous_fragrance | default: '' | strip
+    assign pds_num = product.title | split: 'No.' | last | strip | plus: 0
+    if pds_num > 0
+      assign pds_lines = settings.pm_short_names | newline_to_br | split: '<br />'
+      for pds_line in pds_lines
+        if pds_line contains '='
+          assign pds_parts = pds_line | split: '='
+          assign pds_key = pds_parts[0] | strip
+          if pds_key != blank
+            assign pds_key_num = pds_key | plus: 0
+            if pds_key_num == pds_num
+              assign pds_short = pds_line | remove_first: pds_parts[0] | remove_first: '=' | strip
+              break
+            endif
+          endif
+        endif
+      endfor
+    endif
+    if pds_short == '' and pds_name != ''
+      capture pds_short
+        render 'pm-brand-wipe', text: pds_name
+      endcapture
+      assign pds_short = pds_short | strip
+    endif
+  endif
+
+  if text == nil
+    echo pds_short
+  else
+    assign pds_out = text | append: ''
+    if pds_short != ''
+      if pds_famous.size > 3 and pds_famous != pds_short
+        assign pds_out = pds_out | replace: pds_famous, pds_short
+      endif
+      if pds_name.size > 3 and pds_name != pds_short
+        assign pds_out = pds_out | replace: pds_name, pds_short
+      endif
+    endif
+    render 'pm-brand-wipe', text: pds_out, keep: pds_short
+  endif
+-%}
