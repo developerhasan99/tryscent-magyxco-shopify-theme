@@ -337,6 +337,7 @@
     },
     "stacks_up_xtpACd": {
       "type": "stacks-up",
+      "disabled": true,
       "blocks": {
         "stack_U4VzGa": {
           "type": "stack",
@@ -1641,142 +1642,193 @@
         "padding_bottom": 44
       }
     },
-    "faq-section": {
-      "type": "faq-section",
-      "blocks": {
-        "collapsible_row_DCpttL": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Do your fragrances smell the same as the designer inspiration?",
-            "icon": "none",
-            "row_content": "<p>Our fragrances are expertly crafted to capture the essence and character of popular designer scents. While we create inspired interpretations rather than exact copies, 98% of our customers say our<br/>fragrances are virtually identical to the original brands they love. Each fragrance is carefully developed to deliver the same luxurious experience at a fraction of the cost.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_3dNyaD": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How can I trust the quality at the price point you offer?",
-            "icon": "none",
-            "row_content": "<p>We cut out the middleman and brand markup, not the quality.<br/>Our fragrances are made in Canada using high concentrations of premium fragrance oils, the same quality ingredients found in luxury brands. We're so confident in our products that we offer a 60-day money-back guarantee. Plus, thousands of 5-star reviews from happy customers speak to our consistent<br/>quality.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_p7jMRw": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "How long will the scent last?",
-            "icon": "none",
-            "row_content": "<p>Our Eau de Parfum formulations contain high concentrations of quality fragrance oils, typically lasting 12+ hours on the skin. Longevity can vary based on skin type, application method, and individual body chemistry. For best results, apply to pulse points on clean, moisturized skin.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_TGd86r": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": " Are your products vegan friendly and cruelty free?",
-            "icon": "none",
-            "row_content": "<p>We only use <strong>vegan-friendly</strong> fragrance oils, and of course they are <strong>cruelty-free</strong>! We wouldn't have it any other way. Smell good, feel good, do good.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_GixNBx": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Can I return/exchange if I don't like the scent?",
-            "icon": "none",
-            "row_content": "<p>Yes. We offer a 60-day money-back guarantee. If you're not<br/>completely satisfied with your fragrance, simply return it within 60 days for a<br/>full refund. You can even test the fragrance once or twice before deciding. No<br/>questions asked, no hassle.</p>",
-            "page": ""
-          }
-        },
-        "collapsible_row_6xgRnc": {
-          "type": "collapsible_row",
-          "settings": {
-            "heading": "Are your fragrances safe for sensitive skin?",
-            "icon": "none",
-            "row_content": "<p>Our fragrances are formulated to high safety standards, but like all fragrances, they may contain allergens. We recommend patch testing before full use, especially if you have sensitive skin. All ingredients comply with international safety regulations for cosmetic products.</p>",
-            "page": ""
-          }
-        }
-      },
-      "block_order": [
-        "collapsible_row_DCpttL",
-        "collapsible_row_3dNyaD",
-        "collapsible_row_p7jMRw",
-        "collapsible_row_TGd86r",
-        "collapsible_row_GixNBx",
-        "collapsible_row_6xgRnc"
-      ],
-      "disabled": true,
-      "settings": {
-        "caption": "",
-        "heading": "Frequently Asked Questions",
-        "heading_size": "h1",
-        "heading_alignment": "center",
-        "layout": "none",
-        "container_color_scheme": "",
-        "color_scheme": "",
-        "open_first_collapsible_row": false,
-        "image_ratio": "adapt",
-        "desktop_layout": "image_second",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
-    "magyx_guarantee_8hATfM": {
-      "type": "tryscent-guarantee",
-      "disabled": true,
-      "name": "Tryscent Guarantee",
-      "settings": {
-        "background_color": "#fcfbf9",
-        "title": "Magyx Guarantee",
-        "description": "<p>At Magyx, we believe in fragrances that make you feel amazing. That's why we offer a 60-day money-back guarantee—so you can shop with confidence.</p><p>If you're not completely in love with your scent, simply return it within 60 days for a full refund. No hassle, no stress—just a promise that you'll find a fragrance you truly adore.</p>",
-        "padding_top": 72,
-        "padding_bottom": 72
-      }
-    },
     "floating-atc": {
       "type": "floating-atc",
       "settings": {}
     },
-    "image_with_text_hmaWn4": {
-      "type": "image-with-text",
+    "fmx_faq": {
+      "type": "fmx-faq",
       "blocks": {
-        "heading_mbnxGk": {
-          "type": "heading",
+        "scent_notes": {
+          "type": "scent_notes",
           "settings": {
-            "heading": "European Production",
-            "heading_size": "h1"
+            "heading": "How it smells"
           }
         },
-        "text_8j7QYX": {
-          "type": "text",
+        "collapsible_row_1": {
+          "type": "collapsible_row",
           "settings": {
-            "text": "<p>Our European production guarantees the highest quality standards and allows us to monitor and control every step of the manufacturing process. From selecting high-quality raw materials to the careful bottling of each fragrance, we ensure that every product meets our strict requirements for quality and craftsmanship.</p>",
-            "text_style": "body"
+            "heading": "Is it perfumed water?",
+            "row_content": "<p>Our scents go far beyond simple perfumed water. At MAGYX we make high-quality Eau de Parfum (EDP) with a 20% perfume oil concentration, for a long-lasting scent with great projection and depth.<\/p><p>Unlike light body sprays or perfumed waters, our compositions are made to stay on your skin for 12 hours and longer. You get an intense, refined scent at a fraction of the price of luxury brands.<\/p>"
+          }
+        },
+        "collapsible_row_2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What does 20% perfume oil mean?",
+            "row_content": "<p>The percentage is the concentration of pure fragrance oils in the product. In our case, 20% perfume concentration means:<\/p><p>✔️ It is an Eau de Parfum (EDP), one of the most intense perfume types for everyday wear.<\/p><p>✔️ The high fragrance oil content lasts. The scent stays noticeable on the skin for 12 hours and longer.<\/p><p>✔️ Strong projection and depth. The scent unfolds in layers and keeps a rich, lasting character.<\/p><p>For comparison, a regular Eau de Toilette often contains 5–15% fragrance oils. With 20% you get an intense, long-lasting, high-quality scent at an affordable price.<\/p>"
+          }
+        },
+        "collapsible_row_3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do the scents smell like the designer scent they're inspired by?",
+            "row_content": "<p>Our scents are made to capture the character of popular designer fragrances. They are inspired interpretations with 95% scent similarity to the original.<\/p>"
+          }
+        },
+        "collapsible_row_4": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How long does the scent last?",
+            "row_content": "<p>With 20% perfume oil the scent lasts 12 hours and longer on the skin. How long it lasts depends on your skin type and how you apply it. For the best result, spray it on your pulse points on clean, moisturised skin.<\/p>"
+          }
+        },
+        "collapsible_row_5": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Are your perfumes vegan and cruelty-free?",
+            "row_content": "<p>Yes. Our perfumes are <strong>vegan<\/strong> and <strong>cruelty-free<\/strong>.<\/p>"
+          }
+        },
+        "collapsible_row_6": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I return it if I don't like the scent?",
+            "row_content": "<p>Yes. We offer a 60-day money-back guarantee. If you're not completely happy, return the product within 60 days and get your money back.<\/p>"
+          }
+        },
+        "collapsible_row_7": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How long does delivery take?",
+            "row_content": "<p>We ship within 1-2 days. You'll see delivery times and shipping options at checkout.<\/p>"
           }
         }
       },
       "block_order": [
-        "heading_mbnxGk",
-        "text_8j7QYX"
+        "scent_notes",
+        "collapsible_row_1",
+        "collapsible_row_2",
+        "collapsible_row_3",
+        "collapsible_row_4",
+        "collapsible_row_5",
+        "collapsible_row_6",
+        "collapsible_row_7"
       ],
-      "disabled": true,
-      "custom_css": [],
-      "name": "t:sections.image-with-text.presets.name",
       "settings": {
-        "height": "adapt",
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "image_behavior": "none",
-        "content_layout": "overlap",
-        "desktop_content_position": "top",
-        "desktop_content_alignment": "left",
-        "mobile_content_alignment": "left",
-        "section_color_scheme": "",
-        "color_scheme": "",
+        "caption": "",
+        "heading": "Frequently asked questions",
+        "heading_alignment": "center",
+        "closing_text": "",
+        "color_scheme": "scheme-1",
+        "open_first_collapsible_row": false,
         "padding_top": 36,
         "padding_bottom": 36
+      }
+    },
+    "fmx_scent_notes": {
+      "type": "fmx-scent-notes",
+      "settings": {
+        "color_scheme": "scheme-4",
+        "band_background": "#000000",
+        "heading": "Fragrance notes",
+        "label_top": "Top",
+        "label_heart": "Heart",
+        "label_base": "Base",
+        "show_attributes": true,
+        "label_family": "Scent family",
+        "label_occasion": "Occasion",
+        "label_season": "Season",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "fmx_stacks_up": {
+      "type": "fmx-stacks-up",
+      "blocks": {
+        "stack_1": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "Fragrance concentration",
+            "stack_subheading": "More oil = longer-lasting scent",
+            "dupes_mark": "no"
+          }
+        },
+        "stack_2": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "Lasts 12+ hours on the skin",
+            "stack_subheading": "Lasts longer than most designer EDTs",
+            "dupes_mark": "no"
+          }
+        },
+        "stack_3": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "90% less than the designer price",
+            "stack_subheading": "Without compromising on quality",
+            "dupes_mark": "yes"
+          }
+        },
+        "stack_4": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "95% scent similarity to the original",
+            "stack_subheading": "Created with the same fragrance accords",
+            "dupes_mark": "no"
+          }
+        },
+        "stack_5": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "Ships within 1-2 days",
+            "stack_subheading": "No waiting in store",
+            "dupes_mark": "no"
+          }
+        },
+        "stack_6": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "Cruelty-free formula",
+            "stack_subheading": "Clean ingredients, safe for skin",
+            "dupes_mark": "no"
+          }
+        },
+        "stack_7": {
+          "type": "stack",
+          "settings": {
+            "stack_heading": "60-day money-back guarantee",
+            "stack_subheading": "Love it or get your money back, no questions asked",
+            "dupes_mark": "no"
+          }
+        }
+      },
+      "block_order": [
+        "stack_1",
+        "stack_2",
+        "stack_3",
+        "stack_4",
+        "stack_5",
+        "stack_6",
+        "stack_7"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "kicker": "MAGYX vs. original",
+        "title": "How MAGYX compares",
+        "ours_label": "MAGYX",
+        "ours_note": "20% perfume oil",
+        "theirs_label": "Designer brands",
+        "dupes_enable": true,
+        "dupes_label": "Other dupes",
+        "btn_text": "Browse best sellers",
+        "btn_url": "\/collections\/best-sellers",
+        "proof_1": "Lasts 12+ hours",
+        "proof_2": "Loved by 10,000+",
+        "yes_label": "Yes",
+        "no_label": "No",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "fmx_reviews": {
@@ -2202,6 +2254,9 @@
     "main",
     "you_may_like_qhFiPV",
     "feature_highlights_F49xPK",
+    "fmx_faq",
+    "fmx_scent_notes",
+    "fmx_stacks_up",
     "cupid-video-reviews",
     "manus_smell_journey_enxN4a",
     "scent_breakdown_rG4H3T",
@@ -2219,9 +2274,6 @@
     "1755117642437d279b",
     "1751863713a9594609",
     "image_with_text_peK6rF",
-    "faq-section",
-    "magyx_guarantee_8hATfM",
-    "floating-atc",
-    "image_with_text_hmaWn4"
+    "floating-atc"
   ]
 }
