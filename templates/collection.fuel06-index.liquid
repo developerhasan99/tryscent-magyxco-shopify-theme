@@ -134,11 +134,17 @@
         endif
 
         comment
-          scent_description is a rich text field on some products, so it comes
-          out as markup. strip_html, not metafield_text: the filter is applied
-          to a plain string here, not to a metafield drop.
+          scent_description / scent_breakdown can be rich text fields (magyx.co: scent_breakdown is
+          rich_text_field), whose raw value is JSON. metafield_text on the metafield drop turns any
+          type into plain text; strip_html then catches markup in plain text fields.
         endcomment
-        assign blurb = p.metafields.custom.scent_description | default: p.metafields.custom.scent_breakdown | strip_html | strip | truncate: 220
+        assign blurb = ''
+        if p.metafields.custom.scent_description != blank
+          assign blurb = p.metafields.custom.scent_description | metafield_text
+        elsif p.metafields.custom.scent_breakdown != blank
+          assign blurb = p.metafields.custom.scent_breakdown | metafield_text
+        endif
+        assign blurb = blurb | strip_html | strip | truncate: 220
 
         assign note_top = p.metafields.custom.top_notes.value.heading | default: '' | strip_html | strip
         assign note_heart = p.metafields.custom.middle_notes.value.heading | default: '' | strip_html | strip
