@@ -1,0 +1,254 @@
+{{ 'fmx-base.css' | asset_url | stylesheet_tag }}
+{{ 'fmx-s-stacks-up.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  .premium .pm-compare--{{ section.id }} {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .premium .pm-compare--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="premium">
+<div
+  id="{{ section.id }}"
+  class="pm-compare pm-compare--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+  <div class="page-width">
+    {%- if section.settings.kicker != blank -%}
+      <p class="pm-eyebrow pm-muted pm-compare__kicker">{{ section.settings.kicker }}</p>
+    {%- endif -%}
+    <h2 class="pm-h2 pm-compare__heading">{{ section.settings.title }}</h2>
+    {%- assign pm_dupes = section.settings.dupes_enable -%}
+    <div class="pm-compare__table{% if pm_dupes %} pm-compare__table--3{% endif %}" role="table">
+      <div class="pm-compare__row pm-compare__row--head" role="row">
+        <div class="pm-compare__cell pm-compare__cell--label" role="columnheader"><span class="visually-hidden">{{ section.settings.kicker }}</span></div>
+        <div class="pm-compare__cell pm-compare__cell--ours" role="columnheader">
+          <span class="pm-compare__ours-label">{{ section.settings.ours_label }}</span>
+          {%- if section.settings.ours_note != blank -%}
+            <span class="pm-compare__ours-note">{{ section.settings.ours_note }}</span>
+          {%- endif -%}
+        </div>
+        {%- if pm_dupes -%}
+          <div class="pm-compare__cell pm-compare__cell--theirs pm-compare__cell--dupes" role="columnheader">{{ section.settings.dupes_label }}</div>
+        {%- endif -%}
+        <div class="pm-compare__cell pm-compare__cell--theirs" role="columnheader">{{ section.settings.theirs_label }}</div>
+      </div>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'stack' -%}
+          <div class="pm-compare__row" role="row" {{ block.shopify_attributes }}>
+            <div class="pm-compare__cell pm-compare__cell--label" role="rowheader">
+              <span class="pm-compare__feature">{{ block.settings.stack_heading }}</span>
+              {%- if block.settings.stack_subheading != blank -%}
+                <span class="pm-compare__sub">{{ block.settings.stack_subheading }}</span>
+              {%- endif -%}
+            </div>
+            <div class="pm-compare__cell pm-compare__cell--mark pm-compare__cell--yes" role="cell">
+              {% render 'fmx-icon', icon: 'check', size: 20, stroke: 1.75 %}
+              <span class="visually-hidden">{{ section.settings.yes_label }}</span>
+            </div>
+            {%- if pm_dupes -%}
+              {%- if block.settings.dupes_mark == 'yes' -%}
+                <div class="pm-compare__cell pm-compare__cell--mark pm-compare__cell--yes pm-compare__cell--dupes-yes" role="cell">
+                  {% render 'fmx-icon', icon: 'check', size: 20, stroke: 1.75 %}
+                  <span class="visually-hidden">{{ section.settings.yes_label }}</span>
+                </div>
+              {%- else -%}
+                <div class="pm-compare__cell pm-compare__cell--mark pm-compare__cell--no" role="cell">
+                  {% render 'fmx-icon', icon: 'close', size: 18, stroke: 1.5 %}
+                  <span class="visually-hidden">{{ section.settings.no_label }}</span>
+                </div>
+              {%- endif -%}
+            {%- endif -%}
+            <div class="pm-compare__cell pm-compare__cell--mark pm-compare__cell--no" role="cell">
+              {% render 'fmx-icon', icon: 'close', size: 18, stroke: 1.5 %}
+              <span class="visually-hidden">{{ section.settings.no_label }}</span>
+            </div>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <div class="pm-compare__footer">
+      {%- if section.settings.btn_text != blank -%}
+        <a href="{{ section.settings.btn_url }}" class="pm-btn pm-btn--primary pm-compare__cta">{{ section.settings.btn_text }}</a>
+      {%- endif -%}
+      {%- if section.settings.proof_1 != blank or section.settings.proof_2 != blank -%}
+        <ul class="pm-compare__proof" role="list">
+          {%- if section.settings.proof_1 != blank -%}
+            <li class="pm-compare__proof-item">{% render 'fmx-icon', icon: 'clock', size: 16, stroke: 1.5 %}<span>{{ section.settings.proof_1 }}</span></li>
+          {%- endif -%}
+          {%- if section.settings.proof_2 != blank -%}
+            <li class="pm-compare__proof-item">{% render 'fmx-icon', icon: 'heart', size: 16, stroke: 1.5 %}<span>{{ section.settings.proof_2 }}</span></li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+</div>
+
+{% schema %}
+  {
+    "name": "FM Comparison (test)",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "text",
+        "id": "kicker",
+        "label": "Kicker",
+        "default": "MAGYX vs. original"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Title",
+        "default": "Så står sig MAGYX"
+      },
+      {
+        "type": "text",
+        "id": "ours_label",
+        "label": "Our column label",
+        "default": "MAGYX"
+      },
+      {
+        "type": "text",
+        "id": "ours_note",
+        "label": "Our column note",
+        "default": "20% koncentration"
+      },
+      {
+        "type": "text",
+        "id": "theirs_label",
+        "label": "Their column label",
+        "default": "Designer­märken",
+        "info": "Long single words: a soft hyphen (U+00AD) lets the narrow phone column break the word."
+      },
+      {
+        "type": "checkbox",
+        "id": "dupes_enable",
+        "label": "Show other dupes column",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "dupes_label",
+        "label": "Other dupes column label",
+        "default": "Andra dupes",
+        "info": "Tick or cross per row: open each row (block) and set Other dupes."
+      },
+      {
+        "type": "text",
+        "id": "btn_text",
+        "label": "Button Text",
+        "default": "Bläddra bland bästsäljare"
+      },
+      {
+        "type": "url",
+        "id": "btn_url",
+        "label": "Button URL",
+        "default": "/collections/all"
+      },
+      {
+        "type": "text",
+        "id": "proof_1",
+        "label": "Proof line 1 (clock icon)",
+        "default": "Håller 12+ timmar"
+      },
+      {
+        "type": "text",
+        "id": "proof_2",
+        "label": "Proof line 2 (heart icon)",
+        "default": "Älskad av 10 000+"
+      },
+      {
+        "type": "text",
+        "id": "yes_label",
+        "label": "Screen-reader text for a check mark",
+        "default": "Ja"
+      },
+      {
+        "type": "text",
+        "id": "no_label",
+        "label": "Screen-reader text for a cross",
+        "default": "Nej"
+      },
+      {
+        "type": "header",
+        "content": "Section padding"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "unit": "px",
+        "label": "Padding bottom",
+        "default": 36
+      }
+    ],
+    "blocks": [
+      {
+        "type": "stack",
+        "name": "Stack",
+        "settings": [
+          {
+            "type": "text",
+            "id": "stack_heading",
+            "label": "Stack Heading",
+            "default": "Doftkoncentration"
+          },
+          {
+            "type": "text",
+            "id": "stack_subheading",
+            "label": "Stack Subheading",
+            "default": "Mer olja = längre hållbarhet"
+          },
+          {
+            "type": "select",
+            "id": "dupes_mark",
+            "label": "Other dupes",
+            "options": [
+              { "value": "no", "label": "Cross" },
+              { "value": "yes", "label": "Tick" }
+            ],
+            "default": "no"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "FM Comparison (test)",
+        "blocks": [
+          { "type": "stack", "settings": { "stack_heading": "Doftkoncentration", "stack_subheading": "Mer olja = längre hållbarhet" } },
+          { "type": "stack", "settings": { "stack_heading": "Håller 12+ timmar på huden", "stack_subheading": "Håller längre än de flesta designer-EDT" } },
+          { "type": "stack", "settings": { "stack_heading": "90% billigare än designerpriset", "stack_subheading": "Utan att kompromissa med kvaliteten", "dupes_mark": "yes" } },
+          { "type": "stack", "settings": { "stack_heading": "Exakt samma doft som originalet", "stack_subheading": "Skapad med samma doftackord" } },
+          { "type": "stack", "settings": { "stack_heading": "Skickas inom 24 timmar", "stack_subheading": "Inget väntande i butik" } },
+          { "type": "stack", "settings": { "stack_heading": "Djurförsöksfri formula", "stack_subheading": "Rena ingredienser, säkra för huden" } },
+          { "type": "stack", "settings": { "stack_heading": "60 dagars pengarna-tillbaka-garanti", "stack_subheading": "Älska den eller få pengarna tillbaka, inga frågor" } }
+        ]
+      }
+    ]
+  }
+{% endschema %}

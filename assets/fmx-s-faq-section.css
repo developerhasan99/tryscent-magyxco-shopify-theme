@@ -1,0 +1,59 @@
+/* fmx-s-faq-section.css (WP-C2): FAQ band wrapper. Row styling (white cards, plus/minus, 13 -> 14px question) is the shared
+   .collapsible-content component in pm-sections.css. Column 335 at 375 (gutter 20) and 648 from 750. Closing text below the rows. */
+.premium .pm-faq {
+  box-sizing: border-box;
+}
+
+.premium .pm-faq .collapsible-content-wrapper-narrow {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(648px + 2 * var(--pm-gutter));
+  margin: 0 auto;
+  padding-left: var(--pm-gutter);
+  padding-right: var(--pm-gutter);
+}
+
+.premium .pm-faq .collapsible-content.page-width {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.premium .pm-faq__header {
+  text-align: center;
+}
+
+.premium .pm-faq__header--left {
+  text-align: left;
+}
+
+.premium .pm-faq__header--right {
+  text-align: right;
+}
+
+.premium .pm-faq__closing {
+  margin: 24px 0 0;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-muted);
+  text-align: center;
+}
+
+.premium .pm-faq__closing p {
+  margin: 0 0 8px;
+}
+
+.premium .pm-faq__closing p:last-child {
+  margin-bottom: 0;
+}
+
+.premium .pm-faq__closing a {
+  color: var(--pm-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+@media (min-width: 990px) {
+  .premium .pm-faq__closing {
+    margin-top: 32px;
+  }
+}

@@ -1,0 +1,298 @@
+{%- comment -%}
+  magyx.co: copied from tryscent.co (fm-redesign-no-designers) 17.11.2026, English labels are section settings;
+  note photos come from snippets/fmx-note-photo.liquid (English note names) and the note_*.webp files in Shopify Files.
+  fmx-scent-notes (A/B test, FM look): 1:1 port of FM sections/pdp-scent-notes.liquid
+  (trymagyx-shopify-theme@premium-redesign). Black band, centred heading, Top / Heart / Base photo tiles
+  in a row (stacked below 750px), centred attribute row Family / Occasion / Season.
+  tryscent.co data model (differs from FM, only the data access is adapted):
+  - custom.top_notes / middle_notes / base_notes: metaobject scent_note, field heading
+    ("Mynta · Grönt äpple · Citron", names separated by " · " or ", ").
+    Per tier the heading is split into note names; each name goes to snippet fmx-note-photo, which outputs
+    a Shopify Files filename (e.g. note_vanilla.webp) or nothing. The first name with a photo becomes the
+    tile (title = that name as written in the heading, photo = that file). No name with a photo: the tile
+    shows the first name on FM's plain dark tile. A missing tier metafield = no tile.
+  - custom.fragrance_family / occasion / season: text (lists joined with ", "); blank values are skipped.
+  Nothing is invented. Hidden on the storefront when no tier has notes; the theme editor shows a placeholder.
+{%- endcomment -%}
+{%- liquid
+  assign tiers = 'top,middle,base' | split: ','
+
+  capture tiles_html
+    for tier in tiers
+      assign key = tier | append: '_notes'
+      assign mf = product.metafields.custom[key]
+      if mf == blank
+        continue
+      endif
+
+      assign tier_text = ''
+      if mf.type == 'metaobject_reference'
+        assign tier_text = mf.value.heading.value
+      elsif mf.type contains 'list.'
+        capture tier_text
+          for n in mf.value
+            echo n.heading.value | default: n
+            unless forloop.last
+              echo ' · '
+            endunless
+          endfor
+        endcapture
+      else
+        assign tier_text = mf.value | strip_html
+      endif
+
+      assign tier_names = tier_text | replace: ',', '·' | split: '·'
+      assign tile_name = ''
+      assign tile_file = ''
+      for raw_name in tier_names
+        assign note_name = raw_name | strip
+        if note_name == blank
+          continue
+        endif
+        if tile_name == blank
+          assign tile_name = note_name
+        endif
+        capture fmx_photo
+          render 'fmx-note-photo', name: note_name
+        endcapture
+        assign fmx_photo = fmx_photo | strip
+        if fmx_photo != blank
+          assign tile_name = note_name
+          assign tile_file = fmx_photo
+          break
+        endif
+      endfor
+
+      if tile_name == blank
+        continue
+      endif
+
+      assign tile_image = nil
+      if tile_file != blank
+        assign tile_image = images[tile_file]
+      endif
+
+      case tier
+        when 'top'
+          assign tile_label = section.settings.label_top
+        when 'middle'
+          assign tile_label = section.settings.label_heart
+        else
+          assign tile_label = section.settings.label_base
+      endcase
+
+      render 'fmx-scent-tile', label: tile_label, name: tile_name, image: tile_image, file: tile_file
+    endfor
+  endcapture
+
+  assign has_notes = false
+  if tiles_html != blank
+    assign has_notes = true
+  endif
+
+  assign attr_family = ''
+  assign mf = product.metafields.custom.fragrance_family
+  if mf != blank
+    if mf.type contains 'list.'
+      assign attr_family = mf.value | join: ', '
+    else
+      assign attr_family = mf.value | strip
+    endif
+  endif
+
+  assign attr_occasion = ''
+  assign mf = product.metafields.custom.occasion
+  if mf != blank
+    if mf.type contains 'list.'
+      assign attr_occasion = mf.value | join: ', '
+    else
+      assign attr_occasion = mf.value | strip
+    endif
+  endif
+
+  assign attr_season = ''
+  assign mf = product.metafields.custom.season
+  if mf != blank
+    if mf.type contains 'list.'
+      assign attr_season = mf.value | join: ', '
+    else
+      assign attr_season = mf.value | strip
+    endif
+  endif
+
+  assign has_attrs = false
+  if section.settings.show_attributes
+    if attr_family != blank or attr_occasion != blank or attr_season != blank
+      assign has_attrs = true
+    endif
+  endif
+-%}
+{%- if has_notes or request.design_mode -%}
+  {{ 'fmx-base.css' | asset_url | stylesheet_tag }}
+  {{ 'fmx-s-scent-notes.css' | asset_url | stylesheet_tag }}
+  {%- style -%}
+    .premium .pm-scent--{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.5 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.5 | round: 0 }}px;
+    {%- if section.settings.band_background != blank %}
+      background: {{ section.settings.band_background }};
+    {%- endif %}
+    }
+
+    @media screen and (min-width: 990px) {
+      .premium .pm-scent--{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+  {%- endstyle -%}
+  <div class="premium">
+    <div class="pm-scent pm-scent--{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+      <div class="pm-scent__inner">
+        {%- if has_notes -%}
+          {%- if section.settings.heading != blank -%}
+            <h2 class="pm-h2 pm-scent__heading">{{ section.settings.heading }}</h2>
+          {%- endif -%}
+          <ul class="pm-scent__tiles" role="list">
+            {{- tiles_html -}}
+          </ul>
+          {%- if has_attrs -%}
+            <dl class="pm-scent__attrs">
+              {%- if attr_family != blank -%}
+                <div class="pm-scent__attr">
+                  <dt class="pm-scent__attr-label">{{ section.settings.label_family }}</dt>
+                  <dd class="pm-scent__attr-value">{{ attr_family }}</dd>
+                </div>
+              {%- endif -%}
+              {%- if attr_occasion != blank -%}
+                <div class="pm-scent__attr">
+                  <dt class="pm-scent__attr-label">{{ section.settings.label_occasion }}</dt>
+                  <dd class="pm-scent__attr-value">{{ attr_occasion }}</dd>
+                </div>
+              {%- endif -%}
+              {%- if attr_season != blank -%}
+                <div class="pm-scent__attr">
+                  <dt class="pm-scent__attr-label">{{ section.settings.label_season }}</dt>
+                  <dd class="pm-scent__attr-value">{{ attr_season }}</dd>
+                </div>
+              {%- endif -%}
+            </dl>
+          {%- endif -%}
+        {%- else -%}
+          <p class="pm-scent__placeholder pm-small">Fragrance notes: this product has no notes (custom.top_notes / middle_notes / base_notes). The section stays hidden in the store until it has them.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "FM Fragrance notes (test)",
+  "tag": "section",
+  "class": "pm-scent-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-4"
+    },
+    {
+      "type": "color",
+      "id": "band_background",
+      "label": "Band background",
+      "info": "Overrides the colour scheme background. FM band = #000000 (scheme-4 on this store is #121212)."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Doftnoter"
+    },
+    {
+      "type": "header",
+      "content": "Tiles"
+    },
+    {
+      "type": "text",
+      "id": "label_top",
+      "label": "Top label",
+      "default": "Topp"
+    },
+    {
+      "type": "text",
+      "id": "label_heart",
+      "label": "Heart label",
+      "default": "Hjärta"
+    },
+    {
+      "type": "text",
+      "id": "label_base",
+      "label": "Base label",
+      "default": "Bas"
+    },
+    {
+      "type": "header",
+      "content": "Attributes"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_attributes",
+      "label": "Show family, occasion and season",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "label_family",
+      "label": "Family label",
+      "default": "Doftfamilj"
+    },
+    {
+      "type": "text",
+      "id": "label_occasion",
+      "label": "Occasion label",
+      "default": "Tillfälle"
+    },
+    {
+      "type": "text",
+      "id": "label_season",
+      "label": "Season label",
+      "default": "Säsong"
+    },
+    {
+      "type": "header",
+      "content": "Section padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "info": "Half of this value below 990px.",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "FM Fragrance notes (test)"
+    }
+  ]
+}
+{% endschema %}

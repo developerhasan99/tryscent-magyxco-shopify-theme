@@ -1,0 +1,27 @@
+{%- comment -%}
+  fmx-scent-tile: one scent-notes tile (fmx-scent-notes), 1:1 port of FM snippets/pm-scent-tile.liquid.
+  Accepts:
+  - label: layer label, e.g. Topp
+  - name: note name shown on the tile
+  - image: image object from images[file] (optional; renders the photo tile exactly like FM)
+  - file: Shopify Files filename (optional; used only when the images[] lookup returned nothing)
+  No image and no file = FM's plain dark tile.
+{%- endcomment -%}
+<li class="pm-scent__tile{% if image != blank or file != blank %} pm-scent__tile--image{% endif %}">
+  {%- if image != blank -%}
+    {{ image | image_url: width: 1200 | image_tag: widths: '400, 600, 800, 1200', sizes: '(min-width: 1216px) 384px, (min-width: 750px) 32vw, 100vw', loading: 'lazy', alt: '', class: 'pm-scent__img' }}
+  {%- elsif file != blank -%}
+    {%- assign file_src = file | file_url -%}
+    <img
+      src="{{ file_src }}&width=1200"
+      srcset="{{ file_src }}&width=400 400w, {{ file_src }}&width=600 600w, {{ file_src }}&width=800 800w, {{ file_src }}&width=1200 1200w"
+      sizes="(min-width: 1216px) 384px, (min-width: 750px) 32vw, 100vw"
+      width="1200"
+      height="679"
+      loading="lazy"
+      alt=""
+      class="pm-scent__img">
+  {%- endif -%}
+  <p class="pm-scent__label">{{ label }}</p>
+  <p class="pm-scent__name">{{ name }}</p>
+</li>

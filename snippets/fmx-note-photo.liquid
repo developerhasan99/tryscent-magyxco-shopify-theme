@@ -1,0 +1,79 @@
+{%- comment -%}
+  fmx-note-photo (magyx.co): English note name -> note photo filename in Shopify Files (copied from tryscent.co).
+  Usage: {%- capture f -%}{%- render 'fmx-note-photo', name: note -%}{%- endcapture -%} -> "note_vanilla.jpg" or empty (magyx.co Files holds the photos as .jpg).
+  Same photos and the same matching rule as tryscent.co's Swedish map: the note itself, or the same note with an origin
+  or variety ("calabrian bergamot", "damask rose", "white musk"). Only true matches, no stand-in photos.
+{%- endcomment -%}
+{%- assign fmx_n = name | downcase | strip -%}
+{%- case fmx_n -%}
+  {%- when 'akigalawood' -%}note_akigalawood.jpg
+  {%- when 'aldehydes' -%}note_aldehydes.jpg
+  {%- when 'almond', 'bitter almond' -%}note_almond.jpg
+  {%- when 'amber', 'amberwood' -%}note_amber.jpg
+  {%- when 'ambergris' -%}note_ambergris.jpg
+  {%- when 'ambroxan' -%}note_ambroxan.jpg
+  {%- when 'apple', 'green apple' -%}note_apple.jpg
+  {%- when 'benzoin', 'benzoin resin', 'siam benzoin' -%}note_benzoin.jpg
+  {%- when 'bergamot', 'calabrian bergamot' -%}note_bergamot.jpg
+  {%- when 'birch' -%}note_birch.jpg
+  {%- when 'black pepper', 'pepper' -%}note_black-pepper.jpg
+  {%- when 'blackcurrant', 'cassis', 'black currant' -%}note_blackcurrant.jpg
+  {%- when 'blood orange' -%}note_blood-orange.jpg
+  {%- when 'cacao', 'cocoa', 'chocolate', 'dark chocolate', 'mexican chocolate' -%}note_cacao.jpg
+  {%- when 'cardamom' -%}note_cardamom.jpg
+  {%- when 'cashmeran' -%}note_cashmeran.jpg
+  {%- when 'cedar', 'cedarwood', 'virginia cedar' -%}note_cedar.jpg
+  {%- when 'cinnamon', 'ceylon cinnamon' -%}note_cinnamon.jpg
+  {%- when 'citrus' -%}note_citrus.jpg
+  {%- when 'coconut' -%}note_coconut.jpg
+  {%- when 'cognac' -%}note_cognac.jpg
+  {%- when 'fig', 'fig leaf' -%}note_fig.jpg
+  {%- when 'fir resin' -%}note_fir-resin.jpg
+  {%- when 'freesia', 'pink freesia' -%}note_freesia.jpg
+  {%- when 'gardenia' -%}note_gardenia.jpg
+  {%- when 'geranium' -%}note_geranium.jpg
+  {%- when 'ginger', 'nigerian ginger' -%}note_ginger.jpg
+  {%- when 'grapefruit' -%}note_grapefruit.jpg
+  {%- when 'green mandarin' -%}note_green-mandarin.jpg
+  {%- when 'heliotrope' -%}note_heliotrope.jpg
+  {%- when 'honey', 'white honey' -%}note_honey.jpg
+  {%- when 'incense', 'olibanum' -%}note_incense.jpg
+  {%- when 'iris', 'orris', 'orris root' -%}note_iris.jpg
+  {%- when 'jasmine', 'jasmine sambac', 'jasmin sambac', 'indian jasmine', 'large-leaved jasmine' -%}note_jasmine.jpg
+  {%- when 'juniper' -%}note_juniper.jpg
+  {%- when 'lavender', 'lavendel' -%}note_lavender.jpg
+  {%- when 'leather' -%}note_leather.jpg
+  {%- when 'lemon', 'amalfi lemon', 'sicilian lemon' -%}note_lemon.jpg
+  {%- when 'lily of the valley', 'lily-of-the-valley' -%}note_lily-of-the-valley.jpg
+  {%- when 'mandarin', 'mandarin orange', 'italian mandarin', 'red mandarin', 'sicilian mandarin', 'clementine' -%}note_mandarin.jpg
+  {%- when 'mint' -%}note_mint.jpg
+  {%- when 'musk', 'white musk' -%}note_musk.jpg
+  {%- when 'neroli', 'tunisian neroli' -%}note_neroli.jpg
+  {%- when 'nutmeg' -%}note_nutmeg.jpg
+  {%- when 'orange blossom', 'orange flower', 'tunisian orange blossom', 'african orange flower' -%}note_orange-blossom.jpg
+  {%- when 'orange', 'sicilian orange' -%}note_orange.jpg
+  {%- when 'orchid' -%}note_orchid.jpg
+  {%- when 'oud', 'agarwood', 'agarwood (oud)' -%}note_oud.jpg
+  {%- when 'patchouli', 'indian patchouli' -%}note_patchouli.jpg
+  {%- when 'peach' -%}note_peach.jpg
+  {%- when 'pear' -%}note_pear.jpg
+  {%- when 'peony' -%}note_peony.jpg
+  {%- when 'pineapple' -%}note_pineapple.jpg
+  {%- when 'pink pepper' -%}note_pink-pepper.jpg
+  {%- when 'plum' -%}note_plum.jpg
+  {%- when 'praline' -%}note_praline.jpg
+  {%- when 'red fruits', 'raspberry', 'red berries', 'red currant' -%}note_red-fruits.jpg
+  {%- when 'rose', 'bulgarian rose', 'damask rose', 'turkish rose', 'grasse rose', 'may rose' -%}note_rose.jpg
+  {%- when 'saffron' -%}note_saffron.jpg
+  {%- when 'sage', 'clary sage' -%}note_sage.jpg
+  {%- when 'sandalwood', 'australian sandalwood', 'mysore sandalwood' -%}note_sandalwood.jpg
+  {%- when 'sea salt', 'salt' -%}note_sea-salt.jpg
+  {%- when 'sea water', 'marine notes' -%}note_sea-water.jpg
+  {%- when 'tobacco', 'tobacco leaf', 'tobacco leaves' -%}note_tobacco.jpg
+  {%- when 'toffee' -%}note_toffee.jpg
+  {%- when 'tonka bean', 'tonka' -%}note_tonka-bean.jpg
+  {%- when 'tuberose' -%}note_tuberose.jpg
+  {%- when 'vanilla', 'madagascar vanilla', 'bourbon vanilla', 'black vanilla', 'vanilla absolute' -%}note_vanilla.jpg
+  {%- when 'vetiver', 'haitian vetiver' -%}note_vetiver.jpg
+  {%- when 'woody notes' -%}note_woody-notes.jpg
+{%- endcase -%}

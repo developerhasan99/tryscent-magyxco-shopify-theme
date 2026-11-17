@@ -1,0 +1,97 @@
+{%- comment -%}
+  "How it smells" panel for the FM FAQ fold (magyx.co: English, as snippets/expanded-notes.liquid): same content as the live product page fold (snippets/expanded-notes.liquid),
+  without its own <details> wrapper. Reads custom.main_notes / top_notes / middle_notes / base_notes / ingredients.
+{%- endcomment -%}
+    <div class="scent-notes-panel font-['Figtree'] text-gray-800">
+        <div class="mb-5">
+            <p class="text-xs text-gray-500 mb-3 m-0">Main notes:</p>
+            <div class="flex flex-wrap gap-6">
+                {% for note in product.metafields.custom.main_notes.value %}
+                    <figure class="m-0 flex flex-col items-center text-center">
+                        <div class="h-16 mb-2 flex items-end justify-center">
+                        <img class="!border-0 [filter:grayscale(100%)]" src="{{ note.icon |  image_url: width: 64 }}" alt="{{ note.name }}" width="34" height="34">
+                        </div>
+                        <figcaption class="text-sm m-0">{{ note.name }}</figcaption>
+                    </figure>
+                {% endfor %}
+            </div>
+        </div>
+
+        <hr class="border-0 border-b border-solid border-gray-200 my-4">
+
+        <div class="space-y-3">
+            <div class="flex items-start gap-3">
+            <svg width="20" height="28" viewBox="0 0 20 28" class="text-gray-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <rect x="8" y="2" width="4" height="3" rx="0.5"></rect>
+                <path d="M7 5 h6 v2 h-6 z"></path>
+                <rect x="4" y="7" width="12" height="18" rx="2"></rect>
+            </svg>
+            <div class="min-w-0">
+                <p class="text-sm m-0"><strong class="font-bold">Top notes:</strong> {{ product.metafields.custom.top_notes.value.heading }}</p>
+                <p class="text-sm text-gray-700 m-0">{{ product.metafields.custom.top_notes.value.description | metafield_text }}</p>
+            </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+            <svg width="20" height="28" viewBox="0 0 20 28" class="text-gray-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <rect x="8" y="2" width="4" height="3" rx="0.5"></rect>
+                <path d="M7 5 h6 v2 h-6 z"></path>
+                <rect x="4" y="7" width="12" height="18" rx="2"></rect>
+                <rect x="4" y="14" width="12" height="11" rx="2" fill="currentColor" fill-opacity="0.2"></rect>
+            </svg>
+            <div class="min-w-0">
+                <p class="text-sm m-0"><strong class="font-bold">Middle notes:</strong> {{ product.metafields.custom.middle_notes.value.heading }}</p>
+                <p class="text-sm text-gray-700 m-0">{{ product.metafields.custom.middle_notes.value.description | metafield_text }}</p>
+            </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+            <svg width="20" height="28" viewBox="0 0 20 28" class="text-gray-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <rect x="8" y="2" width="4" height="3" rx="0.5"></rect>
+                <path d="M7 5 h6 v2 h-6 z"></path>
+                <rect x="4" y="7" width="12" height="18" rx="2"></rect>
+                <rect x="4" y="7" width="12" height="18" rx="2" fill="currentColor" fill-opacity="0.35"></rect>
+            </svg>
+            <div class="min-w-0">
+                <p class="text-sm m-0"><strong class="font-bold">Base notes:</strong> {{ product.metafields.custom.base_notes.value.heading }}</p>
+                <p class="text-sm text-gray-700 m-0">{{ product.metafields.custom.base_notes.value.description | metafield_text }}</p>
+            </div>
+            </div>
+        </div>
+
+        <hr class="border-0 border-b border-solid border-gray-200 my-4">
+
+        <p class="text-xs leading-relaxed text-gray-700 mb-4 m-0">
+            <strong class="font-bold">Ingredients:</strong>
+            {% if product.metafields.custom.ingredients.value != blank %}
+            {{ product.metafields.custom.ingredients.value | metafield_text }}
+            {% else %}
+                Alcohol denat., parfum (fragrance), aqua (water), limonene, linalool, citronellol, geraniol, citral, benzyl salicylate, coumarin, alpha-isomethyl ionone, hexyl cinnamal, benzyl benzoate.
+            {% endif %}
+        </p>
+        
+        <div class="flex flex-wrap gap-2 mt-4">
+            <span class="inline-flex items-center whitespace-nowrap px-3 py-1.5 rounded-full bg-white border border-solid border-gray-200 text-xs text-gray-800">
+            <svg class="w-3.5 h-3.5 mr-1.5 text-green-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path d="M10 2 C7 5 4 8 4 12 C4 16 7 18 10 18 C13 18 16 16 16 12 C16 8 13 5 10 2 Z"></path>
+            </svg>
+            Vegan
+            </span>
+            <span class="inline-flex items-center whitespace-nowrap px-3 py-1.5 rounded-full bg-white border border-solid border-gray-200 text-xs text-gray-800">
+            Cruelty-free
+            <svg class="w-4 h-4 ml-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                <circle cx="12" cy="13" r="5"></circle>
+                <ellipse cx="8" cy="7" rx="1.6" ry="2.4"></ellipse>
+                <ellipse cx="16" cy="7" rx="1.6" ry="2.4"></ellipse>
+                <ellipse cx="5" cy="11" rx="1.4" ry="1.8"></ellipse>
+                <ellipse cx="19" cy="11" rx="1.4" ry="1.8"></ellipse>
+            </svg>
+            </span>
+            <span class="inline-flex items-center whitespace-nowrap px-3 py-1.5 rounded-full bg-white border border-solid border-gray-200 text-xs text-gray-800">
+            <svg class="w-3.5 h-3.5 mr-1.5 text-green-700" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <path d="M5 10 l3 3 l7-7"></path>
+            </svg>
+            Clean ingredients
+            </span>
+        </div>
+    </div>
