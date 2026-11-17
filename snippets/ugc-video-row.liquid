@@ -106,7 +106,8 @@
           endif
           assign has_product = false
           assign links_here = false
-          if has_clip and clip_product != blank and clip_product.available
+          # Block setting "Product card on each video" off: videos only (no card, no player pill).
+          if has_clip and clip_product != blank and clip_product.available and block.settings.show_product_cards != false
             assign has_product = true
             if clip_product.id == product.id
               assign links_here = true

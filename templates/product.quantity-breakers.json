@@ -63,6 +63,7 @@
         },
         "money_back_cEqkRK": {
           "type": "money_back",
+          "disabled": true,
           "settings": {
             "title": "Black Friday: 40% off + 2 bottles free!",
             "text": "Fewer than 0.5% of buyers use our money-back guarantee."
