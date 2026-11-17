@@ -426,6 +426,18 @@
 <script>
   document.addEventListener('alpine:init', function () {
     var MONEY = new Intl.NumberFormat('de-DE', { style: 'currency', currency: '{{ cart.currency.iso_code | default: shop.currency }}' });
+    {% comment %} Shop's own money format for the shopper's currency, read from Shopify's output for 1234.56
+       ("$1,234.56", "€1.234,56", "1 234,56 kr"), so JS prices match the Liquid ones; de-DE only as a fallback. {% endcomment %}
+    var MONEY_SAMPLE = {{ 123456 | money | strip_html | json }};
+    var MONEY_PARTS = MONEY_SAMPLE.match(/^(.*?)1(\D?)234(\D)56(.*)$/);
+    function formatMoney(cents) {
+      if (!MONEY_PARTS) return MONEY.format((cents || 0) / 100);
+      var v = Math.round(Number(cents) || 0);
+      var sign = v < 0 ? '-' : '';
+      v = Math.abs(v);
+      var whole = String(Math.floor(v / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, MONEY_PARTS[2]);
+      return sign + MONEY_PARTS[1] + whole + MONEY_PARTS[3] + String(v % 100).padStart(2, '0') + MONEY_PARTS[4];
+    }
 
     Alpine.store('qb', {
       variants: {
@@ -503,7 +515,7 @@
         if (full <= this.tierPrice(t)) return 0;
         return Math.round((full - this.tierPrice(t)) / full * 100);
       },
-      money: function (cents) { return MONEY.format((cents || 0) / 100); },
+      money: function (cents) { return formatMoney(cents); },
 
       selectSize: function (key) {
         if (!this.variants[key]) return;
