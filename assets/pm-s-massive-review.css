@@ -3,6 +3,8 @@
    Two desktop columns sit inside a 1080px container (PDP). Card gap 12 at 375, 16 from 990. */
 .pm-scope .pm-reviews {
   box-sizing: border-box;
+  /* card line as on tryscent.co (#e7e7e7); the magyx.co pm token (#c7c9cb) is darker */
+  --pm-line: #e7e7e7;
 }
 
 .pm-scope .pm-reviews__head {
