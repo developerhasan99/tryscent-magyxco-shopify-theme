@@ -1,0 +1,163 @@
+/* fmx-s-massive-review.css (WP-C2): reviews section layout. Card styling (.pm-review) is shared in pm-sections.css.
+   Columns: data-pm-cols-mobile (1 or 2) below 750, min(desktop, 2) from 750, data-pm-cols-desktop (1 to 4) from 990.
+   Two desktop columns sit inside a 1080px container (PDP). Card gap 12 at 375, 16 from 990. */
+.premium .pm-reviews {
+  box-sizing: border-box;
+}
+
+/* FM runs page_width 1500, tryscent.co 1200: without this the heading row shrinks to the 1080 card column
+   instead of spanning the page (FM 1440: heading at 60px, stars end at 1380px). Root font-size is 10px. */
+.premium .pm-reviews > .page-width {
+  max-width: 150rem;
+}
+
+.premium .pm-reviews__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin: 0 0 24px;
+}
+
+.premium .pm-reviews__heading {
+  margin: 0;
+}
+
+.premium .pm-reviews__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pm-ink);
+}
+
+.premium .pm-reviews__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.premium .pm-reviews__grid[data-pm-cols-mobile="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.premium .pm-reviews .masonry-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.premium .pm-reviews .review-item {
+  opacity: 0;
+  animation: pm-review-in 0.5s var(--pm-ease) forwards;
+}
+
+@keyframes pm-review-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.premium .pm-reviews__more {
+  margin: 32px 0 0;
+  text-align: center;
+}
+
+.premium .pm-reviews__loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 0;
+}
+
+.premium .pm-reviews__spinner {
+  box-sizing: border-box;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--pm-line);
+  border-top-color: var(--pm-ink);
+  border-radius: var(--pm-radius-pill);
+  animation: pm-review-spin 0.8s linear infinite;
+}
+
+@keyframes pm-review-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 750px) {
+  .premium .pm-reviews__grid,
+  .premium .pm-reviews__grid[data-pm-cols-mobile="1"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .premium .pm-reviews__grid[data-pm-cols-desktop="1"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 990px) {
+  .premium .pm-reviews__head {
+    margin-bottom: 40px;
+  }
+
+  .premium .pm-reviews__grid,
+  .premium .pm-reviews .masonry-column {
+    gap: 16px;
+  }
+
+  .premium .pm-reviews__grid[data-pm-cols-desktop="1"] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 648px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .premium .pm-reviews__grid[data-pm-cols-desktop="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .premium .pm-reviews__grid[data-pm-cols-desktop="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .premium .pm-reviews__grid[data-pm-cols-desktop="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .premium .pm-reviews__more {
+    margin-top: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .premium .pm-reviews .review-item {
+    opacity: 1;
+    animation: none;
+  }
+
+  .premium .pm-reviews__spinner {
+    animation: none;
+  }
+}
+
+/* [hidden] toggling for the load-more block (live has no guaranteed .hidden utility inside .premium) */
+.premium .pm-reviews [hidden] {
+  display: none;
+}
+/* Align review headings with review cards on both bundle templates */
+@media screen and (min-width: 990px) {
+  .premium .pm-reviews--bundle-aligned .pm-reviews__head {
+    max-width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

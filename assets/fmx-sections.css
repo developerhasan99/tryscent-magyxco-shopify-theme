@@ -1,0 +1,331 @@
+/* fmx-sections.css: shared FAQ rows (.collapsible-content accordion) and review cards (.pm-review) for the fmx-* A/B sections.
+   Ported from FM assets/pm-sections.css (sections 2, 3, 6). Every selector starts with .premium; tokens come from fmx-base.css.
+   Added here: .pm-muted / .pm-small helpers (harmless duplicates if fmx-base defines them) and the fmx-accordion-open keyframe. */
+.premium .pm-muted {
+  color: var(--pm-muted);
+}
+
+.premium .pm-small {
+  font-size: var(--pm-fs-small);
+  line-height: var(--pm-lh-small);
+}
+
+@keyframes fmx-accordion-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* FAQ rows: white cards, radius 4, 16/20 padding, 13 -> 14px question, CSS plus/minus (Dawn caret hidden).
+   Doubled .accordion class = (0,4,0): beats every Dawn rule in collapsible-content.css / component-accordion.css,
+   which load later in the document (section-level stylesheet_tag) and would win a tie. */
+.premium .collapsible-content .collapsible-content__heading {
+  margin: 0 0 var(--pm-heading-gap);
+}
+
+.premium .collapsible-content .caption-with-letter-spacing {
+  margin: 0 0 12px;
+  font-size: var(--pm-fs-eyebrow);
+  line-height: var(--pm-lh-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pm-muted);
+}
+
+.premium .collapsible-content .accordion.accordion {
+  margin: 0;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  transform: none;
+  overflow: hidden;
+}
+
+.premium .collapsible-content .accordion.accordion + .accordion {
+  margin-top: 8px;
+  border-top: 1px solid var(--pm-line);
+}
+
+.premium .collapsible-content .accordion.accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 16px 20px;
+  line-height: 20px;
+  background: transparent;
+  cursor: pointer;
+  list-style: none;
+}
+
+.premium .collapsible-content .accordion.accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.premium .collapsible-content .accordion.accordion summary:hover {
+  background: transparent;
+}
+
+.premium .collapsible-content .accordion.accordion summary:hover .accordion__title {
+  text-decoration: none;
+}
+
+.premium .collapsible-content .accordion.accordion summary:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: -2px;
+}
+
+.premium .collapsible-content .accordion.accordion .accordion__title {
+  display: block;
+  flex: 1 1 auto;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-ink);
+}
+
+.premium .collapsible-content .accordion.accordion summary .icon-caret {
+  display: none;
+}
+
+.premium .collapsible-content .accordion.accordion summary::after {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 16px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1px 16px no-repeat;
+  transition: transform var(--pm-dur) var(--pm-ease), background-size var(--pm-dur) var(--pm-ease);
+}
+
+.premium .collapsible-content .accordion.accordion details[open] > summary::after {
+  background-size: 16px 1px, 1px 0;
+  transform: rotate(180deg);
+}
+
+.premium .collapsible-content .accordion.accordion .accordion__content {
+  margin: 0;
+  padding: 0 20px 16px;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--pm-muted);
+  overflow: visible;
+}
+
+.premium .collapsible-content .accordion.accordion .accordion__content p {
+  margin: 0 0 8px;
+}
+
+.premium .collapsible-content .accordion.accordion .accordion__content p:last-child {
+  margin-bottom: 0;
+}
+
+.premium .collapsible-content .accordion.accordion .accordion__content a {
+  color: var(--pm-ink);
+  text-underline-offset: 2px;
+}
+
+.premium .collapsible-content .accordion.accordion details[open] > .accordion__content {
+  animation: fmx-accordion-open var(--pm-dur) var(--pm-ease);
+}
+
+@media (min-width: 990px) {
+  .premium .collapsible-content .accordion.accordion + .accordion {
+    margin-top: 12px;
+  }
+
+  .premium .collapsible-content .accordion.accordion .accordion__title {
+    font-size: 14px;
+  }
+}
+
+/* Review card (.pm-review, keeps .review-item for the load-more script): white, 1px line, radius 4, padding 16 */
+.premium .pm-review {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border: 1px solid var(--pm-line);
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  overflow: hidden;
+}
+
+.premium .pm-review__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--pm-radius-sm) var(--pm-radius-sm) 0 0;
+  background: var(--pm-surface);
+}
+
+.premium .pm-review__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.premium .pm-review__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.premium .pm-review__who {
+  display: flex;
+  flex: 1 1 120px;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.premium .pm-review__avatar {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pm-radius-pill);
+  object-fit: cover;
+}
+
+.premium .pm-review__name {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-ink);
+}
+
+.premium .pm-review__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--pm-muted);
+}
+
+.premium .pm-review__verified .pm-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.premium .pm-review__rating {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.premium .pm-review__stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--pm-ink);
+  line-height: 0;
+}
+
+.premium .pm-review__stars svg {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.premium .pm-review__stars .is-empty {
+  opacity: 0.25;
+}
+
+.premium .pm-review__date {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pm-muted);
+}
+
+.premium .pm-review__text {
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  color: var(--pm-ink);
+}
+
+.premium .pm-review__text p {
+  margin: 0 0 8px;
+}
+
+.premium .pm-review__text p:last-child {
+  margin-bottom: 0;
+}
+
+.premium .pm-review__product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--pm-line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.premium .pm-review__product:hover {
+  text-decoration: none;
+}
+
+.premium .pm-review__product img {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-surface);
+  object-fit: contain;
+}
+
+.premium .pm-review__product-title {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.premium .pm-review__product-meta {
+  margin: 0;
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--pm-muted);
+}
+
+/* Reduced motion: FAQ reveal and plus/minus transition off */
+@media (prefers-reduced-motion: reduce) {
+  .premium .collapsible-content .accordion.accordion details[open] > .accordion__content {
+    animation: none;
+  }
+
+  .premium .collapsible-content .accordion.accordion summary::after {
+    transition: none;
+  }
+}

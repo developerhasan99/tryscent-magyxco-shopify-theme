@@ -1,0 +1,803 @@
+/* fmx-base.css: FM design tokens, base element mappings and shared pm-* utilities for the FM product
+   page test on tryscent.co (sections/fmx-main-product.liquid, template product.tsr-bundle-fm).
+   Source: FM theme assets/pm-base.css (trymagyx-shopify-theme@premium-redesign).
+   Differences from pm-base.css:
+   - the live theme has no FM global layer (no body.premium, no settings bridge in theme.liquid), so
+     every token is declared on .premium (the wrapper of the fmx sections), never on :root, and the
+     palette is hardcoded with FM's live values (ink #232323, surface #f6f6f6, charcoal #232323,
+     black #000000, muted #707070, line #e7e7e7, radius sm 4px / md 8px);
+   - fonts come from --fmx-font-body / --fmx-font-heading, set on .premium by the <style> block in
+     sections/fmx-main-product.liquid (font pickers fmx_font_body / fmx_font_heading);
+   - body text rule (8) applies to .premium instead of body.premium and keeps the live font size;
+   - the Dawn .button / input mappings (11, 12) are left out (see there).
+   Class and token names stay pm-* / --pm-* so FM markup and section CSS port unchanged; the live
+   theme uses no pm-* names.
+   Rules: no importance overrides. Element and Dawn-primitive mappings use :where(.premium) and add no
+   specificity (Tailwind utility classes on the element still win). pm-* utilities use the .premium
+   prefix (one extra class). Mobile-first: base = 375, breakpoints min-width 750 / 990 / 1200. */
+
+/* 1. Colour tokens (FM live values, hardcoded: the live theme has no settings bridge) */
+.premium {
+  --pm-ink: #232323;
+  --pm-black: #000000;
+  --pm-charcoal: #232323;
+  --pm-muted: #707070;
+  --pm-line: #e7e7e7;
+  --pm-surface: #f6f6f6;
+  --pm-white: #ffffff;
+  --pm-error: #b3261e;
+  --pm-overlay: rgba(0, 0, 0, 0.2);
+  --pm-on-dark-muted: rgba(255, 255, 255, 0.7);
+  /* Accents (Bundle & Save page): sale red for discount labels, gold for stars/social-proof icons, green/red for ticks and crosses */
+  --pm-sale: #e0201b;
+  --pm-sale-soft: #fff1f0;
+  --pm-gold: #e5a00d;
+  --pm-gold-soft: #fbebc6;
+  --pm-good: #16924a;
+  --pm-good-soft: #eaf7ef;
+  --pm-tint: #f8f4ee;
+
+  /* 2. Type scale: fluid 375 -> 1440 as clamp(MIN, MIN + (MAX - MIN) * (100vw - 375px) / 1065, MAX); weight/tracking/case live in the utilities */
+  --pm-fs-display: clamp(32px, calc(32px + 22 * (100vw - 375px) / 1065), 54px);
+  --pm-lh-display: clamp(38px, calc(38px + 24 * (100vw - 375px) / 1065), 62px);
+  --pm-fs-title: clamp(22px, calc(22px + 8 * (100vw - 375px) / 1065), 30px);
+  --pm-lh-title: clamp(28px, calc(28px + 10 * (100vw - 375px) / 1065), 38px);
+  --pm-fs-h1: clamp(20px, calc(20px + 4 * (100vw - 375px) / 1065), 24px);
+  --pm-lh-h1: clamp(26px, calc(26px + 4 * (100vw - 375px) / 1065), 30px);
+  --pm-fs-h2: clamp(18px, calc(18px + 2 * (100vw - 375px) / 1065), 20px);
+  --pm-lh-h2: clamp(26px, calc(26px + 2 * (100vw - 375px) / 1065), 28px);
+  --pm-fs-h3: clamp(15px, calc(15px + 3 * (100vw - 375px) / 1065), 18px);
+  --pm-lh-h3: clamp(22px, calc(22px + 4 * (100vw - 375px) / 1065), 26px);
+  --pm-fs-body-lg: clamp(15px, calc(15px + 1 * (100vw - 375px) / 1065), 16px);
+  --pm-lh-body-lg: clamp(24px, calc(24px + 2 * (100vw - 375px) / 1065), 26px);
+  --pm-fs-body: clamp(13px, calc(13px + 1 * (100vw - 375px) / 1065), 14px);
+  --pm-lh-body: clamp(20px, calc(20px + 2 * (100vw - 375px) / 1065), 22px);
+  --pm-fs-small: 12px;
+  --pm-lh-small: 18px;
+  --pm-fs-eyebrow: clamp(11px, calc(11px + 1 * (100vw - 375px) / 1065), 12px);
+  --pm-lh-eyebrow: 16px;
+  --pm-fs-label: clamp(12px, calc(12px + 2 * (100vw - 375px) / 1065), 14px);
+  --pm-lh-label: clamp(16px, calc(16px + 4 * (100vw - 375px) / 1065), 20px);
+  --pm-fs-button: clamp(13px, calc(13px + 1 * (100vw - 375px) / 1065), 14px);
+  --pm-lh-button: clamp(20px, calc(20px + 2 * (100vw - 375px) / 1065), 22px);
+  --pm-fs-card: 13px;
+  --pm-lh-card: 18px;
+  --pm-fs-badge: clamp(10px, calc(10px + 0.5 * (100vw - 375px) / 1065), 10.5px);
+  --pm-lh-badge: 12px;
+  --pm-fs-announce: 11px;
+  --pm-lh-announce: 16px;
+
+  /* 3. Spacing scale (4px base; the suffix is the value divided by 4) */
+  --pm-s-1: 4px;
+  --pm-s-2: 8px;
+  --pm-s-3: 12px;
+  --pm-s-4: 16px;
+  --pm-s-5: 20px;
+  --pm-s-6: 24px;
+  --pm-s-8: 32px;
+  --pm-s-10: 40px;
+  --pm-s-12: 48px;
+  --pm-s-14: 56px;
+  --pm-s-16: 64px;
+  --pm-s-20: 80px;
+  --pm-s-30: 120px;
+  --pm-s-40: 160px;
+
+  /* 4. Semantic spacing (375 values; stepped up in the breakpoints below) */
+  --pm-gutter: 20px;
+  --pm-section-y: 40px;
+  --pm-section-gap: 72px;
+  --pm-heading-gap: 32px;
+  --pm-measure: 648px;
+  --pm-buybox: 100%;
+
+  /* 5. Radii (sm/md are bridged from the Buttons / Product cards settings in theme.liquid) */
+  --pm-radius-0: 0;
+  --pm-radius-sm: 4px;
+  --pm-radius-md: 8px;
+  --pm-radius-pill: 999px;
+
+  /* 6. Shadows (never above 10% black; images never get a shadow) */
+  --pm-shadow-sm: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --pm-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --pm-shadow-float: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.07);
+
+  /* 7. Motion */
+  --pm-dur: 0.3s;
+  --pm-dur-slow: 0.4s;
+  --pm-ease: ease;
+  --pm-ease-drawer: cubic-bezier(0.46, 0.01, 0.32, 1);
+  --pm-ease-cart: cubic-bezier(0.75, 0, 0.175, 1);
+  --pm-ticker-dur: 24s;
+  --pm-pulse-dur: 1.5s;
+}
+
+/* 4b. Semantic spacing steps: gutter 40 from 750 and 60 from 1200; band/gap/buybox switch at 990 */
+@media (min-width: 750px) {
+  .premium {
+    --pm-gutter: 40px;
+  }
+}
+
+@media (min-width: 990px) {
+  .premium {
+    --pm-section-y: 80px;
+    --pm-section-gap: 160px;
+    --pm-heading-gap: 56px;
+    --pm-buybox: 600px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .premium {
+    --pm-gutter: 60px;
+  }
+}
+
+/* 7b. Reduced motion kill switch: durations to zero (per-component animations are stopped in block 26) */
+@media (prefers-reduced-motion: reduce) {
+  .premium {
+    --pm-dur: 0s;
+    --pm-dur-slow: 0s;
+  }
+}
+
+/* 7b. Scheme bridge: the live light scheme is #121212 text at 75% on white (scheme-2 is cream #faf9f6).
+   Inside the FM scope it becomes FM ink #232323 on white, solid, like FM's live PDP. Dark schemes untouched. */
+.premium,
+.premium .color-scheme-1 {
+  --color-background: 255, 255, 255;
+  --gradient-background: #ffffff;
+  --color-foreground: 35, 35, 35;
+  --color-shadow: 35, 35, 35;
+  --color-button: 35, 35, 35;
+  --color-button-text: 255, 255, 255;
+  --color-secondary-button: 255, 255, 255;
+  --color-secondary-button-text: 35, 35, 35;
+  --color-link: 35, 35, 35;
+  --color-badge-foreground: 35, 35, 35;
+  --color-badge-background: 255, 255, 255;
+  --color-badge-border: 35, 35, 35;
+  color: rgb(var(--color-foreground));
+}
+
+/* 8. Body text inside the FM scope: FM body font, no tracking. The font size stays the live one, so the
+   live buying blocks (bundle builder, offer boxes, variant selector) keep their measured layout. */
+.premium {
+  font-family: var(--fmx-font-body, var(--font-body-family)), sans-serif;
+  letter-spacing: 0;
+}
+
+:where(.premium) [class*="color-scheme-"] {
+  color: rgb(var(--color-foreground));
+}
+
+/* 9. Headings: h1-h5 and .h0-.h5 mapped to tokens (.h0 display, h1/.h1 title, h2 band heading, h3 block heading), no tracking, no global uppercase */
+:where(.premium) h1,
+:where(.premium) h2,
+:where(.premium) h3,
+:where(.premium) h4,
+:where(.premium) h5,
+:where(.premium) .h0,
+:where(.premium) .h1,
+:where(.premium) .h2,
+:where(.premium) .h3,
+:where(.premium) .h4,
+:where(.premium) .h5 {
+  font-family: var(--fmx-font-heading, var(--font-heading-family)), sans-serif;
+  letter-spacing: 0;
+  color: rgb(var(--color-foreground));
+}
+
+:where(.premium) .h0 {
+  font-size: var(--pm-fs-display);
+  line-height: var(--pm-lh-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+:where(.premium) h1,
+:where(.premium) .h1 {
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 500;
+}
+
+:where(.premium) h2,
+:where(.premium) .h2 {
+  font-size: var(--pm-fs-h2);
+  line-height: var(--pm-lh-h2);
+  font-weight: 800;
+}
+
+:where(.premium) h3,
+:where(.premium) .h3 {
+  font-size: var(--pm-fs-h3);
+  line-height: var(--pm-lh-h3);
+  font-weight: 700;
+}
+
+:where(.premium) h4,
+:where(.premium) .h4 {
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  font-weight: 600;
+}
+
+:where(.premium) h5,
+:where(.premium) .h5 {
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 600;
+}
+
+/* 10. Form controls inherit the theme font (kills the Arial fallback on <button>, size pickers, Swiper arrows) */
+:where(.premium) button,
+:where(.premium) input,
+:where(.premium) select,
+:where(.premium) textarea {
+  font-family: inherit;
+}
+
+/* 11-12. FM's Dawn .button / input mappings are left out: in this test the buy box keeps the live
+   variant selector and bundle builder, and those mappings (loaded after the live CSS) would restyle
+   their buttons. */
+
+/* 13. Dawn .page-width: token gutters (20 / 40 / 60); max-width stays the page_width setting */
+:where(.premium) .page-width {
+  padding-left: var(--pm-gutter);
+  padding-right: var(--pm-gutter);
+}
+
+/* 14. Swiper: ink theme instead of #007aff, arrows as 40px white circles with the float shadow */
+:where(.premium) {
+  --swiper-theme-color: var(--pm-ink);
+  --swiper-navigation-color: var(--pm-ink);
+  --swiper-pagination-color: var(--pm-ink);
+}
+
+:where(.premium) .swiper-button-prev,
+:where(.premium) .swiper-button-next {
+  --swiper-navigation-size: 14px;
+  width: 40px;
+  height: 40px;
+  margin-top: -20px;
+  padding: 0;
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: var(--pm-radius-pill);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  box-shadow: var(--pm-shadow-float);
+}
+
+/* 15. Type utilities: one class = size, line-height, weight, tracking and case from the token table */
+.premium .pm-display {
+  font-family: var(--fmx-font-heading, var(--font-heading-family)), sans-serif;
+  font-size: var(--pm-fs-display);
+  line-height: var(--pm-lh-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+.premium .pm-title {
+  font-family: var(--fmx-font-heading, var(--font-heading-family)), sans-serif;
+  font-size: var(--pm-fs-title);
+  line-height: var(--pm-lh-title);
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.premium .pm-h1 {
+  font-family: var(--fmx-font-heading, var(--font-heading-family)), sans-serif;
+  font-size: var(--pm-fs-h1);
+  line-height: var(--pm-lh-h1);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.premium .pm-h2 {
+  font-family: var(--fmx-font-heading, var(--font-heading-family)), sans-serif;
+  font-size: var(--pm-fs-h2);
+  line-height: var(--pm-lh-h2);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.premium .pm-h3 {
+  font-family: var(--fmx-font-heading, var(--font-heading-family)), sans-serif;
+  font-size: var(--pm-fs-h3);
+  line-height: var(--pm-lh-h3);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.premium .pm-eyebrow {
+  font-size: var(--pm-fs-eyebrow);
+  line-height: var(--pm-lh-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.premium .pm-label {
+  font-size: var(--pm-fs-label);
+  line-height: var(--pm-lh-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.premium .pm-body {
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.premium .pm-body-lg {
+  font-size: var(--pm-fs-body-lg);
+  line-height: var(--pm-lh-body-lg);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.premium .pm-small {
+  font-size: var(--pm-fs-small);
+  line-height: var(--pm-lh-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.premium .pm-muted {
+  color: var(--pm-muted);
+}
+
+.premium .pm-band--charcoal .pm-muted,
+.premium .pm-band--black .pm-muted,
+.premium .color-scheme-3 .pm-muted,
+.premium .color-scheme-4 .pm-muted {
+  color: var(--pm-on-dark-muted);
+}
+
+/* 16. pm-btn: shared button base (works on <a>, <button> and together with Dawn's .button) */
+.premium .pm-btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 48px;
+  min-width: 0;
+  margin: 0;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--pm-radius-sm);
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: var(--pm-fs-button);
+  line-height: var(--pm-lh-button);
+  font-weight: 500;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: background-color var(--pm-dur) var(--pm-ease), color var(--pm-dur) var(--pm-ease), border-color var(--pm-dur) var(--pm-ease), box-shadow var(--pm-dur) var(--pm-ease);
+}
+
+/* 16a. pm-btn--primary: ink fill, white text, 1px #000 border, light wipe (scaleX 0 -> 1) on hover */
+.premium .pm-btn--primary {
+  background: var(--pm-ink);
+  color: var(--pm-white);
+  border-color: var(--pm-black);
+}
+
+.premium .pm-btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: rgba(230, 230, 230, 0.3);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.3s var(--pm-ease);
+  pointer-events: none;
+}
+
+.premium .pm-btn--primary:hover::before,
+.premium .pm-btn--primary:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* 16b. pm-btn--secondary: 1px ink outline, fills ink on hover */
+.premium .pm-btn--secondary {
+  background: transparent;
+  color: var(--pm-ink);
+  border-color: var(--pm-ink);
+}
+
+.premium .pm-btn--secondary:hover {
+  background: var(--pm-ink);
+  color: var(--pm-white);
+}
+
+/* 16c. pm-btn--light: white fill for dark photography and bands */
+.premium .pm-btn--light {
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  border-color: var(--pm-white);
+}
+
+.premium .pm-btn--light:hover {
+  background: var(--pm-surface);
+  border-color: var(--pm-surface);
+}
+
+/* 16d. pm-btn--mini: 32px control (slot panel Select / Change, cart upsell ADD); combine with --primary or --secondary */
+.premium .pm-btn--mini {
+  min-height: 32px;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+}
+
+/* 16e. pm-btn--link: text link with a 1px underline that wipes out and back in over .6s on hover */
+.premium .pm-btn--link {
+  min-height: 0;
+  padding: 0 0 2px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  letter-spacing: 0.1em;
+  overflow: visible;
+}
+
+.premium .pm-btn--link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(1);
+  transform-origin: 100% 50%;
+}
+
+.premium .pm-btn--link:hover::after {
+  animation: pm-link-wipe 0.6s var(--pm-ease) both;
+}
+
+@keyframes pm-link-wipe {
+  0% {
+    transform: scaleX(1);
+    transform-origin: 100% 50%;
+  }
+  49.9% {
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+  }
+  50% {
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+  100% {
+    transform: scaleX(1);
+    transform-origin: 0 50%;
+  }
+}
+
+/* 16f. Button focus and disabled states */
+.premium .pm-btn:focus-visible {
+  outline: 2px solid var(--pm-ink);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.premium .pm-band--charcoal .pm-btn:focus-visible,
+.premium .pm-band--black .pm-btn:focus-visible,
+.premium .color-scheme-3 .pm-btn:focus-visible,
+.premium .color-scheme-4 .pm-btn:focus-visible {
+  outline-color: var(--pm-white);
+}
+
+.premium .pm-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 17. pm-badge: white badge (ink text, radius sm, 5/7 padding); --ink inverts, --outline is a 1px currentColor frame */
+.premium .pm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  padding: 5px 7px;
+  border: 1px solid transparent;
+  border-radius: var(--pm-radius-sm);
+  background: var(--pm-white);
+  color: var(--pm-ink);
+  font-size: var(--pm-fs-badge);
+  line-height: var(--pm-lh-badge);
+  font-weight: 500;
+  letter-spacing: 0.125em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.premium .pm-badge--ink {
+  background: var(--pm-ink);
+  color: var(--pm-white);
+  border-color: var(--pm-ink);
+}
+
+.premium .pm-badge--outline {
+  background: transparent;
+  color: inherit;
+  border-color: currentColor;
+}
+
+/* 18. pm-accordion: hairline <details> rows (48px at 375, 52px at 1440), label-token summary, CSS plus that becomes a minus when open */
+.premium .pm-accordion details {
+  margin: 0;
+  border-top: 1px solid var(--pm-line);
+}
+
+.premium .pm-accordion > details:last-child,
+.premium .pm-accordion > :last-child > details {
+  border-bottom: 1px solid var(--pm-line);
+}
+
+.premium .pm-accordion summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--pm-fs-label);
+  line-height: var(--pm-lh-label);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+
+.premium .pm-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.premium .pm-accordion summary::after {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 16px 1px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1px 16px no-repeat;
+  transition: transform var(--pm-dur) var(--pm-ease), background-size var(--pm-dur) var(--pm-ease);
+}
+
+.premium .pm-accordion details[open] > summary::after {
+  background-size: 16px 1px, 1px 0;
+  transform: rotate(180deg);
+}
+
+.premium .pm-accordion details > :not(summary) {
+  margin: 0;
+  padding: 0 0 20px;
+  overflow: hidden;
+  font-size: var(--pm-fs-body);
+  line-height: var(--pm-lh-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--pm-muted);
+}
+
+.premium .pm-accordion details[open] > :not(summary) {
+  animation: pm-accordion-open var(--pm-dur) var(--pm-ease);
+}
+
+/* Opacity-only reveal: a max-height end frame would clip content taller than the frame (long descriptions at 375). */
+@keyframes pm-accordion-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 19. pm-dot: 8px core in currentColor (ink in body text) with a pulsing halo; for "ships next business day" style status lines */
+.premium .pm-dot {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--pm-radius-pill);
+  background: currentColor;
+  vertical-align: middle;
+}
+
+.premium .pm-dot::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: currentColor;
+  opacity: 0.3;
+  animation: pm-pulse var(--pm-pulse-dur) ease-out infinite;
+}
+
+@keyframes pm-pulse {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* 20. pm-anchor: in-page scroll target that clears the sticky header (--header-height is set by sections/header.liquid; 64px fallback = 80px offset) */
+.premium .pm-anchor {
+  display: block;
+  scroll-margin-top: calc(var(--header-height, 64px) + 16px);
+}
+
+/* 21. pm-hairline: 1px divider (use on <hr> or an empty <div>) */
+.premium .pm-hairline {
+  display: block;
+  height: 0;
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--pm-line);
+}
+
+/* 22. pm-ticker: 40px band; .pm-ticker__track holds two identical .pm-ticker__group copies, moves -50% every 24s, pauses on hover */
+.premium .pm-ticker {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.premium .pm-ticker__track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: pm-ticker var(--pm-ticker-dur) linear infinite;
+  will-change: transform;
+}
+
+.premium .pm-ticker__group {
+  display: flex;
+  flex: none;
+  align-items: center;
+}
+
+.premium .pm-ticker__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+.premium .pm-ticker__item svg,
+.premium .pm-ticker__item img {
+  width: 1.2em;
+  height: 1.2em;
+}
+
+.premium .pm-ticker:hover .pm-ticker__track {
+  animation-play-state: paused;
+}
+
+@keyframes pm-ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* 23. pm-band: vertical band padding (--pm-section-y) with surface / charcoal / black colour modifiers; dark bands also flip Dawn's --color-foreground so headings and Dawn components inside turn white */
+.premium .pm-band {
+  padding-top: var(--pm-section-y);
+  padding-bottom: var(--pm-section-y);
+}
+
+.premium .pm-band--surface {
+  background: var(--pm-surface);
+  color: var(--pm-ink);
+}
+
+.premium .pm-band--charcoal {
+  --color-foreground: 255, 255, 255;
+  background: var(--pm-charcoal);
+  color: var(--pm-white);
+}
+
+.premium .pm-band--black {
+  --color-foreground: 255, 255, 255;
+  background: var(--pm-black);
+  color: var(--pm-white);
+}
+
+/* 24. pm-container: centred column, max-width = page_width setting (--page-width), token gutters */
+.premium .pm-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--page-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--pm-gutter);
+  padding-right: var(--pm-gutter);
+}
+
+/* 25. Snippet hooks: pm-icon (inline SVG) and pm-stars (5 solid stars, 2px gap) */
+.premium .pm-icon {
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+}
+
+.premium .pm-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  vertical-align: middle;
+  line-height: 0;
+}
+
+.premium .pm-stars svg {
+  display: block;
+  flex: none;
+}
+
+/* 26. Reduced motion: ticker, pulse, link wipe, accordion reveal and button wipes stop */
+@media (prefers-reduced-motion: reduce) {
+  .premium .pm-ticker__track,
+  .premium .pm-dot::before,
+  .premium .pm-btn--link:hover::after,
+  .premium .pm-accordion details[open] > :not(summary) {
+    animation: none;
+  }
+
+  .premium .pm-btn,
+  .premium .pm-btn--primary::before,
+  .premium .pm-accordion summary::after {
+    transition: none;
+  }
+}
