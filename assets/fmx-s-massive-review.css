@@ -161,3 +161,10 @@
     margin-right: auto;
   }
 }
+
+/* magyx.co: review stars gold as on tryscent.co's product page, where the rule lives in fmx-pdp.css (loaded by its
+   product section, not ported here). Same selectors and colour. */
+.premium .pm-reviews .pm-stars,
+.premium .pm-review .pm-review__stars {
+  color: #e5a00d;
+}
