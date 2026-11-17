@@ -712,14 +712,15 @@
                 endfor
                 assign t_each = ''
                 if t_price > 0 and t_bottles > 0 and st.per_bottle_text != blank
-                  assign t_each_money = t_price | times: 1.0 | divided_by: t_bottles | divided_by: 100 | round | times: 100 | money_without_trailing_zeros
+                  # magyx.co: to the cent (tryscent.co rounds to whole kr; $19.59 must not read "$20")
+                  assign t_each_money = t_price | times: 1.0 | divided_by: t_bottles | round | money_without_trailing_zeros
                   assign t_each = st.per_bottle_text | replace: '[price]', t_each_money
                 endif
                 assign t_stack = ''
                 if t_max_price > t_price and t_price > 0 and st.stack_text != blank
                   assign t_extra_money = t_max_price | minus: t_price
                   assign t_extra_n = t_max_n | minus: t_bottles
-                  assign t_extra_money = t_extra_money | times: 1.0 | divided_by: t_extra_n | divided_by: 100 | round | times: 100 | money_without_trailing_zeros
+                  assign t_extra_money = t_extra_money | times: 1.0 | divided_by: t_extra_n | round | money_without_trailing_zeros
                   assign t_stack = st.stack_text | replace: '[price]', t_extra_money
                 endif
                 assign t_badge = block.settings.badge_override | strip
