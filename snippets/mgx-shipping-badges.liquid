@@ -7,7 +7,7 @@
   - guarantee: magicperfume's green seal (assets/mgx-guarantee-badge.png).
   Carrier per country (logos from the sister stores): PostNord in SE/DK/FI/NO/IS (tryscent.co fmx-logo-postnord),
   InPost + DPD in PL (tryscent.eu inpost-logo, magicperfume.co logo-dpd), PostNL in NL (aaroma.co fmx-postnl-logo),
-  FedEx + UPS everywhere else. The server picks by localization.country (PL and SE are markets here). NL, DK, FI,
+  DPD + DHL on the EU Market (AT, BE, IE, HU; magicperfume.co logo-dhl on its yellow), FedEx + UPS everywhere else. The server picks by localization.country (PL and SE are markets here). NL, DK, FI,
   NO and IS are not, so those visitors browse another market: the script below then reads the visitor's country
   from the Server-Timing header Shopify's edge writes (same source as snippets/location-popup.liquid; ?geo_test=XX
   overrides it for QA) and shows that country's carrier.
@@ -37,6 +37,9 @@
     when 'NL'
       assign badge_carrier = 'postnl'
   endcase
+  if badge_carrier == 'default' and localization.country.market.handle == 'eu-market'
+    assign badge_carrier = 'eu'
+  endif
 -%}
 {%- if badge_ships -%}
   <style>
@@ -53,6 +56,8 @@
     .mgx-shipping-badges__logo--inpost { height: 28px; }
     .mgx-shipping-badges__logo--dpd { height: 22px; }
     .mgx-shipping-badges__logo--postnl { height: 28px; }
+    .mgx-shipping-badges__dhl { display: flex; align-items: center; height: 22px; padding: 0 6px; border-radius: 4px; background: #fecc00; }
+    .mgx-shipping-badges__dhl img { display: block; width: auto; height: 12px; }
     .mgx-shipping-badges__carrier { display: contents; }
     .mgx-shipping-badges__carrier[hidden] { display: none; }
     .mgx-shipping-badges__text { font-size: 12px; line-height: 1.3; font-weight: 600; letter-spacing: 0; overflow-wrap: anywhere; }
@@ -90,6 +95,13 @@
             <img class="mgx-shipping-badges__logo mgx-shipping-badges__logo--postnl" src="{{ 'mgx-postnl-logo.svg' | asset_url }}" alt="PostNL" width="28" height="28" loading="lazy">
           </span>
           <span class="mgx-shipping-badges__text">Secure shipping with PostNL</span>
+        </div>
+        <div class="mgx-shipping-badges__carrier" data-carrier="eu"{% unless badge_carrier == 'eu' %} hidden{% endunless %}>
+          <span class="mgx-shipping-badges__media">
+            <img class="mgx-shipping-badges__logo mgx-shipping-badges__logo--dpd" src="{{ 'mgx-dpd-logo.svg' | asset_url }}" alt="DPD" width="52" height="22" loading="lazy">
+            <span class="mgx-shipping-badges__dhl"><img src="{{ 'mgx-dhl-logo.svg' | asset_url }}" alt="DHL" width="54" height="12" loading="lazy"></span>
+          </span>
+          <span class="mgx-shipping-badges__text">Secure shipping with DPD &amp; DHL</span>
         </div>
         <div class="mgx-shipping-badges__carrier" data-carrier="default"{% unless badge_carrier == 'default' %} hidden{% endunless %}>
         <span class="mgx-shipping-badges__media">
