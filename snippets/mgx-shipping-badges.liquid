@@ -5,6 +5,12 @@
   - carrier: FedEx + UPS logos (assets/mgx-fedex-logo.svg = Wikimedia Commons "FedEx Corporation - 2016 Logo.svg"
     cropped to the wordmark, assets/mgx-ups-logo.svg = "United Parcel Service logo 2014.svg");
   - guarantee: magicperfume's green seal (assets/mgx-guarantee-badge.png).
+  Carrier per country (logos from the sister stores): PostNord in SE/DK/FI/NO/IS (tryscent.co fmx-logo-postnord),
+  InPost + DPD in PL (tryscent.eu inpost-logo, magicperfume.co logo-dpd), PostNL in NL (aaroma.co fmx-postnl-logo),
+  FedEx + UPS everywhere else. The server picks by localization.country (PL and SE are markets here). NL, DK, FI,
+  NO and IS are not, so those visitors browse another market: the script below then reads the visitor's country
+  from the Server-Timing header Shopify's edge writes (same source as snippets/location-popup.liquid; ?geo_test=XX
+  overrides it for QA) and shows that country's carrier.
   Renders nothing for a product that ships nothing, or when all three texts are empty.
 
   Accepts:
@@ -22,6 +28,15 @@
   if delivery_text == blank and carrier_text == blank and guarantee_text == blank
     assign badge_ships = false
   endif
+  assign badge_carrier = 'default'
+  case localization.country.iso_code
+    when 'SE', 'DK', 'FI', 'NO', 'IS'
+      assign badge_carrier = 'postnord'
+    when 'PL'
+      assign badge_carrier = 'pl'
+    when 'NL'
+      assign badge_carrier = 'postnl'
+  endcase
 -%}
 {%- if badge_ships -%}
   <style>
@@ -34,6 +49,12 @@
     .mgx-shipping-badges__logo { display: block; width: auto; height: 28px; }
     .mgx-shipping-badges__logo--fedex { height: 18px; }
     .mgx-shipping-badges__logo--ups { height: 26px; }
+    .mgx-shipping-badges__logo--postnord { height: 18px; max-width: 100%; }
+    .mgx-shipping-badges__logo--inpost { height: 28px; }
+    .mgx-shipping-badges__logo--dpd { height: 22px; }
+    .mgx-shipping-badges__logo--postnl { height: 28px; }
+    .mgx-shipping-badges__carrier { display: contents; }
+    .mgx-shipping-badges__carrier[hidden] { display: none; }
     .mgx-shipping-badges__text { font-size: 12px; line-height: 1.3; font-weight: 600; letter-spacing: 0; overflow-wrap: anywhere; }
     @media (min-width: 750px) {
       .mgx-shipping-badges__item { padding: 4px 10px; }
@@ -50,7 +71,27 @@
       </div>
     {%- endif -%}
     {%- if carrier_text != blank -%}
-      <div class="mgx-shipping-badges__item">
+      <div class="mgx-shipping-badges__item" data-mgx-carrier>
+        <div class="mgx-shipping-badges__carrier" data-carrier="postnord"{% unless badge_carrier == 'postnord' %} hidden{% endunless %}>
+          <span class="mgx-shipping-badges__media">
+            <img class="mgx-shipping-badges__logo mgx-shipping-badges__logo--postnord" src="{{ 'mgx-postnord-logo.svg' | asset_url }}" alt="PostNord" width="95" height="18" loading="lazy">
+          </span>
+          <span class="mgx-shipping-badges__text">Secure shipping with PostNord</span>
+        </div>
+        <div class="mgx-shipping-badges__carrier" data-carrier="pl"{% unless badge_carrier == 'pl' %} hidden{% endunless %}>
+          <span class="mgx-shipping-badges__media">
+            <img class="mgx-shipping-badges__logo mgx-shipping-badges__logo--inpost" src="{{ 'mgx-inpost-logo.svg' | asset_url }}" alt="InPost" width="47" height="28" loading="lazy">
+            <img class="mgx-shipping-badges__logo mgx-shipping-badges__logo--dpd" src="{{ 'mgx-dpd-logo.svg' | asset_url }}" alt="DPD" width="52" height="22" loading="lazy">
+          </span>
+          <span class="mgx-shipping-badges__text">Secure shipping with InPost &amp; DPD</span>
+        </div>
+        <div class="mgx-shipping-badges__carrier" data-carrier="postnl"{% unless badge_carrier == 'postnl' %} hidden{% endunless %}>
+          <span class="mgx-shipping-badges__media">
+            <img class="mgx-shipping-badges__logo mgx-shipping-badges__logo--postnl" src="{{ 'mgx-postnl-logo.svg' | asset_url }}" alt="PostNL" width="28" height="28" loading="lazy">
+          </span>
+          <span class="mgx-shipping-badges__text">Secure shipping with PostNL</span>
+        </div>
+        <div class="mgx-shipping-badges__carrier" data-carrier="default"{% unless badge_carrier == 'default' %} hidden{% endunless %}>
         <span class="mgx-shipping-badges__media">
           <img
             class="mgx-shipping-badges__logo mgx-shipping-badges__logo--fedex"
@@ -68,7 +109,35 @@
             loading="lazy">
         </span>
         <span class="mgx-shipping-badges__text">{{ carrier_text | escape }}</span>
+        </div>
       </div>
+      {%- if badge_carrier == 'default' -%}
+        <script>
+          (function () {
+            var MAP = { SE: 'postnord', DK: 'postnord', FI: 'postnord', NO: 'postnord', IS: 'postnord', PL: 'pl', NL: 'postnl' };
+            var code = null;
+            try { code = sessionStorage.getItem('mgx_geo_test'); } catch (e) {}
+            try {
+              var q = new URLSearchParams(location.search).get('geo_test');
+              if (q) code = q;
+            } catch (e) {}
+            if (!code) {
+              try {
+                var nav = performance.getEntriesByType('navigation')[0];
+                var entry = nav && nav.serverTiming ? Array.prototype.find.call(nav.serverTiming, function (t) { return t.name === 'country'; }) : null;
+                code = entry ? entry.description : null;
+              } catch (e) {}
+            }
+            var key = MAP[String(code || '').toUpperCase()];
+            if (!key) return;
+            document.querySelectorAll('[data-mgx-carrier]').forEach(function (tile) {
+              tile.querySelectorAll('[data-carrier]').forEach(function (group) {
+                group.hidden = group.getAttribute('data-carrier') !== key;
+              });
+            });
+          })();
+        </script>
+      {%- endif -%}
     {%- endif -%}
     {%- if guarantee_text != blank -%}
       <div class="mgx-shipping-badges__item">
