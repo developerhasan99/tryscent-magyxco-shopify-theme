@@ -15,6 +15,8 @@
     shopify_pay, klarna, plus ideal (NL), bancontact (BE), eps (AT)
   - PL: blik, visa, master, paypal, apple_pay, google_pay, shopify_pay
   - SE (market Sweden, /en-se, SEK, 17.11.2026): klarna, visa, master, apple_pay, google_pay, paypal, shopify_pay
+  - DK (market Denmark, /en-dk, DKK, 18.11.2026): mobilepay, klarna, visa, master, apple_pay, google_pay, paypal, shopify_pay
+  - FI (market Finland, /en-fi, EUR, 18.11.2026): klarna, mobilepay, visa, master, apple_pay, google_pay, paypal, shopify_pay
   - SG: visa, master, american_express, paypal, apple_pay, google_pay, shopify_pay
   Enabled types measured 06.11.2026: US and GB = achdirectdebit, american_express, apple_pay, bancontact,
   diners_club, discover, google_pay, master, paypal, shopify_pay, visa; the other markets = amazon_pay,
@@ -55,6 +57,10 @@
       assign mgx_pay_list = 'blik,visa,master,paypal,apple_pay,google_pay,shopify_pay'
     when 'SE'
       assign mgx_pay_list = 'klarna,visa,master,apple_pay,google_pay,paypal,shopify_pay'
+    when 'DK'
+      assign mgx_pay_list = 'mobilepay,klarna,visa,master,apple_pay,google_pay,paypal,shopify_pay'
+    when 'FI'
+      assign mgx_pay_list = 'klarna,mobilepay,visa,master,apple_pay,google_pay,paypal,shopify_pay'
     when 'SG'
       assign mgx_pay_list = 'visa,master,american_express,paypal,apple_pay,google_pay,shopify_pay'
     else
