@@ -99,7 +99,7 @@
         "subtitle_color": "#ebebeb",
         "button_text": "Find your favorite perfume",
         "button_link": "shopify://pages/scent-quiz",
-        "secondary_button_text": "Best sellers",
+        "secondary_button_text": "Bestsellers",
         "secondary_button_link": "shopify://collections/best-sellers",
         "padding_top": 0,
         "padding_bottom": 0,
